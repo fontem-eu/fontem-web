@@ -9,3 +9,4 @@ release:
 
 deploy:
 	helm upgrade --install gmr-web ./deployment --set-string version=$(shell git rev-parse --short HEAD)
+	kubectl -n gmr rollout restart deployment gmr-web

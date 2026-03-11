@@ -15,8 +15,11 @@ spec:
       labels:
         app: gmr-web
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
       - name: nginx
         image: contribute.void42.internal/golden/gmr-web:{{ .Values.version }}
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
