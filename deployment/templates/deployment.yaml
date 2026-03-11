@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gmr
+  name: gmr-web
+  labels:
+    app: gmr-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gmr-web
+  template:
+    metadata:
+      labels:
+        app: gmr-web
+    spec:
+      containers:
+      - name: nginx
+        image: contribute.void42.internal/golden/gmr-web:{{ .Values.version }}
+        ports:
+        - containerPort: 80
