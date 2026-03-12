@@ -17,14 +17,32 @@ const meta = computed(() =>
 </script>
 
 <template>
-  <div class="ticker-card" role="listitem">
-    <span class="ticker-symbol">{{ ticker.symbol }}</span>
-    <div class="ticker-info">
-      <div class="ticker-name">{{ ticker.name }}</div>
-      <div v-if="meta" class="ticker-meta">{{ meta }}</div>
+  <div class="gmr-card" role="listitem">
+    <!-- Symbol -->
+    <span
+      class="ticker-symbol w-16 shrink-0 font-mono text-sm font-bold"
+      style="color: var(--accent)"
+    >
+      {{ ticker.symbol }}
+    </span>
+
+    <!-- Name + meta -->
+    <div class="min-w-0 flex-1">
+      <div class="ticker-name truncate text-sm font-medium" style="color: var(--text)">
+        {{ ticker.name }}
+      </div>
+      <div v-if="meta" class="mt-0.5 text-xs" style="color: var(--muted)">
+        {{ meta }}
+      </div>
     </div>
-    <span v-if="ticker.exchange" class="badge badge-exchange">{{ ticker.exchange }}</span>
-    <span class="badge" :class="ticker.is_active ? 'badge-active' : 'badge-inactive'">
+
+    <!-- Exchange badge -->
+    <span v-if="ticker.exchange" class="badge badge-tag">
+      {{ ticker.exchange }}
+    </span>
+
+    <!-- Active / inactive badge -->
+    <span class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
       {{ ticker.is_active ? 'Active' : 'Inactive' }}
     </span>
   </div>

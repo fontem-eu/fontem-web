@@ -65,7 +65,7 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    const status = wrapper.find('.search-status')
+    const status = wrapper.find('.gmr-status')
     expect(status.text()).toContain('1 result')
     expect(status.text()).toContain('10,416 total tickers')
   })
@@ -84,7 +84,7 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    expect(wrapper.find('.empty-state').exists()).toBe(true)
+    expect(wrapper.find('.gmr-empty').exists()).toBe(true)
     expect(wrapper.text()).toContain('No tickers found')
     expect(wrapper.text()).toContain('zzznotreal')
   })
@@ -98,9 +98,9 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    const status = wrapper.find('.search-status')
+    const status = wrapper.find('.gmr-status')
     expect(status.text()).toContain('Error')
-    expect(status.classes()).toContain('search-status--error')
+    expect(status.classes()).toContain('gmr-status--err')
   })
 
   it('clears results when the input is emptied', async () => {
@@ -124,7 +124,7 @@ describe('TickerSearch component', () => {
     await flushPromises()
 
     expect(wrapper.findAll('[role="listitem"]')).toHaveLength(0)
-    expect(wrapper.find('.empty-state').exists()).toBe(false)
+    expect(wrapper.find('.gmr-empty').exists()).toBe(false)
   })
 
   it('only fires the API once after rapid keystrokes (debounce)', async () => {
