@@ -21,7 +21,14 @@ function onClose() {
 
 <template>
   <div class="min-h-screen" style="background: var(--bg)">
-    <div class="mx-auto w-full max-w-xl px-6">
+    <!--
+      Outer container expands when financials are visible so the table
+      gets real horizontal space. The search bar is re-centred inside it.
+    -->
+    <div
+      class="mx-auto w-full px-6"
+      :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'"
+    >
 
       <!-- ── Header ──────────────────────────────────────── -->
       <header class="flex items-start justify-between pt-12 pb-8">
@@ -42,14 +49,18 @@ function onClose() {
 
       <!-- ── Search ──────────────────────────────────────── -->
       <main>
-        <TickerSearch
-          :selected-symbol="selectedTicker"
-          @select="onTickerSelect"
-        />
+        <!-- Keep the search bar narrow even inside the wide container -->
+        <div :class="{ 'max-w-xl mx-auto': selectedTicker }">
+          <TickerSearch
+            :selected-symbol="selectedTicker"
+            @select="onTickerSelect"
+          />
+        </div>
+
         <TickerFinancials
           v-if="selectedTicker"
           :symbol="selectedTicker"
-          class="mt-2"
+          class="mt-4"
           @close="onClose"
         />
       </main>
