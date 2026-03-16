@@ -93,6 +93,23 @@
   .gmr-input::placeholder { color: var(--muted); }
   .gmr-input:focus        { border-color: var(--accent); }
 
+  /* Results dropdown — floats over page content */
+  .gmr-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);   /* gap-px trick: border colour shows between cards */
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
   /* Card */
   .gmr-card {
     background: var(--surface);

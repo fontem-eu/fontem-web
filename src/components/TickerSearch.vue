@@ -79,7 +79,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 
 <template>
   <div ref="searchContainer">
-    <!-- Search input -->
+    <!-- Search input — relative so the dropdown is anchored to it -->
     <div class="relative">
       <svg
         class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2"
@@ -104,6 +104,23 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
         spellcheck="false"
         aria-label="Ticker search"
       />
+
+      <!-- Results dropdown — floats over page content, never displaces it -->
+      <div
+        v-if="results.length > 0"
+        role="list"
+        aria-live="polite"
+        aria-label="Search results"
+        class="gmr-results"
+      >
+        <TickerCard
+          v-for="t in results"
+          :key="t.symbol"
+          :ticker="t"
+          :selected="false"
+          @select="emit('select', $event)"
+        />
+      </div>
     </div>
 
     <!-- Status line -->
@@ -111,25 +128,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
       {{ statusText }}
     </div>
 
-    <!-- Results -->
-    <div
-      v-if="results.length > 0"
-      role="list"
-      aria-live="polite"
-      aria-label="Search results"
-      class="mt-1 flex flex-col gap-px"
-    >
-      <TickerCard
-        v-for="t in results"
-        :key="t.symbol"
-        :ticker="t"
-        :selected="false"
-        @select="emit('select', $event)"
-      />
-    </div>
-
     <!-- Empty state -->
-    <div v-else-if="query.trim() && state === 'done'" class="gmr-empty">
+    <div v-if="results.length === 0 && query.trim() && state === 'done'" class="gmr-empty">
       <svg
         width="28"
         height="28"
