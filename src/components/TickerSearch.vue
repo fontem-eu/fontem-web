@@ -111,9 +111,9 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
       {{ statusText }}
     </div>
 
-    <!-- Results — hidden when a ticker is already selected -->
+    <!-- Results -->
     <div
-      v-if="results.length > 0 && !selectedSymbol"
+      v-if="results.length > 0"
       role="list"
       aria-live="polite"
       aria-label="Search results"
@@ -129,7 +129,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
     </div>
 
     <!-- Empty state -->
-    <div v-else-if="!selectedSymbol && query.trim() && state === 'done'" class="gmr-empty">
+    <div v-else-if="query.trim() && state === 'done'" class="gmr-empty">
       <svg
         width="28"
         height="28"

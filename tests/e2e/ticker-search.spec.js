@@ -111,4 +111,21 @@ test.describe('GMR Ticker Search', () => {
 
     await expect(page.locator('.gmr-card')).toHaveCount(0, { timeout: 2000 })
   })
+
+  test('search results appear while financials are open for another ticker', async ({ page }) => {
+    // 1. Select a ticker
+    await page.fill('input[type="search"]', 'AAPL')
+    const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
+    await aaplCard.waitFor({ timeout: 5000 })
+    await aaplCard.click()
+    await expect(page).toHaveURL(/\/AAPL$/, { timeout: 3000 })
+
+    // 2. Search for other tickers while the financials panel is open
+    await page.fill('input[type="search"]', 'MSFT')
+
+    // 3. The results list must appear with the new results
+    await expect(page.locator('[role="list"]')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('.gmr-card').first()).toBeVisible()
+    await expect(page.locator('.gmr-card').first().locator('.ticker-symbol')).toContainText('MSFT')
+  })
 })

@@ -177,7 +177,7 @@ describe('TickerSearch component', () => {
     expect(wrapper.emitted('select')[0]).toEqual(['AAPL'])
   })
 
-  it('hides the results list when selectedSymbol prop is set', async () => {
+  it('clears the query and results when selectedSymbol prop changes to a new ticker', async () => {
     vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
       query: 'aapl',
       results: [makeTicker()],
@@ -191,15 +191,34 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    // List is visible before selection
     expect(wrapper.find('[role="list"]').exists()).toBe(true)
 
-    // Parent signals a ticker was selected
+    // Parent signals a ticker was selected — list and query should clear
     await wrapper.setProps({ selectedSymbol: 'AAPL' })
     await nextTick()
 
-    // List must be hidden
     expect(wrapper.find('[role="list"]').exists()).toBe(false)
+    expect(wrapper.find('input').element.value).toBe('')
+  })
+
+  it('shows results while a ticker is already selected (search while viewing financials)', async () => {
+    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+      query: 'msft',
+      results: [makeTicker({ symbol: 'MSFT', name: 'Microsoft Corp.' })],
+      count: 1,
+      total_available: 10416,
+    })
+
+    // Ticker already selected — simulates having /AAPL open
+    const wrapper = mount(TickerSearch, { props: { selectedSymbol: 'AAPL' } })
+
+    await wrapper.find('input').setValue('msft')
+    await nextTick()
+    vi.advanceTimersByTime(300)
+    await flushPromises()
+
+    expect(wrapper.find('[role="list"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('MSFT')
   })
 
   it('clears results when clicking outside the search container', async () => {
