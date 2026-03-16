@@ -159,4 +159,145 @@
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
+
+  /* Selected card state */
+  .gmr-card--active {
+    border-color: var(--accent);
+    background: var(--bg);
+  }
+
+  /* ── Financials panel ─────────────────────────────────── */
+  .gmr-fin {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .gmr-fin__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .gmr-fin__title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .gmr-fin__subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .gmr-fin__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0.25rem;
+    line-height: 0;
+    transition: color 0.15s ease;
+  }
+  .gmr-fin__close:hover { color: var(--text); }
+
+  .gmr-fin__state {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .gmr-fin__section-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.5rem 1rem 0.25rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1px;
+  }
+
+  /* ── Snapshot metric grid ─────────────────────────────── */
+  .gmr-snap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .gmr-snap__cell {
+    background: var(--bg);
+    padding: 0.75rem 1rem;
+  }
+
+  .gmr-snap__label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .gmr-snap__value {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  /* ── Annual transposed table ──────────────────────────── */
+  .gmr-ann-wrap {
+    overflow-x: auto;
+  }
+
+  .gmr-ann {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  .gmr-ann th,
+  .gmr-ann td {
+    padding: 0.4375rem 0.875rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .gmr-ann th {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface);
+  }
+
+  /* First column: metric label */
+  .gmr-ann th:first-child,
+  .gmr-ann td:first-child {
+    text-align: left;
+    font-variant-numeric: normal;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .gmr-ann td {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    transition: background-color 0.15s ease;
+  }
+
+  .gmr-ann tbody tr:hover td { background: var(--surface); }
+  .gmr-ann tbody tr:last-child td { border-bottom: 0; }
+
+  /* Negative value (e.g. CapEx) */
+  .gmr-ann__neg { color: var(--accent); }
 }

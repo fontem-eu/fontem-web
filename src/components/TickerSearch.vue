@@ -1,13 +1,30 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { searchTickers } from '../api/tickers.js'
 import TickerCard from './TickerCard.vue'
+
+const props = defineProps({
+  selectedSymbol: { type: String, default: null },
+})
+
+const emit = defineEmits(['select'])
+
+const searchContainer = ref(null)
 
 const query = ref('')
 const results = ref([])
 const totalAvailable = ref(0)
 // 'idle' | 'searching' | 'done' | 'error'
 const state = ref('idle')
+
+// Clear results when a ticker is selected
+watch(() => props.selectedSymbol, (sym) => {
+  if (sym) {
+    results.value = []
+    state.value = 'idle'
+    query.value = ''
+  }
+})
 
 let debounceTimer = null
 let currentRequest = 0
@@ -47,10 +64,21 @@ const statusText = computed(() => {
   }
   return ''
 })
+
+function onClickOutside(event) {
+  if (searchContainer.value && !searchContainer.value.contains(event.target)) {
+    results.value = []
+    state.value = 'idle'
+    query.value = ''
+  }
+}
+
+onMounted(() => document.addEventListener('click', onClickOutside))
+onUnmounted(() => document.removeEventListener('click', onClickOutside))
 </script>
 
 <template>
-  <div>
+  <div ref="searchContainer">
     <!-- Search input -->
     <div class="relative">
       <svg
@@ -83,19 +111,25 @@ const statusText = computed(() => {
       {{ statusText }}
     </div>
 
-    <!-- Results -->
+    <!-- Results — hidden when a ticker is already selected -->
     <div
-      v-if="results.length > 0"
+      v-if="results.length > 0 && !selectedSymbol"
       role="list"
       aria-live="polite"
       aria-label="Search results"
       class="mt-1 flex flex-col gap-px"
     >
-      <TickerCard v-for="t in results" :key="t.symbol" :ticker="t" />
+      <TickerCard
+        v-for="t in results"
+        :key="t.symbol"
+        :ticker="t"
+        :selected="false"
+        @select="emit('select', $event)"
+      />
     </div>
 
     <!-- Empty state -->
-    <div v-else-if="query.trim() && state === 'done'" class="gmr-empty">
+    <div v-else-if="!selectedSymbol && query.trim() && state === 'done'" class="gmr-empty">
       <svg
         width="28"
         height="28"

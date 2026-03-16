@@ -1,6 +1,22 @@
 <script setup>
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
+import TickerFinancials from '../components/TickerFinancials.vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+const selectedTicker = computed(() => route.params.ticker || null)
+
+function onTickerSelect(symbol) {
+  router.push('/' + symbol)
+}
+
+function onClose() {
+  router.push('/')
+}
 </script>
 
 <template>
@@ -26,7 +42,16 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 
       <!-- ── Search ──────────────────────────────────────── -->
       <main>
-        <TickerSearch />
+        <TickerSearch
+          :selected-symbol="selectedTicker"
+          @select="onTickerSelect"
+        />
+        <TickerFinancials
+          v-if="selectedTicker"
+          :symbol="selectedTicker"
+          class="mt-2"
+          @close="onClose"
+        />
       </main>
 
       <!-- ── Footer ──────────────────────────────────────── -->

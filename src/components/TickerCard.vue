@@ -2,8 +2,11 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  ticker: { type: Object, required: true },
+  ticker:   { type: Object,  required: true  },
+  selected: { type: Boolean, default:  false },
 })
+
+const emit = defineEmits(['select'])
 
 const meta = computed(() =>
   [
@@ -17,7 +20,16 @@ const meta = computed(() =>
 </script>
 
 <template>
-  <div class="gmr-card" role="listitem">
+  <div
+    class="gmr-card"
+    :class="{ 'gmr-card--active': selected }"
+    role="listitem"
+    tabindex="0"
+    style="cursor: pointer"
+    @click="emit('select', ticker.symbol)"
+    @keydown.enter="emit('select', ticker.symbol)"
+    @keydown.space.prevent="emit('select', ticker.symbol)"
+  >
     <!-- Symbol -->
     <span
       class="ticker-symbol w-16 shrink-0 font-mono text-sm font-bold"

@@ -156,4 +156,77 @@ describe('TickerSearch component', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('app')
   })
+
+  it('emits "select" with the ticker symbol when a card is clicked', async () => {
+    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+      query: 'aapl',
+      results: [makeTicker()],
+      count: 1,
+      total_available: 10416,
+    })
+
+    const wrapper = mount(TickerSearch)
+    await wrapper.find('input').setValue('aapl')
+    await nextTick()
+    vi.advanceTimersByTime(300)
+    await flushPromises()
+
+    await wrapper.find('[role="listitem"]').trigger('click')
+
+    expect(wrapper.emitted('select')).toBeTruthy()
+    expect(wrapper.emitted('select')[0]).toEqual(['AAPL'])
+  })
+
+  it('hides the results list when selectedSymbol prop is set', async () => {
+    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+      query: 'aapl',
+      results: [makeTicker()],
+      count: 1,
+      total_available: 10416,
+    })
+
+    const wrapper = mount(TickerSearch, { props: { selectedSymbol: null } })
+    await wrapper.find('input').setValue('aapl')
+    await nextTick()
+    vi.advanceTimersByTime(300)
+    await flushPromises()
+
+    // List is visible before selection
+    expect(wrapper.find('[role="list"]').exists()).toBe(true)
+
+    // Parent signals a ticker was selected
+    await wrapper.setProps({ selectedSymbol: 'AAPL' })
+    await nextTick()
+
+    // List must be hidden
+    expect(wrapper.find('[role="list"]').exists()).toBe(false)
+  })
+
+  it('clears results when clicking outside the search container', async () => {
+    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+      query: 'aapl',
+      results: [makeTicker()],
+      count: 1,
+      total_available: 10416,
+    })
+
+    const wrapper = mount(TickerSearch, { attachTo: document.body })
+    await wrapper.find('input').setValue('aapl')
+    await nextTick()
+    vi.advanceTimersByTime(300)
+    await flushPromises()
+
+    expect(wrapper.findAll('[role="listitem"]')).toHaveLength(1)
+
+    // Simulate a click on an element outside the component
+    const outside = document.createElement('button')
+    document.body.appendChild(outside)
+    outside.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await nextTick()
+
+    expect(wrapper.findAll('[role="listitem"]')).toHaveLength(0)
+
+    document.body.removeChild(outside)
+    wrapper.unmount()
+  })
 })

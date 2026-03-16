@@ -63,4 +63,52 @@ test.describe('GMR Ticker Search', () => {
     await expect(firstCard.locator('.ticker-symbol')).toBeVisible()
     await expect(firstCard.locator('.badge').first()).toBeVisible()
   })
+
+  test('clicking a ticker hides the list and shows financials below the search bar', async ({ page }) => {
+    await page.fill('input[type="search"]', 'AAPL')
+    const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
+    await aaplCard.waitFor({ timeout: 5000 })
+
+    await aaplCard.click()
+
+    await expect(page.locator('[role="list"]')).not.toBeVisible({ timeout: 3000 })
+    await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 8000 })
+  })
+
+  test('URL changes to /AAPL after clicking the AAPL card', async ({ page }) => {
+    await page.fill('input[type="search"]', 'AAPL')
+    const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
+    await aaplCard.waitFor({ timeout: 5000 })
+
+    await aaplCard.click()
+
+    await expect(page).toHaveURL(/\/AAPL$/, { timeout: 3000 })
+  })
+
+  test('navigating directly to /AAPL shows financials without a results list', async ({ page }) => {
+    await page.goto('/AAPL')
+
+    await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 8000 })
+    await expect(page.locator('[role="list"]')).not.toBeVisible()
+  })
+
+  test('closing financials navigates back to / and hides the panel', async ({ page }) => {
+    await page.goto('/AAPL')
+    await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 8000 })
+
+    await page.locator('button[aria-label="Close financials"]').click()
+
+    await expect(page).toHaveURL('/', { timeout: 3000 })
+    await expect(page.locator('[data-testid="financials-panel"]')).not.toBeVisible()
+  })
+
+  test('clicking outside the results list clears it', async ({ page }) => {
+    await page.fill('input[type="search"]', 'AAPL')
+    await page.locator('.gmr-card').first().waitFor({ timeout: 5000 })
+
+    // Click on the page footer — outside the search container
+    await page.locator('footer').click()
+
+    await expect(page.locator('.gmr-card')).toHaveCount(0, { timeout: 2000 })
+  })
 })
