@@ -8,7 +8,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomeView },
-    { path: '/:ticker', component: HomeView },
+    { path: '/:ticker', redirect: to => `/${to.params.ticker}/fundamentals` },
+    { path: '/:ticker/:view', component: HomeView },
   ],
 })
 

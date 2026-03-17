@@ -3,15 +3,26 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
+import DataViewSelector from '../components/DataViewSelector.vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 const route = useRoute()
 const router = useRouter()
 
+const VIEWS = [
+  { key: 'fundamentals', label: 'Fundamentals' },
+  { key: 'gmr-long',     label: 'GMR Long'     },
+]
+
 const selectedTicker = computed(() => route.params.ticker || null)
+const selectedView   = computed(() => route.params.view   || 'fundamentals')
 
 function onTickerSelect(symbol) {
-  router.push('/' + symbol)
+  router.push('/' + symbol + '/' + selectedView.value)
+}
+
+function onViewChange(view) {
+  router.push('/' + selectedTicker.value + '/' + view)
 }
 
 function onClose() {
@@ -57,12 +68,21 @@ function onClose() {
           />
         </div>
 
-        <TickerFinancials
-          v-if="selectedTicker"
-          :symbol="selectedTicker"
-          class="mt-4"
-          @close="onClose"
-        />
+        <!-- Two-column layout: view selector + data panel -->
+        <div v-if="selectedTicker" class="flex gap-4 mt-4 items-start">
+          <DataViewSelector
+            :model-value="selectedView"
+            :views="VIEWS"
+            data-testid="data-view-selector"
+            @update:model-value="onViewChange"
+          />
+          <TickerFinancials
+            :symbol="selectedTicker"
+            :view="selectedView"
+            class="flex-1 min-w-0"
+            @close="onClose"
+          />
+        </div>
       </main>
 
       <!-- ── Footer ──────────────────────────────────────── -->
