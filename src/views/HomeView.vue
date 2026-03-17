@@ -73,7 +73,6 @@ function onClose() {
           <DataViewSelector
             :model-value="selectedView"
             :views="VIEWS"
-            data-testid="data-view-selector"
             @update:model-value="onViewChange"
           />
           <TickerFinancials
