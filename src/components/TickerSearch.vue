@@ -5,6 +5,7 @@ import TickerCard from './TickerCard.vue'
 
 const props = defineProps({
   selectedSymbol: { type: String, default: null },
+  compact: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['select'])
@@ -127,12 +128,12 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
     </div>
 
     <!-- Status line -->
-    <div class="gmr-status mt-2" :class="{ 'gmr-status--err': state === 'error' }">
+    <div v-if="!compact" class="gmr-status mt-2" :class="{ 'gmr-status--err': state === 'error' }">
       {{ statusText }}
     </div>
 
     <!-- Empty state -->
-    <div v-if="results.length === 0 && query.trim() && state === 'done'" class="gmr-empty">
+    <div v-if="!compact && results.length === 0 && query.trim() && state === 'done'" class="gmr-empty">
       <svg
         width="28"
         height="28"

@@ -32,37 +32,34 @@ function onClose() {
 
 <template>
   <div class="min-h-screen" style="background: var(--bg)">
-    <!--
-      Outer container expands when financials are visible so the table
-      gets real horizontal space. The search bar is re-centred inside it.
-    -->
-    <div class="mx-auto w-full px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
-      <!-- ── Header ──────────────────────────────────────── -->
-      <header class="flex items-start justify-between pt-12 pb-8">
-        <div>
-          <h1 class="text-2xl font-bold tracking-tight leading-none">
+    <!-- ── Banner ─────────────────────────────────────────── -->
+    <header class="border-b" style="border-color: var(--border)">
+      <div class="mx-auto flex w-full max-w-6xl items-center gap-6 px-6 py-4">
+        <!-- Logo -->
+        <div class="shrink-0">
+          <h1 class="text-xl font-bold leading-none tracking-tight">
             <span style="color: var(--accent)">GMR</span>
             <span style="color: var(--text)"> Ticker Search</span>
           </h1>
-          <p
-            class="mt-1.5 text-xs font-medium uppercase tracking-widest"
-            style="color: var(--muted)"
-          >
+          <p class="mt-1 text-xs font-medium uppercase tracking-widest" style="color: var(--muted)">
             10,000+ companies &middot; SEC EDGAR
           </p>
         </div>
-        <ThemeToggle />
-      </header>
 
-      <!-- ── Search ──────────────────────────────────────── -->
-      <main>
-        <!-- Keep the search bar narrow even inside the wide container -->
-        <div :class="{ 'max-w-xl mx-auto': selectedTicker }">
-          <TickerSearch :selected-symbol="selectedTicker" @select="onTickerSelect" />
+        <!-- Search bar — fills remaining space -->
+        <div class="flex-1">
+          <TickerSearch :selected-symbol="selectedTicker" :compact="true" @select="onTickerSelect" />
         </div>
 
-        <!-- Two-column layout: view selector + data panel -->
-        <div v-if="selectedTicker" class="flex gap-4 mt-4 items-start">
+        <!-- Right controls -->
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <!-- ── Content ────────────────────────────────────────── -->
+    <div class="mx-auto w-full px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
+      <main>
+        <div v-if="selectedTicker" class="mt-6 flex items-start gap-4">
           <DataViewSelector
             :model-value="selectedView"
             :views="VIEWS"
@@ -71,7 +68,7 @@ function onClose() {
           <TickerFinancials
             :symbol="selectedTicker"
             :view="selectedView"
-            class="flex-1 min-w-0"
+            class="min-w-0 flex-1"
             @close="onClose"
           />
         </div>
