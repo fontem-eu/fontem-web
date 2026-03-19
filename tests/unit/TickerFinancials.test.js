@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import TickerFinancials from '../../src/components/TickerFinancials.vue'
 import * as gmrApi from '../../src/api/gmr.js'
@@ -105,7 +105,7 @@ const FUND_FIXTURE = {
       current_ratio: 1.27,
       debt_to_equity: 0.91,
       revenue_growth: 15.67,
-      earnings_growth: 21.80,
+      earnings_growth: 21.8,
     },
     {
       year: 2025,
@@ -127,7 +127,7 @@ const FUND_FIXTURE = {
       gross_margin: 68.82,
       operating_margin: 45.62,
       current_ratio: 1.35,
-      debt_to_equity: 0.80,
+      debt_to_equity: 0.8,
       revenue_growth: 14.93,
       earnings_growth: 15.54,
     },
@@ -182,7 +182,7 @@ describe('TickerFinancials — gmr-long view', () => {
     await flushPromises()
 
     const headers = wrapper.findAll('[data-testid="annual-table"] thead th')
-    const headerTexts = headers.map(h => h.text())
+    const headerTexts = headers.map((h) => h.text())
     expect(headerTexts).toContain('2024')
     expect(headerTexts).toContain('2025')
   })
@@ -250,7 +250,7 @@ describe('TickerFinancials — fundamentals view', () => {
 
   it('calls fetchFundamentals (not fetchGmrData) for fundamentals view', async () => {
     const fundSpy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
-    const gmrSpy  = vi.spyOn(gmrApi, 'fetchGmrData')
+    const gmrSpy = vi.spyOn(gmrApi, 'fetchGmrData')
     mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
     await flushPromises()
 
@@ -307,7 +307,7 @@ describe('TickerFinancials — fundamentals view', () => {
     await flushPromises()
 
     const headers = wrapper.findAll('[data-testid="fund-annual-table"] thead th')
-    const headerTexts = headers.map(h => h.text())
+    const headerTexts = headers.map((h) => h.text())
     expect(headerTexts).toContain('2024')
     expect(headerTexts).toContain('2025')
   })
@@ -333,7 +333,7 @@ describe('TickerFinancials — fundamentals view', () => {
   })
 
   it('re-fetches when view changes from gmr-long to fundamentals', async () => {
-    const gmrSpy  = vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const gmrSpy = vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
     const fundSpy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
 
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })

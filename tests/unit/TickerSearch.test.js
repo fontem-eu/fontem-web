@@ -42,9 +42,9 @@ describe('TickerSearch component', () => {
 
     const wrapper = mount(TickerSearch)
     await wrapper.find('input').setValue('aapl')
-    await nextTick()               // let Vue's watch fire
-    vi.advanceTimersByTime(300)    // past the 280 ms debounce
-    await flushPromises()          // resolve the fetch
+    await nextTick() // let Vue's watch fire
+    vi.advanceTimersByTime(300) // past the 280 ms debounce
+    await flushPromises() // resolve the fetch
 
     expect(wrapper.find('[role="listitem"]').exists()).toBe(true)
     expect(wrapper.text()).toContain('AAPL')

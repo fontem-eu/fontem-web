@@ -18,13 +18,16 @@ const totalAvailable = ref(0)
 const state = ref('idle')
 
 // Clear results when a ticker is selected
-watch(() => props.selectedSymbol, (sym) => {
-  if (sym) {
-    results.value = []
-    state.value = 'idle'
-    query.value = ''
+watch(
+  () => props.selectedSymbol,
+  (sym) => {
+    if (sym) {
+      results.value = []
+      state.value = 'idle'
+      query.value = ''
+    }
   }
-})
+)
 
 let debounceTimer = null
 let currentRequest = 0
@@ -142,7 +145,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
         />
       </svg>
       <p class="text-sm">
-        No tickers found for &ldquo;<strong>{{ query }}</strong>&rdquo;
+        No tickers found for &ldquo;<strong>{{ query }}</strong
+        >&rdquo;
       </p>
     </div>
   </div>

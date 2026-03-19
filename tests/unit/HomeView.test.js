@@ -32,7 +32,7 @@ function makeRouter() {
     history: createMemoryHistory(),
     routes: [
       { path: '/', component: HomeView },
-      { path: '/:ticker', redirect: to => `/${to.params.ticker}/fundamentals` },
+      { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/fundamentals` },
       { path: '/:ticker/:view', component: HomeView },
     ],
   })
@@ -143,7 +143,9 @@ describe('HomeView', () => {
     const { wrapper, router } = await mountAt('/AAPL/fundamentals')
     const pushSpy = vi.spyOn(router, 'push')
 
-    await wrapper.findComponent({ name: 'DataViewSelector' }).vm.$emit('update:modelValue', 'gmr-long')
+    await wrapper
+      .findComponent({ name: 'DataViewSelector' })
+      .vm.$emit('update:modelValue', 'gmr-long')
 
     expect(pushSpy).toHaveBeenCalledWith('/AAPL/gmr-long')
   })

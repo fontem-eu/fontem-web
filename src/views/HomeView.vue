@@ -11,11 +11,11 @@ const router = useRouter()
 
 const VIEWS = [
   { key: 'fundamentals', label: 'Fundamentals' },
-  { key: 'gmr-long',     label: 'GMR Long'     },
+  { key: 'gmr-long', label: 'GMR Long' },
 ]
 
 const selectedTicker = computed(() => route.params.ticker || null)
-const selectedView   = computed(() => route.params.view   || 'fundamentals')
+const selectedView = computed(() => route.params.view || 'fundamentals')
 
 function onTickerSelect(symbol) {
   router.push('/' + symbol + '/' + selectedView.value)
@@ -36,11 +36,7 @@ function onClose() {
       Outer container expands when financials are visible so the table
       gets real horizontal space. The search bar is re-centred inside it.
     -->
-    <div
-      class="mx-auto w-full px-6"
-      :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'"
-    >
-
+    <div class="mx-auto w-full px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
       <!-- ── Header ──────────────────────────────────────── -->
       <header class="flex items-start justify-between pt-12 pb-8">
         <div>
@@ -62,10 +58,7 @@ function onClose() {
       <main>
         <!-- Keep the search bar narrow even inside the wide container -->
         <div :class="{ 'max-w-xl mx-auto': selectedTicker }">
-          <TickerSearch
-            :selected-symbol="selectedTicker"
-            @select="onTickerSelect"
-          />
+          <TickerSearch :selected-symbol="selectedTicker" @select="onTickerSelect" />
         </div>
 
         <!-- Two-column layout: view selector + data panel -->
@@ -86,11 +79,8 @@ function onClose() {
 
       <!-- ── Footer ──────────────────────────────────────── -->
       <footer class="pb-10 pt-12">
-        <p class="text-xs tracking-wide" style="color: var(--muted)">
-          Data sourced from SEC EDGAR
-        </p>
+        <p class="text-xs tracking-wide" style="color: var(--muted)">Data sourced from SEC EDGAR</p>
       </footer>
-
     </div>
   </div>
 </template>

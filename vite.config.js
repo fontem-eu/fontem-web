@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'https://gmr.void42.net',
         changeOrigin: true,
-      }
-    }
+      },
+    },
   },
 })

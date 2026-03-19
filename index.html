@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,7 +8,8 @@
     <script>
       ;(function () {
         var saved = localStorage.getItem('gmr-theme')
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        var prefersDark =
+          window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (saved === 'dark' || (!saved && prefersDark)) {
           document.documentElement.classList.add('dark')
         }

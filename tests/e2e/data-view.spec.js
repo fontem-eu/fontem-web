@@ -38,8 +38,13 @@ test.describe('Data view selection', () => {
     await page.goto('/AAPL/fundamentals')
     await page.locator('[data-testid="view-opt-gmr-long"]').click()
 
-    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(/gmr-view-sel__item--active/, { timeout: 3000 })
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(/gmr-view-sel__item--active/)
+    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
+      /gmr-view-sel__item--active/,
+      { timeout: 3000 }
+    )
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
+      /gmr-view-sel__item--active/
+    )
   })
 
   test('clicking "Fundamentals" after GMR Long switches back', async ({ page }) => {
@@ -49,13 +54,20 @@ test.describe('Data view selection', () => {
     await page.locator('[data-testid="view-opt-fundamentals"]').click()
 
     await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 3000 })
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toHaveClass(/gmr-view-sel__item--active/)
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toHaveClass(
+      /gmr-view-sel__item--active/
+    )
   })
 
   test('direct navigation to /:ticker/gmr-long shows GMR Long as active', async ({ page }) => {
     await page.goto('/MSFT/gmr-long')
-    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(/gmr-view-sel__item--active/, { timeout: 5000 })
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(/gmr-view-sel__item--active/)
+    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
+      /gmr-view-sel__item--active/,
+      { timeout: 5000 }
+    )
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
+      /gmr-view-sel__item--active/
+    )
   })
 
   test('financials panel reloads when switching views', async ({ page }) => {
@@ -80,7 +92,9 @@ test.describe('Data view selection', () => {
     await msftCard.click()
 
     await expect(page).toHaveURL(/\/MSFT\/gmr-long$/, { timeout: 3000 })
-    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(/gmr-view-sel__item--active/)
+    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
+      /gmr-view-sel__item--active/
+    )
   })
 
   test('DataViewSelector is not shown on the root route', async ({ page }) => {

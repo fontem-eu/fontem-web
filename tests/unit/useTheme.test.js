@@ -4,11 +4,14 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 // We use vi.resetModules() + dynamic import so each test gets fresh state.
 
 function mockMatchMedia(prefersDark = false) {
-  vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({
-    matches: prefersDark,
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  }))
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn().mockReturnValue({
+      matches: prefersDark,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })
+  )
 }
 
 describe('useTheme composable', () => {

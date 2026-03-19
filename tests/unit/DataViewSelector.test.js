@@ -4,7 +4,7 @@ import DataViewSelector from '../../src/components/DataViewSelector.vue'
 
 const VIEWS = [
   { key: 'fundamentals', label: 'Fundamentals' },
-  { key: 'gmr-long',     label: 'GMR Long'     },
+  { key: 'gmr-long', label: 'GMR Long' },
 ]
 
 function mountSelector(modelValue = 'fundamentals') {
@@ -45,8 +45,12 @@ describe('DataViewSelector', () => {
 
   it('reflects a different active view when modelValue changes', () => {
     const wrapper = mountSelector('gmr-long')
-    expect(wrapper.find('[data-testid="view-opt-gmr-long"]').classes()).toContain('gmr-view-sel__item--active')
-    expect(wrapper.find('[data-testid="view-opt-fundamentals"]').classes()).not.toContain('gmr-view-sel__item--active')
+    expect(wrapper.find('[data-testid="view-opt-gmr-long"]').classes()).toContain(
+      'gmr-view-sel__item--active'
+    )
+    expect(wrapper.find('[data-testid="view-opt-fundamentals"]').classes()).not.toContain(
+      'gmr-view-sel__item--active'
+    )
   })
 
   it('emits update:modelValue with the key when an inactive button is clicked', async () => {
@@ -65,8 +69,12 @@ describe('DataViewSelector', () => {
 
   it('sets aria-current="page" on the active button only', () => {
     const wrapper = mountSelector('fundamentals')
-    expect(wrapper.find('[data-testid="view-opt-fundamentals"]').attributes('aria-current')).toBe('page')
-    expect(wrapper.find('[data-testid="view-opt-gmr-long"]').attributes('aria-current')).toBeUndefined()
+    expect(wrapper.find('[data-testid="view-opt-fundamentals"]').attributes('aria-current')).toBe(
+      'page'
+    )
+    expect(
+      wrapper.find('[data-testid="view-opt-gmr-long"]').attributes('aria-current')
+    ).toBeUndefined()
   })
 
   it('has the view-selector testid on the nav', () => {

@@ -13,10 +13,13 @@ describe('searchTickers', () => {
       count: 1,
       total_available: 10416,
     }
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve(mockData),
-    }))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      })
+    )
 
     const result = await searchTickers('apple')
 
@@ -27,30 +30,39 @@ describe('searchTickers', () => {
   })
 
   it('uses a custom limit when provided', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ query: 'x', results: [], count: 0, total_available: 0 }),
-    }))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ query: 'x', results: [], count: 0, total_available: 0 }),
+      })
+    )
 
     await searchTickers('x', 25)
     expect(fetch).toHaveBeenCalledWith('/api/tickers/search?query=x&limit=25')
   })
 
   it('encodes special characters in the query', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ query: 'a&b', results: [], count: 0, total_available: 0 }),
-    }))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ query: 'a&b', results: [], count: 0, total_available: 0 }),
+      })
+    )
 
     await searchTickers('a&b')
     expect(fetch).toHaveBeenCalledWith('/api/tickers/search?query=a%26b&limit=10')
   })
 
   it('trims whitespace from the query before fetching', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ query: 'aapl', results: [], count: 0, total_available: 0 }),
-    }))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ query: 'aapl', results: [], count: 0, total_available: 0 }),
+      })
+    )
 
     await searchTickers('  aapl  ')
     expect(fetch).toHaveBeenCalledWith('/api/tickers/search?query=aapl&limit=10')

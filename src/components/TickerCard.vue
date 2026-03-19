@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  ticker:   { type: Object,  required: true  },
-  selected: { type: Boolean, default:  false },
+  ticker: { type: Object, required: true },
+  selected: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['select'])

@@ -8,9 +8,11 @@ test.describe('GMR Ticker Search', () => {
   test('shows the page title and search input on load', async ({ page }) => {
     await expect(page.locator('h1')).toContainText('GMR')
     await expect(page.locator('input[type="search"]')).toBeVisible()
-    await expect(page.locator('input[type="search"]')).toBeFocused({ timeout: 500 }).catch(() => {
-      // focus not required, just visibility
-    })
+    await expect(page.locator('input[type="search"]'))
+      .toBeFocused({ timeout: 500 })
+      .catch(() => {
+        // focus not required, just visibility
+      })
   })
 
   test('returns AAPL as the first result when searching "AAPL"', async ({ page }) => {
@@ -64,7 +66,9 @@ test.describe('GMR Ticker Search', () => {
     await expect(firstCard.locator('.badge').first()).toBeVisible()
   })
 
-  test('clicking a ticker hides the list and shows financials below the search bar', async ({ page }) => {
+  test('clicking a ticker hides the list and shows financials below the search bar', async ({
+    page,
+  }) => {
     await page.fill('input[type="search"]', 'AAPL')
     const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
     await aaplCard.waitFor({ timeout: 5000 })

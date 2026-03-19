@@ -45,7 +45,9 @@ defineEmits(['update:modelValue'])
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
 
 .gmr-view-sel__item:hover {
