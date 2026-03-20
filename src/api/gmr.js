@@ -17,3 +17,13 @@ export async function fetchFundamentals(ticker) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
 }
+
+/**
+ * Fetch the enterprise valuation data for a ticker.
+ * Endpoint: GET /api/<ticker>/valuation
+ */
+export async function fetchValuation(ticker) {
+  const res = await fetch(`/api/${encodeURIComponent(ticker)}/valuation`)
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}

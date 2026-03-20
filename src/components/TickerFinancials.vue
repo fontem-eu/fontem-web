@@ -1,10 +1,11 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { fetchGmrData, fetchFundamentals } from '../api/gmr.js'
+import { fetchGmrData, fetchFundamentals, fetchValuation } from '../api/gmr.js'
+import ValuationPanel from './ValuationPanel.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
-  view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long'
+  view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long' | 'valuation'
 })
 
 const emit = defineEmits(['close'])
@@ -19,8 +20,13 @@ watch(
     data.value = null
     state.value = 'loading'
     try {
-      data.value =
-        props.view === 'gmr-long' ? await fetchGmrData(sym) : await fetchFundamentals(sym)
+      if (props.view === 'gmr-long') {
+        data.value = await fetchGmrData(sym)
+      } else if (props.view === 'valuation') {
+        data.value = await fetchValuation(sym)
+      } else {
+        data.value = await fetchFundamentals(sym)
+      }
       state.value = 'done'
     } catch {
       state.value = 'error'
@@ -29,9 +35,11 @@ watch(
   { immediate: true }
 )
 
-const viewLabel = computed(() =>
-  props.view === 'gmr-long' ? 'Financial Overview' : 'Fundamentals'
-)
+const viewLabel = computed(() => {
+  if (props.view === 'gmr-long') return 'Financial Overview'
+  if (props.view === 'valuation') return 'Enterprise Valuation'
+  return 'Fundamentals'
+})
 
 // ── Formatting helpers ───────────────────────────────────────
 function fmtMoney(n, decimals = 1) {
@@ -67,6 +75,10 @@ function fmtNum(n) {
 function fmtPct(n) {
   if (n == null) return '—'
   return `${Number(n).toFixed(1)}%`
+}
+
+function fmtRatio(n, decimals = 2) {
+  return n != null ? Number(n).toFixed(decimals) : '—'
 }
 
 // ── GMR Long: snapshot & annual ─────────────────────────────
@@ -147,6 +159,9 @@ const fundMktSnapshot = computed(() => {
           : '—',
       testid: 'fund-snap-div',
     },
+    { label: 'Beta', value: fmtRatio(s.beta), testid: 'fund-snap-beta' },
+    { label: '52w High', value: fmtPrice(s.week_52_high), testid: 'fund-snap-52h' },
+    { label: '52w Low', value: fmtPrice(s.week_52_low), testid: 'fund-snap-52l' },
   ]
 })
 
@@ -154,23 +169,25 @@ const fundRatios = computed(() => {
   const r = data.value?.ratios_summary
   if (!r) return []
   return [
+    // Valuation
+    { label: 'Avg P/E', value: fmtRatio(r.avg_pe, 1) },
+    { label: 'Avg P/B', value: fmtRatio(r.avg_pb) },
+    { label: 'Avg P/S', value: fmtRatio(r.avg_ps) },
+    // Profitability
     { label: 'Avg ROE', value: fmtPct(r.avg_roe) },
     { label: 'Avg ROA', value: fmtPct(r.avg_roa) },
     { label: 'Avg Net Margin', value: fmtPct(r.avg_npm) },
     { label: 'Avg Gross Margin', value: fmtPct(r.avg_gross_margin) },
     { label: 'Avg Op. Margin', value: fmtPct(r.avg_operating_margin) },
-    {
-      label: 'Avg Current Ratio',
-      value: r.avg_current_ratio != null ? Number(r.avg_current_ratio).toFixed(2) : '—',
-    },
-    {
-      label: 'Avg Quick Ratio',
-      value: r.avg_quick_ratio != null ? Number(r.avg_quick_ratio).toFixed(2) : '—',
-    },
-    {
-      label: 'Avg D/E',
-      value: r.avg_debt_to_equity != null ? Number(r.avg_debt_to_equity).toFixed(2) : '—',
-    },
+    // Liquidity / Leverage
+    { label: 'Avg Current Ratio', value: fmtRatio(r.avg_current_ratio) },
+    { label: 'Avg Quick Ratio', value: fmtRatio(r.avg_quick_ratio) },
+    { label: 'Avg D/E', value: fmtRatio(r.avg_debt_to_equity) },
+    { label: 'Avg D/A', value: fmtRatio(r.avg_debt_to_assets) },
+    // Cash flow
+    { label: 'Avg FCF Yield', value: fmtPct(r.avg_fcf_yield) },
+    { label: 'Avg Div. Yield', value: fmtPct(r.avg_dividend_yield) },
+    // Growth
     { label: 'Avg Revenue Growth', value: fmtPct(r.avg_revenue_growth) },
     { label: 'Avg Earnings Growth', value: fmtPct(r.avg_earnings_growth) },
   ]
@@ -190,29 +207,64 @@ const fundMap = computed(() => {
 })
 
 const fundRows = [
+  // Price
   { key: 'avg_price', label: 'Avg Price', fmt: fmtPrice },
+  // Income statement
   { key: 'revenue', label: 'Revenue', fmt: fmtMoney },
   { key: 'gross_profit', label: 'Gross Profit', fmt: fmtMoney },
   { key: 'operating_income', label: 'Op. Income', fmt: fmtMoney },
   { key: 'net_income', label: 'Net Income', fmt: fmtMoney },
+  { key: 'eps', label: 'EPS', fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—') },
+  // Cash flow
   { key: 'operating_cashflow', label: 'Op. Cashflow', fmt: fmtMoney },
   { key: 'capex', label: 'CapEx', fmt: fmtMoney },
   { key: 'free_cashflow', label: 'Free Cashflow', fmt: fmtMoney },
+  // Balance sheet
   { key: 'total_assets', label: 'Total Assets', fmt: fmtMoney },
   { key: 'total_liabilities', label: 'Total Liabilities', fmt: fmtMoney },
   { key: 'equity', label: 'Equity', fmt: fmtMoney },
+  // Per-share
+  {
+    key: 'book_value_per_share',
+    label: 'Book Value/Share',
+    fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—'),
+  },
+  {
+    key: 'revenue_per_share',
+    label: 'Revenue/Share',
+    fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—'),
+  },
+  {
+    key: 'fcf_per_share',
+    label: 'FCF/Share',
+    fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—'),
+  },
+  {
+    key: 'dividend_per_share',
+    label: 'Div./Share',
+    fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—'),
+  },
+  // Valuation ratios
+  { key: 'pe', label: 'P/E', fmt: (n) => fmtRatio(n, 1) },
+  { key: 'pb', label: 'P/B', fmt: (n) => fmtRatio(n) },
+  { key: 'ps', label: 'P/S', fmt: (n) => fmtRatio(n) },
+  // Profitability ratios
   { key: 'roe', label: 'ROE', fmt: fmtPct },
+  { key: 'roa', label: 'ROA', fmt: fmtPct },
   { key: 'npm', label: 'Net Margin', fmt: fmtPct },
   { key: 'gross_margin', label: 'Gross Margin', fmt: fmtPct },
   { key: 'operating_margin', label: 'Op. Margin', fmt: fmtPct },
-  {
-    key: 'current_ratio',
-    label: 'Current Ratio',
-    fmt: (n) => (n != null ? Number(n).toFixed(2) : '—'),
-  },
-  { key: 'debt_to_equity', label: 'D/E', fmt: (n) => (n != null ? Number(n).toFixed(2) : '—') },
+  // Liquidity / Leverage
+  { key: 'current_ratio', label: 'Current Ratio', fmt: (n) => fmtRatio(n) },
+  { key: 'quick_ratio', label: 'Quick Ratio', fmt: (n) => fmtRatio(n) },
+  { key: 'debt_to_equity', label: 'D/E', fmt: (n) => fmtRatio(n) },
+  { key: 'debt_to_assets', label: 'D/A', fmt: (n) => fmtRatio(n) },
+  // Cash flow ratios
+  { key: 'fcf_yield', label: 'FCF Yield', fmt: fmtPct },
+  { key: 'dividend_yield', label: 'Div. Yield', fmt: fmtPct },
+  // Growth
   { key: 'revenue_growth', label: 'Rev. Growth', fmt: fmtPct },
-  { key: 'earnings_growth', label: 'EPS Growth', fmt: fmtPct },
+  { key: 'earnings_growth', label: 'Earnings Growth', fmt: fmtPct },
 ]
 
 function fundCellValue(year, row) {
@@ -304,6 +356,11 @@ function isFundNegative(year, key) {
           </tbody>
         </table>
       </div>
+    </template>
+
+    <!-- ── Valuation data ───────────────────────────────── -->
+    <template v-else-if="state === 'done' && data && view === 'valuation'">
+      <ValuationPanel :data="data" data-testid="valuation-panel" />
     </template>
 
     <!-- ── Fundamentals data ────────────────────────────── -->

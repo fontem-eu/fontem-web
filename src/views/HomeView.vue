@@ -11,6 +11,7 @@ const router = useRouter()
 
 const VIEWS = [
   { key: 'fundamentals', label: 'Fundamentals' },
+  { key: 'valuation', label: 'Valuation' },
   { key: 'gmr-long', label: 'GMR Long' },
 ]
 

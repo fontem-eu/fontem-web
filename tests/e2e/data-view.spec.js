@@ -111,4 +111,82 @@ test.describe('Data view selection', () => {
     await expect(page).toHaveURL('/', { timeout: 3000 })
     await expect(page.locator('[data-testid="view-selector"]')).not.toBeVisible()
   })
+
+  test('"Valuation" option is present in the view selector', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    const btn = page.locator('[data-testid="view-opt-valuation"]')
+    await expect(btn).toBeVisible({ timeout: 5000 })
+  })
+
+  test('clicking "Valuation" changes URL to /:ticker/valuation', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-valuation"]').waitFor({ timeout: 5000 })
+
+    await page.locator('[data-testid="view-opt-valuation"]').click()
+
+    await expect(page).toHaveURL(/\/AAPL\/valuation$/, { timeout: 3000 })
+  })
+
+  test('"Valuation" becomes active after clicking it', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-valuation"]').click()
+
+    await expect(page.locator('[data-testid="view-opt-valuation"]')).toHaveClass(
+      /gmr-view-sel__item--active/,
+      { timeout: 3000 }
+    )
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
+      /gmr-view-sel__item--active/
+    )
+  })
+
+  test('direct navigation to /:ticker/valuation shows Valuation as active', async ({ page }) => {
+    await page.goto('/MSFT/valuation')
+    await expect(page.locator('[data-testid="view-opt-valuation"]')).toHaveClass(
+      /gmr-view-sel__item--active/,
+      { timeout: 5000 }
+    )
+  })
+
+  test('valuation view renders the valuation panel', async ({ page }) => {
+    await page.goto('/AAPL/valuation')
+    await expect(page.locator('[data-testid="valuation-panel"]')).toBeVisible({ timeout: 10000 })
+  })
+
+  test('valuation panel shows EV snapshot section', async ({ page }) => {
+    await page.goto('/AAPL/valuation')
+    await expect(page.locator('[data-testid="val-snapshot"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="val-ev"]')).toBeVisible()
+    await expect(page.locator('[data-testid="val-ev-ebitda"]')).toBeVisible()
+  })
+
+  test('valuation panel shows per-year table with EBITDA', async ({ page }) => {
+    await page.goto('/AAPL/valuation')
+    await expect(page.locator('[data-testid="val-annual-table"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="val-annual-table"]')).toContainText('EBITDA')
+    await expect(page.locator('[data-testid="val-annual-table"]')).toContainText('ROIC')
+  })
+
+  test('switching from valuation back to fundamentals works', async ({ page }) => {
+    await page.goto('/AAPL/valuation')
+    await page.locator('[data-testid="view-opt-fundamentals"]').waitFor({ timeout: 5000 })
+
+    await page.locator('[data-testid="view-opt-fundamentals"]').click()
+
+    await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 3000 })
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toHaveClass(
+      /gmr-view-sel__item--active/
+    )
+  })
+
+  test('fundamentals market snapshot now includes Beta', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await expect(page.locator('[data-testid="fund-snap-beta"]')).toBeVisible({ timeout: 10000 })
+  })
+
+  test('fundamentals market snapshot now includes 52-week high and low', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await expect(page.locator('[data-testid="fund-snap-52h"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="fund-snap-52l"]')).toBeVisible({ timeout: 10000 })
+  })
 })
