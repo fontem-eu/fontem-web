@@ -27,3 +27,18 @@ export async function fetchValuation(ticker) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
 }
+
+/**
+ * Fetch daily OHLCV price history for a ticker.
+ * Endpoint: GET /api/<ticker>/prices?period=<period>
+ *
+ * @param {string} ticker
+ * @param {string} period  — one of: 1m, 6m, 1y, 3y, 5y, all
+ */
+export async function fetchPriceHistory(ticker, period = '1y') {
+  const res = await fetch(
+    `/api/${encodeURIComponent(ticker)}/prices?period=${encodeURIComponent(period)}`
+  )
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}

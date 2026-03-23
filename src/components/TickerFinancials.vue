@@ -1,11 +1,12 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fetchGmrData, fetchFundamentals, fetchValuation } from '../api/gmr.js'
+import SummaryPanel from './SummaryPanel.vue'
 import ValuationPanel from './ValuationPanel.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
-  view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long' | 'valuation'
+  view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long' | 'valuation' | 'summary'
 })
 
 const emit = defineEmits(['close'])
@@ -17,6 +18,12 @@ watch(
   () => [props.symbol, props.view],
   async ([sym]) => {
     if (!sym) return
+    // Summary view manages its own data/state internally via SummaryPanel.
+    if (props.view === 'summary') {
+      state.value = 'done'
+      data.value = null
+      return
+    }
     data.value = null
     state.value = 'loading'
     try {
@@ -38,6 +45,7 @@ watch(
 const viewLabel = computed(() => {
   if (props.view === 'gmr-long') return 'Financial Overview'
   if (props.view === 'valuation') return 'Enterprise Valuation'
+  if (props.view === 'summary') return 'Price Summary'
   return 'Fundamentals'
 })
 
@@ -317,6 +325,11 @@ function isFundNegative(year, key) {
     <div v-else-if="state === 'error'" class="gmr-fin__body gmr-fin__state" data-testid="fin-error">
       <span style="color: var(--accent)">Could not load data for {{ symbol }}.</span>
     </div>
+
+    <!-- ── Summary (price chart) ────────────────────────── -->
+    <template v-else-if="state === 'done' && view === 'summary'">
+      <SummaryPanel :symbol="symbol" data-testid="summary-panel-wrap" />
+    </template>
 
     <!-- ── GMR Long data ────────────────────────────────── -->
     <template v-else-if="state === 'done' && data && view === 'gmr-long'">
