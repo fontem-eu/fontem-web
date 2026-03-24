@@ -1,6 +1,7 @@
 <script setup>
-defineProps({
-  data: { type: Object, required: true },
+const props = defineProps({
+  data:         { type: Object, required: true },
+  displayYears: { type: Number, default: 10 },
 })
 
 // ── Formatting helpers ───────────────────────────────────────
@@ -70,7 +71,8 @@ function sortedYears(perYear) {
   if (!perYear?.length) return []
   return [...perYear]
     .filter((r) => r.ebitda != null || r.roic != null)
-    .sort((a, b) => a.year - b.year)
+    .sort((a, b) => b.year - a.year)
+    .slice(0, props.displayYears)
     .map((r) => r.year)
 }
 

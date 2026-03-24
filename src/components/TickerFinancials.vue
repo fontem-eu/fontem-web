@@ -13,6 +13,9 @@ const emit = defineEmits(['close'])
 
 const data = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error'
+const displayYears = ref(10)
+
+const YEAR_OPTIONS = [1, 3, 5, 7, 10]
 
 watch(
   () => [props.symbol, props.view],
@@ -121,7 +124,8 @@ const gmrAnnualYears = computed(() => {
   if (!data.value) return []
   return [...data.value.annual_data]
     .filter((d) => d.revenue != null || d.avg_price != null)
-    .sort((a, b) => a.year - b.year)
+    .sort((a, b) => b.year - a.year)
+    .slice(0, displayYears.value)
     .map((d) => d.year)
 })
 
@@ -205,7 +209,8 @@ const fundYears = computed(() => {
   if (!data.value) return []
   return [...data.value.per_year]
     .filter((d) => d.revenue != null || d.avg_price != null)
-    .sort((a, b) => a.year - b.year)
+    .sort((a, b) => b.year - a.year)
+    .slice(0, displayYears.value)
     .map((d) => d.year)
 })
 
@@ -316,6 +321,23 @@ function isFundNegative(year, key) {
       </button>
     </div>
 
+    <!-- ── Years selector ───────────────────────────────── -->
+    <div
+      v-if="state === 'done' && view !== 'summary'"
+      class="year-selector"
+      data-testid="year-selector"
+    >
+      <span class="year-selector__label">History</span>
+      <button
+        v-for="n in YEAR_OPTIONS"
+        :key="n"
+        class="year-btn"
+        :class="{ active: displayYears === n }"
+        :data-testid="`year-btn-${n}`"
+        @click="displayYears = n"
+      >{{ n }}Y</button>
+    </div>
+
     <!-- ── Loading ─────────────────────────────────────── -->
     <div v-if="state === 'loading'" class="gmr-fin__body gmr-fin__state" data-testid="fin-loading">
       <span class="animate-pulse" style="color: var(--muted)">Loading…</span>
@@ -373,7 +395,7 @@ function isFundNegative(year, key) {
 
     <!-- ── Valuation data ───────────────────────────────── -->
     <template v-else-if="state === 'done' && data && view === 'valuation'">
-      <ValuationPanel :data="data" data-testid="valuation-panel" />
+      <ValuationPanel :data="data" :display-years="displayYears" data-testid="valuation-panel" />
     </template>
 
     <!-- ── Fundamentals data ────────────────────────────── -->

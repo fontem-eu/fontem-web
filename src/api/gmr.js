@@ -1,9 +1,12 @@
 /**
  * Fetch the GMR financial data for a ticker.
  * Endpoint: GET /api/<ticker>/gmr_data
+ *
+ * @param {string} ticker
+ * @param {number} years  — number of historical fiscal years (default 10)
  */
-export async function fetchGmrData(ticker) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/gmr_data`)
+export async function fetchGmrData(ticker, years = 10) {
+  const res = await fetch(`/api/${encodeURIComponent(ticker)}/gmr_data?years=${years}`)
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
 }
@@ -11,9 +14,12 @@ export async function fetchGmrData(ticker) {
 /**
  * Fetch the fundamentals data for a ticker.
  * Endpoint: GET /api/<ticker>/fundamentals
+ *
+ * @param {string} ticker
+ * @param {number} years  — number of historical fiscal years (default 10)
  */
-export async function fetchFundamentals(ticker) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/fundamentals`)
+export async function fetchFundamentals(ticker, years = 10) {
+  const res = await fetch(`/api/${encodeURIComponent(ticker)}/fundamentals?years=${years}`)
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
 }
@@ -21,9 +27,12 @@ export async function fetchFundamentals(ticker) {
 /**
  * Fetch the enterprise valuation data for a ticker.
  * Endpoint: GET /api/<ticker>/valuation
+ *
+ * @param {string} ticker
+ * @param {number} years  — number of historical fiscal years (default 10)
  */
-export async function fetchValuation(ticker) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/valuation`)
+export async function fetchValuation(ticker, years = 10) {
+  const res = await fetch(`/api/${encodeURIComponent(ticker)}/valuation?years=${years}`)
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
 }

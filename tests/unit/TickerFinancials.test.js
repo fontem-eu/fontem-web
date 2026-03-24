@@ -273,6 +273,50 @@ describe('TickerFinancials — gmr-long view', () => {
     expect(headerTexts).toContain('2025')
   })
 
+  it('shows most recent year (2025) as the first column', async () => {
+    vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+
+    const headers = wrapper.findAll('[data-testid="annual-table"] thead th')
+    const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearCols[0]).toBe('2025')
+    expect(yearCols[1]).toBe('2024')
+  })
+
+  it('renders the years selector when data is loaded', async () => {
+    vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="year-selector"]').exists()).toBe(true)
+    for (const n of [1, 3, 5, 7, 10]) {
+      expect(wrapper.find(`[data-testid="year-btn-${n}"]`).exists()).toBe(true)
+    }
+  })
+
+  it('defaults to 10Y being active', async () => {
+    vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="year-btn-10"]').classes()).toContain('active')
+    expect(wrapper.find('[data-testid="year-btn-5"]').classes()).not.toContain('active')
+  })
+
+  it('clicking 1Y limits the table to 1 column (most recent year)', async () => {
+    vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+
+    await wrapper.find('[data-testid="year-btn-1"]').trigger('click')
+
+    const headers = wrapper.findAll('[data-testid="annual-table"] thead th')
+    const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearCols).toHaveLength(1)
+    expect(yearCols[0]).toBe('2025')
+  })
+
   it('formats billions correctly (245122000000 → $245.1B)', async () => {
     vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
@@ -424,6 +468,43 @@ describe('TickerFinancials — fundamentals view', () => {
     const headerTexts = headers.map((h) => h.text())
     expect(headerTexts).toContain('2024')
     expect(headerTexts).toContain('2025')
+  })
+
+  it('shows most recent year (2025) first in fundamentals table', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
+    await flushPromises()
+
+    const headers = wrapper.findAll('[data-testid="fund-annual-table"] thead th')
+    const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearCols[0]).toBe('2025')
+    expect(yearCols[1]).toBe('2024')
+  })
+
+  it('clicking 1Y on fundamentals view limits to 1 column', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
+    await flushPromises()
+
+    await wrapper.find('[data-testid="year-btn-1"]').trigger('click')
+
+    const headers = wrapper.findAll('[data-testid="fund-annual-table"] thead th')
+    const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearCols).toHaveLength(1)
+    expect(yearCols[0]).toBe('2025')
+  })
+
+  it('year selector is not shown during loading', () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockReturnValue(new Promise(() => {}))
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
+    expect(wrapper.find('[data-testid="year-selector"]').exists()).toBe(false)
+  })
+
+  it('year selector is not shown for the summary view', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'summary' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="year-selector"]').exists()).toBe(false)
   })
 
   it('shows an error state when the fundamentals API fails', async () => {

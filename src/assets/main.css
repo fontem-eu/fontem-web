@@ -286,6 +286,40 @@
     margin-top: 1px;
   }
 
+  /* ── Years selector ──────────────────────────────────── */
+  .year-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.45rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .year-selector__label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 0.4rem;
+  }
+
+  .year-btn {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s, background 0.12s;
+  }
+
+  .year-btn:hover    { border-color: var(--accent); color: var(--text); }
+  .year-btn.active   { border-color: var(--accent); background: var(--accent); color: #fff; }
+
   /* ── Snapshot metric grid ─────────────────────────────── */
   .gmr-snap {
     display: grid;

@@ -153,12 +153,29 @@ describe('ValuationPanel', () => {
     expect(wrapper.find('[data-testid="val-annual-table"]').text()).toContain('42.80x')
   })
 
-  it('shows years sorted ascending in per-year table (2024 before 2025)', () => {
+  it('shows years sorted descending in per-year table (2025 before 2024)', () => {
     const wrapper = mount(ValuationPanel, { props: { data: FIXTURE } })
     const headers = wrapper.findAll('[data-testid="val-annual-table"] thead th')
     const yearHeaders = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
-    expect(yearHeaders[0]).toBe('2024')
-    expect(yearHeaders[1]).toBe('2025')
+    expect(yearHeaders[0]).toBe('2025')
+    expect(yearHeaders[1]).toBe('2024')
+  })
+
+  it('displayYears=1 shows only the most recent year column', () => {
+    const wrapper = mount(ValuationPanel, { props: { data: FIXTURE, displayYears: 1 } })
+    const headers = wrapper.findAll('[data-testid="val-annual-table"] thead th')
+    const yearHeaders = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearHeaders).toHaveLength(1)
+    expect(yearHeaders[0]).toBe('2025')
+  })
+
+  it('displayYears=2 shows both years with most recent first', () => {
+    const wrapper = mount(ValuationPanel, { props: { data: FIXTURE, displayYears: 2 } })
+    const headers = wrapper.findAll('[data-testid="val-annual-table"] thead th')
+    const yearHeaders = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearHeaders).toHaveLength(2)
+    expect(yearHeaders[0]).toBe('2025')
+    expect(yearHeaders[1]).toBe('2024')
   })
 
   it('handles null snapshot values gracefully (shows —)', () => {
