@@ -2,6 +2,7 @@
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
 import { fetchPriceHistory } from '../api/gmr.js'
+import { fmtPrice } from '../utils/format.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -298,11 +299,6 @@ onBeforeUnmount(() => {
 })
 
 // ── Formatting helpers ──────────────────────────────────────────
-
-function fmtPrice(n) {
-  if (n == null) return '—'
-  return `$${Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-}
 
 function fmtChange(n) {
   if (n == null) return ''

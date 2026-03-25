@@ -1,21 +1,11 @@
 <script setup>
+import { computed } from 'vue'
+import { fmtMoney } from '../utils/format.js'
+
 const props = defineProps({
   data:         { type: Object, required: true },
   displayYears: { type: Number, default: 10 },
 })
-
-// ── Formatting helpers ───────────────────────────────────────
-function fmtMoney(n, decimals = 1) {
-  if (n == null) return '—'
-  const neg = n < 0
-  const abs = Math.abs(n)
-  const sign = neg ? '-' : ''
-  if (abs >= 1e12) return `${sign}$${(abs / 1e12).toFixed(decimals)}T`
-  if (abs >= 1e9) return `${sign}$${(abs / 1e9).toFixed(decimals)}B`
-  if (abs >= 1e6) return `${sign}$${(abs / 1e6).toFixed(decimals)}M`
-  if (abs >= 1e3) return `${sign}$${(abs / 1e3).toFixed(0)}K`
-  return `${sign}$${abs.toLocaleString()}`
-}
 
 function fmtPct(n) {
   if (n == null) return '—'
@@ -67,26 +57,28 @@ const perYearRows = [
   { key: 'roic', label: 'ROIC', fmt: fmtPct },
 ]
 
-function sortedYears(perYear) {
+const sortedYears = computed(() => {
+  const perYear = props.data.per_year
   if (!perYear?.length) return []
   return [...perYear]
     .filter((r) => r.ebitda != null || r.roic != null)
     .sort((a, b) => b.year - a.year)
     .slice(0, props.displayYears)
     .map((r) => r.year)
-}
+})
 
-function perYearMap(perYear) {
+const yearMap = computed(() => {
+  const perYear = props.data.per_year
   if (!perYear?.length) return {}
   return Object.fromEntries(perYear.map((r) => [r.year, r]))
+})
+
+function cellValue(year, row) {
+  return row.fmt(yearMap.value[year]?.[row.key])
 }
 
-function cellValue(year, row, yearMap) {
-  return row.fmt(yearMap[year]?.[row.key])
-}
-
-function isNeg(year, key, yearMap) {
-  const v = yearMap[year]?.[key]
+function isNeg(year, key) {
+  const v = yearMap.value[year]?.[key]
   return v != null && v < 0
 }
 </script>
@@ -128,18 +120,18 @@ function isNeg(year, key, yearMap) {
         <thead>
           <tr>
             <th>Metric</th>
-            <th v-for="year in sortedYears(data.per_year)" :key="year">{{ year }}</th>
+            <th v-for="year in sortedYears" :key="year">{{ year }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="row in perYearRows" :key="row.key">
             <td>{{ row.label }}</td>
             <td
-              v-for="year in sortedYears(data.per_year)"
+              v-for="year in sortedYears"
               :key="year"
-              :class="{ 'gmr-ann__neg': isNeg(year, row.key, perYearMap(data.per_year)) }"
+              :class="{ 'gmr-ann__neg': isNeg(year, row.key) }"
             >
-              {{ cellValue(year, row, perYearMap(data.per_year)) }}
+              {{ cellValue(year, row) }}
             </td>
           </tr>
         </tbody>
