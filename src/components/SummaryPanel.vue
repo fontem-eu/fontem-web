@@ -545,6 +545,7 @@ function fmtDate(s) {
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: 0.2rem 0.55rem;
+  min-height: 36px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
@@ -554,6 +555,13 @@ function fmtDate(s) {
 
 .period-btn:hover { border-color: var(--accent); color: var(--text); }
 .period-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+@media (min-width: 640px) {
+  .period-btn {
+    min-height: unset;
+    padding: 0.2rem 0.55rem;
+  }
+}
 
 /* ── States ───────────────────────── */
 .summary-state {
