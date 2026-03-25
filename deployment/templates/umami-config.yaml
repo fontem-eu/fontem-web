@@ -9,4 +9,4 @@ metadata:
 data:
   umami-config.js: |
     window.UMAMI_WEBSITE_ID = "8d3c985e-6b8d-465b-9b1f-5a8115bccb06";
-    window.UMAMI_SRC = "http://analytics.void42.internal/script.js";
+    window.UMAMI_SRC = "/umami/script.js";
