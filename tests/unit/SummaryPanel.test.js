@@ -361,19 +361,20 @@ describe('SummaryPanel', () => {
 
   // ── Edge cases ─────────────────────────────────────────────
 
-  it('does not show chart container on empty data', async () => {
+  it('shows no-data state when bars array is empty', async () => {
     fetchPriceHistory.mockResolvedValueOnce({ ..._FAKE_RESPONSE, bars: [] })
     const w = mountPanel()
     await flushPromises()
-    // No error shown; chart container renders but D3 draws nothing.
+    expect(w.find('[data-testid="summary-no-data"]').exists()).toBe(true)
     expect(w.find('[data-testid="summary-error"]').exists()).toBe(false)
+    expect(w.find('[data-testid="chart-container"]').exists()).toBe(false)
   })
 
-  it('does not show tooltip if no data loaded', async () => {
+  it('does not show tooltip when no data', async () => {
     fetchPriceHistory.mockResolvedValueOnce({ ..._FAKE_RESPONSE, bars: [] })
     const w = mountPanel()
     await flushPromises()
-    await w.find('[data-testid="chart-container"]').trigger('mousemove')
+    // chart-container is not rendered; no tooltip can appear
     expect(w.find('[data-testid="price-tooltip"]').exists()).toBe(false)
   })
 

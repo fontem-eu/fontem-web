@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import TickerFinancials from '../../src/components/TickerFinancials.vue'
 import * as gmrApi from '../../src/api/gmr.js'
@@ -360,6 +360,34 @@ describe('TickerFinancials — gmr-long view', () => {
 
     expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="snapshot-grid"]').exists()).toBe(false)
+  })
+
+  it('shows timeout state after 15s if API has not responded', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(gmrApi, 'fetchGmrData').mockImplementation(() => new Promise(() => {})) // never resolves
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'SLOW', view: 'gmr-long' } })
+
+    expect(wrapper.find('[data-testid="fin-loading"]').exists()).toBe(true)
+    vi.advanceTimersByTime(15001)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-testid="fin-timeout"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="fin-loading"]').exists()).toBe(false)
+    vi.useRealTimers()
+  })
+
+  it('retry button on error re-fetches data', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchGmrData')
+      .mockRejectedValueOnce(new Error('network'))
+      .mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
+
+    await wrapper.find('[data-testid="fin-retry-error"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="snapshot-grid"]').exists()).toBe(true)
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 
   it('emits a close event when the × button is clicked', async () => {

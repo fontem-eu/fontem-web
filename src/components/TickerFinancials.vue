@@ -16,7 +16,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const data = ref(null)
-const state = ref('loading') // 'loading' | 'done' | 'error'
+const state = ref('loading') // 'loading' | 'done' | 'error' | 'timeout'
 const displayYears = ref(10)
 
 const YEAR_OPTIONS = [
@@ -26,9 +26,41 @@ const YEAR_OPTIONS = [
   { value: Infinity, label: 'All', testid: 'all' },
 ]
 
+let _loadId = 0
+
+async function loadData(sym) {
+  const id = ++_loadId
+  data.value = null
+  state.value = 'loading'
+
+  // 15-second timeout: if API takes too long, surface a retry option.
+  const timeout = setTimeout(() => {
+    if (_loadId === id) state.value = 'timeout'
+  }, 15000)
+
+  try {
+    let result
+    if (props.view === 'gmr-long') {
+      result = await fetchGmrData(sym)
+    } else if (props.view === 'valuation') {
+      result = await fetchValuation(sym)
+    } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
+      result = await fetchFundamentals(sym)
+    }
+    if (_loadId !== id) return // stale response
+    data.value = result ?? null
+    state.value = 'done'
+  } catch {
+    if (_loadId !== id) return
+    state.value = 'error'
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
 watch(
   () => [props.symbol, props.view],
-  async ([sym]) => {
+  ([sym]) => {
     if (!sym) return
     // Summary view manages its own data/state internally via SummaryPanel.
     if (props.view === 'summary') {
@@ -36,20 +68,7 @@ watch(
       data.value = null
       return
     }
-    data.value = null
-    state.value = 'loading'
-    try {
-      if (props.view === 'gmr-long') {
-        data.value = await fetchGmrData(sym)
-      } else if (props.view === 'valuation') {
-        data.value = await fetchValuation(sym)
-      } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
-        data.value = await fetchFundamentals(sym)
-      }
-      state.value = 'done'
-    } catch {
-      state.value = 'error'
-    }
+    loadData(sym)
   },
   { immediate: true }
 )
@@ -275,9 +294,30 @@ function isFundNegative(year, key) {
       <span class="animate-pulse" style="color: var(--muted)">Loading…</span>
     </div>
 
+    <!-- ── Timeout ──────────────────────────────────────── -->
+    <div v-else-if="state === 'timeout'" class="gmr-fin__body gmr-fin__state" data-testid="fin-timeout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
+        <span style="color: var(--muted)">Taking longer than expected…</span>
+        <button
+          class="year-btn"
+          style="padding:0.4rem 1rem"
+          data-testid="fin-retry"
+          @click="loadData(symbol)"
+        >Retry</button>
+      </div>
+    </div>
+
     <!-- ── Error ───────────────────────────────────────── -->
     <div v-else-if="state === 'error'" class="gmr-fin__body gmr-fin__state" data-testid="fin-error">
-      <span style="color: var(--accent)">Could not load data for {{ symbol }}.</span>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
+        <span style="color: var(--negative)">Could not load data for {{ symbol }}.</span>
+        <button
+          class="year-btn"
+          style="padding:0.4rem 1rem"
+          data-testid="fin-retry-error"
+          @click="loadData(symbol)"
+        >Retry</button>
+      </div>
     </div>
 
     <!-- ── Summary (price chart) ────────────────────────── -->

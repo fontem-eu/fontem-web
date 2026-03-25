@@ -420,6 +420,11 @@ function fmtDate(s) {
       <span style="color: var(--negative)">Could not load price data for {{ symbol }}.</span>
     </div>
 
+    <!-- ── No data ───────────────────────────────────────────── -->
+    <div v-else-if="!loading && bars.length === 0" class="summary-state" data-testid="summary-no-data">
+      <span style="color: var(--muted)">No price data available for {{ symbol }} in the selected period.</span>
+    </div>
+
     <!-- ── Chart ─────────────────────────────────────────────── -->
     <div
       v-else
