@@ -83,6 +83,17 @@ const viewLabel = computed(() => {
   return 'Fundamentals'
 })
 
+// Most recent fiscal year with actual financial data (not just price).
+// Shown as "Data as of YYYY" in the header for transparency.
+const dataAsOf = computed(() => {
+  if (!data.value || state.value !== 'done') return null
+  // GMR-long and fundamentals/income/cashflow/balance share per_year / annual_data
+  const rows = data.value.per_year ?? data.value.annual_data ?? []
+  const withData = rows.filter((r) => r.revenue != null || r.net_income != null || r.earnings != null)
+  if (!withData.length) return null
+  return Math.max(...withData.map((r) => r.year))
+})
+
 // ── Formatting helpers ───────────────────────────────────────
 
 function fmtNum(n) {
@@ -245,11 +256,17 @@ function isFundNegative(year, key) {
   <div class="gmr-fin" data-testid="financials-panel">
     <!-- ── Header ───────────────────────────────────────── -->
     <div class="gmr-fin__header">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 flex-wrap">
         <span class="gmr-fin__title">{{ symbol }}</span>
         <span v-if="state === 'done'" class="gmr-fin__subtitle">
           {{ viewLabel }}
         </span>
+        <span
+          v-if="dataAsOf"
+          class="gmr-fin__subtitle"
+          data-testid="data-as-of"
+          style="opacity:0.65"
+        >· data as of {{ dataAsOf }}</span>
       </div>
       <button
         type="button"
