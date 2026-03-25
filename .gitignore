@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 .vite/
 
 test-results
+
+# Old prototype directory
+web/
