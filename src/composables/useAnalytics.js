@@ -1,42 +1,56 @@
 /**
- * useAnalytics — thin wrapper around Umami's browser SDK.
+ * useAnalytics — sends tracking events directly to the Umami v3 API.
  *
- * Umami is loaded lazily from `window.UMAMI_SRC` (set by the
- * /umami-config.js ConfigMap).  All calls are no-ops when:
- *   - running in local dev (UMAMI_WEBSITE_ID not set)
- *   - the Umami script hasn't finished loading yet
- *   - the user has JS disabled for the analytics domain
+ * Events are POSTed to /umami/api/send (proxied by nginx to the
+ * in-cluster Umami service). No external script is loaded.
+ *
+ * All calls are silent no-ops when UMAMI_WEBSITE_ID is not set
+ * (local dev, before first Umami setup, or if the fetch fails).
  *
  * Usage:
- *   const { track } = useAnalytics()
- *   track('ticker-selected', { symbol: 'AAPL' })
+ *   const { track, page } = useAnalytics()
+ *   page()                                      // manual page view
+ *   track('ticker-selected', { symbol: 'AAPL' }) // custom event
  */
 
-let _loaded = false
+const ENDPOINT = '/umami/api/send'
 
-function _bootstrap() {
-  if (_loaded) return
-  const src = window.UMAMI_SRC
-  const id  = window.UMAMI_WEBSITE_ID
-  if (!src || !id) return
-  _loaded = true
-  const s = document.createElement('script')
-  s.defer = true
-  s.src   = src
-  s.setAttribute('data-website-id', id)
-  s.setAttribute('data-auto-track', 'true')
-  document.head.appendChild(s)
+function _websiteId() {
+  return typeof window !== 'undefined' ? window.UMAMI_WEBSITE_ID : null
+}
+
+function _basePayload() {
+  return {
+    website:  _websiteId(),
+    url:      typeof window !== 'undefined' ? window.location.pathname : '/',
+    hostname: typeof window !== 'undefined' ? window.location.hostname : '',
+    language: typeof navigator !== 'undefined' ? navigator.language : '',
+    screen:   typeof screen !== 'undefined' ? `${screen.width}x${screen.height}` : '',
+  }
+}
+
+function _send(payload) {
+  const id = _websiteId()
+  if (!id || id === 'REPLACE_WITH_WEBSITE_ID') return
+  // fire-and-forget; ignore errors so analytics never breaks the UI
+  fetch(ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'event', payload }),
+    keepalive: true,
+  }).catch(() => {})
 }
 
 export function useAnalytics() {
-  _bootstrap()
-
-  function track(eventName, props) {
-    // window.umami is injected by the Umami script after it loads
-    if (typeof window !== 'undefined' && window.umami?.track) {
-      window.umami.track(eventName, props)
-    }
+  /** Track a page view for the current URL. */
+  function page(url) {
+    _send({ ..._basePayload(), url: url ?? _basePayload().url })
   }
 
-  return { track }
+  /** Track a named custom event with optional properties. */
+  function track(name, data) {
+    _send({ ..._basePayload(), name, data })
+  }
+
+  return { track, page }
 }
