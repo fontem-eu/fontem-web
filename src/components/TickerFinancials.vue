@@ -352,9 +352,24 @@ function isFundNegative(year, key) {
       >{{ opt.label }}</button>
     </div>
 
-    <!-- ── Loading ─────────────────────────────────────── -->
-    <div v-if="state === 'loading'" class="gmr-fin__body gmr-fin__state" data-testid="fin-loading">
-      <span class="animate-pulse" style="color: var(--muted)">Loading…</span>
+    <!-- ── Skeleton loader ─────────────────────────────── -->
+    <div v-if="state === 'loading'" class="gmr-fin__body" data-testid="fin-loading">
+      <!-- snapshot chip row -->
+      <div class="sk-snap">
+        <div v-for="n in 8" :key="n" class="sk-snap__cell">
+          <div class="sk-bar sk-bar--xs" />
+          <div class="sk-bar sk-bar--md" />
+        </div>
+      </div>
+      <!-- section label -->
+      <div class="sk-bar sk-bar--section" />
+      <!-- table rows -->
+      <div class="sk-table">
+        <div v-for="r in 8" :key="r" class="sk-table__row">
+          <div class="sk-bar sk-bar--label" />
+          <div v-for="c in 5" :key="c" class="sk-bar sk-bar--cell" />
+        </div>
+      </div>
     </div>
 
     <!-- ── Timeout ──────────────────────────────────────── -->
@@ -504,3 +519,57 @@ function isFundNegative(year, key) {
     </template>
   </div>
 </template>
+
+<style scoped>
+/* ── Skeleton loader ─────────────────────────────────────────── */
+@keyframes sk-shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position: calc(400px + 100%) 0; }
+}
+
+.sk-bar {
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--surface) 50%,
+    var(--border) 75%
+  );
+  background-size: 800px 100%;
+  animation: sk-shimmer 1.5s ease infinite;
+}
+
+.sk-bar--xs      { height: 9px;  width: 50%; }
+.sk-bar--md      { height: 14px; width: 70%; }
+.sk-bar--section { height: 10px; width: 64px; margin: 0.9rem 0 0.5rem; }
+.sk-bar--label   { height: 13px; width: 100px; flex-shrink: 0; }
+.sk-bar--cell    { height: 13px; flex: 1; }
+
+.sk-snap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+.sk-snap__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+}
+
+.sk-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sk-table__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+</style>
