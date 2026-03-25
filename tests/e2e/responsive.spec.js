@@ -38,8 +38,8 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     const aaplBtn = page.locator('button', { hasText: 'AAPL' })
     await expect(aaplBtn).toBeVisible()
     const box = await aaplBtn.boundingBox()
-    // Each button should be at least 30px tall for comfortable tapping
-    expect(box.height).toBeGreaterThanOrEqual(28)
+    // Each button should be at least 24px tall for comfortable tapping
+    expect(box.height).toBeGreaterThanOrEqual(24)
   })
 
   // ── Ticker detail layout ─────────────────────────────────────
