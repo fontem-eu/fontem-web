@@ -173,4 +173,41 @@ describe('HomeView', () => {
 
     expect(pushSpy).toHaveBeenCalledWith('/')
   })
+
+  // ── Recent tickers ───────────────────────────────────────────
+
+  it('does not show recently-viewed section when localStorage is empty', async () => {
+    localStorage.clear()
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="recent-tickers"]').exists()).toBe(false)
+  })
+
+  it('shows recently-viewed section when localStorage has entries', async () => {
+    localStorage.setItem('gmr-recent-tickers', JSON.stringify(['AAPL', 'MSFT']))
+    const { wrapper } = await mountAt('/')
+    const recent = wrapper.find('[data-testid="recent-tickers"]')
+    expect(recent.exists()).toBe(true)
+    expect(recent.text()).toContain('AAPL')
+    expect(recent.text()).toContain('MSFT')
+  })
+
+  it('saves ticker to localStorage when a ticker route is visited', async () => {
+    localStorage.clear()
+    const { wrapper } = await mountAt('/TSLA/summary')
+    await flushPromises()
+    await wrapper.vm.$nextTick()
+    const stored = JSON.parse(localStorage.getItem('gmr-recent-tickers') || '[]')
+    expect(stored).toContain('TSLA')
+  })
+
+  it('caps recently-viewed list at 5 entries', async () => {
+    localStorage.setItem('gmr-recent-tickers', JSON.stringify(['A','B','C','D','E']))
+    const { wrapper } = await mountAt('/F/summary')
+    await flushPromises()
+    await wrapper.vm.$nextTick()
+    const stored = JSON.parse(localStorage.getItem('gmr-recent-tickers') || '[]')
+    expect(stored).toHaveLength(5)
+    expect(stored[0]).toBe('F')
+    expect(stored).not.toContain('E')
+  })
 })

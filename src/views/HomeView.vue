@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
@@ -50,6 +50,25 @@ const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
 
 const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView = computed(() => route.params.view || 'summary')
+
+// ── Recent tickers (localStorage) ────────────────────────────
+const RECENT_KEY = 'gmr-recent-tickers'
+const MAX_RECENT = 5
+
+function loadRecent() {
+  try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]') }
+  catch { return [] }
+}
+
+const recentTickers = ref(loadRecent())
+
+function saveRecent(symbol) {
+  const updated = [symbol, ...recentTickers.value.filter((s) => s !== symbol)].slice(0, MAX_RECENT)
+  recentTickers.value = updated
+  try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)) } catch { /* ignore */ }
+}
+
+watch(selectedTicker, (sym) => { if (sym) saveRecent(sym) }, { immediate: true })
 
 function onTickerSelect(symbol) {
   router.push('/' + symbol + '/' + selectedView.value)
@@ -119,6 +138,27 @@ function onClose() {
             <span class="font-semibold" style="color: var(--text)">pick a view</span>
             <span style="color: var(--muted)">›</span>
             <span class="font-semibold" style="color: var(--text)">explore up to 10 years of data</span>
+          </div>
+
+          <!-- Recently viewed tickers — only shown when history exists -->
+          <div v-if="recentTickers.length" class="mb-5 sm:mb-8" data-testid="recent-tickers">
+            <p
+              class="mb-3 text-xs font-semibold uppercase tracking-widest"
+              style="color: var(--muted)"
+            >
+              Recently viewed
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="t in recentTickers"
+                :key="t"
+                class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
+                style="border-color: var(--accent); background: var(--surface); color: var(--accent)"
+                @click="onTickerSelect(t)"
+              >
+                {{ t }}
+              </button>
+            </div>
           </div>
 
           <!-- Popular tickers — prominent on all screen sizes -->
