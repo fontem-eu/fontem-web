@@ -15,6 +15,17 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+// ── Copy link ────────────────────────────────────────────────
+const linkCopied = ref(false)
+let _copyTimer = null
+function copyLink() {
+  navigator.clipboard?.writeText(window.location.href).then(() => {
+    linkCopied.value = true
+    clearTimeout(_copyTimer)
+    _copyTimer = setTimeout(() => { linkCopied.value = false }, 1800)
+  })
+}
+
 const data = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error' | 'timeout'
 const displayYears = ref(10)
@@ -268,12 +279,46 @@ function isFundNegative(year, key) {
           style="opacity:0.65"
         >· data as of {{ dataAsOf }}</span>
       </div>
-      <button
-        type="button"
-        class="gmr-fin__close"
-        aria-label="Close financials"
-        @click="emit('close')"
-      >
+      <div class="flex items-center gap-1">
+        <!-- Copy link -->
+        <button
+          type="button"
+          class="gmr-fin__close"
+          :aria-label="linkCopied ? 'Link copied' : 'Copy link'"
+          :title="linkCopied ? 'Copied!' : 'Copy link to this view'"
+          data-testid="copy-link-btn"
+          @click="copyLink"
+        >
+          <svg
+            v-if="!linkCopied"
+            width="13"
+            height="13"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M4 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4zm0 1h5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/>
+            <path d="M10 1h2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11v-1h1a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-2V1z"/>
+          </svg>
+          <svg
+            v-else
+            width="13"
+            height="13"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            aria-hidden="true"
+            style="color: #22c55e"
+          >
+            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </button>
+        <!-- Close -->
+        <button
+          type="button"
+          class="gmr-fin__close"
+          aria-label="Close financials"
+          @click="emit('close')"
+        >
         <svg
           width="14"
           height="14"
@@ -286,7 +331,8 @@ function isFundNegative(year, key) {
           <line x1="1" y1="1" x2="13" y2="13" />
           <line x1="13" y1="1" x2="1" y2="13" />
         </svg>
-      </button>
+        </button>
+      </div>
     </div>
 
     <!-- ── Years selector ───────────────────────────────── -->
