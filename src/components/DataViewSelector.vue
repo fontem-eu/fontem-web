@@ -5,6 +5,11 @@ defineProps({
 })
 
 defineEmits(['update:modelValue'])
+
+const GMR_LONG_TOOLTIP =
+  'GMR Long scores a stock for long-term value investing using 5-year averages: ' +
+  'P/E ≤ 15, P/B ≤ 1.5, ROE ≥ 15%, Net Margin ≥ 15%, D/E ≤ 1.5, Div. Yield ≥ 3.5%. ' +
+  'Developed by Gonçalo Martins Rato.'
 </script>
 
 <template>
@@ -20,6 +25,13 @@ defineEmits(['update:modelValue'])
       @click="$emit('update:modelValue', v.key)"
     >
       {{ v.label }}
+      <span
+        v-if="v.key === 'gmr-long'"
+        class="gmr-info"
+        :title="GMR_LONG_TOOLTIP"
+        data-testid="gmr-long-info"
+        @click.stop
+      >ⓘ</span>
     </button>
   </nav>
 </template>
@@ -63,6 +75,20 @@ defineEmits(['update:modelValue'])
   background: var(--surface);
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Info icon */
+.gmr-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  opacity: 0.7;
+  cursor: help;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 /* Desktop: vertical left-side nav */
