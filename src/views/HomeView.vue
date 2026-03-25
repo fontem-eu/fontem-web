@@ -21,16 +21,28 @@ const VIEWS = [
 
 const features = [
   {
-    title: 'Fundamentals',
-    body: 'Revenue, net income, gross & operating margins, ROE, ROA — annual breakdowns straight from 10-K filings.',
+    title: 'Summary',
+    body: 'Interactive price chart with crosshair, 52-week range, market cap, beta, and dividend yield.',
+  },
+  {
+    title: 'Income',
+    body: 'Revenue, net income, EPS, and gross/operating/net margins — up to 10 years of 10-K filings.',
   },
   {
     title: 'Cash Flow',
-    body: 'Operating cashflow, capital expenditure, and free cash flow per year. See whether profits turn into cash.',
+    body: 'Operating cashflow, free cash flow, and CapEx by year. See whether earnings turn into cash.',
   },
   {
-    title: 'GMR Long',
-    body: 'Balance sheet over time: assets, liabilities, equity, debt, and quick ratio to gauge long-run financial health.',
+    title: 'Balance Sheet',
+    body: 'Assets, liabilities, equity, current ratio, D/E, ROE, and ROA across a decade.',
+  },
+  {
+    title: 'Valuation',
+    body: 'EV/EBITDA, EV/Revenue, P/E, ROIC, and WACC trends — historical multiples to gauge market pricing.',
+  },
+  {
+    title: 'Fundamentals',
+    body: 'A focused snapshot: key revenue, margin, FCF, and leverage figures all in one table.',
   },
 ]
 
@@ -82,38 +94,35 @@ function onClose() {
     <div class="mx-auto w-full px-4 sm:px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
       <main>
         <!-- ── Landing ──────────────────────────────────────── -->
-        <div v-if="!selectedTicker" class="mt-14 space-y-10 pb-16">
+        <div v-if="!selectedTicker" class="mt-8 pb-12 sm:mt-14 sm:pb-16">
+
           <!-- Hero -->
-          <div class="space-y-2 text-center">
+          <div class="mb-5 space-y-2 text-center sm:mb-10">
             <p class="text-2xl font-bold tracking-tight" style="color: var(--text)">
               Financials, straight from the source.
             </p>
-            <p class="text-sm leading-relaxed" style="color: var(--muted)">
-              Raw SEC EDGAR filings parsed and presented clearly.<br />No noise. No opinion. Just
-              data.
+            <!-- Desktop: full context -->
+            <p class="hidden text-sm leading-relaxed sm:block" style="color: var(--muted)">
+              SEC EDGAR data across 10,000+ US-listed companies — price history, income,
+              cash flow, balance sheet, and valuation. No noise. Just data.
+            </p>
+            <!-- Mobile: one compact line -->
+            <p class="text-sm sm:hidden" style="color: var(--muted)">
+              10,000+ companies · 6 financial views · SEC EDGAR
             </p>
           </div>
 
-          <!-- Feature cards -->
-          <div class="grid grid-cols-1 gap-3 sm:grid-cols-3" data-testid="features-grid">
-            <div
-              v-for="f in features"
-              :key="f.title"
-              class="border p-4"
-              style="border-color: var(--border); background: var(--surface)"
-            >
-              <div
-                class="mb-2 text-xs font-bold uppercase tracking-widest"
-                style="color: var(--accent)"
-              >
-                {{ f.title }}
-              </div>
-              <div class="text-xs leading-relaxed" style="color: var(--muted)">{{ f.body }}</div>
-            </div>
+          <!-- How it works — 3-step strip -->
+          <div class="mb-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs sm:mb-10">
+            <span class="font-semibold" style="color: var(--text)">Search a ticker</span>
+            <span style="color: var(--muted)">›</span>
+            <span class="font-semibold" style="color: var(--text)">pick a view</span>
+            <span style="color: var(--muted)">›</span>
+            <span class="font-semibold" style="color: var(--text)">explore up to 10 years of data</span>
           </div>
 
-          <!-- Popular tickers -->
-          <div>
+          <!-- Popular tickers — prominent on all screen sizes -->
+          <div class="mb-6 sm:mb-10">
             <p
               class="mb-3 text-xs font-semibold uppercase tracking-widest"
               style="color: var(--muted)"
@@ -125,11 +134,7 @@ function onClose() {
                 v-for="t in popular"
                 :key="t"
                 class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
-                style="
-                  border-color: var(--border);
-                  background: var(--surface);
-                  color: var(--text);
-                "
+                style="border-color: var(--border); background: var(--surface); color: var(--text)"
                 @click="onTickerSelect(t)"
                 @mouseover="$event.currentTarget.style.borderColor = 'var(--accent)'"
                 @mouseleave="$event.currentTarget.style.borderColor = 'var(--border)'"
@@ -139,12 +144,28 @@ function onClose() {
             </div>
           </div>
 
-          <!-- Disclaimer -->
-          <div class="border-l-2 pl-4" style="border-color: var(--border)">
-            <p
-              class="mb-1 text-xs font-bold uppercase tracking-widest"
-              style="color: var(--muted)"
+          <!-- Feature cards — desktop only (hidden on mobile to keep it compact) -->
+          <div
+            class="mb-10 hidden gap-3 sm:grid sm:grid-cols-3"
+            data-testid="features-grid"
+          >
+            <div
+              v-for="f in features"
+              :key="f.title"
+              class="border p-4"
+              style="border-color: var(--border); background: var(--surface)"
             >
+              <div class="mb-2 text-xs font-bold uppercase tracking-widest" style="color: var(--accent)">
+                {{ f.title }}
+              </div>
+              <div class="text-xs leading-relaxed" style="color: var(--muted)">{{ f.body }}</div>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <!-- Desktop: full text -->
+          <div class="hidden border-l-2 pl-4 sm:block" style="border-color: var(--border)">
+            <p class="mb-1 text-xs font-bold uppercase tracking-widest" style="color: var(--muted)">
               Invest with care
             </p>
             <p class="text-xs leading-relaxed" style="color: var(--muted)">
@@ -154,6 +175,10 @@ function onClose() {
               afford to lose.
             </p>
           </div>
+          <!-- Mobile: single line -->
+          <p class="text-xs sm:hidden" style="color: var(--muted)">
+            For informational use only. Not investment advice.
+          </p>
         </div>
 
         <!-- ── Ticker detail ─────────────────────────────────── -->

@@ -26,34 +26,20 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     expect(box.width).toBeLessThanOrEqual(412)
   })
 
-  test('feature cards stack in a single column on mobile', async ({ page }) => {
+  test('feature cards grid is hidden on mobile (compact landing)', async ({ page }) => {
     await page.goto('/')
-    const grid = page.locator('[data-testid="features-grid"]')
-    await expect(grid).toBeVisible()
-
-    const cards = grid.locator('> div')
-    const count = await cards.count()
-    expect(count).toBe(3)
-
-    // Each card should be (nearly) as wide as the grid — single-column layout
-    const gridBox = await grid.boundingBox()
-    for (let i = 0; i < count; i++) {
-      const cardBox = await cards.nth(i).boundingBox()
-      // Card width should be at least 90% of the grid width (single column)
-      expect(cardBox.width).toBeGreaterThan(gridBox.width * 0.9)
-    }
+    // Feature cards are desktop-only — hidden on mobile to keep the landing page compact
+    await expect(page.locator('[data-testid="features-grid"]')).toBeHidden()
   })
 
-  test('feature cards are stacked vertically (not side-by-side)', async ({ page }) => {
+  test('popular tickers are visible and tappable on mobile', async ({ page }) => {
     await page.goto('/')
-    const cards = page.locator('[data-testid="features-grid"] > div')
-    const box0 = await cards.nth(0).boundingBox()
-    const box1 = await cards.nth(1).boundingBox()
-    const box2 = await cards.nth(2).boundingBox()
-
-    // Each card should start lower than the previous one
-    expect(box1.y).toBeGreaterThan(box0.y + box0.height - 2)
-    expect(box2.y).toBeGreaterThan(box1.y + box1.height - 2)
+    // Popular ticker buttons should be visible and usable
+    const aaplBtn = page.locator('button', { hasText: 'AAPL' })
+    await expect(aaplBtn).toBeVisible()
+    const box = await aaplBtn.boundingBox()
+    // Each button should be at least 30px tall for comfortable tapping
+    expect(box.height).toBeGreaterThanOrEqual(28)
   })
 
   // ── Ticker detail layout ─────────────────────────────────────
