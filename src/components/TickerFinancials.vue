@@ -332,17 +332,23 @@ function isFundNegative(year, key) {
 
     <!-- ── Income & Growth ──────────────────────────────── -->
     <template v-else-if="state === 'done' && data && view === 'income'">
-      <IncomePanel :data="data" :display-years="displayYears" data-testid="income-panel-wrap" />
+      <div data-testid="income-panel-wrap">
+        <IncomePanel :data="data" :display-years="displayYears" />
+      </div>
     </template>
 
     <!-- ── Cash Flow ─────────────────────────────────────── -->
     <template v-else-if="state === 'done' && data && view === 'cashflow'">
-      <CashflowPanel :data="data" :display-years="displayYears" data-testid="cashflow-panel-wrap" />
+      <div data-testid="cashflow-panel-wrap">
+        <CashflowPanel :data="data" :display-years="displayYears" />
+      </div>
     </template>
 
     <!-- ── Balance Sheet ─────────────────────────────────── -->
     <template v-else-if="state === 'done' && data && view === 'balance'">
-      <BalancePanel :data="data" :display-years="displayYears" data-testid="balance-panel-wrap" />
+      <div data-testid="balance-panel-wrap">
+        <BalancePanel :data="data" :display-years="displayYears" />
+      </div>
     </template>
 
     <!-- ── Fundamentals data ────────────────────────────── -->
