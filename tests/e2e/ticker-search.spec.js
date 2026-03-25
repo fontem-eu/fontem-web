@@ -66,14 +66,14 @@ test.describe('GMR Ticker Search', () => {
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 8000 })
   })
 
-  test('URL changes to /AAPL/fundamentals after clicking the AAPL card', async ({ page }) => {
+  test('URL changes to /AAPL/summary after clicking the AAPL card', async ({ page }) => {
     await page.fill('input[type="search"]', 'AAPL')
     const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
     await aaplCard.waitFor({ timeout: 5000 })
 
     await aaplCard.click()
 
-    await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/AAPL\/summary$/, { timeout: 3000 })
   })
 
   test('navigating directly to /AAPL shows financials without a results list', async ({ page }) => {
@@ -109,7 +109,7 @@ test.describe('GMR Ticker Search', () => {
     const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
     await aaplCard.waitFor({ timeout: 5000 })
     await aaplCard.click()
-    await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/AAPL\/summary$/, { timeout: 3000 })
 
     // 2. Search for other tickers while the financials panel is open
     await page.fill('input[type="search"]', 'MSFT')

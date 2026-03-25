@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Data view selection', () => {
-  test('navigating to /:ticker redirects to /:ticker/fundamentals', async ({ page }) => {
+  test('navigating to /:ticker redirects to /:ticker/summary', async ({ page }) => {
     await page.goto('/AAPL')
-    await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 5000 })
+    await expect(page).toHaveURL(/\/AAPL\/summary$/, { timeout: 5000 })
   })
 
   test('shows the DataViewSelector when a ticker is loaded', async ({ page }) => {
