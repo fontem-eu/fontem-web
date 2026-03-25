@@ -13,6 +13,7 @@ const GMR_LONG_TOOLTIP =
 </script>
 
 <template>
+  <div class="gmr-view-sel-wrap">
   <nav class="gmr-view-sel" data-testid="view-selector" aria-label="Data view">
     <button
       v-for="v in views"
@@ -34,19 +35,44 @@ const GMR_LONG_TOOLTIP =
       >ⓘ</span>
     </button>
   </nav>
+  </div>
 </template>
 
 <style scoped>
-/* Mobile: horizontal tab strip */
+/* Mobile: scrollable horizontal tab strip */
+.gmr-view-sel-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* Fade gradient hinting there are more tabs to the right */
+.gmr-view-sel-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.5rem;
+  height: 100%;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
+}
+
 .gmr-view-sel {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 2px;
   padding: 6px 8px;
   border-bottom: 1px solid var(--border);
   min-width: unset;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gmr-view-sel::-webkit-scrollbar {
+  display: none;
 }
 
 .gmr-view-sel__item {
@@ -93,6 +119,10 @@ const GMR_LONG_TOOLTIP =
 
 /* Desktop: vertical left-side nav */
 @media (min-width: 640px) {
+  .gmr-view-sel-wrap::after {
+    display: none;
+  }
+
   .gmr-view-sel {
     flex-direction: column;
     flex-wrap: nowrap;
@@ -100,6 +130,7 @@ const GMR_LONG_TOOLTIP =
     border-bottom: none;
     min-width: 140px;
     width: auto;
+    overflow-x: visible;
   }
 
   .gmr-view-sel__item {
