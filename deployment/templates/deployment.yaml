@@ -23,3 +23,12 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: umami-config
+              mountPath: /usr/share/nginx/html/umami-config.js
+              subPath: umami-config.js
+              readOnly: true
+      volumes:
+        - name: umami-config
+          configMap:
+            name: gmr-web-umami-config

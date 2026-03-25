@@ -15,6 +15,12 @@
         }
       })()
     </script>
+    <!--
+      Runtime analytics config — mounted as a ConfigMap by Kubernetes.
+      Sets window.UMAMI_WEBSITE_ID and window.UMAMI_SRC before the app
+      boots. Silently ignored in local dev (file does not exist).
+    -->
+    <script src="/umami-config.js" onerror="void(0)"></script>
   </head>
   <body>
     <div id="app"></div>

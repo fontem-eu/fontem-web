@@ -5,6 +5,7 @@ import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+import { useAnalytics } from '../composables/useAnalytics.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -70,11 +71,15 @@ function saveRecent(symbol) {
 
 watch(selectedTicker, (sym) => { if (sym) saveRecent(sym) }, { immediate: true })
 
+const { track } = useAnalytics()
+
 function onTickerSelect(symbol) {
+  track('ticker-selected', { symbol })
   router.push('/' + symbol + '/' + selectedView.value)
 }
 
 function onViewChange(view) {
+  track('view-changed', { symbol: selectedTicker.value, view })
   router.push('/' + selectedTicker.value + '/' + view)
 }
 
