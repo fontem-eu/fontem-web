@@ -15,7 +15,12 @@ const data = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error'
 const displayYears = ref(10)
 
-const YEAR_OPTIONS = [1, 3, 5, 7, 10]
+const YEAR_OPTIONS = [
+  { value: 5,        label: '5Y',  testid: '5'   },
+  { value: 7,        label: '7Y',  testid: '7'   },
+  { value: 10,       label: '10Y', testid: '10'  },
+  { value: Infinity, label: 'All', testid: 'all' },
+]
 
 watch(
   () => [props.symbol, props.view],
@@ -329,13 +334,13 @@ function isFundNegative(year, key) {
     >
       <span class="year-selector__label">History</span>
       <button
-        v-for="n in YEAR_OPTIONS"
-        :key="n"
+        v-for="opt in YEAR_OPTIONS"
+        :key="opt.testid"
         class="year-btn"
-        :class="{ active: displayYears === n }"
-        :data-testid="`year-btn-${n}`"
-        @click="displayYears = n"
-      >{{ n }}Y</button>
+        :class="{ active: displayYears === opt.value }"
+        :data-testid="`year-btn-${opt.testid}`"
+        @click="displayYears = opt.value"
+      >{{ opt.label }}</button>
     </div>
 
     <!-- ── Loading ─────────────────────────────────────── -->

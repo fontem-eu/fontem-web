@@ -284,15 +284,18 @@ describe('TickerFinancials — gmr-long view', () => {
     expect(yearCols[1]).toBe('2024')
   })
 
-  it('renders the years selector when data is loaded', async () => {
+  it('renders the years selector with 5Y, 7Y, 10Y, All buttons', async () => {
     vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
     await flushPromises()
 
     expect(wrapper.find('[data-testid="year-selector"]').exists()).toBe(true)
-    for (const n of [1, 3, 5, 7, 10]) {
-      expect(wrapper.find(`[data-testid="year-btn-${n}"]`).exists()).toBe(true)
+    for (const id of ['5', '7', '10', 'all']) {
+      expect(wrapper.find(`[data-testid="year-btn-${id}"]`).exists()).toBe(true)
     }
+    // Removed options should not exist
+    expect(wrapper.find('[data-testid="year-btn-1"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="year-btn-3"]').exists()).toBe(false)
   })
 
   it('defaults to 10Y being active', async () => {
@@ -302,19 +305,35 @@ describe('TickerFinancials — gmr-long view', () => {
 
     expect(wrapper.find('[data-testid="year-btn-10"]').classes()).toContain('active')
     expect(wrapper.find('[data-testid="year-btn-5"]').classes()).not.toContain('active')
+    expect(wrapper.find('[data-testid="year-btn-all"]').classes()).not.toContain('active')
   })
 
-  it('clicking 1Y limits the table to 1 column (most recent year)', async () => {
+  it('clicking 5Y limits the table to 5 columns (fixture has 2, shows all 2)', async () => {
     vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
     await flushPromises()
 
-    await wrapper.find('[data-testid="year-btn-1"]').trigger('click')
+    await wrapper.find('[data-testid="year-btn-5"]').trigger('click')
+    expect(wrapper.find('[data-testid="year-btn-5"]').classes()).toContain('active')
 
     const headers = wrapper.findAll('[data-testid="annual-table"] thead th')
     const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
-    expect(yearCols).toHaveLength(1)
+    // Fixture has 2 years; 5Y cap still shows both
+    expect(yearCols.length).toBeLessThanOrEqual(5)
     expect(yearCols[0]).toBe('2025')
+  })
+
+  it('clicking All shows all available years', async () => {
+    vi.spyOn(gmrApi, 'fetchGmrData').mockResolvedValue(GMR_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'gmr-long' } })
+    await flushPromises()
+
+    await wrapper.find('[data-testid="year-btn-all"]').trigger('click')
+    expect(wrapper.find('[data-testid="year-btn-all"]').classes()).toContain('active')
+
+    const headers = wrapper.findAll('[data-testid="annual-table"] thead th')
+    const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
+    expect(yearCols).toHaveLength(2) // fixture has 2 years
   })
 
   it('formats billions correctly (245122000000 → $245.1B)', async () => {
@@ -481,16 +500,16 @@ describe('TickerFinancials — fundamentals view', () => {
     expect(yearCols[1]).toBe('2024')
   })
 
-  it('clicking 1Y on fundamentals view limits to 1 column', async () => {
+  it('clicking 5Y on fundamentals view shows at most 5 columns', async () => {
     vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
     await flushPromises()
 
-    await wrapper.find('[data-testid="year-btn-1"]').trigger('click')
+    await wrapper.find('[data-testid="year-btn-5"]').trigger('click')
 
     const headers = wrapper.findAll('[data-testid="fund-annual-table"] thead th')
     const yearCols = headers.map((h) => h.text()).filter((t) => /^\d{4}$/.test(t))
-    expect(yearCols).toHaveLength(1)
+    expect(yearCols.length).toBeLessThanOrEqual(5)
     expect(yearCols[0]).toBe('2025')
   })
 

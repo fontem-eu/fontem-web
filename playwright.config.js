@@ -5,14 +5,17 @@ export default defineConfig({
   fullyParallel: true,
   reporter: 'list',
   use: {
-    // Tests run against the live deployed site
-    baseURL: 'https://gmr.void42.net',
+    baseURL: process.env.BASE_URL || 'https://gmr.void42.net',
     trace: 'on-first-retry',
   },
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'android-pixel7',
+      use: { ...devices['Pixel 7'] }, // 412×915, Android Chrome UA
     },
   ],
 })

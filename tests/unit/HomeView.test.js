@@ -120,6 +120,21 @@ describe('HomeView', () => {
     expect(sel.props('modelValue')).toBe('gmr-long')
   })
 
+  // ── Logo responsive behaviour ────────────────────────────────
+  it('logo always renders "GMR" text', async () => {
+    const { wrapper } = await mountAt('/')
+    const gmrSpan = wrapper.findAll('h1 span').find(s => s.text() === 'GMR')
+    expect(gmrSpan).toBeTruthy()
+  })
+
+  it('"Ticker Search" span carries the hidden class so it is invisible on mobile', async () => {
+    const { wrapper } = await mountAt('/')
+    const tickerSearchSpan = wrapper.findAll('h1 span').find(s => s.text().includes('Ticker Search'))
+    expect(tickerSearchSpan).toBeTruthy()
+    expect(tickerSearchSpan.classes()).toContain('hidden')
+    expect(tickerSearchSpan.classes()).toContain('sm:inline')
+  })
+
   // ── Navigation ───────────────────────────────────────────────
   it('navigates to /AAPL/summary when TickerSearch emits select("AAPL") from root', async () => {
     const { wrapper, router } = await mountAt('/')

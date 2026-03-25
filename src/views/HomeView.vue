@@ -53,14 +53,14 @@ function onClose() {
   <div class="min-h-screen" style="background: var(--bg)">
     <!-- ── Banner ─────────────────────────────────────────── -->
     <header class="border-b" style="border-color: var(--border)">
-      <div class="mx-auto flex w-full max-w-6xl items-center gap-6 px-6 py-4">
+      <div class="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 sm:gap-6 sm:px-6 sm:py-4">
         <!-- Logo -->
-        <div class="shrink-0">
+        <div class="shrink-0" style="cursor: pointer" @click="router.push('/')">
           <h1 class="text-xl font-bold leading-none tracking-tight">
             <span style="color: var(--accent)">GMR</span>
-            <span style="color: var(--text)"> Ticker Search</span>
+            <span class="hidden sm:inline" style="color: var(--text)"> Ticker Search</span>
           </h1>
-          <p class="mt-1 text-xs font-medium uppercase tracking-widest" style="color: var(--muted)">
+          <p class="mt-1 hidden text-xs font-medium uppercase tracking-widest sm:block" style="color: var(--muted)">
             10,000+ companies &middot; SEC EDGAR
           </p>
         </div>
@@ -76,7 +76,7 @@ function onClose() {
     </header>
 
     <!-- ── Content ────────────────────────────────────────── -->
-    <div class="mx-auto w-full px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
+    <div class="mx-auto w-full px-4 sm:px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
       <main>
         <!-- ── Landing ──────────────────────────────────────── -->
         <div v-if="!selectedTicker" class="mt-14 space-y-10 pb-16">
@@ -92,7 +92,7 @@ function onClose() {
           </div>
 
           <!-- Feature cards -->
-          <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-3" data-testid="features-grid">
             <div
               v-for="f in features"
               :key="f.title"
@@ -154,7 +154,7 @@ function onClose() {
         </div>
 
         <!-- ── Ticker detail ─────────────────────────────────── -->
-        <div v-if="selectedTicker" class="mt-6 flex items-start gap-4">
+        <div v-if="selectedTicker" class="mt-6 flex flex-col gap-0 sm:flex-row sm:items-start sm:gap-4" data-testid="ticker-detail">
           <DataViewSelector
             :model-value="selectedView"
             :views="VIEWS"
