@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { searchTickers } from '../api/tickers.js'
 import TickerCard from './TickerCard.vue'
 
@@ -11,6 +11,23 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 const searchContainer = ref(null)
+const anchorRef = ref(null)
+const dropdownStyle = ref({})
+
+function updateDropdownStyle() {
+  if (!anchorRef.value || !results.value.length || window.innerWidth >= 640) {
+    dropdownStyle.value = {}
+    return
+  }
+  const rect = anchorRef.value.getBoundingClientRect()
+  dropdownStyle.value = {
+    position: 'fixed',
+    top: `${rect.bottom + 4}px`,
+    left: '0.75rem',
+    right: '0.75rem',
+    width: 'auto',
+  }
+}
 
 const query = ref('')
 const results = ref([])
@@ -77,14 +94,22 @@ function onClickOutside(event) {
   }
 }
 
-onMounted(() => document.addEventListener('click', onClickOutside))
-onUnmounted(() => document.removeEventListener('click', onClickOutside))
+watch(results, () => nextTick(updateDropdownStyle))
+
+onMounted(() => {
+  document.addEventListener('click', onClickOutside)
+  window.addEventListener('resize', updateDropdownStyle)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onClickOutside)
+  window.removeEventListener('resize', updateDropdownStyle)
+})
 </script>
 
 <template>
   <div ref="searchContainer">
     <!-- Search input — relative so the dropdown is anchored to it -->
-    <div class="relative">
+    <div ref="anchorRef" class="relative">
       <svg
         class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2"
         style="color: var(--muted)"
@@ -116,6 +141,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
         aria-live="polite"
         aria-label="Search results"
         class="gmr-results"
+        :style="dropdownStyle"
       >
         <TickerCard
           v-for="t in results"

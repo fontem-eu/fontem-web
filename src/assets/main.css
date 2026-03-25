@@ -404,4 +404,16 @@
   .gmr-ann__neg {
     color: var(--negative);
   }
+
+  /* ── Slim search dropdown (phone portrait) ────────────────
+     On narrow screens the dropdown spans the full viewport
+     width (via JS-injected fixed positioning). Strip the
+     secondary info so each row stays clean and tappable.
+     ─────────────────────────────────────────────────────── */
+  @media (max-width: 639px) {
+    .gmr-results .ticker-meta,
+    .gmr-results .badge {
+      display: none;
+    }
+  }
 }

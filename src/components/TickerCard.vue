@@ -43,7 +43,7 @@ const meta = computed(() =>
       <div class="ticker-name truncate text-sm font-medium" style="color: var(--text)">
         {{ ticker.name }}
       </div>
-      <div v-if="meta" class="mt-0.5 text-xs" style="color: var(--muted)">
+      <div v-if="meta" class="ticker-meta mt-0.5 text-xs" style="color: var(--muted)">
         {{ meta }}
       </div>
     </div>
