@@ -1,10 +1,6 @@
 ---
 # Runtime analytics configuration for Umami.
-# After first login to analytics.void42.internal (admin/umami):
-#   1. Settings → Websites → Add website
-#   2. Copy the Website ID shown in the tracking snippet
-#   3. Edit this ConfigMap: replace REPLACE_WITH_WEBSITE_ID
-#   4. kubectl -n gmr rollout restart deployment gmr-web
+# Website ID is for the "GMR Web" site at analytics.void42.internal.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,5 +8,5 @@ metadata:
   namespace: gmr
 data:
   umami-config.js: |
-    window.UMAMI_WEBSITE_ID = "REPLACE_WITH_WEBSITE_ID";
+    window.UMAMI_WEBSITE_ID = "8d3c985e-6b8d-465b-9b1f-5a8115bccb06";
     window.UMAMI_SRC = "http://analytics.void42.internal/script.js";
