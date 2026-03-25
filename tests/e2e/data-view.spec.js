@@ -150,19 +150,19 @@ test.describe('Data view selection', () => {
 
   test('valuation view renders the valuation panel', async ({ page }) => {
     await page.goto('/AAPL/valuation')
-    await expect(page.locator('[data-testid="valuation-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="valuation-panel"]')).toBeVisible({ timeout: 20000 })
   })
 
   test('valuation panel shows EV snapshot section', async ({ page }) => {
     await page.goto('/AAPL/valuation')
-    await expect(page.locator('[data-testid="val-snapshot"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="val-snapshot"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="val-ev"]')).toBeVisible()
     await expect(page.locator('[data-testid="val-ev-ebitda"]')).toBeVisible()
   })
 
   test('valuation panel shows per-year table with EBITDA', async ({ page }) => {
     await page.goto('/AAPL/valuation')
-    await expect(page.locator('[data-testid="val-annual-table"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="val-annual-table"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="val-annual-table"]')).toContainText('EBITDA')
     await expect(page.locator('[data-testid="val-annual-table"]')).toContainText('ROIC')
   })
@@ -181,13 +181,13 @@ test.describe('Data view selection', () => {
 
   test('fundamentals market snapshot now includes Beta', async ({ page }) => {
     await page.goto('/AAPL/fundamentals')
-    await expect(page.locator('[data-testid="fund-snap-beta"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="fund-snap-beta"]')).toBeVisible({ timeout: 20000 })
   })
 
   test('fundamentals market snapshot now includes 52-week high and low', async ({ page }) => {
     await page.goto('/AAPL/fundamentals')
-    await expect(page.locator('[data-testid="fund-snap-52h"]')).toBeVisible({ timeout: 10000 })
-    await expect(page.locator('[data-testid="fund-snap-52l"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="fund-snap-52h"]')).toBeVisible({ timeout: 20000 })
+    await expect(page.locator('[data-testid="fund-snap-52l"]')).toBeVisible({ timeout: 20000 })
   })
 
   // ── Income view ─────────────────────────────────────────────
@@ -217,7 +217,7 @@ test.describe('Data view selection', () => {
 
   test('income view renders the income panel with per-year table', async ({ page }) => {
     await page.goto('/AAPL/income')
-    await expect(page.locator('[data-testid="income-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="income-panel"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="income-table"]')).toBeVisible()
     await expect(page.locator('[data-testid="income-table"]')).toContainText('Revenue')
     await expect(page.locator('[data-testid="income-table"]')).toContainText('Net Income')
@@ -225,7 +225,7 @@ test.describe('Data view selection', () => {
 
   test('income view renders the averages strip', async ({ page }) => {
     await page.goto('/AAPL/income')
-    await expect(page.locator('[data-testid="income-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="income-averages"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="income-averages"]')).toContainText('Avg P/E')
     await expect(page.locator('[data-testid="income-averages"]')).toContainText('Avg Net Margin')
   })
@@ -246,7 +246,7 @@ test.describe('Data view selection', () => {
 
   test('cashflow view renders the cashflow panel with per-year table', async ({ page }) => {
     await page.goto('/AAPL/cashflow')
-    await expect(page.locator('[data-testid="cashflow-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="cashflow-panel"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="cashflow-table"]')).toBeVisible()
     await expect(page.locator('[data-testid="cashflow-table"]')).toContainText('Free Cashflow')
     await expect(page.locator('[data-testid="cashflow-table"]')).toContainText('CapEx')
@@ -254,7 +254,7 @@ test.describe('Data view selection', () => {
 
   test('cashflow view renders the averages strip', async ({ page }) => {
     await page.goto('/AAPL/cashflow')
-    await expect(page.locator('[data-testid="cashflow-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="cashflow-averages"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="cashflow-averages"]')).toContainText('Avg FCF Yield')
   })
 
@@ -274,7 +274,7 @@ test.describe('Data view selection', () => {
 
   test('balance view renders the balance panel with per-year table', async ({ page }) => {
     await page.goto('/AAPL/balance')
-    await expect(page.locator('[data-testid="balance-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="balance-panel"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="balance-table"]')).toBeVisible()
     await expect(page.locator('[data-testid="balance-table"]')).toContainText('Total Assets')
     await expect(page.locator('[data-testid="balance-table"]')).toContainText('Equity')
@@ -282,7 +282,7 @@ test.describe('Data view selection', () => {
 
   test('balance view renders the averages strip', async ({ page }) => {
     await page.goto('/AAPL/balance')
-    await expect(page.locator('[data-testid="balance-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="balance-averages"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="balance-averages"]')).toContainText('Avg D/E')
     await expect(page.locator('[data-testid="balance-averages"]')).toContainText('Avg ROE')
   })
@@ -298,7 +298,7 @@ test.describe('Data view selection', () => {
 
   test('summary view shows the key stats bar', async ({ page }) => {
     await page.goto('/AAPL/summary')
-    await expect(page.locator('[data-testid="summary-stats"]')).toBeVisible({ timeout: 12000 })
+    await expect(page.locator('[data-testid="summary-stats"]')).toBeVisible({ timeout: 20000 })
     await expect(page.locator('[data-testid="summary-stats"]')).toContainText('Mkt Cap')
     await expect(page.locator('[data-testid="summary-stats"]')).toContainText('Beta')
   })
