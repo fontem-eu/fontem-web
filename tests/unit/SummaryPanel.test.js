@@ -80,11 +80,25 @@ const _FAKE_RESPONSE = {
   ticker: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', period: '1m', bars: _FAKE_BARS,
 }
 
+const _FAKE_FUNDAMENTALS = {
+  market_snapshot: {
+    market_cap: 2973816013936,
+    beta: 0.90,
+    week_52_high: 468.35,
+    week_52_low: 344.79,
+  },
+  ratios_summary: {
+    avg_pe: 32.1,
+    avg_dividend_yield: 0.8,
+  },
+}
+
 vi.mock('../../src/api/gmr.js', () => ({
   fetchPriceHistory: vi.fn(() => Promise.resolve({ ..._FAKE_RESPONSE })),
+  fetchFundamentals: vi.fn(() => Promise.resolve({ ..._FAKE_FUNDAMENTALS })),
 }))
 
-import { fetchPriceHistory } from '../../src/api/gmr.js'
+import { fetchPriceHistory, fetchFundamentals } from '../../src/api/gmr.js'
 
 // d3.select must be called by drawChart — if loading.value is still true when
 // drawChart runs, containerRef.value is null and select is never called.
@@ -106,6 +120,7 @@ describe('SummaryPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     fetchPriceHistory.mockResolvedValue({ ..._FAKE_RESPONSE })
+    fetchFundamentals.mockResolvedValue({ ..._FAKE_FUNDAMENTALS })
   })
 
   afterEach(() => vi.restoreAllMocks())
@@ -351,5 +366,64 @@ describe('SummaryPanel', () => {
     await flushPromises()
     await w.find('[data-testid="chart-container"]').trigger('mousemove')
     expect(w.find('[data-testid="price-tooltip"]').exists()).toBe(false)
+  })
+
+  // ── Stats bar ──────────────────────────────────────────────
+
+  it('calls fetchFundamentals on mount to populate the stats bar', async () => {
+    mountPanel()
+    await flushPromises()
+    expect(fetchFundamentals).toHaveBeenCalledWith('AAPL')
+  })
+
+  it('renders the stats bar after fundamentals data loads', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    expect(w.find('[data-testid="summary-stats"]').exists()).toBe(true)
+  })
+
+  it('stats bar contains all six expected labels', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    const text = w.find('[data-testid="summary-stats"]').text()
+    expect(text).toContain('Mkt Cap')
+    expect(text).toContain('Avg P/E')
+    expect(text).toContain('Beta')
+    expect(text).toContain('Div Yld')
+    expect(text).toContain('52w High')
+    expect(text).toContain('52w Low')
+  })
+
+  it('stats bar formats market cap ($3.0T)', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    expect(w.find('[data-testid="summary-stats"]').text()).toContain('$3.0T')
+  })
+
+  it('stats bar formats beta (0.90)', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    expect(w.find('[data-testid="summary-stats"]').text()).toContain('0.90')
+  })
+
+  it('stats bar formats 52w High as price ($468.35)', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    expect(w.find('[data-testid="summary-stats"]').text()).toContain('468.35')
+  })
+
+  it('stats bar does not render when fetchFundamentals fails', async () => {
+    fetchFundamentals.mockRejectedValueOnce(new Error('network'))
+    const w = mountPanel()
+    await flushPromises()
+    expect(w.find('[data-testid="summary-stats"]').exists()).toBe(false)
+  })
+
+  it('re-fetches fundamentals when symbol changes', async () => {
+    const w = mountPanel('AAPL')
+    await flushPromises()
+    await w.setProps({ symbol: 'MSFT' })
+    await flushPromises()
+    expect(fetchFundamentals).toHaveBeenCalledWith('MSFT')
   })
 })

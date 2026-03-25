@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
-import { fetchPriceHistory } from '../api/gmr.js'
-import { fmtPrice } from '../utils/format.js'
+import { fetchPriceHistory, fetchFundamentals } from '../api/gmr.js'
+import { fmtPrice, fmtMoney } from '../utils/format.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -29,6 +29,39 @@ const PERIODS = [
   { key: '5y',  label: '5Y'  },
   { key: 'all', label: 'All' },
 ]
+
+// ── Snapshot stats (from fundamentals) ──────────────────────────
+const snapStats = ref(null)
+
+async function loadSnapshot() {
+  if (!props.symbol) return
+  try {
+    const d = await fetchFundamentals(props.symbol)
+    snapStats.value = {
+      marketCap: d.market_snapshot?.market_cap,
+      beta:      d.market_snapshot?.beta,
+      high52:    d.market_snapshot?.week_52_high,
+      low52:     d.market_snapshot?.week_52_low,
+      pe:        d.ratios_summary?.avg_pe,
+      divYield:  d.ratios_summary?.avg_dividend_yield,
+    }
+  } catch { /* non-critical */ }
+}
+
+const statsBar = computed(() => {
+  const s = snapStats.value
+  if (!s) return []
+  return [
+    { label: 'Mkt Cap',  value: fmtMoney(s.marketCap) },
+    { label: 'Avg P/E',  value: s.pe       != null ? Number(s.pe).toFixed(1)       : '—' },
+    { label: 'Beta',     value: s.beta     != null ? Number(s.beta).toFixed(2)     : '—' },
+    { label: 'Div Yld',  value: s.divYield != null ? `${Number(s.divYield).toFixed(1)}%` : '—' },
+    { label: '52w High', value: fmtPrice(s.high52) },
+    { label: '52w Low',  value: fmtPrice(s.low52) },
+  ]
+})
+
+watch(() => props.symbol, loadSnapshot, { immediate: true })
 
 // Module-level (not reactive) — set by drawChart, read by mouse handlers.
 // Using plain variables avoids Vue overhead on every mousemove.
@@ -368,6 +401,14 @@ function fmtDate(s) {
       </button>
     </div>
 
+    <!-- ── Key stats bar ─────────────────────────────────────── -->
+    <div v-if="statsBar.length" class="summary-stats" data-testid="summary-stats">
+      <div v-for="item in statsBar" :key="item.label" class="summary-stat">
+        <span class="summary-stat__label">{{ item.label }}</span>
+        <span class="summary-stat__value">{{ item.value }}</span>
+      </div>
+    </div>
+
     <!-- ── Loading ───────────────────────────────────────────── -->
     <div v-if="loading" class="summary-state" data-testid="summary-loading">
       <span class="animate-pulse" style="color: var(--muted)">Loading…</span>
@@ -571,4 +612,40 @@ function fmtDate(s) {
 
 .tt-up   { color: #22c55e; }
 .tt-down { color: var(--negative); }
+
+/* ── Key stats bar ────────────────── */
+.summary-stats {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+  padding: 0.35rem 0.6rem;
+  border-right: 1px solid var(--border);
+  min-width: 72px;
+}
+
+.summary-stat:last-child {
+  border-right: none;
+}
+
+.summary-stat__label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.summary-stat__value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
 </style>

@@ -442,7 +442,7 @@ describe('TickerFinancials — fundamentals view', () => {
     expect(wrapper.find('[data-testid="fund-snap-52l"]').text()).toContain('$344.79')
   })
 
-  it('renders the ratios summary section with valuation ratios', async () => {
+  it('renders the ratios summary section with top-level averages', async () => {
     vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
     await flushPromises()
@@ -451,15 +451,16 @@ describe('TickerFinancials — fundamentals view', () => {
     expect(ratios.exists()).toBe(true)
     expect(ratios.text()).toContain('Avg P/E')
     expect(ratios.text()).toContain('Avg P/B')
-    expect(ratios.text()).toContain('Avg P/S')
     expect(ratios.text()).toContain('Avg ROE')
     expect(ratios.text()).toContain('Avg Net Margin')
     expect(ratios.text()).toContain('Avg FCF Yield')
-    expect(ratios.text()).toContain('Avg D/A')
+    expect(ratios.text()).toContain('Avg Revenue Growth')
+    expect(ratios.text()).toContain('Avg Earnings Growth')
+    expect(ratios.text()).toContain('Avg Div. Yield')
     expect(ratios.text()).toContain('34.4%') // avg_roe: 34.39 → 34.4%
   })
 
-  it('renders the per-year table with all expected metrics', async () => {
+  it('renders the per-year table with key highlight metrics', async () => {
     vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
     const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'fundamentals' } })
     await flushPromises()
@@ -469,13 +470,12 @@ describe('TickerFinancials — fundamentals view', () => {
     expect(table.text()).toContain('Revenue')
     expect(table.text()).toContain('Net Income')
     expect(table.text()).toContain('Free Cashflow')
-    expect(table.text()).toContain('Gross Margin')
     expect(table.text()).toContain('EPS')
-    expect(table.text()).toContain('ROA')
-    expect(table.text()).toContain('Quick Ratio')
+    expect(table.text()).toContain('Total Assets')
+    expect(table.text()).toContain('Equity')
     expect(table.text()).toContain('P/E')
-    expect(table.text()).toContain('FCF Yield')
-    expect(table.text()).toContain('Book Value/Share')
+    expect(table.text()).toContain('ROE')
+    expect(table.text()).toContain('Net Margin')
   })
 
   it('displays both years as columns in the per-year table', async () => {
@@ -642,5 +642,150 @@ describe('TickerFinancials — valuation view', () => {
     await flushPromises()
     expect(valSpy).toHaveBeenCalledWith('MSFT')
     expect(fundSpy).toHaveBeenCalledTimes(1)
+  })
+})
+
+// ── Income view tests ─────────────────────────────────────────
+describe('TickerFinancials — income view', () => {
+  afterEach(() => { vi.restoreAllMocks() })
+
+  it('calls fetchFundamentals for the income view', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(spy).toHaveBeenCalledWith('MSFT')
+  })
+
+  it('does not call fetchValuation or fetchGmrData for income view', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const valSpy = vi.spyOn(gmrApi, 'fetchValuation')
+    const gmrSpy = vi.spyOn(gmrApi, 'fetchGmrData')
+    mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(valSpy).not.toHaveBeenCalled()
+    expect(gmrSpy).not.toHaveBeenCalled()
+  })
+
+  it('renders the IncomePanel when data loads', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="income-panel-wrap"]').exists()).toBe(true)
+  })
+
+  it('does not render fund-mkt-snapshot for income view', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fund-mkt-snapshot"]').exists()).toBe(false)
+  })
+
+  it('shows "Income & Growth" as the view label', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(wrapper.find('.gmr-fin__subtitle').text()).toBe('Income & Growth')
+  })
+
+  it('shows error state when API fails', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockRejectedValue(new Error('network'))
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'FAIL', view: 'income' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
+  })
+})
+
+// ── Cash Flow view tests ──────────────────────────────────────
+describe('TickerFinancials — cashflow view', () => {
+  afterEach(() => { vi.restoreAllMocks() })
+
+  it('calls fetchFundamentals for the cashflow view', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'cashflow' } })
+    await flushPromises()
+    expect(spy).toHaveBeenCalledWith('MSFT')
+  })
+
+  it('renders the CashflowPanel when data loads', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'cashflow' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="cashflow-panel-wrap"]').exists()).toBe(true)
+  })
+
+  it('shows "Cash Flow" as the view label', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'cashflow' } })
+    await flushPromises()
+    expect(wrapper.find('.gmr-fin__subtitle').text()).toBe('Cash Flow')
+  })
+
+  it('income and cashflow share the same API call when switching between them', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'income' } })
+    await flushPromises()
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    await wrapper.setProps({ view: 'cashflow' })
+    await flushPromises()
+    // Switching between fundamentals-family views re-fetches (same symbol + new view triggers watch)
+    expect(spy).toHaveBeenCalledWith('MSFT')
+  })
+
+  it('shows error state when API fails', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockRejectedValue(new Error('network'))
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'FAIL', view: 'cashflow' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
+  })
+})
+
+// ── Balance Sheet view tests ──────────────────────────────────
+describe('TickerFinancials — balance view', () => {
+  afterEach(() => { vi.restoreAllMocks() })
+
+  it('calls fetchFundamentals for the balance view', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'balance' } })
+    await flushPromises()
+    expect(spy).toHaveBeenCalledWith('MSFT')
+  })
+
+  it('renders the BalancePanel when data loads', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'balance' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="balance-panel-wrap"]').exists()).toBe(true)
+  })
+
+  it('shows "Balance Sheet" as the view label', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'balance' } })
+    await flushPromises()
+    expect(wrapper.find('.gmr-fin__subtitle').text()).toBe('Balance Sheet')
+  })
+
+  it('does not render valuation panel for balance view', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'balance' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="valuation-panel"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="balance-panel-wrap"]').exists()).toBe(true)
+  })
+
+  it('re-fetches when symbol changes', async () => {
+    const spy = vi.spyOn(gmrApi, 'fetchFundamentals').mockResolvedValue(FUND_FIXTURE)
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'MSFT', view: 'balance' } })
+    await flushPromises()
+    await wrapper.setProps({ symbol: 'AAPL' })
+    await flushPromises()
+    expect(spy).toHaveBeenCalledWith('AAPL')
+  })
+
+  it('shows error state when API fails', async () => {
+    vi.spyOn(gmrApi, 'fetchFundamentals').mockRejectedValue(new Error('network'))
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'FAIL', view: 'balance' } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
   })
 })

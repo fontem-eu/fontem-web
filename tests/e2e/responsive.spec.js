@@ -82,12 +82,15 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     expect(flexDir).toBe('row')
   })
 
-  test('all four view tabs are visible on mobile', async ({ page }) => {
+  test('all view tabs are visible on mobile', async ({ page }) => {
     await page.goto('/AAPL/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
 
     await expect(page.locator('[data-testid="view-opt-summary"]')).toBeVisible()
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toBeVisible()
+    await expect(page.locator('[data-testid="view-opt-income"]')).toBeVisible()
+    await expect(page.locator('[data-testid="view-opt-cashflow"]')).toBeVisible()
+    await expect(page.locator('[data-testid="view-opt-balance"]')).toBeVisible()
     await expect(page.locator('[data-testid="view-opt-valuation"]')).toBeVisible()
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toBeVisible()
   })

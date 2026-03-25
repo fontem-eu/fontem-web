@@ -189,4 +189,117 @@ test.describe('Data view selection', () => {
     await expect(page.locator('[data-testid="fund-snap-52h"]')).toBeVisible({ timeout: 10000 })
     await expect(page.locator('[data-testid="fund-snap-52l"]')).toBeVisible({ timeout: 10000 })
   })
+
+  // ── Income view ─────────────────────────────────────────────
+
+  test('"Income" option is present in the view selector', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await expect(page.locator('[data-testid="view-opt-income"]')).toBeVisible({ timeout: 5000 })
+  })
+
+  test('clicking "Income" changes URL to /:ticker/income', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-income"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-opt-income"]').click()
+    await expect(page).toHaveURL(/\/AAPL\/income$/, { timeout: 3000 })
+  })
+
+  test('"Income" becomes active after clicking it', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-income"]').click()
+    await expect(page.locator('[data-testid="view-opt-income"]')).toHaveClass(
+      /gmr-view-sel__item--active/, { timeout: 3000 }
+    )
+    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
+      /gmr-view-sel__item--active/
+    )
+  })
+
+  test('income view renders the income panel with per-year table', async ({ page }) => {
+    await page.goto('/AAPL/income')
+    await expect(page.locator('[data-testid="income-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="income-table"]')).toBeVisible()
+    await expect(page.locator('[data-testid="income-table"]')).toContainText('Revenue')
+    await expect(page.locator('[data-testid="income-table"]')).toContainText('Net Income')
+  })
+
+  test('income view renders the averages strip', async ({ page }) => {
+    await page.goto('/AAPL/income')
+    await expect(page.locator('[data-testid="income-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="income-averages"]')).toContainText('Avg P/E')
+    await expect(page.locator('[data-testid="income-averages"]')).toContainText('Avg Net Margin')
+  })
+
+  // ── Cash Flow view ───────────────────────────────────────────
+
+  test('"Cash Flow" option is present in the view selector', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await expect(page.locator('[data-testid="view-opt-cashflow"]')).toBeVisible({ timeout: 5000 })
+  })
+
+  test('clicking "Cash Flow" changes URL to /:ticker/cashflow', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-cashflow"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-opt-cashflow"]').click()
+    await expect(page).toHaveURL(/\/AAPL\/cashflow$/, { timeout: 3000 })
+  })
+
+  test('cashflow view renders the cashflow panel with per-year table', async ({ page }) => {
+    await page.goto('/AAPL/cashflow')
+    await expect(page.locator('[data-testid="cashflow-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="cashflow-table"]')).toBeVisible()
+    await expect(page.locator('[data-testid="cashflow-table"]')).toContainText('Free Cashflow')
+    await expect(page.locator('[data-testid="cashflow-table"]')).toContainText('CapEx')
+  })
+
+  test('cashflow view renders the averages strip', async ({ page }) => {
+    await page.goto('/AAPL/cashflow')
+    await expect(page.locator('[data-testid="cashflow-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="cashflow-averages"]')).toContainText('Avg FCF Yield')
+  })
+
+  // ── Balance view ─────────────────────────────────────────────
+
+  test('"Balance" option is present in the view selector', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await expect(page.locator('[data-testid="view-opt-balance"]')).toBeVisible({ timeout: 5000 })
+  })
+
+  test('clicking "Balance" changes URL to /:ticker/balance', async ({ page }) => {
+    await page.goto('/AAPL/fundamentals')
+    await page.locator('[data-testid="view-opt-balance"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-opt-balance"]').click()
+    await expect(page).toHaveURL(/\/AAPL\/balance$/, { timeout: 3000 })
+  })
+
+  test('balance view renders the balance panel with per-year table', async ({ page }) => {
+    await page.goto('/AAPL/balance')
+    await expect(page.locator('[data-testid="balance-panel"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="balance-table"]')).toBeVisible()
+    await expect(page.locator('[data-testid="balance-table"]')).toContainText('Total Assets')
+    await expect(page.locator('[data-testid="balance-table"]')).toContainText('Equity')
+  })
+
+  test('balance view renders the averages strip', async ({ page }) => {
+    await page.goto('/AAPL/balance')
+    await expect(page.locator('[data-testid="balance-averages"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="balance-averages"]')).toContainText('Avg D/E')
+    await expect(page.locator('[data-testid="balance-averages"]')).toContainText('Avg ROE')
+  })
+
+  test('switching from balance back to fundamentals works', async ({ page }) => {
+    await page.goto('/AAPL/balance')
+    await page.locator('[data-testid="view-opt-fundamentals"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-opt-fundamentals"]').click()
+    await expect(page).toHaveURL(/\/AAPL\/fundamentals$/, { timeout: 3000 })
+  })
+
+  // ── Summary stats bar ─────────────────────────────────────────
+
+  test('summary view shows the key stats bar', async ({ page }) => {
+    await page.goto('/AAPL/summary')
+    await expect(page.locator('[data-testid="summary-stats"]')).toBeVisible({ timeout: 12000 })
+    await expect(page.locator('[data-testid="summary-stats"]')).toContainText('Mkt Cap')
+    await expect(page.locator('[data-testid="summary-stats"]')).toContainText('Beta')
+  })
 })
