@@ -22,6 +22,14 @@ export default [
     },
   },
   {
+    files: ['*.config.js', '*.config.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
     files: ['tests/**'],
     languageOptions: {
       globals: {

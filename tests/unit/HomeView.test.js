@@ -136,13 +136,13 @@ describe('HomeView', () => {
   })
 
   // ── Navigation ───────────────────────────────────────────────
-  it('navigates to /AAPL/summary when TickerSearch emits select("AAPL") from root', async () => {
+  it('navigates to /AAPL/fundamentals when TickerSearch emits select("AAPL") from root', async () => {
     const { wrapper, router } = await mountAt('/')
     const pushSpy = vi.spyOn(router, 'push')
 
     await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'AAPL')
 
-    expect(pushSpy).toHaveBeenCalledWith('/AAPL/summary')
+    expect(pushSpy).toHaveBeenCalledWith('/AAPL/fundamentals')
   })
 
   it('preserves current view when selecting a new ticker', async () => {

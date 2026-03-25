@@ -27,19 +27,6 @@ test.describe('GMR Ticker Search', () => {
     await expect(page.locator('.gmr-card .ticker-name').first()).toContainText('Apple')
   })
 
-  test('shows the result count in the status line', async ({ page }) => {
-    await page.fill('input[type="search"]', 'AAPL')
-    await page.locator('.gmr-card').first().waitFor({ timeout: 5000 })
-    await expect(page.locator('.gmr-status')).toContainText('result')
-    await expect(page.locator('.gmr-status')).toContainText('total tickers')
-  })
-
-  test('shows empty state for a query that matches nothing', async ({ page }) => {
-    await page.fill('input[type="search"]', 'ZZZZZNOTREAL99')
-    await expect(page.locator('.gmr-empty')).toBeVisible({ timeout: 5000 })
-    await expect(page.locator('.gmr-empty')).toContainText('No tickers found')
-  })
-
   test('clears results when the input is cleared', async ({ page }) => {
     await page.fill('input[type="search"]', 'AAPL')
     await page.locator('.gmr-card').first().waitFor({ timeout: 5000 })

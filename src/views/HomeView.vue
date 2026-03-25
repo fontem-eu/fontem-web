@@ -34,7 +34,7 @@ const features = [
 const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
 
 const selectedTicker = computed(() => route.params.ticker || null)
-const selectedView = computed(() => route.params.view || 'summary')
+const selectedView = computed(() => route.params.view || 'fundamentals')
 
 function onTickerSelect(symbol) {
   router.push('/' + symbol + '/' + selectedView.value)
