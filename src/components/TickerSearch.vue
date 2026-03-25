@@ -91,10 +91,47 @@ function onClickOutside(event) {
     results.value = []
     state.value = 'idle'
     query.value = ''
+    activeIndex.value = -1
   }
 }
 
-watch(results, () => nextTick(updateDropdownStyle))
+// ── Keyboard navigation ──────────────────────────────────────
+const activeIndex = ref(-1)
+
+// Reset highlighted index whenever results change
+watch(results, () => {
+  activeIndex.value = -1
+  nextTick(updateDropdownStyle)
+})
+
+function onKeyDown(event) {
+  if (!results.value.length) return
+  if (event.key === 'ArrowDown') {
+    event.preventDefault()
+    activeIndex.value = Math.min(activeIndex.value + 1, results.value.length - 1)
+    scrollActiveIntoView()
+  } else if (event.key === 'ArrowUp') {
+    event.preventDefault()
+    activeIndex.value = Math.max(activeIndex.value - 1, 0)
+    scrollActiveIntoView()
+  } else if (event.key === 'Enter' && activeIndex.value >= 0) {
+    event.preventDefault()
+    emit('select', results.value[activeIndex.value].symbol)
+  } else if (event.key === 'Escape') {
+    results.value = []
+    state.value = 'idle'
+    query.value = ''
+    activeIndex.value = -1
+  }
+}
+
+function scrollActiveIntoView() {
+  nextTick(() => {
+    const dropdown = anchorRef.value?.querySelector('[role="list"]')
+    const item = dropdown?.children[activeIndex.value]
+    item?.scrollIntoView?.({ block: 'nearest' })
+  })
+}
 
 onMounted(() => {
   document.addEventListener('click', onClickOutside)
@@ -132,6 +169,9 @@ onUnmounted(() => {
         autocomplete="off"
         spellcheck="false"
         aria-label="Ticker search"
+        :aria-activedescendant="activeIndex >= 0 ? `result-${activeIndex}` : undefined"
+        aria-autocomplete="list"
+        @keydown="onKeyDown"
       />
 
       <!-- Results dropdown — floats over page content, never displaces it -->
@@ -144,10 +184,11 @@ onUnmounted(() => {
         :style="dropdownStyle"
       >
         <TickerCard
-          v-for="t in results"
+          v-for="(t, i) in results"
+          :id="`result-${i}`"
           :key="t.symbol"
           :ticker="t"
-          :selected="false"
+          :selected="i === activeIndex"
           @select="emit('select', $event)"
         />
       </div>

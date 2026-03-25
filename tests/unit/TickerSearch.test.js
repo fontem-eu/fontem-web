@@ -248,4 +248,69 @@ describe('TickerSearch component', () => {
     document.body.removeChild(outside)
     wrapper.unmount()
   })
+
+  // ── Keyboard navigation ────────────────────────────────────
+
+  async function mountWithResults(symbols = ['AAPL', 'MSFT']) {
+    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+      results: symbols.map((s) => makeTicker({ symbol: s, name: s })),
+      total_available: symbols.length,
+    })
+    const wrapper = mount(TickerSearch, { attachTo: document.body })
+    await wrapper.find('input').setValue('a')
+    await nextTick()
+    vi.advanceTimersByTime(300)
+    await flushPromises()
+    return wrapper
+  }
+
+  it('ArrowDown highlights the first result', async () => {
+    const wrapper = await mountWithResults()
+    await wrapper.find('input').trigger('keydown', { key: 'ArrowDown' })
+    const cards = wrapper.findAll('[role="listitem"]')
+    expect(cards[0].classes()).toContain('gmr-card--active')
+    expect(cards[1].classes()).not.toContain('gmr-card--active')
+    wrapper.unmount()
+  })
+
+  it('ArrowDown then ArrowDown highlights the second result', async () => {
+    const wrapper = await mountWithResults()
+    const input = wrapper.find('input')
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    const cards = wrapper.findAll('[role="listitem"]')
+    expect(cards[1].classes()).toContain('gmr-card--active')
+    wrapper.unmount()
+  })
+
+  it('ArrowUp does not go below index 0', async () => {
+    const wrapper = await mountWithResults()
+    const input = wrapper.find('input')
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'ArrowUp' })
+    // index should still be 0 (can't go negative)
+    const cards = wrapper.findAll('[role="listitem"]')
+    expect(cards[0].classes()).toContain('gmr-card--active')
+    wrapper.unmount()
+  })
+
+  it('Enter emits select for the highlighted result', async () => {
+    const wrapper = await mountWithResults(['AAPL', 'MSFT'])
+    const input = wrapper.find('input')
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('select')).toBeTruthy()
+    expect(wrapper.emitted('select')[0]).toEqual(['MSFT'])
+    wrapper.unmount()
+  })
+
+  it('Escape clears query and results', async () => {
+    const wrapper = await mountWithResults()
+    await wrapper.find('input').trigger('keydown', { key: 'Escape' })
+    await nextTick()
+    expect(wrapper.findAll('[role="listitem"]')).toHaveLength(0)
+    expect(wrapper.find('input').element.value).toBe('')
+    wrapper.unmount()
+  })
 })
