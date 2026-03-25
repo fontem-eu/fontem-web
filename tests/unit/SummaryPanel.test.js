@@ -160,19 +160,19 @@ describe('SummaryPanel', () => {
 
   // ── Period selector ────────────────────────────────────────
 
-  it('renders all six period buttons', async () => {
+  it('renders all seven period buttons', async () => {
     const w = mountPanel()
     await flushPromises()
-    for (const key of ['1m', '6m', '1y', '3y', '5y', 'all']) {
+    for (const key of ['1m', '6m', '1y', '3y', '5y', '10y', 'all']) {
       expect(w.find(`[data-testid="period-${key}"]`).exists()).toBe(true)
     }
   })
 
-  it('marks 1m as active by default', async () => {
+  it('marks 3y as active by default', async () => {
     const w = mountPanel()
     await flushPromises()
-    expect(w.find('[data-testid="period-1m"]').classes()).toContain('active')
-    expect(w.find('[data-testid="period-1y"]').classes()).not.toContain('active')
+    expect(w.find('[data-testid="period-3y"]').classes()).toContain('active')
+    expect(w.find('[data-testid="period-1m"]').classes()).not.toContain('active')
   })
 
   it('changes active period on button click', async () => {
@@ -187,17 +187,26 @@ describe('SummaryPanel', () => {
   it('calls fetchPriceHistory with new period when period changes', async () => {
     const w = mountPanel()
     await flushPromises()
-    await w.find('[data-testid="period-3y"]').trigger('click')
+    await w.find('[data-testid="period-1y"]').trigger('click')
     await flushPromises()
-    expect(fetchPriceHistory).toHaveBeenCalledWith('AAPL', '3y')
+    expect(fetchPriceHistory).toHaveBeenCalledWith('AAPL', '1y')
+  })
+
+  it('calls fetchPriceHistory with 10y period when 10y button clicked', async () => {
+    const w = mountPanel()
+    await flushPromises()
+    await w.find('[data-testid="period-10y"]').trigger('click')
+    await flushPromises()
+    expect(fetchPriceHistory).toHaveBeenCalledWith('AAPL', '10y')
+    expect(w.find('[data-testid="period-10y"]').classes()).toContain('active')
   })
 
   // ── API calls ──────────────────────────────────────────────
 
-  it('calls fetchPriceHistory on mount', async () => {
+  it('calls fetchPriceHistory on mount with default 3y period', async () => {
     mountPanel()
     await flushPromises()
-    expect(fetchPriceHistory).toHaveBeenCalledWith('AAPL', '1m')
+    expect(fetchPriceHistory).toHaveBeenCalledWith('AAPL', '3y')
   })
 
   it('calls fetchPriceHistory again when symbol changes', async () => {
@@ -205,7 +214,7 @@ describe('SummaryPanel', () => {
     await flushPromises()
     await w.setProps({ symbol: 'MSFT' })
     await flushPromises()
-    expect(fetchPriceHistory).toHaveBeenCalledWith('MSFT', '1m')
+    expect(fetchPriceHistory).toHaveBeenCalledWith('MSFT', '3y')
   })
 
   // ── Chart rendering (D3 must actually run) ─────────────────

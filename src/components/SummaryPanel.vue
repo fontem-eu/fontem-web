@@ -11,7 +11,7 @@ const props = defineProps({
 // ── State ──────────────────────────────────────────────────────
 const containerRef = ref(null)
 const bars         = ref([])
-const period       = ref('1m')
+const period       = ref('3y')
 const loading      = ref(false)
 const hasError     = ref(false)
 const companyName  = ref(null)
@@ -27,6 +27,7 @@ const PERIODS = [
   { key: '1y',  label: '1Y'  },
   { key: '3y',  label: '3Y'  },
   { key: '5y',  label: '5Y'  },
+  { key: '10y', label: '10Y' },
   { key: 'all', label: 'All' },
 ]
 
