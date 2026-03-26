@@ -119,6 +119,10 @@ const GMR_LONG_TOOLTIP =
 
 /* Desktop: vertical left-side nav */
 @media (min-width: 640px) {
+  .gmr-view-sel-wrap {
+    width: auto;
+  }
+
   .gmr-view-sel-wrap::after {
     display: none;
   }
