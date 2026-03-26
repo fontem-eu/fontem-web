@@ -218,6 +218,19 @@ describe('HomeView — EU ticker routing', () => {
     expect(financials.props('view')).toBe('fundamentals')
   })
 
+  it('URL changes from /ASML.AS/summary to /ASML.AS/fundamentals via router.replace', async () => {
+    const { router } = await mountHomeAt('/ASML.AS/summary')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/ASML.AS/fundamentals')
+  })
+
+  it('onTickerSelect navigates to /ASML.AS/fundamentals (not /summary) for EU tickers', async () => {
+    const { wrapper, router } = await mountHomeAt('/')
+    const pushSpy = vi.spyOn(router, 'push')
+    await wrapper.findComponent(TickerSearchStub).vm.$emit('select', 'ASML.AS')
+    expect(pushSpy).toHaveBeenCalledWith('/ASML.AS/fundamentals')
+  })
+
   it('shows fundamentals view for EU ticker navigating to /fundamentals', async () => {
     const { wrapper } = await mountHomeAt('/ASML.AS/fundamentals')
     const financials = wrapper.findComponent(TickerFinancialsStub)

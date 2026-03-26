@@ -89,9 +89,22 @@ watch(selectedTicker, (sym) => { if (sym) saveRecent(sym) }, { immediate: true }
 
 const { track } = useAnalytics()
 
+// Redirect /EU.TICKER/summary → /EU.TICKER/fundamentals (no price data)
+watch(
+  [selectedTicker, () => route.params.view],
+  ([sym, view]) => {
+    if (sym && view === 'summary' && isEuTicker(sym)) {
+      router.replace('/' + sym + '/fundamentals')
+    }
+  },
+  { immediate: true },
+)
+
 function onTickerSelect(symbol) {
   track('ticker-selected', { symbol })
-  router.push('/' + symbol + '/' + selectedView.value)
+  // EU tickers have no price data — start on fundamentals, not summary
+  const defaultView = isEuTicker(symbol) ? 'fundamentals' : selectedView.value
+  router.push('/' + symbol + '/' + defaultView)
 }
 
 function onViewChange(view) {
