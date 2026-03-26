@@ -26,6 +26,10 @@ function copyLink() {
   })
 }
 
+// EU tickers follow SYMBOL.EXCHANGE pattern (e.g. ASML.AS, SAP.DE)
+const isEu = computed(() => /^[A-Z0-9]+\.[A-Z]{1,3}$/i.test(props.symbol))
+const dataSource = computed(() => isEu.value ? 'esef' : 'edgar')
+
 const data = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error' | 'timeout'
 const displayYears = ref(10)
@@ -269,6 +273,11 @@ function isFundNegative(year, key) {
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
         <span class="gmr-fin__title">{{ symbol }}</span>
+        <span
+          class="badge"
+          :class="isEu ? 'badge-esef' : 'badge-edgar'"
+          :data-testid="`badge-source-${dataSource}`"
+        >{{ dataSource.toUpperCase() }}</span>
         <span v-if="state === 'done'" class="gmr-fin__subtitle">
           {{ viewLabel }}
         </span>

@@ -116,7 +116,8 @@ function onKeyDown(event) {
     scrollActiveIntoView()
   } else if (event.key === 'Enter' && activeIndex.value >= 0) {
     event.preventDefault()
-    emit('select', results.value[activeIndex.value].symbol)
+    const t = results.value[activeIndex.value]
+    emit('select', t.ticker ?? t.symbol)
   } else if (event.key === 'Escape') {
     results.value = []
     state.value = 'idle'

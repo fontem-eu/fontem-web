@@ -8,6 +8,11 @@ const props = defineProps({
 
 const emit = defineEmits(['select'])
 
+// EU tickers have a full ticker like "ASML.AS"; NA tickers just have a symbol.
+const selectValue = computed(() => props.ticker.ticker ?? props.ticker.symbol)
+
+const isEsef = computed(() => props.ticker.data_source === 'esef')
+
 const meta = computed(() =>
   [
     props.ticker.exchange,
@@ -26,9 +31,9 @@ const meta = computed(() =>
     role="listitem"
     tabindex="0"
     style="cursor: pointer"
-    @click="emit('select', ticker.symbol)"
-    @keydown.enter="emit('select', ticker.symbol)"
-    @keydown.space.prevent="emit('select', ticker.symbol)"
+    @click="emit('select', selectValue)"
+    @keydown.enter="emit('select', selectValue)"
+    @keydown.space.prevent="emit('select', selectValue)"
   >
     <!-- Symbol -->
     <span
@@ -53,8 +58,11 @@ const meta = computed(() =>
       {{ ticker.exchange }}
     </span>
 
-    <!-- Active / inactive badge -->
-    <span class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
+    <!-- Data source badge -->
+    <span v-if="isEsef" class="badge badge-esef" data-testid="badge-esef">
+      ESEF
+    </span>
+    <span v-else class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
       {{ ticker.is_active ? 'Active' : 'Inactive' }}
     </span>
   </div>

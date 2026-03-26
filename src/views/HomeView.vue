@@ -10,7 +10,7 @@ import { useAnalytics } from '../composables/useAnalytics.js'
 const route = useRoute()
 const router = useRouter()
 
-const VIEWS = [
+const ALL_VIEWS = [
   { key: 'summary',      label: 'Summary'      },
   { key: 'fundamentals', label: 'Fundamentals' },
   { key: 'income',       label: 'Income'       },
@@ -19,6 +19,17 @@ const VIEWS = [
   { key: 'valuation',    label: 'Valuation'    },
   { key: 'gmr-long',     label: 'GMR Long'     },
 ]
+
+// EU tickers follow the SYMBOL.EXCHANGE pattern (e.g. ASML.AS, SAP.DE).
+function isEuTicker(sym) {
+  return sym && /^[A-Z0-9]+\.[A-Z]{1,3}$/i.test(sym)
+}
+
+const activeViews = computed(() => {
+  if (!isEuTicker(selectedTicker.value)) return ALL_VIEWS
+  // Summary is a price chart — not available for EU (ESEF) tickers.
+  return ALL_VIEWS.filter((v) => v.key !== 'summary')
+})
 
 const features = [
   {
@@ -50,7 +61,12 @@ const features = [
 const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
 
 const selectedTicker = computed(() => route.params.ticker || null)
-const selectedView = computed(() => route.params.view || 'summary')
+const selectedView = computed(() => {
+  const view = route.params.view || 'summary'
+  // 'summary' is price-only — redirect EU tickers to fundamentals
+  if (view === 'summary' && isEuTicker(selectedTicker.value)) return 'fundamentals'
+  return view
+})
 
 // ── Recent tickers (localStorage) ────────────────────────────
 const RECENT_KEY = 'gmr-recent-tickers'
@@ -100,7 +116,7 @@ function onClose() {
             <span class="hidden sm:inline" style="color: var(--text)"> Ticker Search</span>
           </h1>
           <p class="mt-1 hidden text-xs font-medium uppercase tracking-widest sm:block" style="color: var(--muted)">
-            10,000+ companies &middot; SEC EDGAR
+            10,000+ companies &middot; SEC EDGAR &middot; ESEF
           </p>
         </div>
 
@@ -230,7 +246,7 @@ function onClose() {
         <div v-if="selectedTicker" class="mt-6 flex flex-col gap-0 sm:flex-row sm:items-start sm:gap-4" data-testid="ticker-detail">
           <DataViewSelector
             :model-value="selectedView"
-            :views="VIEWS"
+            :views="activeViews"
             @update:model-value="onViewChange"
           />
           <TickerFinancials
@@ -244,7 +260,7 @@ function onClose() {
 
       <!-- ── Footer ──────────────────────────────────────── -->
       <footer class="pb-10 pt-12">
-        <p class="text-xs tracking-wide" style="color: var(--muted)">Data sourced from SEC EDGAR</p>
+        <p class="text-xs tracking-wide" style="color: var(--muted)">Data sourced from SEC EDGAR &amp; ESMA ESEF (filings.xbrl.org)</p>
       </footer>
     </div>
   </div>

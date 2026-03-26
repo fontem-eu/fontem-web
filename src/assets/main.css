@@ -26,6 +26,10 @@
     --badge-ko-text: #b91c1c;
     --badge-tag-bg: #f0f0f0;
     --badge-tag-text: #374151;
+    --badge-esef-bg: #dbeafe;
+    --badge-esef-text: #1d4ed8;
+    --badge-edgar-bg: #dcfce7;
+    --badge-edgar-text: #15803d;
   }
 
   .dark {
@@ -43,6 +47,10 @@
     --badge-ko-text: #f87171;
     --badge-tag-bg: #1a1a1a;
     --badge-tag-text: #9ca3af;
+    --badge-esef-bg: #1e3a5f;
+    --badge-esef-text: #93c5fd;
+    --badge-edgar-bg: #052e16;
+    --badge-edgar-text: #4ade80;
   }
 
   *,
@@ -193,6 +201,14 @@
   .badge-tag {
     background: var(--badge-tag-bg);
     color: var(--badge-tag-text);
+  }
+  .badge-esef {
+    background: var(--badge-esef-bg);
+    color: var(--badge-esef-text);
+  }
+  .badge-edgar {
+    background: var(--badge-edgar-bg);
+    color: var(--badge-edgar-text);
   }
 
   /* Theme toggle button */
