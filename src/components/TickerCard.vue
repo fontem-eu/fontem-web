@@ -35,12 +35,12 @@ const meta = computed(() =>
     @keydown.enter="emit('select', selectValue)"
     @keydown.space.prevent="emit('select', selectValue)"
   >
-    <!-- Symbol -->
+    <!-- Symbol — show full ticker (GALP.LS) for EU entries to disambiguate -->
     <span
       class="ticker-symbol w-16 shrink-0 font-mono text-sm font-bold"
       style="color: var(--accent)"
     >
-      {{ ticker.symbol }}
+      {{ ticker.ticker ?? ticker.symbol }}
     </span>
 
     <!-- Name + meta -->

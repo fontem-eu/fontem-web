@@ -85,6 +85,16 @@ describe('TickerCard — EU tickers', () => {
     await wrapper.find('[role="listitem"]').trigger('click')
     expect(wrapper.emitted('select')[0]).toEqual(['AAPL'])
   })
+
+  it('displays the full ticker (ASML.AS) in the symbol slot for disambiguation', () => {
+    const wrapper = mount(TickerCard, { props: { ticker: makeEsefTicker() } })
+    expect(wrapper.find('.ticker-symbol').text()).toBe('ASML.AS')
+  })
+
+  it('displays just the symbol (AAPL) for NA entries', () => {
+    const wrapper = mount(TickerCard, { props: { ticker: makeEdgarTicker() } })
+    expect(wrapper.find('.ticker-symbol').text()).toBe('AAPL')
+  })
 })
 
 // ── TickerSearch keyboard nav ─────────────────────────────────
