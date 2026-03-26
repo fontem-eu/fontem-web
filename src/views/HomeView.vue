@@ -20,16 +20,7 @@ const ALL_VIEWS = [
   { key: 'gmr-long',     label: 'GMR Long'     },
 ]
 
-// EU tickers follow the SYMBOL.EXCHANGE pattern (e.g. ASML.AS, SAP.DE).
-function isEuTicker(sym) {
-  return sym && /^[A-Z0-9]+\.[A-Z]{1,3}$/i.test(sym)
-}
-
-const activeViews = computed(() => {
-  if (!isEuTicker(selectedTicker.value)) return ALL_VIEWS
-  // Summary is a price chart — not available for EU (ESEF) tickers.
-  return ALL_VIEWS.filter((v) => v.key !== 'summary')
-})
+const activeViews = computed(() => ALL_VIEWS)
 
 const features = [
   {
@@ -61,12 +52,7 @@ const features = [
 const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
 
 const selectedTicker = computed(() => route.params.ticker || null)
-const selectedView = computed(() => {
-  const view = route.params.view || 'summary'
-  // 'summary' is price-only — redirect EU tickers to fundamentals
-  if (view === 'summary' && isEuTicker(selectedTicker.value)) return 'fundamentals'
-  return view
-})
+const selectedView = computed(() => route.params.view || 'summary')
 
 // ── Recent tickers (localStorage) ────────────────────────────
 const RECENT_KEY = 'gmr-recent-tickers'
@@ -89,22 +75,9 @@ watch(selectedTicker, (sym) => { if (sym) saveRecent(sym) }, { immediate: true }
 
 const { track } = useAnalytics()
 
-// Redirect /EU.TICKER/summary → /EU.TICKER/fundamentals (no price data)
-watch(
-  [selectedTicker, () => route.params.view],
-  ([sym, view]) => {
-    if (sym && view === 'summary' && isEuTicker(sym)) {
-      router.replace('/' + sym + '/fundamentals')
-    }
-  },
-  { immediate: true },
-)
-
 function onTickerSelect(symbol) {
   track('ticker-selected', { symbol })
-  // EU tickers have no price data — start on fundamentals, not summary
-  const defaultView = isEuTicker(symbol) ? 'fundamentals' : selectedView.value
-  router.push('/' + symbol + '/' + defaultView)
+  router.push('/' + symbol + '/' + selectedView.value)
 }
 
 function onViewChange(view) {
