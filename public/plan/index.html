@@ -378,6 +378,7 @@
     <li><a href="#sessions">Session Breakdown</a></li>
     <li><a href="#risks">What Will Break</a></li>
     <li><a href="#questions">Open Questions</a></li>
+    <li><a href="#review">Critical Self-Review</a></li>
   </ol>
 </nav>
 
@@ -609,7 +610,9 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
     </ul>
   </div>
 
-  <p><strong>Practical approach:</strong> Use VIES as a <em>targeted enrichment tool</em>, not a bulk scraper. Query only for high-value contractors (&gt;&euro;500K) that didn&rsquo;t match on Layer 1. Cache results permanently on the Company node (<code>vat</code>, <code>vies_name</code>). Rate-limit to ~1 req/3s with exponential backoff. Accept that DE and ES contractors won&rsquo;t get VIES names &mdash; fall through to Layer 3.</p>
+  <p><strong>Practical approach:</strong> Use VIES as a <em>targeted enrichment tool</em>, not a bulk scraper. Query only for contractors that didn&rsquo;t match on Layer 1. Cache results permanently on the Company node (<code>vat</code>, <code>vies_name</code>). Rate-limit to ~1 req/3s with exponential backoff. Accept that DE and ES contractors won&rsquo;t get VIES names &mdash; fall through to Layer 3.</p>
+
+  <p><strong>Verified experimentally:</strong> <code>GET .../rest-api/ms/PT/vat/509083668</code> returned <code>"name": "RCPOOL LDA"</code> with full address. Spanish VAT <code>A82018474</code> (Telefonica) returned <code>"name": "---"</code>. Germany: same blindness. VIES works well for ~22 of 27 EU countries.</p>
 </div>
 
 <div class="layer">
@@ -620,18 +623,53 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
 
 <div class="layer">
   <span class="layer-num">4</span>
-  <h4>Normalized name + country</h4>
-  <p>Normalize the company name (uppercase, strip legal suffixes like &ldquo;S.A.&rdquo;, &ldquo;GmbH&rdquo;, &ldquo;B.V.&rdquo;). Use the VIES-enriched name when available (more reliable than TED name). Search existing nodes: <code>WHERE c.country = $country AND toLower(c.name) = toLower($name)</code>. Link if exactly one match.</p>
+  <h4>Fuzzy name matching (Neo4j full-text + Dice similarity)</h4>
+  <p>When layers 1&ndash;3 fail, fall back to name matching. This is a two-stage process:</p>
+  <ol>
+    <li><strong>Normalize:</strong> strip legal suffixes (AG, GmbH, S.A., Ltd, B.V. &mdash; ~200 known suffixes via <code>cleanco</code> library), transliterate accents via <code>unidecode</code>, collapse whitespace. Store as <code>name_normalized</code> on both sides.</li>
+    <li><strong>Retrieve candidates:</strong> Neo4j full-text index with Lucene fuzzy (<code>~</code>) on <code>name_normalized</code>, filtered by country. Returns 5&ndash;50 candidates in ~10ms.</li>
+    <li><strong>Score:</strong> <code>apoc.text.sorensenDiceSimilarity()</code> on normalized names. Auto-match at &gt;0.85, flag for review at 0.6&ndash;0.85, no match below 0.6.</li>
+  </ol>
+  <pre><code>CALL db.index.fulltext.queryNodes('companyNameIndex', $name + '~')
+YIELD node, score
+WHERE node.country = $country AND score > 0.3
+WITH node,
+     apoc.text.sorensenDiceSimilarity(
+       $name_normalized, node.name_normalized
+     ) AS dice
+WHERE dice > 0.85
+RETURN node ORDER BY dice DESC LIMIT 1</code></pre>
+  <div class="callout">
+    <strong>Why not embeddings?</strong> Character n-gram methods (Dice) get 85&ndash;90% F1 on company name matching. Transformer embeddings get 88&ndash;93%. The 3&ndash;5% gap doesn&rsquo;t justify running a separate model service. The normalization step (stripping suffixes) does most of the heavy lifting. Embeddings remain a future enhancement for cross-lingual cases (&ldquo;Deutsche Bank&rdquo; vs &ldquo;Banco Alem&aacute;n&rdquo;) if needed.
+  </div>
 </div>
 
 <div class="layer">
   <span class="layer-num">5</span>
   <h4>Create new Company node</h4>
-  <p>Unmatched contractors become new nodes via <code>gmr_id.from_national_id(country, vat)</code> (preferred if VAT available) or <code>gmr_id.from_name(country, name)</code> (last resort). These exist purely from procurement data &mdash; linkable later when they appear in GLEIF.</p>
+  <p>Unmatched contractors become new nodes via <code>gmr_id.from_national_id(country, vat)</code> (preferred if VAT available) or <code>gmr_id.from_name(country, name)</code> (last resort). These exist purely from procurement data &mdash; linkable later when they appear in GLEIF or via future deduplication runs.</p>
 </div>
 
 <div class="callout">
-  <strong>Expected match rate:</strong> ~20% of unique contractors will match existing GLEIF Company nodes. But these represent ~65% of total contract value &mdash; the big companies (SAP, Thales, Bouygues) are in GLEIF. Smaller local firms (local construction, cleaning services) will be new nodes. VIES enrichment improves name-matching accuracy for the remaining 80%, potentially lifting the overall match rate to ~30-35%.
+  <strong>Expected match rate:</strong> ~20% of unique contractors will match existing GLEIF Company nodes on Layers 1&ndash;3. Layer 4 (fuzzy name) adds another ~10&ndash;15%. The remaining ~65% become new Company nodes &mdash; mostly small local firms not in GLEIF. But the matched companies represent the bulk of contract value.
+</div>
+
+<h3>VIES fallback: what about DE and ES?</h3>
+
+<p>Germany and Spain are the two largest EU procurement markets and VIES returns no name for either. Alternatives investigated:</p>
+
+<table>
+  <tr><th>Option</th><th>Coverage</th><th>API?</th><th>Free?</th><th>Verdict</th></tr>
+  <tr><td>OpenCorporates</td><td>140+ jurisdictions</td><td>Yes</td><td>50 req/day</td><td>Searches by name/reg number, not VAT</td></tr>
+  <tr><td>North Data (DE)</td><td>Germany only</td><td>Yes</td><td>Paid</td><td>Best DE option, but adds a paid dependency</td></tr>
+  <tr><td>INSEE Sirene (FR)</td><td>France only</td><td>Yes</td><td>Yes</td><td>Excellent free API &mdash; use for FR</td></tr>
+  <tr><td>KVK (NL)</td><td>Netherlands only</td><td>Yes</td><td>Freemium</td><td>Good for NL, searches by KVK number not VAT</td></tr>
+  <tr><td>BRIS</td><td>All EU</td><td>No API</td><td>Yes</td><td>Web-only, no programmatic access</td></tr>
+  <tr><td>Kyckr / Creditsafe</td><td>All EU</td><td>Yes</td><td>Paid (&euro;0.50&ndash;2/lookup)</td><td>Universal fallback but adds cost</td></tr>
+</table>
+
+<div class="callout">
+  <strong>Pragmatic decision:</strong> For v1, accept that DE and ES contractors will match on Layer 4 (fuzzy name) or Layer 5 (create new node). The TED data always includes the company name, so we&rsquo;re not flying blind &mdash; we just can&rsquo;t validate it against the official register programmatically. Add country-specific register APIs (INSEE for FR, KVK for NL) as low-hanging fruit. Defer paid services (North Data, Kyckr) until we measure how many high-value contracts are going unmatched.
 </div>
 
 
@@ -717,21 +755,28 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
 <div class="phase" id="phase7">
   <div class="phase-header">
     <span class="phase-badge">PHASE 7</span>
-    <span class="phase-title">API Endpoints</span>
+    <span class="phase-title">API Endpoints &mdash; Company-ID-First</span>
   </div>
-  <p class="phase-sub">New router: <code>src/api/routers/contracts.py</code></p>
+  <p class="phase-sub">All new endpoints use <code>gmr_id</code> as the primary key. We&rsquo;re building a company knowledge graph, not a ticker search &mdash; the API should reflect that.</p>
 
+  <h4>New contract endpoints</h4>
   <table>
     <tr><th>Endpoint</th><th>Purpose</th></tr>
-    <tr><td><code>GET /{ticker}/contracts</code></td><td>Contracts awarded to the company behind this ticker</td></tr>
+    <tr><td><code>GET /companies/{gmr_id}/contracts</code></td><td>Contracts awarded to this company</td></tr>
     <tr><td><code>GET /contracts/{notice_id}</code></td><td>Full detail for a single contract</td></tr>
-    <tr><td><code>GET /contracts/sectors</code></td><td>Aggregated contract values by CPV division</td></tr>
+    <tr><td><code>GET /contracts/sectors?country=DE&amp;year=2024</code></td><td>CPV sector aggregation</td></tr>
+    <tr><td><code>GET /companies/{gmr_id}</code></td><td>Company profile (name, country, LEI, VAT, listings, financial summary)</td></tr>
+    <tr><td><code>GET /companies/search?q=siemens</code></td><td>Search companies by name (replaces ticker-only search)</td></tr>
   </table>
 
-  <h4>Example response: <code>GET /ADYEN.AS/contracts</code></h4>
+  <h4>Migration of existing ticker endpoints</h4>
+  <p>The existing <code>/{ticker}/fundamentals</code> and <code>/{ticker}/...</code> endpoints continue to work &mdash; they resolve the ticker to a Company via <code>[:LISTED_AS]</code> internally. But new features (contracts, company profile) are built on <code>gmr_id</code> from day one. The frontend routes will evolve: <code>/company/{gmr_id}</code> alongside the existing <code>/{ticker}</code>.</p>
+
+  <h4>Example response: <code>GET /companies/{gmr_id}/contracts</code></h4>
   <pre><code>{
-  "ticker": "SAP.DE",
+  "gmr_id": "a4cb9465-956e-56ec-88e2-890e5bb0b9fa",
   "company_name": "SAP SE",
+  "country": "DE",
   "total_contract_value_eur": 234567890.0,
   "contract_count": 47,
   "contracts": [
@@ -938,6 +983,63 @@ POST https://api.ted.europa.eu/v3/notices/search
     <li><strong>Raw XML retention.</strong> Should we keep downloaded TED XML packages on NFS as an immutable audit log for reprocessing, or delete after loading?</li>
   </ol>
 </div>
+
+
+<!-- ═══════════════════════════════════════════════════════ CRITICAL REVIEW -->
+<hr>
+<h2 id="review">Critical Self-Review</h2>
+
+<p>Stepping back from the plan and asking: <em>what&rsquo;s really going to happen when we build this?</em></p>
+
+<h3>Things this plan gets right</h3>
+<ul>
+  <li><strong>Data source choice.</strong> TED bulk XML is the right approach &mdash; same pattern as GLEIF, proven in production, no rate limits, idempotent.</li>
+  <li><strong>Incremental daily updates.</strong> The daily OJ S packages + MERGE by notice ID is clean. No reconciliation needed.</li>
+  <li><strong>Conservative matching thresholds.</strong> Auto-match at &gt;0.85 Dice and creating new nodes for everything else means we won&rsquo;t merge different companies. Duplicates are fixable; wrong merges are catastrophic for a corruption-detection tool.</li>
+  <li><strong>Company-ID-first API.</strong> Moving from <code>/{ticker}</code> to <code>/companies/{gmr_id}</code> is the right architectural direction. The ticker-based API was always a concession to the &ldquo;stock screener&rdquo; origin.</li>
+</ul>
+
+<h3>Things this plan underestimates</h3>
+
+<div class="callout warn">
+  <strong>The eForms XML parser will take 3x longer than expected.</strong>
+  <p>The eForms schema is large and complex. Contract awards can have multiple lots, each with different winners. Lot structures vary wildly across countries. The &ldquo;extract title, value, contractor&rdquo; step that looks simple on paper will require handling dozens of edge cases: missing values, multi-currency lots, joint ventures (multiple contractors per lot), framework agreements vs individual contracts. Budget at least a full session just for the parser.</p>
+</div>
+
+<div class="callout warn">
+  <strong>The GLEIF &harr; TED company overlap might be worse than 20%.</strong>
+  <p>GLEIF has 3.26M entities, but most are financial entities (banks, funds, holding companies) that must have a LEI for regulatory reasons. EU procurement contractors are construction firms, IT consultancies, logistics companies &mdash; many of which never obtained a LEI. The actual overlap might be 10&ndash;15%, not 20%. We should measure this empirically with 1 month of data before committing to the matching strategy.</p>
+</div>
+
+<div class="callout warn">
+  <strong>The API migration from ticker to gmr_id will break the frontend.</strong>
+  <p>The Vue SPA routes are ticker-based (<code>/AAPL/summary</code>, <code>/GALP.LS/fundamentals</code>). Adding <code>/company/{gmr_id}</code> routes alongside is fine, but making contracts <em>only</em> accessible via gmr_id means the frontend needs a way to resolve <code>ticker &rarr; gmr_id</code> before it can fetch contracts. This resolution step needs to be fast (cached, or embedded in the initial page load). Don&rsquo;t underestimate the frontend plumbing here.</p>
+</div>
+
+<h3>Things this plan ignores</h3>
+
+<div class="callout warn">
+  <strong>No data quality dashboard.</strong>
+  <p>We&rsquo;re about to ingest 200K+ records/year from an external source with known quality issues (missing values, inconsistent identifiers, multi-lingual names). Without a dashboard showing: match rates, unmatched high-value contracts, VIES failure rates, duplicate Company nodes &mdash; we&rsquo;re flying blind. A simple Grafana board (or even a daily log summary) should be a Phase 6 deliverable, not an afterthought.</p>
+</div>
+
+<div class="callout warn">
+  <strong>No access control or data sensitivity assessment.</strong>
+  <p>Government procurement data is public. But the moment we start correlating it with company financials and building &ldquo;corruption detection&rdquo; features, we&rsquo;re making inferences that could be defamatory if wrong. At some point (not now, but before any public-facing &ldquo;corruption score&rdquo;), we need to think about legal risk.</p>
+</div>
+
+<div class="callout warn">
+  <strong>No consideration of sub-threshold procurement.</strong>
+  <p>TED covers contracts above EU thresholds. For many companies (especially SMEs), the most interesting contracts are below threshold and published only on national portals. This plan gives us a partial picture. We should be explicit in the UI about what&rsquo;s covered: &ldquo;EU public contracts above &euro;140K (services) / &euro;5.4M (works).&rdquo;</p>
+</div>
+
+<h3>Unresolved concerns</h3>
+
+<ol>
+  <li><strong>How do we test matching quality at scale?</strong> We can unit-test the matching code, but validating that &ldquo;SIEMENS AKTIENGESELLSCHAFT&rdquo; in TED correctly matches &ldquo;Siemens Aktiengesellschaft&rdquo; in GLEIF requires ground truth. Do we manually verify a sample? How large?</li>
+  <li><strong>What happens when a Company node created from procurement data later appears in GLEIF?</strong> The procurement Company has <code>gmr_id.from_name()</code>, but GLEIF would create it with <code>gmr_id.from_lei()</code>. These are different UUIDs for the same company. We need a merging strategy (not just dedup) that transfers relationships from the old node to the new one.</li>
+  <li><strong>The search experience is about to get worse before it gets better.</strong> If procurement-only companies (no listing, no financial data) appear in search results, users will click on them and see an empty profile. We need to either suppress them from search or build a procurement-centric company profile page before launching.</li>
+</ol>
 
 </body>
 </html>
