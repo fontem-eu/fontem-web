@@ -946,14 +946,16 @@ for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
   </div>
   <p class="phase-sub">All new endpoints use <code>gmr_id</code> as the primary key. We&rsquo;re building a company knowledge graph, not a ticker search &mdash; the API should reflect that.</p>
 
-  <h4>New contract endpoints</h4>
+  <h4>New endpoints</h4>
   <table>
     <tr><th>Endpoint</th><th>Purpose</th></tr>
-    <tr><td><code>GET /companies/{gmr_id}/contracts</code></td><td>Contracts awarded to this company</td></tr>
+    <tr><td><code>GET /companies/{gmr_id}/contracts</code></td><td>Contracts awarded to this company (with procurement summary)</td></tr>
+    <tr><td><code>GET /companies/{gmr_id}</code></td><td>Company profile (name, country, LEI, VAT, listings, financial summary)</td></tr>
+    <tr><td><code>GET /authorities/{authority_id}/contracts</code></td><td>Contracts issued by this authority (with spending summary)</td></tr>
+    <tr><td><code>GET /authorities/{authority_id}</code></td><td>Authority profile (name, country, type, total spend)</td></tr>
     <tr><td><code>GET /contracts/{notice_id}</code></td><td>Full detail for a single contract</td></tr>
     <tr><td><code>GET /contracts/sectors?country=DE&amp;year=2024</code></td><td>CPV sector aggregation</td></tr>
-    <tr><td><code>GET /companies/{gmr_id}</code></td><td>Company profile (name, country, LEI, VAT, listings, financial summary)</td></tr>
-    <tr><td><code>GET /companies/search?q=siemens</code></td><td>Search companies by name (replaces ticker-only search)</td></tr>
+    <tr><td><code>GET /search?q=siemens&amp;type=all</code></td><td>Unified search across companies AND authorities</td></tr>
   </table>
 
   <h4>Migration of existing ticker endpoints</h4>
@@ -1026,17 +1028,57 @@ GET /authorities/similar?name=Bundesministerium&amp;country=DE&amp;limit=10
 <div class="phase" id="phase8">
   <div class="phase-header">
     <span class="phase-badge">PHASE 8</span>
-    <span class="phase-title">Web UI &mdash; Contracts View</span>
+    <span class="phase-title">Web UI &mdash; Unified Search + Entity Profiles</span>
   </div>
-  <p class="phase-sub">New tab in DataViewSelector, new panel component.</p>
+  <p class="phase-sub">The search bar finds both companies and authorities. Selecting either shows a profile page with procurement data.</p>
 
-  <ul class="checklist">
-    <li><span class="check"></span>Add &ldquo;Contracts&rdquo; to <code>ALL_VIEWS</code> in HomeView.vue</li>
-    <li><span class="check"></span>New <code>ContractsPanel.vue</code>: sortable table (Award Date, Title, Value, Authority, CPV, Procedure)</li>
-    <li><span class="check"></span>Summary bar: total contract value, count, top CPV category</li>
-    <li><span class="check"></span>Empty state for companies with no procurement data</li>
-    <li><span class="check"></span>No new npm dependencies &mdash; plain table, no charting library needed</li>
+  <h4>8a. Unified search</h4>
+  <p>The existing search bar evolves from &ldquo;ticker search&rdquo; to &ldquo;entity search.&rdquo; Results are grouped:</p>
+  <pre><code>┌─────────────────────────────────────────────────┐
+│  Search: "siemens"                              │
+├─────────────────────────────────────────────────┤
+│  COMPANIES                                      │
+│  ┌ SIEMENS AG        DE  │ SIE.DE  │ 47 contracts│
+│  ┌ SIEMENS ENERGY AG DE  │ ENR.DE  │ 12 contracts│
+│  ┌ SIEMENS HEALTHIN. DE  │ SHL.DE  │  3 contracts│
+├─────────────────────────────────────────────────┤
+│  AUTHORITIES                                    │
+│  ┌ Siemens Betriebskrankenkasse  DE │ 0 contracts│
+└─────────────────────────────────────────────────┘</code></pre>
+  <ul>
+    <li>Calls <code>GET /search?q=siemens&amp;type=all</code> which returns both entity types</li>
+    <li>Each result shows: name, country, ticker (if listed), contract count badge</li>
+    <li>Clicking a company navigates to <code>/company/{gmr_id}</code></li>
+    <li>Clicking an authority navigates to <code>/authority/{authority_id}</code></li>
   </ul>
+
+  <h4>8b. Company profile with procurement tab</h4>
+  <p>When a company with procurement data is selected, the &ldquo;Contracts&rdquo; tab shows:</p>
+  <ul class="checklist">
+    <li><span class="check"></span><strong>Procurement summary card:</strong> total contract value, contract count, top CPV category, top awarding authority, average contract size, procedure type breakdown (% open vs negotiated)</li>
+    <li><span class="check"></span><strong>Contracts table:</strong> sortable by Award Date, Title, Value, Authority, CPV, Procedure. Each row links to the TED notice via <code>ted_url</code></li>
+    <li><span class="check"></span><strong>Empty state:</strong> &ldquo;No EU public procurement data found for this company. TED covers contracts above &euro;140K (services) / &euro;5.4M (works).&rdquo;</li>
+  </ul>
+
+  <h4>8c. Authority profile page (new)</h4>
+  <p>A new page type at <code>/authority/{authority_id}</code>:</p>
+  <ul class="checklist">
+    <li><span class="check"></span><strong>Authority header:</strong> name, country, type (ministry / regional / agency)</li>
+    <li><span class="check"></span><strong>Spending summary card:</strong> total spend, contract count, top CPV categories, top contractors (by value), year-over-year spend trend</li>
+    <li><span class="check"></span><strong>Contracts table:</strong> same columns as the company view but from the authority&rsquo;s perspective (who they paid, not who paid them). Each contractor name links to the company profile</li>
+    <li><span class="check"></span><strong>Cross-linking:</strong> clicking a contractor in the authority view navigates to that company&rsquo;s profile; clicking an authority in the company view navigates to the authority profile</li>
+  </ul>
+
+  <h4>New components</h4>
+  <table>
+    <tr><th>Component</th><th>Purpose</th></tr>
+    <tr><td><code>ProcurementSummary.vue</code></td><td>Reusable summary card (total value, count, top CPV, procedure breakdown). Used in both company and authority profiles.</td></tr>
+    <tr><td><code>ContractsTable.vue</code></td><td>Sortable table of contracts. Configurable columns (company view shows authority; authority view shows contractor).</td></tr>
+    <tr><td><code>AuthorityProfile.vue</code></td><td>Full authority page: header + spending summary + contracts table.</td></tr>
+    <tr><td><code>EntitySearchResults.vue</code></td><td>Grouped search results (companies + authorities). Replaces or extends the current ticker-only results list.</td></tr>
+  </table>
+
+  <p>No new npm dependencies. All views are tables and summary cards &mdash; no charting library needed for v1.</p>
 </div>
 
 
@@ -1231,9 +1273,10 @@ POST https://api.ted.europa.eu/v3/notices/search
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
   <tr><td>1</td><td>Phases 5&ndash;6</td><td>Spike + eForms parser library (with tests) + ETL pipeline + 2024 data in Neo4j</td></tr>
-  <tr><td>2</td><td>Phase 6b + 7</td><td>Data quality dashboard + API endpoints + tests + deployed</td></tr>
-  <tr><td>3</td><td>Phase 8</td><td>Contracts UI tab + daily CronJob + full e2e gate on both repos</td></tr>
-  <tr><td>4</td><td>Backfill</td><td>Historical load: 2023, 2022, &hellip; back to 2018</td></tr>
+  <tr><td>2</td><td>Phase 6b + 7</td><td>Data quality dashboard + API endpoints (companies, authorities, contracts, unified search) + tests + deployed</td></tr>
+  <tr><td>3</td><td>Phase 8a&ndash;8b</td><td>Unified search + company procurement tab + daily CronJob + full gate</td></tr>
+  <tr><td>4</td><td>Phase 8c</td><td>Authority profile page + cross-linking + e2e tests</td></tr>
+  <tr><td>5</td><td>Backfill</td><td>Historical load: 2023, 2022, &hellip; back to 2018</td></tr>
 </table>
 
 
