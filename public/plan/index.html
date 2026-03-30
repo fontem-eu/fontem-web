@@ -371,6 +371,7 @@
       <ol>
         <li><a href="#phase5">Phase 5 &mdash; Data Model Spike</a></li>
         <li><a href="#phase6">Phase 6 &mdash; ETL Pipeline</a></li>
+        <li><a href="#phase6b">Phase 6b &mdash; Data Quality Dashboard</a></li>
         <li><a href="#phase7">Phase 7 &mdash; API Endpoints</a></li>
         <li><a href="#phase8">Phase 8 &mdash; Web UI</a></li>
       </ol>
@@ -900,6 +901,30 @@ for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
   <p>Daily CronJob at 06:00 UTC (incremental). Monthly backfill via CLI for historical data.</p>
 </div>
 
+<div class="phase" id="phase6b">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 6b</span>
+    <span class="phase-title">Data Quality Dashboard</span>
+  </div>
+  <p class="phase-sub">We cannot trust the data without measuring it. This is a Phase 6 deliverable, not an afterthought.</p>
+
+  <p>The ETL emits structured metrics after each run. These feed a dashboard (Grafana or a static HTML page served at <code>/data-quality</code>) showing:</p>
+
+  <table>
+    <tr><th>Metric</th><th>Source</th><th>Alert threshold</th></tr>
+    <tr><td>Match rate by layer (1&ndash;5)</td><td>ted_matcher.py counters</td><td>&lt;10% on Layer 1 = cache miss problem</td></tr>
+    <tr><td>Unmatched high-value contracts (&gt;&euro;1M)</td><td>ETL log</td><td>&gt;20 per run = matching regression</td></tr>
+    <tr><td>VIES failure rate by country</td><td>VIES client counters</td><td>&gt;50% for any country = service down</td></tr>
+    <tr><td>SAME_AS queue size (unreviewed)</td><td>Neo4j query</td><td>&gt;100 = operator needs to review</td></tr>
+    <tr><td>Duplicate Company nodes (same VAT, different gmr_id)</td><td>Neo4j query</td><td>&gt;0 = dedup job needed</td></tr>
+    <tr><td>Contracts loaded today</td><td>ETL summary</td><td>0 on a weekday = ETL failed silently</td></tr>
+    <tr><td>Total graph node/relationship counts</td><td>Neo4j <code>CALL db.stats.retrieve("GRAPH COUNTS")</code></td><td>Sudden drops = data loss</td></tr>
+    <tr><td>Parser errors (unparseable XML)</td><td>ETL log</td><td>&gt;1% of notices = schema change</td></tr>
+  </table>
+
+  <p><strong>Implementation:</strong> The ETL writes a JSON summary after each run to NFS (<code>/srv/nfs/gmr/etl-metrics/{date}.json</code>). A lightweight API endpoint (<code>GET /api/data-quality</code>) reads the latest summaries + runs a few Neo4j count queries. The frontend renders it as a simple status page. No Prometheus/Grafana dependency for v1.</p>
+</div>
+
 <div class="phase" id="phase7">
   <div class="phase-header">
     <span class="phase-badge">PHASE 7</span>
@@ -974,9 +999,57 @@ CREATE CONSTRAINT cpv_code IF NOT EXISTS
 
 -- Indexes (query performance)
 CREATE INDEX company_vat IF NOT EXISTS FOR (c:Company) ON (c.vat)
+CREATE INDEX company_name_normalized IF NOT EXISTS FOR (c:Company) ON (c.name_normalized)
 CREATE INDEX contract_award_date IF NOT EXISTS FOR (ct:Contract) ON (ct.award_date)
 CREATE INDEX contract_country IF NOT EXISTS FOR (ct:Contract) ON (ct.country)
-CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)</code></pre>
+CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)
+
+-- Full-text index for fuzzy name matching (Layer 4)
+CREATE FULLTEXT INDEX companyNameIndex IF NOT EXISTS
+  FOR (n:Company) ON EACH [n.name_normalized]</code></pre>
+
+
+<h2>Testing Strategy</h2>
+
+<p>Consistent with the established project conventions: <strong>smallest tests possible, public-API-oriented, mock at the boundary, no network in unit tests.</strong></p>
+
+<table>
+  <tr><th>Module</th><th>What to test</th><th>How</th></tr>
+  <tr>
+    <td><code>src/eforms/</code> (parser library)</td>
+    <td>Each extractor: XML in &rarr; dataclass out</td>
+    <td>Craft minimal XML snippets per extractor. Test through <code>parse()</code> public interface. No mocks needed &mdash; pure functions. One test per edge case (missing value, multi-lot, joint venture).</td>
+  </tr>
+  <tr>
+    <td><code>ted_matcher.py</code></td>
+    <td>Each matching layer independently</td>
+    <td>Mock Neo4j session (same pattern as <code>test_load_gleif.py</code>). Mock VIES HTTP client. Test: Layer 1 cache hit, Layer 2 VIES returns name, Layer 3 GLEIF finds LEI, Layer 4 fuzzy match, Layer 5 creates new node. Test VIES failure &rarr; graceful fallthrough.</td>
+  </tr>
+  <tr>
+    <td><code>load_ted_contracts.py</code></td>
+    <td>Batching, idempotency, Cypher parameter shapes</td>
+    <td>Mock Neo4j driver + mock <code>stream_notices()</code>. Same pattern as <code>test_load_eu_listings.py</code>.</td>
+  </tr>
+  <tr>
+    <td><code>contracts.py</code> (API router)</td>
+    <td>Endpoint responses, error handling</td>
+    <td>Override <code>get_neo4j_client</code> dependency with a mock. Test through FastAPI test client (same pattern as existing router tests).</td>
+  </tr>
+  <tr>
+    <td><code>ContractsPanel.vue</code></td>
+    <td>Rendering, empty state, sorting</td>
+    <td>Vitest with mock API responses (same pattern as <code>SummaryPanel.test.js</code>).</td>
+  </tr>
+  <tr>
+    <td>E2E</td>
+    <td>Navigate to company &rarr; Contracts tab &rarr; table renders</td>
+    <td>Playwright against production (<code>BASE_URL=https://gmr.void42.net</code>).</td>
+  </tr>
+</table>
+
+<div class="callout ok">
+  <strong>The <code>src/eforms/</code> library is the most testable part of this plan.</strong> Pure dataclass extraction from XML &mdash; no database, no network, no state. Each extractor gets its own test file with crafted XML fixtures. This is where we invest the most testing effort because parser bugs have the highest blast radius (every contract loaded with wrong data).
+</div>
 
 
 <!-- ═══════════════════════════════════════════════════════ UPDATES -->
@@ -1050,9 +1123,9 @@ POST https://api.ted.europa.eu/v3/notices/search
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>Phases 5&ndash;6</td><td>Spike + ETL pipeline + 2024 data in Neo4j + daily CronJob</td></tr>
-  <tr><td>2</td><td>Phase 7</td><td>API endpoints + tests + deployed</td></tr>
-  <tr><td>3</td><td>Phase 8</td><td>Contracts UI tab + full e2e gate on both repos</td></tr>
+  <tr><td>1</td><td>Phases 5&ndash;6</td><td>Spike + eForms parser library (with tests) + ETL pipeline + 2024 data in Neo4j</td></tr>
+  <tr><td>2</td><td>Phase 6b + 7</td><td>Data quality dashboard + API endpoints + tests + deployed</td></tr>
+  <tr><td>3</td><td>Phase 8</td><td>Contracts UI tab + daily CronJob + full e2e gate on both repos</td></tr>
   <tr><td>4</td><td>Backfill</td><td>Historical load: 2023, 2022, &hellip; back to 2018</td></tr>
 </table>
 
@@ -1100,7 +1173,7 @@ POST https://api.ted.europa.eu/v3/notices/search
 <div class="callout warn">
   <strong>6. Authority deduplication is a rabbit hole.</strong>
   <p>&ldquo;Bundesministerium des Innern und f&uuml;r Heimat&rdquo; vs &ldquo;BMI&rdquo; vs &ldquo;Federal Ministry of the Interior&rdquo; &mdash; all the same authority, three different names in TED data across different notices and languages. Naive name-based Authority IDs will fragment badly.</p>
-  <p><strong>Mitigation:</strong> Accept initial fragmentation. Authorities are less critical than companies for the corruption-detection use case. Add a manual mapping table (CSV of authority aliases) that the ETL consults. Iterate on this as patterns emerge from real data.</p>
+  <p><strong>Mitigation:</strong> Accept initial fragmentation. Add a manual mapping table (CSV of authority aliases) that the ETL consults. Iterate on this as patterns emerge from real data.</p>
 </div>
 
 <div class="callout warn">
@@ -1143,7 +1216,7 @@ POST https://api.ted.europa.eu/v3/notices/search
 <ul>
   <li><strong>Data source choice.</strong> TED bulk XML is the right approach &mdash; same pattern as GLEIF, proven in production, no rate limits, idempotent.</li>
   <li><strong>Incremental daily updates.</strong> The daily OJ S packages + MERGE by notice ID is clean. No reconciliation needed.</li>
-  <li><strong>Conservative matching thresholds.</strong> Auto-match at &gt;0.85 Dice and creating new nodes for everything else means we won&rsquo;t merge different companies. Duplicates are fixable; wrong merges are catastrophic for a corruption-detection tool.</li>
+  <li><strong>Conservative matching thresholds.</strong> Auto-match at &gt;0.85 Dice and creating new nodes for everything else means we won&rsquo;t merge different companies. Duplicates are fixable; wrong merges are catastrophic for a knowledge base.</li>
   <li><strong>Company-ID-first API.</strong> Moving from <code>/{ticker}</code> to <code>/companies/{gmr_id}</code> is the right architectural direction. The ticker-based API was always a concession to the &ldquo;stock screener&rdquo; origin.</li>
 </ul>
 
@@ -1165,16 +1238,6 @@ POST https://api.ted.europa.eu/v3/notices/search
 </div>
 
 <h3>Things this plan ignores</h3>
-
-<div class="callout warn">
-  <strong>No data quality dashboard.</strong>
-  <p>We&rsquo;re about to ingest 200K+ records/year from an external source with known quality issues (missing values, inconsistent identifiers, multi-lingual names). Without a dashboard showing: match rates, unmatched high-value contracts, VIES failure rates, duplicate Company nodes &mdash; we&rsquo;re flying blind. A simple Grafana board (or even a daily log summary) should be a Phase 6 deliverable, not an afterthought.</p>
-</div>
-
-<div class="callout warn">
-  <strong>No data quality dashboard.</strong>
-  <p>Before drawing any conclusions from the data, we need high confidence in its accuracy. A Grafana board (or daily log summary) showing match rates, unmatched high-value contracts, VIES failure rates, SAME_AS queue size, and duplicate Company nodes should be a Phase 6 deliverable.</p>
-</div>
 
 <div class="callout warn">
   <strong>No consideration of sub-threshold procurement.</strong>
