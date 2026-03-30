@@ -980,25 +980,47 @@ for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
   ]
 }</code></pre>
 
-  <h4>Contract data interface (new seam)</h4>
-  <p>Contracts do <strong>not</strong> go through <code>FinancialDataSource</code> &mdash; that interface is for financial data. Instead, a new <code>ContractDataSource</code> abstract class provides the seam for contract queries. This keeps the two concerns separate and both independently testable:</p>
-  <pre><code>class ContractDataSource(ABC):
+  <h4>Three interfaces, three concerns</h4>
+  <p>The API has three distinct data concerns, each behind its own abstract class:</p>
+  <pre><code># 1. Financial data (existing — unchanged)
+class FinancialDataSource(ABC):
+    def get_annual_fundamentals(self, ticker, years) -&gt; dict: ...
+    def get_price_history(self, ticker, period) -&gt; DataFrame: ...
+    def search_tickers(self, query, limit) -&gt; list[dict]: ...
+    # ... (all existing methods)
+
+# 2. Contract data (new)
+class ContractDataSource(ABC):
     def get_company_contracts(self, gmr_id: str, years: int) -&gt; list[dict]: ...
     def get_contract_detail(self, notice_id: str) -&gt; dict | None: ...
     def get_sector_summary(self, country: str, year: int) -&gt; list[dict]: ...
-    def search_similar(self, name: str, country: str, limit: int) -&gt; list[dict]: ...
 
-# Production implementation: GraphContractSource (uses Neo4jClient)
-# Tests: override with a mock via dependency injection, same pattern as FinancialDataSource</code></pre>
+# 3. Entity resolution (new — shared by both ETL and API)
+class EntityResolver(ABC):
+    def search_similar(self, name: str, entity_type: str,
+                       country: str, limit: int) -&gt; list[dict]: ...
+    def resolve_by_vat(self, country: str, vat: str) -&gt; str | None: ...
+    def resolve_by_lei(self, lei: str) -&gt; str | None: ...
 
-  <h4>Search results include gmr_id</h4>
-  <p><code>GraphDataSource.search_tickers()</code> and <code>get_available_tickers()</code> must return <code>gmr_id</code> in every result dict. The frontend needs this to navigate to <code>/company/{gmr_id}/contracts</code>. Small change in the Cypher <code>RETURN</code> clause + response schema.</p>
+# Production: all three backed by Neo4jClient
+# Tests: each independently mockable via dependency injection</code></pre>
+
+  <p><code>EntityResolver</code> is the shared abstraction. The ETL uses it during matching (layers 1&ndash;4). The API exposes it as <code>/companies/similar</code> and <code>/authorities/similar</code> for operator review. Both <code>FinancialDataSource</code> and <code>ContractDataSource</code> can delegate identity lookups to it.</p>
+
+  <h4>gmr_id everywhere in responses</h4>
+  <ul>
+    <li><code>search_tickers()</code> and <code>get_available_tickers()</code> return <code>gmr_id</code> in every result dict</li>
+    <li>The fundamentals response (<code>GET /{ticker}/fundamentals</code>) includes <code>gmr_id</code> in the top-level object</li>
+    <li>The frontend always has <code>gmr_id</code> available once a company is loaded, regardless of entry point (search, direct URL, etc.)</li>
+  </ul>
 
   <h4>Similarity search endpoint</h4>
-  <p>The <code>search_similar()</code> method is the foundation of the <code>[:SAME_AS]</code> workflow. It uses the same Neo4j full-text fuzzy index as Layer 4 matching, exposed as an API:</p>
   <pre><code>GET /companies/similar?name=Siemens+AG&amp;country=DE&amp;limit=10
-&rarr; [{ gmr_id, name, country, dice_score, lei, vat }, ...]</code></pre>
-  <p>This serves both programmatic use (the ETL calls it during matching) and operator use (the review UI shows &ldquo;did you mean one of these?&rdquo; when creating a new node). Applies to both Company and Authority entities.</p>
+&rarr; [{ gmr_id, name, country, dice_score, lei, vat }, ...]
+
+GET /authorities/similar?name=Bundesministerium&amp;country=DE&amp;limit=10
+&rarr; [{ authority_id, name, country, dice_score }, ...]</code></pre>
+  <p>Foundation of the <code>[:SAME_AS]</code> workflow. Used by ETL (programmatic matching on every entity creation) and operators (review UI: &ldquo;did you mean one of these?&rdquo;).</p>
 </div>
 
 <div class="phase" id="phase8">
@@ -1054,12 +1076,18 @@ CREATE FULLTEXT INDEX authorityNameIndex IF NOT EXISTS
     <span class="phase-badge">DAILY CRONJOB</span>
     <span class="phase-title">Neo4j database dump</span>
   </div>
-  <p>Runs nightly at 02:00 UTC (before the TED ETL at 06:00):</p>
-  <pre><code>kubectl -n gmr exec deploy/neo4j -- neo4j-admin database dump neo4j \
-  --to-path=/data/backups/ --overwrite-destination
-# Copy to NFS for off-pod persistence
-kubectl cp gmr/neo4j-pod:/data/backups/neo4j.dump /srv/nfs/gmr/neo4j-backups/$(date +%Y%m%d).dump</code></pre>
-  <p>Retention: keep 7 daily dumps on NFS. Restore: <code>neo4j-admin database load neo4j --from-path=...</code></p>
+  <p>Runs nightly at 02:00 UTC (before the TED ETL at 06:00). Uses APOC export which runs online &mdash; no need to stop the database:</p>
+  <pre><code># Online backup via APOC (runs while DB is serving traffic)
+kubectl -n gmr exec deploy/neo4j -- cypher-shell -u neo4j -p $NEO4J_PASSWORD \
+  "CALL apoc.export.json.all('/data/backups/full.json', {useTypes: true})"
+
+# Copy to NFS
+kubectl cp gmr/neo4j-pod:/data/backups/full.json \
+  /srv/nfs/gmr/neo4j-backups/$(date +%Y%m%d).json
+
+# Fallback: neo4j-admin dump (requires brief read lock, use if APOC export is too slow)
+# kubectl -n gmr exec deploy/neo4j -- neo4j-admin database dump neo4j --to-path=/data/backups/</code></pre>
+  <p>Retention: 7 daily backups on NFS. Restore: <code>CALL apoc.import.json(&quot;file:///backups/YYYYMMDD.json&quot;)</code> or <code>neo4j-admin database load</code>.</p>
 </div>
 
 
@@ -1095,14 +1123,39 @@ kubectl cp gmr/neo4j-pod:/data/backups/neo4j.dump /srv/nfs/gmr/neo4j-backups/$(d
     <td>Vitest with mock API responses (same pattern as <code>SummaryPanel.test.js</code>).</td>
   </tr>
   <tr>
+    <td>Matching pipeline (integration)</td>
+    <td>Full matching flow against real Neo4j</td>
+    <td>Docker Neo4j test container (<code>neo4j:5-community</code>), spun up once per test session via <code>conftest.py</code> fixture. Load 100 test companies, run matcher, verify match rates + Dice scores + SAME_AS creation. This is the one test that requires a live graph &mdash; validates full-text index + fuzzy scoring + country filtering work together.</td>
+  </tr>
+  <tr>
     <td>E2E</td>
     <td>Navigate to company &rarr; Contracts tab &rarr; table renders</td>
     <td>Playwright against production (<code>BASE_URL=https://gmr.void42.net</code>).</td>
   </tr>
 </table>
 
+<h4>Neo4j test container (<code>conftest.py</code>)</h4>
+<pre><code># Shared fixture — starts once per pytest session, reused by all integration tests
+import pytest, docker
+
+@pytest.fixture(scope="session")
+def neo4j_container():
+    client = docker.from_env()
+    container = client.containers.run(
+        "neo4j:5-community",
+        environment={"NEO4J_AUTH": "neo4j/test"},
+        ports={"7687/tcp": None},  # random available port
+        detach=True,
+    )
+    # wait for ready, yield bolt URI, cleanup on teardown
+    ...
+    yield f"bolt://localhost:{port}"
+    container.stop()
+    container.remove()</code></pre>
+<p>No testcontainers dependency needed &mdash; plain <code>docker</code> Python client (already available). The container starts in ~3s, runs all integration tests, then is torn down. Maintenance-free: the Neo4j version tag (<code>5-community</code>) matches production.</p>
+
 <div class="callout ok">
-  <strong>The <code>src/eforms/</code> library is the most testable part of this plan.</strong> Pure dataclass extraction from XML &mdash; no database, no network, no state. Each extractor gets its own test file with crafted XML fixtures. This is where we invest the most testing effort because parser bugs have the highest blast radius (every contract loaded with wrong data).
+  <strong>The <code>eforms-parser</code> library is the most testable part of this plan.</strong> Pure dataclass extraction from XML &mdash; no database, no network, no state. Each extractor gets its own test file with crafted XML fixtures. This is where we invest the most testing effort because parser bugs have the highest blast radius (every contract loaded with wrong data).
 </div>
 
 
@@ -1287,8 +1340,8 @@ POST https://api.ted.europa.eu/v3/notices/search
 </div>
 
 <div class="callout warn">
-  <strong>The API migration from ticker to gmr_id will break the frontend.</strong>
-  <p>The Vue SPA routes are ticker-based (<code>/AAPL/summary</code>, <code>/GALP.LS/fundamentals</code>). Adding <code>/company/{gmr_id}</code> routes alongside is fine, but making contracts <em>only</em> accessible via gmr_id means the frontend needs a way to resolve <code>ticker &rarr; gmr_id</code> before it can fetch contracts. This resolution step needs to be fast (cached, or embedded in the initial page load). Don&rsquo;t underestimate the frontend plumbing here.</p>
+  <strong>The API migration from ticker to gmr_id requires frontend plumbing.</strong>
+  <p>Breaking changes to the API are fine &mdash; this is a dev environment. But the frontend needs <code>gmr_id</code> to fetch contracts. Solution: <code>gmr_id</code> is now returned in both search results and fundamentals responses, so the frontend always has it available once a company is loaded. The Vue router adds <code>/company/{gmr_id}</code> routes alongside existing <code>/{ticker}</code> routes.</p>
 </div>
 
 <h3>Things this plan ignores</h3>
