@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMR Platform — Graph Migration Plan</title>
+  <style>
+    :root {
+      --bg:       #ffffff;
+      --bg2:      #f6f8fa;
+      --border:   #d0d7de;
+      --text:     #1f2328;
+      --text2:    #636c76;
+      --accent:   #0969da;
+      --green:    #1a7f37;
+      --red:      #cf222e;
+      --code-bg:  #f6f8fa;
+      --tag-bg:   #ddf4ff;
+      --tag-text: #0550ae;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:       #0d1117;
+        --bg2:      #161b22;
+        --border:   #30363d;
+        --text:     #e6edf3;
+        --text2:    #848d97;
+        --accent:   #58a6ff;
+        --green:    #3fb950;
+        --red:      #f85149;
+        --code-bg:  #161b22;
+        --tag-bg:   #112d45;
+        --tag-text: #79c0ff;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      padding: 0 1rem 4rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 2rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    header .meta {
+      margin-top: .5rem;
+      font-size: .875rem;
+      color: var(--text2);
+    }
+
+    /* ── Headings ── */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 2.5rem 0 .75rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 2rem 0 .6rem;
+      color: var(--text);
+    }
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 .4rem;
+    }
+
+    /* ── Body text ── */
+    p { margin: .6rem 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { font-weight: 600; }
+    em { font-style: italic; color: var(--text2); }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* ── Code ── */
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: .85em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .15em .35em;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: .75rem 0 1rem;
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ── Lists ── */
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: .5rem 0;
+    }
+    li { margin: .3rem 0; }
+    li p { margin: 0; }
+    ul li::marker { color: var(--text2); }
+
+    /* ── Checklist ── */
+    ul.checklist { list-style: none; padding-left: 0; }
+    ul.checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      padding: .25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li .check {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      margin-top: .15rem;
+      background: var(--bg);
+    }
+
+    /* ── Phase cards ── */
+    .phase {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1rem;
+    }
+    .phase-badge {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: .2em .6em;
+      border-radius: 20px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      white-space: nowrap;
+    }
+    .phase-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .phase-sub {
+      font-size: .875rem;
+      color: var(--text2);
+      font-style: italic;
+      margin-bottom: .75rem;
+    }
+
+    /* ── Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: .75rem 0 1rem;
+      font-size: .875rem;
+      display: block;
+      overflow-x: auto;
+    }
+    th {
+      background: var(--bg2);
+      text-align: left;
+      font-weight: 600;
+      padding: .5rem .75rem;
+      border: 1px solid var(--border);
+    }
+    td {
+      padding: .45rem .75rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--bg2); }
+
+    /* ── Principles ── */
+    .principles ol {
+      counter-reset: principle;
+      list-style: none;
+      padding: 0;
+    }
+    .principles ol li {
+      counter-increment: principle;
+      display: flex;
+      gap: .75rem;
+      margin: .6rem 0;
+      align-items: flex-start;
+    }
+    .principles ol li::before {
+      content: counter(principle);
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: .15rem;
+    }
+
+    /* ── Pain / unchanged blocks ── */
+    .callout {
+      border-left: 3px solid var(--border);
+      padding: .5rem 1rem;
+      margin: .75rem 0;
+      background: var(--bg2);
+      border-radius: 0 6px 6px 0;
+    }
+    .callout.warn { border-color: var(--red); }
+    .callout.ok   { border-color: var(--green); }
+
+    /* ── Open questions ── */
+    .questions ol {
+      padding-left: 1.25rem;
+    }
+    .questions li {
+      margin: .6rem 0;
+      padding: .5rem .75rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      list-style-position: outside;
+    }
+
+    /* ── ETL sub-steps ── */
+    .etl-step {
+      margin: 1rem 0;
+      padding: .75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+    }
+    .etl-step h4 {
+      margin: 0 0 .5rem;
+      font-size: .9rem;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      color: var(--accent);
+    }
+    .etl-step ul {
+      margin: 0;
+      font-size: .9rem;
+    }
+
+    /* ── TOC ── */
+    nav {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2.5rem;
+      font-size: .9rem;
+    }
+    nav strong { display: block; margin-bottom: .5rem; color: var(--text2); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+    nav ol { padding-left: 1.25rem; margin: 0; }
+    nav li { margin: .2rem 0; }
+    nav a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>GMR Platform — Graph Migration Plan</h1>
+  <div class="meta">Last updated: March 2026 &nbsp;·&nbsp; Status: draft, awaiting feedback</div>
+</header>
+
+<nav>
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#architecture">Architecture Overview</a></li>
+    <li><a href="#gmr-id">Internal Company ID</a></li>
+    <li><a href="#data-model">Data Model</a></li>
+    <li><a href="#phases">Phased Plan</a>
+      <ol>
+        <li><a href="#phase0">Phase 0 — Finalize</a></li>
+        <li><a href="#phase1">Phase 1 — Infrastructure</a></li>
+        <li><a href="#phase2">Phase 2 — ETL</a></li>
+        <li><a href="#phase3">Phase 3 — API Adapter</a></li>
+        <li><a href="#phase4">Phase 4 — UI</a></li>
+      </ol>
+    </li>
+    <li><a href="#unchanged">What Does Not Change</a></li>
+    <li><a href="#questions">Open Questions</a></li>
+  </ol>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════ ARCHITECTURE -->
+<h2 id="architecture">Architecture Overview</h2>
+
+<h3>Current State</h3>
+<pre>┌─────────────┐     HTTP      ┌─────────────────────────────────────────┐
+│   gmr-web   │ ──────────── │            edgar-gmr-etl (API)           │
+│  (Vue SPA)  │              │                                           │
+└─────────────┘              │  RoutingDataSource                        │
+                             │    ├── EsefDataSource  (EU)               │
+                             │    └── EdgarDataSource (NA)               │
+                             └─────────────┬───────────────────────────┘
+                                           │ reads flat files
+                             ┌─────────────┴───────────────────────────┐
+                             │  NFS  (/srv/nfs)                         │
+                             │    edgar-data/                           │
+                             │      prices/daily/{TICKER}.csv           │
+                             │      prices/_index.yml                   │
+                             │      full/reference/company_tickers.json │
+                             │    gmr/esef/                             │
+                             │      eu_entities.json                    │
+                             │      summaries/{TICKER}.json             │
+                             └─────────────────────────────────────────┘</pre>
+
+<p><strong>What the API currently does:</strong></p>
+<ul>
+  <li>Reads <code>eu_entities.json</code> to know which tickers are EU</li>
+  <li>Reads <code>summaries/{TICKER}.json</code> for EU financial data</li>
+  <li>Calls <code>edgartools</code> library for US financial data (EDGAR live)</li>
+  <li>Reads <code>prices/daily/{TICKER}.csv</code> for all price history</li>
+  <li>Routes every request by ticker using an in-memory set</li>
+</ul>
+
+<div class="callout warn" style="margin-top:1rem">
+  <strong>Pain points</strong>
+  <ul style="margin-top:.4rem">
+    <li>Company identity is a ticker string — one company, multiple listings = multiple disconnected records</li>
+    <li>No company entity that exists independently of a market listing</li>
+    <li>Companies without a resolvable ticker are invisible to the system</li>
+    <li>EU/US split is a routing hack, not a data model</li>
+    <li>No foundation for people, contracts, ownership, or any relational data</li>
+  </ul>
+</div>
+
+<h3>Target State</h3>
+<pre>┌─────────────┐     HTTP      ┌─────────────────────────────────────────┐
+│   gmr-web   │ ──────────── │         edgar-gmr-etl (API)              │
+│  (Vue SPA)  │              │                                           │
+│  unchanged  │              │  GraphDataSource  (new adapter)           │
+└─────────────┘              │    ├── Neo4j  (entities + financials)     │
+                             │    └── NFS CSV  (price time series)       │
+                             └─────────┬─────────────┬───────────────────┘
+                                       │             │
+                          ┌────────────┴──┐   ┌──────┴──────────────────┐
+                          │  Neo4j        │   │  NFS  (unchanged)        │
+                          │  (graph DB)   │   │  prices/daily/*.csv      │
+                          │               │   │  prices/_index.yml       │
+                          │  Company      │   └─────────────────────────┘
+                          │  Listing      │
+                          │  FinancialYear│
+                          │  ...          │
+                          └───────────────┘</pre>
+
+<p><strong>What changes:</strong></p>
+<ul>
+  <li>The <code>FinancialDataSource</code> interface (already abstract) gets a new <code>GraphDataSource</code> implementation</li>
+  <li>The API response shapes do not change — the frontend is unaffected</li>
+  <li>Price CSVs stay on NFS, referenced by <code>Listing.ticker</code></li>
+  <li>Neo4j holds everything else: company master records, listings, financial history</li>
+</ul>
+
+<h3>Key Architectural Principles</h3>
+<div class="principles">
+  <ol>
+    <li><strong>Company-first, not ticker-first.</strong> The canonical entity is a company identified by <code>gmr_id</code>. A ticker is a listing attribute, not an identity.</li>
+    <li><strong>GLEIF is the company master record.</strong> For any company with a LEI, GLEIF data is authoritative for name, country, legal form, and status. We store the LEI and reference back to GLEIF.</li>
+    <li><strong>Price time series stay flat.</strong> CSVs on NFS are the right structure for OHLCV data. No graph database stores time series efficiently. The API bridges the two stores.</li>
+    <li><strong>The <code>FinancialDataSource</code> interface is the seam.</strong> The frontend and all business logic depend on this contract. Adding a graph backend means implementing this interface — nothing above it changes.</li>
+    <li><strong>Idempotent ETL.</strong> Every ETL script can be re-run safely. <code>MERGE</code> on <code>gmr_id</code> prevents duplicates.</li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ GMR ID -->
+<hr>
+<h2 id="gmr-id">Internal Company ID (<code>gmr_id</code>)</h2>
+
+<p>CIK is US-only (SEC EDGAR). LEI is the best global identifier but not universal — many companies, especially in emerging markets, lack one. We need an internal ID that works for every company on earth regardless of whether external IDs exist.</p>
+
+<h3>Proposal: UUID version 5 (deterministic)</h3>
+
+<pre>gmr_id = str(uuid.uuid5(GMR_NAMESPACE, canonical_source_id))</pre>
+
+<p>Where <code>GMR_NAMESPACE = UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")</code> (fixed, defined once) and <code>canonical_source_id</code> is resolved in priority order:</p>
+<ol>
+  <li><code>lei:{LEI}</code> &nbsp;—&nbsp; e.g. <code>lei:549300EEJH4FEPDBBR25</code></li>
+  <li><code>edgar:{zero-padded-10-digit-CIK}</code> &nbsp;—&nbsp; e.g. <code>edgar:0000320193</code></li>
+  <li><code>{ISO2}:{national_registration_number}</code> &nbsp;—&nbsp; e.g. <code>gb:05765016</code> (Companies House)</li>
+  <li><code>{ISO2}:{normalized_legal_name}</code> &nbsp;—&nbsp; last resort, name-based</li>
+</ol>
+
+<h4>Why UUID5</h4>
+<ul>
+  <li><strong>Deterministic</strong> — same company always gets the same <code>gmr_id</code> regardless of run or machine</li>
+  <li>Standard format, works in every database, language, and URL</li>
+  <li>Collision-free in practice (SHA-1 namespace, 2<sup>122</sup> space)</li>
+  <li>ETL idempotency: <code>MERGE (c:Company {gmr_id: $id})</code> is safe to run repeatedly</li>
+</ul>
+
+<h4>Example</h4>
+<pre>Telefonica SA  →  lei:549300EEJH4FEPDBBR25  →  gmr_id: "f47ac10b-58cc-5372-a567-0e02b2c3d479"
+Apple Inc      →  edgar:0000320193           →  gmr_id: "3c7de3e4-1234-5678-abcd-ef0123456789"</pre>
+
+<p>External IDs are stored as <strong>separate indexed properties</strong> on the Company node, not encoded into <code>gmr_id</code>:</p>
+<pre>lei:         "549300EEJH4FEPDBBR25"   (indexed, nullable)
+cik:         "0000320193"             (indexed, nullable, US only)
+local_id:    "05765016"               (indexed, nullable, national reg number)
+isin:        ["ES0178430E18", ...]    (list — a company can have multiple ISINs)</pre>
+
+
+<!-- ═══════════════════════════════════════════════════════ DATA MODEL -->
+<hr>
+<h2 id="data-model">Data Model</h2>
+
+<h3>Nodes</h3>
+<pre>(:Company {
+  gmr_id:     string,   // UUID5, primary key
+  lei:        string,   // GLEIF LEI, indexed, nullable
+  cik:        string,   // EDGAR CIK (zero-padded 10-digit), indexed, nullable
+  local_id:   string,   // national registration number, nullable
+  name:       string,   // legal name
+  country:    string,   // ISO 3166-1 alpha-2
+  legal_form: string,   // "SA", "PLC", "GmbH", etc.
+  sector:     string,   // GICS or NACE sector, nullable
+  active:     boolean   // GLEIF entity status
+})
+
+(:Listing {
+  ticker:     string,   // primary key within this node type, e.g. "TEF.MC"
+  exchange:   string,   // exchange suffix / MIC code, e.g. "MC"
+  currency:   string,   // ISO 4217, e.g. "EUR"
+  active:     boolean
+})
+
+(:FinancialYear {
+  year:             int,
+  source:           string,   // "ESEF" | "EDGAR"
+  revenue:          float,
+  gross_profit:     float,
+  operating_income: float,
+  net_income:       float,
+  ebitda:           float,
+  eps:              float,
+  total_assets:     float,
+  total_debt:       float,
+  equity:           float,
+  cash:             float,
+  capex:            float,
+  filing_date:      string    // ISO date of the filing
+})</pre>
+
+<h3>Relationships</h3>
+<pre>(:Company)-[:LISTED_AS]-&gt;(:Listing)
+// A company can have multiple listings (Madrid, NYSE ADR, Frankfurt dual-listing)
+// The Listing node carries the ticker used to look up price CSVs on NFS
+
+(:Company)-[:REPORTED {year: int}]-&gt;(:FinancialYear)
+// One node per fiscal year per company; year is also on the node for easy filtering</pre>
+
+<h3>Future nodes <em>(out of scope for this plan, defined here for reference)</em></h3>
+<pre>(:Person)           -[:DIRECTS | :MANAGES | :OWNS_STAKE]-&gt; (:Company)
+(:Contract)         -[:AWARDED_TO]-&gt;                        (:Company)
+(:PoliticalRole)    -[:HELD_BY]-&gt;                           (:Person)
+(:CourtCase)        -[:INVOLVES]-&gt;                          (:Company | :Person)
+(:Asset)            -[:OWNED_BY]-&gt;                          (:Company)</pre>
+
+
+<!-- ═══════════════════════════════════════════════════════ PHASES -->
+<hr>
+<h2 id="phases">Phased Plan</h2>
+
+<div class="phase" id="phase0">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 0</span>
+    <span class="phase-title">Finalize Data Model and Tooling</span>
+  </div>
+  <p class="phase-sub">Prerequisite — no code changes to production.</p>
+  <ul class="checklist">
+    <li><span class="check"></span>Agree on this data model (review and feedback on this document)</li>
+    <li><span class="check"></span>Decide on GLEIF full dump vs API for ETL (full dump preferred — no rate limits, weekly refresh)</li>
+    <li><span class="check"></span>Confirm <code>gmr_id</code> UUID5 scheme</li>
+    <li><span class="check"></span>Spike: stand up a local Neo4j instance and load 20 EU companies manually to validate Cypher queries match what the API needs</li>
+  </ul>
+</div>
+
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 1</span>
+    <span class="phase-title">Infrastructure</span>
+  </div>
+  <p class="phase-sub">Deploy Neo4j to the k8s cluster.</p>
+  <ul class="checklist">
+    <li><span class="check"></span>Add Neo4j Helm chart to <code>infra/</code> (community edition, single node for now)</li>
+    <li><span class="check"></span>PVC for Neo4j data on NFS or local SSD (graph data is not large — ~1 GB for current dataset)</li>
+    <li><span class="check"></span>Neo4j browser accessible internally for development</li>
+    <li><span class="check"></span>Connection credentials in k8s Secret, consumed by <code>edgar-gmr-etl</code></li>
+    <li><span class="check"></span>Smoke test: connect from <code>edgar-gmr-etl</code> pod, run <code>RETURN 1</code></li>
+  </ul>
+</div>
+
+<div class="phase" id="phase2">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 2</span>
+    <span class="phase-title">ETL — Load Current Data into Graph</span>
+  </div>
+  <p class="phase-sub">Three sources to ingest, in dependency order.</p>
+
+  <div class="etl-step">
+    <h4>2a. Company master (GLEIF full dump)</h4>
+    <ul>
+      <li>Download GLEIF Level 1 concatenated file (published daily, ~500 MB CSV)</li>
+      <li>Extract: LEI, legal name, country, legal form, entity status</li>
+      <li>Generate <code>gmr_id</code> from <code>lei:{LEI}</code></li>
+      <li><code>MERGE (:Company {gmr_id})</code> — idempotent, safe to re-run weekly</li>
+      <li>This establishes the authoritative company record for all entities with a LEI</li>
+    </ul>
+  </div>
+
+  <div class="etl-step">
+    <h4>2b. EU listings and financials (eu_entities.json + summaries/)</h4>
+    <ul>
+      <li>For each entry in <code>eu_entities.json</code>: find or create Company node by LEI, create Listing node, <code>MERGE [:LISTED_AS]</code></li>
+      <li>For each <code>summaries/{TICKER}.json</code>: find Company by LEI, create FinancialYear nodes per year, <code>MERGE [:REPORTED]</code></li>
+      <li>Companies whose LEI is in the GLEIF dump will already exist from 2a; this step adds listings and financials</li>
+    </ul>
+  </div>
+
+  <div class="etl-step">
+    <h4>2c. US companies and financials (EDGAR)</h4>
+    <ul>
+      <li>For each entry in <code>company_tickers.json</code>: generate <code>gmr_id</code> from <code>edgar:{CIK}</code>, <code>MERGE (:Company {gmr_id})</code></li>
+      <li>Set <code>cik</code>, <code>name</code>, <code>country: "US"</code>, create Listing node, <code>MERGE [:LISTED_AS]</code></li>
+      <li>Fetch annual financials via <code>edgartools</code> (income statement, balance sheet, cash flow) and store as FinancialYear nodes with <code>source: "EDGAR"</code></li>
+      <li>Same schema as EU: revenue, gross_profit, operating_income, net_income, ebitda, eps, total_assets, total_debt, equity, cash, capex</li>
+      <li>Batch ETL job — run once to seed, then refresh periodically via cronjob</li>
+      <li>~10,000 companies; parallelised and checkpointed the same way ESEF summaries are</li>
+    </ul>
+  </div>
+
+  <div class="etl-step">
+    <h4>2d. Price index</h4>
+    <ul>
+      <li>No change to CSV files or <code>_index.yml</code></li>
+      <li>The API resolves: <code>Company → [:LISTED_AS] → Listing.ticker → CSV file path</code></li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase" id="phase3">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 3</span>
+    <span class="phase-title">API Adapter — <code>GraphDataSource</code></span>
+  </div>
+  <p class="phase-sub">New implementation of <code>FinancialDataSource</code> backed by Neo4j + NFS. The existing abstract class is exactly the right seam.</p>
+
+  <p>New module layout inside <code>edgar-gmr-etl</code>:</p>
+  <pre>src/data/graph/
+  graph_data_source.py    # implements FinancialDataSource
+  neo4j_client.py         # connection pool, retry, Cypher helpers
+  price_reader.py         # reads CSV from NFS (reuse existing logic)</pre>
+
+  <p>Method mapping:</p>
+  <table>
+    <tr><th>Interface method</th><th>Backend</th></tr>
+    <tr><td><code>get_annual_fundamentals(ticker)</code></td><td>Cypher: <code>MATCH (:Listing {ticker})&lt;-[:LISTED_AS]-(c)-[:REPORTED]-&gt;(f) RETURN f ORDER BY f.year DESC</code></td></tr>
+    <tr><td><code>get_price_history(ticker, period)</code></td><td>Read CSV from NFS (unchanged)</td></tr>
+    <tr><td><code>get_annual_avg_prices(ticker)</code></td><td>Aggregate from CSV (unchanged)</td></tr>
+    <tr><td><code>get_market_snapshot(ticker)</code></td><td>Graph for company metadata + CSV for price</td></tr>
+    <tr><td><code>get_available_tickers()</code></td><td>Cypher: <code>MATCH (l:Listing) RETURN l.ticker, l.exchange</code></td></tr>
+    <tr><td><code>search_tickers(query)</code></td><td>Full-text index on <code>Company.name</code> + <code>Listing.ticker</code></td></tr>
+  </table>
+
+  <p><code>RoutingDataSource</code> is retired once <code>GraphDataSource</code> is fully operational — the graph handles both EU and US from the same query path.</p>
+
+  <ul class="checklist">
+    <li><span class="check"></span>Implement <code>GraphDataSource</code> with full test coverage against a test Neo4j container</li>
+    <li><span class="check"></span>Run in parallel with existing data sources (feature flag or config toggle) to validate parity</li>
+    <li><span class="check"></span>Decommission <code>RoutingDataSource</code>, <code>EsefDataSource</code>, <code>EdgarDataSource</code> once parity confirmed</li>
+  </ul>
+</div>
+
+<div class="phase" id="phase4">
+  <div class="phase-header">
+    <span class="phase-badge">PHASE 4</span>
+    <span class="phase-title">UI Adaptation</span>
+  </div>
+  <p class="phase-sub">Expected to be minimal — API contracts are unchanged, frontend sees no difference.</p>
+  <ul class="checklist">
+    <li><span class="check"></span>Audit every <code>gmr-web</code> API call — confirm all use ticker as the entity key</li>
+    <li><span class="check"></span>Company search improves automatically: Neo4j full-text index beats current substring match on flat lists</li>
+    <li><span class="check"></span>Add stable company URL route by <code>gmr_id</code> (e.g. <code>/company/{gmr_id}</code>) alongside <code>/{ticker}</code> — optional now, required later for multi-listed companies</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ UNCHANGED -->
+<hr>
+<h2 id="unchanged">What Does Not Change</h2>
+
+<div class="callout ok">
+  <ul>
+    <li>Price CSV format and NFS layout</li>
+    <li><code>_index.yml</code> price index</li>
+    <li>All API response schemas</li>
+    <li>The <code>FinancialDataSource</code> interface contract</li>
+    <li>The <code>gmr-web</code> frontend (Phase 4 changes are additive, not breaking)</li>
+    <li>The ESEF and price-fetcher cronjobs (they continue writing to NFS as-is)</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ QUESTIONS -->
+<h2 id="questions">Open Questions for Discussion</h2>
+
+<div class="questions">
+  <ol>
+    <li><strong>GLEIF full dump cadence.</strong> GLEIF publishes daily. Do we refresh the Company master weekly (cronjob) or on-demand?</li>
+    <li><strong>Neo4j Community vs Enterprise.</strong> Community is single-node. Is that acceptable long-term or do we plan for clustering from the start?</li>
+    <li><strong>Parallel running period.</strong> How long do we run <code>GraphDataSource</code> alongside the existing sources before cutting over? Suggest: until all known tickers return identical responses.</li>
+  </ol>
+</div>
+
+</body>
+</html>

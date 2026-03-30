@@ -5,13 +5,13 @@
  *
  * Covers:
  *   - Search returns GALP.LS with full .suffix notation in the symbol slot
- *   - Clicking the card navigates to /GALP.LS/fundamentals (not /GALP/…)
+ *   - Clicking the card navigates to /GALP.LS/summary
  *   - ESEF badge is shown in the result card
  *   - Fundamentals panel loads with real data (revenue not null)
- *   - Summary tab is hidden (no price data for ESEF)
+ *   - Summary tab is visible for all tickers (including EU)
  *   - Fundamentals tab is active by default for EU tickers
  *   - Direct navigation to /GALP.LS/fundamentals works
- *   - Direct navigation to /GALP.LS/summary redirects to /GALP.LS/fundamentals
+ *   - Direct navigation to /GALP.LS/summary stays on summary
  */
 import { test, expect } from '@playwright/test'
 
@@ -45,12 +45,12 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
 
   // ── Click-to-navigate ────────────────────────────────────────────────────
 
-  test('clicking the GALP card navigates to /GALP.LS/fundamentals', async ({ page }) => {
+  test('clicking the GALP card navigates to /GALP.LS/summary', async ({ page }) => {
     await page.goto('/')
     await page.fill('input[type="search"]', 'GALP')
     await page.locator('.gmr-card').first().waitFor({ timeout: 8000 })
     await page.locator('.gmr-card').first().click()
-    await expect(page).toHaveURL(/\/GALP\.LS\/fundamentals$/, { timeout: 5000 })
+    await expect(page).toHaveURL(/\/GALP\.LS\/summary$/, { timeout: 5000 })
   })
 
   test('clicking GALP card shows the financials panel', async ({ page }) => {
@@ -87,17 +87,17 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
     await expect(revenueCell).toBeVisible({ timeout: 5000 })
   })
 
-  test('direct navigation to /GALP.LS/summary redirects to fundamentals', async ({ page }) => {
+  test('direct navigation to /GALP.LS/summary stays on summary', async ({ page }) => {
     await page.goto('/GALP.LS/summary')
-    await expect(page).toHaveURL(/\/GALP\.LS\/fundamentals$/, { timeout: 5000 })
+    await expect(page).toHaveURL(/\/GALP\.LS\/summary$/, { timeout: 5000 })
   })
 
   // ── View selector ────────────────────────────────────────────────────────
 
-  test('Summary tab is absent for GALP.LS (no price data)', async ({ page }) => {
+  test('Summary tab is present for GALP.LS', async ({ page }) => {
     await page.goto('/GALP.LS/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 8000 })
-    await expect(page.locator('[data-testid="view-opt-summary"]')).not.toBeVisible()
+    await expect(page.locator('[data-testid="view-opt-summary"]')).toBeVisible()
   })
 
   test('Fundamentals tab is active for GALP.LS', async ({ page }) => {
