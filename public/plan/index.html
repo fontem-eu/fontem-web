@@ -374,7 +374,9 @@
         <li><a href="#phase8">Phase 8 &mdash; Web UI</a></li>
       </ol>
     </li>
+    <li><a href="#updates">Keeping Data Fresh</a></li>
     <li><a href="#sessions">Session Breakdown</a></li>
+    <li><a href="#risks">What Will Break</a></li>
     <li><a href="#questions">Open Questions</a></li>
   </ol>
 </nav>
@@ -580,34 +582,56 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
 <hr>
 <h2 id="matching">Company Matching Strategy</h2>
 
-<p>This is the hardest part. TED identifies companies by name + VAT. Our graph identifies by LEI. We match in four layers, from highest to lowest confidence:</p>
+<p>This is the hardest part. TED identifies companies by name + VAT. Our graph identifies by LEI. We match in five layers, from highest to lowest confidence:</p>
 
 <div class="layer">
   <span class="layer-num">1</span>
-  <h4>VAT direct match</h4>
-  <p>If a Company node already has <code>vat = {vat_number}</code> (set by a previous ETL run), link directly. O(1) index lookup.</p>
+  <h4>VAT direct match (cached)</h4>
+  <p>If a Company node already has <code>vat = {vat_number}</code> (set by a previous ETL run), link directly. O(1) index lookup. This is the fast path for re-runs &mdash; once a VAT is matched, it never needs to be resolved again.</p>
 </div>
 
 <div class="layer">
   <span class="layer-num">2</span>
-  <h4>GLEIF API lookup</h4>
-  <p>Query <code>api.gleif.org</code> by registration number to find the LEI for a given VAT. If found, match to the existing Company node and set <code>vat</code> for future runs. Cache results to avoid re-querying.</p>
+  <h4>VIES validation + enrichment</h4>
+  <p>The EU&rsquo;s <strong>VAT Information Exchange System</strong> provides a free REST API that validates VAT numbers and returns the registered legal name and address:</p>
+  <pre><code>GET https://ec.europa.eu/taxation_customs/vies/rest-api/ms/{CC}/vat/{number}
+&rarr; { isValid, name, address, countryCode }</code></pre>
+  <p>When a contractor&rsquo;s VAT is present in TED data, we query VIES to get the <strong>canonical legal name</strong>. This dramatically improves Layer 4 name matching &mdash; TED often has abbreviated or localized names, while VIES returns the official registered name.</p>
+
+  <div class="callout warn">
+    <strong>VIES limitations:</strong>
+    <ul style="margin-top:.4rem">
+      <li><strong>Germany and Spain</strong> return valid/invalid only &mdash; no name or address (privacy rules)</li>
+      <li><strong>Unreliable:</strong> ~30% downtime for some countries (BE, DE). Queries must have retry logic + backoff</li>
+      <li><strong>No bulk API:</strong> one VAT at a time, undisclosed rate limits. Aggressive polling triggers IP bans</li>
+      <li><strong>ToS grey area:</strong> officially restricted to &ldquo;persons involved in intra-Community supply&rdquo; &mdash; using it for data enrichment is not explicitly permitted</li>
+      <li><strong>All 27 EU states + Northern Ireland (XI)</strong>. No UK (post-Brexit), Norway, or Switzerland</li>
+    </ul>
+  </div>
+
+  <p><strong>Practical approach:</strong> Use VIES as a <em>targeted enrichment tool</em>, not a bulk scraper. Query only for high-value contractors (&gt;&euro;500K) that didn&rsquo;t match on Layer 1. Cache results permanently on the Company node (<code>vat</code>, <code>vies_name</code>). Rate-limit to ~1 req/3s with exponential backoff. Accept that DE and ES contractors won&rsquo;t get VIES names &mdash; fall through to Layer 3.</p>
 </div>
 
 <div class="layer">
   <span class="layer-num">3</span>
-  <h4>Normalized name + country</h4>
-  <p>Normalize the company name (uppercase, strip legal suffixes like &ldquo;S.A.&rdquo;, &ldquo;GmbH&rdquo;). Search existing nodes: <code>WHERE c.country = $country AND toLower(c.name) = toLower($name)</code>. Link if exactly one match.</p>
+  <h4>GLEIF registration lookup</h4>
+  <p>Query <code>api.gleif.org</code> by registration number to find the LEI for a given VAT. If found, match to the existing Company node and set <code>vat</code> for future runs. The GLEIF Level 2 &ldquo;Registration Authority&rdquo; data maps national IDs to LEIs. Cache results.</p>
 </div>
 
 <div class="layer">
   <span class="layer-num">4</span>
+  <h4>Normalized name + country</h4>
+  <p>Normalize the company name (uppercase, strip legal suffixes like &ldquo;S.A.&rdquo;, &ldquo;GmbH&rdquo;, &ldquo;B.V.&rdquo;). Use the VIES-enriched name when available (more reliable than TED name). Search existing nodes: <code>WHERE c.country = $country AND toLower(c.name) = toLower($name)</code>. Link if exactly one match.</p>
+</div>
+
+<div class="layer">
+  <span class="layer-num">5</span>
   <h4>Create new Company node</h4>
-  <p>Unmatched contractors become new nodes via <code>gmr_id.from_national_id(country, vat)</code> or <code>gmr_id.from_name(country, name)</code>. These exist purely from procurement data &mdash; linkable later when they appear in GLEIF.</p>
+  <p>Unmatched contractors become new nodes via <code>gmr_id.from_national_id(country, vat)</code> (preferred if VAT available) or <code>gmr_id.from_name(country, name)</code> (last resort). These exist purely from procurement data &mdash; linkable later when they appear in GLEIF.</p>
 </div>
 
 <div class="callout">
-  <strong>Expected match rate:</strong> ~20% of unique contractors will match existing GLEIF Company nodes. But these represent ~65% of total contract value &mdash; the big companies (SAP, Thales, Bouygues) are in GLEIF. Smaller local firms (local construction, cleaning services) will be new nodes.
+  <strong>Expected match rate:</strong> ~20% of unique contractors will match existing GLEIF Company nodes. But these represent ~65% of total contract value &mdash; the big companies (SAP, Thales, Bouygues) are in GLEIF. Smaller local firms (local construction, cleaning services) will be new nodes. VIES enrichment improves name-matching accuracy for the remaining 80%, potentially lifting the overall match rate to ~30-35%.
 </div>
 
 
@@ -762,16 +786,141 @@ CREATE INDEX contract_country IF NOT EXISTS FOR (ct:Contract) ON (ct.country)
 CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)</code></pre>
 
 
+<!-- ═══════════════════════════════════════════════════════ UPDATES -->
+<hr>
+<h2 id="updates">Keeping Data Fresh</h2>
+
+<p>TED publishes one OJ S (Official Journal Supplement) issue per weekday &mdash; about 250 issues/year. Each daily package contains <strong>all notices published that day</strong>, including new contract awards, corrections to old notices, and contract modifications.</p>
+
+<h3>Daily package access</h3>
+<pre><code># By OJ S issue number (year + zero-padded issue)
+https://ted.europa.eu/packages/daily/202600042
+
+# Or query the Search API for a specific date
+POST https://api.ted.europa.eu/v3/notices/search
+{ "query": "publication-date = 20260330",
+  "fields": ["publication-number", "notice-type", "notice-title"],
+  "limit": 250, "paginationMode": "ITERATION" }</code></pre>
+
+<h3>What a daily package contains</h3>
+<ul>
+  <li><strong>~2,800&ndash;3,200 notices per day</strong> (all types combined), 50&ndash;200 MB compressed</li>
+  <li><strong>New notices:</strong> fresh contract notices, award notices, PINs</li>
+  <li><strong>Change notices (corrigenda):</strong> corrections to previously published notices &mdash; published as <em>new</em> notices with their own ID, referencing the original via BT-758. They contain the <strong>full consolidated text</strong> (not a diff)</li>
+  <li><strong>Contract modifications:</strong> value changes, scope changes &mdash; separate notice type (<code>can-modif</code>)</li>
+</ul>
+
+<h3>Notice lifecycle</h3>
+<table>
+  <tr><th>Notice type</th><th>Code</th><th>What it means</th></tr>
+  <tr><td>Contract Notice</td><td><code>cn-standard</code></td><td>Tender announced &mdash; &ldquo;we want to buy X&rdquo;</td></tr>
+  <tr><td>Contract Award</td><td><code>can-standard</code></td><td>Winner declared &mdash; &ldquo;company Y got it for &euro;Z&rdquo;</td></tr>
+  <tr><td>Modification</td><td><code>can-modif</code></td><td>Value/scope changed after award</td></tr>
+  <tr><td>Completion</td><td><code>compl</code></td><td>Contract finished (new in eForms)</td></tr>
+  <tr><td>Change/Corrigendum</td><td><code>change</code></td><td>Correction to any of the above</td></tr>
+</table>
+
+<h3>ETL update strategy</h3>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">DAILY CRONJOB</span>
+    <span class="phase-title">Incremental contract loader</span>
+  </div>
+  <p>Runs daily at 06:00 UTC (after TED publishes the morning OJ S issue):</p>
+  <ol>
+    <li>Fetch the previous day&rsquo;s OJ S package (or query the Search API by publication-date)</li>
+    <li>Filter to award notices (<code>can-standard</code>, <code>can-social</code>) and modifications (<code>can-modif</code>)</li>
+    <li>For each notice: parse XML, match company, <code>MERGE</code> Contract node by <code>ted_notice_id</code></li>
+    <li>For <strong>change notices</strong>: look up the original Contract by referenced BT-758, update its properties with the consolidated text</li>
+    <li>For <strong>modifications</strong>: update the Contract node&rsquo;s <code>value_eur</code> and add a <code>modified_date</code> property</li>
+  </ol>
+
+  <div class="callout ok">
+    <strong>Idempotent by design.</strong> <code>MERGE</code> on <code>ted_notice_id</code> means processing the same day twice is harmless. Change notices carry consolidated text, so the latest version always wins via <code>SET</code>.
+  </div>
+</div>
+
+<h3>Contract value tracking</h3>
+<p>A contract&rsquo;s value can change after award (modifications are common in public procurement). Our strategy:</p>
+<ul>
+  <li>The Contract node stores the <strong>current</strong> value (<code>value_eur</code>), overwritten by the latest modification</li>
+  <li>The <strong>original</strong> award value is preserved in <code>value_original_award</code> (set once, never overwritten)</li>
+  <li>A <code>modification_count</code> property tracks how many times the contract was modified</li>
+  <li>The full modification history can be reconstructed from TED if needed (each modification is a separate notice)</li>
+</ul>
+
+
 <!-- ═══════════════════════════════════════════════════════ SESSIONS -->
 <hr>
 <h2 id="sessions">Recommended Session Breakdown</h2>
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>Phases 5&ndash;6</td><td>Data model spike + full ETL pipeline + 2024 data loaded in Neo4j</td></tr>
+  <tr><td>1</td><td>Phases 5&ndash;6</td><td>Spike + ETL pipeline + 2024 data in Neo4j + daily CronJob</td></tr>
   <tr><td>2</td><td>Phase 7</td><td>API endpoints + tests + deployed</td></tr>
   <tr><td>3</td><td>Phase 8</td><td>Contracts UI tab + full e2e gate on both repos</td></tr>
+  <tr><td>4</td><td>Backfill</td><td>Historical load: 2023, 2022, &hellip; back to 2018</td></tr>
 </table>
+
+
+<!-- ═══════════════════════════════════════════════════════ RISKS -->
+<hr>
+<h2 id="risks">What Will Break</h2>
+
+<p>An honest assessment of what can fail, and especially what won&rsquo;t age well as data and complexity grow.</p>
+
+<h3>Near-term risks</h3>
+
+<div class="callout warn">
+  <strong>1. Company matching will produce garbage for small contractors.</strong>
+  <p>Layer 5 (name-based <code>gmr_id</code>) is deterministic but fragile. &ldquo;CONSTRUCCIONES GARCIA S.L.&rdquo; and &ldquo;GARCIA CONSTRUCCIONES S.L.&rdquo; produce different gmr_ids &rarr; duplicate Company nodes. This is the single biggest data quality risk. It&rsquo;s manageable at low volume but will compound as we load more years.</p>
+  <p><strong>Mitigation:</strong> Accept duplicates for now. Build a periodic deduplication job that merges Company nodes with the same VAT but different gmr_ids. Log all Layer 5 creations for manual review of high-value contracts.</p>
+</div>
+
+<div class="callout warn">
+  <strong>2. VIES will be down when we need it.</strong>
+  <p>~30% downtime for DE/BE. Germany is the largest EU procurement market. Every daily ETL run will have a batch of contractors it cannot validate.</p>
+  <p><strong>Mitigation:</strong> Never block ETL on VIES. Queue failed VIES lookups for retry in the next run. A &ldquo;vies_pending&rdquo; flag on the Company node triggers re-validation on the next pass.</p>
+</div>
+
+<div class="callout warn">
+  <strong>3. eForms XML schema is not uniform across years.</strong>
+  <p>Pre-October 2023 data uses the old TED XML schema (different structure, different field names). If we backfill to 2018, we need two parsers. The old schema is less well-documented and more variable across countries.</p>
+  <p><strong>Mitigation:</strong> Start with 2024+ (pure eForms). Add the legacy parser only when historical data is explicitly needed.</p>
+</div>
+
+<h3>What won&rsquo;t age well</h3>
+
+<div class="callout warn">
+  <strong>4. <code>get_available_tickers()</code> scans all Listing nodes.</strong>
+  <p>Currently returns 17K listings. Fine. Once we create Company nodes for procurement contractors (potentially 100K+ new companies), we must not let those leak into the ticker search. GraphDataSource must filter to <code>WHERE l.active = true</code>, but as node count grows, full scans will slow down.</p>
+  <p><strong>Mitigation:</strong> Ensure only companies <em>with listings</em> appear in ticker search. Procurement-only companies (no ticker) should never be returned by <code>get_available_tickers()</code>. The current Cypher already does <code>MATCH (c)-[:LISTED_AS]->(l)</code>, so this is safe as long as we never create fake Listing nodes for procurement-only companies.</p>
+</div>
+
+<div class="callout warn">
+  <strong>5. Neo4j single-node will hit memory limits.</strong>
+  <p>Current heap: 512m&ndash;1g, page cache: 512m. With 3.26M companies + 1.7M contracts + relationships, the working set approaches 2&ndash;3 GB. Queries that traverse large subgraphs (e.g. &ldquo;all contracts for companies in sector X&rdquo;) will pressure the page cache.</p>
+  <p><strong>Mitigation:</strong> Monitor Neo4j memory via Prometheus. Increase PVC and pod memory limits proactively (the k8s node has 8 Gi limit available). The community edition&rsquo;s single-node constraint is fine for our scale; we don&rsquo;t need clustering.</p>
+</div>
+
+<div class="callout warn">
+  <strong>6. Authority deduplication is a rabbit hole.</strong>
+  <p>&ldquo;Bundesministerium des Innern und f&uuml;r Heimat&rdquo; vs &ldquo;BMI&rdquo; vs &ldquo;Federal Ministry of the Interior&rdquo; &mdash; all the same authority, three different names in TED data across different notices and languages. Naive name-based Authority IDs will fragment badly.</p>
+  <p><strong>Mitigation:</strong> Accept initial fragmentation. Authorities are less critical than companies for the corruption-detection use case. Add a manual mapping table (CSV of authority aliases) that the ETL consults. Iterate on this as patterns emerge from real data.</p>
+</div>
+
+<div class="callout warn">
+  <strong>7. Contract value accuracy is inherently messy.</strong>
+  <p>TED contract values are self-reported by contracting authorities. They may represent: estimated value, maximum framework value, individual lot value, or total award value. Different countries interpret &ldquo;value&rdquo; differently. Modifications can make the original value meaningless.</p>
+  <p><strong>Mitigation:</strong> Always store both <code>value_original_award</code> and current <code>value_eur</code>. Display both in the UI. Never aggregate contract values across countries without a disclaimer. Framework agreements should be flagged separately (their &ldquo;value&rdquo; is a ceiling, not actual spend).</p>
+</div>
+
+<div class="callout warn">
+  <strong>8. Daily ETL at scale: 3,000 notices/day &times; 365 &times; 8 years = reprocessing debt.</strong>
+  <p>If a parser bug is found after months of daily loading, we need to reprocess all affected notices. Reprocessing years of data takes hours and puts load on Neo4j.</p>
+  <p><strong>Mitigation:</strong> Keep the raw XML packages on disk (or NFS) as an immutable audit log. The ETL should be able to re-run against local files. Add a <code>loaded_at</code> timestamp on Contract nodes to identify what needs reprocessing.</p>
+</div>
 
 
 <!-- ═══════════════════════════════════════════════════════ QUESTIONS -->
@@ -780,11 +929,13 @@ CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)<
 
 <div class="questions">
   <ol>
-    <li><strong>Start year.</strong> Begin with 2024+ only (eForms format, cleanest data), or go back to 2018 (different XML schema, more work)?</li>
-    <li><strong>GLEIF API rate limits.</strong> Layer 2 matching queries GLEIF per-VAT. GLEIF free tier has rate limits. Should we batch-download the GLEIF &ldquo;Registration Authorities&rdquo; file instead (similar to the Level 1 dump approach)?</li>
-    <li><strong>Contract thresholds.</strong> TED only covers contracts above EU thresholds (&euro;140K services, &euro;5.4M works). Smaller contracts are in national portals. Is TED-only sufficient for the first version?</li>
-    <li><strong>Historical backfill priority.</strong> Load 2024 first, then go backwards? Or load everything and wait?</li>
-    <li><strong>Authority deduplication.</strong> Government bodies are identified by name, which varies across languages and abbreviations. How aggressive should we be with deduplication?</li>
+    <li><strong>Start year.</strong> Begin with 2024+ only (eForms format, cleanest data), or go back to 2018 (different XML schema, requires a second parser)?</li>
+    <li><strong>GLEIF registration authority file.</strong> Layer 3 queries GLEIF per-VAT. Should we batch-download the GLEIF Registration Authorities file instead (avoiding rate limits, same approach as Level 1 dump)?</li>
+    <li><strong>VIES usage policy.</strong> The ToS say &ldquo;for persons involved in intra-Community supply.&rdquo; Are we comfortable using it for enrichment? Should we limit to high-value contractors only?</li>
+    <li><strong>Contract thresholds.</strong> TED only covers above-threshold contracts (&euro;140K services, &euro;5.4M works). Smaller contracts are in national portals. Is TED-only sufficient for v1?</li>
+    <li><strong>Authority deduplication.</strong> Government bodies change names across languages and abbreviations. Accept fragmentation initially and clean up later, or invest in a mapping table upfront?</li>
+    <li><strong>Framework agreements.</strong> These have a &ldquo;maximum value&rdquo; that is a ceiling, not actual spend. Should they be loaded alongside regular awards, or flagged/excluded?</li>
+    <li><strong>Raw XML retention.</strong> Should we keep downloaded TED XML packages on NFS as an immutable audit log for reprocessing, or delete after loading?</li>
   </ol>
 </div>
 
