@@ -705,21 +705,22 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
 </div>
 
 <div class="etl-step">
-  <h4>Step 2: Operator review queue</h4>
+  <h4>Step 2: Auto-merge or flag</h4>
   <ul>
-    <li>A Cypher query surfaces unreviewed candidates: <code>MATCH (dup)-[r:SAME_AS {reviewed: false}]-&gt;(canonical) RETURN ...</code></li>
-    <li>Operator marks each as: <strong>approve</strong> (merge), <strong>reject</strong> (not the same), or <strong>defer</strong></li>
-    <li>High-confidence matches (same LEI or same VAT) can auto-approve. Fuzzy name matches require human eyes</li>
-    <li>Initially: Cypher script or Jupyter notebook. Later: simple web page in gmr-web</li>
+    <li><strong>Trivial merge (automatic):</strong> if all shared properties have identical values (or one side is null), merge immediately via <code>apoc.refactor.mergeNodes()</code>. No operator needed. This handles: same LEI on both nodes, or same VAT with no conflicting name/country.</li>
+    <li><strong>Conflicting merge (manual):</strong> if any shared property has <em>different non-null values</em> (e.g., different names, different countries), flag for operator review. The <code>[:SAME_AS]</code> relationship stays with <code>reviewed: false</code>.</li>
+    <li>Operator queue: <code>MATCH (dup)-[r:SAME_AS {reviewed: false}]-&gt;(canonical) RETURN ...</code></li>
+    <li>Operator actions: <strong>approve</strong> (merge, picking canonical values), <strong>reject</strong> (not the same entity), or <strong>defer</strong></li>
+    <li>Initially: Cypher script or Jupyter notebook. Later: simple review page in gmr-web</li>
   </ul>
 </div>
 
 <div class="etl-step">
-  <h4>Step 3: Merge</h4>
+  <h4>Step 3: Execute merge</h4>
   <ul>
     <li>Use <code>apoc.refactor.mergeNodes([canonical, duplicate], {properties: &quot;combine&quot;, mergeRels: true})</code></li>
     <li>The canonical node (LEI-based) survives. All relationships from the duplicate (contracts, listings) are transferred</li>
-    <li>Before merge: create a <code>(:MergeEvent)</code> audit node capturing what was merged and why</li>
+    <li>Before merge: create a <code>(:MergeEvent {canonical_id, merged_id, merged_at, method, properties_before})</code> audit node</li>
     <li>After merge: explicitly set <code>gmr_id</code> to the canonical value (LEI-based wins)</li>
   </ul>
 </div>
@@ -762,16 +763,108 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
 <div class="phase" id="phase6">
   <div class="phase-header">
     <span class="phase-badge">PHASE 6</span>
-    <span class="phase-title">ETL Pipeline</span>
+    <span class="phase-title">ETL Pipeline &mdash; eForms Parser as a Library</span>
   </div>
-  <p class="phase-sub">Follow the patterns established by <code>load_gleif.py</code>: streaming, batched, idempotent.</p>
+  <p class="phase-sub">No Python library for parsing eForms XML exists. We build one with clean interfaces, designed for reuse.</p>
 
-  <p>New files:</p>
-  <pre><code>src/etl/
-  load_cpv.py              # one-time CPV taxonomy (~9K codes)
-  ted_parser.py            # streaming eForms XML parser
-  ted_matcher.py           # company matching (layers 1-4)
-  load_ted_contracts.py    # main: download, parse, match, MERGE</code></pre>
+  <h4>Prior art</h4>
+  <p>Investigated: <a href="https://github.com/OP-TED/eForms-SDK">OP-TED/eForms-SDK</a> (schema only, no parser), <a href="https://github.com/OP-TED/eforms-core-java">eforms-core-java</a> (Java, metadata only), <a href="https://github.com/bjornjorgensen/TED-and-Doffin-to-ocds">bjornjorgensen/TED-and-Doffin-to-ocds</a> (Python, 545 XPath converters &mdash; best reference, but outputs OCDS and is not packaged). Nothing on PyPI or npm. We build our own.</p>
+
+  <h4>What is eForms XML?</h4>
+  <p>Every TED notice is an XML file following the EU&rsquo;s eForms schema (UBL 2.3 + EU extensions). A Contract Award Notice contains: the contract metadata (title, value, CPV, dates), an <strong>organizations block</strong> (all parties defined by ID), and a <strong>results block</strong> that links lots &rarr; tenders &rarr; winning contractors by referencing those org IDs. The parser&rsquo;s job is to resolve these indirections and yield flat, structured records.</p>
+
+  <h4>Library architecture</h4>
+  <pre><code>src/eforms/                          # standalone library — no Neo4j, no GMR dependencies
+  __init__.py
+  namespaces.py                      # XML namespace map (UBL + EU extensions)
+  models.py                          # dataclasses: Notice, Contract, Organization, Lot, Award
+  parser.py                          # main entry: parse(xml_stream) → Notice
+  extractors/                        # one module per concern, each returns a dataclass
+    __init__.py
+    notice_metadata.py               # BT-701, publication number, notice type, dates
+    procedure.py                     # procedure type, title, description
+    organizations.py                 # all orgs: name, VAT, country, address → dict[id, Organization]
+    lots.py                          # lot-level: title, CPV, estimated value
+    awards.py                        # results: lot→tender→contractor mapping, award values
+  filters.py                         # filter notices by type (award only, modifications, etc.)
+  stream.py                          # iterate ZIP archive, yield parsed Notice objects
+
+src/etl/                             # GMR-specific ETL (depends on src/eforms + Neo4j)
+  load_cpv.py                        # one-time CPV taxonomy load
+  ted_matcher.py                     # company matching (layers 1-5)
+  load_ted_contracts.py              # main ETL: download → parse → match → MERGE</code></pre>
+
+  <h4>Key interfaces (dataclasses)</h4>
+  <pre><code>@dataclass
+class Organization:
+    org_id: str           # internal eForms ID (e.g. "ORG-0001")
+    name: str             # legal name
+    country: str          # ISO 3166-1 alpha-2
+    legal_id: str | None  # VAT / national reg number (from cbc:CompanyID)
+    address: str | None
+
+@dataclass
+class Award:
+    lot_id: str
+    contractor_org_id: str       # references Organization.org_id
+    value: float | None
+    currency: str | None
+    award_date: str | None       # ISO date
+
+@dataclass
+class Notice:
+    notice_id: str               # BT-701 UUID
+    publication_number: str      # e.g. "291298-2024"
+    notice_type: str             # "can-standard", "can-modif", etc.
+    title: str
+    description: str | None
+    cpv_main: str | None
+    procedure_type: str | None
+    issue_date: str
+    buyer_org_id: str            # references Organization.org_id
+    total_value: float | None
+    currency: str | None
+    organizations: dict[str, Organization]  # org_id → Organization
+    lots: list[Lot]
+    awards: list[Award]
+
+    def buyer(self) -&gt; Organization:
+        return self.organizations[self.buyer_org_id]
+
+    def contractors(self) -&gt; list[Organization]:
+        return [self.organizations[a.contractor_org_id] for a in self.awards]</code></pre>
+
+  <h4>Usage</h4>
+  <pre><code>from src.eforms.stream import stream_notices
+from src.eforms.filters import awards_only
+
+# Parse a monthly ZIP, yield only Contract Award Notices
+for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
+    print(notice.title, notice.total_value)
+    for award in notice.awards:
+        contractor = notice.organizations[award.contractor_org_id]
+        print(f"  Winner: {contractor.name} ({contractor.legal_id})")
+        print(f"  Value: {award.value} {award.currency}")</code></pre>
+
+  <div class="callout ok">
+    <strong>Why a library?</strong> The eForms XML structure is complex (indirections, lot nesting, org references). By isolating the parser from the ETL, we get: testable extraction logic (mock XML in, dataclass out), reusable for future notice types (PINs, modifications, completions), and a clean seam between &ldquo;understand XML&rdquo; and &ldquo;load into Neo4j.&rdquo;
+  </div>
+
+  <h4>XPath reference (key fields)</h4>
+  <table>
+    <tr><th>Field</th><th>XPath</th></tr>
+    <tr><td>Notice ID</td><td><code>/*/cbc:ID</code></td></tr>
+    <tr><td>Title</td><td><code>//cac:ProcurementProject/cbc:Name</code></td></tr>
+    <tr><td>CPV</td><td><code>//cac:MainCommodityClassification/cbc:ItemClassificationCode[@listName=&apos;cpv&apos;]</code></td></tr>
+    <tr><td>Total value</td><td><code>//efac:NoticeResult/cbc:TotalAmount</code></td></tr>
+    <tr><td>Procedure type</td><td><code>//cac:TenderingProcess/cbc:ProcedureCode[@listName=&apos;procurement-procedure-type&apos;]</code></td></tr>
+    <tr><td>Org name</td><td><code>//efac:Organization/efac:Company/cac:PartyName/cbc:Name</code></td></tr>
+    <tr><td>Org VAT</td><td><code>//efac:Organization/efac:Company/cac:PartyLegalEntity/cbc:CompanyID</code></td></tr>
+    <tr><td>Org country</td><td><code>//efac:Company/cac:PostalAddress/cac:Country/cbc:IdentificationCode</code></td></tr>
+    <tr><td>Contractor ref</td><td><code>//efac:TenderingParty/efac:Tenderer/cbc:ID[@schemeName=&apos;organization&apos;]</code></td></tr>
+  </table>
+
+  <h4>ETL modules (GMR-specific)</h4>
 
   <div class="etl-step">
     <h4>load_cpv.py</h4>
@@ -783,19 +876,10 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
   </div>
 
   <div class="etl-step">
-    <h4>ted_parser.py</h4>
-    <ul>
-      <li>Stream-parse eForms XML with <code>iterparse</code> (same approach as GLEIF)</li>
-      <li>Filter to Contract Award Notices only</li>
-      <li>Extract: title, value, CPV, buyer info, contractor info, dates, procedure type</li>
-      <li>Yield structured dicts &mdash; no database dependency</li>
-    </ul>
-  </div>
-
-  <div class="etl-step">
     <h4>ted_matcher.py</h4>
     <ul>
-      <li>Implement the 4-layer matching strategy</li>
+      <li>Implement the 5-layer matching strategy</li>
+      <li>Input: <code>Organization</code> dataclass. Output: <code>gmr_id</code> string</li>
       <li>Cache VAT &rarr; gmr_id mappings within a run</li>
       <li>Log unmatched high-value contractors for manual review</li>
     </ul>
@@ -806,14 +890,14 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
     <ul>
       <li>CLI: <code>python -m src.etl.load_ted_contracts --year 2024 --month 6</code></li>
       <li>Range: <code>--from 2024-01 --to 2026-03</code></li>
-      <li>Downloads monthly ZIPs, streams XML, matches companies, batches MERGE</li>
-      <li>Batch size: 500 (contracts are larger payloads)</li>
+      <li>Downloads monthly ZIPs, uses <code>src.eforms.stream</code> to parse, matches via <code>ted_matcher</code>, batches MERGE</li>
+      <li>Batch size: 500</li>
       <li>Idempotent via <code>MERGE (:Contract {ted_notice_id})</code></li>
     </ul>
   </div>
 
   <h4>Deployment</h4>
-  <p>CronJob: monthly on the 1st at 04:00 UTC &mdash; loads the previous month&rsquo;s awards.</p>
+  <p>Daily CronJob at 06:00 UTC (incremental). Monthly backfill via CLI for historical data.</p>
 </div>
 
 <div class="phase" id="phase7">
