@@ -366,6 +366,7 @@
     <li><a href="#scale">Scale Assessment</a></li>
     <li><a href="#model">Neo4j Data Model Extension</a></li>
     <li><a href="#matching">Company Matching Strategy</a></li>
+    <li><a href="#identity">Identity Resolution</a></li>
     <li><a href="#phases">Implementation Phases</a>
       <ol>
         <li><a href="#phase5">Phase 5 &mdash; Data Model Spike</a></li>
@@ -438,19 +439,19 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
 
 <p>The graph now knows <em>who companies are</em> and <em>what they earn</em>. The next layer is <strong>who pays them with public money, how much, and for what</strong>.</p>
 
-<p>EU public procurement is one of the largest economic activities in Europe &mdash; over <strong>&euro;670 billion per year</strong> flows through government contracts. This data is public, structured, and machine-readable. By connecting it to our company graph, we can answer questions like:</p>
+<p>EU public procurement is one of the largest economic activities in Europe &mdash; over <strong>&euro;670 billion per year</strong> flows through government contracts. This data is public, structured, and machine-readable. By connecting it to our company graph, we build a comprehensive EU enterprise knowledge base that can answer questions like:</p>
 
 <ul>
   <li>Which companies receive the most public money in a given country?</li>
   <li>Which government bodies are the biggest spenders?</li>
   <li>Are contracts being awarded through open competition or negotiated procedures?</li>
-  <li>Do the same companies keep winning contracts from the same authorities?</li>
   <li>How do a company&rsquo;s government revenues compare to its total revenue?</li>
+  <li>What sectors does public spending concentrate in?</li>
 </ul>
 
-<div class="callout warn">
+<div class="callout ok">
   <strong>Long-term direction</strong>
-  <p>This is the first step toward the &ldquo;Eye of Horus&rdquo; vision &mdash; connecting companies to people, political roles, court cases, and assets. Procurement data is the natural starting point: it&rsquo;s the most structured, most complete, and most immediately actionable.</p>
+  <p>This is one step toward the broader vision &mdash; a comprehensive EU enterprise knowledge graph connecting companies, people, political roles, and public records. Procurement data is the natural starting point: it&rsquo;s the most structured, most complete, and most immediately useful. No judgements of character &mdash; just data, traceable back to official EU sources.</p>
 </div>
 
 
@@ -528,18 +529,22 @@ gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
 
 <h3>New nodes</h3>
 <pre><code>(:Contract {
-  ted_notice_id:     string,   // primary key, e.g. "2024/S 123-456789"
+  ted_notice_id:     string,   // primary key — the TED publication number, e.g. "291298-2024"
+  ted_url:           string,   // direct link: "https://ted.europa.eu/en/notice/291298-2024"
+  bt701:             string,   // eForms Notice Identifier (UUID v4, stable across versions)
   title:             string,   // contract title
   description:       string,   // truncated to ~500 chars
-  value_eur:         float,    // total value in EUR
+  value_eur:         float,    // current value in EUR (updated by modifications)
+  value_original_award: float, // original award value (set once, never overwritten)
   value_currency:    string,   // original currency
-  value_original:    float,    // value in original currency
   cpv_main:          string,   // main CPV code
   procedure_type:    string,   // "open" | "restricted" | "negotiated"
-  notice_type:       string,   // "contract-award" | "contract-notice"
+  notice_type:       string,   // "can-standard" | "can-social" | "can-modif"
   publication_date:  string,   // ISO date
   award_date:        string,   // ISO date
-  country:           string    // awarding authority country
+  country:           string,   // awarding authority country
+  modification_count: int,     // how many times this contract was modified
+  loaded_at:         string    // ISO datetime — when we ingested this record
 })
 
 (:Authority {
@@ -670,6 +675,65 @@ RETURN node ORDER BY dice DESC LIMIT 1</code></pre>
 
 <div class="callout">
   <strong>Pragmatic decision:</strong> For v1, accept that DE and ES contractors will match on Layer 4 (fuzzy name) or Layer 5 (create new node). The TED data always includes the company name, so we&rsquo;re not flying blind &mdash; we just can&rsquo;t validate it against the official register programmatically. Add country-specific register APIs (INSEE for FR, KVK for NL) as low-hanging fruit. Defer paid services (North Data, Kyckr) until we measure how many high-value contracts are going unmatched.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ IDENTITY -->
+<hr>
+<h2 id="identity">Identity Resolution: The gmr_id Conflict</h2>
+
+<h3>The problem, explained</h3>
+<p><code>gmr_id</code> is a deterministic hash (UUID5 = SHA-1 of a namespace + input string). Different inputs produce different hashes &mdash; even for the same real-world company:</p>
+
+<pre><code># Same company, two different gmr_ids:
+uuid5(NAMESPACE, "lei:724500973ODKK3IFQ447")  &rarr;  a4cb9465-956e-...   (from GLEIF)
+uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from TED, no LEI available)
+
+# Two Company nodes exist. Both are Adyen N.V. One has financials, one has contracts.</code></pre>
+
+<p>This happens when a company enters the graph from TED (matched by name, Layer 5) and is later confirmed to be the same entity as an existing GLEIF company.</p>
+
+<h3>Resolution strategy: <code>[:SAME_AS]</code> + operator review + merge</h3>
+
+<div class="etl-step">
+  <h4>Step 1: Detect candidates</h4>
+  <ul>
+    <li>Periodic batch job (after each major load) finds Company pairs with same LEI, same VAT, or same normalized name + country but different <code>gmr_id</code></li>
+    <li>Creates <code>[:SAME_AS {confidence, method, detected_at, reviewed: false}]</code> relationship from the lower-priority node to the canonical one</li>
+    <li>Direction: name-based node &rarr; SAME_AS &rarr; LEI-based node (LEI always wins)</li>
+  </ul>
+</div>
+
+<div class="etl-step">
+  <h4>Step 2: Operator review queue</h4>
+  <ul>
+    <li>A Cypher query surfaces unreviewed candidates: <code>MATCH (dup)-[r:SAME_AS {reviewed: false}]-&gt;(canonical) RETURN ...</code></li>
+    <li>Operator marks each as: <strong>approve</strong> (merge), <strong>reject</strong> (not the same), or <strong>defer</strong></li>
+    <li>High-confidence matches (same LEI or same VAT) can auto-approve. Fuzzy name matches require human eyes</li>
+    <li>Initially: Cypher script or Jupyter notebook. Later: simple web page in gmr-web</li>
+  </ul>
+</div>
+
+<div class="etl-step">
+  <h4>Step 3: Merge</h4>
+  <ul>
+    <li>Use <code>apoc.refactor.mergeNodes([canonical, duplicate], {properties: &quot;combine&quot;, mergeRels: true})</code></li>
+    <li>The canonical node (LEI-based) survives. All relationships from the duplicate (contracts, listings) are transferred</li>
+    <li>Before merge: create a <code>(:MergeEvent)</code> audit node capturing what was merged and why</li>
+    <li>After merge: explicitly set <code>gmr_id</code> to the canonical value (LEI-based wins)</li>
+  </ul>
+</div>
+
+<pre><code># Priority for canonical gmr_id:
+# 1. lei:{LEI}              &larr; highest (from GLEIF, globally unique)
+# 2. edgar:{CIK}            &larr; US companies
+# 3. {ISO2}:{VAT}           &larr; from TED procurement data
+# 4. {ISO2}:{NAME_UPPER}    &larr; last resort
+
+# When sources meet, higher priority always wins</code></pre>
+
+<div class="callout ok">
+  <strong>Prevention over cure:</strong> The TED ETL should always attempt identifier-based lookup (LEI, VAT) before creating a name-based node. This prevents the majority of duplicates. The SAME_AS workflow is the safety net for what slips through.
 </div>
 
 
@@ -1024,8 +1088,8 @@ POST https://api.ted.europa.eu/v3/notices/search
 </div>
 
 <div class="callout warn">
-  <strong>No access control or data sensitivity assessment.</strong>
-  <p>Government procurement data is public. But the moment we start correlating it with company financials and building &ldquo;corruption detection&rdquo; features, we&rsquo;re making inferences that could be defamatory if wrong. At some point (not now, but before any public-facing &ldquo;corruption score&rdquo;), we need to think about legal risk.</p>
+  <strong>No data quality dashboard.</strong>
+  <p>Before drawing any conclusions from the data, we need high confidence in its accuracy. A Grafana board (or daily log summary) showing match rates, unmatched high-value contracts, VIES failure rates, SAME_AS queue size, and duplicate Company nodes should be a Phase 6 deliverable.</p>
 </div>
 
 <div class="callout warn">
@@ -1037,7 +1101,7 @@ POST https://api.ted.europa.eu/v3/notices/search
 
 <ol>
   <li><strong>How do we test matching quality at scale?</strong> We can unit-test the matching code, but validating that &ldquo;SIEMENS AKTIENGESELLSCHAFT&rdquo; in TED correctly matches &ldquo;Siemens Aktiengesellschaft&rdquo; in GLEIF requires ground truth. Do we manually verify a sample? How large?</li>
-  <li><strong>What happens when a Company node created from procurement data later appears in GLEIF?</strong> The procurement Company has <code>gmr_id.from_name()</code>, but GLEIF would create it with <code>gmr_id.from_lei()</code>. These are different UUIDs for the same company. We need a merging strategy (not just dedup) that transfers relationships from the old node to the new one.</li>
+  <li><strong>What happens when a Company node created from procurement data later appears in GLEIF?</strong> Addressed above in <a href="#identity">Identity Resolution</a> — the <code>[:SAME_AS]</code> + merge workflow handles this. But the periodic detection job needs to run after every GLEIF refresh, not just after TED loads.</li>
   <li><strong>The search experience is about to get worse before it gets better.</strong> If procurement-only companies (no listing, no financial data) appear in search results, users will click on them and see an empty profile. We need to either suppress them from search or build a procurement-centric company profile page before launching.</li>
 </ol>
 
