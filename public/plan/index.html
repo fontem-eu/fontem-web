@@ -734,8 +734,11 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
 
 # When sources meet, higher priority always wins</code></pre>
 
+<h3>Authorities get the same treatment</h3>
+<p>The <code>[:SAME_AS]</code> workflow applies to <code>(:Authority)</code> nodes too. Every time a new Authority is created, the ETL calls <code>search_similar(name, country)</code> against existing Authority nodes. If a high-confidence match exists, it links to the existing node instead of creating a duplicate. The <code>/companies/similar</code> endpoint works for both entity types.</p>
+
 <div class="callout ok">
-  <strong>Prevention over cure:</strong> The TED ETL should always attempt identifier-based lookup (LEI, VAT) before creating a name-based node. This prevents the majority of duplicates. The SAME_AS workflow is the safety net for what slips through.
+  <strong>Prevention over cure:</strong> The TED ETL always attempts identifier-based lookup (LEI, VAT) before creating a name-based node. The <code>search_similar()</code> call runs on every new entity creation. The SAME_AS + operator review workflow is the safety net for what slips through.
 </div>
 
 
@@ -774,23 +777,29 @@ uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from 
   <h4>What is eForms XML?</h4>
   <p>Every TED notice is an XML file following the EU&rsquo;s eForms schema (UBL 2.3 + EU extensions). A Contract Award Notice contains: the contract metadata (title, value, CPV, dates), an <strong>organizations block</strong> (all parties defined by ID), and a <strong>results block</strong> that links lots &rarr; tenders &rarr; winning contractors by referencing those org IDs. The parser&rsquo;s job is to resolve these indirections and yield flat, structured records.</p>
 
-  <h4>Library architecture</h4>
-  <pre><code>src/eforms/                          # standalone library — no Neo4j, no GMR dependencies
-  __init__.py
-  namespaces.py                      # XML namespace map (UBL + EU extensions)
-  models.py                          # dataclasses: Notice, Contract, Organization, Lot, Award
-  parser.py                          # main entry: parse(xml_stream) → Notice
-  extractors/                        # one module per concern, each returns a dataclass
+  <h4>Library architecture — <code>eforms-parser</code> (separate repo)</h4>
+  <p><strong>Status: implemented.</strong> The <code>eforms-parser</code> repo is initialized with 13 passing tests. Install via <code>pip install -e /path/to/eforms-parser</code>. Added as a dependency in <code>edgar-gmr-etl</code>.</p>
+  <pre><code>eforms-parser/                       # separate git repo, installable Python package
+  pyproject.toml                     # "eforms-parser" v0.1.0, depends only on lxml
+  src/eforms/
     __init__.py
-    notice_metadata.py               # BT-701, publication number, notice type, dates
-    procedure.py                     # procedure type, title, description
-    organizations.py                 # all orgs: name, VAT, country, address → dict[id, Organization]
-    lots.py                          # lot-level: title, CPV, estimated value
-    awards.py                        # results: lot→tender→contractor mapping, award values
-  filters.py                         # filter notices by type (award only, modifications, etc.)
-  stream.py                          # iterate ZIP archive, yield parsed Notice objects
+    namespaces.py                    # XML namespace map (UBL 2.3 + EU extensions)
+    models.py                        # dataclasses: Notice, Organization, Lot, Award
+    parser.py                        # main entry: parse(xml_bytes) → Notice
+    extractors/                      # one module per concern
+      notice_metadata.py             # BT-701, notice type, dates
+      procedure.py                   # title, description, CPV, procedure type
+      organizations.py               # all orgs → dict[id, Organization]
+      lots.py                        # lot-level metadata
+      awards.py                      # lot→tender→contractor mapping + values
+    filters.py                       # awards_only(), modifications_only()
+    stream.py                        # iterate TED ZIP → yield Notice objects
+  tests/
+    test_models.py                   # 4 tests
+    test_filters.py                  # 3 tests
+    test_parser.py                   # 6 tests (crafted XML fixtures)
 
-src/etl/                             # GMR-specific ETL (depends on src/eforms + Neo4j)
+edgar-gmr-etl/src/etl/              # GMR-specific ETL (depends on eforms-parser + Neo4j)
   load_cpv.py                        # one-time CPV taxonomy load
   ted_matcher.py                     # company matching (layers 1-5)
   load_ted_contracts.py              # main ETL: download → parse → match → MERGE</code></pre>
@@ -897,8 +906,13 @@ for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
     </ul>
   </div>
 
-  <h4>Deployment</h4>
-  <p>Daily CronJob at 06:00 UTC (incremental). Monthly backfill via CLI for historical data.</p>
+  <h4>Deployment — both bulk and incremental</h4>
+  <p>Two modes, same code path, different entry points:</p>
+  <ul>
+    <li><strong>Bulk (initial + backfill):</strong> <code>python -m src.etl.load_ted_contracts --from 2024-01 --to 2026-03</code> &mdash; downloads monthly ZIPs, processes everything. Run manually for initial population and historical backfill.</li>
+    <li><strong>Incremental (daily CronJob):</strong> <code>python -m src.etl.load_ted_contracts --daily</code> &mdash; fetches previous day&rsquo;s OJ S package, processes only new/changed notices. Runs at 06:00 UTC.</li>
+  </ul>
+  <p>Both modes use the same parser, matcher, and MERGE logic. The only difference is the input source (monthly ZIP vs daily package).</p>
 </div>
 
 <div class="phase" id="phase6b">
@@ -966,7 +980,25 @@ for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
   ]
 }</code></pre>
 
-  <p>Contracts endpoints use <code>Neo4jClient</code> directly &mdash; they&rsquo;re a separate concern from <code>FinancialDataSource</code>.</p>
+  <h4>Contract data interface (new seam)</h4>
+  <p>Contracts do <strong>not</strong> go through <code>FinancialDataSource</code> &mdash; that interface is for financial data. Instead, a new <code>ContractDataSource</code> abstract class provides the seam for contract queries. This keeps the two concerns separate and both independently testable:</p>
+  <pre><code>class ContractDataSource(ABC):
+    def get_company_contracts(self, gmr_id: str, years: int) -&gt; list[dict]: ...
+    def get_contract_detail(self, notice_id: str) -&gt; dict | None: ...
+    def get_sector_summary(self, country: str, year: int) -&gt; list[dict]: ...
+    def search_similar(self, name: str, country: str, limit: int) -&gt; list[dict]: ...
+
+# Production implementation: GraphContractSource (uses Neo4jClient)
+# Tests: override with a mock via dependency injection, same pattern as FinancialDataSource</code></pre>
+
+  <h4>Search results include gmr_id</h4>
+  <p><code>GraphDataSource.search_tickers()</code> and <code>get_available_tickers()</code> must return <code>gmr_id</code> in every result dict. The frontend needs this to navigate to <code>/company/{gmr_id}/contracts</code>. Small change in the Cypher <code>RETURN</code> clause + response schema.</p>
+
+  <h4>Similarity search endpoint</h4>
+  <p>The <code>search_similar()</code> method is the foundation of the <code>[:SAME_AS]</code> workflow. It uses the same Neo4j full-text fuzzy index as Layer 4 matching, exposed as an API:</p>
+  <pre><code>GET /companies/similar?name=Siemens+AG&amp;country=DE&amp;limit=10
+&rarr; [{ gmr_id, name, country, dice_score, lei, vat }, ...]</code></pre>
+  <p>This serves both programmatic use (the ETL calls it during matching) and operator use (the review UI shows &ldquo;did you mean one of these?&rdquo; when creating a new node). Applies to both Company and Authority entities.</p>
 </div>
 
 <div class="phase" id="phase8">
@@ -1006,7 +1038,29 @@ CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)
 
 -- Full-text index for fuzzy name matching (Layer 4)
 CREATE FULLTEXT INDEX companyNameIndex IF NOT EXISTS
-  FOR (n:Company) ON EACH [n.name_normalized]</code></pre>
+  FOR (n:Company) ON EACH [n.name_normalized]
+
+-- Full-text index for authority fuzzy matching
+CREATE FULLTEXT INDEX authorityNameIndex IF NOT EXISTS
+  FOR (a:Authority) ON EACH [a.name]</code></pre>
+
+
+<h2>Neo4j Backup</h2>
+
+<p>The graph contains irreplaceable data: company-to-contract links that took hours of matching + manual review to compute. Raw XML can be re-ingested, but matching results and <code>[:SAME_AS]</code> review decisions cannot.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">DAILY CRONJOB</span>
+    <span class="phase-title">Neo4j database dump</span>
+  </div>
+  <p>Runs nightly at 02:00 UTC (before the TED ETL at 06:00):</p>
+  <pre><code>kubectl -n gmr exec deploy/neo4j -- neo4j-admin database dump neo4j \
+  --to-path=/data/backups/ --overwrite-destination
+# Copy to NFS for off-pod persistence
+kubectl cp gmr/neo4j-pod:/data/backups/neo4j.dump /srv/nfs/gmr/neo4j-backups/$(date +%Y%m%d).dump</code></pre>
+  <p>Retention: keep 7 daily dumps on NFS. Restore: <code>neo4j-admin database load neo4j --from-path=...</code></p>
+</div>
 
 
 <h2>Testing Strategy</h2>
