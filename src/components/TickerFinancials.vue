@@ -32,6 +32,8 @@ const isEu = computed(() => /^[A-Z0-9]+\.[A-Z]{1,3}$/i.test(props.symbol))
 const dataSource = computed(() => isEu.value ? 'esef' : 'edgar')
 
 const data = ref(null)
+const companyGmrId = ref(null)
+const companyName = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error' | 'timeout'
 const displayYears = ref(10)
 
@@ -69,6 +71,8 @@ async function loadData(sym) {
     }
     if (_loadId !== id) return // stale response
     data.value = result ?? null
+    companyGmrId.value = result?.gmr_id ?? null
+    companyName.value = result?.company_name ?? null
     state.value = 'done'
   } catch {
     if (_loadId !== id) return
@@ -277,7 +281,8 @@ function isFundNegative(year, key) {
     <!-- ── Header ───────────────────────────────────────── -->
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
-        <span class="gmr-fin__title">{{ symbol }}</span>
+        <span class="gmr-fin__title">{{ companyName || symbol }}</span>
+        <span v-if="companyName && symbol !== companyName" class="gmr-fin__ticker-tag">{{ symbol }}</span>
         <span
           class="badge"
           :class="isEu ? 'badge-esef' : 'badge-edgar'"
@@ -486,7 +491,7 @@ function isFundNegative(year, key) {
     <!-- ── Contracts ─────────────────────────────────────── -->
     <template v-else-if="state === 'done' && view === 'contracts'">
       <div data-testid="contracts-panel-wrap">
-        <ContractsPanel :symbol="symbol" />
+        <ContractsPanel :symbol="companyGmrId || symbol" />
       </div>
     </template>
 

@@ -272,6 +272,18 @@
     color: var(--accent);
   }
 
+  .gmr-fin__ticker-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    background: var(--bg-secondary, #f6f8fa);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: monospace;
+    letter-spacing: 0.04em;
+  }
+
   .gmr-fin__subtitle {
     font-size: 0.75rem;
     color: var(--muted);
