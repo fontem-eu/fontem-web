@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, computed, nextTick, onMounted, onUnmounted } from 'vue'
-import { searchTickers } from '../api/tickers.js'
+import { searchAll } from '../api/tickers.js'
 import TickerCard from './TickerCard.vue'
 
 const props = defineProps({
@@ -64,10 +64,23 @@ watch(query, (q) => {
 async function doSearch(q) {
   const reqId = ++currentRequest
   try {
-    const data = await searchTickers(q)
+    const data = await searchAll(q)
     if (reqId !== currentRequest) return
-    results.value = data.results
-    totalAvailable.value = data.total_available
+    // Merge companies + authorities into a single results list
+    const companies = (data.companies || []).map((c) => ({
+      ...c,
+      _type: 'company',
+      // Use ticker if listed, otherwise gmr_id for navigation
+      _navKey: c.ticker || c.symbol || c.gmr_id,
+    }))
+    const authorities = (data.authorities || []).map((a) => ({
+      ...a,
+      _type: 'authority',
+      name: a.name,
+      _navKey: a.authority_id,
+    }))
+    results.value = [...companies, ...authorities]
+    totalAvailable.value = results.value.length
     state.value = 'done'
   } catch {
     if (reqId !== currentRequest) return
@@ -81,7 +94,7 @@ const statusText = computed(() => {
   if (state.value === 'error') return 'Error fetching results.'
   if (state.value === 'done' && results.value.length > 0) {
     const n = results.value.length
-    return `${n} result${n !== 1 ? 's' : ''} — ${totalAvailable.value.toLocaleString()} total tickers`
+    return `${n} result${n !== 1 ? 's' : ''}`
   }
   return ''
 })

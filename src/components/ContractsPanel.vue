@@ -11,18 +11,23 @@ const data = ref(null)
 const sortKey = ref('value_eur')
 const sortAsc = ref(false)
 
-async function resolveGmrId(ticker) {
-  const res = await fetch(`/api/tickers/search?query=${encodeURIComponent(ticker)}&limit=1`)
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+async function resolveGmrId(symbol) {
+  // If it already looks like a UUID (gmr_id or authority_id), use directly
+  if (UUID_RE.test(symbol)) return symbol
+  // Otherwise resolve ticker → gmr_id via search
+  const res = await fetch(`/api/tickers/search?query=${encodeURIComponent(symbol)}&limit=1`)
   if (!res.ok) return null
   const json = await res.json()
   const results = json.results || []
   return results.length > 0 ? results[0].gmr_id : null
 }
 
-async function loadContracts(ticker) {
+async function loadContracts(symbol) {
   state.value = 'loading'
   try {
-    const gmrId = await resolveGmrId(ticker)
+    const gmrId = await resolveGmrId(symbol)
     if (!gmrId) {
       state.value = 'empty'
       return

@@ -78,7 +78,10 @@ const { track } = useAnalytics()
 
 function onTickerSelect(symbol) {
   track('ticker-selected', { symbol })
-  router.push('/' + symbol + '/' + selectedView.value)
+  // For procurement-only entities (UUID nav keys), default to contracts view
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
+  const view = isUuid ? 'contracts' : selectedView.value
+  router.push('/' + symbol + '/' + view)
 }
 
 function onViewChange(view) {

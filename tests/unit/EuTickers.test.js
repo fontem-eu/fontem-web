@@ -104,11 +104,10 @@ describe('TickerSearch — EU ticker keyboard nav', () => {
   afterEach(() => { vi.restoreAllMocks(); vi.useRealTimers() })
 
   it('emits full ticker (ASML.AS) on Enter for ESEF search result', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'asml',
-      results: [makeEsefTicker()],
-      count: 1,
-      total_available: 6851,
+      companies: [makeEsefTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -126,11 +125,10 @@ describe('TickerSearch — EU ticker keyboard nav', () => {
   })
 
   it('emits full ticker via card click for ESEF result', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'asml',
-      results: [makeEsefTicker()],
-      count: 1,
-      total_available: 6851,
+      companies: [makeEsefTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)

@@ -33,11 +33,10 @@ describe('TickerSearch component', () => {
   })
 
   it('shows results after typing a query', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -52,11 +51,10 @@ describe('TickerSearch component', () => {
   })
 
   it('displays the result count in the status line', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -67,15 +65,13 @@ describe('TickerSearch component', () => {
 
     const status = wrapper.find('.gmr-status')
     expect(status.text()).toContain('1 result')
-    expect(status.text()).toContain('10,416 total tickers')
   })
 
   it('shows the empty state when the search returns no results', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'zzznotreal',
-      results: [],
-      count: 0,
-      total_available: 10416,
+      companies: [],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -90,7 +86,7 @@ describe('TickerSearch component', () => {
   })
 
   it('shows an error message when the API call fails', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockRejectedValue(new Error('network error'))
+    vi.spyOn(tickersApi, 'searchAll').mockRejectedValue(new Error('network error'))
 
     const wrapper = mount(TickerSearch)
     await wrapper.find('input').setValue('aapl')
@@ -104,11 +100,10 @@ describe('TickerSearch component', () => {
   })
 
   it('clears results when the input is emptied', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -128,11 +123,10 @@ describe('TickerSearch component', () => {
   })
 
   it('only fires the API once after rapid keystrokes (debounce)', async () => {
-    const spy = vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    const spy = vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'a',
-      results: [],
-      count: 0,
-      total_available: 0,
+      companies: [],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -158,11 +152,10 @@ describe('TickerSearch component', () => {
   })
 
   it('emits "select" with the ticker symbol when a card is clicked', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch)
@@ -178,11 +171,10 @@ describe('TickerSearch component', () => {
   })
 
   it('clears the query and results when selectedSymbol prop changes to a new ticker', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch, { props: { selectedSymbol: null } })
@@ -202,11 +194,10 @@ describe('TickerSearch component', () => {
   })
 
   it('shows results while a ticker is already selected (search while viewing financials)', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'msft',
-      results: [makeTicker({ symbol: 'MSFT', name: 'Microsoft Corp.' })],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker({ symbol: 'MSFT', name: 'Microsoft Corp.' })],
+      authorities: [],
     })
 
     // Ticker already selected — simulates having /AAPL open
@@ -222,11 +213,10 @@ describe('TickerSearch component', () => {
   })
 
   it('clears results when clicking outside the search container', async () => {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
       query: 'aapl',
-      results: [makeTicker()],
-      count: 1,
-      total_available: 10416,
+      companies: [makeTicker()],
+      authorities: [],
     })
 
     const wrapper = mount(TickerSearch, { attachTo: document.body })
@@ -252,9 +242,9 @@ describe('TickerSearch component', () => {
   // ── Keyboard navigation ────────────────────────────────────
 
   async function mountWithResults(symbols = ['AAPL', 'MSFT']) {
-    vi.spyOn(tickersApi, 'searchTickers').mockResolvedValue({
-      results: symbols.map((s) => makeTicker({ symbol: s, name: s })),
-      total_available: symbols.length,
+    vi.spyOn(tickersApi, 'searchAll').mockResolvedValue({
+      companies: symbols.map((s) => makeTicker({ symbol: s, name: s })),
+      authorities: [],
     })
     const wrapper = mount(TickerSearch, { attachTo: document.body })
     await wrapper.find('input').setValue('a')

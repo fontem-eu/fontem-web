@@ -8,14 +8,23 @@ const props = defineProps({
 
 const emit = defineEmits(['select'])
 
-// EU tickers have a full ticker like "ASML.AS"; NA tickers just have a symbol.
-const selectValue = computed(() => props.ticker.ticker ?? props.ticker.symbol)
+const isAuthority = computed(() => props.ticker._type === 'authority')
+
+// Navigate by ticker if listed, otherwise by gmr_id
+const selectValue = computed(() => props.ticker._navKey ?? props.ticker.ticker ?? props.ticker.symbol)
 
 const isEsef = computed(() => props.ticker.data_source === 'esef')
 
+const hasTicker = computed(() => Boolean(props.ticker.ticker || props.ticker.symbol))
+
+const displaySymbol = computed(() => {
+  if (isAuthority.value) return 'AUTH'
+  return props.ticker.ticker ?? props.ticker.symbol ?? '—'
+})
+
 const meta = computed(() =>
   [
-    props.ticker.exchange,
+    props.ticker.exchange && props.ticker.exchange !== 'US' ? props.ticker.exchange : null,
     props.ticker.country,
     props.ticker.sector !== 'Unknown' ? props.ticker.sector : null,
   ]
@@ -35,12 +44,12 @@ const meta = computed(() =>
     @keydown.enter="emit('select', selectValue)"
     @keydown.space.prevent="emit('select', selectValue)"
   >
-    <!-- Symbol — show full ticker (GALP.LS) for EU entries to disambiguate -->
+    <!-- Symbol — show ticker for listed companies, "AUTH" for authorities -->
     <span
       class="ticker-symbol w-16 shrink-0 font-mono text-sm font-bold"
-      style="color: var(--accent)"
+      :style="{ color: isAuthority ? 'var(--muted)' : 'var(--accent)' }"
     >
-      {{ ticker.ticker ?? ticker.symbol }}
+      {{ displaySymbol }}
     </span>
 
     <!-- Name + meta -->
@@ -53,17 +62,23 @@ const meta = computed(() =>
       </div>
     </div>
 
-    <!-- Exchange badge -->
-    <span v-if="ticker.exchange" class="badge badge-tag">
+    <!-- Exchange badge — only for listed companies -->
+    <span v-if="hasTicker && ticker.exchange" class="badge badge-tag">
       {{ ticker.exchange }}
     </span>
 
-    <!-- Data source badge -->
-    <span v-if="isEsef" class="badge badge-esef" data-testid="badge-esef">
+    <!-- Entity type badges -->
+    <span v-if="isAuthority" class="badge badge-auth" data-testid="badge-auth">
+      Authority
+    </span>
+    <span v-else-if="isEsef" class="badge badge-esef" data-testid="badge-esef">
       ESEF
     </span>
-    <span v-else class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
+    <span v-else-if="hasTicker" class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
       {{ ticker.is_active ? 'Active' : 'Inactive' }}
+    </span>
+    <span v-else class="badge badge-tag">
+      Company
     </span>
   </div>
 </template>

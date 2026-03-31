@@ -210,6 +210,10 @@
     background: var(--badge-edgar-bg);
     color: var(--badge-edgar-text);
   }
+  .badge-auth {
+    background: var(--badge-tag-bg);
+    color: var(--badge-esef-text);
+  }
 
   /* Theme toggle button */
   .gmr-toggle {
