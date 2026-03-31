@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import DataQualityView from './views/DataQualityView.vue'
+import CompanyProfileView from './views/CompanyProfileView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -11,6 +12,7 @@ const router = createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/data-quality', component: DataQualityView },
+    { path: '/company/:gmr_id', component: CompanyProfileView },
     { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/summary` },
     { path: '/:ticker/:view', component: HomeView },
   ],
