@@ -14,6 +14,7 @@
     header .meta{margin-top:.5rem;font-size:.875rem;color:var(--text2)}
     h2{font-size:1.4rem;font-weight:700;margin:2.5rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
     h3{font-size:1.1rem;font-weight:600;margin:2rem 0 .6rem}
+    h4{font-size:1rem;font-weight:600;margin:1.5rem 0 .4rem}
     p{margin:.6rem 0} a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
     code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.85em;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:.15em .35em}
     pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1rem;overflow-x:auto;margin:.75rem 0 1rem;font-size:.82rem;line-height:1.5}
@@ -27,7 +28,6 @@
     .phase-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
     .badge{font-size:.75rem;font-weight:700;letter-spacing:.04em;padding:.2em .6em;border-radius:20px;white-space:nowrap}
     .badge-phase{background:var(--tag-bg);color:var(--tag-text)}
-    .badge-done{background:var(--done-bg);color:var(--done-text)}
     .phase-title{font-size:1rem;font-weight:700}
     .callout{border-left:3px solid var(--border);padding:.5rem 1rem;margin:.75rem 0;background:var(--bg2);border-radius:0 6px 6px 0}
     .callout.warn{border-color:var(--red)} .callout.ok{border-color:var(--green)}
@@ -43,20 +43,20 @@
 
 <header>
   <h1>GMR Platform &mdash; Consolidation Phase</h1>
-  <div class="meta">March 2026 &nbsp;&middot;&nbsp; Status: planning</div>
+  <div class="meta">March 2026 &nbsp;&middot;&nbsp; Status: reviewed, ready for implementation</div>
 </header>
 
 <nav>
   <strong>Contents</strong>
   <ol>
     <li><a href="#status">Current Status</a></li>
-    <li><a href="#problems">Problems Identified</a></li>
-    <li><a href="#c1">C1: Country Code Normalization + Deduplication</a></li>
-    <li><a href="#c2">C2: Ticker &rarr; gmr_id Migration (Backend)</a></li>
+    <li><a href="#decisions">Decisions Made</a></li>
+    <li><a href="#c1">C1: Country Code Standardization (alpha-3) + Dedup</a></li>
+    <li><a href="#c2">C2: Ticker Interface + Dead Code Removal</a></li>
     <li><a href="#c3">C3: Admin Area (/admin)</a></li>
     <li><a href="#c4">C4: Architecture Visualization (Mermaid.js)</a></li>
     <li><a href="#c5">C5: Landing Page Refresh</a></li>
-    <li><a href="#c6">C6: Coverage Matrix Library</a></li>
+    <li><a href="#c6">C6: E2E Coverage Matrix</a></li>
     <li><a href="#sessions">Session Breakdown</a></li>
   </ol>
 </nav>
@@ -66,100 +66,97 @@
 
 <div class="stats">
   <div class="stat"><div class="num">3.45M</div><div class="label">Company nodes</div></div>
-  <div class="stat"><div class="num">379K</div><div class="label">Contracts (2024&ndash;2025 Q1)</div></div>
+  <div class="stat"><div class="num">379K</div><div class="label">Contracts</div></div>
   <div class="stat"><div class="num">67K</div><div class="label">FinancialYear nodes</div></div>
-  <div class="stat"><div class="num">970</div><div class="label">Person nodes (FR directors)</div></div>
-  <div class="stat"><div class="num">42K</div><div class="label">Authorities</div></div>
-  <div class="stat"><div class="num">190K</div><div class="label">Companies with alpha-3 codes (duplicates)</div></div>
+  <div class="stat"><div class="num">970</div><div class="label">Person nodes</div></div>
+  <div class="stat"><div class="num">190K</div><div class="label">Alpha-3 duplicates</div></div>
+  <div class="stat"><div class="num">537+277</div><div class="label">Backend + frontend tests</div></div>
 </div>
 
-<p><strong>What&rsquo;s been built:</strong> Neo4j graph with GLEIF companies, ESEF+EDGAR financials, TED procurement contracts, French company directors. GraphDataSource serving production. Unified search, company profile, contracts tab, data quality dashboard, entity resolution page, PWA.</p>
 
+<h2 id="decisions">Decisions Made (from review)</h2>
 
-<h2 id="problems">Problems Identified</h2>
-
-<div class="callout warn">
-  <strong>1. Country code mismatch &rarr; 190K duplicate Company nodes.</strong>
-  <p>GLEIF uses ISO alpha-2 (FR, DE, ES). TED uses ISO alpha-3 (FRA, DEU, ESP). The ETL creates new Company nodes for TED contractors because <code>country = "FRA"</code> doesn&rsquo;t match <code>country = "FR"</code> on existing GLEIF nodes. This is the #1 data quality issue.</p>
-  <p><strong>Example:</strong> SOCOMEC has two nodes &mdash; one from GLEIF (FR, has LEI) and one from TED (FRA, no LEI, vat=0). Identical company, two gmr_ids.</p>
-</div>
-
-<div class="callout warn">
-  <strong>2. <code>ticker</code> is still a first-class citizen in the backend.</strong>
-  <p>7 API route paths use <code>/{ticker}/</code>. 9 handler functions take <code>ticker: str</code>. 70+ references in the frontend. The <code>FinancialDataSource</code> interface takes ticker as the primary key for every method. This should be <code>gmr_id</code>.</p>
-</div>
-
-<div class="callout warn">
-  <strong>3. No admin area.</strong>
-  <p>The entity resolution page and data quality dashboard exist but aren&rsquo;t grouped. No architecture documentation is visible. No way to trigger deduplication or review system health in one place.</p>
-</div>
-
-<div class="callout warn">
-  <strong>4. Landing page is outdated.</strong>
-  <p>Still talks about &ldquo;10,000+ US-listed companies&rdquo; and SEC EDGAR. Doesn&rsquo;t mention procurement, directors, or the knowledge graph. Features list doesn&rsquo;t reflect current capabilities.</p>
+<div class="callout ok">
+  <ul>
+    <li><strong>Standardize on ISO alpha-3</strong> country codes (FRA, DEU, not FR, DE). Alpha-3 is more readable and matches TED. Migrate all 3.26M GLEIF nodes from alpha-2 &rarr; alpha-3 using <code>pycountry</code>.</li>
+    <li><strong>Keep <code>ticker: str</code> in the FinancialDataSource interface.</strong> Resolution from gmr_id &rarr; ticker happens at the API router level via <code>resolve_company_id()</code>. The interface stays clean.</li>
+    <li><strong>Remove RoutingDataSource + EsefDataSource + LiveDataSource dead code.</strong> Dead code is dead code.</li>
+    <li><strong>Admin URLs: break old links, no redirects.</strong> Dev environment, safe to change.</li>
+    <li><strong>Dedup strategy: normalize first, defer conflicts.</strong> Fix country codes, auto-merge only when no property conflicts. Conflicting fields (different VATs, different names) go to SAME_AS queue for manual review.</li>
+    <li><strong>Coverage matrix: E2E tests only.</strong> 75 tests across 4 files &mdash; manageable scope. No decorator/annotation system for unit tests. Simple <code>requirements.yml</code> + mapping file.</li>
+    <li><strong>Plan + requirements visible in admin area.</strong></li>
+  </ul>
 </div>
 
 
 <hr>
-<h2 id="c1">C1: Country Code Normalization + Deduplication Script</h2>
+<h2 id="c1">C1: Country Code Standardization + Dedup</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C1</span>
-    <span class="phase-title">Fix the root cause, then clean up</span>
+    <span class="phase-title">Standardize on ISO alpha-3 + clean up duplicates</span>
   </div>
 
-  <h3>Root cause fix: normalize country codes at ETL time</h3>
-  <p>Add an alpha-3 &rarr; alpha-2 mapping to <code>ted_matcher.py</code> and <code>load_ted_contracts.py</code>. Every TED country code is converted before matching or node creation. ~30 entries covering EU+EFTA.</p>
-  <pre><code>ALPHA3_TO_ALPHA2 = {
-    "FRA": "FR", "DEU": "DE", "ESP": "ES", "ITA": "IT",
-    "POL": "PL", "ROU": "RO", "NLD": "NL", "BEL": "BE",
-    "SWE": "SE", "AUT": "AT", "BGR": "BG", "CZE": "CZ",
-    "HUN": "HU", "FIN": "FI", "PRT": "PT", "GRC": "GR",
-    "HRV": "HR", "SVK": "SK", "SVN": "SI", "LTU": "LT",
-    "LVA": "LV", "EST": "EE", "CYP": "CY", "LUX": "LU",
-    "MLT": "MT", "IRL": "IE", "DNK": "DK", "CHE": "CH",
-    "NOR": "NO", "ISL": "IS", "GBR": "GB",
-}</code></pre>
+  <h3>Step 1: Add <code>pycountry</code> dependency</h3>
+  <p>Add to <code>Requirements.txt</code>. Use <code>pycountry.countries.get(alpha_2=code).alpha_3</code> for normalization. Covers all 249 ISO countries (not just EU).</p>
 
-  <h3>Deduplication script: <code>src/etl/dedup_companies.py</code></h3>
-  <p>A batch job that:</p>
+  <h3>Step 2: Migration script &mdash; <code>src/etl/normalize_countries.py</code></h3>
+  <p>Batch-update all Company, Authority, and Contract nodes with alpha-2 codes to alpha-3:</p>
+  <pre><code>MATCH (c:Company) WHERE size(c.country) = 2
+WITH c, pycountry_lookup(c.country) AS alpha3
+SET c.country = alpha3</code></pre>
+  <p>This affects 3.26M GLEIF nodes + ~17K Listings. Run once. Idempotent (alpha-3 codes stay alpha-3).</p>
+
+  <h3>Step 3: Fix ETL pipelines</h3>
+  <ul>
+    <li><code>load_gleif.py</code>: convert GLEIF alpha-2 to alpha-3 before MERGE</li>
+    <li><code>load_eu_listings.py</code>: normalize COUNTRY_CURRENCY map keys to alpha-3</li>
+    <li><code>load_us_companies.py</code>: set <code>country = &quot;USA&quot;</code> instead of <code>&quot;US&quot;</code></li>
+    <li><code>ted_matcher.py</code>: already uses alpha-3 (TED native) &mdash; no change needed</li>
+    <li><code>load_fr_directors.py</code>: normalize country before matching</li>
+  </ul>
+
+  <h3>Step 4: Dedup script &mdash; <code>src/etl/dedup_companies.py</code></h3>
   <ol>
-    <li><strong>Phase 1:</strong> Normalize all existing alpha-3 country codes to alpha-2 on Company nodes</li>
-    <li><strong>Phase 2:</strong> Find exact-name + country duplicates where one node has LEI and the other doesn&rsquo;t</li>
-    <li><strong>Phase 3:</strong> Auto-merge trivial cases (same name, same country, no property conflicts)</li>
-    <li><strong>Phase 4:</strong> Create <code>[:SAME_AS]</code> for non-trivial cases (different names, both have data)</li>
+    <li>Find exact-name + exact-country pairs where one has LEI and the other doesn&rsquo;t</li>
+    <li><strong>Auto-merge</strong> if no property conflicts (all shared non-null fields are identical)</li>
+    <li><strong>Create <code>[:SAME_AS]</code></strong> if any field conflicts (different VATs, different names). These go to the operator review queue.</li>
+    <li>Create <code>:MergeEvent</code> audit nodes for every auto-merge</li>
+    <li>Log stats: merged count, deferred count, conflict details</li>
   </ol>
-  <p>Idempotent, safe to re-run. Creates <code>:MergeEvent</code> audit nodes for every merge. Logs stats for the data quality dashboard.</p>
 
-  <h3>Prevention: <code>ted_matcher.py</code> update</h3>
-  <p>All future ETL runs normalize country codes before matching. The dedup script only needs to run once for historical data.</p>
+  <div class="callout">
+    <strong>SOCOMEC example:</strong> After normalization, we&rsquo;ll have 4 SOCOMEC/FRA nodes. The GLEIF one (with LEI) is canonical. The 3 TED ones have different VATs (0, 1481141-1-0-1, 54850014900339). Since VAT conflicts, these go to SAME_AS &mdash; not auto-merged. An operator reviews and picks the real VAT.
+  </div>
 </div>
 
 
 <hr>
-<h2 id="c2">C2: Ticker &rarr; gmr_id Migration (Backend)</h2>
+<h2 id="c2">C2: Ticker Interface Cleanup + Dead Code Removal</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C2</span>
-    <span class="phase-title">Make gmr_id the primary key across the API</span>
+    <span class="phase-title">Clean architecture, no dead code</span>
   </div>
 
-  <h3>Strategy: dual-path endpoints, not a hard cutover</h3>
-  <p>Every existing <code>/{ticker}/fundamentals</code> endpoint continues working. But internally, the first thing it does is resolve <code>ticker &rarr; gmr_id</code> (which <code>resolve_company_id()</code> already does). New endpoints are <code>gmr_id</code>-first from the start.</p>
+  <h3>Keep the interface, clean the routing</h3>
+  <p><code>FinancialDataSource</code> keeps <code>ticker: str</code> as its parameter. The API routers use <code>resolve_company_id()</code> to resolve gmr_id &rarr; ticker before calling the interface. This is already the pattern &mdash; C2 just audits consistency across all endpoints.</p>
 
-  <h3>Interface evolution</h3>
-  <p>The <code>FinancialDataSource</code> interface currently takes <code>ticker: str</code> as the key for every method. Phase C2 adds overloaded resolution: if the string is a UUID, it&rsquo;s treated as a <code>gmr_id</code>; otherwise as a ticker. This is already partially done in <code>get_annual_fundamentals()</code> — extend to all methods.</p>
-
-  <h3>Scope</h3>
+  <h3>Remove dead code</h3>
   <table>
-    <tr><th>File</th><th>Change</th></tr>
-    <tr><td><code>GraphDataSource</code> (all methods)</td><td>Accept both ticker and gmr_id via UUID detection</td></tr>
-    <tr><td><code>fundamentals.py</code>, <code>valuation.py</code>, <code>gmr.py</code>, <code>prices.py</code></td><td>Already use <code>resolve_company_id()</code> &mdash; verify consistency</td></tr>
-    <tr><td><code>FinancialDataSource</code> ABC</td><td>Document that <code>ticker</code> param accepts gmr_id too</td></tr>
-    <tr><td>Frontend API calls</td><td>Pass gmr_id when available, ticker as fallback</td></tr>
+    <tr><th>File</th><th>Action</th></tr>
+    <tr><td><code>src/data/routing_data_source.py</code></td><td>Delete &mdash; replaced by GraphDataSource</td></tr>
+    <tr><td><code>src/data/europe/esef_data_source.py</code></td><td>Delete &mdash; ESEF data is in Neo4j</td></tr>
+    <tr><td><code>src/data/north_america/live_data_source.py</code></td><td>Delete &mdash; EDGAR data is in Neo4j (fallback is LocalEdgarFetcher, kept)</td></tr>
+    <tr><td><code>dependencies.py: _routing_source()</code></td><td>Remove the legacy code path</td></tr>
+    <tr><td>Tests referencing deleted classes</td><td>Update or remove</td></tr>
   </table>
+
+  <div class="callout warn">
+    <strong>Risk:</strong> Removing RoutingDataSource means <code>GMR_DATA_SOURCE=graph</code> is no longer optional &mdash; it&rsquo;s the only path. Make sure the deployment always sets this env var (it already does). Remove the env var check and always use GraphDataSource.
+  </div>
 </div>
 
 
@@ -169,21 +166,22 @@
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C3</span>
-    <span class="phase-title">/admin landing page with tools</span>
+    <span class="phase-title">/admin landing page with all operational tools</span>
   </div>
 
-  <p>A new Vue route at <code>/admin</code> with a landing page linking to:</p>
+  <p>A new Vue route at <code>/admin</code> with a card-based landing page linking to:</p>
 
   <table>
-    <tr><th>Page</th><th>URL</th><th>Status</th></tr>
-    <tr><td>Data Quality Dashboard</td><td><code>/admin/data-quality</code></td><td>Exists at <code>/data-quality</code> &mdash; move under admin</td></tr>
-    <tr><td>Entity Resolution</td><td><code>/admin/entity-resolution</code></td><td>Exists at <code>/entity-resolution</code> &mdash; move under admin</td></tr>
-    <tr><td>Architecture Visualization</td><td><code>/admin/architecture</code></td><td>New (C4)</td></tr>
-    <tr><td>Coverage Matrix</td><td><code>/admin/coverage</code></td><td>New (C6)</td></tr>
-    <tr><td>Dedup Trigger</td><td><code>/admin/dedup</code></td><td>New &mdash; run/status of dedup script</td></tr>
+    <tr><th>Page</th><th>URL</th><th>Description</th></tr>
+    <tr><td>Data Quality</td><td><code>/admin/data-quality</code></td><td>Graph stats, matching metrics, freshness, coverage</td></tr>
+    <tr><td>Entity Resolution</td><td><code>/admin/entity-resolution</code></td><td>Git-merge-style SAME_AS review</td></tr>
+    <tr><td>Architecture</td><td><code>/admin/architecture</code></td><td>Mermaid.js system diagrams (C4)</td></tr>
+    <tr><td>E2E Coverage</td><td><code>/admin/coverage</code></td><td>Requirements &times; e2e test matrix (C6)</td></tr>
+    <tr><td>Plan</td><td><code>/admin/plan</code></td><td>This consolidation plan (static HTML)</td></tr>
+    <tr><td>Requirements</td><td><code>/admin/requirements</code></td><td>List of platform requirements (from requirements.yml)</td></tr>
   </table>
 
-  <p>No authentication for now (security not based on secrecy). The admin area is informational + operational tools.</p>
+  <p>Link from the home page footer: &ldquo;Admin&rdquo;. No authentication.</p>
 </div>
 
 
@@ -193,23 +191,28 @@
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C4</span>
-    <span class="phase-title">Interactive architecture diagrams with Mermaid.js</span>
+    <span class="phase-title">5 Mermaid.js diagrams at /admin/architecture</span>
   </div>
 
   <h3>Technology: Mermaid.js</h3>
-  <p><strong>Why Mermaid:</strong> renders diagrams from text markup in the browser via a single JS import. No build step, no server-side rendering, no dependencies beyond a CDN script tag. Diagrams are version-controlled as text (not binary images). Supports: flowcharts, class diagrams, ER diagrams, sequence diagrams. Dark/light theme built-in.</p>
+  <p>Single CDN import (<code>https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js</code>). Text-based diagrams, version-controlled, dark/light theme, zero build deps.</p>
 
-  <h3>Diagrams to include</h3>
-  <ul>
-    <li><strong>System overview:</strong> gmr-web &rarr; edgar-gmr-etl &rarr; Neo4j / NFS. Shows all k8s deployments, services, PVCs.</li>
-    <li><strong>Data flow:</strong> GLEIF &rarr; load_gleif &rarr; Neo4j, TED &rarr; eforms-parser &rarr; load_ted &rarr; Neo4j, recherche-entreprises &rarr; load_fr_directors &rarr; Neo4j, etc.</li>
-    <li><strong>Interface map:</strong> FinancialDataSource, ContractDataSource, PersonDataSource, EntityResolver, DataQualitySource &mdash; who implements what, who depends on what.</li>
-    <li><strong>Neo4j schema:</strong> ER diagram of Company, Listing, FinancialYear, Contract, Authority, Person, CPV and their relationships.</li>
-    <li><strong>ETL pipeline:</strong> sequence diagram of a TED contract load (download &rarr; parse &rarr; match &rarr; MERGE).</li>
-  </ul>
+  <h3>Diagrams</h3>
 
-  <h3>Implementation</h3>
-  <p>A single Vue page at <code>/admin/architecture</code> that imports Mermaid from CDN and renders the diagrams from inline text blocks. Each diagram is a collapsible section. Mobile-responsive (diagrams scroll horizontally).</p>
+  <h4>1. System Overview (flowchart)</h4>
+  <p>gmr-web &rarr; edgar-gmr-etl (FastAPI) &rarr; Neo4j / NFS. Shows k8s deployments, services, PVCs, CronJobs.</p>
+
+  <h4>2. Interface Map (class diagram)</h4>
+  <p>FinancialDataSource, ContractDataSource, PersonDataSource, EntityResolver, DataQualitySource. Who implements what, who depends on what. Shows GraphDataSource, GraphContractSource, GraphPersonSource, GraphDataQualitySource.</p>
+
+  <h4>3. Neo4j Schema (ER diagram)</h4>
+  <p>Company, Listing, FinancialYear, Contract, Authority, Person, CPV. All 7 node types and 6 relationship types.</p>
+
+  <h4>4. Data Pipeline (flowchart)</h4>
+  <p>GLEIF &rarr; load_gleif &rarr; Company. TED &rarr; eforms-parser &rarr; load_ted &rarr; Contract. recherche-entreprises &rarr; load_fr_directors &rarr; Person. EDGAR companyfacts &rarr; load_us_financials &rarr; FinancialYear.</p>
+
+  <h4>5. Request Flow (sequence diagram)</h4>
+  <p>Browser &rarr; nginx &rarr; FastAPI router &rarr; resolve_company_id &rarr; GraphDataSource &rarr; Neo4j &rarr; response. Shows the full lifecycle of a <code>/AAPL/profile</code> request.</p>
 </div>
 
 
@@ -219,69 +222,59 @@
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C5</span>
-    <span class="phase-title">Update HomeView to reflect current capabilities</span>
+    <span class="phase-title">Update HomeView to reflect the knowledge graph</span>
   </div>
 
-  <h3>Current landing page problems</h3>
   <ul>
-    <li>Hero text: &ldquo;Financials, straight from the source&rdquo; &mdash; doesn&rsquo;t mention procurement, directors, or the knowledge graph</li>
-    <li>Feature cards: only list Summary, Income, Cash Flow, Balance, Valuation, GMR Long &mdash; missing Contracts, Profile, Directors</li>
-    <li>Data source line: &ldquo;SEC EDGAR &amp; ESMA ESEF&rdquo; &mdash; should mention TED, GLEIF, RNE</li>
-    <li>Popular tickers: hardcoded US tickers only</li>
-  </ul>
-
-  <h3>New landing page</h3>
-  <ul>
-    <li>Hero: &ldquo;EU Enterprise Knowledge Graph&rdquo; with search bar front and center</li>
-    <li>Stats bar: Company count, Contract count, Country coverage, Person count</li>
+    <li>Hero text: &ldquo;EU Enterprise Knowledge Graph&rdquo;</li>
+    <li>Stats bar: live counts from <code>/api/data-quality</code> (companies, contracts, persons, countries)</li>
     <li>Feature cards: Profile, Contracts, Fundamentals, Directors, Data Quality</li>
-    <li>Popular section: mix of EU and US companies + French companies with contracts</li>
-    <li>Footer: links to Data Quality, Admin, Plan</li>
+    <li>Popular section: mix of EU + US companies + French companies with directors</li>
+    <li>Footer: links to Admin, Data Quality, Plan</li>
   </ul>
 </div>
 
 
 <hr>
-<h2 id="c6">C6: Coverage Matrix Library</h2>
+<h2 id="c6">C6: E2E Coverage Matrix</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="badge badge-phase">C6</span>
-    <span class="phase-title">Traceability from requirements to tests</span>
+    <span class="phase-title">Requirements &times; E2E test traceability</span>
   </div>
 
-  <h3>Concept</h3>
-  <p>A standalone library (<code>coverage-matrix</code>, separate git repo like <code>eforms-parser</code>) that:</p>
+  <h3>Scope: E2E tests only (75 tests, 4 files)</h3>
+  <p>No decorators, no unit test annotations. A simple <code>requirements.yml</code> file + a mapping file that links e2e test names to requirement IDs.</p>
+
+  <h3>Implementation</h3>
   <ol>
-    <li>Defines requirements as a YAML/JSON file with IDs and descriptions</li>
-    <li>Provides a Python decorator <code>@covers("REQ-042")</code> and a JS annotation <code>// @covers REQ-042</code> for test functions</li>
-    <li>Scans test files, extracts coverage annotations, and generates a matrix: requirement &times; test</li>
-    <li>Outputs: JSON (for API), HTML (for admin page), or Markdown</li>
+    <li><code>requirements.yml</code> in the repo root: list of requirements with IDs, titles, categories</li>
+    <li><code>coverage-map.yml</code>: maps <code>{test_file}::{test_name}</code> &rarr; <code>[REQ-001, REQ-002]</code></li>
+    <li>A Python script (<code>scripts/coverage_matrix.py</code>) that parses both files, cross-references with actual test names from Playwright output, generates a JSON matrix</li>
+    <li>API endpoint: <code>GET /api/admin/coverage</code> serves the matrix JSON (or static file)</li>
+    <li>Admin page: <code>/admin/coverage</code> renders the matrix as a table (green = covered, red = uncovered)</li>
   </ol>
 
-  <h3>Example</h3>
-  <pre><code># requirements.yml
-REQ-001:
-  title: "Company search returns results from all sources"
+  <h3>Requirements page: <code>/admin/requirements</code></h3>
+  <p>Renders <code>requirements.yml</code> as a browsable list grouped by category. Each requirement shows: ID, title, status (covered / uncovered), linked test names.</p>
+
+  <pre><code># requirements.yml (example)
+- id: REQ-001
+  title: Search returns companies, authorities, and persons
   category: search
-REQ-002:
-  title: "Contracts tab shows procurement data for EU companies"
+- id: REQ-002
+  title: Company profile shows financial overview + contracts + directors
+  category: profile
+- id: REQ-003
+  title: Contracts tab shows sortable table with TED links
   category: procurement
 
-# In test files:
-@covers("REQ-001")
-def test_unified_search_returns_companies_and_authorities():
-    ...
-
-// In Vue test files:
-// @covers REQ-002
-it('shows contracts when API returns data', async () => { ... })</code></pre>
-
-  <h3>Admin page: <code>/admin/coverage</code></h3>
-  <p>Displays the matrix as a table: green cells = covered, red = uncovered, grey = partially. Links to test source files. Auto-generated on each build.</p>
-
-  <h3>Implementation scope</h3>
-  <p>New repo: <code>/config/repos/coverage-matrix/</code>. Python package with CLI: <code>coverage-matrix scan --tests tests/ --reqs requirements.yml --output matrix.json</code>. The admin page fetches <code>/api/coverage-matrix</code> (or a static JSON file built at deploy time).</p>
+# coverage-map.yml (example)
+ticker-search.spec.js::returns AAPL as first result:
+  - REQ-001
+eu-tickers.spec.js::clicking GALP card navigates to summary:
+  - REQ-002</code></pre>
 </div>
 
 
@@ -290,10 +283,10 @@ it('shows contracts when API returns data', async () => { ... })</code></pre>
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>C1</td><td>Country code normalization + dedup script + re-run TED matching. ~190K nodes cleaned up.</td></tr>
-  <tr><td>2</td><td>C2 + C5</td><td>Backend gmr_id migration + landing page refresh</td></tr>
-  <tr><td>3</td><td>C3 + C4</td><td>Admin area + architecture visualization (Mermaid.js)</td></tr>
-  <tr><td>4</td><td>C6</td><td>Coverage matrix library + admin page + annotate existing tests</td></tr>
+  <tr><td>1</td><td>C1</td><td>pycountry + normalize all nodes to alpha-3 + dedup script + re-run. 190K nodes fixed, conflicts queued.</td></tr>
+  <tr><td>2</td><td>C2 + C5</td><td>Remove RoutingDataSource/EsefDataSource dead code. Audit ticker resolution consistency. Landing page refresh with live stats.</td></tr>
+  <tr><td>3</td><td>C3 + C4</td><td>Admin landing page. 5 Mermaid.js architecture diagrams. Move data-quality + entity-resolution under /admin.</td></tr>
+  <tr><td>4</td><td>C6</td><td>requirements.yml + coverage-map.yml + matrix script + admin pages (coverage + requirements + plan link).</td></tr>
 </table>
 
 </body>
