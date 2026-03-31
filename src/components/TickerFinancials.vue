@@ -7,6 +7,7 @@ import ValuationPanel from './ValuationPanel.vue'
 import IncomePanel from './IncomePanel.vue'
 import CashflowPanel from './CashflowPanel.vue'
 import BalancePanel from './BalancePanel.vue'
+import ContractsPanel from './ContractsPanel.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -61,6 +62,10 @@ async function loadData(sym) {
       result = await fetchValuation(sym)
     } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
       result = await fetchFundamentals(sym)
+    } else if (props.view === 'contracts') {
+      // ContractsPanel handles its own data loading
+      state.value = 'done'
+      return
     }
     if (_loadId !== id) return // stale response
     data.value = result ?? null
@@ -475,6 +480,13 @@ function isFundNegative(year, key) {
     <template v-else-if="state === 'done' && data && view === 'balance'">
       <div data-testid="balance-panel-wrap">
         <BalancePanel :data="data" :display-years="displayYears" />
+      </div>
+    </template>
+
+    <!-- ── Contracts ─────────────────────────────────────── -->
+    <template v-else-if="state === 'done' && view === 'contracts'">
+      <div data-testid="contracts-panel-wrap">
+        <ContractsPanel :symbol="symbol" />
       </div>
     </template>
 

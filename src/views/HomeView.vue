@@ -17,6 +17,7 @@ const ALL_VIEWS = [
   { key: 'cashflow',     label: 'Cash Flow'    },
   { key: 'balance',      label: 'Balance'      },
   { key: 'valuation',    label: 'Valuation'    },
+  { key: 'contracts',    label: 'Contracts'    },
   { key: 'gmr-long',     label: 'GMR Long'     },
 ]
 
