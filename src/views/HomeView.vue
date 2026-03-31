@@ -26,32 +26,32 @@ const activeViews = computed(() => ALL_VIEWS)
 
 const features = [
   {
-    title: 'Summary',
-    body: 'Interactive price chart with crosshair, 52-week range, market cap, beta, and dividend yield.',
+    title: 'Company Profile',
+    body: 'Financial overview, EU public procurement contracts, directors and officers — all in one view.',
   },
   {
-    title: 'Income',
-    body: 'Revenue, net income, EPS, and gross/operating/net margins — up to 10 years of 10-K filings.',
-  },
-  {
-    title: 'Cash Flow',
-    body: 'Operating cashflow, free cash flow, and CapEx by year. See whether earnings turn into cash.',
-  },
-  {
-    title: 'Balance Sheet',
-    body: 'Assets, liabilities, equity, current ratio, D/E, ROE, and ROA across a decade.',
-  },
-  {
-    title: 'Valuation',
-    body: 'EV/EBITDA, EV/Revenue, P/E, ROIC, and WACC trends — historical multiples to gauge market pricing.',
+    title: 'Contracts',
+    body: 'Sortable table of EU public procurement awards with values, authorities, CPV sectors, and TED links.',
   },
   {
     title: 'Fundamentals',
-    body: 'A focused snapshot: key revenue, margin, FCF, and leverage figures all in one table.',
+    body: 'Revenue, margins, FCF, leverage — up to 10 years of data from SEC EDGAR and ESMA ESEF filings.',
+  },
+  {
+    title: 'Directors',
+    body: 'Company officers and board members sourced from French and EU business registers.',
+  },
+  {
+    title: 'Corporate Groups',
+    body: 'Parent-subsidiary relationships from GLEIF. See how companies connect across countries.',
+  },
+  {
+    title: 'Data Quality',
+    body: 'Transparent metrics: entity resolution stats, data freshness, country coverage, source traceability.',
   },
 ]
 
-const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
+const popular = ['AAPL', 'ASML.AS', 'SAP.DE', 'GALP.LS', 'MSFT', 'NVDA', 'TSLA', 'GOOGL']
 
 const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView = computed(() => route.params.view || 'summary')
@@ -122,10 +122,10 @@ function onClose() {
         <div class="shrink-0" style="cursor: pointer" @click="router.push('/')">
           <h1 class="text-xl font-bold leading-none tracking-tight">
             <span style="color: var(--accent)">GMR</span>
-            <span class="hidden sm:inline" style="color: var(--text)"> Ticker Search</span>
+            <span class="hidden sm:inline" style="color: var(--text)"> Knowledge Graph</span>
           </h1>
           <p class="mt-1 hidden text-xs font-medium uppercase tracking-widest sm:block" style="color: var(--muted)">
-            10,000+ companies &middot; SEC EDGAR &middot; ESEF
+            3.4M+ companies &middot; 379K contracts &middot; 27 EU countries
           </p>
         </div>
 
@@ -148,16 +148,16 @@ function onClose() {
           <!-- Hero -->
           <div class="mb-5 space-y-2 text-center sm:mb-10">
             <p class="text-2xl font-bold tracking-tight" style="color: var(--text)">
-              Financials, straight from the source.
+              EU Enterprise Knowledge Graph
             </p>
             <!-- Desktop: full context -->
             <p class="hidden text-sm leading-relaxed sm:block" style="color: var(--muted)">
-              SEC EDGAR data across 10,000+ US-listed companies — price history, income,
-              cash flow, balance sheet, and valuation. No noise. Just data.
+              Companies, financials, EU public procurement contracts, directors, and
+              corporate group structures — all traceable to official sources.
             </p>
             <!-- Mobile: one compact line -->
             <p class="text-sm sm:hidden" style="color: var(--muted)">
-              10,000+ companies · 6 financial views · SEC EDGAR
+              Companies · Contracts · Directors · Financials
             </p>
           </div>
 
