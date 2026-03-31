@@ -282,7 +282,7 @@ function isFundNegative(year, key) {
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
         <span class="gmr-fin__title">{{ companyName || symbol }}</span>
-        <span v-if="companyName && symbol !== companyName" class="gmr-fin__ticker-tag">{{ symbol }}</span>
+        <span v-if="companyName && symbol !== companyName && !/^[0-9a-f]{8}-/.test(symbol)" class="gmr-fin__ticker-tag">{{ symbol }}</span>
         <span
           class="badge"
           :class="isEu ? 'badge-esef' : 'badge-edgar'"
