@@ -81,9 +81,14 @@ function saveRecent(id, name) {
   try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)) } catch { /* ignore */ }
 }
 
-// Update recent when TickerFinancials resolves company name
+// Update recent + page title when TickerFinancials resolves company name
 function onCompanyResolved(info) {
   if (info?.id) saveRecent(info.id, info.name)
+  if (info?.name) {
+    const view = selectedView.value || 'summary'
+    const label = view.charAt(0).toUpperCase() + view.slice(1)
+    document.title = `${info.name} — ${label} | GMR`
+  }
 }
 
 const { track } = useAnalytics()
@@ -102,6 +107,7 @@ function onViewChange(view) {
 }
 
 function onClose() {
+  document.title = 'GMR — EU Enterprise Knowledge Graph'
   router.push('/')
 }
 </script>
@@ -263,7 +269,11 @@ function onClose() {
 
       <!-- ── Footer ──────────────────────────────────────── -->
       <footer class="pb-10 pt-12">
-        <p class="text-xs tracking-wide" style="color: var(--muted)">Data sourced from SEC EDGAR &amp; ESMA ESEF (filings.xbrl.org)</p>
+        <p class="text-xs tracking-wide" style="color: var(--muted)">
+          Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
+          &nbsp;&middot;&nbsp;
+          <router-link to="/data-quality" style="color: var(--accent)">Data Quality Dashboard</router-link>
+        </p>
       </footer>
     </div>
   </div>
