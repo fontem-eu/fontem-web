@@ -11,6 +11,7 @@ const route = useRoute()
 const router = useRouter()
 
 const ALL_VIEWS = [
+  { key: 'profile',      label: 'Profile'      },
   { key: 'summary',      label: 'Summary'      },
   { key: 'fundamentals', label: 'Fundamentals' },
   { key: 'income',       label: 'Income'       },
@@ -95,9 +96,9 @@ const { track } = useAnalytics()
 
 function onTickerSelect(symbol) {
   track('ticker-selected', { symbol })
-  // For procurement-only entities (UUID nav keys), default to contracts view
+  // For procurement-only entities (UUID nav keys), default to profile view
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
-  const view = isUuid ? 'contracts' : selectedView.value
+  const view = isUuid ? 'profile' : selectedView.value
   router.push('/' + symbol + '/' + view)
 }
 

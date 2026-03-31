@@ -4,6 +4,7 @@ import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import DataQualityView from './views/DataQualityView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
+import EntityResolutionView from './views/EntityResolutionView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -13,7 +14,8 @@ const router = createRouter({
     { path: '/', component: HomeView },
     { path: '/data-quality', component: DataQualityView },
     { path: '/company/:gmr_id', component: CompanyProfileView },
-    { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/summary` },
+    { path: '/entity-resolution', component: EntityResolutionView },
+    { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/profile` },
     { path: '/:ticker/:view', component: HomeView },
   ],
 })

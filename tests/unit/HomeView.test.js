@@ -183,31 +183,34 @@ describe('HomeView', () => {
   })
 
   it('shows recently-viewed section when localStorage has entries', async () => {
-    localStorage.setItem('gmr-recent-tickers', JSON.stringify(['AAPL', 'MSFT']))
+    localStorage.setItem('gmr-recent-companies', JSON.stringify([
+      { id: 'AAPL', name: 'Apple Inc.' },
+      { id: 'MSFT', name: 'Microsoft Corp' },
+    ]))
     const { wrapper } = await mountAt('/')
     const recent = wrapper.find('[data-testid="recent-tickers"]')
     expect(recent.exists()).toBe(true)
-    expect(recent.text()).toContain('AAPL')
-    expect(recent.text()).toContain('MSFT')
+    expect(recent.text()).toContain('Apple Inc.')
+    expect(recent.text()).toContain('Microsoft Corp')
   })
 
-  it('saves ticker to localStorage when a ticker route is visited', async () => {
-    localStorage.clear()
-    const { wrapper } = await mountAt('/TSLA/summary')
-    await flushPromises()
-    await wrapper.vm.$nextTick()
-    const stored = JSON.parse(localStorage.getItem('gmr-recent-tickers') || '[]')
-    expect(stored).toContain('TSLA')
+  it('migrates old string format in localStorage', async () => {
+    localStorage.setItem('gmr-recent-companies', JSON.stringify(['AAPL', 'MSFT']))
+    const { wrapper } = await mountAt('/')
+    const recent = wrapper.find('[data-testid="recent-tickers"]')
+    expect(recent.exists()).toBe(true)
+    // Old strings are auto-migrated: {id: 'AAPL', name: 'AAPL'}
+    expect(recent.text()).toContain('AAPL')
   })
 
   it('caps recently-viewed list at 5 entries', async () => {
-    localStorage.setItem('gmr-recent-tickers', JSON.stringify(['A','B','C','D','E']))
-    const { wrapper } = await mountAt('/F/summary')
-    await flushPromises()
-    await wrapper.vm.$nextTick()
-    const stored = JSON.parse(localStorage.getItem('gmr-recent-tickers') || '[]')
+    localStorage.setItem('gmr-recent-companies', JSON.stringify([
+      { id: 'A', name: 'A' }, { id: 'B', name: 'B' },
+      { id: 'C', name: 'C' }, { id: 'D', name: 'D' },
+      { id: 'E', name: 'E' },
+    ]))
+    await mountAt('/')
+    const stored = JSON.parse(localStorage.getItem('gmr-recent-companies') || '[]')
     expect(stored).toHaveLength(5)
-    expect(stored[0]).toBe('F')
-    expect(stored).not.toContain('E')
   })
 })

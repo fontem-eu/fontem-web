@@ -89,8 +89,10 @@ function fmtNum(n) {
             <span class="dq-stat__label">Procurement-only</span>
           </div>
           <div class="dq-stat" :class="{'dq-stat--warn': data.matching.same_as_pending > 0}">
-            <span class="dq-stat__num">{{ fmtNum(data.matching.same_as_pending) }}</span>
-            <span class="dq-stat__label">Pending review (SAME_AS)</span>
+            <router-link to="/entity-resolution" style="text-decoration: none; color: inherit">
+              <span class="dq-stat__num">{{ fmtNum(data.matching.same_as_pending) }}</span>
+              <span class="dq-stat__label">Pending review (SAME_AS) &rarr;</span>
+            </router-link>
           </div>
         </div>
       </section>

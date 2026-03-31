@@ -8,6 +8,7 @@ import IncomePanel from './IncomePanel.vue'
 import CashflowPanel from './CashflowPanel.vue'
 import BalancePanel from './BalancePanel.vue'
 import ContractsPanel from './ContractsPanel.vue'
+import ProfilePanel from './ProfilePanel.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -62,10 +63,53 @@ async function loadData(sym) {
       result = await fetchGmrData(sym)
     } else if (props.view === 'valuation') {
       result = await fetchValuation(sym)
+    } else if (props.view === 'profile') {
+      // Profile: try fundamentals for financial snapshot; fall back to company API
+      try {
+        result = await fetchFundamentals(sym)
+      } catch {
+        // No financials — try company profile API for name/country
+        const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
+        if (uuid) {
+          try {
+            const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
+            if (res.ok) {
+              const info = await res.json()
+              result = { gmr_id: uuid, company_name: info.company_name, ticker: sym }
+            }
+          } catch { /* ignore */ }
+        }
+        if (!result) result = { ticker: sym }
+      }
     } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
       result = await fetchFundamentals(sym)
     } else if (props.view === 'contracts') {
-      // ContractsPanel handles its own data loading
+      // ContractsPanel handles its own data loading.
+      // But we still need the company name for the header/title.
+      // Try fundamentals first (fast, has company_name); if 404, try contracts API.
+      try {
+        result = await fetchFundamentals(sym, 1)
+      } catch {
+        // No financials — resolve company name via the contracts API
+        try {
+          const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
+          if (uuid) {
+            const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
+            if (res.ok) result = await res.json()
+          }
+        } catch { /* ignore */ }
+      }
+      // Set company info from whatever we got, then mark done
+      if (result) {
+        companyGmrId.value = result.gmr_id ?? null
+        companyName.value = result.company_name ?? result.company_name ?? null
+        if (result.gmr_id || result.company_name) {
+          emit('company-resolved', {
+            id: sym, name: result.company_name || sym, gmr_id: result.gmr_id,
+          })
+        }
+      }
+      data.value = null
       state.value = 'done'
       return
     }
@@ -493,6 +537,18 @@ function isFundNegative(year, key) {
     <template v-else-if="state === 'done' && data && view === 'balance'">
       <div data-testid="balance-panel-wrap">
         <BalancePanel :data="data" :display-years="displayYears" />
+      </div>
+    </template>
+
+    <!-- ── Profile ───────────────────────────────────────── -->
+    <template v-else-if="state === 'done' && view === 'profile'">
+      <div data-testid="profile-panel-wrap">
+        <ProfilePanel
+          :symbol="symbol"
+          :data="data"
+          :gmr-id="companyGmrId || symbol"
+          :company-name="companyName"
+        />
       </div>
     </template>
 
