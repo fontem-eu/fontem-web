@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
@@ -55,24 +55,36 @@ const popular = ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'GOOGL', 'META', 'JPM']
 const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView = computed(() => route.params.view || 'summary')
 
-// ── Recent tickers (localStorage) ────────────────────────────
-const RECENT_KEY = 'gmr-recent-tickers'
+// ── Recent companies (localStorage) ──────────────────────────
+// Stores {id, name} objects instead of raw ticker strings
+const RECENT_KEY = 'gmr-recent-companies'
 const MAX_RECENT = 5
 
 function loadRecent() {
-  try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]') }
-  catch { return [] }
+  try {
+    const raw = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]')
+    // Migrate old format (plain strings) to new format (objects)
+    return raw.map((item) => {
+      if (typeof item === 'string') return { id: item, name: item }
+      return item
+    })
+  } catch { return [] }
 }
 
-const recentTickers = ref(loadRecent())
+const recentCompanies = ref(loadRecent())
 
-function saveRecent(symbol) {
-  const updated = [symbol, ...recentTickers.value.filter((s) => s !== symbol)].slice(0, MAX_RECENT)
-  recentTickers.value = updated
+function saveRecent(id, name) {
+  const displayName = name || id
+  const entry = { id, name: displayName }
+  const updated = [entry, ...recentCompanies.value.filter((e) => e.id !== id)].slice(0, MAX_RECENT)
+  recentCompanies.value = updated
   try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)) } catch { /* ignore */ }
 }
 
-watch(selectedTicker, (sym) => { if (sym) saveRecent(sym) }, { immediate: true })
+// Update recent when TickerFinancials resolves company name
+function onCompanyResolved(info) {
+  if (info?.id) saveRecent(info.id, info.name)
+}
 
 const { track } = useAnalytics()
 
@@ -151,8 +163,8 @@ function onClose() {
             <span class="font-semibold" style="color: var(--text)">explore up to 10 years of data</span>
           </div>
 
-          <!-- Recently viewed tickers — only shown when history exists -->
-          <div v-if="recentTickers.length" class="mb-5 sm:mb-8" data-testid="recent-tickers">
+          <!-- Recently viewed — only shown when history exists -->
+          <div v-if="recentCompanies.length" class="mb-5 sm:mb-8" data-testid="recent-tickers">
             <p
               class="mb-3 text-xs font-semibold uppercase tracking-widest"
               style="color: var(--muted)"
@@ -161,13 +173,13 @@ function onClose() {
             </p>
             <div class="flex flex-wrap gap-2">
               <button
-                v-for="t in recentTickers"
-                :key="t"
+                v-for="entry in recentCompanies"
+                :key="entry.id"
                 class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
                 style="border-color: var(--accent); background: var(--surface); color: var(--accent)"
-                @click="onTickerSelect(t)"
+                @click="onTickerSelect(entry.id)"
               >
-                {{ t }}
+                {{ entry.name }}
               </button>
             </div>
           </div>
@@ -244,6 +256,7 @@ function onClose() {
             :view="selectedView"
             class="min-w-0 flex-1"
             @close="onClose"
+            @company-resolved="onCompanyResolved"
           />
         </div>
       </main>

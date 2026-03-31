@@ -14,7 +14,7 @@ const props = defineProps({
   view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long' | 'valuation' | 'summary'
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'company-resolved'])
 
 // ── Copy link ────────────────────────────────────────────────
 const linkCopied = ref(false)
@@ -74,6 +74,14 @@ async function loadData(sym) {
     companyGmrId.value = result?.gmr_id ?? null
     companyName.value = result?.company_name ?? null
     state.value = 'done'
+    // Tell parent the resolved company info (for recent history, page title)
+    if (result?.gmr_id || result?.company_name) {
+      emit('company-resolved', {
+        id: props.symbol,
+        name: result.company_name || props.symbol,
+        gmr_id: result.gmr_id,
+      })
+    }
   } catch {
     if (_loadId !== id) return
     state.value = 'error'
