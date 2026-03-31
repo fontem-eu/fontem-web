@@ -338,12 +338,16 @@ RETURN root, collect(DISTINCT child) AS subsidiaries</code></pre>
   <h3>UI: Corporate Group section in company profile</h3>
   <ul>
     <li><strong>Group header:</strong> &ldquo;Part of MOTA-ENGIL SGPS S.A. group (19 entities, 7 countries)&rdquo;</li>
-    <li><strong>Tree view:</strong> ultimate parent at top, direct children indented below. Each node shows: name, country, contract count. Clickable to navigate.</li>
+    <li><strong>Collapsible tree:</strong> ultimate parent at top, children indented. Each node: name, country, contract count. Clickable to navigate. <strong>Collapsed by default if &gt;10 children</strong> at any level.</li>
     <li><strong>Group aggregate:</strong> &ldquo;Group total: 36 contracts, &euro;X total value&rdquo; &mdash; toggle to see contracts for the whole group vs just this entity</li>
+    <li><strong>Search grouping:</strong> when searching, subsidiaries are grouped under the parent entity &mdash; one result for the group, showing entity count and aggregate contract value</li>
   </ul>
 
+  <h3>Traversal: levels, not shortcuts</h3>
+  <p>Use <code>[:SUBSIDIARY_OF*0..5]</code> for full level-by-level traversal. Slower but preserves all intermediate structure. We can always add an ultimate-parent shortcut later for performance if needed.</p>
+
   <h3>Dependency on C1</h3>
-  <p>C7 should run <strong>after C1</strong> (country normalization). The Level 2 loader uses LEI matching, not country codes, so it doesn&rsquo;t directly depend on C1. But the group view in the UI will show country flags/codes, so those should be normalized first.</p>
+  <p>C7 should run <strong>after C1</strong> (country normalization). The Level 2 loader uses LEI matching, not country codes, so it doesn&rsquo;t directly depend on C1. But the group view in the UI will show country codes, so those should be normalized first.</p>
 </div>
 
 
@@ -353,42 +357,41 @@ RETURN root, collect(DISTINCT child) AS subsidiaries</code></pre>
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
   <tr><td>1</td><td>C1 + C7 (ETL)</td><td>pycountry + normalize all nodes to alpha-3 + dedup script. GLEIF Level 2 loader + 640K relationships. Mota-Engil group visible in Neo4j.</td></tr>
-  <tr><td>2</td><td>C2 + C5</td><td>Remove dead code (RoutingDataSource, EsefDataSource). Landing page refresh with live stats.</td></tr>
-  <tr><td>3</td><td>C3 + C4 + C7 (UI)</td><td>Admin area + architecture diagrams. Corporate group API + group tree in profile.</td></tr>
-  <tr><td>4</td><td>C6</td><td>requirements.yml + coverage-map.yml + matrix script + admin pages.</td></tr>
+  <tr><td>2</td><td>C2 + C5</td><td>Remove dead code. Adapt 34 tests from deleted sources to GraphDataSource. Delete 43 routing-specific tests. Landing page refresh.</td></tr>
+  <tr><td>3</td><td>C3 + C4 + C7 (UI)</td><td>Admin area + architecture diagrams + plan/requirements links. Corporate group API + collapsible tree in profile. Search grouping.</td></tr>
+  <tr><td>4</td><td>C6</td><td>requirements.yml + coverage-map.yml for 75 e2e tests + admin pages.</td></tr>
 </table>
 
 
 <hr>
-<h2 id="questions">Open Questions</h2>
+<h2 id="questions">Decisions Log (from review)</h2>
 
-<div class="callout warn">
-  <strong>Q1: Group contract aggregation &mdash; how deep?</strong>
-  <p>The Cypher query uses <code>[:SUBSIDIARY_OF*0..5]</code> to traverse up to 5 levels. Some corporate structures are very deep (holding &rarr; regional holding &rarr; operating company &rarr; project SPV). Should we cap at 5 levels, or follow the full chain? Deeper traversal = slower queries. The GLEIF data has both &ldquo;direct&rdquo; and &ldquo;ultimate&rdquo; parent types, so we could use ultimate parent to skip the chain entirely.</p>
+<div class="callout ok">
+  <strong>Q1 &rarr; Use levels.</strong> <code>[:SUBSIDIARY_OF*0..5]</code> traversal. Slower but preserves all data. Can compress to ultimate-parent shortcut later if performance requires it.
 </div>
 
-<div class="callout warn">
-  <strong>Q2: Group view UX &mdash; tree or flat list?</strong>
-  <p>A tree visualization (parent &rarr; children &rarr; grandchildren) is more informative but harder to render on mobile. A flat list sorted by relationship depth is simpler. For Mota-Engil with 19 entities, a tree is manageable. For a mega-group like Siemens (hundreds of subsidiaries), a tree becomes unwieldy. Should we show the full tree or limit to, say, the top 50 by contract value?</p>
+<div class="callout ok">
+  <strong>Q2 &rarr; Collapsible tree.</strong> Default to collapsed if &gt;10 children at any level. Full tree visible on expand. Works on mobile (nodes are clickable links, not a D3 visualization).
 </div>
 
-<div class="callout warn">
-  <strong>Q3: Should the group search aggregate?</strong>
-  <p>When a user searches &ldquo;Mota-Engil,&rdquo; should the search results group all 19 entities under one result (&ldquo;Mota-Engil group &mdash; 19 entities, 36 contracts&rdquo;)? Or show them individually as today? Grouping is cleaner but requires knowing the group structure at search time, which means an extra Neo4j traversal per result.</p>
+<div class="callout ok">
+  <strong>Q3 &rarr; Yes, group in search.</strong> Subsidiaries shown as one grouped result under the parent entity. Shows entity count + aggregate contracts.
 </div>
 
-<div class="callout warn">
-  <strong>Q4: C1 normalization &mdash; update gmr_id or not?</strong>
-  <p>When we normalize a Company&rsquo;s country from FR to FRA, the existing <code>gmr_id</code> was computed from the old country code (for name-based IDs: <code>uuid5(&quot;FR:SOCOMEC&quot;)</code>). After normalization, the same company created fresh would get <code>uuid5(&quot;FRA:SOCOMEC&quot;)</code> &mdash; a different gmr_id. Should we recompute gmr_ids for name-based nodes (those without LEI/CIK)? This would change the primary key of ~190K nodes, requiring all SAME_AS, AWARDED_TO, DIRECTS relationships to be updated. Or should we leave gmr_ids untouched and only normalize the display <code>country</code> property?</p>
+<div class="callout ok">
+  <strong>Q4 &rarr; Never change a primary key.</strong> gmr_id stays untouched. Only the display <code>country</code> property is normalized. Future ETL runs will use alpha-3 in <code>gmr_id.from_name()</code>, so new companies get alpha-3-based IDs. Existing name-based IDs with alpha-2 remain valid &mdash; they&rsquo;re deterministic and stable.
 </div>
 
-<div class="callout warn">
-  <strong>Q5: C2 dead code removal &mdash; what about tests?</strong>
-  <p>There are 14 test files for RoutingDataSource, EsefDataSource, and their helpers (<code>test_routing_data_source.py</code>, <code>test_esef_data_source.py</code>, etc.). These tests verify code that we&rsquo;re deleting. We have two options: (a) delete the tests along with the code (cleaner, fewer tests), or (b) adapt the tests to verify the same behavior through GraphDataSource (validates the migration). Option (b) is more work but gives us regression safety. Which do you prefer?</p>
+<div class="callout ok">
+  <strong>Q5 &rarr; Adapt valuable tests, delete the rest.</strong> After investigation:
+  <ul>
+    <li><code>test_routing_data_source.py</code> (14 tests): <strong>Delete</strong> &mdash; pure routing logic that no longer exists.</li>
+    <li><code>test_esef_data_source.py</code> (29 tests): <strong>Adapt ~6</strong> contract tests (all keys present, sorted descending, shares_outstanding derivation) to GraphDataSource. Delete the 23 ESEF-specific tests.</li>
+    <li><code>test_api_eu_tickers.py</code> (23 tests): <strong>Adapt all</strong> &mdash; these test the API contract with EU data, valuable regardless of backend.</li>
+    <li><code>test_ticker_functionality.py</code> (11 tests): <strong>Adapt all</strong> &mdash; search behavior tests (exact match, case insensitive, limit).</li>
+  </ul>
+  <p>Net result: delete ~37 tests, adapt ~40 tests, keep ~500 unchanged.</p>
 </div>
-
-</body>
-</html>
 
 </body>
 </html>
