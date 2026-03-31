@@ -3,1404 +3,298 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GMR Platform — EU Public Procurement Plan</title>
+  <title>GMR — Consolidation Phase Plan</title>
   <style>
-    :root {
-      --bg:       #ffffff;
-      --bg2:      #f6f8fa;
-      --border:   #d0d7de;
-      --text:     #1f2328;
-      --text2:    #636c76;
-      --accent:   #0969da;
-      --green:    #1a7f37;
-      --red:      #cf222e;
-      --code-bg:  #f6f8fa;
-      --tag-bg:   #ddf4ff;
-      --tag-text: #0550ae;
-      --done-bg:  #dafbe1;
-      --done-text:#1a7f37;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:       #0d1117;
-        --bg2:      #161b22;
-        --border:   #30363d;
-        --text:     #e6edf3;
-        --text2:    #848d97;
-        --accent:   #58a6ff;
-        --green:    #3fb950;
-        --red:      #f85149;
-        --code-bg:  #161b22;
-        --tag-bg:   #112d45;
-        --tag-text: #79c0ff;
-        --done-bg:  #0f2d16;
-        --done-text:#3fb950;
-      }
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--text);
-      background: var(--bg);
-      padding: 0 1rem 4rem;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    /* ── Header ── */
-    header {
-      padding: 2rem 0 1.5rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-    }
-    header h1 {
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      font-weight: 700;
-      line-height: 1.2;
-    }
-    header .meta {
-      margin-top: .5rem;
-      font-size: .875rem;
-      color: var(--text2);
-    }
-
-    /* ── Headings ── */
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin: 2.5rem 0 .75rem;
-      padding-bottom: .4rem;
-      border-bottom: 1px solid var(--border);
-    }
-    h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 2rem 0 .6rem;
-      color: var(--text);
-    }
-    h4 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 1.5rem 0 .4rem;
-    }
-
-    /* ── Body text ── */
-    p { margin: .6rem 0; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    strong { font-weight: 600; }
-    em { font-style: italic; color: var(--text2); }
-    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-
-    /* ── Code ── */
-    code {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: .85em;
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: .15em .35em;
-    }
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem;
-      overflow-x: auto;
-      margin: .75rem 0 1rem;
-      font-size: .82rem;
-      line-height: 1.5;
-    }
-    pre code {
-      background: none;
-      border: none;
-      padding: 0;
-      font-size: inherit;
-    }
-
-    /* ── Lists ── */
-    ul, ol {
-      padding-left: 1.5rem;
-      margin: .5rem 0;
-    }
-    li { margin: .3rem 0; }
-    li p { margin: 0; }
-    ul li::marker { color: var(--text2); }
-
-    /* ── Phase cards ── */
-    .phase {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      margin: 1.5rem 0;
-    }
-    .phase-header {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    .phase-badge {
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      padding: .2em .6em;
-      border-radius: 20px;
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      white-space: nowrap;
-    }
-    .phase-badge.done {
-      background: var(--done-bg);
-      color: var(--done-text);
-    }
-    .phase-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .phase-sub {
-      font-size: .875rem;
-      color: var(--text2);
-      font-style: italic;
-      margin-bottom: .75rem;
-    }
-
-    /* ── Table ── */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: .75rem 0 1rem;
-      font-size: .875rem;
-      display: block;
-      overflow-x: auto;
-    }
-    th {
-      background: var(--bg2);
-      text-align: left;
-      font-weight: 600;
-      padding: .5rem .75rem;
-      border: 1px solid var(--border);
-    }
-    td {
-      padding: .45rem .75rem;
-      border: 1px solid var(--border);
-      vertical-align: top;
-    }
-    tr:nth-child(even) td { background: var(--bg2); }
-
-    /* ── Principles ── */
-    .principles ol {
-      counter-reset: principle;
-      list-style: none;
-      padding: 0;
-    }
-    .principles ol li {
-      counter-increment: principle;
-      display: flex;
-      gap: .75rem;
-      margin: .6rem 0;
-      align-items: flex-start;
-    }
-    .principles ol li::before {
-      content: counter(principle);
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      font-size: .75rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: .15rem;
-    }
-
-    /* ── Callouts ── */
-    .callout {
-      border-left: 3px solid var(--border);
-      padding: .5rem 1rem;
-      margin: .75rem 0;
-      background: var(--bg2);
-      border-radius: 0 6px 6px 0;
-    }
-    .callout.warn { border-color: var(--red); }
-    .callout.ok   { border-color: var(--green); }
-
-    /* ── Questions ── */
-    .questions ol {
-      padding-left: 1.25rem;
-    }
-    .questions li {
-      margin: .6rem 0;
-      padding: .5rem .75rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      list-style-position: outside;
-    }
-
-    /* ── ETL sub-steps ── */
-    .etl-step {
-      margin: 1rem 0;
-      padding: .75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-    }
-    .etl-step h4 {
-      margin: 0 0 .5rem;
-      font-size: .9rem;
-      font-family: "SFMono-Regular", Consolas, monospace;
-      color: var(--accent);
-    }
-    .etl-step ul {
-      margin: 0;
-      font-size: .9rem;
-    }
-
-    /* ── Checklist ── */
-    ul.checklist { list-style: none; padding-left: 0; }
-    ul.checklist li {
-      display: flex;
-      align-items: flex-start;
-      gap: .5rem;
-      padding: .25rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    ul.checklist li:last-child { border-bottom: none; }
-    ul.checklist li .check {
-      flex-shrink: 0;
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border);
-      border-radius: 4px;
-      margin-top: .15rem;
-      background: var(--bg);
-    }
-
-    /* ── TOC ── */
-    nav {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 2.5rem;
-      font-size: .9rem;
-    }
-    nav strong { display: block; margin-bottom: .5rem; color: var(--text2); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
-    nav ol { padding-left: 1.25rem; margin: 0; }
-    nav li { margin: .2rem 0; }
-    nav a { color: var(--accent); }
-
-    /* ── Stats grid ── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: .75rem;
-      margin: 1rem 0;
-    }
-    .stat {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: .75rem 1rem;
-      text-align: center;
-    }
-    .stat .num {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stat .label {
-      font-size: .8rem;
-      color: var(--text2);
-      margin-top: .2rem;
-    }
-
-    /* ── Matching layers ── */
-    .layer {
-      margin: .75rem 0;
-      padding: .75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-    }
-    .layer-num {
-      display: inline-block;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      font-size: .7rem;
-      font-weight: 700;
-      text-align: center;
-      line-height: 22px;
-      margin-right: .5rem;
-      vertical-align: middle;
-    }
-    .layer h4 { display: inline; font-size: .9rem; }
+    :root { --bg:#fff; --bg2:#f6f8fa; --border:#d0d7de; --text:#1f2328; --text2:#636c76; --accent:#0969da; --green:#1a7f37; --red:#cf222e; --code-bg:#f6f8fa; --tag-bg:#ddf4ff; --tag-text:#0550ae; --done-bg:#dafbe1; --done-text:#1a7f37; }
+    @media(prefers-color-scheme:dark){ :root{ --bg:#0d1117; --bg2:#161b22; --border:#30363d; --text:#e6edf3; --text2:#848d97; --accent:#58a6ff; --green:#3fb950; --red:#f85149; --code-bg:#161b22; --tag-bg:#112d45; --tag-text:#79c0ff; --done-bg:#0f2d16; --done-text:#3fb950; } }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);padding:0 1rem 4rem;max-width:860px;margin:0 auto}
+    header{padding:2rem 0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+    header h1{font-size:clamp(1.4rem,4vw,2rem);font-weight:700}
+    header .meta{margin-top:.5rem;font-size:.875rem;color:var(--text2)}
+    h2{font-size:1.4rem;font-weight:700;margin:2.5rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+    h3{font-size:1.1rem;font-weight:600;margin:2rem 0 .6rem}
+    p{margin:.6rem 0} a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.85em;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:.15em .35em}
+    pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1rem;overflow-x:auto;margin:.75rem 0 1rem;font-size:.82rem;line-height:1.5}
+    pre code{background:none;border:none;padding:0}
+    ul,ol{padding-left:1.5rem;margin:.5rem 0} li{margin:.3rem 0}
+    hr{border:none;border-top:1px solid var(--border);margin:2rem 0}
+    table{width:100%;border-collapse:collapse;margin:.75rem 0 1rem;font-size:.875rem;display:block;overflow-x:auto}
+    th{background:var(--bg2);text-align:left;font-weight:600;padding:.5rem .75rem;border:1px solid var(--border)}
+    td{padding:.45rem .75rem;border:1px solid var(--border);vertical-align:top}
+    .phase{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+    .phase-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+    .badge{font-size:.75rem;font-weight:700;letter-spacing:.04em;padding:.2em .6em;border-radius:20px;white-space:nowrap}
+    .badge-phase{background:var(--tag-bg);color:var(--tag-text)}
+    .badge-done{background:var(--done-bg);color:var(--done-text)}
+    .phase-title{font-size:1rem;font-weight:700}
+    .callout{border-left:3px solid var(--border);padding:.5rem 1rem;margin:.75rem 0;background:var(--bg2);border-radius:0 6px 6px 0}
+    .callout.warn{border-color:var(--red)} .callout.ok{border-color:var(--green)}
+    nav{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:2.5rem;font-size:.9rem}
+    nav strong{display:block;margin-bottom:.5rem;color:var(--text2);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+    nav ol{padding-left:1.25rem;margin:0} nav li{margin:.2rem 0}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin:1rem 0}
+    .stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;text-align:center}
+    .stat .num{font-size:1.3rem;font-weight:700;color:var(--accent)} .stat .label{font-size:.8rem;color:var(--text2);margin-top:.2rem}
   </style>
 </head>
 <body>
 
 <header>
-  <h1>GMR Platform — EU Public Procurement Plan</h1>
-  <div class="meta">Last updated: March 2026 &nbsp;&middot;&nbsp; Status: draft, awaiting review</div>
+  <h1>GMR Platform &mdash; Consolidation Phase</h1>
+  <div class="meta">March 2026 &nbsp;&middot;&nbsp; Status: planning</div>
 </header>
 
 <nav>
   <strong>Contents</strong>
   <ol>
-    <li><a href="#completed">Completed: Graph Migration (Phases 0&ndash;4)</a></li>
-    <li><a href="#vision">Vision: Follow the Money</a></li>
-    <li><a href="#data-source">Data Source: TED</a></li>
-    <li><a href="#scale">Scale Assessment</a></li>
-    <li><a href="#model">Neo4j Data Model Extension</a></li>
-    <li><a href="#matching">Company Matching Strategy</a></li>
-    <li><a href="#identity">Identity Resolution</a></li>
-    <li><a href="#phases">Implementation Phases</a>
-      <ol>
-        <li><a href="#phase5">Phase 5 &mdash; Data Model Spike</a></li>
-        <li><a href="#phase6">Phase 6 &mdash; ETL Pipeline</a></li>
-        <li><a href="#phase6b">Phase 6b &mdash; Data Quality Dashboard</a></li>
-        <li><a href="#phase7">Phase 7 &mdash; API Endpoints</a></li>
-        <li><a href="#phase8">Phase 8 &mdash; Web UI</a></li>
-      </ol>
-    </li>
-    <li><a href="#updates">Keeping Data Fresh</a></li>
+    <li><a href="#status">Current Status</a></li>
+    <li><a href="#problems">Problems Identified</a></li>
+    <li><a href="#c1">C1: Country Code Normalization + Deduplication</a></li>
+    <li><a href="#c2">C2: Ticker &rarr; gmr_id Migration (Backend)</a></li>
+    <li><a href="#c3">C3: Admin Area (/admin)</a></li>
+    <li><a href="#c4">C4: Architecture Visualization (Mermaid.js)</a></li>
+    <li><a href="#c5">C5: Landing Page Refresh</a></li>
+    <li><a href="#c6">C6: Coverage Matrix Library</a></li>
     <li><a href="#sessions">Session Breakdown</a></li>
-    <li><a href="#risks">What Will Break</a></li>
-    <li><a href="#questions">Open Questions</a></li>
-    <li><a href="#review">Critical Self-Review</a></li>
   </ol>
 </nav>
 
 
-<!-- ═══════════════════════════════════════════════════════ COMPLETED -->
-<h2 id="completed">Completed: Graph Migration (Phases 0&ndash;4)</h2>
-
-<p>The foundational graph migration is <strong>live in production</strong> as of March 30, 2026.</p>
+<h2 id="status">Current Status</h2>
 
 <div class="stats">
-  <div class="stat"><div class="num">3.26M</div><div class="label">Company nodes (GLEIF)</div></div>
-  <div class="stat"><div class="num">17,293</div><div class="label">Listing nodes</div></div>
-  <div class="stat"><div class="num">18,632</div><div class="label">FinancialYear nodes</div></div>
-  <div class="stat"><div class="num">27</div><div class="label">EU countries</div></div>
+  <div class="stat"><div class="num">3.45M</div><div class="label">Company nodes</div></div>
+  <div class="stat"><div class="num">379K</div><div class="label">Contracts (2024&ndash;2025 Q1)</div></div>
+  <div class="stat"><div class="num">67K</div><div class="label">FinancialYear nodes</div></div>
+  <div class="stat"><div class="num">970</div><div class="label">Person nodes (FR directors)</div></div>
+  <div class="stat"><div class="num">42K</div><div class="label">Authorities</div></div>
+  <div class="stat"><div class="num">190K</div><div class="label">Companies with alpha-3 codes (duplicates)</div></div>
 </div>
+
+<p><strong>What&rsquo;s been built:</strong> Neo4j graph with GLEIF companies, ESEF+EDGAR financials, TED procurement contracts, French company directors. GraphDataSource serving production. Unified search, company profile, contracts tab, data quality dashboard, entity resolution page, PWA.</p>
+
+
+<h2 id="problems">Problems Identified</h2>
+
+<div class="callout warn">
+  <strong>1. Country code mismatch &rarr; 190K duplicate Company nodes.</strong>
+  <p>GLEIF uses ISO alpha-2 (FR, DE, ES). TED uses ISO alpha-3 (FRA, DEU, ESP). The ETL creates new Company nodes for TED contractors because <code>country = "FRA"</code> doesn&rsquo;t match <code>country = "FR"</code> on existing GLEIF nodes. This is the #1 data quality issue.</p>
+  <p><strong>Example:</strong> SOCOMEC has two nodes &mdash; one from GLEIF (FR, has LEI) and one from TED (FRA, no LEI, vat=0). Identical company, two gmr_ids.</p>
+</div>
+
+<div class="callout warn">
+  <strong>2. <code>ticker</code> is still a first-class citizen in the backend.</strong>
+  <p>7 API route paths use <code>/{ticker}/</code>. 9 handler functions take <code>ticker: str</code>. 70+ references in the frontend. The <code>FinancialDataSource</code> interface takes ticker as the primary key for every method. This should be <code>gmr_id</code>.</p>
+</div>
+
+<div class="callout warn">
+  <strong>3. No admin area.</strong>
+  <p>The entity resolution page and data quality dashboard exist but aren&rsquo;t grouped. No architecture documentation is visible. No way to trigger deduplication or review system health in one place.</p>
+</div>
+
+<div class="callout warn">
+  <strong>4. Landing page is outdated.</strong>
+  <p>Still talks about &ldquo;10,000+ US-listed companies&rdquo; and SEC EDGAR. Doesn&rsquo;t mention procurement, directors, or the knowledge graph. Features list doesn&rsquo;t reflect current capabilities.</p>
+</div>
+
+
+<hr>
+<h2 id="c1">C1: Country Code Normalization + Deduplication Script</h2>
 
 <div class="phase">
   <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 0&ndash;1: Neo4j deployed to k8s, data model validated</span>
-  </div>
-  <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 2a: GLEIF full dump &rarr; 3.26M Company nodes (3m50s @ 14.2K/s)</span>
-  </div>
-  <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 2b: EU listings + ESEF financials &rarr; 6,851 Listings + 18,991 FinancialYear</span>
-  </div>
-  <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 2c: US companies &rarr; 10,442 Listings (EDGAR financials at query time)</span>
-  </div>
-  <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 3: GraphDataSource serving production traffic (GMR_DATA_SOURCE=graph)</span>
-  </div>
-  <div class="phase-header">
-    <span class="phase-badge done">DONE</span>
-    <span class="phase-title">Phase 4: UI audit &mdash; 258 unit + 90 e2e tests passing</span>
-  </div>
-</div>
-
-<pre>Current production architecture:
-
-gmr-web (Vue SPA) ──HTTP──&gt; edgar-gmr-etl (FastAPI)
-                                 │
-                        GraphDataSource
-                         ├── Neo4j  (3.26M companies, listings, financials)
-                         ├── NFS CSV  (price time series)
-                         └── EDGAR fallback  (US financials at query time)</pre>
-
-
-<!-- ═══════════════════════════════════════════════════════ VISION -->
-<hr>
-<h2 id="vision">Vision: Follow the Money</h2>
-
-<p>The graph now knows <em>who companies are</em> and <em>what they earn</em>. The next layer is <strong>who pays them with public money, how much, and for what</strong>.</p>
-
-<p>EU public procurement is one of the largest economic activities in Europe &mdash; over <strong>&euro;670 billion per year</strong> flows through government contracts. This data is public, structured, and machine-readable. By connecting it to our company graph, we build a comprehensive EU enterprise knowledge base that can answer questions like:</p>
-
-<ul>
-  <li>Which companies receive the most public money in a given country?</li>
-  <li>Which government bodies are the biggest spenders?</li>
-  <li>Are contracts being awarded through open competition or negotiated procedures?</li>
-  <li>How do a company&rsquo;s government revenues compare to its total revenue?</li>
-  <li>What sectors does public spending concentrate in?</li>
-</ul>
-
-<div class="callout ok">
-  <strong>Long-term direction</strong>
-  <p>This is one step toward the broader vision &mdash; a comprehensive EU enterprise knowledge graph connecting companies, people, political roles, and public records. Procurement data is the natural starting point: it&rsquo;s the most structured, most complete, and most immediately useful. No judgements of character &mdash; just data, traceable back to official EU sources.</p>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ DATA SOURCE -->
-<hr>
-<h2 id="data-source">Data Source: TED (Tenders Electronic Daily)</h2>
-
-<p><strong>TED</strong> is the EU&rsquo;s official procurement database. Every EU government contract above a threshold value (&euro;140K for services, &euro;5.4M for works) must be published here.</p>
-
-<h3>What we get (structured XML, no PDFs)</h3>
-<table>
-  <tr><th>Field</th><th>Example</th></tr>
-  <tr><td>Contract title</td><td>&ldquo;Modernisation of IT infrastructure&rdquo;</td></tr>
-  <tr><td>Value (EUR + original currency)</td><td>&euro;12,500,000</td></tr>
-  <tr><td>CPV code (what was bought)</td><td>72000000 &mdash; IT services</td></tr>
-  <tr><td>Awarding authority</td><td>Bundesministerium des Innern, DE</td></tr>
-  <tr><td>Contractor (winner)</td><td>SAP SE, DE, VAT: DE143293625</td></tr>
-  <tr><td>Procedure type</td><td>Open / Restricted / Negotiated</td></tr>
-  <tr><td>Publication date</td><td>2024-06-15</td></tr>
-  <tr><td>Award date</td><td>2024-06-01</td></tr>
-</table>
-
-<h3>Access methods</h3>
-<ul>
-  <li><strong>Bulk XML downloads</strong> (preferred &mdash; same approach as GLEIF, no rate limits):
-    <code>https://ted.europa.eu/packages/monthly/YYYY-M</code></li>
-  <li><strong>REST API</strong> at <code>api.ted.europa.eu</code> (anonymous, for targeted queries)</li>
-  <li><strong>CSV subset</strong> at <code>data.europa.eu</code> (simplified, fewer fields)</li>
-</ul>
-
-<p>Format: <strong>eForms XML</strong> (EU-mandated standard since October 2023). Pre-2023 data uses an older TED XML schema.</p>
-
-<div class="callout ok">
-  <strong>Key insight:</strong> All the &ldquo;juicy&rdquo; metadata &mdash; who won, how much, from whom, for what &mdash; is in the structured XML. We never need to download or parse legal PDFs.
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ SCALE -->
-<hr>
-<h2 id="scale">Scale Assessment</h2>
-
-<div class="stats">
-  <div class="stat"><div class="num">~700K</div><div class="label">notices / year (all types)</div></div>
-  <div class="stat"><div class="num">~200K</div><div class="label">contract awards / year</div></div>
-  <div class="stat"><div class="num">&euro;670B</div><div class="label">annual procurement value</div></div>
-  <div class="stat"><div class="num">27</div><div class="label">EU member states</div></div>
-</div>
-
-<h3>What to load</h3>
-<p>We focus on <strong>Contract Award Notices</strong> (CAN) &mdash; the records that say who actually won. These are ~30% of all TED notices.</p>
-
-<table>
-  <tr><th>Scope</th><th>Records</th><th>Compressed size</th><th>Neo4j storage</th></tr>
-  <tr><td>2024&ndash;2026 (initial)</td><td>~500K awards</td><td>~5 GB</td><td>~500 MB</td></tr>
-  <tr><td>2018&ndash;2026 (full historical)</td><td>~1.7M awards</td><td>~20 GB</td><td>~1.5 GB</td></tr>
-</table>
-
-<div class="callout ok">
-  <strong>Storage fits.</strong> The current graph uses &lt;1 GB of the 5 Gi PVC. Even with full 2018&ndash;2026 procurement data, we stay under 3 GB total. No PVC resize needed.
-</div>
-
-<h3>Company identifiers in TED</h3>
-<table>
-  <tr><th>Identifier</th><th>Prevalence</th><th>Matching strategy</th></tr>
-  <tr><td>VAT number</td><td>Most records</td><td>Cross-reference with GLEIF registration data</td></tr>
-  <tr><td>National registration number</td><td>Variable by country</td><td><code>gmr_id.from_national_id()</code></td></tr>
-  <tr><td>Company name + country</td><td>Always present</td><td>Normalized name match, then <code>gmr_id.from_name()</code></td></tr>
-  <tr><td>LEI</td><td>Rare</td><td>Direct match to existing Company nodes</td></tr>
-</table>
-
-
-<!-- ═══════════════════════════════════════════════════════ DATA MODEL -->
-<hr>
-<h2 id="model">Neo4j Data Model Extension</h2>
-
-<h3>New nodes</h3>
-<pre><code>(:Contract {
-  ted_notice_id:     string,   // primary key — the TED publication number, e.g. "291298-2024"
-  ted_url:           string,   // direct link: "https://ted.europa.eu/en/notice/291298-2024"
-  bt701:             string,   // eForms Notice Identifier (UUID v4, stable across versions)
-  title:             string,   // contract title
-  description:       string,   // truncated to ~500 chars
-  value_eur:         float,    // current value in EUR (updated by modifications)
-  value_original_award: float, // original award value (set once, never overwritten)
-  value_currency:    string,   // original currency
-  cpv_main:          string,   // main CPV code
-  procedure_type:    string,   // "open" | "restricted" | "negotiated"
-  notice_type:       string,   // "can-standard" | "can-social" | "can-modif"
-  publication_date:  string,   // ISO date
-  award_date:        string,   // ISO date
-  country:           string,   // awarding authority country
-  modification_count: int,     // how many times this contract was modified
-  loaded_at:         string    // ISO datetime — when we ingested this record
-})
-
-(:Authority {
-  authority_id:      string,   // UUID5 from "ted_auth:{country}:{name}"
-  name:              string,   // official name
-  country:           string,   // ISO 3166-1 alpha-2
-  type:              string,   // "ministry" | "regional" | "agency"
-  vat_number:        string    // nullable
-})
-
-(:CPV {
-  code:              string,   // primary key, e.g. "72000000"
-  description:       string,   // "IT services: consulting, ..."
-  division:          string    // first 2 digits (top-level category)
-})</code></pre>
-
-<h3>New relationships</h3>
-<pre><code>(:Authority)-[:AWARDED]-&gt;(:Contract)       // who issued the contract
-(:Contract)-[:AWARDED_TO]-&gt;(:Company)      // who won the contract
-(:Contract)-[:CATEGORIZED_AS]-&gt;(:CPV)      // what was bought</code></pre>
-
-<h3>Company node extension</h3>
-<p>Add an indexed <code>vat</code> property to existing Company nodes for procurement matching:</p>
-<pre><code>CREATE INDEX company_vat IF NOT EXISTS FOR (c:Company) ON (c.vat)</code></pre>
-
-<h3>Graph visualization</h3>
-<pre><code>  (:Authority)                      (:CPV)
-       │                               ▲
-    [:AWARDED]                   [:CATEGORIZED_AS]
-       │                               │
-       ▼                               │
-  (:Contract) ──[:AWARDED_TO]──▶ (:Company) ──[:LISTED_AS]──▶ (:Listing)
-                                       │
-                                  [:REPORTED]
-                                       │
-                                       ▼
-                                (:FinancialYear)</code></pre>
-
-
-<!-- ═══════════════════════════════════════════════════════ MATCHING -->
-<hr>
-<h2 id="matching">Company Matching Strategy</h2>
-
-<p>This is the hardest part. TED identifies companies by name + VAT. Our graph identifies by LEI. We match in five layers, from highest to lowest confidence:</p>
-
-<div class="layer">
-  <span class="layer-num">1</span>
-  <h4>VAT direct match (cached)</h4>
-  <p>If a Company node already has <code>vat = {vat_number}</code> (set by a previous ETL run), link directly. O(1) index lookup. This is the fast path for re-runs &mdash; once a VAT is matched, it never needs to be resolved again.</p>
-</div>
-
-<div class="layer">
-  <span class="layer-num">2</span>
-  <h4>VIES validation + enrichment</h4>
-  <p>The EU&rsquo;s <strong>VAT Information Exchange System</strong> provides a free REST API that validates VAT numbers and returns the registered legal name and address:</p>
-  <pre><code>GET https://ec.europa.eu/taxation_customs/vies/rest-api/ms/{CC}/vat/{number}
-&rarr; { isValid, name, address, countryCode }</code></pre>
-  <p>When a contractor&rsquo;s VAT is present in TED data, we query VIES to get the <strong>canonical legal name</strong>. This dramatically improves Layer 4 name matching &mdash; TED often has abbreviated or localized names, while VIES returns the official registered name.</p>
-
-  <div class="callout warn">
-    <strong>VIES limitations:</strong>
-    <ul style="margin-top:.4rem">
-      <li><strong>Germany and Spain</strong> return valid/invalid only &mdash; no name or address (privacy rules)</li>
-      <li><strong>Unreliable:</strong> ~30% downtime for some countries (BE, DE). Queries must have retry logic + backoff</li>
-      <li><strong>No bulk API:</strong> one VAT at a time, undisclosed rate limits. Aggressive polling triggers IP bans</li>
-      <li><strong>ToS grey area:</strong> officially restricted to &ldquo;persons involved in intra-Community supply&rdquo; &mdash; using it for data enrichment is not explicitly permitted</li>
-      <li><strong>All 27 EU states + Northern Ireland (XI)</strong>. No UK (post-Brexit), Norway, or Switzerland</li>
-    </ul>
+    <span class="badge badge-phase">C1</span>
+    <span class="phase-title">Fix the root cause, then clean up</span>
   </div>
 
-  <p><strong>Practical approach:</strong> Use VIES as a <em>targeted enrichment tool</em>, not a bulk scraper. Query only for contractors that didn&rsquo;t match on Layer 1. Cache results permanently on the Company node (<code>vat</code>, <code>vies_name</code>). Rate-limit to ~1 req/3s with exponential backoff. Accept that DE and ES contractors won&rsquo;t get VIES names &mdash; fall through to Layer 3.</p>
-
-  <p><strong>Verified experimentally:</strong> <code>GET .../rest-api/ms/PT/vat/509083668</code> returned <code>"name": "RCPOOL LDA"</code> with full address. Spanish VAT <code>A82018474</code> (Telefonica) returned <code>"name": "---"</code>. Germany: same blindness. VIES works well for ~22 of 27 EU countries.</p>
-</div>
-
-<div class="layer">
-  <span class="layer-num">3</span>
-  <h4>GLEIF registration lookup</h4>
-  <p>Query <code>api.gleif.org</code> by registration number to find the LEI for a given VAT. If found, match to the existing Company node and set <code>vat</code> for future runs. The GLEIF Level 2 &ldquo;Registration Authority&rdquo; data maps national IDs to LEIs. Cache results.</p>
-</div>
-
-<div class="layer">
-  <span class="layer-num">4</span>
-  <h4>Fuzzy name matching (Neo4j full-text + Dice similarity)</h4>
-  <p>When layers 1&ndash;3 fail, fall back to name matching. This is a two-stage process:</p>
-  <ol>
-    <li><strong>Normalize:</strong> strip legal suffixes (AG, GmbH, S.A., Ltd, B.V. &mdash; ~200 known suffixes via <code>cleanco</code> library), transliterate accents via <code>unidecode</code>, collapse whitespace. Store as <code>name_normalized</code> on both sides.</li>
-    <li><strong>Retrieve candidates:</strong> Neo4j full-text index with Lucene fuzzy (<code>~</code>) on <code>name_normalized</code>, filtered by country. Returns 5&ndash;50 candidates in ~10ms.</li>
-    <li><strong>Score:</strong> <code>apoc.text.sorensenDiceSimilarity()</code> on normalized names. Auto-match at &gt;0.85, flag for review at 0.6&ndash;0.85, no match below 0.6.</li>
-  </ol>
-  <pre><code>CALL db.index.fulltext.queryNodes('companyNameIndex', $name + '~')
-YIELD node, score
-WHERE node.country = $country AND score > 0.3
-WITH node,
-     apoc.text.sorensenDiceSimilarity(
-       $name_normalized, node.name_normalized
-     ) AS dice
-WHERE dice > 0.85
-RETURN node ORDER BY dice DESC LIMIT 1</code></pre>
-  <div class="callout">
-    <strong>Why not embeddings?</strong> Character n-gram methods (Dice) get 85&ndash;90% F1 on company name matching. Transformer embeddings get 88&ndash;93%. The 3&ndash;5% gap doesn&rsquo;t justify running a separate model service. The normalization step (stripping suffixes) does most of the heavy lifting. Embeddings remain a future enhancement for cross-lingual cases (&ldquo;Deutsche Bank&rdquo; vs &ldquo;Banco Alem&aacute;n&rdquo;) if needed.
-  </div>
-</div>
-
-<div class="layer">
-  <span class="layer-num">5</span>
-  <h4>Create new Company node</h4>
-  <p>Unmatched contractors become new nodes via <code>gmr_id.from_national_id(country, vat)</code> (preferred if VAT available) or <code>gmr_id.from_name(country, name)</code> (last resort). These exist purely from procurement data &mdash; linkable later when they appear in GLEIF or via future deduplication runs.</p>
-</div>
-
-<div class="callout">
-  <strong>Expected match rate:</strong> ~20% of unique contractors will match existing GLEIF Company nodes on Layers 1&ndash;3. Layer 4 (fuzzy name) adds another ~10&ndash;15%. The remaining ~65% become new Company nodes &mdash; mostly small local firms not in GLEIF. But the matched companies represent the bulk of contract value.
-</div>
-
-<h3>VIES fallback: what about DE and ES?</h3>
-
-<p>Germany and Spain are the two largest EU procurement markets and VIES returns no name for either. Alternatives investigated:</p>
-
-<table>
-  <tr><th>Option</th><th>Coverage</th><th>API?</th><th>Free?</th><th>Verdict</th></tr>
-  <tr><td>OpenCorporates</td><td>140+ jurisdictions</td><td>Yes</td><td>50 req/day</td><td>Searches by name/reg number, not VAT</td></tr>
-  <tr><td>North Data (DE)</td><td>Germany only</td><td>Yes</td><td>Paid</td><td>Best DE option, but adds a paid dependency</td></tr>
-  <tr><td>INSEE Sirene (FR)</td><td>France only</td><td>Yes</td><td>Yes</td><td>Excellent free API &mdash; use for FR</td></tr>
-  <tr><td>KVK (NL)</td><td>Netherlands only</td><td>Yes</td><td>Freemium</td><td>Good for NL, searches by KVK number not VAT</td></tr>
-  <tr><td>BRIS</td><td>All EU</td><td>No API</td><td>Yes</td><td>Web-only, no programmatic access</td></tr>
-  <tr><td>Kyckr / Creditsafe</td><td>All EU</td><td>Yes</td><td>Paid (&euro;0.50&ndash;2/lookup)</td><td>Universal fallback but adds cost</td></tr>
-</table>
-
-<div class="callout">
-  <strong>Pragmatic decision:</strong> For v1, accept that DE and ES contractors will match on Layer 4 (fuzzy name) or Layer 5 (create new node). The TED data always includes the company name, so we&rsquo;re not flying blind &mdash; we just can&rsquo;t validate it against the official register programmatically. Add country-specific register APIs (INSEE for FR, KVK for NL) as low-hanging fruit. Defer paid services (North Data, Kyckr) until we measure how many high-value contracts are going unmatched.
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ IDENTITY -->
-<hr>
-<h2 id="identity">Identity Resolution: The gmr_id Conflict</h2>
-
-<h3>The problem, explained</h3>
-<p><code>gmr_id</code> is a deterministic hash (UUID5 = SHA-1 of a namespace + input string). Different inputs produce different hashes &mdash; even for the same real-world company:</p>
-
-<pre><code># Same company, two different gmr_ids:
-uuid5(NAMESPACE, "lei:724500973ODKK3IFQ447")  &rarr;  a4cb9465-956e-...   (from GLEIF)
-uuid5(NAMESPACE, "NL:ADYEN N.V.")             &rarr;  f83d1a02-7b4e-...   (from TED, no LEI available)
-
-# Two Company nodes exist. Both are Adyen N.V. One has financials, one has contracts.</code></pre>
-
-<p>This happens when a company enters the graph from TED (matched by name, Layer 5) and is later confirmed to be the same entity as an existing GLEIF company.</p>
-
-<h3>Resolution strategy: <code>[:SAME_AS]</code> + operator review + merge</h3>
-
-<div class="etl-step">
-  <h4>Step 1: Detect candidates</h4>
-  <ul>
-    <li>Periodic batch job (after each major load) finds Company pairs with same LEI, same VAT, or same normalized name + country but different <code>gmr_id</code></li>
-    <li>Creates <code>[:SAME_AS {confidence, method, detected_at, reviewed: false}]</code> relationship from the lower-priority node to the canonical one</li>
-    <li>Direction: name-based node &rarr; SAME_AS &rarr; LEI-based node (LEI always wins)</li>
-  </ul>
-</div>
-
-<div class="etl-step">
-  <h4>Step 2: Auto-merge or flag</h4>
-  <ul>
-    <li><strong>Trivial merge (automatic):</strong> if all shared properties have identical values (or one side is null), merge immediately via <code>apoc.refactor.mergeNodes()</code>. No operator needed. This handles: same LEI on both nodes, or same VAT with no conflicting name/country.</li>
-    <li><strong>Conflicting merge (manual):</strong> if any shared property has <em>different non-null values</em> (e.g., different names, different countries), flag for operator review. The <code>[:SAME_AS]</code> relationship stays with <code>reviewed: false</code>.</li>
-    <li>Operator queue: <code>MATCH (dup)-[r:SAME_AS {reviewed: false}]-&gt;(canonical) RETURN ...</code></li>
-    <li>Operator actions: <strong>approve</strong> (merge, picking canonical values), <strong>reject</strong> (not the same entity), or <strong>defer</strong></li>
-    <li>Initially: Cypher script or Jupyter notebook. Later: simple review page in gmr-web</li>
-  </ul>
-</div>
-
-<div class="etl-step">
-  <h4>Step 3: Execute merge</h4>
-  <ul>
-    <li>Use <code>apoc.refactor.mergeNodes([canonical, duplicate], {properties: &quot;combine&quot;, mergeRels: true})</code></li>
-    <li>The canonical node (LEI-based) survives. All relationships from the duplicate (contracts, listings) are transferred</li>
-    <li>Before merge: create a <code>(:MergeEvent {canonical_id, merged_id, merged_at, method, properties_before})</code> audit node</li>
-    <li>After merge: explicitly set <code>gmr_id</code> to the canonical value (LEI-based wins)</li>
-  </ul>
-</div>
-
-<pre><code># Priority for canonical gmr_id:
-# 1. lei:{LEI}              &larr; highest (from GLEIF, globally unique)
-# 2. edgar:{CIK}            &larr; US companies
-# 3. {ISO2}:{VAT}           &larr; from TED procurement data
-# 4. {ISO2}:{NAME_UPPER}    &larr; last resort
-
-# When sources meet, higher priority always wins</code></pre>
-
-<h3>Authorities get the same treatment</h3>
-<p>The <code>[:SAME_AS]</code> workflow applies to <code>(:Authority)</code> nodes too. Every time a new Authority is created, the ETL calls <code>search_similar(name, country)</code> against existing Authority nodes. If a high-confidence match exists, it links to the existing node instead of creating a duplicate. The <code>/companies/similar</code> endpoint works for both entity types.</p>
-
-<div class="callout ok">
-  <strong>Prevention over cure:</strong> The TED ETL always attempts identifier-based lookup (LEI, VAT) before creating a name-based node. The <code>search_similar()</code> call runs on every new entity creation. The SAME_AS + operator review workflow is the safety net for what slips through.
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ PHASES -->
-<hr>
-<h2 id="phases">Implementation Phases</h2>
-
-<div class="phase" id="phase5">
-  <div class="phase-header">
-    <span class="phase-badge">PHASE 5</span>
-    <span class="phase-title">Data Model Spike</span>
-  </div>
-  <p class="phase-sub">Validate the model before writing production code.</p>
-  <ul class="checklist">
-    <li><span class="check"></span>Download 1 month of TED data (e.g. <code>2024-06</code>)</li>
-    <li><span class="check"></span>Parse the eForms XML &mdash; confirm field extraction works</li>
-    <li><span class="check"></span>Load Contract + Authority + CPV nodes into local Neo4j</li>
-    <li><span class="check"></span>Validate query patterns:
-      <code>Company &rarr; contracts</code>,
-      <code>Authority &rarr; contracts</code>,
-      <code>CPV aggregations</code></li>
-    <li><span class="check"></span>Load CPV reference taxonomy (~9,000 codes, one-time)</li>
-  </ul>
-</div>
-
-<div class="phase" id="phase6">
-  <div class="phase-header">
-    <span class="phase-badge">PHASE 6</span>
-    <span class="phase-title">ETL Pipeline &mdash; eForms Parser as a Library</span>
-  </div>
-  <p class="phase-sub">No Python library for parsing eForms XML exists. We build one with clean interfaces, designed for reuse.</p>
-
-  <h4>Prior art</h4>
-  <p>Investigated: <a href="https://github.com/OP-TED/eForms-SDK">OP-TED/eForms-SDK</a> (schema only, no parser), <a href="https://github.com/OP-TED/eforms-core-java">eforms-core-java</a> (Java, metadata only), <a href="https://github.com/bjornjorgensen/TED-and-Doffin-to-ocds">bjornjorgensen/TED-and-Doffin-to-ocds</a> (Python, 545 XPath converters &mdash; best reference, but outputs OCDS and is not packaged). Nothing on PyPI or npm. We build our own.</p>
-
-  <h4>What is eForms XML?</h4>
-  <p>Every TED notice is an XML file following the EU&rsquo;s eForms schema (UBL 2.3 + EU extensions). A Contract Award Notice contains: the contract metadata (title, value, CPV, dates), an <strong>organizations block</strong> (all parties defined by ID), and a <strong>results block</strong> that links lots &rarr; tenders &rarr; winning contractors by referencing those org IDs. The parser&rsquo;s job is to resolve these indirections and yield flat, structured records.</p>
-
-  <h4>Library architecture — <code>eforms-parser</code> (separate repo)</h4>
-  <p><strong>Status: implemented.</strong> The <code>eforms-parser</code> repo is initialized with 13 passing tests. Install via <code>pip install -e /path/to/eforms-parser</code>. Added as a dependency in <code>edgar-gmr-etl</code>.</p>
-  <pre><code>eforms-parser/                       # separate git repo, installable Python package
-  pyproject.toml                     # "eforms-parser" v0.1.0, depends only on lxml
-  src/eforms/
-    __init__.py
-    namespaces.py                    # XML namespace map (UBL 2.3 + EU extensions)
-    models.py                        # dataclasses: Notice, Organization, Lot, Award
-    parser.py                        # main entry: parse(xml_bytes) → Notice
-    extractors/                      # one module per concern
-      notice_metadata.py             # BT-701, notice type, dates
-      procedure.py                   # title, description, CPV, procedure type
-      organizations.py               # all orgs → dict[id, Organization]
-      lots.py                        # lot-level metadata
-      awards.py                      # lot→tender→contractor mapping + values
-    filters.py                       # awards_only(), modifications_only()
-    stream.py                        # iterate TED ZIP → yield Notice objects
-  tests/
-    test_models.py                   # 4 tests
-    test_filters.py                  # 3 tests
-    test_parser.py                   # 6 tests (crafted XML fixtures)
-
-edgar-gmr-etl/src/etl/              # GMR-specific ETL (depends on eforms-parser + Neo4j)
-  load_cpv.py                        # one-time CPV taxonomy load
-  ted_matcher.py                     # company matching (layers 1-5)
-  load_ted_contracts.py              # main ETL: download → parse → match → MERGE</code></pre>
-
-  <h4>Key interfaces (dataclasses)</h4>
-  <pre><code>@dataclass
-class Organization:
-    org_id: str           # internal eForms ID (e.g. "ORG-0001")
-    name: str             # legal name
-    country: str          # ISO 3166-1 alpha-2
-    legal_id: str | None  # VAT / national reg number (from cbc:CompanyID)
-    address: str | None
-
-@dataclass
-class Award:
-    lot_id: str
-    contractor_org_id: str       # references Organization.org_id
-    value: float | None
-    currency: str | None
-    award_date: str | None       # ISO date
-
-@dataclass
-class Notice:
-    notice_id: str               # BT-701 UUID
-    publication_number: str      # e.g. "291298-2024"
-    notice_type: str             # "can-standard", "can-modif", etc.
-    title: str
-    description: str | None
-    cpv_main: str | None
-    procedure_type: str | None
-    issue_date: str
-    buyer_org_id: str            # references Organization.org_id
-    total_value: float | None
-    currency: str | None
-    organizations: dict[str, Organization]  # org_id → Organization
-    lots: list[Lot]
-    awards: list[Award]
-
-    def buyer(self) -&gt; Organization:
-        return self.organizations[self.buyer_org_id]
-
-    def contractors(self) -&gt; list[Organization]:
-        return [self.organizations[a.contractor_org_id] for a in self.awards]</code></pre>
-
-  <h4>Usage</h4>
-  <pre><code>from src.eforms.stream import stream_notices
-from src.eforms.filters import awards_only
-
-# Parse a monthly ZIP, yield only Contract Award Notices
-for notice in awards_only(stream_notices("/tmp/ted-2024-06.zip")):
-    print(notice.title, notice.total_value)
-    for award in notice.awards:
-        contractor = notice.organizations[award.contractor_org_id]
-        print(f"  Winner: {contractor.name} ({contractor.legal_id})")
-        print(f"  Value: {award.value} {award.currency}")</code></pre>
-
-  <div class="callout ok">
-    <strong>Why a library?</strong> The eForms XML structure is complex (indirections, lot nesting, org references). By isolating the parser from the ETL, we get: testable extraction logic (mock XML in, dataclass out), reusable for future notice types (PINs, modifications, completions), and a clean seam between &ldquo;understand XML&rdquo; and &ldquo;load into Neo4j.&rdquo;
-  </div>
-
-  <h4>XPath reference (key fields)</h4>
-  <table>
-    <tr><th>Field</th><th>XPath</th></tr>
-    <tr><td>Notice ID</td><td><code>/*/cbc:ID</code></td></tr>
-    <tr><td>Title</td><td><code>//cac:ProcurementProject/cbc:Name</code></td></tr>
-    <tr><td>CPV</td><td><code>//cac:MainCommodityClassification/cbc:ItemClassificationCode[@listName=&apos;cpv&apos;]</code></td></tr>
-    <tr><td>Total value</td><td><code>//efac:NoticeResult/cbc:TotalAmount</code></td></tr>
-    <tr><td>Procedure type</td><td><code>//cac:TenderingProcess/cbc:ProcedureCode[@listName=&apos;procurement-procedure-type&apos;]</code></td></tr>
-    <tr><td>Org name</td><td><code>//efac:Organization/efac:Company/cac:PartyName/cbc:Name</code></td></tr>
-    <tr><td>Org VAT</td><td><code>//efac:Organization/efac:Company/cac:PartyLegalEntity/cbc:CompanyID</code></td></tr>
-    <tr><td>Org country</td><td><code>//efac:Company/cac:PostalAddress/cac:Country/cbc:IdentificationCode</code></td></tr>
-    <tr><td>Contractor ref</td><td><code>//efac:TenderingParty/efac:Tenderer/cbc:ID[@schemeName=&apos;organization&apos;]</code></td></tr>
-  </table>
-
-  <h4>ETL modules (GMR-specific)</h4>
-
-  <div class="etl-step">
-    <h4>load_cpv.py</h4>
-    <ul>
-      <li>Load ~9,000 CPV codes from EU published reference data</li>
-      <li><code>MERGE (:CPV {code})</code> with description and division</li>
-      <li>Run once; idempotent</li>
-    </ul>
-  </div>
-
-  <div class="etl-step">
-    <h4>ted_matcher.py</h4>
-    <ul>
-      <li>Implement the 5-layer matching strategy</li>
-      <li>Input: <code>Organization</code> dataclass. Output: <code>gmr_id</code> string</li>
-      <li>Cache VAT &rarr; gmr_id mappings within a run</li>
-      <li>Log unmatched high-value contractors for manual review</li>
-    </ul>
-  </div>
-
-  <div class="etl-step">
-    <h4>load_ted_contracts.py</h4>
-    <ul>
-      <li>CLI: <code>python -m src.etl.load_ted_contracts --year 2024 --month 6</code></li>
-      <li>Range: <code>--from 2024-01 --to 2026-03</code></li>
-      <li>Downloads monthly ZIPs, uses <code>src.eforms.stream</code> to parse, matches via <code>ted_matcher</code>, batches MERGE</li>
-      <li>Batch size: 500</li>
-      <li>Idempotent via <code>MERGE (:Contract {ted_notice_id})</code></li>
-    </ul>
-  </div>
-
-  <h4>Deployment — both bulk and incremental</h4>
-  <p>Two modes, same code path, different entry points:</p>
-  <ul>
-    <li><strong>Bulk (initial + backfill):</strong> <code>python -m src.etl.load_ted_contracts --from 2024-01 --to 2026-03</code> &mdash; downloads monthly ZIPs, processes everything. Run manually for initial population and historical backfill.</li>
-    <li><strong>Incremental (daily CronJob):</strong> <code>python -m src.etl.load_ted_contracts --daily</code> &mdash; fetches previous day&rsquo;s OJ S package, processes only new/changed notices. Runs at 06:00 UTC.</li>
-  </ul>
-  <p>Both modes use the same parser, matcher, and MERGE logic. The only difference is the input source (monthly ZIP vs daily package).</p>
-</div>
-
-<div class="phase" id="phase6b">
-  <div class="phase-header">
-    <span class="phase-badge">PHASE 6b</span>
-    <span class="phase-title">Data Quality Dashboard</span>
-  </div>
-  <p class="phase-sub">We cannot trust the data without measuring it. This is a Phase 6 deliverable, not an afterthought.</p>
-
-  <p>The ETL emits structured metrics after each run. These feed a dashboard (Grafana or a static HTML page served at <code>/data-quality</code>) showing:</p>
-
-  <table>
-    <tr><th>Metric</th><th>Source</th><th>Alert threshold</th></tr>
-    <tr><td>Match rate by layer (1&ndash;5)</td><td>ted_matcher.py counters</td><td>&lt;10% on Layer 1 = cache miss problem</td></tr>
-    <tr><td>Unmatched high-value contracts (&gt;&euro;1M)</td><td>ETL log</td><td>&gt;20 per run = matching regression</td></tr>
-    <tr><td>VIES failure rate by country</td><td>VIES client counters</td><td>&gt;50% for any country = service down</td></tr>
-    <tr><td>SAME_AS queue size (unreviewed)</td><td>Neo4j query</td><td>&gt;100 = operator needs to review</td></tr>
-    <tr><td>Duplicate Company nodes (same VAT, different gmr_id)</td><td>Neo4j query</td><td>&gt;0 = dedup job needed</td></tr>
-    <tr><td>Contracts loaded today</td><td>ETL summary</td><td>0 on a weekday = ETL failed silently</td></tr>
-    <tr><td>Total graph node/relationship counts</td><td>Neo4j <code>CALL db.stats.retrieve("GRAPH COUNTS")</code></td><td>Sudden drops = data loss</td></tr>
-    <tr><td>Parser errors (unparseable XML)</td><td>ETL log</td><td>&gt;1% of notices = schema change</td></tr>
-  </table>
-
-  <p><strong>Implementation:</strong> The ETL writes a JSON summary after each run to NFS (<code>/srv/nfs/gmr/etl-metrics/{date}.json</code>). A lightweight API endpoint (<code>GET /api/data-quality</code>) reads the latest summaries + runs a few Neo4j count queries. The frontend renders it as a simple status page. No Prometheus/Grafana dependency for v1.</p>
-</div>
-
-<div class="phase" id="phase7">
-  <div class="phase-header">
-    <span class="phase-badge">PHASE 7</span>
-    <span class="phase-title">API Endpoints &mdash; Company-ID-First</span>
-  </div>
-  <p class="phase-sub">All new endpoints use <code>gmr_id</code> as the primary key. We&rsquo;re building a company knowledge graph, not a ticker search &mdash; the API should reflect that.</p>
-
-  <h4>New endpoints</h4>
-  <table>
-    <tr><th>Endpoint</th><th>Purpose</th></tr>
-    <tr><td><code>GET /companies/{gmr_id}/contracts</code></td><td>Contracts awarded to this company (with procurement summary)</td></tr>
-    <tr><td><code>GET /companies/{gmr_id}</code></td><td>Company profile (name, country, LEI, VAT, listings, financial summary)</td></tr>
-    <tr><td><code>GET /authorities/{authority_id}/contracts</code></td><td>Contracts issued by this authority (with spending summary)</td></tr>
-    <tr><td><code>GET /authorities/{authority_id}</code></td><td>Authority profile (name, country, type, total spend)</td></tr>
-    <tr><td><code>GET /contracts/{notice_id}</code></td><td>Full detail for a single contract</td></tr>
-    <tr><td><code>GET /contracts/sectors?country=DE&amp;year=2024</code></td><td>CPV sector aggregation</td></tr>
-    <tr><td><code>GET /search?q=siemens&amp;type=all</code></td><td>Unified search across companies AND authorities</td></tr>
-  </table>
-
-  <h4>Migration of existing ticker endpoints</h4>
-  <p>The existing <code>/{ticker}/fundamentals</code> and <code>/{ticker}/...</code> endpoints continue to work &mdash; they resolve the ticker to a Company via <code>[:LISTED_AS]</code> internally. But new features (contracts, company profile) are built on <code>gmr_id</code> from day one. The frontend routes will evolve: <code>/company/{gmr_id}</code> alongside the existing <code>/{ticker}</code>.</p>
-
-  <h4>Example response: <code>GET /companies/{gmr_id}/contracts</code></h4>
-  <pre><code>{
-  "gmr_id": "a4cb9465-956e-56ec-88e2-890e5bb0b9fa",
-  "company_name": "SAP SE",
-  "country": "DE",
-  "total_contract_value_eur": 234567890.0,
-  "contract_count": 47,
-  "contracts": [
-    {
-      "ted_notice_id": "2024/S 123-456789",
-      "title": "IT Infrastructure Modernisation",
-      "value_eur": 12500000.0,
-      "authority": "Bundesministerium des Innern",
-      "authority_country": "DE",
-      "cpv": "72000000 - IT services",
-      "award_date": "2024-06-15",
-      "procedure_type": "open"
-    }
-  ]
+  <h3>Root cause fix: normalize country codes at ETL time</h3>
+  <p>Add an alpha-3 &rarr; alpha-2 mapping to <code>ted_matcher.py</code> and <code>load_ted_contracts.py</code>. Every TED country code is converted before matching or node creation. ~30 entries covering EU+EFTA.</p>
+  <pre><code>ALPHA3_TO_ALPHA2 = {
+    "FRA": "FR", "DEU": "DE", "ESP": "ES", "ITA": "IT",
+    "POL": "PL", "ROU": "RO", "NLD": "NL", "BEL": "BE",
+    "SWE": "SE", "AUT": "AT", "BGR": "BG", "CZE": "CZ",
+    "HUN": "HU", "FIN": "FI", "PRT": "PT", "GRC": "GR",
+    "HRV": "HR", "SVK": "SK", "SVN": "SI", "LTU": "LT",
+    "LVA": "LV", "EST": "EE", "CYP": "CY", "LUX": "LU",
+    "MLT": "MT", "IRL": "IE", "DNK": "DK", "CHE": "CH",
+    "NOR": "NO", "ISL": "IS", "GBR": "GB",
 }</code></pre>
 
-  <h4>Three interfaces, three concerns</h4>
-  <p>The API has three distinct data concerns, each behind its own abstract class:</p>
-  <pre><code># 1. Financial data (existing — unchanged)
-class FinancialDataSource(ABC):
-    def get_annual_fundamentals(self, ticker, years) -&gt; dict: ...
-    def get_price_history(self, ticker, period) -&gt; DataFrame: ...
-    def search_tickers(self, query, limit) -&gt; list[dict]: ...
-    # ... (all existing methods)
+  <h3>Deduplication script: <code>src/etl/dedup_companies.py</code></h3>
+  <p>A batch job that:</p>
+  <ol>
+    <li><strong>Phase 1:</strong> Normalize all existing alpha-3 country codes to alpha-2 on Company nodes</li>
+    <li><strong>Phase 2:</strong> Find exact-name + country duplicates where one node has LEI and the other doesn&rsquo;t</li>
+    <li><strong>Phase 3:</strong> Auto-merge trivial cases (same name, same country, no property conflicts)</li>
+    <li><strong>Phase 4:</strong> Create <code>[:SAME_AS]</code> for non-trivial cases (different names, both have data)</li>
+  </ol>
+  <p>Idempotent, safe to re-run. Creates <code>:MergeEvent</code> audit nodes for every merge. Logs stats for the data quality dashboard.</p>
 
-# 2. Contract data (new)
-class ContractDataSource(ABC):
-    def get_company_contracts(self, gmr_id: str, years: int) -&gt; list[dict]: ...
-    def get_contract_detail(self, notice_id: str) -&gt; dict | None: ...
-    def get_sector_summary(self, country: str, year: int) -&gt; list[dict]: ...
-
-# 3. Entity resolution (new — shared by both ETL and API)
-class EntityResolver(ABC):
-    def search_similar(self, name: str, entity_type: str,
-                       country: str, limit: int) -&gt; list[dict]: ...
-    def resolve_by_vat(self, country: str, vat: str) -&gt; str | None: ...
-    def resolve_by_lei(self, lei: str) -&gt; str | None: ...
-
-# Production: all three backed by Neo4jClient
-# Tests: each independently mockable via dependency injection</code></pre>
-
-  <p><code>EntityResolver</code> is the shared abstraction. The ETL uses it during matching (layers 1&ndash;4). The API exposes it as <code>/companies/similar</code> and <code>/authorities/similar</code> for operator review. Both <code>FinancialDataSource</code> and <code>ContractDataSource</code> can delegate identity lookups to it.</p>
-
-  <h4>gmr_id everywhere in responses</h4>
-  <ul>
-    <li><code>search_tickers()</code> and <code>get_available_tickers()</code> return <code>gmr_id</code> in every result dict</li>
-    <li>The fundamentals response (<code>GET /{ticker}/fundamentals</code>) includes <code>gmr_id</code> in the top-level object</li>
-    <li>The frontend always has <code>gmr_id</code> available once a company is loaded, regardless of entry point (search, direct URL, etc.)</li>
-  </ul>
-
-  <h4>Similarity search endpoint</h4>
-  <pre><code>GET /companies/similar?name=Siemens+AG&amp;country=DE&amp;limit=10
-&rarr; [{ gmr_id, name, country, dice_score, lei, vat }, ...]
-
-GET /authorities/similar?name=Bundesministerium&amp;country=DE&amp;limit=10
-&rarr; [{ authority_id, name, country, dice_score }, ...]</code></pre>
-  <p>Foundation of the <code>[:SAME_AS]</code> workflow. Used by ETL (programmatic matching on every entity creation) and operators (review UI: &ldquo;did you mean one of these?&rdquo;).</p>
+  <h3>Prevention: <code>ted_matcher.py</code> update</h3>
+  <p>All future ETL runs normalize country codes before matching. The dedup script only needs to run once for historical data.</p>
 </div>
 
-<div class="phase" id="phase8">
+
+<hr>
+<h2 id="c2">C2: Ticker &rarr; gmr_id Migration (Backend)</h2>
+
+<div class="phase">
   <div class="phase-header">
-    <span class="phase-badge">PHASE 8</span>
-    <span class="phase-title">Web UI &mdash; Unified Search + Entity Profiles</span>
+    <span class="badge badge-phase">C2</span>
+    <span class="phase-title">Make gmr_id the primary key across the API</span>
   </div>
-  <p class="phase-sub">The search bar finds both companies and authorities. Selecting either shows a profile page with procurement data.</p>
 
-  <h4>8a. Unified search</h4>
-  <p>The existing search bar evolves from &ldquo;ticker search&rdquo; to &ldquo;entity search.&rdquo; Results are grouped:</p>
-  <pre><code>┌─────────────────────────────────────────────────┐
-│  Search: "siemens"                              │
-├─────────────────────────────────────────────────┤
-│  COMPANIES                                      │
-│  ┌ SIEMENS AG        DE  │ SIE.DE  │ 47 contracts│
-│  ┌ SIEMENS ENERGY AG DE  │ ENR.DE  │ 12 contracts│
-│  ┌ SIEMENS HEALTHIN. DE  │ SHL.DE  │  3 contracts│
-├─────────────────────────────────────────────────┤
-│  AUTHORITIES                                    │
-│  ┌ Siemens Betriebskrankenkasse  DE │ 0 contracts│
-└─────────────────────────────────────────────────┘</code></pre>
-  <ul>
-    <li>Calls <code>GET /search?q=siemens&amp;type=all</code> which returns both entity types</li>
-    <li>Each result shows: name, country, ticker (if listed), contract count badge</li>
-    <li>Clicking a company navigates to <code>/company/{gmr_id}</code></li>
-    <li>Clicking an authority navigates to <code>/authority/{authority_id}</code></li>
-  </ul>
+  <h3>Strategy: dual-path endpoints, not a hard cutover</h3>
+  <p>Every existing <code>/{ticker}/fundamentals</code> endpoint continues working. But internally, the first thing it does is resolve <code>ticker &rarr; gmr_id</code> (which <code>resolve_company_id()</code> already does). New endpoints are <code>gmr_id</code>-first from the start.</p>
 
-  <h4>8b. Company profile with procurement tab</h4>
-  <p>When a company with procurement data is selected, the &ldquo;Contracts&rdquo; tab shows:</p>
-  <ul class="checklist">
-    <li><span class="check"></span><strong>Procurement summary card:</strong> total contract value, contract count, top CPV category, top awarding authority, average contract size, procedure type breakdown (% open vs negotiated)</li>
-    <li><span class="check"></span><strong>Contracts table:</strong> sortable by Award Date, Title, Value, Authority, CPV, Procedure. Each row links to the TED notice via <code>ted_url</code></li>
-    <li><span class="check"></span><strong>Empty state:</strong> &ldquo;No EU public procurement data found for this company. TED covers contracts above &euro;140K (services) / &euro;5.4M (works).&rdquo;</li>
-  </ul>
+  <h3>Interface evolution</h3>
+  <p>The <code>FinancialDataSource</code> interface currently takes <code>ticker: str</code> as the key for every method. Phase C2 adds overloaded resolution: if the string is a UUID, it&rsquo;s treated as a <code>gmr_id</code>; otherwise as a ticker. This is already partially done in <code>get_annual_fundamentals()</code> — extend to all methods.</p>
 
-  <h4>8c. Authority profile page (new)</h4>
-  <p>A new page type at <code>/authority/{authority_id}</code>:</p>
-  <ul class="checklist">
-    <li><span class="check"></span><strong>Authority header:</strong> name, country, type (ministry / regional / agency)</li>
-    <li><span class="check"></span><strong>Spending summary card:</strong> total spend, contract count, top CPV categories, top contractors (by value), year-over-year spend trend</li>
-    <li><span class="check"></span><strong>Contracts table:</strong> same columns as the company view but from the authority&rsquo;s perspective (who they paid, not who paid them). Each contractor name links to the company profile</li>
-    <li><span class="check"></span><strong>Cross-linking:</strong> clicking a contractor in the authority view navigates to that company&rsquo;s profile; clicking an authority in the company view navigates to the authority profile</li>
-  </ul>
-
-  <h4>New components</h4>
+  <h3>Scope</h3>
   <table>
-    <tr><th>Component</th><th>Purpose</th></tr>
-    <tr><td><code>ProcurementSummary.vue</code></td><td>Reusable summary card (total value, count, top CPV, procedure breakdown). Used in both company and authority profiles.</td></tr>
-    <tr><td><code>ContractsTable.vue</code></td><td>Sortable table of contracts. Configurable columns (company view shows authority; authority view shows contractor).</td></tr>
-    <tr><td><code>AuthorityProfile.vue</code></td><td>Full authority page: header + spending summary + contracts table.</td></tr>
-    <tr><td><code>EntitySearchResults.vue</code></td><td>Grouped search results (companies + authorities). Replaces or extends the current ticker-only results list.</td></tr>
+    <tr><th>File</th><th>Change</th></tr>
+    <tr><td><code>GraphDataSource</code> (all methods)</td><td>Accept both ticker and gmr_id via UUID detection</td></tr>
+    <tr><td><code>fundamentals.py</code>, <code>valuation.py</code>, <code>gmr.py</code>, <code>prices.py</code></td><td>Already use <code>resolve_company_id()</code> &mdash; verify consistency</td></tr>
+    <tr><td><code>FinancialDataSource</code> ABC</td><td>Document that <code>ticker</code> param accepts gmr_id too</td></tr>
+    <tr><td>Frontend API calls</td><td>Pass gmr_id when available, ticker as fallback</td></tr>
+  </table>
+</div>
+
+
+<hr>
+<h2 id="c3">C3: Admin Area</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge badge-phase">C3</span>
+    <span class="phase-title">/admin landing page with tools</span>
+  </div>
+
+  <p>A new Vue route at <code>/admin</code> with a landing page linking to:</p>
+
+  <table>
+    <tr><th>Page</th><th>URL</th><th>Status</th></tr>
+    <tr><td>Data Quality Dashboard</td><td><code>/admin/data-quality</code></td><td>Exists at <code>/data-quality</code> &mdash; move under admin</td></tr>
+    <tr><td>Entity Resolution</td><td><code>/admin/entity-resolution</code></td><td>Exists at <code>/entity-resolution</code> &mdash; move under admin</td></tr>
+    <tr><td>Architecture Visualization</td><td><code>/admin/architecture</code></td><td>New (C4)</td></tr>
+    <tr><td>Coverage Matrix</td><td><code>/admin/coverage</code></td><td>New (C6)</td></tr>
+    <tr><td>Dedup Trigger</td><td><code>/admin/dedup</code></td><td>New &mdash; run/status of dedup script</td></tr>
   </table>
 
-  <p>No new npm dependencies. All views are tables and summary cards &mdash; no charting library needed for v1.</p>
+  <p>No authentication for now (security not based on secrecy). The admin area is informational + operational tools.</p>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════════════ INDEXES -->
 <hr>
-<h2>Indexes &amp; Constraints</h2>
-<pre><code>-- Constraints (unique identifiers)
-CREATE CONSTRAINT contract_notice_id IF NOT EXISTS
-  FOR (ct:Contract) REQUIRE ct.ted_notice_id IS UNIQUE
-CREATE CONSTRAINT authority_id IF NOT EXISTS
-  FOR (a:Authority) REQUIRE a.authority_id IS UNIQUE
-CREATE CONSTRAINT cpv_code IF NOT EXISTS
-  FOR (cpv:CPV) REQUIRE cpv.code IS UNIQUE
-
--- Indexes (query performance)
-CREATE INDEX company_vat IF NOT EXISTS FOR (c:Company) ON (c.vat)
-CREATE INDEX company_name_normalized IF NOT EXISTS FOR (c:Company) ON (c.name_normalized)
-CREATE INDEX contract_award_date IF NOT EXISTS FOR (ct:Contract) ON (ct.award_date)
-CREATE INDEX contract_country IF NOT EXISTS FOR (ct:Contract) ON (ct.country)
-CREATE INDEX contract_cpv_main IF NOT EXISTS FOR (ct:Contract) ON (ct.cpv_main)
-
--- Full-text index for fuzzy name matching (Layer 4)
-CREATE FULLTEXT INDEX companyNameIndex IF NOT EXISTS
-  FOR (n:Company) ON EACH [n.name_normalized]
-
--- Full-text index for authority fuzzy matching
-CREATE FULLTEXT INDEX authorityNameIndex IF NOT EXISTS
-  FOR (a:Authority) ON EACH [a.name]</code></pre>
-
-
-<h2>Neo4j Backup</h2>
-
-<p>The graph contains irreplaceable data: company-to-contract links that took hours of matching + manual review to compute. Raw XML can be re-ingested, but matching results and <code>[:SAME_AS]</code> review decisions cannot.</p>
+<h2 id="c4">C4: Architecture Visualization</h2>
 
 <div class="phase">
   <div class="phase-header">
-    <span class="phase-badge">DAILY CRONJOB</span>
-    <span class="phase-title">Neo4j database dump</span>
+    <span class="badge badge-phase">C4</span>
+    <span class="phase-title">Interactive architecture diagrams with Mermaid.js</span>
   </div>
-  <p>Runs nightly at 02:00 UTC (before the TED ETL at 06:00). Uses APOC export which runs online &mdash; no need to stop the database:</p>
-  <pre><code># Online backup via APOC (runs while DB is serving traffic)
-kubectl -n gmr exec deploy/neo4j -- cypher-shell -u neo4j -p $NEO4J_PASSWORD \
-  "CALL apoc.export.json.all('/data/backups/full.json', {useTypes: true})"
 
-# Copy to NFS
-kubectl cp gmr/neo4j-pod:/data/backups/full.json \
-  /srv/nfs/gmr/neo4j-backups/$(date +%Y%m%d).json
+  <h3>Technology: Mermaid.js</h3>
+  <p><strong>Why Mermaid:</strong> renders diagrams from text markup in the browser via a single JS import. No build step, no server-side rendering, no dependencies beyond a CDN script tag. Diagrams are version-controlled as text (not binary images). Supports: flowcharts, class diagrams, ER diagrams, sequence diagrams. Dark/light theme built-in.</p>
 
-# Fallback: neo4j-admin dump (requires brief read lock, use if APOC export is too slow)
-# kubectl -n gmr exec deploy/neo4j -- neo4j-admin database dump neo4j --to-path=/data/backups/</code></pre>
-  <p>Retention: 7 daily backups on NFS. Restore: <code>CALL apoc.import.json(&quot;file:///backups/YYYYMMDD.json&quot;)</code> or <code>neo4j-admin database load</code>.</p>
+  <h3>Diagrams to include</h3>
+  <ul>
+    <li><strong>System overview:</strong> gmr-web &rarr; edgar-gmr-etl &rarr; Neo4j / NFS. Shows all k8s deployments, services, PVCs.</li>
+    <li><strong>Data flow:</strong> GLEIF &rarr; load_gleif &rarr; Neo4j, TED &rarr; eforms-parser &rarr; load_ted &rarr; Neo4j, recherche-entreprises &rarr; load_fr_directors &rarr; Neo4j, etc.</li>
+    <li><strong>Interface map:</strong> FinancialDataSource, ContractDataSource, PersonDataSource, EntityResolver, DataQualitySource &mdash; who implements what, who depends on what.</li>
+    <li><strong>Neo4j schema:</strong> ER diagram of Company, Listing, FinancialYear, Contract, Authority, Person, CPV and their relationships.</li>
+    <li><strong>ETL pipeline:</strong> sequence diagram of a TED contract load (download &rarr; parse &rarr; match &rarr; MERGE).</li>
+  </ul>
+
+  <h3>Implementation</h3>
+  <p>A single Vue page at <code>/admin/architecture</code> that imports Mermaid from CDN and renders the diagrams from inline text blocks. Each diagram is a collapsible section. Mobile-responsive (diagrams scroll horizontally).</p>
 </div>
 
 
-<h2>Testing Strategy</h2>
-
-<p>Consistent with the established project conventions: <strong>smallest tests possible, public-API-oriented, mock at the boundary, no network in unit tests.</strong></p>
-
-<table>
-  <tr><th>Module</th><th>What to test</th><th>How</th></tr>
-  <tr>
-    <td><code>src/eforms/</code> (parser library)</td>
-    <td>Each extractor: XML in &rarr; dataclass out</td>
-    <td>Craft minimal XML snippets per extractor. Test through <code>parse()</code> public interface. No mocks needed &mdash; pure functions. One test per edge case (missing value, multi-lot, joint venture).</td>
-  </tr>
-  <tr>
-    <td><code>ted_matcher.py</code></td>
-    <td>Each matching layer independently</td>
-    <td>Mock Neo4j session (same pattern as <code>test_load_gleif.py</code>). Mock VIES HTTP client. Test: Layer 1 cache hit, Layer 2 VIES returns name, Layer 3 GLEIF finds LEI, Layer 4 fuzzy match, Layer 5 creates new node. Test VIES failure &rarr; graceful fallthrough.</td>
-  </tr>
-  <tr>
-    <td><code>load_ted_contracts.py</code></td>
-    <td>Batching, idempotency, Cypher parameter shapes</td>
-    <td>Mock Neo4j driver + mock <code>stream_notices()</code>. Same pattern as <code>test_load_eu_listings.py</code>.</td>
-  </tr>
-  <tr>
-    <td><code>contracts.py</code> (API router)</td>
-    <td>Endpoint responses, error handling</td>
-    <td>Override <code>get_neo4j_client</code> dependency with a mock. Test through FastAPI test client (same pattern as existing router tests).</td>
-  </tr>
-  <tr>
-    <td><code>ContractsPanel.vue</code></td>
-    <td>Rendering, empty state, sorting</td>
-    <td>Vitest with mock API responses (same pattern as <code>SummaryPanel.test.js</code>).</td>
-  </tr>
-  <tr>
-    <td>Matching pipeline (integration)</td>
-    <td>Full matching flow against real Neo4j</td>
-    <td>Docker Neo4j test container (<code>neo4j:5-community</code>), spun up once per test session via <code>conftest.py</code> fixture. Load 100 test companies, run matcher, verify match rates + Dice scores + SAME_AS creation. This is the one test that requires a live graph &mdash; validates full-text index + fuzzy scoring + country filtering work together.</td>
-  </tr>
-  <tr>
-    <td>E2E</td>
-    <td>Navigate to company &rarr; Contracts tab &rarr; table renders</td>
-    <td>Playwright against production (<code>BASE_URL=https://gmr.void42.net</code>).</td>
-  </tr>
-</table>
-
-<h4>Neo4j test container (<code>conftest.py</code>)</h4>
-<pre><code># Shared fixture — starts once per pytest session, reused by all integration tests
-import pytest, docker
-
-@pytest.fixture(scope="session")
-def neo4j_container():
-    client = docker.from_env()
-    container = client.containers.run(
-        "neo4j:5-community",
-        environment={"NEO4J_AUTH": "neo4j/test"},
-        ports={"7687/tcp": None},  # random available port
-        detach=True,
-    )
-    # wait for ready, yield bolt URI, cleanup on teardown
-    ...
-    yield f"bolt://localhost:{port}"
-    container.stop()
-    container.remove()</code></pre>
-<p>No testcontainers dependency needed &mdash; plain <code>docker</code> Python client (already available). The container starts in ~3s, runs all integration tests, then is torn down. Maintenance-free: the Neo4j version tag (<code>5-community</code>) matches production.</p>
-
-<div class="callout ok">
-  <strong>The <code>eforms-parser</code> library is the most testable part of this plan.</strong> Pure dataclass extraction from XML &mdash; no database, no network, no state. Each extractor gets its own test file with crafted XML fixtures. This is where we invest the most testing effort because parser bugs have the highest blast radius (every contract loaded with wrong data).
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ UPDATES -->
 <hr>
-<h2 id="updates">Keeping Data Fresh</h2>
-
-<p>TED publishes one OJ S (Official Journal Supplement) issue per weekday &mdash; about 250 issues/year. Each daily package contains <strong>all notices published that day</strong>, including new contract awards, corrections to old notices, and contract modifications.</p>
-
-<h3>Daily package access</h3>
-<pre><code># By OJ S issue number (year + zero-padded issue)
-https://ted.europa.eu/packages/daily/202600042
-
-# Or query the Search API for a specific date
-POST https://api.ted.europa.eu/v3/notices/search
-{ "query": "publication-date = 20260330",
-  "fields": ["publication-number", "notice-type", "notice-title"],
-  "limit": 250, "paginationMode": "ITERATION" }</code></pre>
-
-<h3>What a daily package contains</h3>
-<ul>
-  <li><strong>~2,800&ndash;3,200 notices per day</strong> (all types combined), 50&ndash;200 MB compressed</li>
-  <li><strong>New notices:</strong> fresh contract notices, award notices, PINs</li>
-  <li><strong>Change notices (corrigenda):</strong> corrections to previously published notices &mdash; published as <em>new</em> notices with their own ID, referencing the original via BT-758. They contain the <strong>full consolidated text</strong> (not a diff)</li>
-  <li><strong>Contract modifications:</strong> value changes, scope changes &mdash; separate notice type (<code>can-modif</code>)</li>
-</ul>
-
-<h3>Notice lifecycle</h3>
-<table>
-  <tr><th>Notice type</th><th>Code</th><th>What it means</th></tr>
-  <tr><td>Contract Notice</td><td><code>cn-standard</code></td><td>Tender announced &mdash; &ldquo;we want to buy X&rdquo;</td></tr>
-  <tr><td>Contract Award</td><td><code>can-standard</code></td><td>Winner declared &mdash; &ldquo;company Y got it for &euro;Z&rdquo;</td></tr>
-  <tr><td>Modification</td><td><code>can-modif</code></td><td>Value/scope changed after award</td></tr>
-  <tr><td>Completion</td><td><code>compl</code></td><td>Contract finished (new in eForms)</td></tr>
-  <tr><td>Change/Corrigendum</td><td><code>change</code></td><td>Correction to any of the above</td></tr>
-</table>
-
-<h3>ETL update strategy</h3>
+<h2 id="c5">C5: Landing Page Refresh</h2>
 
 <div class="phase">
   <div class="phase-header">
-    <span class="phase-badge">DAILY CRONJOB</span>
-    <span class="phase-title">Incremental contract loader</span>
+    <span class="badge badge-phase">C5</span>
+    <span class="phase-title">Update HomeView to reflect current capabilities</span>
   </div>
-  <p>Runs daily at 06:00 UTC (after TED publishes the morning OJ S issue):</p>
+
+  <h3>Current landing page problems</h3>
+  <ul>
+    <li>Hero text: &ldquo;Financials, straight from the source&rdquo; &mdash; doesn&rsquo;t mention procurement, directors, or the knowledge graph</li>
+    <li>Feature cards: only list Summary, Income, Cash Flow, Balance, Valuation, GMR Long &mdash; missing Contracts, Profile, Directors</li>
+    <li>Data source line: &ldquo;SEC EDGAR &amp; ESMA ESEF&rdquo; &mdash; should mention TED, GLEIF, RNE</li>
+    <li>Popular tickers: hardcoded US tickers only</li>
+  </ul>
+
+  <h3>New landing page</h3>
+  <ul>
+    <li>Hero: &ldquo;EU Enterprise Knowledge Graph&rdquo; with search bar front and center</li>
+    <li>Stats bar: Company count, Contract count, Country coverage, Person count</li>
+    <li>Feature cards: Profile, Contracts, Fundamentals, Directors, Data Quality</li>
+    <li>Popular section: mix of EU and US companies + French companies with contracts</li>
+    <li>Footer: links to Data Quality, Admin, Plan</li>
+  </ul>
+</div>
+
+
+<hr>
+<h2 id="c6">C6: Coverage Matrix Library</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge badge-phase">C6</span>
+    <span class="phase-title">Traceability from requirements to tests</span>
+  </div>
+
+  <h3>Concept</h3>
+  <p>A standalone library (<code>coverage-matrix</code>, separate git repo like <code>eforms-parser</code>) that:</p>
   <ol>
-    <li>Fetch the previous day&rsquo;s OJ S package (or query the Search API by publication-date)</li>
-    <li>Filter to award notices (<code>can-standard</code>, <code>can-social</code>) and modifications (<code>can-modif</code>)</li>
-    <li>For each notice: parse XML, match company, <code>MERGE</code> Contract node by <code>ted_notice_id</code></li>
-    <li>For <strong>change notices</strong>: look up the original Contract by referenced BT-758, update its properties with the consolidated text</li>
-    <li>For <strong>modifications</strong>: update the Contract node&rsquo;s <code>value_eur</code> and add a <code>modified_date</code> property</li>
+    <li>Defines requirements as a YAML/JSON file with IDs and descriptions</li>
+    <li>Provides a Python decorator <code>@covers("REQ-042")</code> and a JS annotation <code>// @covers REQ-042</code> for test functions</li>
+    <li>Scans test files, extracts coverage annotations, and generates a matrix: requirement &times; test</li>
+    <li>Outputs: JSON (for API), HTML (for admin page), or Markdown</li>
   </ol>
 
-  <div class="callout ok">
-    <strong>Idempotent by design.</strong> <code>MERGE</code> on <code>ted_notice_id</code> means processing the same day twice is harmless. Change notices carry consolidated text, so the latest version always wins via <code>SET</code>.
-  </div>
+  <h3>Example</h3>
+  <pre><code># requirements.yml
+REQ-001:
+  title: "Company search returns results from all sources"
+  category: search
+REQ-002:
+  title: "Contracts tab shows procurement data for EU companies"
+  category: procurement
+
+# In test files:
+@covers("REQ-001")
+def test_unified_search_returns_companies_and_authorities():
+    ...
+
+// In Vue test files:
+// @covers REQ-002
+it('shows contracts when API returns data', async () => { ... })</code></pre>
+
+  <h3>Admin page: <code>/admin/coverage</code></h3>
+  <p>Displays the matrix as a table: green cells = covered, red = uncovered, grey = partially. Links to test source files. Auto-generated on each build.</p>
+
+  <h3>Implementation scope</h3>
+  <p>New repo: <code>/config/repos/coverage-matrix/</code>. Python package with CLI: <code>coverage-matrix scan --tests tests/ --reqs requirements.yml --output matrix.json</code>. The admin page fetches <code>/api/coverage-matrix</code> (or a static JSON file built at deploy time).</p>
 </div>
 
-<h3>Contract value tracking</h3>
-<p>A contract&rsquo;s value can change after award (modifications are common in public procurement). Our strategy:</p>
-<ul>
-  <li>The Contract node stores the <strong>current</strong> value (<code>value_eur</code>), overwritten by the latest modification</li>
-  <li>The <strong>original</strong> award value is preserved in <code>value_original_award</code> (set once, never overwritten)</li>
-  <li>A <code>modification_count</code> property tracks how many times the contract was modified</li>
-  <li>The full modification history can be reconstructed from TED if needed (each modification is a separate notice)</li>
-</ul>
 
-
-<!-- ═══════════════════════════════════════════════════════ SESSIONS -->
 <hr>
 <h2 id="sessions">Recommended Session Breakdown</h2>
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>Phases 5&ndash;6</td><td>Spike + eForms parser library (with tests) + ETL pipeline + 2024 data in Neo4j</td></tr>
-  <tr><td>2</td><td>Phase 6b + 7</td><td>Data quality dashboard + API endpoints (companies, authorities, contracts, unified search) + tests + deployed</td></tr>
-  <tr><td>3</td><td>Phase 8a&ndash;8b</td><td>Unified search + company procurement tab + daily CronJob + full gate</td></tr>
-  <tr><td>4</td><td>Phase 8c</td><td>Authority profile page + cross-linking + e2e tests</td></tr>
-  <tr><td>5</td><td>Backfill</td><td>Historical load: 2023, 2022, &hellip; back to 2018</td></tr>
+  <tr><td>1</td><td>C1</td><td>Country code normalization + dedup script + re-run TED matching. ~190K nodes cleaned up.</td></tr>
+  <tr><td>2</td><td>C2 + C5</td><td>Backend gmr_id migration + landing page refresh</td></tr>
+  <tr><td>3</td><td>C3 + C4</td><td>Admin area + architecture visualization (Mermaid.js)</td></tr>
+  <tr><td>4</td><td>C6</td><td>Coverage matrix library + admin page + annotate existing tests</td></tr>
 </table>
-
-
-<!-- ═══════════════════════════════════════════════════════ RISKS -->
-<hr>
-<h2 id="risks">What Will Break</h2>
-
-<p>An honest assessment of what can fail, and especially what won&rsquo;t age well as data and complexity grow.</p>
-
-<h3>Near-term risks</h3>
-
-<div class="callout warn">
-  <strong>1. Company matching will produce garbage for small contractors.</strong>
-  <p>Layer 5 (name-based <code>gmr_id</code>) is deterministic but fragile. &ldquo;CONSTRUCCIONES GARCIA S.L.&rdquo; and &ldquo;GARCIA CONSTRUCCIONES S.L.&rdquo; produce different gmr_ids &rarr; duplicate Company nodes. This is the single biggest data quality risk. It&rsquo;s manageable at low volume but will compound as we load more years.</p>
-  <p><strong>Mitigation:</strong> Accept duplicates for now. Build a periodic deduplication job that merges Company nodes with the same VAT but different gmr_ids. Log all Layer 5 creations for manual review of high-value contracts.</p>
-</div>
-
-<div class="callout warn">
-  <strong>2. VIES will be down when we need it.</strong>
-  <p>~30% downtime for DE/BE. Germany is the largest EU procurement market. Every daily ETL run will have a batch of contractors it cannot validate.</p>
-  <p><strong>Mitigation:</strong> Never block ETL on VIES. Queue failed VIES lookups for retry in the next run. A &ldquo;vies_pending&rdquo; flag on the Company node triggers re-validation on the next pass.</p>
-</div>
-
-<div class="callout warn">
-  <strong>3. eForms XML schema is not uniform across years.</strong>
-  <p>Pre-October 2023 data uses the old TED XML schema (different structure, different field names). If we backfill to 2018, we need two parsers. The old schema is less well-documented and more variable across countries.</p>
-  <p><strong>Mitigation:</strong> Start with 2024+ (pure eForms). Add the legacy parser only when historical data is explicitly needed.</p>
-</div>
-
-<h3>What won&rsquo;t age well</h3>
-
-<div class="callout warn">
-  <strong>4. <code>get_available_tickers()</code> scans all Listing nodes.</strong>
-  <p>Currently returns 17K listings. Fine. Once we create Company nodes for procurement contractors (potentially 100K+ new companies), we must not let those leak into the ticker search. GraphDataSource must filter to <code>WHERE l.active = true</code>, but as node count grows, full scans will slow down.</p>
-  <p><strong>Mitigation:</strong> Ensure only companies <em>with listings</em> appear in ticker search. Procurement-only companies (no ticker) should never be returned by <code>get_available_tickers()</code>. The current Cypher already does <code>MATCH (c)-[:LISTED_AS]->(l)</code>, so this is safe as long as we never create fake Listing nodes for procurement-only companies.</p>
-</div>
-
-<div class="callout warn">
-  <strong>5. Neo4j single-node will hit memory limits.</strong>
-  <p>Current heap: 512m&ndash;1g, page cache: 512m. With 3.26M companies + 1.7M contracts + relationships, the working set approaches 2&ndash;3 GB. Queries that traverse large subgraphs (e.g. &ldquo;all contracts for companies in sector X&rdquo;) will pressure the page cache.</p>
-  <p><strong>Mitigation:</strong> Monitor Neo4j memory via Prometheus. Increase PVC and pod memory limits proactively (the k8s node has 8 Gi limit available). The community edition&rsquo;s single-node constraint is fine for our scale; we don&rsquo;t need clustering.</p>
-</div>
-
-<div class="callout warn">
-  <strong>6. Authority deduplication is a rabbit hole.</strong>
-  <p>&ldquo;Bundesministerium des Innern und f&uuml;r Heimat&rdquo; vs &ldquo;BMI&rdquo; vs &ldquo;Federal Ministry of the Interior&rdquo; &mdash; all the same authority, three different names in TED data across different notices and languages. Naive name-based Authority IDs will fragment badly.</p>
-  <p><strong>Mitigation:</strong> Accept initial fragmentation. Add a manual mapping table (CSV of authority aliases) that the ETL consults. Iterate on this as patterns emerge from real data.</p>
-</div>
-
-<div class="callout warn">
-  <strong>7. Contract value accuracy is inherently messy.</strong>
-  <p>TED contract values are self-reported by contracting authorities. They may represent: estimated value, maximum framework value, individual lot value, or total award value. Different countries interpret &ldquo;value&rdquo; differently. Modifications can make the original value meaningless.</p>
-  <p><strong>Mitigation:</strong> Always store both <code>value_original_award</code> and current <code>value_eur</code>. Display both in the UI. Never aggregate contract values across countries without a disclaimer. Framework agreements should be flagged separately (their &ldquo;value&rdquo; is a ceiling, not actual spend).</p>
-</div>
-
-<div class="callout warn">
-  <strong>8. Daily ETL at scale: 3,000 notices/day &times; 365 &times; 8 years = reprocessing debt.</strong>
-  <p>If a parser bug is found after months of daily loading, we need to reprocess all affected notices. Reprocessing years of data takes hours and puts load on Neo4j.</p>
-  <p><strong>Mitigation:</strong> Keep the raw XML packages on disk (or NFS) as an immutable audit log. The ETL should be able to re-run against local files. Add a <code>loaded_at</code> timestamp on Contract nodes to identify what needs reprocessing.</p>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ QUESTIONS -->
-<hr>
-<h2 id="questions">Open Questions</h2>
-
-<div class="questions">
-  <ol>
-    <li><strong>Start year.</strong> Begin with 2024+ only (eForms format, cleanest data), or go back to 2018 (different XML schema, requires a second parser)?</li>
-    <li><strong>GLEIF registration authority file.</strong> Layer 3 queries GLEIF per-VAT. Should we batch-download the GLEIF Registration Authorities file instead (avoiding rate limits, same approach as Level 1 dump)?</li>
-    <li><strong>VIES usage policy.</strong> The ToS say &ldquo;for persons involved in intra-Community supply.&rdquo; Are we comfortable using it for enrichment? Should we limit to high-value contractors only?</li>
-    <li><strong>Contract thresholds.</strong> TED only covers above-threshold contracts (&euro;140K services, &euro;5.4M works). Smaller contracts are in national portals. Is TED-only sufficient for v1?</li>
-    <li><strong>Authority deduplication.</strong> Government bodies change names across languages and abbreviations. Accept fragmentation initially and clean up later, or invest in a mapping table upfront?</li>
-    <li><strong>Framework agreements.</strong> These have a &ldquo;maximum value&rdquo; that is a ceiling, not actual spend. Should they be loaded alongside regular awards, or flagged/excluded?</li>
-    <li><strong>Raw XML retention.</strong> Should we keep downloaded TED XML packages on NFS as an immutable audit log for reprocessing, or delete after loading?</li>
-  </ol>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════ CRITICAL REVIEW -->
-<hr>
-<h2 id="review">Critical Self-Review</h2>
-
-<p>Stepping back from the plan and asking: <em>what&rsquo;s really going to happen when we build this?</em></p>
-
-<h3>Things this plan gets right</h3>
-<ul>
-  <li><strong>Data source choice.</strong> TED bulk XML is the right approach &mdash; same pattern as GLEIF, proven in production, no rate limits, idempotent.</li>
-  <li><strong>Incremental daily updates.</strong> The daily OJ S packages + MERGE by notice ID is clean. No reconciliation needed.</li>
-  <li><strong>Conservative matching thresholds.</strong> Auto-match at &gt;0.85 Dice and creating new nodes for everything else means we won&rsquo;t merge different companies. Duplicates are fixable; wrong merges are catastrophic for a knowledge base.</li>
-  <li><strong>Company-ID-first API.</strong> Moving from <code>/{ticker}</code> to <code>/companies/{gmr_id}</code> is the right architectural direction. The ticker-based API was always a concession to the &ldquo;stock screener&rdquo; origin.</li>
-</ul>
-
-<h3>Things this plan underestimates</h3>
-
-<div class="callout warn">
-  <strong>The eForms XML parser will take 3x longer than expected.</strong>
-  <p>The eForms schema is large and complex. Contract awards can have multiple lots, each with different winners. Lot structures vary wildly across countries. The &ldquo;extract title, value, contractor&rdquo; step that looks simple on paper will require handling dozens of edge cases: missing values, multi-currency lots, joint ventures (multiple contractors per lot), framework agreements vs individual contracts. Budget at least a full session just for the parser.</p>
-</div>
-
-<div class="callout warn">
-  <strong>The GLEIF &harr; TED company overlap might be worse than 20%.</strong>
-  <p>GLEIF has 3.26M entities, but most are financial entities (banks, funds, holding companies) that must have a LEI for regulatory reasons. EU procurement contractors are construction firms, IT consultancies, logistics companies &mdash; many of which never obtained a LEI. The actual overlap might be 10&ndash;15%, not 20%. We should measure this empirically with 1 month of data before committing to the matching strategy.</p>
-</div>
-
-<div class="callout warn">
-  <strong>The API migration from ticker to gmr_id requires frontend plumbing.</strong>
-  <p>Breaking changes to the API are fine &mdash; this is a dev environment. But the frontend needs <code>gmr_id</code> to fetch contracts. Solution: <code>gmr_id</code> is now returned in both search results and fundamentals responses, so the frontend always has it available once a company is loaded. The Vue router adds <code>/company/{gmr_id}</code> routes alongside existing <code>/{ticker}</code> routes.</p>
-</div>
-
-<h3>Things this plan ignores</h3>
-
-<div class="callout warn">
-  <strong>No consideration of sub-threshold procurement.</strong>
-  <p>TED covers contracts above EU thresholds. For many companies (especially SMEs), the most interesting contracts are below threshold and published only on national portals. This plan gives us a partial picture. We should be explicit in the UI about what&rsquo;s covered: &ldquo;EU public contracts above &euro;140K (services) / &euro;5.4M (works).&rdquo;</p>
-</div>
-
-<h3>Unresolved concerns</h3>
-
-<ol>
-  <li><strong>How do we test matching quality at scale?</strong> We can unit-test the matching code, but validating that &ldquo;SIEMENS AKTIENGESELLSCHAFT&rdquo; in TED correctly matches &ldquo;Siemens Aktiengesellschaft&rdquo; in GLEIF requires ground truth. Do we manually verify a sample? How large?</li>
-  <li><strong>What happens when a Company node created from procurement data later appears in GLEIF?</strong> Addressed above in <a href="#identity">Identity Resolution</a> — the <code>[:SAME_AS]</code> + merge workflow handles this. But the periodic detection job needs to run after every GLEIF refresh, not just after TED loads.</li>
-  <li><strong>The search experience is about to get worse before it gets better.</strong> If procurement-only companies (no listing, no financial data) appear in search results, users will click on them and see an empty profile. We need to either suppress them from search or build a procurement-centric company profile page before launching.</li>
-</ol>
 
 </body>
 </html>
