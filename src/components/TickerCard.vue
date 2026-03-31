@@ -9,6 +9,7 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 const isAuthority = computed(() => props.ticker._type === 'authority')
+const isPerson = computed(() => props.ticker._type === 'person')
 
 // Navigate by ticker if listed, otherwise by gmr_id
 const selectValue = computed(() => props.ticker._navKey ?? props.ticker.ticker ?? props.ticker.symbol)
@@ -24,7 +25,7 @@ const realTicker = computed(() => {
 })
 
 const displaySymbol = computed(() => {
-  if (isAuthority.value) return null
+  if (isAuthority.value || isPerson.value) return null
   return realTicker.value
 })
 
@@ -64,7 +65,10 @@ const meta = computed(() =>
       <div class="ticker-name truncate text-sm font-medium" style="color: var(--text)">
         {{ ticker.name }}
       </div>
-      <div v-if="meta" class="ticker-meta mt-0.5 text-xs" style="color: var(--muted)">
+      <div v-if="isPerson && ticker.companies?.length" class="ticker-meta mt-0.5 text-xs" style="color: var(--muted)">
+        {{ ticker.companies.join(', ') }}
+      </div>
+      <div v-else-if="meta" class="ticker-meta mt-0.5 text-xs" style="color: var(--muted)">
         {{ meta }}
       </div>
     </div>
@@ -75,7 +79,10 @@ const meta = computed(() =>
     </span>
 
     <!-- Entity type badges -->
-    <span v-if="isAuthority" class="badge badge-auth" data-testid="badge-auth">
+    <span v-if="isPerson" class="badge badge-auth" data-testid="badge-person">
+      Person
+    </span>
+    <span v-else-if="isAuthority" class="badge badge-auth" data-testid="badge-auth">
       Authority
     </span>
     <span v-else-if="isEsef" class="badge badge-esef" data-testid="badge-esef">

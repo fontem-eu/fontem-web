@@ -79,7 +79,13 @@ async function doSearch(q) {
       name: a.name,
       _navKey: a.authority_id,
     }))
-    results.value = [...companies, ...authorities]
+    const persons = (data.persons || []).map((p) => ({
+      ...p,
+      _type: 'person',
+      name: `${p.first_name || ''} ${p.name || ''}`.trim(),
+      _navKey: p.person_id,
+    }))
+    results.value = [...companies, ...authorities, ...persons]
     totalAvailable.value = results.value.length
     state.value = 'done'
   } catch {

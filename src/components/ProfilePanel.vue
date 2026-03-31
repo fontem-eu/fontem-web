@@ -76,6 +76,18 @@ watch(() => props.symbol, (sym) => {
       </div>
     </div>
 
+    <!-- Directors (from Neo4j Person nodes) -->
+    <div v-if="profile?.directors?.length" class="pp-section">
+      <h3>Directors &amp; Officers</h3>
+      <div class="pp-directors">
+        <div v-for="d in profile.directors" :key="d.person_id" class="pp-director">
+          <span class="pp-director__name">{{ d.first_name }} {{ d.name }}</span>
+          <span class="pp-director__role">{{ d.role }}</span>
+          <span v-if="d.current === false" class="pp-director__former">(former)</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Procurement data (always shown) -->
     <div class="pp-section">
       <h3>EU Public Procurement</h3>
@@ -130,4 +142,15 @@ watch(() => props.symbol, (sym) => {
 .pp-procurement-summary {
   font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text);
 }
+
+.pp-directors { display: flex; flex-direction: column; gap: 0.3rem; }
+.pp-director {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  padding: 0.35rem 0; border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.pp-director:last-child { border-bottom: none; }
+.pp-director__name { font-weight: 600; }
+.pp-director__role { color: var(--muted); font-size: 0.8rem; }
+.pp-director__former { color: var(--muted); font-size: 0.75rem; font-style: italic; }
 </style>
