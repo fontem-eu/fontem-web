@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 const state = ref('loading')
@@ -7,10 +7,34 @@ const candidates = ref([])
 const selected = ref(null)
 const resolving = ref(false)
 const message = ref('')
+const validationErrors = ref([])
+
+// Editable merged fields
+const merged = ref({ name: '', country: '', lei: '', vat: '' })
+
+const FIELDS = [
+  { key: 'name', label: 'Name', placeholder: 'Company legal name' },
+  { key: 'country', label: 'Country', placeholder: 'ISO alpha-3 (e.g. FRA)' },
+  { key: 'lei', label: 'LEI', placeholder: '20-char alphanumeric (optional)' },
+  { key: 'vat', label: 'VAT', placeholder: 'VAT number (optional)' },
+]
 
 onMounted(async () => {
   document.title = 'Entity Resolution — GMR'
   await loadCandidates()
+})
+
+// When selection changes, populate the editable merged fields
+watch(selected, (sel) => {
+  if (!sel) return
+  merged.value = {
+    name: sel.canonical_name ?? sel.dup_name ?? '',
+    country: sel.canonical_country ?? sel.dup_country ?? '',
+    lei: sel.canonical_lei ?? sel.dup_lei ?? '',
+    vat: sel.canonical_vat ?? sel.dup_vat ?? '',
+  }
+  validationErrors.value = []
+  message.value = ''
 })
 
 async function loadCandidates() {
@@ -29,26 +53,67 @@ async function loadCandidates() {
   }
 }
 
+function validateLocally() {
+  const errors = []
+  const m = merged.value
+  if (m.name.trim().length < 2) errors.push('Name must be at least 2 characters')
+  if (m.country.trim().length !== 3) errors.push('Country must be a 3-letter ISO alpha-3 code')
+  if (m.lei.trim() && m.lei.trim().length !== 20) errors.push('LEI must be exactly 20 characters')
+  if (m.lei.trim() && !/^[A-Z0-9]+$/i.test(m.lei.trim())) errors.push('LEI must be alphanumeric')
+  if (m.vat.trim() && m.vat.trim().length < 4) errors.push('VAT too short')
+  return errors
+}
+
 async function resolve(action) {
   if (!selected.value) return
   resolving.value = true
   message.value = ''
+  validationErrors.value = []
+
+  if (action === 'approve') {
+    const localErrors = validateLocally()
+    if (localErrors.length) {
+      validationErrors.value = localErrors
+      resolving.value = false
+      return
+    }
+  }
+
   try {
     const { dup_id, canonical_id } = selected.value
+    const body = {
+      action,
+      canonical_gmr_id: canonical_id,
+    }
+    if (action === 'approve') {
+      body.merged_properties = {
+        name: merged.value.name.trim() || null,
+        country: merged.value.country.trim().toUpperCase() || null,
+        lei: merged.value.lei.trim() || null,
+        vat: merged.value.vat.trim() || null,
+      }
+    }
     const res = await fetch(
       `/api/entity-resolution/resolve/${encodeURIComponent(dup_id)}/${encodeURIComponent(canonical_id)}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, canonical_gmr_id: canonical_id }),
+        body: JSON.stringify(body),
       },
     )
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    if (!res.ok) {
+      const err = await res.json()
+      if (err.detail?.validation_errors) {
+        validationErrors.value = err.detail.validation_errors
+        resolving.value = false
+        return
+      }
+      throw new Error(`HTTP ${res.status}`)
+    }
     await res.json()
     message.value = action === 'approve'
       ? `Merged into ${canonical_id.substring(0, 8)}...`
       : 'Rejected — marked as different entities'
-    // Remove from list and select next
     candidates.value = candidates.value.filter(
       (c) => c.dup_id !== dup_id || c.canonical_id !== canonical_id,
     )
@@ -61,28 +126,14 @@ async function resolve(action) {
   }
 }
 
-function propDiff(left, right, key) {
-  const l = left?.[key] ?? null
-  const r = right?.[key] ?? null
-  if (l === r) return 'same'
-  if (l === null) return 'right-only'
-  if (r === null) return 'left-only'
-  return 'conflict'
-}
-
-const FIELDS = [
-  { key: 'name', label: 'Name' },
-  { key: 'country', label: 'Country' },
-  { key: 'lei', label: 'LEI' },
-  { key: 'vat', label: 'VAT' },
-]
-
-function leftField(key) { return selected.value?.[`dup_${key}`] ?? '—' }
-function rightField(key) { return selected.value?.[`canonical_${key}`] ?? '—' }
-function mergedField(key) {
-  const l = selected.value?.[`dup_${key}`]
-  const r = selected.value?.[`canonical_${key}`]
-  return r ?? l ?? '—'
+function pickLeft(key) { merged.value[key] = selected.value?.[`dup_${key}`] ?? '' }
+function pickRight(key) { merged.value[key] = selected.value?.[`canonical_${key}`] ?? '' }
+function leftVal(key) { return selected.value?.[`dup_${key}`] ?? '' }
+function rightVal(key) { return selected.value?.[`canonical_${key}`] ?? '' }
+function isConflict(key) {
+  const l = leftVal(key)
+  const r = rightVal(key)
+  return l && r && l !== r
 }
 </script>
 
@@ -90,7 +141,7 @@ function mergedField(key) {
   <div class="er">
     <header class="er-header">
       <div>
-        <router-link to="/admin" class="er-back">&larr; Home</router-link>
+        <router-link to="/admin" class="er-back">&larr; Admin</router-link>
         <h1>Entity Resolution</h1>
         <p class="er-subtitle">Review and merge duplicate company nodes</p>
       </div>
@@ -101,11 +152,11 @@ function mergedField(key) {
     <div v-else-if="state === 'error'" class="er-msg">Failed to load candidates.</div>
     <div v-else-if="state === 'empty'" class="er-msg">
       <p>No merge candidates pending review.</p>
-      <p class="er-note">All entity conflicts have been resolved. New candidates appear after data loads.</p>
+      <p class="er-note">All entity conflicts have been resolved.</p>
     </div>
 
     <div v-else class="er-layout">
-      <!-- Left: candidate list -->
+      <!-- Left sidebar: candidate list -->
       <aside class="er-list">
         <h2>Candidates ({{ candidates.length }})</h2>
         <div
@@ -126,16 +177,16 @@ function mergedField(key) {
         </div>
       </aside>
 
-      <!-- Right: merge view -->
+      <!-- Main: three-panel merge view -->
       <main v-if="selected" class="er-merge">
-        <!-- Three-panel merge view -->
         <div class="er-panels">
-          <!-- Left: duplicate -->
+          <!-- Left: duplicate (read-only) -->
           <div class="er-panel er-panel--left">
             <h3>Duplicate (will be removed)</h3>
-            <div v-for="f in FIELDS" :key="f.key" class="er-field" :class="'er-field--' + propDiff(selected, null, f.key)">
+            <div v-for="f in FIELDS" :key="f.key" class="er-field">
               <span class="er-field__label">{{ f.label }}</span>
-              <span class="er-field__value">{{ leftField(f.key) }}</span>
+              <span class="er-field__value">{{ leftVal(f.key) || '\u2014' }}</span>
+              <button v-if="leftVal(f.key) && leftVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickLeft(f.key)">&larr;</button>
             </div>
             <div class="er-field">
               <span class="er-field__label">gmr_id</span>
@@ -143,27 +194,32 @@ function mergedField(key) {
             </div>
           </div>
 
-          <!-- Center: merged result -->
+          <!-- Center: editable merged result -->
           <div class="er-panel er-panel--center">
-            <h3>Merge Result</h3>
-            <div v-for="f in FIELDS" :key="f.key" class="er-field" :class="'er-field--' + propDiff({[`dup_${f.key}`]: leftField(f.key)}, {[`canonical_${f.key}`]: rightField(f.key)}, '')">
-              <span class="er-field__label">{{ f.label }}</span>
-              <span class="er-field__value" :class="{'er-conflict': propDiff(selected, selected, f.key) === 'conflict'}">
-                {{ mergedField(f.key) }}
-              </span>
+            <h3>Merge Result (editable)</h3>
+            <div v-for="f in FIELDS" :key="f.key" class="er-field" :class="{ 'er-field--conflict': isConflict(f.key) }">
+              <label class="er-field__label" :for="'merge-' + f.key">{{ f.label }}</label>
+              <input
+                :id="'merge-' + f.key"
+                v-model="merged[f.key]"
+                class="er-input"
+                :placeholder="f.placeholder"
+                :class="{ 'er-input--conflict': isConflict(f.key) }"
+              />
             </div>
             <div class="er-field">
               <span class="er-field__label">gmr_id</span>
-              <span class="er-field__value er-mono">{{ selected.canonical_id.substring(0, 12) }}... (canonical wins)</span>
+              <span class="er-field__value er-mono">{{ selected.canonical_id.substring(0, 12) }}... (canonical)</span>
             </div>
           </div>
 
-          <!-- Right: canonical -->
+          <!-- Right: canonical (read-only) -->
           <div class="er-panel er-panel--right">
             <h3>Canonical (will survive)</h3>
             <div v-for="f in FIELDS" :key="f.key" class="er-field">
               <span class="er-field__label">{{ f.label }}</span>
-              <span class="er-field__value">{{ rightField(f.key) }}</span>
+              <span class="er-field__value">{{ rightVal(f.key) || '\u2014' }}</span>
+              <button v-if="rightVal(f.key) && rightVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickRight(f.key)">&rarr;</button>
             </div>
             <div class="er-field">
               <span class="er-field__label">gmr_id</span>
@@ -172,10 +228,15 @@ function mergedField(key) {
           </div>
         </div>
 
+        <!-- Validation errors -->
+        <div v-if="validationErrors.length" class="er-errors">
+          <p v-for="(err, i) in validationErrors" :key="i" class="er-errors__item">{{ err }}</p>
+        </div>
+
         <!-- Actions -->
         <div class="er-actions">
           <button class="er-btn er-btn--approve" :disabled="resolving" @click="resolve('approve')">
-            Merge (canonical wins)
+            Merge with edits
           </button>
           <button class="er-btn er-btn--reject" :disabled="resolving" @click="resolve('reject')">
             Not the same entity
@@ -190,70 +251,55 @@ function mergedField(key) {
 <style scoped>
 .er { max-width: 1200px; margin: 0 auto; padding: 0 1rem 4rem; }
 
-.er-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--border);
-  margin-bottom: 1.5rem;
-}
+.er-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
 .er-header h1 { font-size: 1.4rem; font-weight: 700; margin: 0.3rem 0 0; }
 .er-back { font-size: 0.85rem; color: var(--accent); text-decoration: none; }
-.er-back:hover { text-decoration: underline; }
 .er-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
 .er-msg { text-align: center; padding: 4rem 1rem; color: var(--muted); }
 .er-note { font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7; }
 
-.er-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.25rem; }
+.er-layout { display: grid; grid-template-columns: 260px 1fr; gap: 1.25rem; }
 @media (max-width: 768px) { .er-layout { grid-template-columns: 1fr; } }
 
-/* ── Candidate list ── */
 .er-list h2 { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.er-list__item {
-  padding: 0.6rem 0.75rem; border: 1px solid var(--border);
-  border-radius: 6px; margin-bottom: 0.4rem; cursor: pointer;
-  transition: border-color 0.15s;
-}
+.er-list__item { padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 0.4rem; cursor: pointer; transition: border-color 0.15s; }
 .er-list__item:hover { border-color: var(--accent); }
 .er-list__item--active { border-color: var(--accent); background: var(--surface); }
 .er-list__names { font-size: 0.82rem; font-weight: 600; display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; }
 .er-list__arrow { color: var(--muted); font-size: 0.75rem; }
 .er-list__meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
 
-/* ── Three-panel merge view ── */
-.er-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-@media (max-width: 768px) { .er-panels { grid-template-columns: 1fr; } }
+.er-panels { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+@media (max-width: 900px) { .er-panels { grid-template-columns: 1fr; } }
 
-.er-panel {
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 0.75rem; background: var(--bg);
-}
-.er-panel--left { border-top: 3px solid var(--warning, #d29922); }
+.er-panel { border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; background: var(--bg); }
+.er-panel--left { border-top: 3px solid #d29922; }
 .er-panel--center { border-top: 3px solid var(--accent); }
-.er-panel--right { border-top: 3px solid var(--success, #1a7f37); }
+.er-panel--right { border-top: 3px solid #1a7f37; }
 
-.er-panel h3 {
-  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.6rem;
-}
+.er-panel h3 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.6rem; }
 
-.er-field {
-  display: flex; justify-content: space-between;
-  padding: 0.3rem 0; border-bottom: 1px solid var(--border);
-  font-size: 0.82rem;
-}
+.er-field { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; gap: 0.3rem; }
 .er-field:last-child { border-bottom: none; }
-.er-field__label { color: var(--muted); font-size: 0.75rem; }
+.er-field--conflict { background: rgba(210, 153, 34, 0.08); }
+.er-field__label { color: var(--muted); font-size: 0.75rem; min-width: 50px; flex-shrink: 0; }
 .er-field__value { font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
-.er-conflict { color: var(--warning, #d29922); font-weight: 700; }
 .er-mono { font-family: monospace; font-size: 0.75rem; }
 
-/* ── Actions ── */
+.er-pick { background: none; border: 1px solid var(--border); border-radius: 3px; padding: 0 0.3rem; font-size: 0.7rem; cursor: pointer; color: var(--accent); flex-shrink: 0; }
+.er-pick:hover { background: var(--surface); }
+
+.er-input { width: 100%; padding: 0.3rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem; background: var(--bg); color: var(--text); font-family: inherit; }
+.er-input:focus { outline: none; border-color: var(--accent); }
+.er-input--conflict { border-color: #d29922; }
+
+.er-errors { margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; background: #ffeef0; border: 1px solid #cf222e; border-radius: 6px; }
+.er-errors__item { font-size: 0.82rem; color: #cf222e; margin: 0.2rem 0; }
+
 .er-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
-.er-btn {
-  padding: 0.5rem 1.25rem; border: none; border-radius: 6px;
-  font-size: 0.85rem; font-weight: 600; cursor: pointer;
-}
+.er-btn { padding: 0.5rem 1.25rem; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
 .er-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.er-btn--approve { background: var(--success, #1a7f37); color: #fff; }
+.er-btn--approve { background: #1a7f37; color: #fff; }
 .er-btn--approve:hover:not(:disabled) { opacity: 0.9; }
 .er-btn--reject { background: var(--border); color: var(--text); }
 .er-btn--reject:hover:not(:disabled) { opacity: 0.8; }
