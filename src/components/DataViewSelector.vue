@@ -1,7 +1,10 @@
 <script setup>
-defineProps({
+import { computed, ref } from 'vue'
+
+const props = defineProps({
   modelValue: { type: String, required: true },
-  views: { type: Array, required: true }, // [{ key: string, label: string }]
+  groups: { type: Array, required: true },
+  // groups: [{ key, label, views: [{ key, label }] }]
 })
 
 defineEmits(['update:modelValue'])
@@ -10,138 +13,161 @@ const GMR_LONG_TOOLTIP =
   'GMR Long scores a stock for long-term value investing using 5-year averages: ' +
   'P/E ≤ 15, P/B ≤ 1.5, ROE ≥ 15%, Net Margin ≥ 15%, D/E ≤ 1.5, Div. Yield ≥ 3.5%. ' +
   'Developed by Gonçalo Martins Rato.'
+
+// Find which group the current view belongs to
+const activeGroup = computed(() => {
+  for (const g of props.groups) {
+    if (g.views.some((v) => v.key === props.modelValue)) return g.key
+  }
+  return props.groups[0]?.key
+})
+
+const activeGroupViews = computed(() => {
+  const g = props.groups.find((g) => g.key === activeGroup.value)
+  return g?.views || []
+})
+
+// Mobile: flat list for dropdown
+const allViews = computed(() => {
+  const result = []
+  for (const g of props.groups) {
+    for (const v of g.views) {
+      result.push({ ...v, groupLabel: g.label })
+    }
+  }
+  return result
+})
+
+const mobileOpen = ref(false)
+const currentLabel = computed(() => {
+  const v = allViews.value.find((v) => v.key === props.modelValue)
+  return v ? `${v.groupLabel} › ${v.label}` : props.modelValue
+})
 </script>
 
 <template>
-  <div class="gmr-view-sel-wrap">
-  <nav class="gmr-view-sel" data-testid="view-selector" aria-label="Data view">
-    <button
-      v-for="v in views"
-      :key="v.key"
-      type="button"
-      class="gmr-view-sel__item"
-      :class="{ 'gmr-view-sel__item--active': modelValue === v.key }"
-      :data-testid="`view-opt-${v.key}`"
-      :aria-current="modelValue === v.key ? 'page' : undefined"
-      @click="$emit('update:modelValue', v.key)"
-    >
-      {{ v.label }}
-      <span
-        v-if="v.key === 'gmr-long'"
-        class="gmr-info"
-        :title="GMR_LONG_TOOLTIP"
-        data-testid="gmr-long-info"
-        @click.stop
-      >ⓘ</span>
-    </button>
-  </nav>
+  <div class="dvs" data-testid="view-selector">
+    <!-- Desktop: two-level nav -->
+    <nav class="dvs-desktop" aria-label="Data view">
+      <!-- Category row -->
+      <div class="dvs-categories">
+        <button
+          v-for="g in groups"
+          :key="g.key"
+          type="button"
+          class="dvs-cat"
+          :class="{ 'dvs-cat--active': activeGroup === g.key }"
+          :data-testid="`view-cat-${g.key}`"
+          @click="$emit('update:modelValue', g.views[0].key)"
+        >
+          {{ g.label }}
+        </button>
+      </div>
+      <!-- Sub-view row -->
+      <div class="dvs-views">
+        <button
+          v-for="v in activeGroupViews"
+          :key="v.key"
+          type="button"
+          class="dvs-view"
+          :class="{ 'dvs-view--active': modelValue === v.key }"
+          :data-testid="`view-opt-${v.key}`"
+          :aria-current="modelValue === v.key ? 'page' : undefined"
+          @click="$emit('update:modelValue', v.key)"
+        >
+          {{ v.label }}
+          <span
+            v-if="v.key === 'gmr-long'"
+            class="dvs-info"
+            :title="GMR_LONG_TOOLTIP"
+            data-testid="gmr-long-info"
+            @click.stop
+          >ⓘ</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile: dropdown -->
+    <div class="dvs-mobile">
+      <button
+        type="button"
+        class="dvs-dropdown-btn"
+        data-testid="view-dropdown-btn"
+        @click="mobileOpen = !mobileOpen"
+      >
+        {{ currentLabel }}
+        <span class="dvs-chevron">{{ mobileOpen ? '▴' : '▾' }}</span>
+      </button>
+      <div v-if="mobileOpen" class="dvs-dropdown" data-testid="view-dropdown">
+        <template v-for="g in groups" :key="g.key">
+          <div class="dvs-dropdown-group">{{ g.label }}</div>
+          <button
+            v-for="v in g.views"
+            :key="v.key"
+            type="button"
+            class="dvs-dropdown-item"
+            :class="{ 'dvs-dropdown-item--active': modelValue === v.key }"
+            :data-testid="`view-opt-${v.key}`"
+            @click="$emit('update:modelValue', v.key); mobileOpen = false"
+          >
+            {{ v.label }}
+          </button>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* Mobile: scrollable horizontal tab strip */
-.gmr-view-sel-wrap {
-  position: relative;
-  width: 100%;
-}
-
-/* Fade gradient hinting there are more tabs to the right */
-.gmr-view-sel-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 2.5rem;
-  height: 100%;
-  background: linear-gradient(to right, transparent, var(--bg));
-  pointer-events: none;
-}
-
-.gmr-view-sel {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 2px;
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--border);
-  min-width: unset;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.gmr-view-sel::-webkit-scrollbar {
-  display: none;
-}
-
-.gmr-view-sel__item {
-  display: block;
-  flex: 1 1 auto;
-  text-align: center;
-  padding: 7px 10px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background 0.12s,
-    color 0.12s;
-}
-
-.gmr-view-sel__item:hover {
-  background: var(--surface);
-  color: var(--text);
-}
-
-.gmr-view-sel__item--active {
-  background: var(--surface);
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* Info icon */
-.gmr-info {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 3px;
-  font-size: 0.7rem;
-  color: var(--muted);
-  opacity: 0.7;
-  cursor: help;
-  vertical-align: middle;
-  line-height: 1;
-}
-
-/* Desktop: vertical left-side nav */
+/* ── Desktop: two-level horizontal nav ── */
+.dvs-desktop { display: none; }
 @media (min-width: 640px) {
-  .gmr-view-sel-wrap {
-    width: auto;
-  }
-
-  .gmr-view-sel-wrap::after {
-    display: none;
-  }
-
-  .gmr-view-sel {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    padding: 8px 0;
-    border-bottom: none;
-    min-width: 140px;
-    width: auto;
-    overflow-x: visible;
-  }
-
-  .gmr-view-sel__item {
-    flex: none;
-    width: 100%;
-    text-align: left;
-    padding: 8px 12px;
-  }
+  .dvs-desktop { display: flex; flex-direction: column; gap: 0; min-width: 150px; }
 }
+
+.dvs-categories { display: flex; flex-direction: column; gap: 2px; padding: 4px 0; border-bottom: 1px solid var(--border); }
+.dvs-cat {
+  padding: 6px 12px; border: none; background: none; text-align: left;
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--muted); cursor: pointer; border-radius: 4px;
+}
+.dvs-cat:hover { color: var(--text); background: var(--surface); }
+.dvs-cat--active { color: var(--accent); }
+
+.dvs-views { display: flex; flex-direction: column; gap: 1px; padding: 4px 0; }
+.dvs-view {
+  padding: 7px 12px 7px 20px; border: none; background: none; text-align: left;
+  font-size: 0.8125rem; font-weight: 500; color: var(--muted); cursor: pointer; border-radius: 4px;
+}
+.dvs-view:hover { background: var(--surface); color: var(--text); }
+.dvs-view--active { background: var(--surface); color: var(--accent); font-weight: 600; }
+
+.dvs-info { margin-left: 3px; font-size: 0.7rem; color: var(--muted); opacity: 0.7; cursor: help; }
+
+/* ── Mobile: dropdown ── */
+.dvs-mobile { display: block; }
+@media (min-width: 640px) { .dvs-mobile { display: none; } }
+
+.dvs-dropdown-btn {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface); color: var(--text); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+}
+.dvs-chevron { font-size: 0.75rem; color: var(--muted); }
+
+.dvs-dropdown {
+  position: absolute; z-index: 100; left: 0; right: 0; margin-top: 4px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden;
+}
+.dvs-dropdown-group {
+  padding: 6px 12px 2px; font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
+}
+.dvs-dropdown-item {
+  display: block; width: 100%; padding: 8px 12px 8px 24px; border: none;
+  background: none; text-align: left; font-size: 0.85rem; color: var(--text); cursor: pointer;
+}
+.dvs-dropdown-item:hover { background: var(--surface); }
+.dvs-dropdown-item--active { color: var(--accent); font-weight: 600; }
 </style>

@@ -10,19 +10,33 @@ import { useAnalytics } from '../composables/useAnalytics.js'
 const route = useRoute()
 const router = useRouter()
 
-const ALL_VIEWS = [
-  { key: 'profile',      label: 'Profile'      },
-  { key: 'summary',      label: 'Summary'      },
-  { key: 'fundamentals', label: 'Fundamentals' },
-  { key: 'income',       label: 'Income'       },
-  { key: 'cashflow',     label: 'Cash Flow'    },
-  { key: 'balance',      label: 'Balance'      },
-  { key: 'valuation',    label: 'Valuation'    },
-  { key: 'contracts',    label: 'Contracts'    },
-  { key: 'gmr-long',     label: 'GMR Long'     },
+const VIEW_GROUPS = [
+  {
+    key: 'overview', label: 'Overview',
+    views: [
+      { key: 'profile', label: 'Profile' },
+    ],
+  },
+  {
+    key: 'financials', label: 'Financials',
+    views: [
+      { key: 'summary',      label: 'Summary' },
+      { key: 'fundamentals', label: 'Fundamentals' },
+      { key: 'income',       label: 'Income' },
+      { key: 'cashflow',     label: 'Cash Flow' },
+      { key: 'balance',      label: 'Balance' },
+      { key: 'valuation',    label: 'Valuation' },
+    ],
+  },
+  {
+    key: 'procurement', label: 'Procurement',
+    views: [{ key: 'contracts', label: 'Contracts' }],
+  },
+  {
+    key: 'analysis', label: 'Analysis',
+    views: [{ key: 'gmr-long', label: 'GMR Long' }],
+  },
 ]
-
-const activeViews = computed(() => ALL_VIEWS)
 
 const features = [
   {
@@ -254,7 +268,7 @@ function onClose() {
         <div v-if="selectedTicker" class="mt-6 flex flex-col gap-0 sm:flex-row sm:items-start sm:gap-4" data-testid="ticker-detail">
           <DataViewSelector
             :model-value="selectedView"
-            :views="activeViews"
+            :groups="VIEW_GROUPS"
             @update:model-value="onViewChange"
           />
           <TickerFinancials

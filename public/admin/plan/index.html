@@ -489,5 +489,16 @@ for (const [key, group] of bundled) {
   <tr><td>7</td><td>E2E + polish</td><td>8 e2e tests (Chromium + Firefox), performance validation, edge cases</td></tr>
 </table>
 
+<h3>Gate checklist (after every session)</h3>
+<div class="callout ok">
+  <p>Each session ends with the full gate. Nothing is &ldquo;done&rdquo; until all 4 items pass:</p>
+  <ol>
+    <li><strong>Full gate:</strong> all tests pass (<code>pytest</code> + <code>pylint</code> on backend; <code>npm run test</code> + <code>npm run lint</code> + <code>npm run test:e2e</code> on frontend)</li>
+    <li><strong>Artifacts updated:</strong> architecture diagrams (<code>/admin/architecture</code>), plan (<code>/admin/plan</code>), <code>requirements.yml</code>, and <code>coverage-map.yml</code> reflect the new work</li>
+    <li><strong>Committed and pushed:</strong> <code>git status</code> clean on all repos, <code>git push</code> to all remotes</li>
+    <li><strong>Deployed:</strong> <code>make</code> on both repos, <code>kubectl rollout status</code> confirms pods are running</li>
+  </ol>
+</div>
+
 </body>
 </html>

@@ -21,7 +21,7 @@ const TickerFinancialsStub = {
 const DataViewSelectorStub = {
   name: 'DataViewSelector',
   template: '<div data-testid="data-view-selector" />',
-  props: ['modelValue', 'views'],
+  props: ['modelValue', 'groups'],
   emits: ['update:modelValue'],
 }
 

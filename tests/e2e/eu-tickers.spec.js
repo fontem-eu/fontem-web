@@ -104,7 +104,7 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
     await page.goto('/c/GALP.LS/fundamentals')
     const btn = page.locator('[data-testid="view-opt-fundamentals"]')
     await expect(btn).toBeVisible({ timeout: 8000 })
-    await expect(btn).toHaveClass(/gmr-view-sel__item--active/)
+    await expect(btn).toHaveClass(/dvs-view--active/)
   })
 
   test('ESEF badge appears in the financials panel header for GALP.LS', async ({ page }) => {

@@ -15,66 +15,59 @@ test.describe('Data view selection', () => {
     await page.goto('/c/AAPL/fundamentals')
     const btn = page.locator('[data-testid="view-opt-fundamentals"]')
     await expect(btn).toBeVisible({ timeout: 5000 })
-    await expect(btn).toHaveClass(/gmr-view-sel__item--active/)
+    await expect(btn).toHaveClass(/dvs-view--active/)
   })
 
   test('"GMR Long" option is not active on fundamentals route', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
     const btn = page.locator('[data-testid="view-opt-gmr-long"]')
     await expect(btn).toBeVisible({ timeout: 5000 })
-    await expect(btn).not.toHaveClass(/gmr-view-sel__item--active/)
+    await expect(btn).not.toHaveClass(/dvs-view--active/)
   })
 
   test('clicking "GMR Long" changes URL to /:ticker/gmr-long', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
-    await page.locator('[data-testid="view-opt-gmr-long"]').waitFor({ timeout: 5000 })
-
-    await page.locator('[data-testid="view-opt-gmr-long"]').click()
+    await page.locator('[data-testid="view-cat-analysis"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-cat-analysis"]').click()
+    await page.locator('[data-testid="view-opt-gmr-long"]').waitFor({ timeout: 3000 })
 
     await expect(page).toHaveURL(/\/c\/AAPL\/gmr-long$/, { timeout: 3000 })
   })
 
   test('"GMR Long" becomes active after clicking it', async ({ page }) => {
-    await page.goto('/c/AAPL/fundamentals')
-    await page.locator('[data-testid="view-opt-gmr-long"]').click()
+    await page.goto('/c/AAPL/gmr-long')
 
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
-      /gmr-view-sel__item--active/,
+      /dvs-view--active/,
       { timeout: 3000 }
     )
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
-      /gmr-view-sel__item--active/
+      /dvs-view--active/
     )
   })
 
-  test('clicking "Fundamentals" after GMR Long switches back', async ({ page }) => {
+  test('clicking "Financials" category after GMR Long switches back', async ({ page }) => {
     await page.goto('/c/AAPL/gmr-long')
-    await page.locator('[data-testid="view-opt-fundamentals"]').waitFor({ timeout: 5000 })
+    await page.locator('[data-testid="view-cat-financials"]').waitFor({ timeout: 5000 })
 
-    await page.locator('[data-testid="view-opt-fundamentals"]').click()
+    await page.locator('[data-testid="view-cat-financials"]').click()
 
-    await expect(page).toHaveURL(/\/c\/AAPL\/fundamentals$/, { timeout: 3000 })
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toHaveClass(
-      /gmr-view-sel__item--active/
-    )
+    await expect(page).toHaveURL(/\/c\/AAPL\/summary$/, { timeout: 3000 })
   })
 
   test('direct navigation to /:ticker/gmr-long shows GMR Long as active', async ({ page }) => {
     await page.goto('/c/MSFT/gmr-long')
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
-      /gmr-view-sel__item--active/,
+      /dvs-view--active/,
       { timeout: 5000 }
-    )
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
-      /gmr-view-sel__item--active/
     )
   })
 
-  test('financials panel reloads when switching views', async ({ page }) => {
+  test('financials panel reloads when switching views via category', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 8000 })
 
-    await page.locator('[data-testid="view-opt-gmr-long"]').click()
+    await page.locator('[data-testid="view-cat-analysis"]').click()
 
     // Panel should go into loading and then reload
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 8000 })
@@ -93,7 +86,7 @@ test.describe('Data view selection', () => {
 
     await expect(page).toHaveURL(/\/MSFT\/gmr-long$/, { timeout: 3000 })
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
-      /gmr-view-sel__item--active/
+      /dvs-view--active/
     )
   })
 
@@ -132,18 +125,18 @@ test.describe('Data view selection', () => {
     await page.locator('[data-testid="view-opt-valuation"]').click()
 
     await expect(page.locator('[data-testid="view-opt-valuation"]')).toHaveClass(
-      /gmr-view-sel__item--active/,
+      /dvs-view--active/,
       { timeout: 3000 }
     )
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
-      /gmr-view-sel__item--active/
+      /dvs-view--active/
     )
   })
 
   test('direct navigation to /:ticker/valuation shows Valuation as active', async ({ page }) => {
     await page.goto('/c/MSFT/valuation')
     await expect(page.locator('[data-testid="view-opt-valuation"]')).toHaveClass(
-      /gmr-view-sel__item--active/,
+      /dvs-view--active/,
       { timeout: 5000 }
     )
   })
@@ -175,7 +168,7 @@ test.describe('Data view selection', () => {
 
     await expect(page).toHaveURL(/\/c\/AAPL\/fundamentals$/, { timeout: 3000 })
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toHaveClass(
-      /gmr-view-sel__item--active/
+      /dvs-view--active/
     )
   })
 
@@ -208,10 +201,10 @@ test.describe('Data view selection', () => {
     await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-opt-income"]').click()
     await expect(page.locator('[data-testid="view-opt-income"]')).toHaveClass(
-      /gmr-view-sel__item--active/, { timeout: 3000 }
+      /dvs-view--active/, { timeout: 3000 }
     )
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
-      /gmr-view-sel__item--active/
+      /dvs-view--active/
     )
   })
 

@@ -154,7 +154,7 @@ const TickerFinancialsStub = {
 const DataViewSelectorStub = {
   name: 'DataViewSelector',
   template: '<div data-testid="data-view-selector" />',
-  props: ['modelValue', 'views'],
+  props: ['modelValue', 'groups'],
   emits: ['update:modelValue'],
 }
 
@@ -196,18 +196,20 @@ async function mountHomeAt(path) {
 }
 
 describe('HomeView — EU ticker routing', () => {
-  it('shows Summary tab for EU tickers (price data now available)', async () => {
+  it('shows Summary in grouped nav for EU tickers', async () => {
     const { wrapper } = await mountHomeAt('/c/ASML.AS/fundamentals')
     const selector = wrapper.findComponent(DataViewSelectorStub)
-    const views = selector.props('views')
-    expect(views.some((v) => v.key === 'summary')).toBe(true)
+    const groups = selector.props('groups')
+    const allViews = groups.flatMap((g) => g.views)
+    expect(allViews.some((v) => v.key === 'summary')).toBe(true)
   })
 
-  it('shows Summary tab for NA tickers', async () => {
+  it('shows Summary in grouped nav for NA tickers', async () => {
     const { wrapper } = await mountHomeAt('/c/AAPL/summary')
     const selector = wrapper.findComponent(DataViewSelectorStub)
-    const views = selector.props('views')
-    expect(views.some((v) => v.key === 'summary')).toBe(true)
+    const groups = selector.props('groups')
+    const allViews = groups.flatMap((g) => g.views)
+    expect(allViews.some((v) => v.key === 'summary')).toBe(true)
   })
 
   it('shows summary view for EU ticker on /summary', async () => {
