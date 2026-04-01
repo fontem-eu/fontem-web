@@ -140,7 +140,13 @@ const sections = [
 ]
 
 const expanded = ref({ system: true, interfaces: false, schema: false, pipeline: false, request: false })
-function toggle(id) { expanded.value[id] = !expanded.value[id] }
+function toggle(id) {
+  expanded.value[id] = !expanded.value[id]
+  // Re-run mermaid to render newly-visible diagrams
+  if (expanded.value[id] && window.mermaid) {
+    setTimeout(() => window.mermaid.run(), 50)
+  }
+}
 </script>
 
 <template>
@@ -161,7 +167,7 @@ function toggle(id) { expanded.value[id] = !expanded.value[id] }
       </h2>
 
       <div v-show="expanded[s.id]" class="arch-diagram">
-        <pre class="mermaid">{{ diagrams[s.id] }}</pre>
+        <pre class="mermaid" v-html="diagrams[s.id]"></pre>
       </div>
     </div>
   </div>

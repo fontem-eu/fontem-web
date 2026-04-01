@@ -21,6 +21,12 @@ describe('Architecture diagrams', () => {
     expect(diagramEntries.length).toBe(5)
   })
 
+  it('uses v-html (not {{ }}) for diagram rendering to prevent HTML escaping', () => {
+    // Vue's {{ }} escapes < > & which breaks Mermaid syntax (<<ABC>>, <br/>, <|--)
+    expect(source).toContain('v-html="diagrams[s.id]"')
+    expect(source).not.toMatch(/class="mermaid">\s*\{\{/)
+  })
+
   const expectedDiagrams = [
     { name: 'system', mustContain: 'flowchart', nodes: ['WEB', 'API', 'NEO'] },
     { name: 'interfaces', mustContain: 'classDiagram', nodes: ['FinancialDataSource', 'ContractDataSource'] },
@@ -49,8 +55,6 @@ describe('Architecture diagrams', () => {
       }
 
       it('has no unescaped backslash-n (use <br/> instead)', () => {
-        // In the raw template literal, \\n would appear as a literal \n
-        // which mermaid can't render. Should use <br/> for line breaks.
         const rawBackslashN = content.match(/(?<!<br)\\n/g)
         expect(rawBackslashN).toBeNull()
       })
