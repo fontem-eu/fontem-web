@@ -21,12 +21,13 @@ describe('Architecture diagrams', () => {
     expect(diagramEntries.length).toBe(5)
   })
 
-  it('uses data-diagram attribute (not v-html or {{ }}) for diagram rendering', () => {
-    // v-html parses <<ABC>> as HTML tags. {{ }} HTML-escapes < and >.
-    // The correct approach: set textContent programmatically via data-diagram attribute.
-    expect(source).toContain(':data-diagram="s.id"')
+  it('pre-renders diagrams via mermaid.render() to avoid HTML parsing issues', () => {
+    // mermaid.render() generates SVG strings from raw text — no HTML parsing.
+    // The SVGs are stored in renderedSvgs and injected via v-html (safe: SVG output).
+    expect(source).toContain('mermaid.render(')
+    expect(source).toContain('renderedSvgs')
+    // Must NOT use {{ }} or textContent with mermaid.run() — both have issues
     expect(source).not.toMatch(/class="mermaid">\s*\{\{/)
-    expect(source).not.toContain('v-html="diagrams')
   })
 
   const expectedDiagrams = [

@@ -3,19 +3,28 @@ import { onMounted, ref } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 const loaded = ref(false)
+const renderedSvgs = ref({})
 
 onMounted(async () => {
   document.title = 'Architecture — GMR'
   const script = document.createElement('script')
   script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js'
-  script.onload = () => {
+  script.onload = async () => {
     const isDark = document.documentElement.classList.contains('dark')
     window.mermaid.initialize({
       startOnLoad: false,
       theme: isDark ? 'dark' : 'default',
       securityLevel: 'loose',
     })
-    renderDiagrams()
+    // Pre-render all diagrams to SVG strings
+    for (const [id, code] of Object.entries(diagrams)) {
+      try {
+        const { svg } = await window.mermaid.render(`mermaid-${id}`, code)
+        renderedSvgs.value[id] = svg
+      } catch (e) {
+        renderedSvgs.value[id] = `<p style="color:red">Diagram error: ${e.message?.substring(0, 100)}</p>`
+      }
+    }
     loaded.value = true
   }
   document.head.appendChild(script)
@@ -141,22 +150,8 @@ const sections = [
 
 const expanded = ref({ system: true, interfaces: false, schema: false, pipeline: false, request: false })
 
-function renderDiagrams() {
-  // Set textContent (not innerHTML) on all .mermaid elements to avoid HTML parsing
-  document.querySelectorAll('pre.mermaid[data-diagram]').forEach((el) => {
-    const id = el.getAttribute('data-diagram')
-    if (diagrams[id]) {
-      el.textContent = diagrams[id]
-    }
-  })
-  window.mermaid.run()
-}
-
 function toggle(id) {
   expanded.value[id] = !expanded.value[id]
-  if (expanded.value[id] && window.mermaid) {
-    setTimeout(() => renderDiagrams(), 50)
-  }
 }
 </script>
 
@@ -177,8 +172,7 @@ function toggle(id) {
         {{ s.title }}
       </h2>
 
-      <div v-show="expanded[s.id]" class="arch-diagram">
-        <pre class="mermaid" :data-diagram="s.id"></pre>
+      <div v-show="expanded[s.id]" class="arch-diagram" v-html="renderedSvgs[s.id] || 'Loading...'">
       </div>
     </div>
   </div>

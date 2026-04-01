@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-01T09:53:30.657196",
+  "generated_at": "2026-04-01T10:09:38.954937",
   "summary": {
     "total_requirements": 22,
     "covered_requirements": 22,
     "uncovered_requirements": 0,
     "coverage_pct": 100.0,
-    "total_e2e_tests": 75,
+    "total_e2e_tests": 81,
     "mapped_tests": 53,
-    "unmapped_tests": 23
+    "unmapped_tests": 29
   },
   "requirements": [
     {
@@ -250,6 +250,12 @@
     }
   ],
   "unmapped_tests": [
+    "architecture.spec.js::data pipeline diagram renders when expanded",
+    "architecture.spec.js::interface map diagram renders when expanded",
+    "architecture.spec.js::neo4j schema diagram renders when expanded",
+    "architecture.spec.js::no mermaid syntax error indicators on the page",
+    "architecture.spec.js::request flow diagram renders when expanded",
+    "architecture.spec.js::system overview diagram renders without errors",
     "data-view.spec.js::\"Balance",
     "data-view.spec.js::\"Cash Flow",
     "data-view.spec.js::\"Fundamentals",
