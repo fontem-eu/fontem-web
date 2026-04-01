@@ -9,6 +9,7 @@ import CashflowPanel from './CashflowPanel.vue'
 import BalancePanel from './BalancePanel.vue'
 import ContractsPanel from './ContractsPanel.vue'
 import ProfilePanel from './ProfilePanel.vue'
+import GraphExplorer from './GraphExplorer.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -83,7 +84,7 @@ async function loadData(sym) {
       }
     } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
       result = await fetchFundamentals(sym)
-    } else if (props.view === 'contracts') {
+    } else if (props.view === 'contracts' || props.view === 'graph') {
       // ContractsPanel handles its own data loading.
       // But we still need the company name for the header/title.
       // Try fundamentals first (fast, has company_name); if 404, try contracts API.
@@ -556,6 +557,13 @@ function isFundNegative(year, key) {
     <template v-else-if="state === 'done' && view === 'contracts'">
       <div data-testid="contracts-panel-wrap">
         <ContractsPanel :symbol="companyGmrId || symbol" />
+      </div>
+    </template>
+
+    <!-- ── Graph Explorer ───────────────────────────────────── -->
+    <template v-else-if="state === 'done' && view === 'graph'">
+      <div data-testid="graph-panel-wrap">
+        <GraphExplorer :entity-id="companyGmrId || symbol" />
       </div>
     </template>
 

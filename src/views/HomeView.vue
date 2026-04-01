@@ -15,6 +15,7 @@ const VIEW_GROUPS = [
     key: 'overview', label: 'Overview',
     views: [
       { key: 'profile', label: 'Profile' },
+      { key: 'graph', label: 'Graph Explorer' },
     ],
   },
   {
