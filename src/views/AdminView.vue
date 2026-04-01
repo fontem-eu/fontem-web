@@ -9,7 +9,7 @@ const tools = [
   { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
   { path: '/admin/architecture', title: 'Architecture', desc: 'System diagrams: data flow, interfaces, Neo4j schema, request lifecycle.' },
   { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 22 requirements, 75 tests, generated at build time.' },
-  { path: '/plan', title: 'Plan', desc: 'Current consolidation plan with session breakdown and decisions log.' },
+  { path: '/admin/plan', title: 'Plan', desc: 'Current consolidation plan with session breakdown and decisions log.', external: true },
 ]
 </script>
 
@@ -24,10 +24,16 @@ const tools = [
       <ThemeToggle />
     </header>
     <div class="adm-grid">
-      <router-link v-for="t in tools" :key="t.path" :to="t.path" class="adm-card">
-        <h2>{{ t.title }}</h2>
-        <p>{{ t.desc }}</p>
-      </router-link>
+      <template v-for="t in tools" :key="t.path">
+        <a v-if="t.external" :href="t.path" class="adm-card">
+          <h2>{{ t.title }}</h2>
+          <p>{{ t.desc }}</p>
+        </a>
+        <router-link v-else :to="t.path" class="adm-card">
+          <h2>{{ t.title }}</h2>
+          <p>{{ t.desc }}</p>
+        </router-link>
+      </template>
     </div>
   </div>
 </template>

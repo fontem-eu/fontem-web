@@ -15,14 +15,23 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomeView },
+
+    // Admin area (static prefix — no dynamic segments at root level)
     { path: '/admin', component: AdminView },
     { path: '/admin/data-quality', component: DataQualityView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
     { path: '/admin/architecture', component: ArchitectureView },
     { path: '/admin/coverage', component: CoverageView },
+    // /admin/plan is served as static HTML by nginx (not Vue)
+
+    // Company views — prefixed with /c/ to avoid catch-all conflicts
     { path: '/company/:gmr_id', component: CompanyProfileView },
-    { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/profile` },
-    { path: '/:ticker/:view', component: HomeView },
+    { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
+    { path: '/c/:ticker/:view', component: HomeView },
+
+    // Legacy: bare /:ticker redirects to /c/:ticker (backward compat)
+    // Only matches if nothing above matched — this is the last route
+    { path: '/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   ],
 })
 

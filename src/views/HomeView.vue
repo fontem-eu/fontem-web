@@ -96,15 +96,14 @@ const { track } = useAnalytics()
 
 function onTickerSelect(symbol) {
   track('ticker-selected', { symbol })
-  // For procurement-only entities (UUID nav keys), default to profile view
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
   const view = isUuid ? 'profile' : selectedView.value
-  router.push('/' + symbol + '/' + view)
+  router.push('/c/' + symbol + '/' + view)
 }
 
 function onViewChange(view) {
   track('view-changed', { symbol: selectedTicker.value, view })
-  router.push('/' + selectedTicker.value + '/' + view)
+  router.push('/c/' + selectedTicker.value + '/' + view)
 }
 
 function onClose() {

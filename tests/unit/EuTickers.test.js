@@ -170,8 +170,8 @@ function makeHomeRouter() {
     history: createMemoryHistory(),
     routes: [
       { path: '/', component: HomeView },
-      { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/fundamentals` },
-      { path: '/:ticker/:view', component: HomeView },
+      { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
+      { path: '/c/:ticker/:view', component: HomeView },
     ],
   })
 }
@@ -197,40 +197,40 @@ async function mountHomeAt(path) {
 
 describe('HomeView — EU ticker routing', () => {
   it('shows Summary tab for EU tickers (price data now available)', async () => {
-    const { wrapper } = await mountHomeAt('/ASML.AS/fundamentals')
+    const { wrapper } = await mountHomeAt('/c/ASML.AS/fundamentals')
     const selector = wrapper.findComponent(DataViewSelectorStub)
     const views = selector.props('views')
     expect(views.some((v) => v.key === 'summary')).toBe(true)
   })
 
   it('shows Summary tab for NA tickers', async () => {
-    const { wrapper } = await mountHomeAt('/AAPL/summary')
+    const { wrapper } = await mountHomeAt('/c/AAPL/summary')
     const selector = wrapper.findComponent(DataViewSelectorStub)
     const views = selector.props('views')
     expect(views.some((v) => v.key === 'summary')).toBe(true)
   })
 
   it('shows summary view for EU ticker on /summary', async () => {
-    const { wrapper } = await mountHomeAt('/ASML.AS/summary')
+    const { wrapper } = await mountHomeAt('/c/ASML.AS/summary')
     const financials = wrapper.findComponent(TickerFinancialsStub)
     expect(financials.props('view')).toBe('summary')
   })
 
   it('URL stays at /ASML.AS/summary (no redirect)', async () => {
-    const { router } = await mountHomeAt('/ASML.AS/summary')
+    const { router } = await mountHomeAt('/c/ASML.AS/summary')
     await flushPromises()
-    expect(router.currentRoute.value.path).toBe('/ASML.AS/summary')
+    expect(router.currentRoute.value.path).toBe('/c/ASML.AS/summary')
   })
 
   it('onTickerSelect navigates to /ASML.AS/summary for EU tickers', async () => {
-    const { wrapper, router } = await mountHomeAt('/AAPL/summary')
+    const { wrapper, router } = await mountHomeAt('/c/AAPL/summary')
     const pushSpy = vi.spyOn(router, 'push')
     await wrapper.findComponent(TickerSearchStub).vm.$emit('select', 'ASML.AS')
-    expect(pushSpy).toHaveBeenCalledWith('/ASML.AS/summary')
+    expect(pushSpy).toHaveBeenCalledWith('/c/ASML.AS/summary')
   })
 
   it('shows fundamentals view for EU ticker navigating to /fundamentals', async () => {
-    const { wrapper } = await mountHomeAt('/ASML.AS/fundamentals')
+    const { wrapper } = await mountHomeAt('/c/ASML.AS/fundamentals')
     const financials = wrapper.findComponent(TickerFinancialsStub)
     expect(financials.props('view')).toBe('fundamentals')
     expect(financials.props('symbol')).toBe('ASML.AS')

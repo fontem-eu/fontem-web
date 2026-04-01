@@ -32,8 +32,9 @@ function makeRouter() {
     history: createMemoryHistory(),
     routes: [
       { path: '/', component: HomeView },
-      { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/fundamentals` },
-      { path: '/:ticker/:view', component: HomeView },
+      { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
+      { path: '/c/:ticker/:view', component: HomeView },
+      { path: '/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
     ],
   })
 }
@@ -81,41 +82,41 @@ describe('HomeView', () => {
 
   // ── Ticker + view route ──────────────────────────────────────
   it('shows TickerFinancials when the route has ticker and view params', async () => {
-    const { wrapper } = await mountAt('/AAPL/fundamentals')
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
     expect(wrapper.find('[data-testid="ticker-financials"]').exists()).toBe(true)
   })
 
   it('shows DataViewSelector when the route has ticker and view params', async () => {
-    const { wrapper } = await mountAt('/AAPL/fundamentals')
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
     expect(wrapper.find('[data-testid="data-view-selector"]').exists()).toBe(true)
   })
 
   it('passes the ticker param as selectedSymbol to TickerSearch', async () => {
-    const { wrapper } = await mountAt('/MSFT/fundamentals')
+    const { wrapper } = await mountAt('/c/MSFT/fundamentals')
     const search = wrapper.findComponent({ name: 'TickerSearch' })
     expect(search.props('selectedSymbol')).toBe('MSFT')
   })
 
   it('passes the correct symbol prop to TickerFinancials', async () => {
-    const { wrapper } = await mountAt('/GOOG/fundamentals')
+    const { wrapper } = await mountAt('/c/GOOG/fundamentals')
     const fin = wrapper.findComponent({ name: 'TickerFinancials' })
     expect(fin.props('symbol')).toBe('GOOG')
   })
 
   it('passes the view param to TickerFinancials', async () => {
-    const { wrapper } = await mountAt('/AAPL/fundamentals')
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
     const fin = wrapper.findComponent({ name: 'TickerFinancials' })
     expect(fin.props('view')).toBe('fundamentals')
   })
 
   it('passes gmr-long view prop to TickerFinancials for gmr-long route', async () => {
-    const { wrapper } = await mountAt('/AAPL/gmr-long')
+    const { wrapper } = await mountAt('/c/AAPL/gmr-long')
     const fin = wrapper.findComponent({ name: 'TickerFinancials' })
     expect(fin.props('view')).toBe('gmr-long')
   })
 
   it('passes the current view as modelValue to DataViewSelector', async () => {
-    const { wrapper } = await mountAt('/AAPL/gmr-long')
+    const { wrapper } = await mountAt('/c/AAPL/gmr-long')
     const sel = wrapper.findComponent({ name: 'DataViewSelector' })
     expect(sel.props('modelValue')).toBe('gmr-long')
   })
@@ -142,31 +143,31 @@ describe('HomeView', () => {
 
     await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'AAPL')
 
-    expect(pushSpy).toHaveBeenCalledWith('/AAPL/summary')
+    expect(pushSpy).toHaveBeenCalledWith('/c/AAPL/summary')
   })
 
   it('preserves current view when selecting a new ticker', async () => {
-    const { wrapper, router } = await mountAt('/AAPL/gmr-long')
+    const { wrapper, router } = await mountAt('/c/AAPL/gmr-long')
     const pushSpy = vi.spyOn(router, 'push')
 
     await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'MSFT')
 
-    expect(pushSpy).toHaveBeenCalledWith('/MSFT/gmr-long')
+    expect(pushSpy).toHaveBeenCalledWith('/c/MSFT/gmr-long')
   })
 
   it('navigates to /:ticker/gmr-long when DataViewSelector emits update:modelValue', async () => {
-    const { wrapper, router } = await mountAt('/AAPL/fundamentals')
+    const { wrapper, router } = await mountAt('/c/AAPL/fundamentals')
     const pushSpy = vi.spyOn(router, 'push')
 
     await wrapper
       .findComponent({ name: 'DataViewSelector' })
       .vm.$emit('update:modelValue', 'gmr-long')
 
-    expect(pushSpy).toHaveBeenCalledWith('/AAPL/gmr-long')
+    expect(pushSpy).toHaveBeenCalledWith('/c/AAPL/gmr-long')
   })
 
   it('navigates to / when TickerFinancials emits close', async () => {
-    const { wrapper, router } = await mountAt('/AAPL/fundamentals')
+    const { wrapper, router } = await mountAt('/c/AAPL/fundamentals')
     const pushSpy = vi.spyOn(router, 'push')
 
     await wrapper.findComponent({ name: 'TickerFinancials' }).vm.$emit('close')

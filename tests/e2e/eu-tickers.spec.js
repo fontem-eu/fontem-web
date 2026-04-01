@@ -50,7 +50,7 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
     await page.fill('input[type="search"]', 'GALP')
     await page.locator('.gmr-card').first().waitFor({ timeout: 8000 })
     await page.locator('.gmr-card').first().click()
-    await expect(page).toHaveURL(/\/GALP\.LS\/summary$/, { timeout: 5000 })
+    await expect(page).toHaveURL(/\/c\/GALP\.LS\/summary$/, { timeout: 5000 })
   })
 
   test('clicking GALP card shows the financials panel', async ({ page }) => {
@@ -66,7 +66,7 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
   // ── Direct navigation ────────────────────────────────────────────────────
 
   test('direct navigation to /GALP.LS/fundamentals loads data', async ({ page }) => {
-    await page.goto('/GALP.LS/fundamentals')
+    await page.goto('/c/GALP.LS/fundamentals')
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({
       timeout: 12000,
     })
@@ -77,7 +77,7 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
   test('direct navigation to /GALP.LS shows real revenue data in the fundamentals table', async ({
     page,
   }) => {
-    await page.goto('/GALP.LS/fundamentals')
+    await page.goto('/c/GALP.LS/fundamentals')
     // Wait until loading is done (financials panel visible, error not shown)
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({
       timeout: 12000,
@@ -88,27 +88,27 @@ test.describe('EU ticker — GALP.LS (Galp Energia)', () => {
   })
 
   test('direct navigation to /GALP.LS/summary stays on summary', async ({ page }) => {
-    await page.goto('/GALP.LS/summary')
-    await expect(page).toHaveURL(/\/GALP\.LS\/summary$/, { timeout: 5000 })
+    await page.goto('/c/GALP.LS/summary')
+    await expect(page).toHaveURL(/\/c\/GALP\.LS\/summary$/, { timeout: 5000 })
   })
 
   // ── View selector ────────────────────────────────────────────────────────
 
   test('Summary tab is present for GALP.LS', async ({ page }) => {
-    await page.goto('/GALP.LS/fundamentals')
+    await page.goto('/c/GALP.LS/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 8000 })
     await expect(page.locator('[data-testid="view-opt-summary"]')).toBeVisible()
   })
 
   test('Fundamentals tab is active for GALP.LS', async ({ page }) => {
-    await page.goto('/GALP.LS/fundamentals')
+    await page.goto('/c/GALP.LS/fundamentals')
     const btn = page.locator('[data-testid="view-opt-fundamentals"]')
     await expect(btn).toBeVisible({ timeout: 8000 })
     await expect(btn).toHaveClass(/gmr-view-sel__item--active/)
   })
 
   test('ESEF badge appears in the financials panel header for GALP.LS', async ({ page }) => {
-    await page.goto('/GALP.LS/fundamentals')
+    await page.goto('/c/GALP.LS/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 12000 })
     await expect(page.locator('[data-testid="financials-panel"] .badge-esef')).toBeVisible()
   })

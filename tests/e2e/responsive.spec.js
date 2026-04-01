@@ -45,7 +45,7 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
   // ── Ticker detail layout ─────────────────────────────────────
 
   test('ticker detail stacks view-selector above financials panel', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 10000 })
 
     const selector = page.locator('[data-testid="view-selector"]')
@@ -59,7 +59,7 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
   })
 
   test('DataViewSelector renders as horizontal tabs on mobile', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
 
     const flexDir = await page.locator('[data-testid="view-selector"]').evaluate(
@@ -69,7 +69,7 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
   })
 
   test('all view tabs are visible on mobile', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
 
     await expect(page.locator('[data-testid="view-opt-summary"]')).toBeVisible()
@@ -82,7 +82,7 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
   })
 
   test('ticker detail has no horizontal overflow', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 10000 })
 
     const overflow = await page.evaluate(() => document.body.scrollWidth > window.innerWidth)
@@ -90,7 +90,7 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
   })
 
   test('financials panel fills the viewport width on mobile', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 10000 })
 
     const panelBox = await page.locator('[data-testid="financials-panel"]').boundingBox()
@@ -107,23 +107,23 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     await card.waitFor({ timeout: 5000 })
     await card.click()
 
-    await expect(page).toHaveURL(/\/AAPL\//, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/c\/AAPL\//, { timeout: 3000 })
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 10000 })
   })
 
   test('switching views via tabs works on mobile', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
 
     await page.locator('[data-testid="view-opt-gmr-long"]').click()
-    await expect(page).toHaveURL(/\/AAPL\/gmr-long$/, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/c\/AAPL\/gmr-long$/, { timeout: 3000 })
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
       /gmr-view-sel__item--active/
     )
   })
 
   test('logo click navigates home on mobile', async ({ page }) => {
-    await page.goto('/AAPL/fundamentals')
+    await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 10000 })
 
     await page.locator('h1').click()

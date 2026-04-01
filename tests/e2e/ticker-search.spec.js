@@ -73,18 +73,18 @@ test.describe('GMR Ticker Search', () => {
 
     await aaplCard.click()
 
-    await expect(page).toHaveURL(/\/AAPL\/summary$/, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/c\/AAPL\/summary$/, { timeout: 3000 })
   })
 
   test('navigating directly to /AAPL shows financials without a results list', async ({ page }) => {
-    await page.goto('/AAPL')
+    await page.goto('/c/AAPL')
 
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 8000 })
     await expect(page.locator('[role="list"]')).not.toBeVisible()
   })
 
   test('closing financials navigates back to / and hides the panel', async ({ page }) => {
-    await page.goto('/AAPL')
+    await page.goto('/c/AAPL')
     await page.locator('[data-testid="financials-panel"]').waitFor({ timeout: 8000 })
 
     await page.locator('button[aria-label="Close financials"]').click()
@@ -109,7 +109,7 @@ test.describe('GMR Ticker Search', () => {
     const aaplCard = page.locator('.gmr-card').filter({ hasText: 'AAPL' }).first()
     await aaplCard.waitFor({ timeout: 5000 })
     await aaplCard.click()
-    await expect(page).toHaveURL(/\/AAPL\/summary$/, { timeout: 3000 })
+    await expect(page).toHaveURL(/\/c\/AAPL\/summary$/, { timeout: 3000 })
 
     // 2. Search for other tickers while the financials panel is open
     await page.fill('input[type="search"]', 'MSFT')
