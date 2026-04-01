@@ -69,11 +69,12 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-dropdown-btn"]').waitFor({ timeout: 10000 })
     await page.locator('[data-testid="view-dropdown-btn"]').click()
-    await expect(page.locator('[data-testid="view-dropdown"]')).toBeVisible()
-    // Should contain views from all categories
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-contracts"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toBeVisible()
+    const dropdown = page.locator('[data-testid="view-dropdown"]')
+    await expect(dropdown).toBeVisible()
+    // Scope assertions to the dropdown to avoid desktop nav duplicates
+    await expect(dropdown.locator('[data-testid="view-opt-fundamentals"]')).toBeVisible()
+    await expect(dropdown.locator('[data-testid="view-opt-contracts"]')).toBeVisible()
+    await expect(dropdown.locator('[data-testid="view-opt-gmr-long"]')).toBeVisible()
   })
 
   test('ticker detail has no horizontal overflow', async ({ page }) => {
@@ -110,7 +111,8 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-dropdown-btn"]').waitFor({ timeout: 10000 })
     await page.locator('[data-testid="view-dropdown-btn"]').click()
-    await page.locator('[data-testid="view-opt-income"]').click()
+    const dropdown = page.locator('[data-testid="view-dropdown"]')
+    await dropdown.locator('[data-testid="view-opt-income"]').click()
     await expect(page).toHaveURL(/\/c\/AAPL\/income$/, { timeout: 3000 })
   })
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-01T19:10:43.506572",
+  "generated_at": "2026-04-01T19:53:20.093561",
   "summary": {
     "total_requirements": 22,
     "covered_requirements": 22,
@@ -7,7 +7,7 @@
     "coverage_pct": 100.0,
     "total_e2e_tests": 81,
     "mapped_tests": 53,
-    "unmapped_tests": 29
+    "unmapped_tests": 32
   },
   "requirements": [
     {
@@ -266,16 +266,19 @@
     "data-view.spec.js::clicking ",
     "data-view.spec.js::direct navigation to /:ticker/valuation shows Valuation as active",
     "data-view.spec.js::financials panel reloads when switching views via category",
-    "data-view.spec.js::navigating to /:ticker redirects to /:ticker/summary",
+    "data-view.spec.js::navigating to /:ticker redirects to /:ticker/profile",
     "data-view.spec.js::selecting a ticker from search preserves the current view",
     "data-view.spec.js::switching from valuation back to fundamentals works",
     "eu-tickers.spec.js::direct navigation to /GALP.LS/summary stays on summary",
     "eu-tickers.spec.js::searching ",
+    "responsive.spec.js::DataViewSelector shows dropdown on mobile",
     "responsive.spec.js::feature cards grid is hidden on mobile (compact landing)",
     "responsive.spec.js::logo and search input are both visible in the header",
     "responsive.spec.js::logo reads only ",
+    "responsive.spec.js::mobile dropdown shows all views when opened",
     "responsive.spec.js::popular tickers are visible and tappable on mobile",
     "responsive.spec.js::search input has enough width to be usable when logo is slim",
+    "responsive.spec.js::switching views via dropdown works on mobile",
     "responsive.spec.js::ticker detail stacks view-selector above financials panel",
     "ticker-search.spec.js::returns AAPL as the first result when searching ",
     "ticker-search.spec.js::shows the page title and search input on load"
