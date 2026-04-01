@@ -9,15 +9,16 @@ const resolving = ref(false)
 const message = ref('')
 const validationErrors = ref([])
 
-// Editable merged fields
-const merged = ref({ name: '', country: '', lei: '', vat: '' })
+// Editable merged fields (vat is a list)
+const merged = ref({ name: '', country: '', lei: '', vat: [] })
 
 const FIELDS = [
   { key: 'name', label: 'Name', placeholder: 'Company legal name' },
   { key: 'country', label: 'Country', placeholder: 'ISO alpha-3 (e.g. FRA)' },
   { key: 'lei', label: 'LEI', placeholder: '20-char alphanumeric (optional)' },
-  { key: 'vat', label: 'VAT', placeholder: 'VAT number (optional)' },
 ]
+// VAT is handled separately — it's a list, not a string
+const newVat = ref('')
 
 onMounted(async () => {
   document.title = 'Entity Resolution — GMR'
@@ -27,11 +28,15 @@ onMounted(async () => {
 // When selection changes, populate the editable merged fields
 watch(selected, (sel) => {
   if (!sel) return
+  // Merge VAT lists from both sides, deduplicate
+  const dupVats = Array.isArray(sel.dup_vat) ? sel.dup_vat : (sel.dup_vat ? [sel.dup_vat] : [])
+  const canVats = Array.isArray(sel.canonical_vat) ? sel.canonical_vat : (sel.canonical_vat ? [sel.canonical_vat] : [])
+  const allVats = [...new Set([...canVats, ...dupVats].filter(Boolean))]
   merged.value = {
     name: sel.canonical_name ?? sel.dup_name ?? '',
     country: sel.canonical_country ?? sel.dup_country ?? '',
     lei: sel.canonical_lei ?? sel.dup_lei ?? '',
-    vat: sel.canonical_vat ?? sel.dup_vat ?? '',
+    vat: allVats,
   }
   validationErrors.value = []
   message.value = ''
@@ -60,7 +65,9 @@ function validateLocally() {
   if (m.country.trim().length !== 3) errors.push('Country must be a 3-letter ISO alpha-3 code')
   if (m.lei.trim() && m.lei.trim().length !== 20) errors.push('LEI must be exactly 20 characters')
   if (m.lei.trim() && !/^[A-Z0-9]+$/i.test(m.lei.trim())) errors.push('LEI must be alphanumeric')
-  if (m.vat.trim() && m.vat.trim().length < 4) errors.push('VAT too short')
+  for (const vat of m.vat) {
+    if (vat.trim() && vat.trim().length < 4) errors.push(`VAT "${vat}" too short`)
+  }
   return errors
 }
 
@@ -90,7 +97,7 @@ async function resolve(action) {
         name: merged.value.name.trim() || null,
         country: merged.value.country.trim().toUpperCase() || null,
         lei: merged.value.lei.trim() || null,
-        vat: merged.value.vat.trim() || null,
+        vat: merged.value.vat.filter((v) => v.trim()),
       }
     }
     const res = await fetch(
@@ -134,6 +141,27 @@ function isConflict(key) {
   const l = leftVal(key)
   const r = rightVal(key)
   return l && r && l !== r
+}
+function formatVatList(val) {
+  if (Array.isArray(val)) return val.filter(Boolean)
+  if (val) return [val]
+  return []
+}
+function addVat() {
+  const v = newVat.value.trim()
+  if (v && !merged.value.vat.includes(v)) {
+    merged.value.vat.push(v)
+  }
+  newVat.value = ''
+}
+function removeVat(i) { merged.value.vat.splice(i, 1) }
+function addVatFromSide(side) {
+  const vals = formatVatList(selected.value?.[`${side}_vat`])
+  for (const v of vals) {
+    if (v && !merged.value.vat.includes(v)) {
+      merged.value.vat.push(v)
+    }
+  }
 }
 </script>
 
@@ -189,6 +217,14 @@ function isConflict(key) {
               <button v-if="leftVal(f.key) && leftVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickLeft(f.key)">&larr;</button>
             </div>
             <div class="er-field">
+              <span class="er-field__label">VAT</span>
+              <div class="er-vat-list">
+                <span v-for="v in formatVatList(selected.dup_vat)" :key="v" class="er-vat-tag">{{ v }}</span>
+                <span v-if="!formatVatList(selected.dup_vat).length">&mdash;</span>
+              </div>
+              <button v-if="formatVatList(selected.dup_vat).length" class="er-pick" title="Add all" @click="addVatFromSide('dup')">&larr;</button>
+            </div>
+            <div class="er-field">
               <span class="er-field__label">gmr_id</span>
               <span class="er-field__value er-mono">{{ selected.dup_id.substring(0, 12) }}...</span>
             </div>
@@ -207,6 +243,21 @@ function isConflict(key) {
                 :class="{ 'er-input--conflict': isConflict(f.key) }"
               />
             </div>
+            <div class="er-field er-field--vat">
+              <label class="er-field__label">VAT numbers</label>
+              <div class="er-vat-edit">
+                <div class="er-vat-tags">
+                  <span v-for="(v, i) in merged.vat" :key="i" class="er-vat-tag er-vat-tag--editable">
+                    {{ v }}
+                    <button class="er-vat-remove" title="Remove" @click="removeVat(i)">&times;</button>
+                  </span>
+                </div>
+                <div class="er-vat-add">
+                  <input v-model="newVat" class="er-input er-input--sm" placeholder="Add VAT..." @keydown.enter.prevent="addVat()" />
+                  <button class="er-pick" @click="addVat()">+</button>
+                </div>
+              </div>
+            </div>
             <div class="er-field">
               <span class="er-field__label">gmr_id</span>
               <span class="er-field__value er-mono">{{ selected.canonical_id.substring(0, 12) }}... (canonical)</span>
@@ -220,6 +271,14 @@ function isConflict(key) {
               <span class="er-field__label">{{ f.label }}</span>
               <span class="er-field__value">{{ rightVal(f.key) || '\u2014' }}</span>
               <button v-if="rightVal(f.key) && rightVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickRight(f.key)">&rarr;</button>
+            </div>
+            <div class="er-field">
+              <span class="er-field__label">VAT</span>
+              <div class="er-vat-list">
+                <span v-for="v in formatVatList(selected.canonical_vat)" :key="v" class="er-vat-tag">{{ v }}</span>
+                <span v-if="!formatVatList(selected.canonical_vat).length">&mdash;</span>
+              </div>
+              <button v-if="formatVatList(selected.canonical_vat).length" class="er-pick" title="Add all" @click="addVatFromSide('canonical')">&rarr;</button>
             </div>
             <div class="er-field">
               <span class="er-field__label">gmr_id</span>
@@ -304,4 +363,15 @@ function isConflict(key) {
 .er-btn--reject { background: var(--border); color: var(--text); }
 .er-btn--reject:hover:not(:disabled) { opacity: 0.8; }
 .er-message { font-size: 0.82rem; color: var(--muted); }
+
+.er-field--vat { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+.er-vat-list { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.er-vat-edit { width: 100%; }
+.er-vat-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.3rem; }
+.er-vat-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; background: var(--surface, #f6f8fa); border: 1px solid var(--border); border-radius: 3px; font-family: monospace; }
+.er-vat-tag--editable { display: inline-flex; align-items: center; gap: 0.2rem; }
+.er-vat-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; padding: 0; line-height: 1; }
+.er-vat-remove:hover { color: #cf222e; }
+.er-vat-add { display: flex; gap: 0.3rem; }
+.er-input--sm { flex: 1; padding: 0.2rem 0.4rem; font-size: 0.78rem; }
 </style>
