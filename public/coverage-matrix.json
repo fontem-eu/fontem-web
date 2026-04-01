@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-01T15:58:27.327699",
+  "generated_at": "2026-04-01T19:10:43.506572",
   "summary": {
     "total_requirements": 22,
     "covered_requirements": 22,
@@ -265,7 +265,7 @@
     "data-view.spec.js::DataViewSelector is not shown on the root route",
     "data-view.spec.js::clicking ",
     "data-view.spec.js::direct navigation to /:ticker/valuation shows Valuation as active",
-    "data-view.spec.js::financials panel reloads when switching views",
+    "data-view.spec.js::financials panel reloads when switching views via category",
     "data-view.spec.js::navigating to /:ticker redirects to /:ticker/summary",
     "data-view.spec.js::selecting a ticker from search preserves the current view",
     "data-view.spec.js::switching from valuation back to fundamentals works",

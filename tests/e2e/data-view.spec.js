@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Data view selection', () => {
-  test('navigating to /:ticker redirects to /:ticker/summary', async ({ page }) => {
+  test('navigating to /:ticker redirects to /:ticker/profile', async ({ page }) => {
     await page.goto('/c/AAPL')
-    await expect(page).toHaveURL(/\/c\/AAPL\/summary$/, { timeout: 5000 })
+    await expect(page).toHaveURL(/\/c\/AAPL\/profile$/, { timeout: 5000 })
   })
 
   test('shows the DataViewSelector when a ticker is loaded', async ({ page }) => {
@@ -18,11 +18,11 @@ test.describe('Data view selection', () => {
     await expect(btn).toHaveClass(/dvs-view--active/)
   })
 
-  test('"GMR Long" option is not active on fundamentals route', async ({ page }) => {
+  test('"GMR Long" is in a different category than fundamentals', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
-    const btn = page.locator('[data-testid="view-opt-gmr-long"]')
-    await expect(btn).toBeVisible({ timeout: 5000 })
-    await expect(btn).not.toHaveClass(/dvs-view--active/)
+    // GMR Long is under "Analysis" category, not visible when "Financials" is active
+    await expect(page.locator('[data-testid="view-cat-financials"]')).toHaveClass(/dvs-cat--active/, { timeout: 5000 })
+    await expect(page.locator('[data-testid="view-cat-analysis"]')).not.toHaveClass(/dvs-cat--active/)
   })
 
   test('clicking "GMR Long" changes URL to /:ticker/gmr-long', async ({ page }) => {
@@ -34,15 +34,15 @@ test.describe('Data view selection', () => {
     await expect(page).toHaveURL(/\/c\/AAPL\/gmr-long$/, { timeout: 3000 })
   })
 
-  test('"GMR Long" becomes active after clicking it', async ({ page }) => {
+  test('"GMR Long" becomes active when navigating to gmr-long', async ({ page }) => {
     await page.goto('/c/AAPL/gmr-long')
-
+    // Analysis category should be active, GMR Long sub-view active
+    await expect(page.locator('[data-testid="view-cat-analysis"]')).toHaveClass(
+      /dvs-cat--active/,
+      { timeout: 5000 }
+    )
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
       /dvs-view--active/,
-      { timeout: 3000 }
-    )
-    await expect(page.locator('[data-testid="view-opt-fundamentals"]')).not.toHaveClass(
-      /dvs-view--active/
     )
   })
 

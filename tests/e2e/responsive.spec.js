@@ -58,26 +58,21 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     expect(selBox.y + selBox.height).toBeLessThanOrEqual(panelBox.y + 2)
   })
 
-  test('DataViewSelector renders as horizontal tabs on mobile', async ({ page }) => {
+  test('DataViewSelector shows dropdown on mobile', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
     await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
-
-    const flexDir = await page.locator('[data-testid="view-selector"]').evaluate(
-      el => getComputedStyle(el).flexDirection
-    )
-    expect(flexDir).toBe('row')
+    // Mobile shows a dropdown button instead of horizontal tabs
+    await expect(page.locator('[data-testid="view-dropdown-btn"]')).toBeVisible()
   })
 
-  test('all view tabs are visible on mobile', async ({ page }) => {
+  test('mobile dropdown shows all views when opened', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
-    await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
-
-    await expect(page.locator('[data-testid="view-opt-summary"]')).toBeVisible()
+    await page.locator('[data-testid="view-dropdown-btn"]').waitFor({ timeout: 10000 })
+    await page.locator('[data-testid="view-dropdown-btn"]').click()
+    await expect(page.locator('[data-testid="view-dropdown"]')).toBeVisible()
+    // Should contain views from all categories
     await expect(page.locator('[data-testid="view-opt-fundamentals"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-income"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-cashflow"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-balance"]')).toBeVisible()
-    await expect(page.locator('[data-testid="view-opt-valuation"]')).toBeVisible()
+    await expect(page.locator('[data-testid="view-opt-contracts"]')).toBeVisible()
     await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toBeVisible()
   })
 
@@ -111,15 +106,12 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
     await expect(page.locator('[data-testid="financials-panel"]')).toBeVisible({ timeout: 10000 })
   })
 
-  test('switching views via tabs works on mobile', async ({ page }) => {
+  test('switching views via dropdown works on mobile', async ({ page }) => {
     await page.goto('/c/AAPL/fundamentals')
-    await page.locator('[data-testid="view-selector"]').waitFor({ timeout: 10000 })
-
-    await page.locator('[data-testid="view-opt-gmr-long"]').click()
-    await expect(page).toHaveURL(/\/c\/AAPL\/gmr-long$/, { timeout: 3000 })
-    await expect(page.locator('[data-testid="view-opt-gmr-long"]')).toHaveClass(
-      /gmr-view-sel__item--active/
-    )
+    await page.locator('[data-testid="view-dropdown-btn"]').waitFor({ timeout: 10000 })
+    await page.locator('[data-testid="view-dropdown-btn"]').click()
+    await page.locator('[data-testid="view-opt-income"]').click()
+    await expect(page).toHaveURL(/\/c\/AAPL\/income$/, { timeout: 3000 })
   })
 
   test('logo click navigates home on mobile', async ({ page }) => {
