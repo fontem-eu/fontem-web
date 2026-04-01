@@ -15,7 +15,7 @@ onMounted(async () => {
       theme: isDark ? 'dark' : 'default',
       securityLevel: 'loose',
     })
-    window.mermaid.run()
+    renderDiagrams()
     loaded.value = true
   }
   document.head.appendChild(script)
@@ -140,11 +140,22 @@ const sections = [
 ]
 
 const expanded = ref({ system: true, interfaces: false, schema: false, pipeline: false, request: false })
+
+function renderDiagrams() {
+  // Set textContent (not innerHTML) on all .mermaid elements to avoid HTML parsing
+  document.querySelectorAll('pre.mermaid[data-diagram]').forEach((el) => {
+    const id = el.getAttribute('data-diagram')
+    if (diagrams[id]) {
+      el.textContent = diagrams[id]
+    }
+  })
+  window.mermaid.run()
+}
+
 function toggle(id) {
   expanded.value[id] = !expanded.value[id]
-  // Re-run mermaid to render newly-visible diagrams
   if (expanded.value[id] && window.mermaid) {
-    setTimeout(() => window.mermaid.run(), 50)
+    setTimeout(() => renderDiagrams(), 50)
   }
 }
 </script>
@@ -167,7 +178,7 @@ function toggle(id) {
       </h2>
 
       <div v-show="expanded[s.id]" class="arch-diagram">
-        <pre class="mermaid" v-html="diagrams[s.id]"></pre>
+        <pre class="mermaid" :data-diagram="s.id"></pre>
       </div>
     </div>
   </div>

@@ -21,10 +21,12 @@ describe('Architecture diagrams', () => {
     expect(diagramEntries.length).toBe(5)
   })
 
-  it('uses v-html (not {{ }}) for diagram rendering to prevent HTML escaping', () => {
-    // Vue's {{ }} escapes < > & which breaks Mermaid syntax (<<ABC>>, <br/>, <|--)
-    expect(source).toContain('v-html="diagrams[s.id]"')
+  it('uses data-diagram attribute (not v-html or {{ }}) for diagram rendering', () => {
+    // v-html parses <<ABC>> as HTML tags. {{ }} HTML-escapes < and >.
+    // The correct approach: set textContent programmatically via data-diagram attribute.
+    expect(source).toContain(':data-diagram="s.id"')
     expect(source).not.toMatch(/class="mermaid">\s*\{\{/)
+    expect(source).not.toContain('v-html="diagrams')
   })
 
   const expectedDiagrams = [

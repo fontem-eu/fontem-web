@@ -23,6 +23,10 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
       name: 'android-pixel7',
       use: { ...devices['Pixel 7'] }, // 412×915, Android Chrome UA
       testMatch: ['**/responsive.spec.js'], // mobile-only tests; functional tests run under chromium
