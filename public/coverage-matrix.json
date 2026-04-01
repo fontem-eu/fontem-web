@@ -1,0 +1,277 @@
+{
+  "generated_at": "2026-04-01T07:01:51.224746",
+  "summary": {
+    "total_requirements": 22,
+    "covered_requirements": 22,
+    "uncovered_requirements": 0,
+    "coverage_pct": 100.0,
+    "total_e2e_tests": 75,
+    "mapped_tests": 53,
+    "unmapped_tests": 23
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "Search returns companies by ticker symbol",
+      "category": "search",
+      "tests": [
+        "ticker-search.spec.js::returns AAPL as the first result when searching \"AAPL\""
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-002",
+      "title": "Search returns companies by name",
+      "category": "search",
+      "tests": [
+        "ticker-search.spec.js::returns up to 10 results for a broad query",
+        "ticker-search.spec.js::search results appear while financials are open for another ticker"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-003",
+      "title": "Search results show company name and symbol",
+      "category": "search",
+      "tests": [
+        "ticker-search.spec.js::shows the company name alongside the symbol",
+        "ticker-search.spec.js::each result card shows a symbol and active/inactive badge",
+        "eu-tickers.spec.js::GALP result card shows the company name"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-004",
+      "title": "Clicking a search result navigates to company profile",
+      "category": "navigation",
+      "tests": [
+        "ticker-search.spec.js::clicking a ticker hides the list and shows financials below the search bar",
+        "ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card",
+        "eu-tickers.spec.js::clicking the GALP card navigates to /GALP.LS/summary"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-005",
+      "title": "Search results can be cleared",
+      "category": "search",
+      "tests": [
+        "ticker-search.spec.js::clears results when the input is cleared",
+        "ticker-search.spec.js::clicking outside the results list clears it"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-006",
+      "title": "EU tickers (ESEF) are searchable with exchange suffix",
+      "category": "search",
+      "tests": [
+        "eu-tickers.spec.js::searching \"GALP\" shows a result with the full .LS suffix in the symbol slot",
+        "eu-tickers.spec.js::GALP result card shows the company name"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-007",
+      "title": "EU tickers show ESEF badge",
+      "category": "display",
+      "tests": [
+        "eu-tickers.spec.js::GALP result card shows the ESEF badge",
+        "eu-tickers.spec.js::ESEF badge appears in the financials panel header for GALP.LS"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-008",
+      "title": "Company fundamentals load and display financial data",
+      "category": "financials",
+      "tests": [
+        "eu-tickers.spec.js::clicking GALP card shows the financials panel",
+        "eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data",
+        "eu-tickers.spec.js::direct navigation to /GALP.LS shows real revenue data in the fundamentals table"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-009",
+      "title": "Income view shows per-year table with averages",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::clicking \"Income\" changes URL to /:ticker/income",
+        "data-view.spec.js::income view renders the income panel with per-year table",
+        "data-view.spec.js::income view renders the averages strip"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-010",
+      "title": "Cash flow view shows per-year table with averages",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::clicking \"Cash Flow\" changes URL to /:ticker/cashflow",
+        "data-view.spec.js::cashflow view renders the cashflow panel with per-year table",
+        "data-view.spec.js::cashflow view renders the averages strip"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-011",
+      "title": "Balance sheet view shows per-year table with averages",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::clicking \"Balance\" changes URL to /:ticker/balance",
+        "data-view.spec.js::balance view renders the balance panel with per-year table",
+        "data-view.spec.js::balance view renders the averages strip"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-012",
+      "title": "Valuation view shows EV snapshot and per-year EBITDA",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::clicking \"Valuation\" changes URL to /:ticker/valuation",
+        "data-view.spec.js::valuation view renders the valuation panel",
+        "data-view.spec.js::valuation panel shows EV snapshot section",
+        "data-view.spec.js::valuation panel shows per-year table with EBITDA"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-013",
+      "title": "GMR Long screen is accessible and shows verdict",
+      "category": "analysis",
+      "tests": [
+        "data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long",
+        "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-014",
+      "title": "View selector allows switching between all views",
+      "category": "navigation",
+      "tests": [
+        "eu-tickers.spec.js::Summary tab is present for GALP.LS",
+        "eu-tickers.spec.js::Fundamentals tab is active for GALP.LS",
+        "data-view.spec.js::shows the DataViewSelector when a ticker is loaded",
+        "data-view.spec.js::\"Fundamentals\" option is active by default",
+        "data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long",
+        "data-view.spec.js::clicking \"Valuation\" changes URL to /:ticker/valuation",
+        "data-view.spec.js::clicking \"Income\" changes URL to /:ticker/income",
+        "data-view.spec.js::clicking \"Cash Flow\" changes URL to /:ticker/cashflow",
+        "data-view.spec.js::clicking \"Balance\" changes URL to /:ticker/balance",
+        "data-view.spec.js::switching from balance back to fundamentals works"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-015",
+      "title": "Direct URL navigation loads the correct view",
+      "category": "navigation",
+      "tests": [
+        "ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card",
+        "ticker-search.spec.js::navigating directly to /AAPL shows financials without a results list",
+        "eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data",
+        "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-016",
+      "title": "Closing financials returns to home page",
+      "category": "navigation",
+      "tests": [
+        "ticker-search.spec.js::closing financials navigates back to / and hides the panel",
+        "data-view.spec.js::closing financials hides the DataViewSelector"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-017",
+      "title": "Market snapshot includes Beta, 52-week high/low",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::fundamentals market snapshot now includes Beta",
+        "data-view.spec.js::fundamentals market snapshot now includes 52-week high and low"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-018",
+      "title": "Summary view shows key stats bar",
+      "category": "financials",
+      "tests": [
+        "data-view.spec.js::summary view shows the key stats bar"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-019",
+      "title": "Mobile layout has no horizontal overflow",
+      "category": "responsive",
+      "tests": [
+        "responsive.spec.js::home page has no horizontal overflow",
+        "responsive.spec.js::header does not overflow the viewport width",
+        "responsive.spec.js::ticker detail has no horizontal overflow",
+        "responsive.spec.js::financials panel fills the viewport width on mobile"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-020",
+      "title": "Mobile search and navigation work correctly",
+      "category": "responsive",
+      "tests": [
+        "responsive.spec.js::searching and clicking a ticker works on mobile",
+        "responsive.spec.js::logo click navigates home on mobile"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-021",
+      "title": "Mobile view tabs are visible and functional",
+      "category": "responsive",
+      "tests": [
+        "responsive.spec.js::switching views via tabs works on mobile",
+        "responsive.spec.js::all view tabs are visible on mobile",
+        "responsive.spec.js::DataViewSelector renders as horizontal tabs on mobile"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-022",
+      "title": "Mobile logo shows \"GMR\" only (compact)",
+      "category": "responsive",
+      "tests": [
+        "responsive.spec.js::logo reads only \"GMR\" on mobile (not \"Ticker Search\")"
+      ],
+      "covered": true
+    }
+  ],
+  "unmapped_tests": [
+    "data-view.spec.js::\"Balance",
+    "data-view.spec.js::\"Cash Flow",
+    "data-view.spec.js::\"Fundamentals",
+    "data-view.spec.js::\"GMR Long",
+    "data-view.spec.js::\"Income",
+    "data-view.spec.js::\"Valuation",
+    "data-view.spec.js::DataViewSelector is not shown on the root route",
+    "data-view.spec.js::clicking ",
+    "data-view.spec.js::direct navigation to /:ticker/valuation shows Valuation as active",
+    "data-view.spec.js::financials panel reloads when switching views",
+    "data-view.spec.js::navigating to /:ticker redirects to /:ticker/summary",
+    "data-view.spec.js::selecting a ticker from search preserves the current view",
+    "data-view.spec.js::switching from valuation back to fundamentals works",
+    "eu-tickers.spec.js::direct navigation to /GALP.LS/summary stays on summary",
+    "eu-tickers.spec.js::searching ",
+    "responsive.spec.js::feature cards grid is hidden on mobile (compact landing)",
+    "responsive.spec.js::logo and search input are both visible in the header",
+    "responsive.spec.js::logo reads only ",
+    "responsive.spec.js::popular tickers are visible and tappable on mobile",
+    "responsive.spec.js::search input has enough width to be usable when logo is slim",
+    "responsive.spec.js::ticker detail stacks view-selector above financials panel",
+    "ticker-search.spec.js::returns AAPL as the first result when searching ",
+    "ticker-search.spec.js::shows the page title and search input on load"
+  ]
+}

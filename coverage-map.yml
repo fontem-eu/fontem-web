@@ -1,0 +1,125 @@
+# Coverage map: e2e test name → requirement IDs
+# Format: "test file::test name": [REQ-xxx, ...]
+
+# ── ticker-search.spec.js ──
+"ticker-search.spec.js::returns AAPL as the first result when searching \"AAPL\"":
+  - REQ-001
+"ticker-search.spec.js::shows the company name alongside the symbol":
+  - REQ-003
+"ticker-search.spec.js::clears results when the input is cleared":
+  - REQ-005
+"ticker-search.spec.js::returns up to 10 results for a broad query":
+  - REQ-002
+"ticker-search.spec.js::each result card shows a symbol and active/inactive badge":
+  - REQ-003
+"ticker-search.spec.js::clicking a ticker hides the list and shows financials below the search bar":
+  - REQ-004
+"ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card":
+  - REQ-004
+  - REQ-015
+"ticker-search.spec.js::navigating directly to /AAPL shows financials without a results list":
+  - REQ-015
+"ticker-search.spec.js::closing financials navigates back to / and hides the panel":
+  - REQ-016
+"ticker-search.spec.js::clicking outside the results list clears it":
+  - REQ-005
+"ticker-search.spec.js::search results appear while financials are open for another ticker":
+  - REQ-002
+
+# ── eu-tickers.spec.js ──
+"eu-tickers.spec.js::searching \"GALP\" shows a result with the full .LS suffix in the symbol slot":
+  - REQ-006
+"eu-tickers.spec.js::GALP result card shows the ESEF badge":
+  - REQ-007
+"eu-tickers.spec.js::GALP result card shows the company name":
+  - REQ-003
+  - REQ-006
+"eu-tickers.spec.js::clicking the GALP card navigates to /GALP.LS/summary":
+  - REQ-004
+"eu-tickers.spec.js::clicking GALP card shows the financials panel":
+  - REQ-008
+"eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data":
+  - REQ-008
+  - REQ-015
+"eu-tickers.spec.js::direct navigation to /GALP.LS shows real revenue data in the fundamentals table":
+  - REQ-008
+"eu-tickers.spec.js::Summary tab is present for GALP.LS":
+  - REQ-014
+"eu-tickers.spec.js::Fundamentals tab is active for GALP.LS":
+  - REQ-014
+"eu-tickers.spec.js::ESEF badge appears in the financials panel header for GALP.LS":
+  - REQ-007
+
+# ── data-view.spec.js ──
+"data-view.spec.js::shows the DataViewSelector when a ticker is loaded":
+  - REQ-014
+"data-view.spec.js::\"Fundamentals\" option is active by default":
+  - REQ-014
+"data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long":
+  - REQ-013
+  - REQ-014
+"data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active":
+  - REQ-013
+  - REQ-015
+"data-view.spec.js::clicking \"Valuation\" changes URL to /:ticker/valuation":
+  - REQ-012
+  - REQ-014
+"data-view.spec.js::valuation view renders the valuation panel":
+  - REQ-012
+"data-view.spec.js::valuation panel shows EV snapshot section":
+  - REQ-012
+"data-view.spec.js::valuation panel shows per-year table with EBITDA":
+  - REQ-012
+"data-view.spec.js::clicking \"Income\" changes URL to /:ticker/income":
+  - REQ-009
+  - REQ-014
+"data-view.spec.js::income view renders the income panel with per-year table":
+  - REQ-009
+"data-view.spec.js::income view renders the averages strip":
+  - REQ-009
+"data-view.spec.js::clicking \"Cash Flow\" changes URL to /:ticker/cashflow":
+  - REQ-010
+  - REQ-014
+"data-view.spec.js::cashflow view renders the cashflow panel with per-year table":
+  - REQ-010
+"data-view.spec.js::cashflow view renders the averages strip":
+  - REQ-010
+"data-view.spec.js::clicking \"Balance\" changes URL to /:ticker/balance":
+  - REQ-011
+  - REQ-014
+"data-view.spec.js::balance view renders the balance panel with per-year table":
+  - REQ-011
+"data-view.spec.js::balance view renders the averages strip":
+  - REQ-011
+"data-view.spec.js::switching from balance back to fundamentals works":
+  - REQ-014
+"data-view.spec.js::fundamentals market snapshot now includes Beta":
+  - REQ-017
+"data-view.spec.js::fundamentals market snapshot now includes 52-week high and low":
+  - REQ-017
+"data-view.spec.js::summary view shows the key stats bar":
+  - REQ-018
+"data-view.spec.js::closing financials hides the DataViewSelector":
+  - REQ-016
+
+# ── responsive.spec.js ──
+"responsive.spec.js::home page has no horizontal overflow":
+  - REQ-019
+"responsive.spec.js::header does not overflow the viewport width":
+  - REQ-019
+"responsive.spec.js::ticker detail has no horizontal overflow":
+  - REQ-019
+"responsive.spec.js::financials panel fills the viewport width on mobile":
+  - REQ-019
+"responsive.spec.js::searching and clicking a ticker works on mobile":
+  - REQ-020
+"responsive.spec.js::switching views via tabs works on mobile":
+  - REQ-021
+"responsive.spec.js::all view tabs are visible on mobile":
+  - REQ-021
+"responsive.spec.js::DataViewSelector renders as horizontal tabs on mobile":
+  - REQ-021
+"responsive.spec.js::logo reads only \"GMR\" on mobile (not \"Ticker Search\")":
+  - REQ-022
+"responsive.spec.js::logo click navigates home on mobile":
+  - REQ-020

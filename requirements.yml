@@ -1,0 +1,91 @@
+# GMR Platform Requirements
+# Each requirement has an ID, title, and category.
+# Coverage is tracked against e2e tests in coverage-map.yml.
+
+- id: REQ-001
+  title: Search returns companies by ticker symbol
+  category: search
+
+- id: REQ-002
+  title: Search returns companies by name
+  category: search
+
+- id: REQ-003
+  title: Search results show company name and symbol
+  category: search
+
+- id: REQ-004
+  title: Clicking a search result navigates to company profile
+  category: navigation
+
+- id: REQ-005
+  title: Search results can be cleared
+  category: search
+
+- id: REQ-006
+  title: EU tickers (ESEF) are searchable with exchange suffix
+  category: search
+
+- id: REQ-007
+  title: EU tickers show ESEF badge
+  category: display
+
+- id: REQ-008
+  title: Company fundamentals load and display financial data
+  category: financials
+
+- id: REQ-009
+  title: Income view shows per-year table with averages
+  category: financials
+
+- id: REQ-010
+  title: Cash flow view shows per-year table with averages
+  category: financials
+
+- id: REQ-011
+  title: Balance sheet view shows per-year table with averages
+  category: financials
+
+- id: REQ-012
+  title: Valuation view shows EV snapshot and per-year EBITDA
+  category: financials
+
+- id: REQ-013
+  title: GMR Long screen is accessible and shows verdict
+  category: analysis
+
+- id: REQ-014
+  title: View selector allows switching between all views
+  category: navigation
+
+- id: REQ-015
+  title: Direct URL navigation loads the correct view
+  category: navigation
+
+- id: REQ-016
+  title: Closing financials returns to home page
+  category: navigation
+
+- id: REQ-017
+  title: Market snapshot includes Beta, 52-week high/low
+  category: financials
+
+- id: REQ-018
+  title: Summary view shows key stats bar
+  category: financials
+
+- id: REQ-019
+  title: Mobile layout has no horizontal overflow
+  category: responsive
+
+- id: REQ-020
+  title: Mobile search and navigation work correctly
+  category: responsive
+
+- id: REQ-021
+  title: Mobile view tabs are visible and functional
+  category: responsive
+
+- id: REQ-022
+  title: Mobile logo shows "GMR" only (compact)
+  category: responsive
