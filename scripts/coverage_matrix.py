@@ -30,7 +30,17 @@ def extract_test_names(spec_dir: Path) -> dict[str, list[str]]:
 
 
 def main():
-    root = Path(__file__).resolve().parent.parent
+    # Works from repo root, scripts/ dir, or Docker WORKDIR=/app
+    for candidate in [
+        Path(__file__).resolve().parent.parent,
+        Path("/app"),
+        Path.cwd(),
+    ]:
+        if (candidate / "requirements.yml").exists():
+            root = candidate
+            break
+    else:
+        root = Path.cwd()
     req_path = root / "requirements.yml"
     map_path = root / "coverage-map.yml"
     spec_dir = root / "tests" / "e2e"
