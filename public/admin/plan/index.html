@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GMR — Consolidation Phase Plan</title>
+  <title>GMR — UX & Graph Explorer Plan</title>
   <style>
-    :root { --bg:#fff; --bg2:#f6f8fa; --border:#d0d7de; --text:#1f2328; --text2:#636c76; --accent:#0969da; --green:#1a7f37; --red:#cf222e; --code-bg:#f6f8fa; --tag-bg:#ddf4ff; --tag-text:#0550ae; --done-bg:#dafbe1; --done-text:#1a7f37; }
-    @media(prefers-color-scheme:dark){ :root{ --bg:#0d1117; --bg2:#161b22; --border:#30363d; --text:#e6edf3; --text2:#848d97; --accent:#58a6ff; --green:#3fb950; --red:#f85149; --code-bg:#161b22; --tag-bg:#112d45; --tag-text:#79c0ff; --done-bg:#0f2d16; --done-text:#3fb950; } }
+    :root { --bg:#fff; --bg2:#f6f8fa; --border:#d0d7de; --text:#1f2328; --text2:#636c76; --accent:#0969da; --green:#1a7f37; --red:#cf222e; --code-bg:#f6f8fa; --tag-bg:#ddf4ff; --tag-text:#0550ae; }
+    @media(prefers-color-scheme:dark){ :root{ --bg:#0d1117; --bg2:#161b22; --border:#30363d; --text:#e6edf3; --text2:#848d97; --accent:#58a6ff; --green:#3fb950; --red:#f85149; --code-bg:#161b22; --tag-bg:#112d45; --tag-text:#79c0ff; } }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);padding:0 1rem 4rem;max-width:860px;margin:0 auto}
     header{padding:2rem 0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
@@ -26,372 +26,271 @@
     td{padding:.45rem .75rem;border:1px solid var(--border);vertical-align:top}
     .phase{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
     .phase-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
-    .badge{font-size:.75rem;font-weight:700;letter-spacing:.04em;padding:.2em .6em;border-radius:20px;white-space:nowrap}
-    .badge-phase{background:var(--tag-bg);color:var(--tag-text)}
+    .badge{font-size:.75rem;font-weight:700;letter-spacing:.04em;padding:.2em .6em;border-radius:20px;white-space:nowrap;background:var(--tag-bg);color:var(--tag-text)}
     .phase-title{font-size:1rem;font-weight:700}
     .callout{border-left:3px solid var(--border);padding:.5rem 1rem;margin:.75rem 0;background:var(--bg2);border-radius:0 6px 6px 0}
     .callout.warn{border-color:var(--red)} .callout.ok{border-color:var(--green)}
     nav{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:2.5rem;font-size:.9rem}
     nav strong{display:block;margin-bottom:.5rem;color:var(--text2);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
     nav ol{padding-left:1.25rem;margin:0} nav li{margin:.2rem 0}
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin:1rem 0}
-    .stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;text-align:center}
-    .stat .num{font-size:1.3rem;font-weight:700;color:var(--accent)} .stat .label{font-size:.8rem;color:var(--text2);margin-top:.2rem}
   </style>
 </head>
 <body>
 
 <header>
-  <h1>GMR Platform &mdash; Consolidation Phase</h1>
-  <div class="meta">March 2026 &nbsp;&middot;&nbsp; Status: reviewed, ready for implementation</div>
+  <h1>GMR &mdash; UX Overhaul &amp; Graph Explorer</h1>
+  <div class="meta">April 2026 &nbsp;&middot;&nbsp; Status: planning, awaiting review</div>
 </header>
 
 <nav>
   <strong>Contents</strong>
   <ol>
-    <li><a href="#status">Current Status</a></li>
-    <li><a href="#decisions">Decisions Made</a></li>
-    <li><a href="#c1">C1: Country Code Standardization (alpha-3) + Dedup</a></li>
-    <li><a href="#c2">C2: Ticker Interface + Dead Code Removal</a></li>
-    <li><a href="#c3">C3: Admin Area (/admin)</a></li>
-    <li><a href="#c4">C4: Architecture Visualization (Mermaid.js)</a></li>
-    <li><a href="#c5">C5: Landing Page Refresh</a></li>
-    <li><a href="#c6">C6: E2E Coverage Matrix</a></li>
-    <li><a href="#c7">C7: Corporate Group Structure (GLEIF Level 2)</a></li>
+    <li><a href="#nav">N1: Hierarchical Navigation</a></li>
+    <li><a href="#graph">N2: Interactive Graph Explorer</a></li>
+    <li><a href="#test-plan">N2 Test Plan</a></li>
     <li><a href="#sessions">Session Breakdown</a></li>
-    <li><a href="#questions">Open Questions</a></li>
   </ol>
 </nav>
 
 
-<h2 id="status">Current Status</h2>
+<!-- ═══════════════════════════════════════════════════════ N1 -->
+<h2 id="nav">N1: Hierarchical Navigation</h2>
 
-<div class="stats">
-  <div class="stat"><div class="num">3.45M</div><div class="label">Company nodes</div></div>
-  <div class="stat"><div class="num">379K</div><div class="label">Contracts</div></div>
-  <div class="stat"><div class="num">67K</div><div class="label">FinancialYear nodes</div></div>
-  <div class="stat"><div class="num">970</div><div class="label">Person nodes</div></div>
-  <div class="stat"><div class="num">190K</div><div class="label">Alpha-3 duplicates</div></div>
-  <div class="stat"><div class="num">537+277</div><div class="label">Backend + frontend tests</div></div>
-</div>
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">N1</span>
+    <span class="phase-title">Replace flat tab bar with grouped navigation</span>
+  </div>
 
+  <h3>Problem</h3>
+  <p>The current <code>DataViewSelector</code> lists 9 views in a flat horizontal row: Profile, Summary, Fundamentals, Income, Cash Flow, Balance, Valuation, Contracts, GMR Long. On mobile, this overflows. As we add more views (Graph Explorer, Directors, Group), it becomes unusable.</p>
 
-<h2 id="decisions">Decisions Made (from review)</h2>
+  <h3>Proposed structure</h3>
+  <pre><code>Overview
+  ├── Profile          (company card + directors + contracts summary + group)
+  └── Graph Explorer   (interactive entity graph — N2)
 
-<div class="callout ok">
+Financials
+  ├── Summary          (price chart + key stats)
+  ├── Fundamentals     (ratio table)
+  ├── Income           (income statement)
+  ├── Cash Flow        (cash flow statement)
+  ├── Balance          (balance sheet)
+  └── Valuation        (EV multiples)
+
+Procurement
+  └── Contracts        (sortable table with TED links)
+
+Analysis
+  └── GMR Long         (value investing screen)</code></pre>
+
+  <h3>UX design</h3>
   <ul>
-    <li><strong>Standardize on ISO alpha-3</strong> country codes (FRA, DEU, not FR, DE). Alpha-3 is more readable and matches TED. Migrate all 3.26M GLEIF nodes from alpha-2 &rarr; alpha-3 using <code>pycountry</code>.</li>
-    <li><strong>Keep <code>ticker: str</code> in the FinancialDataSource interface.</strong> Resolution from gmr_id &rarr; ticker happens at the API router level via <code>resolve_company_id()</code>. The interface stays clean.</li>
-    <li><strong>Remove RoutingDataSource + EsefDataSource + LiveDataSource dead code.</strong> Dead code is dead code.</li>
-    <li><strong>Admin URLs: break old links, no redirects.</strong> Dev environment, safe to change.</li>
-    <li><strong>Dedup strategy: normalize first, defer conflicts.</strong> Fix country codes, auto-merge only when no property conflicts. Conflicting fields (different VATs, different names) go to SAME_AS queue for manual review.</li>
-    <li><strong>Coverage matrix: E2E tests only.</strong> 75 tests across 4 files &mdash; manageable scope. No decorator/annotation system for unit tests. Simple <code>requirements.yml</code> + mapping file.</li>
-    <li><strong>Plan + requirements visible in admin area.</strong></li>
+    <li><strong>Desktop (&gt;768px):</strong> Two-level navigation. Top row: category pills (Overview, Financials, Procurement, Analysis). Below: sub-views for the active category. Clicking a category selects its first sub-view.</li>
+    <li><strong>Mobile (&lt;768px):</strong> Single dropdown selector that shows <code>Category &rsaquo; View</code> (e.g., &ldquo;Financials &rsaquo; Income&rdquo;). Tappable, compact, no overflow.</li>
+    <li><strong>URL structure unchanged:</strong> <code>/c/:ticker/:view</code> &mdash; the view key is still flat (e.g., <code>income</code>, <code>contracts</code>). The hierarchy is purely a UI concept.</li>
   </ul>
-</div>
-
-
-<hr>
-<h2 id="c1">C1: Country Code Standardization + Dedup</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C1</span>
-    <span class="phase-title">Standardize on ISO alpha-3 + clean up duplicates</span>
-  </div>
-
-  <h3>Step 1: Add <code>pycountry</code> dependency</h3>
-  <p>Add to <code>Requirements.txt</code>. Use <code>pycountry.countries.get(alpha_2=code).alpha_3</code> for normalization. Covers all 249 ISO countries (not just EU).</p>
-
-  <h3>Step 2: Migration script &mdash; <code>src/etl/normalize_countries.py</code></h3>
-  <p>Batch-update all Company, Authority, and Contract nodes with alpha-2 codes to alpha-3:</p>
-  <pre><code>MATCH (c:Company) WHERE size(c.country) = 2
-WITH c, pycountry_lookup(c.country) AS alpha3
-SET c.country = alpha3</code></pre>
-  <p>This affects 3.26M GLEIF nodes + ~17K Listings. Run once. Idempotent (alpha-3 codes stay alpha-3).</p>
-
-  <h3>Step 3: Fix ETL pipelines</h3>
-  <ul>
-    <li><code>load_gleif.py</code>: convert GLEIF alpha-2 to alpha-3 before MERGE</li>
-    <li><code>load_eu_listings.py</code>: normalize COUNTRY_CURRENCY map keys to alpha-3</li>
-    <li><code>load_us_companies.py</code>: set <code>country = &quot;USA&quot;</code> instead of <code>&quot;US&quot;</code></li>
-    <li><code>ted_matcher.py</code>: already uses alpha-3 (TED native) &mdash; no change needed</li>
-    <li><code>load_fr_directors.py</code>: normalize country before matching</li>
-  </ul>
-
-  <h3>Step 4: Dedup script &mdash; <code>src/etl/dedup_companies.py</code></h3>
-  <ol>
-    <li>Find exact-name + exact-country pairs where one has LEI and the other doesn&rsquo;t</li>
-    <li><strong>Auto-merge</strong> if no property conflicts (all shared non-null fields are identical)</li>
-    <li><strong>Create <code>[:SAME_AS]</code></strong> if any field conflicts (different VATs, different names). These go to the operator review queue.</li>
-    <li>Create <code>:MergeEvent</code> audit nodes for every auto-merge</li>
-    <li>Log stats: merged count, deferred count, conflict details</li>
-  </ol>
-
-  <div class="callout">
-    <strong>SOCOMEC example:</strong> After normalization, we&rsquo;ll have 4 SOCOMEC/FRA nodes. The GLEIF one (with LEI) is canonical. The 3 TED ones have different VATs (0, 1481141-1-0-1, 54850014900339). Since VAT conflicts, these go to SAME_AS &mdash; not auto-merged. An operator reviews and picks the real VAT.
-  </div>
-</div>
-
-
-<hr>
-<h2 id="c2">C2: Ticker Interface Cleanup + Dead Code Removal</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C2</span>
-    <span class="phase-title">Clean architecture, no dead code</span>
-  </div>
-
-  <h3>Keep the interface, clean the routing</h3>
-  <p><code>FinancialDataSource</code> keeps <code>ticker: str</code> as its parameter. The API routers use <code>resolve_company_id()</code> to resolve gmr_id &rarr; ticker before calling the interface. This is already the pattern &mdash; C2 just audits consistency across all endpoints.</p>
-
-  <h3>Remove dead code</h3>
-  <table>
-    <tr><th>File</th><th>Action</th></tr>
-    <tr><td><code>src/data/routing_data_source.py</code></td><td>Delete &mdash; replaced by GraphDataSource</td></tr>
-    <tr><td><code>src/data/europe/esef_data_source.py</code></td><td>Delete &mdash; ESEF data is in Neo4j</td></tr>
-    <tr><td><code>src/data/north_america/live_data_source.py</code></td><td>Delete &mdash; EDGAR data is in Neo4j (fallback is LocalEdgarFetcher, kept)</td></tr>
-    <tr><td><code>dependencies.py: _routing_source()</code></td><td>Remove the legacy code path</td></tr>
-    <tr><td>Tests referencing deleted classes</td><td>Update or remove</td></tr>
-  </table>
-
-  <div class="callout warn">
-    <strong>Risk:</strong> Removing RoutingDataSource means <code>GMR_DATA_SOURCE=graph</code> is no longer optional &mdash; it&rsquo;s the only path. Make sure the deployment always sets this env var (it already does). Remove the env var check and always use GraphDataSource.
-  </div>
-</div>
-
-
-<hr>
-<h2 id="c3">C3: Admin Area</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C3</span>
-    <span class="phase-title">/admin landing page with all operational tools</span>
-  </div>
-
-  <p>A new Vue route at <code>/admin</code> with a card-based landing page linking to:</p>
-
-  <table>
-    <tr><th>Page</th><th>URL</th><th>Description</th></tr>
-    <tr><td>Data Quality</td><td><code>/admin/data-quality</code></td><td>Graph stats, matching metrics, freshness, coverage</td></tr>
-    <tr><td>Entity Resolution</td><td><code>/admin/entity-resolution</code></td><td>Git-merge-style SAME_AS review</td></tr>
-    <tr><td>Architecture</td><td><code>/admin/architecture</code></td><td>Mermaid.js system diagrams (C4)</td></tr>
-    <tr><td>E2E Coverage</td><td><code>/admin/coverage</code></td><td>Requirements &times; e2e test matrix (C6)</td></tr>
-    <tr><td>Plan</td><td><code>/admin/plan</code></td><td>This consolidation plan (static HTML)</td></tr>
-    <tr><td>Requirements</td><td><code>/admin/requirements</code></td><td>List of platform requirements (from requirements.yml)</td></tr>
-  </table>
-
-  <p>Link from the home page footer: &ldquo;Admin&rdquo;. No authentication.</p>
-</div>
-
-
-<hr>
-<h2 id="c4">C4: Architecture Visualization</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C4</span>
-    <span class="phase-title">5 Mermaid.js diagrams at /admin/architecture</span>
-  </div>
-
-  <h3>Technology: Mermaid.js</h3>
-  <p>Single CDN import (<code>https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js</code>). Text-based diagrams, version-controlled, dark/light theme, zero build deps.</p>
-
-  <h3>Diagrams</h3>
-
-  <h4>1. System Overview (flowchart)</h4>
-  <p>gmr-web &rarr; edgar-gmr-etl (FastAPI) &rarr; Neo4j / NFS. Shows k8s deployments, services, PVCs, CronJobs.</p>
-
-  <h4>2. Interface Map (class diagram)</h4>
-  <p>FinancialDataSource, ContractDataSource, PersonDataSource, EntityResolver, DataQualitySource. Who implements what, who depends on what. Shows GraphDataSource, GraphContractSource, GraphPersonSource, GraphDataQualitySource.</p>
-
-  <h4>3. Neo4j Schema (ER diagram)</h4>
-  <p>Company, Listing, FinancialYear, Contract, Authority, Person, CPV. All 7 node types and 6 relationship types.</p>
-
-  <h4>4. Data Pipeline (flowchart)</h4>
-  <p>GLEIF &rarr; load_gleif &rarr; Company. TED &rarr; eforms-parser &rarr; load_ted &rarr; Contract. recherche-entreprises &rarr; load_fr_directors &rarr; Person. EDGAR companyfacts &rarr; load_us_financials &rarr; FinancialYear.</p>
-
-  <h4>5. Request Flow (sequence diagram)</h4>
-  <p>Browser &rarr; nginx &rarr; FastAPI router &rarr; resolve_company_id &rarr; GraphDataSource &rarr; Neo4j &rarr; response. Shows the full lifecycle of a <code>/AAPL/profile</code> request.</p>
-</div>
-
-
-<hr>
-<h2 id="c5">C5: Landing Page Refresh</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C5</span>
-    <span class="phase-title">Update HomeView to reflect the knowledge graph</span>
-  </div>
-
-  <ul>
-    <li>Hero text: &ldquo;EU Enterprise Knowledge Graph&rdquo;</li>
-    <li>Stats bar: live counts from <code>/api/data-quality</code> (companies, contracts, persons, countries)</li>
-    <li>Feature cards: Profile, Contracts, Fundamentals, Directors, Data Quality</li>
-    <li>Popular section: mix of EU + US companies + French companies with directors</li>
-    <li>Footer: links to Admin, Data Quality, Plan</li>
-  </ul>
-</div>
-
-
-<hr>
-<h2 id="c6">C6: E2E Coverage Matrix</h2>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="badge badge-phase">C6</span>
-    <span class="phase-title">Requirements &times; E2E test traceability</span>
-  </div>
-
-  <h3>Scope: E2E tests only (75 tests, 4 files)</h3>
-  <p>No decorators, no unit test annotations. A simple <code>requirements.yml</code> file + a mapping file that links e2e test names to requirement IDs.</p>
 
   <h3>Implementation</h3>
-  <ol>
-    <li><code>requirements.yml</code> in the repo root: list of requirements with IDs, titles, categories</li>
-    <li><code>coverage-map.yml</code>: maps <code>{test_file}::{test_name}</code> &rarr; <code>[REQ-001, REQ-002]</code></li>
-    <li>A Python script (<code>scripts/coverage_matrix.py</code>) that parses both files, cross-references with actual test names from Playwright output, generates a JSON matrix</li>
-    <li>API endpoint: <code>GET /api/admin/coverage</code> serves the matrix JSON (or static file)</li>
-    <li>Admin page: <code>/admin/coverage</code> renders the matrix as a table (green = covered, red = uncovered)</li>
-  </ol>
+  <pre><code>const VIEW_GROUPS = [
+  {
+    key: 'overview', label: 'Overview',
+    views: [
+      { key: 'profile', label: 'Profile' },
+      { key: 'graph',   label: 'Graph Explorer' },
+    ],
+  },
+  {
+    key: 'financials', label: 'Financials',
+    views: [
+      { key: 'summary',      label: 'Summary' },
+      { key: 'fundamentals', label: 'Fundamentals' },
+      { key: 'income',       label: 'Income' },
+      { key: 'cashflow',     label: 'Cash Flow' },
+      { key: 'balance',      label: 'Balance' },
+      { key: 'valuation',    label: 'Valuation' },
+    ],
+  },
+  {
+    key: 'procurement', label: 'Procurement',
+    views: [{ key: 'contracts', label: 'Contracts' }],
+  },
+  {
+    key: 'analysis', label: 'Analysis',
+    views: [{ key: 'gmr-long', label: 'GMR Long' }],
+  },
+]</code></pre>
 
-  <h3>Requirements page: <code>/admin/requirements</code></h3>
-  <p>Renders <code>requirements.yml</code> as a browsable list grouped by category. Each requirement shows: ID, title, status (covered / uncovered), linked test names.</p>
+  <h3>Component changes</h3>
+  <table>
+    <tr><th>Component</th><th>Change</th></tr>
+    <tr><td><code>DataViewSelector.vue</code></td><td>Rewrite: two-level desktop nav + mobile dropdown. Accepts <code>VIEW_GROUPS</code> prop.</td></tr>
+    <tr><td><code>HomeView.vue</code></td><td>Replace <code>ALL_VIEWS</code> with <code>VIEW_GROUPS</code>. Default view: <code>profile</code>.</td></tr>
+    <tr><td><code>TickerFinancials.vue</code></td><td>No change &mdash; dispatches on the flat <code>view</code> key.</td></tr>
+  </table>
 
-  <pre><code># requirements.yml (example)
-- id: REQ-001
-  title: Search returns companies, authorities, and persons
-  category: search
-- id: REQ-002
-  title: Company profile shows financial overview + contracts + directors
-  category: profile
-- id: REQ-003
-  title: Contracts tab shows sortable table with TED links
-  category: procurement
-
-# coverage-map.yml (example)
-ticker-search.spec.js::returns AAPL as first result:
-  - REQ-001
-eu-tickers.spec.js::clicking GALP card navigates to summary:
-  - REQ-002</code></pre>
+  <h3>Test impact</h3>
+  <ul>
+    <li><code>DataViewSelector.test.js</code>: rewrite to test grouped navigation, category switching, mobile dropdown</li>
+    <li><code>data-view.spec.js</code> (e2e): update selectors from flat tabs to grouped structure</li>
+    <li><code>responsive.spec.js</code> (e2e): verify mobile dropdown works</li>
+  </ul>
 </div>
 
 
+<!-- ═══════════════════════════════════════════════════════ N2 -->
 <hr>
-<h2 id="c7">C7: Corporate Group Structure (GLEIF Level 2)</h2>
+<h2 id="graph">N2: Interactive Graph Explorer</h2>
 
 <div class="phase">
   <div class="phase-header">
-    <span class="badge badge-phase">C7</span>
-    <span class="phase-title">Parent-subsidiary relationships + group view</span>
+    <span class="badge">N2</span>
+    <span class="phase-title">Entity relationship graph with filtering, depth control, and locking</span>
   </div>
 
-  <h3>The problem</h3>
-  <p>Mota-Engil has 19 entities in the graph &mdash; subsidiaries across Portugal, Poland, Czech Republic, Mexico, Netherlands, Africa. They&rsquo;re all related (MOTA-ENGIL SGPS S.A. is the holding company) but the graph treats them as disconnected. A user searching for &ldquo;Mota-Engil&rdquo; sees 19 separate results with no indication they&rsquo;re the same group.</p>
+  <h3>Concept</h3>
+  <p>A visual graph showing all relationships an entity has with other entities. The user can explore the knowledge graph interactively: adjust depth, filter by entity type, lock important nodes, and click through to any entity&rsquo;s profile.</p>
 
-  <h3>Data source: GLEIF Level 2 (Relationship Records)</h3>
-  <p>Available as a daily bulk download, same approach as Level 1:</p>
-  <ul>
-    <li><strong>640,836 relationship records</strong></li>
-    <li>Format: ZIP containing XML (same as Level 1)</li>
-    <li>URL: <code>https://leidata.gleif.org/api/v1/concatenated-files/rr/get/{id}/zip</code></li>
-    <li>Fields: child LEI, parent LEI, relationship type (direct/ultimate), status (active/inactive)</li>
-    <li>93.5% of our 3.45M companies have LEIs &mdash; high match rate expected</li>
-  </ul>
+  <h3>Technology: Cytoscape.js</h3>
+  <p><a href="https://js.cytoscape.org/">Cytoscape.js</a> is purpose-built for interactive graph visualization. It supports force-directed and hierarchical layouts, node/edge filtering, node pinning (locking), event handling, and has a small bundle (~170 KB gzipped, no dependencies).</p>
 
-  <div class="callout ok">
-    <strong>Verified:</strong> GLEIF API confirms MOTA-ENGIL SGPS S.A. (LEI: 549300L6RR1203WN9F57) is the direct parent of 7 subsidiaries. The Level 2 bulk file has this data for 640K+ relationships globally.
-  </div>
+  <h3>API endpoint</h3>
+  <pre><code>GET /api/graph/{entity_id}?depth=1&amp;types=Company,Contract,Person,Authority
 
-  <h3>Neo4j data model</h3>
-  <pre><code>(:Company)-[:SUBSIDIARY_OF {type: "direct"}]-&gt;(:Company)
-(:Company)-[:SUBSIDIARY_OF {type: "ultimate"}]-&gt;(:Company)
+Response:
+{
+  "center": { "id": "gmr-123", "label": "SOCOMEC", "type": "Company" },
+  "nodes": [
+    { "id": "gmr-123", "label": "SOCOMEC", "type": "Company", "country": "FRA" },
+    { "id": "con-456", "label": "IT Services", "type": "Contract", "value_eur": 500000 },
+    { "id": "auth-789", "label": "Ville de Paris", "type": "Authority" },
+    { "id": "per-012", "label": "Jean Dupont", "type": "Person" },
+    { "id": "gmr-345", "label": "SOCOMEC GmbH", "type": "Company", "country": "DEU" },
+  ],
+  "edges": [
+    { "source": "auth-789", "target": "con-456", "type": "AWARDED" },
+    { "source": "con-456", "target": "gmr-123", "type": "AWARDED_TO" },
+    { "source": "per-012", "target": "gmr-123", "type": "DIRECTS" },
+    { "source": "gmr-345", "target": "gmr-123", "type": "SUBSIDIARY_OF" },
+  ],
+  "truncated": false
+}</code></pre>
 
-// Example: Mota-Engil Latin America B.V. -[:SUBSIDIARY_OF]-> Mota-Engil SGPS S.A.</code></pre>
-
-  <h3>ETL: <code>src/etl/load_gleif_relationships.py</code></h3>
-  <p>Same pattern as <code>load_gleif.py</code>:</p>
-  <ol>
-    <li>Download Level 2 ZIP (~50&ndash;100 MB)</li>
-    <li>Stream-parse XML with iterparse</li>
-    <li>For each relationship: look up both LEIs, create <code>[:SUBSIDIARY_OF]</code></li>
-    <li>Batch MERGE, idempotent, safe to re-run weekly</li>
-  </ol>
-
-  <h3>API</h3>
+  <h3>UI controls</h3>
   <table>
-    <tr><th>Endpoint</th><th>Purpose</th></tr>
-    <tr><td><code>GET /companies/{gmr_id}/group</code></td><td>Return the corporate group tree (parent + all subsidiaries)</td></tr>
-    <tr><td><code>GET /companies/{gmr_id}/group/contracts</code></td><td>Aggregate contracts across the entire group</td></tr>
+    <tr><th>Control</th><th>Behavior</th></tr>
+    <tr><td><strong>Depth slider</strong> (0&ndash;3)</td><td>0 = center only. 1 = direct. 2 = two hops. 3 = three hops. Re-fetches API.</td></tr>
+    <tr><td><strong>Type filters</strong> (checkboxes)</td><td>Company, Contract, Authority, Person, CPV. Toggle visibility client-side.</td></tr>
+    <tr><td><strong>Keyword filter</strong> (text)</td><td>Matches against node labels. Client-side, instant.</td></tr>
+    <tr><td><strong>Lock node</strong> (right-click or toggle)</td><td>Locked nodes stay visible regardless of filters. Pinned in layout. Lock icon indicator.</td></tr>
+    <tr><td><strong>Click node</strong></td><td>Tooltip with entity details + &ldquo;Go to profile&rdquo; link.</td></tr>
   </table>
-  <pre><code>// Cypher: get entire group from any member
-MATCH (member:Company {gmr_id: $gid})
-OPTIONAL MATCH (member)-[:SUBSIDIARY_OF*0..5]-&gt;(parent)
-WHERE NOT (parent)-[:SUBSIDIARY_OF]-&gt;()  // ultimate parent
-WITH COALESCE(parent, member) AS root
-MATCH (root)&lt;-[:SUBSIDIARY_OF*0..5]-(child)
-RETURN root, collect(DISTINCT child) AS subsidiaries</code></pre>
 
-  <h3>UI: Corporate Group section in company profile</h3>
-  <ul>
-    <li><strong>Group header:</strong> &ldquo;Part of MOTA-ENGIL SGPS S.A. group (19 entities, 7 countries)&rdquo;</li>
-    <li><strong>Collapsible tree:</strong> ultimate parent at top, children indented. Each node: name, country, contract count. Clickable to navigate. <strong>Collapsed by default if &gt;10 children</strong> at any level.</li>
-    <li><strong>Group aggregate:</strong> &ldquo;Group total: 36 contracts, &euro;X total value&rdquo; &mdash; toggle to see contracts for the whole group vs just this entity</li>
-    <li><strong>Search grouping:</strong> when searching, subsidiaries are grouped under the parent entity &mdash; one result for the group, showing entity count and aggregate contract value</li>
-  </ul>
+  <h3>Node &amp; edge styling</h3>
+  <pre><code>Nodes:
+  Company    → circle, blue,   size proportional to contract count
+  Contract   → diamond, amber, size proportional to value_eur
+  Authority  → hexagon, green
+  Person     → triangle, purple
+  CPV        → small dot, grey
 
-  <h3>Traversal: levels, not shortcuts</h3>
-  <p>Use <code>[:SUBSIDIARY_OF*0..5]</code> for full level-by-level traversal. Slower but preserves all intermediate structure. We can always add an ultimate-parent shortcut later for performance if needed.</p>
+Edges:
+  AWARDED_TO    → solid arrow
+  AWARDED       → solid arrow
+  SUBSIDIARY_OF → dashed arrow
+  DIRECTS       → dotted arrow
+  LISTED_AS     → thin grey (hidden by default)
+  REPORTED      → thin grey (hidden by default)</code></pre>
 
-  <h3>Dependency on C1</h3>
-  <p>C7 should run <strong>after C1</strong> (country normalization). The Level 2 loader uses LEI matching, not country codes, so it doesn&rsquo;t directly depend on C1. But the group view in the UI will show country codes, so those should be normalized first.</p>
+  <h3>Performance</h3>
+  <div class="callout warn">
+    <strong>Node explosion at depth &gt;2.</strong>
+    <p>Siemens at depth 2 could yield thousands of nodes. Mitigations:</p>
+    <ul>
+      <li>API caps at 500 nodes. Returns <code>truncated: true</code>.</li>
+      <li>Type filter applied server-side (Cypher WHERE) to reduce data.</li>
+      <li>Depth 3 is opt-in (not slider default).</li>
+      <li>REPORTED and LISTED_AS edges hidden by default.</li>
+    </ul>
+  </div>
+
+  <h3>Component structure</h3>
+  <pre><code>src/components/
+  GraphExplorer.vue        — Cytoscape canvas + layout management
+  GraphControls.vue        — depth slider, type checkboxes, keyword input
+  GraphNodeTooltip.vue     — entity detail panel on click
+
+src/api/
+  graph.js                 — fetchGraph(entityId, depth, types)</code></pre>
 </div>
 
 
+<!-- ═══════════════════════════════════════════════════════ TEST PLAN -->
+<hr>
+<h2 id="test-plan">N2 Test Plan: Graph Explorer</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">TEST PLAN</span>
+    <span class="phase-title">4-layer testing strategy</span>
+  </div>
+
+  <h3>Layer 1: API (pytest, mocked Neo4j)</h3>
+  <table>
+    <tr><th>ID</th><th>Test</th></tr>
+    <tr><td>GE-API-01</td><td>Depth 0 returns only center node</td></tr>
+    <tr><td>GE-API-02</td><td>Depth 1 returns direct relationships</td></tr>
+    <tr><td>GE-API-03</td><td>Type filter excludes unwanted types</td></tr>
+    <tr><td>GE-API-04</td><td>Response capped at 500 nodes, truncated=true</td></tr>
+    <tr><td>GE-API-05</td><td>Unknown entity returns empty graph</td></tr>
+    <tr><td>GE-API-06</td><td>Depth &gt;3 returns 422</td></tr>
+  </table>
+
+  <h3>Layer 2: Components (vitest, mocked fetch)</h3>
+  <table>
+    <tr><th>ID</th><th>Test</th></tr>
+    <tr><td>GE-UI-01</td><td>GraphExplorer renders canvas</td></tr>
+    <tr><td>GE-UI-02</td><td>Depth slider triggers re-fetch</td></tr>
+    <tr><td>GE-UI-03</td><td>Type filter hides nodes client-side</td></tr>
+    <tr><td>GE-UI-04</td><td>Keyword filter matches labels</td></tr>
+    <tr><td>GE-UI-05</td><td>Locked nodes survive filter changes</td></tr>
+    <tr><td>GE-UI-06</td><td>Click node shows tooltip</td></tr>
+    <tr><td>GE-UI-07</td><td>Tooltip link navigates to profile</td></tr>
+    <tr><td>GE-UI-08</td><td>Empty graph shows message</td></tr>
+    <tr><td>GE-UI-09</td><td>Truncated graph shows warning</td></tr>
+  </table>
+
+  <h3>Layer 3: E2E (Playwright, Chromium + Firefox)</h3>
+  <table>
+    <tr><th>ID</th><th>Test</th></tr>
+    <tr><td>GE-E2E-01</td><td>Graph view loads for a known company</td></tr>
+    <tr><td>GE-E2E-02</td><td>Depth slider changes the graph</td></tr>
+    <tr><td>GE-E2E-03</td><td>Type filter works</td></tr>
+    <tr><td>GE-E2E-04</td><td>Click node shows tooltip</td></tr>
+    <tr><td>GE-E2E-05</td><td>Responsive: no overflow on mobile</td></tr>
+  </table>
+
+  <h3>Layer 4: Performance</h3>
+  <table>
+    <tr><th>ID</th><th>Test</th></tr>
+    <tr><td>GE-PERF-01</td><td>API responds &lt;2s for depth=2</td></tr>
+    <tr><td>GE-PERF-02</td><td>Cytoscape renders 200 nodes without jank</td></tr>
+    <tr><td>GE-PERF-03</td><td>Filtering 500 nodes &lt;100ms</td></tr>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ SESSIONS -->
 <hr>
 <h2 id="sessions">Recommended Session Breakdown</h2>
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>C1 + C7 (ETL)</td><td>pycountry + normalize all nodes to alpha-3 + dedup script. GLEIF Level 2 loader + 640K relationships. Mota-Engil group visible in Neo4j.</td></tr>
-  <tr><td>2</td><td>C2 + C5</td><td>Remove dead code. Adapt 34 tests from deleted sources to GraphDataSource. Delete 43 routing-specific tests. Landing page refresh.</td></tr>
-  <tr><td>3</td><td>C3 + C4 + C7 (UI)</td><td>Admin area + architecture diagrams + plan/requirements links. Corporate group API + collapsible tree in profile. Search grouping.</td></tr>
-  <tr><td>4</td><td>C6</td><td>requirements.yml + coverage-map.yml for 75 e2e tests + admin pages.</td></tr>
+  <tr><td>1</td><td>N1</td><td>Hierarchical nav: DataViewSelector rewrite, mobile dropdown, tests</td></tr>
+  <tr><td>2</td><td>N2 API</td><td>Graph endpoint + 6 backend tests + Cypher queries</td></tr>
+  <tr><td>3</td><td>N2 UI</td><td>GraphExplorer + controls + tooltip + 9 vitest tests</td></tr>
+  <tr><td>4</td><td>N2 polish</td><td>5 e2e tests (Chromium + Firefox), performance, edge cases</td></tr>
 </table>
-
-
-<hr>
-<h2 id="questions">Decisions Log (from review)</h2>
-
-<div class="callout ok">
-  <strong>Q1 &rarr; Use levels.</strong> <code>[:SUBSIDIARY_OF*0..5]</code> traversal. Slower but preserves all data. Can compress to ultimate-parent shortcut later if performance requires it.
-</div>
-
-<div class="callout ok">
-  <strong>Q2 &rarr; Collapsible tree.</strong> Default to collapsed if &gt;10 children at any level. Full tree visible on expand. Works on mobile (nodes are clickable links, not a D3 visualization).
-</div>
-
-<div class="callout ok">
-  <strong>Q3 &rarr; Yes, group in search.</strong> Subsidiaries shown as one grouped result under the parent entity. Shows entity count + aggregate contracts.
-</div>
-
-<div class="callout ok">
-  <strong>Q4 &rarr; Never change a primary key.</strong> gmr_id stays untouched. Only the display <code>country</code> property is normalized. Future ETL runs will use alpha-3 in <code>gmr_id.from_name()</code>, so new companies get alpha-3-based IDs. Existing name-based IDs with alpha-2 remain valid &mdash; they&rsquo;re deterministic and stable.
-</div>
-
-<div class="callout ok">
-  <strong>Q5 &rarr; Adapt valuable tests, delete the rest.</strong> After investigation:
-  <ul>
-    <li><code>test_routing_data_source.py</code> (14 tests): <strong>Delete</strong> &mdash; pure routing logic that no longer exists.</li>
-    <li><code>test_esef_data_source.py</code> (29 tests): <strong>Adapt ~6</strong> contract tests (all keys present, sorted descending, shares_outstanding derivation) to GraphDataSource. Delete the 23 ESEF-specific tests.</li>
-    <li><code>test_api_eu_tickers.py</code> (23 tests): <strong>Adapt all</strong> &mdash; these test the API contract with EU data, valuable regardless of backend.</li>
-    <li><code>test_ticker_functionality.py</code> (11 tests): <strong>Adapt all</strong> &mdash; search behavior tests (exact match, case insensitive, limit).</li>
-  </ul>
-  <p>Net result: delete ~37 tests, adapt ~40 tests, keep ~500 unchanged.</p>
-</div>
 
 </body>
 </html>
