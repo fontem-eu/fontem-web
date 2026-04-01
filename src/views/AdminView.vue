@@ -9,7 +9,6 @@ const tools = [
   { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
   { path: '/admin/architecture', title: 'Architecture', desc: 'System diagrams: data flow, interfaces, Neo4j schema, request lifecycle.' },
   { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 22 requirements, 75 tests, generated at build time.' },
-  { path: '/admin/analytics-view', title: 'Analytics', desc: 'Visitor metrics, page views, and traffic sources (Umami dashboard).' },
   { path: '/admin/plan', title: 'Plan', desc: 'Current consolidation plan with session breakdown and decisions log.', external: true },
 ]
 </script>
