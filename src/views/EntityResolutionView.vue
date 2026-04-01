@@ -90,7 +90,7 @@ function mergedField(key) {
   <div class="er">
     <header class="er-header">
       <div>
-        <router-link to="/" class="er-back">&larr; Home</router-link>
+        <router-link to="/admin" class="er-back">&larr; Home</router-link>
         <h1>Entity Resolution</h1>
         <p class="er-subtitle">Review and merge duplicate company nodes</p>
       </div>

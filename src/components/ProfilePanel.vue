@@ -12,6 +12,7 @@ const props = defineProps({
 
 const profile = ref(null)
 const profileState = ref('loading')
+const groupExpanded = ref(false)
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -73,6 +74,36 @@ watch(() => props.symbol, (sym) => {
           <span class="pp-stat__num">{{ data.ratios_summary.avg_npm.toFixed(1) }}%</span>
           <span class="pp-stat__label">Avg Net Margin</span>
         </div>
+      </div>
+    </div>
+
+    <!-- Corporate Group -->
+    <div v-if="profile?.group" class="pp-section">
+      <h3>Corporate Group</h3>
+      <p class="pp-group-header">
+        Part of <strong>{{ profile.group.root_name }}</strong>
+        ({{ profile.group.entity_count }} entities)
+      </p>
+      <div class="pp-group-tree">
+        <div
+          v-for="m in (groupExpanded ? profile.group.members : profile.group.members.slice(0, 10))"
+          :key="m.gmr_id"
+          class="pp-group-member"
+          :class="{ 'pp-group-member--current': m.gmr_id === gmrId }"
+        >
+          <router-link :to="`/company/${m.gmr_id}`" class="pp-group-link">
+            {{ m.name }}
+          </router-link>
+          <span class="pp-group-country">{{ m.country }}</span>
+          <span v-if="m.contracts > 0" class="pp-group-contracts">{{ m.contracts }} contracts</span>
+        </div>
+        <button
+          v-if="!groupExpanded && profile.group.members.length > 10"
+          class="pp-group-expand"
+          @click="groupExpanded = true"
+        >
+          Show all {{ profile.group.members.length }} entities
+        </button>
       </div>
     </div>
 
@@ -141,6 +172,23 @@ watch(() => props.symbol, (sym) => {
 
 .pp-procurement-summary {
   font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text);
+}
+
+.pp-group-header { font-size: 0.9rem; margin-bottom: 0.6rem; }
+.pp-group-tree { display: flex; flex-direction: column; gap: 0.2rem; }
+.pp-group-member {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem;
+}
+.pp-group-member--current { background: var(--surface, #f6f8fa); font-weight: 600; }
+.pp-group-link { color: var(--accent); text-decoration: none; }
+.pp-group-link:hover { text-decoration: underline; }
+.pp-group-country { font-size: 0.75rem; color: var(--muted); }
+.pp-group-contracts { font-size: 0.75rem; color: var(--muted); }
+.pp-group-expand {
+  margin-top: 0.4rem; padding: 0.3rem 0.8rem; font-size: 0.8rem;
+  background: none; border: 1px solid var(--border); border-radius: 4px;
+  color: var(--accent); cursor: pointer; align-self: flex-start;
 }
 
 .pp-directors { display: flex; flex-direction: column; gap: 0.3rem; }

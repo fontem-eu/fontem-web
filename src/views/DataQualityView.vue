@@ -27,7 +27,7 @@ function fmtNum(n) {
   <div class="dq">
     <header class="dq-header">
       <div>
-        <router-link to="/" class="dq-back">&larr; Home</router-link>
+        <router-link to="/admin" class="dq-back">&larr; Home</router-link>
         <h1>Data Quality Dashboard</h1>
         <p class="dq-subtitle">Platform health, data coverage, and transparency metrics</p>
       </div>

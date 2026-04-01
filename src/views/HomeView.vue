@@ -273,7 +273,7 @@ function onClose() {
         <p class="text-xs tracking-wide" style="color: var(--muted)">
           Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
           &nbsp;&middot;&nbsp;
-          <router-link to="/data-quality" style="color: var(--accent)">Data Quality Dashboard</router-link>
+          <router-link to="/admin" style="color: var(--accent)">Admin</router-link>
         </p>
       </footer>
     </div>

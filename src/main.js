@@ -5,6 +5,8 @@ import HomeView from './views/HomeView.vue'
 import DataQualityView from './views/DataQualityView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
+import AdminView from './views/AdminView.vue'
+import ArchitectureView from './views/ArchitectureView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -12,9 +14,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomeView },
-    { path: '/data-quality', component: DataQualityView },
+    { path: '/admin', component: AdminView },
+    { path: '/admin/data-quality', component: DataQualityView },
+    { path: '/admin/entity-resolution', component: EntityResolutionView },
+    { path: '/admin/architecture', component: ArchitectureView },
     { path: '/company/:gmr_id', component: CompanyProfileView },
-    { path: '/entity-resolution', component: EntityResolutionView },
     { path: '/:ticker', redirect: (to) => `/${to.params.ticker}/profile` },
     { path: '/:ticker/:view', component: HomeView },
   ],
