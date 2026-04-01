@@ -34,7 +34,6 @@ function makeRouter() {
       { path: '/', component: HomeView },
       { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
       { path: '/c/:ticker/:view', component: HomeView },
-      { path: '/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
     ],
   })
 }
@@ -155,7 +154,7 @@ describe('HomeView', () => {
     expect(pushSpy).toHaveBeenCalledWith('/c/MSFT/gmr-long')
   })
 
-  it('navigates to /:ticker/gmr-long when DataViewSelector emits update:modelValue', async () => {
+  it('navigates to /c/:ticker/gmr-long when DataViewSelector emits update:modelValue', async () => {
     const { wrapper, router } = await mountAt('/c/AAPL/fundamentals')
     const pushSpy = vi.spyOn(router, 'push')
 

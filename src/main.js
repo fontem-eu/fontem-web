@@ -24,14 +24,10 @@ const router = createRouter({
     { path: '/admin/coverage', component: CoverageView },
     // /admin/plan is served as static HTML by nginx (not Vue)
 
-    // Company views — prefixed with /c/ to avoid catch-all conflicts
+    // Company views — all under /c/ or /company/ prefix
     { path: '/company/:gmr_id', component: CompanyProfileView },
     { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
     { path: '/c/:ticker/:view', component: HomeView },
-
-    // Legacy: bare /:ticker redirects to /c/:ticker (backward compat)
-    // Only matches if nothing above matched — this is the last route
-    { path: '/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   ],
 })
 
