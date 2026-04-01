@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GMR — UX & Graph Explorer Plan</title>
+  <title>GMR — UX & Graph Explorer Plan v2</title>
   <style>
     :root { --bg:#fff; --bg2:#f6f8fa; --border:#d0d7de; --text:#1f2328; --text2:#636c76; --accent:#0969da; --green:#1a7f37; --red:#cf222e; --code-bg:#f6f8fa; --tag-bg:#ddf4ff; --tag-text:#0550ae; }
     @media(prefers-color-scheme:dark){ :root{ --bg:#0d1117; --bg2:#161b22; --border:#30363d; --text:#e6edf3; --text2:#848d97; --accent:#58a6ff; --green:#3fb950; --red:#f85149; --code-bg:#161b22; --tag-bg:#112d45; --tag-text:#79c0ff; } }
@@ -38,8 +38,8 @@
 <body>
 
 <header>
-  <h1>GMR &mdash; UX Overhaul &amp; Graph Explorer</h1>
-  <div class="meta">April 2026 &nbsp;&middot;&nbsp; Status: planning, awaiting review</div>
+  <h1>GMR &mdash; UX Overhaul &amp; Graph Explorer v2</h1>
+  <div class="meta">April 2026 &nbsp;&middot;&nbsp; Status: reviewed, incorporating feedback</div>
 </header>
 
 <nav>
@@ -47,7 +47,11 @@
   <ol>
     <li><a href="#nav">N1: Hierarchical Navigation</a></li>
     <li><a href="#graph">N2: Interactive Graph Explorer</a></li>
-    <li><a href="#test-plan">N2 Test Plan</a></li>
+    <li><a href="#pathfinding">N2a: Path Finding</a></li>
+    <li><a href="#temporal">N2b: Temporal Dimension</a></li>
+    <li><a href="#bundling">N2c: Edge Bundling &amp; Export</a></li>
+    <li><a href="#bookmarks">N2d: Saved Views &amp; Bookmarks</a></li>
+    <li><a href="#test-plan">Test Plan</a></li>
     <li><a href="#sessions">Session Breakdown</a></li>
   </ol>
 </nav>
@@ -63,20 +67,17 @@
   </div>
 
   <h3>Problem</h3>
-  <p>The current <code>DataViewSelector</code> lists 9 views in a flat horizontal row: Profile, Summary, Fundamentals, Income, Cash Flow, Balance, Valuation, Contracts, GMR Long. On mobile, this overflows. As we add more views (Graph Explorer, Directors, Group), it becomes unusable.</p>
+  <p>9 views in a flat row. Overflows on mobile. Unscalable as features grow.</p>
 
   <h3>Proposed structure</h3>
   <pre><code>Overview
-  ├── Profile          (company card + directors + contracts summary + group)
-  └── Graph Explorer   (interactive entity graph — N2)
+  ├── Profile          (company card + directors + contracts + group)
+  └── Graph Explorer   (interactive entity graph)
 
 Financials
   ├── Summary          (price chart + key stats)
   ├── Fundamentals     (ratio table)
-  ├── Income           (income statement)
-  ├── Cash Flow        (cash flow statement)
-  ├── Balance          (balance sheet)
-  └── Valuation        (EV multiples)
+  ├── Income / Cash Flow / Balance / Valuation
 
 Procurement
   └── Contracts        (sortable table with TED links)
@@ -84,56 +85,18 @@ Procurement
 Analysis
   └── GMR Long         (value investing screen)</code></pre>
 
-  <h3>UX design</h3>
+  <h3>UX</h3>
   <ul>
-    <li><strong>Desktop (&gt;768px):</strong> Two-level navigation. Top row: category pills (Overview, Financials, Procurement, Analysis). Below: sub-views for the active category. Clicking a category selects its first sub-view.</li>
-    <li><strong>Mobile (&lt;768px):</strong> Single dropdown selector that shows <code>Category &rsaquo; View</code> (e.g., &ldquo;Financials &rsaquo; Income&rdquo;). Tappable, compact, no overflow.</li>
-    <li><strong>URL structure unchanged:</strong> <code>/c/:ticker/:view</code> &mdash; the view key is still flat (e.g., <code>income</code>, <code>contracts</code>). The hierarchy is purely a UI concept.</li>
+    <li><strong>Desktop:</strong> Two-level. Top: category pills. Below: sub-views for active category.</li>
+    <li><strong>Mobile:</strong> Single dropdown: &ldquo;Financials &rsaquo; Income&rdquo;. Compact, no overflow.</li>
+    <li><strong>URLs unchanged:</strong> <code>/c/:ticker/:view</code>. Hierarchy is purely UI.</li>
   </ul>
-
-  <h3>Implementation</h3>
-  <pre><code>const VIEW_GROUPS = [
-  {
-    key: 'overview', label: 'Overview',
-    views: [
-      { key: 'profile', label: 'Profile' },
-      { key: 'graph',   label: 'Graph Explorer' },
-    ],
-  },
-  {
-    key: 'financials', label: 'Financials',
-    views: [
-      { key: 'summary',      label: 'Summary' },
-      { key: 'fundamentals', label: 'Fundamentals' },
-      { key: 'income',       label: 'Income' },
-      { key: 'cashflow',     label: 'Cash Flow' },
-      { key: 'balance',      label: 'Balance' },
-      { key: 'valuation',    label: 'Valuation' },
-    ],
-  },
-  {
-    key: 'procurement', label: 'Procurement',
-    views: [{ key: 'contracts', label: 'Contracts' }],
-  },
-  {
-    key: 'analysis', label: 'Analysis',
-    views: [{ key: 'gmr-long', label: 'GMR Long' }],
-  },
-]</code></pre>
-
-  <h3>Component changes</h3>
-  <table>
-    <tr><th>Component</th><th>Change</th></tr>
-    <tr><td><code>DataViewSelector.vue</code></td><td>Rewrite: two-level desktop nav + mobile dropdown. Accepts <code>VIEW_GROUPS</code> prop.</td></tr>
-    <tr><td><code>HomeView.vue</code></td><td>Replace <code>ALL_VIEWS</code> with <code>VIEW_GROUPS</code>. Default view: <code>profile</code>.</td></tr>
-    <tr><td><code>TickerFinancials.vue</code></td><td>No change &mdash; dispatches on the flat <code>view</code> key.</td></tr>
-  </table>
 
   <h3>Test impact</h3>
   <ul>
-    <li><code>DataViewSelector.test.js</code>: rewrite to test grouped navigation, category switching, mobile dropdown</li>
-    <li><code>data-view.spec.js</code> (e2e): update selectors from flat tabs to grouped structure</li>
-    <li><code>responsive.spec.js</code> (e2e): verify mobile dropdown works</li>
+    <li><code>DataViewSelector.test.js</code>: rewrite for grouped nav + mobile dropdown</li>
+    <li><code>data-view.spec.js</code> (e2e): update selectors</li>
+    <li><code>responsive.spec.js</code> (e2e): verify dropdown</li>
   </ul>
 </div>
 
@@ -145,108 +108,328 @@ Analysis
 <div class="phase">
   <div class="phase-header">
     <span class="badge">N2</span>
-    <span class="phase-title">Entity relationship graph with filtering, depth control, and locking</span>
+    <span class="phase-title">Entity relationship graph &mdash; any entity type as entry point</span>
   </div>
 
-  <h3>Concept</h3>
-  <p>A visual graph showing all relationships an entity has with other entities. The user can explore the knowledge graph interactively: adjust depth, filter by entity type, lock important nodes, and click through to any entity&rsquo;s profile.</p>
+  <h3>Entry points</h3>
+  <p>The graph explorer works from <strong>any entity</strong>, not just companies:</p>
+  <ul>
+    <li><strong>Company:</strong> shows subsidiaries, contracts, directors, authorities</li>
+    <li><strong>Authority:</strong> shows all companies it awarded contracts to, contract values</li>
+    <li><strong>Person:</strong> shows all companies they direct, and those companies&rsquo; contracts</li>
+    <li><strong>Contract:</strong> shows the awarding authority, winning company, CPV sector</li>
+  </ul>
 
   <h3>Technology: Cytoscape.js</h3>
-  <p><a href="https://js.cytoscape.org/">Cytoscape.js</a> is purpose-built for interactive graph visualization. It supports force-directed and hierarchical layouts, node/edge filtering, node pinning (locking), event handling, and has a small bundle (~170 KB gzipped, no dependencies).</p>
+  <p>Force-directed layout, filtering, pinning, events. ~170 KB gzipped.</p>
 
-  <h3>API endpoint</h3>
+  <h3>API</h3>
   <pre><code>GET /api/graph/{entity_id}?depth=1&amp;types=Company,Contract,Person,Authority
+
+// entity_id can be:
+//   gmr_id (Company), authority_id, person_id, ted_notice_id, cpv code
+// The API detects the type from the ID format or a ?type= param
 
 Response:
 {
-  "center": { "id": "gmr-123", "label": "SOCOMEC", "type": "Company" },
-  "nodes": [
-    { "id": "gmr-123", "label": "SOCOMEC", "type": "Company", "country": "FRA" },
-    { "id": "con-456", "label": "IT Services", "type": "Contract", "value_eur": 500000 },
-    { "id": "auth-789", "label": "Ville de Paris", "type": "Authority" },
-    { "id": "per-012", "label": "Jean Dupont", "type": "Person" },
-    { "id": "gmr-345", "label": "SOCOMEC GmbH", "type": "Company", "country": "DEU" },
-  ],
-  "edges": [
-    { "source": "auth-789", "target": "con-456", "type": "AWARDED" },
-    { "source": "con-456", "target": "gmr-123", "type": "AWARDED_TO" },
-    { "source": "per-012", "target": "gmr-123", "type": "DIRECTS" },
-    { "source": "gmr-345", "target": "gmr-123", "type": "SUBSIDIARY_OF" },
-  ],
-  "truncated": false
+  "center": { "id": "...", "label": "SOCOMEC", "type": "Company" },
+  "nodes": [...],
+  "edges": [...],
+  "truncated": false,
+  "total_available": 42
 }</code></pre>
 
-  <h3>UI controls</h3>
+  <h3>Controls</h3>
   <table>
     <tr><th>Control</th><th>Behavior</th></tr>
-    <tr><td><strong>Depth slider</strong> (0&ndash;3)</td><td>0 = center only. 1 = direct. 2 = two hops. 3 = three hops. Re-fetches API.</td></tr>
-    <tr><td><strong>Type filters</strong> (checkboxes)</td><td>Company, Contract, Authority, Person, CPV. Toggle visibility client-side.</td></tr>
-    <tr><td><strong>Keyword filter</strong> (text)</td><td>Matches against node labels. Client-side, instant.</td></tr>
-    <tr><td><strong>Lock node</strong> (right-click or toggle)</td><td>Locked nodes stay visible regardless of filters. Pinned in layout. Lock icon indicator.</td></tr>
-    <tr><td><strong>Click node</strong></td><td>Tooltip with entity details + &ldquo;Go to profile&rdquo; link.</td></tr>
+    <tr><td>Depth slider (0&ndash;3)</td><td>Re-fetches from API. Default: 1.</td></tr>
+    <tr><td>Type filters (checkboxes)</td><td>Client-side show/hide. All checked by default.</td></tr>
+    <tr><td>Keyword filter (text)</td><td>Client-side, matches node labels instantly.</td></tr>
+    <tr><td>Lock node (right-click / toggle)</td><td>Survives filter changes. Pinned position. Lock icon.</td></tr>
+    <tr><td>Click node</td><td>Tooltip with details + &ldquo;Go to profile&rdquo; + &ldquo;Set as center&rdquo;.</td></tr>
   </table>
 
-  <h3>Node &amp; edge styling</h3>
-  <pre><code>Nodes:
-  Company    → circle, blue,   size proportional to contract count
-  Contract   → diamond, amber, size proportional to value_eur
-  Authority  → hexagon, green
-  Person     → triangle, purple
-  CPV        → small dot, grey
-
-Edges:
-  AWARDED_TO    → solid arrow
-  AWARDED       → solid arrow
-  SUBSIDIARY_OF → dashed arrow
-  DIRECTS       → dotted arrow
-  LISTED_AS     → thin grey (hidden by default)
-  REPORTED      → thin grey (hidden by default)</code></pre>
+  <h3>Node styling</h3>
+  <pre><code>Company    → circle, blue,   size ~ contract count
+Contract   → diamond, amber, size ~ value_eur
+Authority  → hexagon, green
+Person     → triangle, purple
+CPV        → small dot, grey</code></pre>
 
   <h3>Performance</h3>
-  <div class="callout warn">
-    <strong>Node explosion at depth &gt;2.</strong>
-    <p>Siemens at depth 2 could yield thousands of nodes. Mitigations:</p>
-    <ul>
-      <li>API caps at 500 nodes. Returns <code>truncated: true</code>.</li>
-      <li>Type filter applied server-side (Cypher WHERE) to reduce data.</li>
-      <li>Depth 3 is opt-in (not slider default).</li>
-      <li>REPORTED and LISTED_AS edges hidden by default.</li>
-    </ul>
+  <ul>
+    <li>API caps at 500 nodes, returns <code>truncated: true</code> + <code>total_available</code></li>
+    <li>Type filter applied server-side in Cypher WHERE</li>
+    <li>REPORTED and LISTED_AS hidden by default</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ PATHFINDING -->
+<hr>
+<h2 id="pathfinding">N2a: Path Finding Between Entities</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">N2a</span>
+    <span class="phase-title">&ldquo;How is entity A connected to entity B?&rdquo;</span>
   </div>
 
-  <h3>Component structure</h3>
-  <pre><code>src/components/
-  GraphExplorer.vue        — Cytoscape canvas + layout management
-  GraphControls.vue        — depth slider, type checkboxes, keyword input
-  GraphNodeTooltip.vue     — entity detail panel on click
+  <h3>Concept</h3>
+  <p>The user picks two entities (e.g., a Person and an Authority) and the system shows all paths connecting them. Not just the shortest &mdash; also near-shortest paths that reveal alternative connections.</p>
 
-src/api/
-  graph.js                 — fetchGraph(entityId, depth, types)</code></pre>
+  <h3>UX flow</h3>
+  <ol>
+    <li>User opens graph from any entity (the &ldquo;source&rdquo;)</li>
+    <li>Clicks a &ldquo;Find path to...&rdquo; button in the toolbar</li>
+    <li>A search box appears. User types a name or picks from the graph.</li>
+    <li>The API returns paths. The graph highlights them.</li>
+  </ol>
+
+  <h3>API endpoint</h3>
+  <pre><code>GET /api/graph/paths?from={id_a}&amp;to={id_b}&amp;max_depth=5&amp;extra=2
+
+Response:
+{
+  "from": { "id": "per-012", "label": "Jean Dupont", "type": "Person" },
+  "to": { "id": "auth-789", "label": "Ville de Paris", "type": "Authority" },
+  "paths": [
+    {
+      "length": 2,
+      "nodes": ["per-012", "gmr-123", "con-456", "auth-789"],
+      "edges": [
+        { "source": "per-012", "target": "gmr-123", "type": "DIRECTS" },
+        { "source": "auth-789", "target": "con-456", "type": "AWARDED" },
+        { "source": "con-456", "target": "gmr-123", "type": "AWARDED_TO" }
+      ]
+    },
+    {
+      "length": 3,
+      "nodes": ["per-012", "gmr-345", "con-999", "auth-789"],
+      "edges": [...]
+    }
+  ],
+  "shortest_length": 2
+}</code></pre>
+
+  <h4>Path query strategy</h4>
+  <pre><code>// Find shortest path
+MATCH path = shortestPath(
+  (a {gmr_id: $from})-[*..10]-(b {gmr_id: $to})
+)
+RETURN path
+
+// Find additional paths up to shortest + extra hops
+MATCH path = (a {gmr_id: $from})-[*..($shortest + $extra)]-(b {gmr_id: $to})
+WHERE length(path) &lt;= $shortest + $extra
+RETURN path
+ORDER BY length(path)
+LIMIT 10</code></pre>
+
+  <h3>UI: path highlighting</h3>
+  <ul>
+    <li>Shortest path highlighted in <strong>bold blue</strong></li>
+    <li>Alternative paths in <strong>lighter blue with dashes</strong></li>
+    <li>Non-path nodes dimmed to 30% opacity</li>
+    <li>Path legend: &ldquo;3 paths found. Shortest: 2 hops. Longest shown: 4 hops.&rdquo;</li>
+    <li>Click a path in the legend to highlight just that one</li>
+  </ul>
+
+  <div class="callout ok">
+    <strong>Why &ldquo;shortest + extra&rdquo; instead of all paths:</strong> Finding all paths in a graph with 3.4M nodes is combinatorially explosive. The <code>extra</code> parameter (default: 2) limits exploration to paths within 2 hops of the shortest, which catches interesting alternative routes without blowing up.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ TEMPORAL -->
+<hr>
+<h2 id="temporal">N2b: Temporal Dimension</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">N2b</span>
+    <span class="phase-title">Time-aware graph exploration</span>
+  </div>
+
+  <h3>Concept</h3>
+  <p>Every relationship in the graph has a time component: contracts have award dates, directors have start/end dates, subsidiaries form and dissolve. A timeline control lets the user see the graph <em>as of a specific date</em>, revealing how relationships evolved.</p>
+
+  <h3>UI: timeline slider</h3>
+  <pre><code>┌──────────────────────────────────────────────────────────┐
+│  2020     2021     2022     2023     2024     2025       │
+│  ├────────┼────────┼────────┼────────┼────────┤         │
+│                              ▲                           │
+│                         [Apr 2023]                        │
+│                                                          │
+│  ● 3 contracts awarded  ● 2 directors active  ● 1 sub   │
+└──────────────────────────────────────────────────────────┘</code></pre>
+
+  <ul>
+    <li><strong>Range:</strong> min(earliest date in the graph) to today</li>
+    <li><strong>Granularity:</strong> month. Snap to month boundaries.</li>
+    <li><strong>Mode: &ldquo;as of date&rdquo;</strong> &mdash; shows only relationships that existed at the selected point in time:
+      <ul>
+        <li>Contracts: <code>award_date &lt;= selected_date</code></li>
+        <li>Directors: <code>start_date &lt;= selected_date AND (end_date IS NULL OR end_date &gt;= selected_date)</code></li>
+        <li>Subsidiaries: always shown (GLEIF doesn&rsquo;t have dissolution dates in our data)</li>
+      </ul>
+    </li>
+    <li><strong>Play button:</strong> auto-advances the slider by 1 month per second, animating the graph growth over time</li>
+    <li><strong>Stats bar:</strong> below the slider, shows counts at the selected date (contracts awarded, directors active, subsidiaries)</li>
+  </ul>
+
+  <h3>Implementation approach</h3>
+  <div class="callout warn">
+    <strong>Client-side filtering, not server re-fetch.</strong>
+    <p>The API returns all edges with their date fields. The timeline slider filters edges client-side by comparing dates. This avoids an API call on every slider move. Cytoscape supports <code>ele.hide()</code> / <code>ele.show()</code> with ~1ms latency per element.</p>
+    <p>Caveat: this only works if the graph is already loaded (depth is set). Changing depth still triggers a server fetch. The timeline operates within the already-fetched data.</p>
+  </div>
+
+  <h3>API changes</h3>
+  <p>The graph API response already includes date fields on edges. We just need to ensure they&rsquo;re present:</p>
+  <pre><code>// Edge objects gain a date field
+{
+  "source": "auth-789", "target": "con-456", "type": "AWARDED",
+  "date": "2024-06-15"    // award_date for contracts
+}
+{
+  "source": "per-012", "target": "gmr-123", "type": "DIRECTS",
+  "start_date": "2020-01-01", "end_date": null  // active director
+}</code></pre>
+
+  <h3>Visual design</h3>
+  <ul>
+    <li>Nodes that have no edges at the selected date fade to 10% opacity (they exist but aren&rsquo;t connected yet)</li>
+    <li>New edges appearing at the selected date flash briefly with a glow animation</li>
+    <li>The &ldquo;play&rdquo; mode uses <code>requestAnimationFrame</code> for smooth 1-month/second advancement</li>
+  </ul>
+
+  <h3>Complexity assessment</h3>
+  <div class="callout warn">
+    <strong>This is a session 5+ feature.</strong> The timeline slider, date filtering, play animation, and edge date extraction are each non-trivial. Recommend implementing the core graph explorer (N2) first, then adding temporal as an enhancement. The API should return dates from the start so no API changes are needed later.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ BUNDLING -->
+<hr>
+<h2 id="bundling">N2c: Edge Bundling &amp; Export</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">N2c</span>
+    <span class="phase-title">Aggregate edges + SVG/JSON export</span>
+  </div>
+
+  <h3>Edge bundling</h3>
+  <p>When a company has 200 contracts from the same authority, showing 200 individual edges is visual noise. Instead:</p>
+  <ul>
+    <li>If &gt;5 edges exist between the same two nodes with the same type, bundle them into a single weighted edge</li>
+    <li>Bundled edge label: &ldquo;47 contracts &middot; &euro;12.3M&rdquo;</li>
+    <li>Edge thickness proportional to count or total value</li>
+    <li>Click the bundled edge to expand into individual edges (or show a list)</li>
+    <li>Toggle: &ldquo;Bundle edges&rdquo; checkbox in controls (on by default)</li>
+  </ul>
+
+  <h3>Implementation</h3>
+  <p>Bundling is done <strong>client-side</strong> after the API response arrives. The API returns individual edges. The <code>GraphExplorer</code> component groups them before passing to Cytoscape:</p>
+  <pre><code>// Group edges by (source, target, type)
+const bundled = groupBy(edges, e =&gt; `${e.source}-${e.target}-${e.type}`)
+for (const [key, group] of bundled) {
+  if (group.length &gt; 5) {
+    // Replace with a single weighted edge
+    yield { ...group[0], weight: group.length, totalValue: sum(group, 'value_eur') }
+  } else {
+    yield* group  // show individually
+  }
+}</code></pre>
+
+  <h3>Export</h3>
+  <table>
+    <tr><th>Format</th><th>Use case</th><th>Implementation</th></tr>
+    <tr><td>SVG</td><td>Reports, presentations</td><td><code>cy.svg()</code> &mdash; built into Cytoscape</td></tr>
+    <tr><td>PNG</td><td>Quick sharing</td><td><code>cy.png()</code> &mdash; built into Cytoscape</td></tr>
+    <tr><td>JSON</td><td>Further analysis, reimport</td><td><code>cy.json()</code> for graph state, or raw API response</td></tr>
+  </table>
+  <p>Export buttons in the toolbar: <code>[SVG] [PNG] [JSON]</code>. Downloads to the user&rsquo;s browser.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ BOOKMARKS -->
+<hr>
+<h2 id="bookmarks">N2d: Saved Views &amp; Bookmarks</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="badge">N2d</span>
+    <span class="phase-title">Save, share, and restore graph states</span>
+  </div>
+
+  <h3>Concept</h3>
+  <p>An investigator finds an interesting subgraph. They want to save it, share it with a colleague, and come back to it later. This is the foundation for the future <strong>report builder</strong> (embedding visualizations in documents).</p>
+
+  <h3>What gets saved</h3>
+  <pre><code>{
+  "center_id": "gmr-123",
+  "depth": 2,
+  "type_filters": ["Company", "Contract", "Authority"],
+  "keyword": "",
+  "locked_nodes": ["gmr-345", "auth-789"],
+  "node_positions": { "gmr-123": [100, 200], "gmr-345": [300, 150] },
+  "timeline_date": "2024-06-01",   // null if timeline not active
+  "path_target": null,              // or entity_id if path mode active
+  "name": "Mota-Engil procurement network"
+}</code></pre>
+
+  <h3>Storage options</h3>
+  <table>
+    <tr><th>Option</th><th>Pros</th><th>Cons</th></tr>
+    <tr><td>URL hash (<code>#state=base64</code>)</td><td>Shareable, no backend</td><td>URL length limit (~2KB), no persistence</td></tr>
+    <tr><td>localStorage</td><td>Persistent, no backend</td><td>Not shareable, per-device</td></tr>
+    <tr><td>Neo4j <code>(:SavedView)</code> node</td><td>Persistent, shareable, queryable</td><td>Needs API endpoint</td></tr>
+  </table>
+
+  <div class="callout ok">
+    <strong>Recommendation: localStorage for v1, Neo4j for v2.</strong>
+    <p>Start with localStorage (list of saved views in the sidebar). Add a &ldquo;Copy link&rdquo; button that encodes the state in the URL hash. Later, when the report builder exists, migrate to Neo4j storage for cross-user sharing.</p>
+  </div>
+
+  <h3>UI</h3>
+  <ul>
+    <li>&ldquo;Save view&rdquo; button in the toolbar &rarr; prompts for a name</li>
+    <li>Saved views listed in a collapsible sidebar panel</li>
+    <li>Click a saved view to restore: center, depth, filters, locks, positions</li>
+    <li>&ldquo;Copy link&rdquo; button encodes the state in the URL for sharing</li>
+  </ul>
 </div>
 
 
 <!-- ═══════════════════════════════════════════════════════ TEST PLAN -->
 <hr>
-<h2 id="test-plan">N2 Test Plan: Graph Explorer</h2>
+<h2 id="test-plan">Test Plan</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="badge">TEST PLAN</span>
-    <span class="phase-title">4-layer testing strategy</span>
+    <span class="phase-title">Layered testing across all N2 features</span>
   </div>
 
-  <h3>Layer 1: API (pytest, mocked Neo4j)</h3>
+  <h3>Layer 1: API (pytest, mocked Neo4j) &mdash; 10 tests</h3>
   <table>
     <tr><th>ID</th><th>Test</th></tr>
     <tr><td>GE-API-01</td><td>Depth 0 returns only center node</td></tr>
     <tr><td>GE-API-02</td><td>Depth 1 returns direct relationships</td></tr>
-    <tr><td>GE-API-03</td><td>Type filter excludes unwanted types</td></tr>
+    <tr><td>GE-API-03</td><td>Type filter excludes unwanted types server-side</td></tr>
     <tr><td>GE-API-04</td><td>Response capped at 500 nodes, truncated=true</td></tr>
     <tr><td>GE-API-05</td><td>Unknown entity returns empty graph</td></tr>
     <tr><td>GE-API-06</td><td>Depth &gt;3 returns 422</td></tr>
+    <tr><td>GE-API-07</td><td>Entry from Authority (not just Company)</td></tr>
+    <tr><td>GE-API-08</td><td>Entry from Person</td></tr>
+    <tr><td>GE-API-09</td><td>Path finding: shortest path between two entities</td></tr>
+    <tr><td>GE-API-10</td><td>Path finding: extra paths within shortest+2</td></tr>
   </table>
 
-  <h3>Layer 2: Components (vitest, mocked fetch)</h3>
+  <h3>Layer 2: Components (vitest, mocked fetch) &mdash; 15 tests</h3>
   <table>
     <tr><th>ID</th><th>Test</th></tr>
     <tr><td>GE-UI-01</td><td>GraphExplorer renders canvas</td></tr>
@@ -254,29 +437,40 @@ src/api/
     <tr><td>GE-UI-03</td><td>Type filter hides nodes client-side</td></tr>
     <tr><td>GE-UI-04</td><td>Keyword filter matches labels</td></tr>
     <tr><td>GE-UI-05</td><td>Locked nodes survive filter changes</td></tr>
-    <tr><td>GE-UI-06</td><td>Click node shows tooltip</td></tr>
-    <tr><td>GE-UI-07</td><td>Tooltip link navigates to profile</td></tr>
-    <tr><td>GE-UI-08</td><td>Empty graph shows message</td></tr>
-    <tr><td>GE-UI-09</td><td>Truncated graph shows warning</td></tr>
+    <tr><td>GE-UI-06</td><td>Click node shows tooltip with details</td></tr>
+    <tr><td>GE-UI-07</td><td>Tooltip &ldquo;Go to profile&rdquo; navigates correctly</td></tr>
+    <tr><td>GE-UI-08</td><td>Tooltip &ldquo;Set as center&rdquo; re-centers the graph</td></tr>
+    <tr><td>GE-UI-09</td><td>Empty graph shows message</td></tr>
+    <tr><td>GE-UI-10</td><td>Truncated graph shows warning with count</td></tr>
+    <tr><td>GE-UI-11</td><td>Edge bundling groups &gt;5 same-type edges</td></tr>
+    <tr><td>GE-UI-12</td><td>Path mode highlights shortest path</td></tr>
+    <tr><td>GE-UI-13</td><td>Path mode dims non-path nodes</td></tr>
+    <tr><td>GE-UI-14</td><td>Export SVG produces valid SVG string</td></tr>
+    <tr><td>GE-UI-15</td><td>Save view stores state in localStorage</td></tr>
   </table>
 
-  <h3>Layer 3: E2E (Playwright, Chromium + Firefox)</h3>
+  <h3>Layer 3: E2E (Playwright, Chromium + Firefox) &mdash; 8 tests</h3>
   <table>
     <tr><th>ID</th><th>Test</th></tr>
-    <tr><td>GE-E2E-01</td><td>Graph view loads for a known company</td></tr>
-    <tr><td>GE-E2E-02</td><td>Depth slider changes the graph</td></tr>
-    <tr><td>GE-E2E-03</td><td>Type filter works</td></tr>
+    <tr><td>GE-E2E-01</td><td>Graph loads for a company with contracts</td></tr>
+    <tr><td>GE-E2E-02</td><td>Depth slider changes visible nodes</td></tr>
+    <tr><td>GE-E2E-03</td><td>Type filter hides/shows nodes</td></tr>
     <tr><td>GE-E2E-04</td><td>Click node shows tooltip</td></tr>
-    <tr><td>GE-E2E-05</td><td>Responsive: no overflow on mobile</td></tr>
+    <tr><td>GE-E2E-05</td><td>Graph loads from an Authority entry point</td></tr>
+    <tr><td>GE-E2E-06</td><td>Path finding shows highlighted path between two entities</td></tr>
+    <tr><td>GE-E2E-07</td><td>Export SVG downloads a file</td></tr>
+    <tr><td>GE-E2E-08</td><td>Responsive: canvas fits mobile viewport</td></tr>
   </table>
 
-  <h3>Layer 4: Performance</h3>
+  <h3>Layer 4: Performance &mdash; 3 tests</h3>
   <table>
     <tr><th>ID</th><th>Test</th></tr>
-    <tr><td>GE-PERF-01</td><td>API responds &lt;2s for depth=2</td></tr>
+    <tr><td>GE-PERF-01</td><td>API responds &lt;2s for depth=2 on a company with 50+ contracts</td></tr>
     <tr><td>GE-PERF-02</td><td>Cytoscape renders 200 nodes without jank</td></tr>
-    <tr><td>GE-PERF-03</td><td>Filtering 500 nodes &lt;100ms</td></tr>
+    <tr><td>GE-PERF-03</td><td>Client-side filtering of 500 nodes &lt;100ms</td></tr>
   </table>
+
+  <p><strong>Total: 36 tests</strong> (10 API + 15 component + 8 e2e + 3 performance)</p>
 </div>
 
 
@@ -286,10 +480,13 @@ src/api/
 
 <table>
   <tr><th>Session</th><th>Scope</th><th>Deliverable</th></tr>
-  <tr><td>1</td><td>N1</td><td>Hierarchical nav: DataViewSelector rewrite, mobile dropdown, tests</td></tr>
-  <tr><td>2</td><td>N2 API</td><td>Graph endpoint + 6 backend tests + Cypher queries</td></tr>
-  <tr><td>3</td><td>N2 UI</td><td>GraphExplorer + controls + tooltip + 9 vitest tests</td></tr>
-  <tr><td>4</td><td>N2 polish</td><td>5 e2e tests (Chromium + Firefox), performance, edge cases</td></tr>
+  <tr><td>1</td><td>N1</td><td>Hierarchical navigation: DataViewSelector rewrite, mobile dropdown, test updates</td></tr>
+  <tr><td>2</td><td>N2 core API</td><td>Graph endpoint (any entity type) + path finding API + 10 backend tests</td></tr>
+  <tr><td>3</td><td>N2 core UI</td><td>GraphExplorer + controls + tooltip + edge bundling + 10 vitest tests</td></tr>
+  <tr><td>4</td><td>N2a path finding UI</td><td>Path mode UI + highlighting + path legend + 5 tests</td></tr>
+  <tr><td>5</td><td>N2c+d export &amp; bookmarks</td><td>SVG/PNG/JSON export + localStorage saved views + 5 tests</td></tr>
+  <tr><td>6</td><td>N2b temporal</td><td>Timeline slider + date filtering + play animation + tests</td></tr>
+  <tr><td>7</td><td>E2E + polish</td><td>8 e2e tests (Chromium + Firefox), performance validation, edge cases</td></tr>
 </table>
 
 </body>
