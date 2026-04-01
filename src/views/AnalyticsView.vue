@@ -23,7 +23,6 @@ onMounted(() => { document.title = 'Analytics — GMR' })
         src="/admin/analytics/"
         class="an-frame"
         title="Analytics dashboard"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
       ></iframe>
     </div>
   </div>
