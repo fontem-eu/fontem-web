@@ -123,3 +123,13 @@
   - REQ-022
 "responsive.spec.js::logo click navigates home on mobile":
   - REQ-020
+
+# ── Navigation hierarchy ──
+"data-view.spec.js::\"GMR Long\" is in a different category than fundamentals":
+  - REQ-023
+"responsive.spec.js::DataViewSelector shows dropdown on mobile":
+  - REQ-024
+"responsive.spec.js::mobile dropdown shows all views when opened":
+  - REQ-024
+"responsive.spec.js::switching views via dropdown works on mobile":
+  - REQ-024

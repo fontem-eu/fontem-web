@@ -89,3 +89,11 @@
 - id: REQ-022
   title: Mobile logo shows "GMR" only (compact)
   category: responsive
+
+- id: REQ-023
+  title: Navigation groups views by category (Overview, Financials, Procurement, Analysis)
+  category: navigation
+
+- id: REQ-024
+  title: Mobile navigation uses a dropdown selector
+  category: responsive
