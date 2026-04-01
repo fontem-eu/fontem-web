@@ -24,19 +24,19 @@ onMounted(async () => {
 const diagrams = {
   system: `flowchart LR
   subgraph K8s["k8s cluster (gmr namespace)"]
-    WEB["gmr-web\\n(nginx + Vue SPA)"]
-    API["edgar-gmr-etl\\n(FastAPI)"]
-    NEO["Neo4j 5\\n(graph DB)"]
-    NFS["NFS PVC\\n(price CSVs)"]
+    WEB["gmr-web<br/>(nginx + Vue SPA)"]
+    API["edgar-gmr-etl<br/>(FastAPI)"]
+    NEO["Neo4j 5<br/>(graph DB)"]
+    NFS["NFS PVC<br/>(price CSVs)"]
   end
   USER((User)) --> WEB
   WEB -->|"/api/*"| API
   API --> NEO
   API --> NFS
   subgraph CronJobs
-    GLEIF["GLEIF refresh\\n(weekly)"]
-    TED["TED daily\\n(weekdays)"]
-    BACKUP["Neo4j backup\\n(nightly)"]
+    GLEIF["GLEIF refresh<br/>(weekly)"]
+    TED["TED daily<br/>(weekdays)"]
+    BACKUP["Neo4j backup<br/>(nightly)"]
   end
   GLEIF --> NEO
   TED --> NEO
@@ -99,8 +99,8 @@ const diagrams = {
   }`,
 
   pipeline: `flowchart TD
-  GLEIF_L1["GLEIF Level 1\\n3.26M companies"] -->|load_gleif.py| NEO[(Neo4j)]
-  GLEIF_L2["GLEIF Level 2\\n251K relationships"] -->|load_gleif_relationships.py| NEO
+  GLEIF_L1["GLEIF Level 1<br/>3.26M companies"] -->|load_gleif.py| NEO[(Neo4j)]
+  GLEIF_L2["GLEIF Level 2<br/>251K relationships"] -->|load_gleif_relationships.py| NEO
   ESEF["ESEF summaries"] -->|load_eu_listings.py| NEO
   EDGAR["EDGAR companyfacts"] -->|load_us_financials.py| NEO
   TED["TED monthly ZIPs"] -->|eforms-parser| PARSED["Parsed Notices"]

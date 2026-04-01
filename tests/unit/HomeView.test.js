@@ -127,12 +127,12 @@ describe('HomeView', () => {
     expect(gmrSpan).toBeTruthy()
   })
 
-  it('"Ticker Search" span carries the hidden class so it is invisible on mobile', async () => {
+  it('"Knowledge Graph" span carries the hidden class so it is invisible on mobile', async () => {
     const { wrapper } = await mountAt('/')
-    const tickerSearchSpan = wrapper.findAll('h1 span').find(s => s.text().includes('Ticker Search'))
-    expect(tickerSearchSpan).toBeTruthy()
-    expect(tickerSearchSpan.classes()).toContain('hidden')
-    expect(tickerSearchSpan.classes()).toContain('sm:inline')
+    const span = wrapper.findAll('h1 span').find(s => s.text().includes('Knowledge Graph'))
+    expect(span).toBeTruthy()
+    expect(span.classes()).toContain('hidden')
+    expect(span.classes()).toContain('sm:inline')
   })
 
   // ── Navigation ───────────────────────────────────────────────
