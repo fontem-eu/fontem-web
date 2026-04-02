@@ -7,39 +7,35 @@ test.describe('Architecture diagrams — Mermaid rendering', () => {
     await page.waitForFunction(() => window.mermaid, { timeout: 10000 })
   })
 
-  test('system overview diagram renders without errors', async ({ page }) => {
-    // System overview is expanded by default
+  test('infrastructure diagram renders without errors', async ({ page }) => {
+    // Infrastructure is expanded by default
     const diagram = page.locator('.arch-diagram').first()
     await expect(diagram).toBeVisible({ timeout: 5000 })
 
-    // Mermaid replaces the <pre> content with an SVG
     const svg = diagram.locator('svg')
     await expect(svg).toBeVisible({ timeout: 10000 })
 
-    // Check for error indicators
     const errorText = await diagram.locator('.error-icon, .error-text, [class*="error"]').count()
     expect(errorText).toBe(0)
   })
 
-  test('interface map diagram renders when expanded', async ({ page }) => {
-    // Click to expand the Interface Map section
-    await page.locator('.arch-toggle', { hasText: 'Interface Map' }).click()
+  test('backend architecture diagram renders when expanded', async ({ page }) => {
+    await page.locator('.arch-toggle', { hasText: 'Backend Architecture' }).click()
     await page.waitForTimeout(500)
 
-    const section = page.locator('.arch-section').filter({ hasText: 'Interface Map' })
+    const section = page.locator('.arch-section').filter({ hasText: 'Backend Architecture' })
     const svg = section.locator('svg')
     await expect(svg).toBeVisible({ timeout: 10000 })
 
-    // Should contain class names from the diagram
     const svgContent = await svg.innerHTML()
     expect(svgContent).toContain('FinancialDataSource')
   })
 
-  test('neo4j schema diagram renders when expanded', async ({ page }) => {
-    await page.locator('.arch-toggle', { hasText: 'Neo4j Schema' }).click()
+  test('neo4j data model diagram renders when expanded', async ({ page }) => {
+    await page.locator('.arch-toggle', { hasText: 'Neo4j Data Model' }).click()
     await page.waitForTimeout(500)
 
-    const section = page.locator('.arch-section').filter({ hasText: 'Neo4j Schema' })
+    const section = page.locator('.arch-section').filter({ hasText: 'Neo4j Data Model' })
     const svg = section.locator('svg')
     await expect(svg).toBeVisible({ timeout: 10000 })
 
@@ -59,11 +55,11 @@ test.describe('Architecture diagrams — Mermaid rendering', () => {
     expect(svgContent).toContain('Neo4j')
   })
 
-  test('request flow diagram renders when expanded', async ({ page }) => {
-    await page.locator('.arch-toggle', { hasText: 'Request Flow' }).click()
+  test('graph explorer flow diagram renders when expanded', async ({ page }) => {
+    await page.locator('.arch-toggle', { hasText: 'Graph Explorer Flow' }).click()
     await page.waitForTimeout(500)
 
-    const section = page.locator('.arch-section').filter({ hasText: 'Request Flow' })
+    const section = page.locator('.arch-section').filter({ hasText: 'Graph Explorer Flow' })
     const svg = section.locator('svg')
     await expect(svg).toBeVisible({ timeout: 10000 })
 
@@ -89,19 +85,14 @@ test.describe('Architecture diagrams — Mermaid rendering', () => {
 
     // Check that no <pre class="mermaid"> still has raw text (means it wasn't processed)
     const unprocessed = await page.locator('pre.mermaid').count()
-    // After mermaid processes them, the pre elements should contain SVGs or be replaced
-    // If they still have raw text content without an SVG child, that's a failure
     for (let i = 0; i < unprocessed; i++) {
       const pre = page.locator('pre.mermaid').nth(i)
       const isVisible = await pre.isVisible()
       if (isVisible) {
         const svgChild = pre.locator('svg')
         const hasSvg = await svgChild.count()
-        // A visible mermaid pre should have been processed into an SVG
-        // (or mermaid replaces the pre entirely with a div containing SVG)
         if (hasSvg === 0) {
           const text = await pre.textContent()
-          // If it still has diagram keywords, it wasn't rendered
           if (text.includes('flowchart') || text.includes('classDiagram') || text.includes('erDiagram')) {
             throw new Error(`Diagram ${i} was not rendered by Mermaid: ${text.substring(0, 100)}`)
           }
