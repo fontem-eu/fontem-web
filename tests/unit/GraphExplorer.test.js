@@ -9,6 +9,9 @@ const mockCy = {
   nodes: vi.fn(() => ({
     forEach: vi.fn(),
   })),
+  edges: vi.fn(() => ({
+    forEach: vi.fn(),
+  })),
 }
 vi.mock('cytoscape', () => ({
   default: vi.fn(() => mockCy),
@@ -198,5 +201,130 @@ describe('GraphExplorer', () => {
     expect(wrapper.find('[data-testid="ge-filter-authority"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-filter-person"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-keyword"]').exists()).toBe(true)
+  })
+
+  // ── Path finding tests ──────────────────────────────────────
+
+  // GE-UI-12: Path mode toggle shows search bar
+  it('clicking "Find path to…" shows the path search bar', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(false)
+
+    await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
+    expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-path-input"]').exists()).toBe(true)
+  })
+
+  // GE-UI-13: Path legend shows after paths found
+  it('shows path legend with hop count after path found', async () => {
+    // First call: graph data
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Enter path mode
+    await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
+
+    // Mock path finding response
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        from_node: { id: 'comp-aaa', label: 'Acme Corp', type: 'Company' },
+        to_node: { id: 'comp-bbb', label: 'Beta Ltd', type: 'Company' },
+        paths: [
+          {
+            length: 2,
+            node_ids: ['comp-aaa', 'con-111', 'comp-bbb'],
+            edges: [
+              { source: 'con-111', target: 'comp-aaa', type: 'AWARDED_TO' },
+              { source: 'con-111', target: 'comp-bbb', type: 'AWARDED_TO' },
+            ],
+          },
+        ],
+        shortest_length: 2,
+      }),
+    })
+
+    // Directly call selectPathTarget (bypasses debounced search)
+    wrapper.vm.selectPathTarget({ id: 'comp-bbb', label: 'Beta Ltd', type: 'Company' })
+    await flushPromises()
+
+    const legend = wrapper.find('[data-testid="ge-path-legend"]')
+    expect(legend.exists()).toBe(true)
+    expect(legend.text()).toContain('1 path found')
+    expect(legend.text()).toContain('Shortest: 2 hops')
+  })
+
+  // No paths found message
+  it('shows "no paths" message when API returns empty paths', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Enter path mode and directly set target + path data
+    await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
+
+    // Mock path finding with no results
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        from_node: { id: 'comp-aaa', label: 'Acme Corp', type: 'Company' },
+        to_node: { id: 'comp-zzz', label: 'Nowhere Inc', type: 'Company' },
+        paths: [],
+        shortest_length: null,
+      }),
+    })
+
+    // Manually call selectPathTarget (simulates clicking a search result)
+    wrapper.vm.selectPathTarget({ id: 'comp-zzz', label: 'Nowhere Inc', type: 'Company' })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-path-none"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('No paths found')
+  })
+
+  // Exit path mode clears state
+  it('exiting path mode clears path data and legend', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Enter path mode
+    await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
+    expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(true)
+
+    // Exit path mode
+    await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
+    expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="ge-path-legend"]').exists()).toBe(false)
+  })
+
+  // Path toggle button exists
+  it('has a "Find path to…" toggle button', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    const btn = wrapper.find('[data-testid="ge-path-toggle"]')
+    expect(btn.exists()).toBe(true)
+    expect(btn.text()).toContain('Find path to')
   })
 })

@@ -17,10 +17,21 @@ const keyword = ref('')
 const loading = ref(false)
 const graphData = ref(null)
 const error = ref(null)
-const tooltip = ref(null) // {x, y, node}
+const tooltip = ref(null)
 const cyContainer = ref(null)
 
+// ── Path finding state ───────────────────────────────────────
+const pathMode = ref(false)
+const pathQuery = ref('')
+const pathSearchResults = ref([])
+const pathSearching = ref(false)
+const pathTarget = ref(null) // { id, label, type }
+const pathData = ref(null)   // API response
+const pathLoading = ref(false)
+const selectedPathIndex = ref(null) // null = all, number = specific path
+
 let cy = null
+let searchDebounce = null
 
 // ── Node styles ──────────────────────────────────────────────
 const NODE_STYLES = {
@@ -31,7 +42,7 @@ const NODE_STYLES = {
   Unknown:   { shape: 'ellipse',   color: '#6b7280' },
 }
 
-// ── API ──────────────────────────────────────────────────────
+// ── Graph API ────────────────────────────────────────────────
 async function fetchGraph() {
   loading.value = true
   error.value = null
@@ -55,7 +66,86 @@ async function fetchGraph() {
   }
 }
 
-// ── Cytoscape ────────────────────────────────────────────────
+// ── Path search (entity search for target) ───────────────────
+async function searchEntities(q) {
+  if (!q || q.length < 2) {
+    pathSearchResults.value = []
+    return
+  }
+  pathSearching.value = true
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&limit=8`)
+    if (!res.ok) throw new Error('Search failed')
+    const data = await res.json()
+    const results = []
+    for (const c of (data.companies || [])) {
+      results.push({ id: c.gmr_id, label: c.name, type: 'Company' })
+    }
+    for (const a of (data.authorities || [])) {
+      results.push({ id: a.authority_id, label: a.name, type: 'Authority' })
+    }
+    for (const p of (data.persons || [])) {
+      const name = [p.first_name, p.name].filter(Boolean).join(' ')
+      results.push({ id: p.person_id, label: name, type: 'Person' })
+    }
+    pathSearchResults.value = results
+  } catch {
+    pathSearchResults.value = []
+  } finally {
+    pathSearching.value = false
+  }
+}
+
+function onPathQueryInput() {
+  clearTimeout(searchDebounce)
+  searchDebounce = setTimeout(() => searchEntities(pathQuery.value), 300)
+}
+
+async function selectPathTarget(target) {
+  pathTarget.value = target
+  pathQuery.value = target.label
+  pathSearchResults.value = []
+  selectedPathIndex.value = null
+  await findPaths()
+}
+
+// ── Path finding API ─────────────────────────────────────────
+async function findPaths() {
+  if (!pathTarget.value) return
+  pathLoading.value = true
+  pathData.value = null
+  try {
+    const url = `/api/graph/paths/find`
+      + `?from=${encodeURIComponent(props.entityId)}`
+      + `&to=${encodeURIComponent(pathTarget.value.id)}`
+    const res = await fetch(url)
+    if (!res.ok) throw new Error(`Path API ${res.status}`)
+    pathData.value = await res.json()
+  } catch (e) {
+    error.value = e.message || 'Path finding failed'
+  } finally {
+    pathLoading.value = false
+  }
+  highlightPaths()
+}
+
+function togglePathMode() {
+  pathMode.value = !pathMode.value
+  if (!pathMode.value) {
+    clearPathState()
+    renderGraph()
+  }
+}
+
+function clearPathState() {
+  pathTarget.value = null
+  pathQuery.value = ''
+  pathSearchResults.value = []
+  pathData.value = null
+  selectedPathIndex.value = null
+}
+
+// ── Cytoscape rendering ──────────────────────────────────────
 function renderGraph() {
   if (!graphData.value || !cyContainer.value) return
 
@@ -148,7 +238,6 @@ function renderGraph() {
     wheelSensitivity: 0.3,
   })
 
-  // Click node → show tooltip
   cy.on('tap', 'node', (evt) => {
     const node = evt.target
     const pos = node.renderedPosition()
@@ -162,7 +251,6 @@ function renderGraph() {
     }
   })
 
-  // Click background → dismiss tooltip
   cy.on('tap', (evt) => {
     if (evt.target === cy) tooltip.value = null
   })
@@ -170,6 +258,65 @@ function renderGraph() {
   applyKeywordFilter()
 }
 
+// ── Path highlighting ────────────────────────────────────────
+function highlightPaths() {
+  if (!cy || !pathData.value || !pathData.value.paths.length) return
+
+  // Collect node IDs and edge keys on active paths
+  const pathNodeIds = new Set()
+  const pathEdgeKeys = new Set()
+
+  const activePaths = selectedPathIndex.value !== null
+    ? [pathData.value.paths[selectedPathIndex.value]]
+    : pathData.value.paths
+
+  for (const p of activePaths) {
+    for (const nid of p.node_ids) pathNodeIds.add(nid)
+    for (const e of p.edges) {
+      pathEdgeKeys.add(`${e.source}-${e.target}-${e.type}`)
+    }
+  }
+
+  // Dim non-path elements
+  cy.nodes().forEach((node) => {
+    if (pathNodeIds.has(node.data('id'))) {
+      node.style('opacity', 1)
+    } else {
+      node.style('opacity', 0.15)
+    }
+  })
+
+  cy.edges().forEach((edge) => {
+    const key = edge.data('id')
+    if (pathEdgeKeys.has(key)) {
+      const isOnShortest = isEdgeOnShortestPath(edge.data())
+      edge.style({
+        'opacity': 1,
+        'width': isOnShortest ? 3 : 2,
+        'line-color': isOnShortest ? '#3b82f6' : '#93c5fd',
+        'target-arrow-color': isOnShortest ? '#3b82f6' : '#93c5fd',
+        'line-style': isOnShortest ? 'solid' : 'dashed',
+      })
+    } else {
+      edge.style('opacity', 0.1)
+    }
+  })
+}
+
+function isEdgeOnShortestPath(edgeData) {
+  if (!pathData.value || !pathData.value.paths.length) return false
+  const shortest = pathData.value.paths[0]
+  return shortest.edges.some(
+    (e) => `${e.source}-${e.target}-${e.type}` === edgeData.id,
+  )
+}
+
+function selectPath(index) {
+  selectedPathIndex.value = selectedPathIndex.value === index ? null : index
+  highlightPaths()
+}
+
+// ── Keyword filter ───────────────────────────────────────────
 function applyKeywordFilter() {
   if (!cy) return
   const q = keyword.value.toLowerCase().trim()
@@ -183,6 +330,7 @@ function applyKeywordFilter() {
   })
 }
 
+// ── Actions ──────────────────────────────────────────────────
 function setAsCenter(nodeId) {
   tooltip.value = null
   emit('navigate', nodeId)
@@ -191,9 +339,8 @@ function setAsCenter(nodeId) {
 function goToProfile(nodeId, nodeType) {
   tooltip.value = null
   if (nodeType === 'Company') {
-    const id = nodeId
     window.location.hash = ''
-    window.location.pathname = `/c/${id}/profile`
+    window.location.pathname = `/c/${nodeId}/profile`
   }
 }
 
@@ -206,6 +353,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   if (cy) cy.destroy()
+  clearTimeout(searchDebounce)
 })
 
 watch(depth, async () => {
@@ -225,6 +373,8 @@ watch(keyword, () => {
 })
 
 watch(() => props.entityId, async () => {
+  clearPathState()
+  pathMode.value = false
   await fetchGraph()
   await nextTick()
   renderGraph()
@@ -281,6 +431,93 @@ watch(() => props.entityId, async () => {
           data-testid="ge-keyword"
         />
       </label>
+
+      <!-- Path mode toggle -->
+      <button
+        class="ge-path-btn"
+        :class="{ 'ge-path-btn--active': pathMode }"
+        data-testid="ge-path-toggle"
+        @click="togglePathMode"
+      >
+        {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
+      </button>
+    </div>
+
+    <!-- Path search bar (visible when path mode is active) -->
+    <div v-if="pathMode" class="ge-path-bar" data-testid="ge-path-bar">
+      <div class="ge-path-search">
+        <span class="ge-control__label">Path to</span>
+        <input
+          v-model="pathQuery"
+          type="text"
+          placeholder="Search entity name..."
+          class="ge-path-input"
+          data-testid="ge-path-input"
+          @input="onPathQueryInput"
+        />
+        <!-- Search results dropdown -->
+        <div
+          v-if="pathSearchResults.length > 0"
+          class="ge-path-results"
+          data-testid="ge-path-results"
+        >
+          <button
+            v-for="r in pathSearchResults"
+            :key="r.id"
+            class="ge-path-result"
+            :data-testid="`ge-path-result-${r.id}`"
+            @click="selectPathTarget(r)"
+          >
+            <span
+              class="ge-type-dot"
+              :style="{ background: NODE_STYLES[r.type]?.color || '#6b7280' }"
+            ></span>
+            {{ r.label }}
+            <span class="ge-path-result__type">{{ r.type }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Path loading -->
+      <span v-if="pathLoading" class="ge-path-loading" data-testid="ge-path-loading">
+        Finding paths...
+      </span>
+    </div>
+
+    <!-- Path legend (visible when paths found) -->
+    <div
+      v-if="pathData && pathData.paths.length > 0"
+      class="ge-path-legend"
+      data-testid="ge-path-legend"
+    >
+      <span class="ge-path-legend__summary">
+        {{ pathData.paths.length }} path{{ pathData.paths.length > 1 ? 's' : '' }} found.
+        Shortest: {{ pathData.shortest_length }} hop{{ pathData.shortest_length > 1 ? 's' : '' }}.
+      </span>
+      <div class="ge-path-legend__list">
+        <button
+          v-for="(p, i) in pathData.paths"
+          :key="i"
+          class="ge-path-legend__item"
+          :class="{
+            'ge-path-legend__item--selected': selectedPathIndex === i,
+            'ge-path-legend__item--shortest': i === 0,
+          }"
+          :data-testid="`ge-path-${i}`"
+          @click="selectPath(i)"
+        >
+          Path {{ i + 1 }}: {{ p.length }} hop{{ p.length > 1 ? 's' : '' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- No paths found -->
+    <div
+      v-if="pathData && pathData.paths.length === 0"
+      class="ge-path-none"
+      data-testid="ge-path-none"
+    >
+      No paths found between these entities.
     </div>
 
     <!-- Status bar -->
@@ -358,6 +595,14 @@ watch(() => props.entityId, async () => {
           @click="setAsCenter(tooltip.id)"
         >
           Set as center
+        </button>
+        <button
+          v-if="pathMode && tooltip.id !== entityId"
+          class="ge-tooltip__btn"
+          data-testid="ge-find-path-to"
+          @click="selectPathTarget({ id: tooltip.id, label: tooltip.label, type: tooltip.type })"
+        >
+          Find path to
         </button>
       </div>
     </div>
@@ -465,6 +710,150 @@ watch(() => props.entityId, async () => {
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface);
+}
+
+/* ── Path mode ──────────────────────────── */
+.ge-path-btn {
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.ge-path-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.ge-path-btn--active {
+  background: var(--accent);
+  color: white;
+}
+
+.ge-path-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.ge-path-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.ge-path-input {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 3px;
+  flex: 1;
+  max-width: 300px;
+}
+
+.ge-path-results {
+  position: absolute;
+  top: 100%;
+  left: 40px;
+  z-index: 20;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  min-width: 250px;
+}
+
+.ge-path-result {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.ge-path-result:hover {
+  background: var(--surface);
+}
+
+.ge-path-result__type {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.ge-path-loading {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── Path legend ────────────────────────── */
+.ge-path-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.ge-path-legend__summary {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ge-path-legend__list {
+  display: flex;
+  gap: 4px;
+}
+
+.ge-path-legend__item {
+  padding: 2px 8px;
+  font-size: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.ge-path-legend__item--shortest {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.ge-path-legend__item--selected {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.ge-path-none {
+  padding: 8px 0;
+  font-size: 12px;
+  color: var(--muted);
 }
 
 /* ── Tooltip ────────────────────────────── */
