@@ -5,9 +5,6 @@ import { resolve } from 'path'
 /**
  * Validates that all Mermaid diagram strings in ArchitectureView.vue
  * are syntactically valid by checking they contain expected markers.
- *
- * For full rendering validation, run `mmdc` (mermaid CLI) — this test
- * catches structural issues without needing a browser or puppeteer.
  */
 const vuePath = resolve(__dirname, '../../src/views/ArchitectureView.vue')
 const source = readFileSync(vuePath, 'utf-8')
@@ -17,25 +14,25 @@ const diagramBlock = source.match(/const diagrams = \{(.+?)\n\}/s)?.[1] || ''
 const diagramEntries = [...diagramBlock.matchAll(/(\w+):\s*`([^`]+)`/gs)]
 
 describe('Architecture diagrams', () => {
-  it('has exactly 5 diagrams defined', () => {
-    expect(diagramEntries.length).toBe(5)
+  it('has exactly 8 diagrams defined', () => {
+    expect(diagramEntries.length).toBe(8)
   })
 
   it('pre-renders diagrams via mermaid.render() to avoid HTML parsing issues', () => {
-    // mermaid.render() generates SVG strings from raw text — no HTML parsing.
-    // The SVGs are stored in renderedSvgs and injected via v-html (safe: SVG output).
     expect(source).toContain('mermaid.render(')
     expect(source).toContain('renderedSvgs')
-    // Must NOT use {{ }} or textContent with mermaid.run() — both have issues
     expect(source).not.toMatch(/class="mermaid">\s*\{\{/)
   })
 
   const expectedDiagrams = [
-    { name: 'system', mustContain: 'flowchart', nodes: ['WEB', 'API', 'NEO'] },
-    { name: 'interfaces', mustContain: 'classDiagram', nodes: ['FinancialDataSource', 'ContractDataSource'] },
-    { name: 'schema', mustContain: 'erDiagram', nodes: ['Company', 'Contract', 'Person'] },
-    { name: 'pipeline', mustContain: 'flowchart', nodes: ['GLEIF_L1', 'TED', 'NEO'] },
-    { name: 'request', mustContain: 'sequenceDiagram', nodes: ['Browser', 'FastAPI', 'Neo4j'] },
+    { name: 'infra', mustContain: 'flowchart', nodes: ['WEB', 'API', 'NEO'] },
+    { name: 'schema', mustContain: 'erDiagram', nodes: ['Company', 'Contract', 'Person', 'CPV'] },
+    { name: 'layers', mustContain: 'flowchart', nodes: ['FinancialDataSource', 'GraphDataSource'] },
+    { name: 'api', mustContain: 'flowchart', nodes: ['Financial', 'Procurement', 'Graph'] },
+    { name: 'etl', mustContain: 'flowchart', nodes: ['GLEIF_L1', 'TED_PKG', 'DEDUP'] },
+    { name: 'frontend', mustContain: 'flowchart', nodes: ['SEARCH', 'DISPATCH', 'GraphExplorer'] },
+    { name: 'graphflow', mustContain: 'sequenceDiagram', nodes: ['Browser', 'FastAPI', 'Neo4j'] },
+    { name: 'identity', mustContain: 'flowchart', nodes: ['GLEIF', 'EDGAR', 'DEDUP'] },
   ]
 
   for (const { name, mustContain, nodes } of expectedDiagrams) {
