@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-01T19:57:11.696612",
+  "generated_at": "2026-04-02T06:07:51.203328",
   "summary": {
-    "total_requirements": 24,
-    "covered_requirements": 24,
+    "total_requirements": 30,
+    "covered_requirements": 30,
     "uncovered_requirements": 0,
     "coverage_pct": 100.0,
     "total_e2e_tests": 81,
-    "mapped_tests": 57,
+    "mapped_tests": 68,
     "unmapped_tests": 29
   },
   "requirements": [
@@ -265,6 +265,65 @@
         "responsive.spec.js::DataViewSelector shows dropdown on mobile",
         "responsive.spec.js::mobile dropdown shows all views when opened",
         "responsive.spec.js::switching views via dropdown works on mobile"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-025",
+      "title": "Graph explorer renders entity relationship graph with depth control",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::renders the graph canvas element",
+        "GraphExplorer.test.js::re-fetches when depth slider changes"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-026",
+      "title": "Graph explorer supports type filtering and keyword search",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::sends type filter in API request",
+        "GraphExplorer.test.js::has a keyword filter input"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-027",
+      "title": "Graph explorer supports path finding between entities",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::clicking Find path to shows the path search bar",
+        "GraphExplorer.test.js::shows path legend with hop count after path found"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-028",
+      "title": "Graph explorer exports to SVG, PNG, and JSON",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::renders SVG, PNG, and JSON export buttons",
+        "GraphExplorer.test.js::SVG export calls cy.svg()"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-029",
+      "title": "Graph explorer saves and restores views from localStorage",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::saving a view stores state in localStorage",
+        "GraphExplorer.test.js::shows saved views panel after saving and clicking Saved button"
+      ],
+      "covered": true
+    },
+    {
+      "id": "REQ-030",
+      "title": "Graph explorer has temporal timeline for date-based filtering",
+      "category": "graph",
+      "tests": [
+        "GraphExplorer.test.js::clicking Timeline toggle shows timeline controls"
       ],
       "covered": true
     }

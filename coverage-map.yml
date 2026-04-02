@@ -133,3 +133,27 @@
   - REQ-024
 "responsive.spec.js::switching views via dropdown works on mobile":
   - REQ-024
+
+# ── Graph explorer (unit tests) ──
+"GraphExplorer.test.js::renders the graph canvas element":
+  - REQ-025
+"GraphExplorer.test.js::re-fetches when depth slider changes":
+  - REQ-025
+"GraphExplorer.test.js::sends type filter in API request":
+  - REQ-026
+"GraphExplorer.test.js::has a keyword filter input":
+  - REQ-026
+"GraphExplorer.test.js::clicking Find path to shows the path search bar":
+  - REQ-027
+"GraphExplorer.test.js::shows path legend with hop count after path found":
+  - REQ-027
+"GraphExplorer.test.js::renders SVG, PNG, and JSON export buttons":
+  - REQ-028
+"GraphExplorer.test.js::SVG export calls cy.svg()":
+  - REQ-028
+"GraphExplorer.test.js::saving a view stores state in localStorage":
+  - REQ-029
+"GraphExplorer.test.js::shows saved views panel after saving and clicking Saved button":
+  - REQ-029
+"GraphExplorer.test.js::clicking Timeline toggle shows timeline controls":
+  - REQ-030

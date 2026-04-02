@@ -97,3 +97,27 @@
 - id: REQ-024
   title: Mobile navigation uses a dropdown selector
   category: responsive
+
+- id: REQ-025
+  title: Graph explorer renders entity relationship graph with depth control
+  category: graph
+
+- id: REQ-026
+  title: Graph explorer supports type filtering and keyword search
+  category: graph
+
+- id: REQ-027
+  title: Graph explorer supports path finding between entities
+  category: graph
+
+- id: REQ-028
+  title: Graph explorer exports to SVG, PNG, and JSON
+  category: graph
+
+- id: REQ-029
+  title: Graph explorer saves and restores views from localStorage
+  category: graph
+
+- id: REQ-030
+  title: Graph explorer has temporal timeline for date-based filtering
+  category: graph
