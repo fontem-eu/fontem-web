@@ -35,8 +35,17 @@ const SAVED_VIEWS_KEY = 'gmr-graph-saved-views'
 const savedViews = ref(loadSavedViews())
 const showSavedViews = ref(false)
 
+// ── Temporal state ───────────────────────────────────────────
+const timelineEnabled = ref(false)
+const timelineDate = ref(null)    // YYYY-MM string
+const timelineMin = ref(null)
+const timelineMax = ref(null)
+const timelineStats = ref({ contracts: 0, directors: 0, subsidiaries: 0 })
+const timelinePlaying = ref(false)
+
 let cy = null
 let searchDebounce = null
+let playInterval = null
 
 // ── Node styles ──────────────────────────────────────────────
 const NODE_STYLES = {
@@ -335,6 +344,134 @@ function applyKeywordFilter() {
   })
 }
 
+// ── Temporal ──────────────────────────────────────────────────
+function computeTimelineRange() {
+  if (!graphData.value) return
+  const dates = []
+  for (const node of graphData.value.nodes) {
+    const d = node.properties.publication_date || node.properties.start_date
+    if (d) dates.push(d.slice(0, 7)) // YYYY-MM
+  }
+  if (dates.length === 0) {
+    timelineMin.value = null
+    timelineMax.value = null
+    return
+  }
+  dates.sort()
+  timelineMin.value = dates[0]
+  timelineMax.value = dates[dates.length - 1]
+  if (!timelineDate.value || timelineDate.value > timelineMax.value) {
+    timelineDate.value = timelineMax.value
+  }
+}
+
+function applyTimelineFilter() {
+  if (!cy || !timelineEnabled.value || !timelineDate.value) return
+
+  let contracts = 0
+  let directors = 0
+  let subsidiaries = 0
+
+  cy.nodes().forEach((node) => {
+    const type = node.data('type')
+    const props = node.data('properties') || {}
+
+    if (type === 'Contract') {
+      const pubDate = (props.publication_date || '').slice(0, 7)
+      if (pubDate && pubDate > timelineDate.value) {
+        node.style('display', 'none')
+      } else {
+        node.style('display', 'element')
+        if (pubDate) contracts++
+      }
+    } else if (type === 'Person') {
+      // Person nodes are always shown; DIRECTS filtering would need edge dates
+      node.style('display', 'element')
+      directors++
+    } else {
+      node.style('display', 'element')
+      if (type === 'Company' && node.data('id') !== graphData.value?.center?.id) {
+        subsidiaries++
+      }
+    }
+  })
+
+  // Hide edges whose endpoints are hidden
+  cy.edges().forEach((edge) => {
+    const src = cy.getElementById(edge.data('source'))
+    const tgt = cy.getElementById(edge.data('target'))
+    if (src.style('display') === 'none' || tgt.style('display') === 'none') {
+      edge.style('display', 'none')
+    } else {
+      edge.style('display', 'element')
+    }
+  })
+
+  timelineStats.value = { contracts, directors, subsidiaries }
+}
+
+function clearTimelineFilter() {
+  if (!cy) return
+  cy.nodes().forEach((n) => n.style('display', 'element'))
+  cy.edges().forEach((e) => e.style('display', 'element'))
+}
+
+function toggleTimeline() {
+  timelineEnabled.value = !timelineEnabled.value
+  if (timelineEnabled.value) {
+    computeTimelineRange()
+    applyTimelineFilter()
+  } else {
+    stopPlay()
+    clearTimelineFilter()
+  }
+}
+
+function onTimelineChange() {
+  applyTimelineFilter()
+}
+
+function startPlay() {
+  if (!timelineMin.value || !timelineMax.value) return
+  timelinePlaying.value = true
+  timelineDate.value = timelineMin.value
+  applyTimelineFilter()
+  playInterval = setInterval(() => {
+    const next = advanceMonth(timelineDate.value)
+    if (next > timelineMax.value) {
+      stopPlay()
+      return
+    }
+    timelineDate.value = next
+    applyTimelineFilter()
+  }, 1000)
+}
+
+function stopPlay() {
+  timelinePlaying.value = false
+  clearInterval(playInterval)
+  playInterval = null
+}
+
+function advanceMonth(ym) {
+  const [y, m] = ym.split('-').map(Number)
+  const nm = m === 12 ? 1 : m + 1
+  const ny = m === 12 ? y + 1 : y
+  return `${ny}-${String(nm).padStart(2, '0')}`
+}
+
+function monthToIndex(ym) {
+  if (!ym) return 0
+  const [y, m] = ym.split('-').map(Number)
+  return y * 12 + m
+}
+
+function indexToMonth(idx) {
+  const y = Math.floor((idx - 1) / 12)
+  const m = ((idx - 1) % 12) + 1
+  return `${y}-${String(m).padStart(2, '0')}`
+}
+
 // ── Export ────────────────────────────────────────────────────
 function exportSvg() {
   if (!cy) return
@@ -441,6 +578,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   if (cy) cy.destroy()
   clearTimeout(searchDebounce)
+  stopPlay()
 })
 
 watch(depth, async () => {
@@ -527,6 +665,16 @@ watch(() => props.entityId, async () => {
         @click="togglePathMode"
       >
         {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
+      </button>
+
+      <!-- Timeline toggle -->
+      <button
+        class="ge-path-btn"
+        :class="{ 'ge-path-btn--active': timelineEnabled }"
+        data-testid="ge-timeline-toggle"
+        @click="toggleTimeline"
+      >
+        {{ timelineEnabled ? '✕ Timeline' : 'Timeline' }}
       </button>
 
       <!-- Export -->
@@ -658,6 +806,37 @@ watch(() => props.entityId, async () => {
       data-testid="ge-path-none"
     >
       No paths found between these entities.
+    </div>
+
+    <!-- Timeline -->
+    <div v-if="timelineEnabled && timelineMin" class="ge-timeline" data-testid="ge-timeline">
+      <div class="ge-timeline__controls">
+        <button
+          class="ge-timeline__play"
+          data-testid="ge-timeline-play"
+          @click="timelinePlaying ? stopPlay() : startPlay()"
+        >
+          {{ timelinePlaying ? '⏸' : '▶' }}
+        </button>
+        <input
+          :value="monthToIndex(timelineDate)"
+          type="range"
+          :min="monthToIndex(timelineMin)"
+          :max="monthToIndex(timelineMax)"
+          step="1"
+          class="ge-timeline__slider"
+          data-testid="ge-timeline-slider"
+          @input="timelineDate = indexToMonth(Number($event.target.value)); onTimelineChange()"
+        />
+        <span class="ge-timeline__date" data-testid="ge-timeline-date">
+          {{ timelineDate }}
+        </span>
+      </div>
+      <div class="ge-timeline__stats" data-testid="ge-timeline-stats">
+        {{ timelineStats.contracts }} contracts
+        &middot; {{ timelineStats.directors }} directors
+        &middot; {{ timelineStats.subsidiaries }} companies
+      </div>
     </div>
 
     <!-- Status bar -->
@@ -1067,6 +1246,58 @@ watch(() => props.entityId, async () => {
 
 .ge-saved-item__delete:hover {
   color: #ef4444;
+}
+
+/* ── Timeline ───────────────────────────── */
+.ge-timeline {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.ge-timeline__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ge-timeline__play {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ge-timeline__play:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ge-timeline__slider {
+  flex: 1;
+  height: 4px;
+  cursor: pointer;
+}
+
+.ge-timeline__date {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 60px;
+  text-align: right;
+}
+
+.ge-timeline__stats {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
 }
 
 /* ── Tooltip ────────────────────────────── */

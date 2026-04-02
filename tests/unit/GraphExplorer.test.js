@@ -438,4 +438,35 @@ describe('GraphExplorer', () => {
     expect(stored).toHaveLength(1)
     expect(stored[0].name).toBe('View B')
   })
+
+  // ── Timeline tests ──────────────────────────────────────────
+
+  // Timeline toggle shows slider when data has dates
+  it('clicking Timeline toggle shows timeline controls', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-timeline"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="ge-timeline-toggle"]').exists()).toBe(true)
+  })
+
+  // Timeline toggle button label changes
+  it('timeline toggle button text changes when active', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    const btn = wrapper.find('[data-testid="ge-timeline-toggle"]')
+    expect(btn.text()).toBe('Timeline')
+
+    await btn.trigger('click')
+    expect(btn.text()).toContain('Timeline')
+  })
 })
