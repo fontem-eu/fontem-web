@@ -30,6 +30,11 @@ const pathData = ref(null)   // API response
 const pathLoading = ref(false)
 const selectedPathIndex = ref(null) // null = all, number = specific path
 
+// ── Saved views state ────────────────────────────────────────
+const SAVED_VIEWS_KEY = 'gmr-graph-saved-views'
+const savedViews = ref(loadSavedViews())
+const showSavedViews = ref(false)
+
 let cy = null
 let searchDebounce = null
 
@@ -330,6 +335,88 @@ function applyKeywordFilter() {
   })
 }
 
+// ── Export ────────────────────────────────────────────────────
+function exportSvg() {
+  if (!cy) return
+  const svg = cy.svg({ full: true })
+  downloadFile(svg, 'graph.svg', 'image/svg+xml')
+}
+
+function exportPng() {
+  if (!cy) return
+  const png = cy.png({ full: true, scale: 2 })
+  const link = document.createElement('a')
+  link.href = png
+  link.download = 'graph.png'
+  link.click()
+}
+
+function exportJson() {
+  if (!cy) return
+  const data = {
+    graph: graphData.value,
+    paths: pathData.value,
+    center: props.entityId,
+    depth: depth.value,
+    typeFilters: { ...typeFilters.value },
+  }
+  downloadFile(JSON.stringify(data, null, 2), 'graph.json', 'application/json')
+}
+
+function downloadFile(content, filename, mime) {
+  const blob = new Blob([content], { type: mime })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+// ── Saved views ──────────────────────────────────────────────
+function loadSavedViews() {
+  try {
+    return JSON.parse(localStorage.getItem(SAVED_VIEWS_KEY) || '[]')
+  } catch { return [] }
+}
+
+function saveView() {
+  const name = prompt('Name this view:')
+  if (!name) return
+  const view = {
+    name,
+    centerId: props.entityId,
+    depth: depth.value,
+    typeFilters: { ...typeFilters.value },
+    keyword: keyword.value,
+    pathTarget: pathTarget.value,
+    savedAt: new Date().toISOString(),
+  }
+  savedViews.value = [view, ...savedViews.value].slice(0, 20)
+  persistSavedViews()
+}
+
+function restoreView(view) {
+  depth.value = view.depth ?? 1
+  typeFilters.value = view.typeFilters ?? { Company: true, Contract: true, Authority: true, Person: true }
+  keyword.value = view.keyword ?? ''
+  if (view.centerId && view.centerId !== props.entityId) {
+    emit('navigate', view.centerId)
+  }
+  showSavedViews.value = false
+}
+
+function deleteView(index) {
+  savedViews.value.splice(index, 1)
+  persistSavedViews()
+}
+
+function persistSavedViews() {
+  try {
+    localStorage.setItem(SAVED_VIEWS_KEY, JSON.stringify(savedViews.value))
+  } catch { /* ignore */ }
+}
+
 // ── Actions ──────────────────────────────────────────────────
 function setAsCenter(nodeId) {
   tooltip.value = null
@@ -441,6 +528,59 @@ watch(() => props.entityId, async () => {
       >
         {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
       </button>
+
+      <!-- Export -->
+      <div class="ge-control ge-control--export">
+        <button class="ge-export-btn" data-testid="ge-export-svg" @click="exportSvg">SVG</button>
+        <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">PNG</button>
+        <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">JSON</button>
+      </div>
+
+      <!-- Saved views -->
+      <button
+        class="ge-path-btn"
+        data-testid="ge-save-view"
+        @click="saveView"
+      >
+        Save view
+      </button>
+      <button
+        v-if="savedViews.length > 0"
+        class="ge-path-btn"
+        data-testid="ge-show-saved"
+        @click="showSavedViews = !showSavedViews"
+      >
+        Saved ({{ savedViews.length }})
+      </button>
+    </div>
+
+    <!-- Saved views panel -->
+    <div
+      v-if="showSavedViews && savedViews.length > 0"
+      class="ge-saved-panel"
+      data-testid="ge-saved-panel"
+    >
+      <div
+        v-for="(v, i) in savedViews"
+        :key="i"
+        class="ge-saved-item"
+      >
+        <button
+          class="ge-saved-item__name"
+          :data-testid="`ge-saved-${i}`"
+          @click="restoreView(v)"
+        >
+          {{ v.name }}
+        </button>
+        <span class="ge-saved-item__meta">depth {{ v.depth }}</span>
+        <button
+          class="ge-saved-item__delete"
+          :data-testid="`ge-saved-delete-${i}`"
+          @click="deleteView(i)"
+        >
+          ✕
+        </button>
+      </div>
     </div>
 
     <!-- Path search bar (visible when path mode is active) -->
@@ -854,6 +994,79 @@ watch(() => props.entityId, async () => {
   padding: 8px 0;
   font-size: 12px;
   color: var(--muted);
+}
+
+/* ── Export ──────────────────────────────── */
+.ge-control--export {
+  display: flex;
+  gap: 3px;
+}
+
+.ge-export-btn {
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.ge-export-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Saved views ────────────────────────── */
+.ge-saved-panel {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  padding: 6px;
+  margin-bottom: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.ge-saved-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 4px;
+}
+
+.ge-saved-item__name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--accent);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+}
+
+.ge-saved-item__name:hover {
+  text-decoration: underline;
+}
+
+.ge-saved-item__meta {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.ge-saved-item__delete {
+  font-size: 10px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.ge-saved-item__delete:hover {
+  color: #ef4444;
 }
 
 /* ── Tooltip ────────────────────────────── */

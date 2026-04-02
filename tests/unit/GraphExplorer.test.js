@@ -12,6 +12,9 @@ const mockCy = {
   edges: vi.fn(() => ({
     forEach: vi.fn(),
   })),
+  svg: vi.fn(() => '<svg></svg>'),
+  png: vi.fn(() => 'data:image/png;base64,fake'),
+  json: vi.fn(() => ({ elements: [] })),
 }
 vi.mock('cytoscape', () => ({
   default: vi.fn(() => mockCy),
@@ -326,5 +329,113 @@ describe('GraphExplorer', () => {
     const btn = wrapper.find('[data-testid="ge-path-toggle"]')
     expect(btn.exists()).toBe(true)
     expect(btn.text()).toContain('Find path to')
+  })
+
+  // ── Export tests ────────────────────────────────────────────
+
+  // GE-UI-14: Export buttons exist
+  it('renders SVG, PNG, and JSON export buttons', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-export-svg"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-export-png"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-export-json"]').exists()).toBe(true)
+  })
+
+  // GE-UI-14b: Export SVG calls cy.svg()
+  it('SVG export calls cy.svg()', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Stub URL and createElement to prevent jsdom errors
+    const origCreate = URL.createObjectURL
+    const origRevoke = URL.revokeObjectURL
+    URL.createObjectURL = vi.fn(() => 'blob:fake')
+    URL.revokeObjectURL = vi.fn()
+
+    await wrapper.find('[data-testid="ge-export-svg"]').trigger('click')
+    expect(mockCy.svg).toHaveBeenCalled()
+
+    URL.createObjectURL = origCreate
+    URL.revokeObjectURL = origRevoke
+  })
+
+  // ── Saved views tests ───────────────────────────────────────
+
+  // GE-UI-15: Save view stores in localStorage
+  it('saving a view stores state in localStorage', async () => {
+    localStorage.removeItem('gmr-graph-saved-views')
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Mock prompt to return a name
+    vi.spyOn(window, 'prompt').mockReturnValue('My Graph')
+
+    await wrapper.find('[data-testid="ge-save-view"]').trigger('click')
+
+    const stored = JSON.parse(localStorage.getItem('gmr-graph-saved-views'))
+    expect(stored).toHaveLength(1)
+    expect(stored[0].name).toBe('My Graph')
+    expect(stored[0].centerId).toBe('comp-aaa')
+    expect(stored[0].depth).toBe(1)
+
+    window.prompt.mockRestore?.()
+  })
+
+  // Saved views panel shows after saving
+  it('shows saved views panel after saving and clicking "Saved" button', async () => {
+    localStorage.setItem('gmr-graph-saved-views', JSON.stringify([
+      { name: 'Test View', centerId: 'comp-aaa', depth: 2, savedAt: '2026-04-01' },
+    ]))
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    const savedBtn = wrapper.find('[data-testid="ge-show-saved"]')
+    expect(savedBtn.exists()).toBe(true)
+    expect(savedBtn.text()).toContain('Saved (1)')
+
+    await savedBtn.trigger('click')
+    expect(wrapper.find('[data-testid="ge-saved-panel"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Test View')
+  })
+
+  // Delete saved view
+  it('deleting a saved view removes it from localStorage', async () => {
+    localStorage.setItem('gmr-graph-saved-views', JSON.stringify([
+      { name: 'View A', centerId: 'comp-aaa', depth: 1, savedAt: '2026-04-01' },
+      { name: 'View B', centerId: 'comp-bbb', depth: 2, savedAt: '2026-04-01' },
+    ]))
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Open saved panel
+    await wrapper.find('[data-testid="ge-show-saved"]').trigger('click')
+    // Delete first view
+    await wrapper.find('[data-testid="ge-saved-delete-0"]').trigger('click')
+
+    const stored = JSON.parse(localStorage.getItem('gmr-graph-saved-views'))
+    expect(stored).toHaveLength(1)
+    expect(stored[0].name).toBe('View B')
   })
 })
