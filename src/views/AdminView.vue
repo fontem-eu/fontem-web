@@ -8,8 +8,8 @@ const tools = [
   { path: '/admin/data-quality', title: 'Data Quality', desc: 'Graph stats, entity resolution metrics, data freshness, country coverage.' },
   { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
   { path: '/admin/architecture', title: 'Architecture', desc: 'System diagrams: data flow, interfaces, Neo4j schema, request lifecycle.' },
-  { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 22 requirements, 75 tests, generated at build time.' },
-  { path: '/admin/plan', title: 'Plan', desc: 'Current consolidation plan with session breakdown and decisions log.', external: true },
+  { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 30 requirements, 175+ tests, generated at build time.' },
+  { path: '/admin/roadmap', title: 'Mission & Roadmap', desc: 'Platform mission, vision for 2027, and proposed features with data sources.' },
 ]
 </script>
 
