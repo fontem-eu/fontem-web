@@ -14,6 +14,7 @@ const typeFilters = ref({
   Company: true, Contract: true, Authority: true, Person: true,
 })
 const keyword = ref('')
+const timeRange = ref('12m') // '12m' | '3y' | '5y' | 'all'
 const loading = ref(false)
 const graphData = ref(null)
 const error = ref(null)
@@ -56,6 +57,16 @@ const NODE_STYLES = {
   Unknown:   { shape: 'ellipse',   color: '#6b7280' },
 }
 
+// ── Time range ───────────────────────────────────────────────
+function computeSinceDate() {
+  if (timeRange.value === 'all') return null
+  const now = new Date()
+  const months = { '12m': 12, '3y': 36, '5y': 60 }
+  const offset = months[timeRange.value] || 12
+  now.setMonth(now.getMonth() - offset)
+  return now.toISOString().slice(0, 10)
+}
+
 // ── Graph API ────────────────────────────────────────────────
 async function fetchGraph() {
   loading.value = true
@@ -66,9 +77,11 @@ async function fetchGraph() {
       .filter(([, v]) => v)
       .map(([k]) => k)
       .join(',')
+    const sinceDate = computeSinceDate()
     const url = `/api/graph/${encodeURIComponent(props.entityId)}`
       + `?depth=${depth.value}`
       + (types ? `&types=${types}` : '')
+      + (sinceDate ? `&since=${sinceDate}` : '')
     const res = await fetch(url)
     if (!res.ok) throw new Error(`API ${res.status}`)
     graphData.value = await res.json()
@@ -597,6 +610,12 @@ watch(keyword, () => {
   applyKeywordFilter()
 })
 
+watch(timeRange, async () => {
+  await fetchGraph()
+  await nextTick()
+  renderGraph()
+})
+
 watch(() => props.entityId, async () => {
   clearPathState()
   pathMode.value = false
@@ -623,6 +642,17 @@ watch(() => props.entityId, async () => {
         />
         <span class="ge-control__value" data-testid="ge-depth-value">{{ depth }}</span>
       </label>
+
+      <!-- Time range -->
+      <div class="ge-control" data-testid="ge-time-range">
+        <span class="ge-control__label">Period</span>
+        <select v-model="timeRange" class="ge-select" data-testid="ge-time-select">
+          <option value="12m">Last 12 months</option>
+          <option value="3y">Last 3 years</option>
+          <option value="5y">Last 5 years</option>
+          <option value="all">All time</option>
+        </select>
+      </div>
 
       <!-- Type filters -->
       <div class="ge-control ge-control--types">
@@ -997,6 +1027,16 @@ watch(() => props.entityId, async () => {
   color: var(--text);
   border-radius: 3px;
   width: 120px;
+}
+
+.ge-select {
+  padding: 2px 6px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .ge-status {

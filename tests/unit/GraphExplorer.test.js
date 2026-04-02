@@ -469,4 +469,41 @@ describe('GraphExplorer', () => {
     await btn.trigger('click')
     expect(btn.text()).toContain('Timeline')
   })
+
+  // ── Time range tests ────────────────────────────────────────
+
+  // Time range selector defaults to 12m and sends since param
+  it('defaults to "Last 12 months" and sends since param in API URL', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Should have time range selector
+    const select = wrapper.find('[data-testid="ge-time-select"]')
+    expect(select.exists()).toBe(true)
+    expect(select.element.value).toBe('12m')
+
+    // The initial fetch should include a since parameter
+    const url = mockFetch.mock.calls[0][0]
+    expect(url).toContain('since=')
+  })
+
+  // Changing time range to "all" drops the since param
+  it('selecting "All time" drops the since parameter', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    await wrapper.find('[data-testid="ge-time-select"]').setValue('all')
+    await flushPromises()
+
+    const lastUrl = mockFetch.mock.calls[mockFetch.mock.calls.length - 1][0]
+    expect(lastUrl).not.toContain('since=')
+  })
 })
