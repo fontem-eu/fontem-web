@@ -1019,6 +1019,16 @@ watch(() => props.entityId, async () => {
   border-radius: 50%;
 }
 
+.ge-select {
+  padding: 2px 6px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
 .ge-keyword {
   padding: 2px 6px;
   font-size: 12px;

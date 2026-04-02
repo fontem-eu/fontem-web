@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-02T09:18:36.053394",
+  "generated_at": "2026-04-02T12:04:37.377538",
   "summary": {
     "total_requirements": 30,
     "covered_requirements": 30,
@@ -329,12 +329,12 @@
     }
   ],
   "unmapped_tests": [
+    "architecture.spec.js::backend architecture diagram renders when expanded",
     "architecture.spec.js::data pipeline diagram renders when expanded",
-    "architecture.spec.js::interface map diagram renders when expanded",
-    "architecture.spec.js::neo4j schema diagram renders when expanded",
+    "architecture.spec.js::graph explorer flow diagram renders when expanded",
+    "architecture.spec.js::infrastructure diagram renders without errors",
+    "architecture.spec.js::neo4j data model diagram renders when expanded",
     "architecture.spec.js::no mermaid syntax error indicators on the page",
-    "architecture.spec.js::request flow diagram renders when expanded",
-    "architecture.spec.js::system overview diagram renders without errors",
     "data-view.spec.js::\"Balance",
     "data-view.spec.js::\"Cash Flow",
     "data-view.spec.js::\"Fundamentals",
