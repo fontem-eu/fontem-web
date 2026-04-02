@@ -71,10 +71,15 @@ describe('ContractsPanel', () => {
       ok: true,
       json: async () => ({ results: [{ gmr_id: 'gid-1' }] }),
     })
-    // Second call: contracts returns empty
+    // Second call: company contracts returns empty
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    // Third call: authority fallback also empty
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ authority_name: null, country: null, contract_count: 0, contracts: [] }),
     })
     const wrapper = mount(ContractsPanel, { props: { symbol: 'AAPL' } })
     await flushPromises()
@@ -138,5 +143,38 @@ describe('ContractsPanel', () => {
     const rows = wrapper.findAll('tbody tr')
     // Default sort is value_eur descending — 900 should be first
     expect(rows[0].text()).toContain('900')
+  })
+
+  // Regression: authority contracts should load via authority endpoint
+  it('loads contracts for an authority when company endpoint returns empty', async () => {
+    // UUID symbol — company endpoint returns 0 contracts
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    // Authority endpoint returns contracts
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        authority_id: 'auth-123',
+        authority_name: 'Metro Mondego, S. A.',
+        country: 'PRT',
+        contract_count: 3,
+        total_spend_eur: 1500000,
+        contracts: [
+          makeContract({ title: 'Bus purchase', value_eur: 1000000 }),
+          makeContract({ ted_notice_id: '456', title: 'Consulting', value_eur: 300000 }),
+          makeContract({ ted_notice_id: '789', title: 'Maintenance', value_eur: 200000 }),
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="contracts-empty"]').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Bus purchase')
+    expect(wrapper.text()).toContain('3') // contract count
   })
 })

@@ -136,7 +136,7 @@ function onKeyDown(event) {
   } else if (event.key === 'Enter' && activeIndex.value >= 0) {
     event.preventDefault()
     const t = results.value[activeIndex.value]
-    emit('select', t.ticker ?? t.symbol)
+    emit('select', t._navKey ?? t.ticker ?? t.symbol)
   } else if (event.key === 'Escape') {
     results.value = []
     state.value = 'idle'

@@ -30,11 +30,33 @@ async function loadContracts(symbol) {
       state.value = 'empty'
       return
     }
-    const res = await fetch(`/api/companies/${encodeURIComponent(gmrId)}/contracts?limit=100`)
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const json = await res.json()
-    data.value = json
-    state.value = json.contract_count > 0 ? 'done' : 'empty'
+    // Try as company first, then as authority
+    let res = await fetch(`/api/companies/${encodeURIComponent(gmrId)}/contracts?limit=100`)
+    if (res.ok) {
+      const json = await res.json()
+      if (json.contract_count > 0) {
+        data.value = json
+        state.value = 'done'
+        return
+      }
+    }
+    // Try authority endpoint
+    res = await fetch(`/api/authorities/${encodeURIComponent(gmrId)}/contracts?limit=100`)
+    if (res.ok) {
+      const json = await res.json()
+      // Normalize authority response to match company contract format
+      data.value = {
+        gmr_id: gmrId,
+        company_name: json.authority_name,
+        country: json.country,
+        contract_count: json.contract_count,
+        total_contract_value_eur: json.total_spend_eur,
+        contracts: json.contracts || [],
+      }
+      state.value = json.contract_count > 0 ? 'done' : 'empty'
+      return
+    }
+    state.value = 'empty'
   } catch {
     state.value = 'error'
   }

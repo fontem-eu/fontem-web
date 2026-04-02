@@ -65,13 +65,13 @@ async function loadData(sym) {
     } else if (props.view === 'valuation') {
       result = await fetchValuation(sym)
     } else if (props.view === 'profile') {
-      // Profile: try fundamentals for financial snapshot; fall back to company API
+      // Profile: try fundamentals for financial snapshot; fall back to company/authority API
       try {
         result = await fetchFundamentals(sym)
       } catch {
-        // No financials — try company profile API for name/country
         const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
         if (uuid) {
+          // Try company profile first
           try {
             const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
             if (res.ok) {
@@ -79,28 +79,58 @@ async function loadData(sym) {
               result = { gmr_id: uuid, company_name: info.company_name, ticker: sym }
             }
           } catch { /* ignore */ }
+          // If not a company, try authority
+          if (!result) {
+            try {
+              const res = await fetch(`/api/authorities/${encodeURIComponent(uuid)}`)
+              if (res.ok) {
+                const info = await res.json()
+                result = {
+                  gmr_id: uuid,
+                  company_name: info.authority_name,
+                  ticker: sym,
+                  _entityType: 'authority',
+                  country: info.country,
+                  contract_count: info.contract_count,
+                  total_spend_eur: info.total_spend_eur,
+                }
+              }
+            } catch { /* ignore */ }
+          }
         }
         if (!result) result = { ticker: sym }
       }
     } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
       result = await fetchFundamentals(sym)
     } else if (props.view === 'contracts' || props.view === 'graph') {
-      // ContractsPanel handles its own data loading.
-      // But we still need the company name for the header/title.
-      // Try fundamentals first (fast, has company_name); if 404, try contracts API.
+      // Panel handles its own data loading.
+      // We need the entity name for the header/title.
       try {
         result = await fetchFundamentals(sym, 1)
       } catch {
-        // No financials — resolve company name via the contracts API
-        try {
-          const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
-          if (uuid) {
+        const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
+        if (uuid) {
+          // Try company
+          try {
             const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
             if (res.ok) result = await res.json()
+          } catch { /* ignore */ }
+          // Try authority
+          if (!result) {
+            try {
+              const res = await fetch(`/api/authorities/${encodeURIComponent(uuid)}`)
+              if (res.ok) {
+                const info = await res.json()
+                result = {
+                  gmr_id: uuid,
+                  company_name: info.authority_name,
+                  _entityType: 'authority',
+                }
+              }
+            } catch { /* ignore */ }
           }
-        } catch { /* ignore */ }
+        }
       }
-      // Set company info from whatever we got, then mark done
       if (result) {
         companyGmrId.value = result.gmr_id ?? null
         companyName.value = result.company_name ?? result.company_name ?? null

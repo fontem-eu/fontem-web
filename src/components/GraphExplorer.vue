@@ -15,6 +15,8 @@ const typeFilters = ref({
 })
 const keyword = ref('')
 const timeRange = ref('12m') // '12m' | '3y' | '5y' | 'all'
+const summaryEdges = ref(true) // CLIENT_OF/SUPPLIER_OF vs AWARDED/AWARDED_TO
+const edgeTypeFilters = ref({}) // populated dynamically from graph data
 const loading = ref(false)
 const graphData = ref(null)
 const error = ref(null)
@@ -82,9 +84,19 @@ async function fetchGraph() {
       + `?depth=${depth.value}`
       + (types ? `&types=${types}` : '')
       + (sinceDate ? `&since=${sinceDate}` : '')
+      + `&summary=${summaryEdges.value}`
     const res = await fetch(url)
     if (!res.ok) throw new Error(`API ${res.status}`)
     graphData.value = await res.json()
+    // Populate edge type filters from response
+    const relTypes = new Set()
+    for (const e of (graphData.value.edges || [])) relTypes.add(e.type)
+    const existing = edgeTypeFilters.value
+    const updated = {}
+    for (const rt of relTypes) {
+      updated[rt] = rt in existing ? existing[rt] : true
+    }
+    edgeTypeFilters.value = updated
   } catch (e) {
     error.value = e.message || 'Failed to load graph'
     graphData.value = null
@@ -195,14 +207,21 @@ function renderGraph() {
   }
 
   for (const edge of graphData.value.edges) {
+    // Format label for summary edges
+    const props = edge.properties || {}
+    let edgeLabel = edge.type
+    if ((edge.type === 'CLIENT_OF' || edge.type === 'SUPPLIER_OF') && props.contracts) {
+      edgeLabel = `${props.contracts} contracts`
+    }
     elements.push({
       group: 'edges',
       data: {
         id: `${edge.source}-${edge.target}-${edge.type}`,
         source: edge.source,
         target: edge.target,
-        label: edge.type,
-        properties: edge.properties,
+        label: edgeLabel,
+        relType: edge.type,
+        properties: props,
       },
     })
   }
@@ -254,6 +273,17 @@ function renderGraph() {
           'text-rotation': 'autorotate',
         },
       },
+      {
+        selector: 'edge[relType = "CLIENT_OF"], edge[relType = "SUPPLIER_OF"]',
+        style: {
+          'width': 3,
+          'line-color': '#0ea5e9',
+          'target-arrow-color': '#0ea5e9',
+          'font-size': '9px',
+          'font-weight': 'bold',
+          'color': '#0ea5e9',
+        },
+      },
     ],
     layout: {
       name: 'cose',
@@ -283,6 +313,7 @@ function renderGraph() {
   })
 
   applyKeywordFilter()
+  applyEdgeTypeFilter()
 }
 
 // ── Path highlighting ────────────────────────────────────────
@@ -341,6 +372,19 @@ function isEdgeOnShortestPath(edgeData) {
 function selectPath(index) {
   selectedPathIndex.value = selectedPathIndex.value === index ? null : index
   highlightPaths()
+}
+
+// ── Edge type filter ─────────────────────────────────────────
+function applyEdgeTypeFilter() {
+  if (!cy) return
+  cy.edges().forEach((edge) => {
+    const rt = edge.data('relType')
+    if (rt && edgeTypeFilters.value[rt] === false) {
+      edge.style('display', 'none')
+    } else {
+      edge.style('display', 'element')
+    }
+  })
 }
 
 // ── Keyword filter ───────────────────────────────────────────
@@ -616,6 +660,16 @@ watch(timeRange, async () => {
   renderGraph()
 })
 
+watch(summaryEdges, async () => {
+  await fetchGraph()
+  await nextTick()
+  renderGraph()
+})
+
+watch(edgeTypeFilters, () => {
+  applyEdgeTypeFilter()
+}, { deep: true })
+
 watch(() => props.entityId, async () => {
   clearPathState()
   pathMode.value = false
@@ -685,6 +739,32 @@ watch(() => props.entityId, async () => {
           class="ge-keyword"
           data-testid="ge-keyword"
         />
+      </label>
+
+      <!-- Edge type filters (populated dynamically) -->
+      <div
+        v-if="Object.keys(edgeTypeFilters).length > 0"
+        class="ge-control ge-control--types"
+        data-testid="ge-edge-filters"
+      >
+        <span class="ge-control__label">Edges</span>
+        <label
+          v-for="(checked, relType) in edgeTypeFilters"
+          :key="relType"
+          class="ge-type-filter"
+        >
+          <input
+            v-model="edgeTypeFilters[relType]"
+            type="checkbox"
+          />
+          {{ relType }}
+        </label>
+      </div>
+
+      <!-- Summary toggle -->
+      <label class="ge-type-filter" data-testid="ge-summary-toggle">
+        <input v-model="summaryEdges" type="checkbox" />
+        <span class="ge-control__label">Summary edges</span>
       </label>
 
       <!-- Path mode toggle -->
