@@ -10,6 +10,7 @@ const tools = [
   { path: '/admin/architecture', title: 'Architecture', desc: 'System diagrams: data flow, interfaces, Neo4j schema, request lifecycle.' },
   { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 30 requirements, 175+ tests, generated at build time.' },
   { path: '/admin/roadmap', title: 'Mission & Roadmap', desc: 'Platform mission, vision for 2027, and proposed features with data sources.' },
+  { path: '/admin/plan', title: 'Implementation Plan', desc: 'Auth, collaborative reports, embeddable visualizations, community curation, moderation, and security test plan.' },
 ]
 </script>
 
