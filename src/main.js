@@ -9,6 +9,7 @@ import AdminView from './views/AdminView.vue'
 import ArchitectureView from './views/ArchitectureView.vue'
 import CoverageView from './views/CoverageView.vue'
 import RoadmapView from './views/RoadmapView.vue'
+import FeatureDetailView from './views/FeatureDetailView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -24,6 +25,7 @@ const router = createRouter({
     { path: '/admin/architecture', component: ArchitectureView },
     { path: '/admin/coverage', component: CoverageView },
     { path: '/admin/roadmap', component: RoadmapView },
+    { path: '/admin/roadmap/:id', component: FeatureDetailView },
 
     // Company views — all under /c/ or /company/ prefix
     { path: '/company/:gmr_id', component: CompanyProfileView },
