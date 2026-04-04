@@ -84,7 +84,7 @@ function scrollTo(id) {
 <ul>
   <li><strong>KISS</strong> — the simplest thing that works. Upgrade paths documented, deferred until needed.</li>
   <li><strong>Extensibility at the component level</strong> — any Vue component that can serialize its state to JSON can be embedded in a report. New widget types are a single file addition to a registry.</li>
-  <li><strong>Graph-native permissions</strong> — RBAC + relationship-based access control in Neo4j. No separate authorization service.</li>
+  <li><strong>Clean separation</strong> — Neo4j holds the <em>public knowledge graph</em> (companies, contracts, authorities). PostgreSQL holds <em>application state</em> (users, reports, permissions, issues, moderation). The graph stays clean and rebuildable from sources without affecting user data. Issues reference graph entities via external IDs (<code>entity_type</code> + <code>entity_id</code>).</li>
   <li><strong>Transparency-native moderation</strong> — public moderation log. The platform practices what it preaches.</li>
   <li><strong>Migration: unrecoverable</strong> — if a widget schema version is incompatible, the embed shows "outdated visualization" with a link to recreate. KISS over migration complexity.</li>
 </ul>
@@ -120,32 +120,149 @@ function scrollTo(id) {
 <h3>Group-level access</h3>
 <p>Groups are named collections of users. A group can be granted access to a report at any level. Effective permission = max(direct, group-inherited, public).</p>
 
-<pre class="pl-code">// Neo4j permission resolution (single query)
-MATCH (u:User {id: $user_id})
-OPTIONAL MATCH (u)-[:HAS_ROLE]->(r:Role {name: 'admin'})
-OPTIONAL MATCH (u)-[da:HAS_ACCESS]->(rep:Report {id: $report_id})
-OPTIONAL MATCH (u)-[:MEMBER_OF]->(g:Group)-[ga:HAS_ACCESS]->(rep)
-OPTIONAL MATCH (rep)-[:HAS_VISIBILITY]->(v:Visibility {level: 'public'})
-RETURN r IS NOT NULL AS is_admin,
-       da.level AS direct_level,
-       collect(DISTINCT ga.level) AS group_levels,
-       v.level AS public_level</pre>
+<pre class="pl-code">-- PostgreSQL permission resolution (single query)
+SELECT
+  EXISTS(SELECT 1 FROM user_roles WHERE user_id = $1 AND role = 'admin') AS is_admin,
+  ra.level AS direct_level,
+  array_agg(DISTINCT ga.level) AS group_levels,
+  r.visibility AS public_level
+FROM reports r
+LEFT JOIN report_access ra ON ra.report_id = r.id AND ra.user_id = $1
+LEFT JOIN group_members gm ON gm.user_id = $1
+LEFT JOIN report_access ga ON ga.report_id = r.id AND ga.group_id = gm.group_id
+WHERE r.id = $2
+GROUP BY ra.level, r.visibility;</pre>
 
 <h3>Permission hierarchy</h3>
 <p><code>owner &gt; editor &gt; commenter &gt; viewer &gt; none</code></p>
 <p>Resolution: take the highest level from (direct access, any group access, public default). Admin overrides everything.</p>
 
-<h3>Neo4j data model</h3>
-<pre class="pl-code">(:User {user_id, email, name, avatar_url, trust_level, created_at})
-(:Group {group_id, name, description, created_at})
-(:Role {name})  // admin, moderator, contributor, commenter, reader
-(:Report {report_id, title, abstract, visibility, created_at, updated_at})
+<h3>Why PostgreSQL, not Neo4j</h3>
+<p>Neo4j is the public knowledge graph — companies, contracts, authorities. Application state (users, reports, permissions, issues, moderation) belongs in a relational database:</p>
+<ul>
+  <li><strong>Full ACID transactions</strong> with battle-tested isolation levels</li>
+  <li><strong>Alembic migrations</strong> — schema evolution without data loss</li>
+  <li><strong>SQLAlchemy</strong> — mature ORM, type safety, connection pooling</li>
+  <li><strong>Row-level security</strong> — PostgreSQL can enforce access at the database level</li>
+  <li><strong>Graph stays rebuildable</strong> — wipe and reload from GLEIF/TED/EDGAR without losing user data</li>
+  <li><strong>Zitadel already needs PostgreSQL</strong> — share the instance, no extra ops burden</li>
+</ul>
+<p>Issues reference graph entities via external IDs: <code>entity_type = 'Company'</code>, <code>entity_id = '65321d3c-...'</code>. The graph API resolves these to names/labels on read.</p>
 
-// Relationships
-(User)-[:HAS_ROLE]->(Role)
-(User)-[:MEMBER_OF]->(Group)
-(User)-[:HAS_ACCESS {level: "owner|editor|commenter|viewer"}]->(Report)
-(Group)-[:HAS_ACCESS {level: "editor|viewer"}]->(Report)</pre>
+<h3>PostgreSQL schema</h3>
+<pre class="pl-code">-- Users (synced from Zitadel on first login)
+CREATE TABLE users (
+  id UUID PRIMARY KEY,        -- from Zitadel sub claim
+  email TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  avatar_url TEXT,
+  trust_level TEXT NOT NULL DEFAULT 'new_user',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Global roles
+CREATE TABLE user_roles (
+  user_id UUID REFERENCES users(id),
+  role TEXT NOT NULL,  -- admin, moderator, contributor, commenter, reader
+  PRIMARY KEY (user_id, role)
+);
+
+-- Groups
+CREATE TABLE groups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  description TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE group_members (
+  group_id UUID REFERENCES groups(id),
+  user_id UUID REFERENCES users(id),
+  PRIMARY KEY (group_id, user_id)
+);
+
+-- Reports
+CREATE TABLE reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  abstract TEXT,
+  visibility TEXT NOT NULL DEFAULT 'private',
+  created_by UUID REFERENCES users(id),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Report access (per-user or per-group)
+CREATE TABLE report_access (
+  report_id UUID REFERENCES reports(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES users(id),
+  group_id UUID REFERENCES groups(id),
+  level TEXT NOT NULL,  -- owner, editor, commenter, viewer
+  CHECK (user_id IS NOT NULL OR group_id IS NOT NULL)
+);
+
+-- Sections (Tiptap JSON content)
+CREATE TABLE sections (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  report_id UUID REFERENCES reports(id) ON DELETE CASCADE,
+  sort_order INT NOT NULL,
+  content_json JSONB NOT NULL DEFAULT '{}',
+  lock_holder UUID REFERENCES users(id),
+  lock_expires TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Section version history
+CREATE TABLE section_versions (
+  id BIGSERIAL PRIMARY KEY,
+  section_id UUID REFERENCES sections(id) ON DELETE CASCADE,
+  content_json JSONB NOT NULL,
+  saved_by UUID REFERENCES users(id),
+  saved_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Issues (reference graph entities via external ID)
+CREATE TABLE issues (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  body_md TEXT,
+  issue_type TEXT NOT NULL,
+  entity_type TEXT NOT NULL,  -- 'Company', 'Authority', etc.
+  entity_id TEXT NOT NULL,     -- gmr_id, authority_id, etc.
+  status TEXT NOT NULL DEFAULT 'open',
+  created_by UUID REFERENCES users(id),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Comments (on reports or issues)
+CREATE TABLE comments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  parent_type TEXT NOT NULL,  -- 'report' or 'issue'
+  parent_id UUID NOT NULL,
+  body_md TEXT NOT NULL,
+  author_id UUID REFERENCES users(id),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Flags and sanctions (moderation)
+CREATE TABLE flags (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  target_type TEXT NOT NULL,  -- 'report', 'comment', 'issue'
+  target_id UUID NOT NULL,
+  reason TEXT NOT NULL,
+  details TEXT,
+  flagged_by UUID REFERENCES users(id),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE sanctions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  type TEXT NOT NULL,  -- warning, mute, suspend, ban
+  reason TEXT NOT NULL,
+  starts_at TIMESTAMPTZ DEFAULT now(),
+  expires_at TIMESTAMPTZ,
+  applied_by UUID REFERENCES users(id),
+  lifted_at TIMESTAMPTZ
+);</pre>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════ -->
@@ -178,7 +295,7 @@ RETURN r IS NOT NULL AS is_admin,
   │   Authorization: Bearer {access_token}              │
   │                          │       ├── validate JWT   │
   │                          │       ├── extract user_id│
-  │                          │       ├── check Neo4j    │
+  │                          │       ├── check Postgres  │
   │   ◄──────────────────────────────┤   permissions    │</pre>
 
 <h3>Login options (in order of priority)</h3>
@@ -203,7 +320,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         user_id = payload["sub"]
     except JWTError:
         raise HTTPException(401, "Invalid token")
-    return await load_user_from_neo4j(user_id)
+    return await load_user_from_postgres(user_id)
 
 async def require_role(role: str):
     def checker(user = Depends(get_current_user)):
@@ -245,7 +362,7 @@ async def require_role(role: str):
 <h3>Section editing</h3>
 <p><strong>Section-level locking (last-write-wins)</strong> — no CRDT. When a user opens a section for editing:</p>
 <ol>
-  <li>Acquire lock (Neo4j property: <code>lock_holder</code>, <code>lock_expires</code>). TTL = 5 min, renewed by heartbeat.</li>
+  <li>Acquire lock (PostgreSQL column: <code>lock_holder</code>, <code>lock_expires</code>). TTL = 5 min, renewed by heartbeat.</li>
   <li>Other users see "Being edited by X" — can view but not edit that section.</li>
   <li>On save, section content replaces the old content. Previous version stored for history.</li>
   <li>Lock released on save or on disconnect (WebSocket heartbeat timeout).</li>
@@ -253,16 +370,16 @@ async def require_role(role: str):
 <p><strong>Upgrade path</strong>: if real-time collab is needed later, each section becomes a Yjs document via Hocuspocus. The section boundary stays the same — clean migration.</p>
 
 <h3>Version history</h3>
-<pre class="pl-code">(:SectionVersion {version_id, content_json, saved_at, saved_by})
-(Section)-[:HAS_VERSION {order}]->(SectionVersion)
-// Latest 50 versions kept. Older versions pruned by background job.</pre>
+<pre class="pl-code">-- PostgreSQL: section_versions table (see schema above)
+-- Each save inserts a new row. Latest 50 versions kept per section.
+-- Older versions pruned by background job (DELETE WHERE saved_at &lt; ...).</pre>
 
 <h3>Rich text editor: Tiptap</h3>
 <ul>
   <li>Built on ProseMirror — industry standard for structured editing.</li>
   <li>Vue 3 support via <code>@tiptap/vue-3</code>.</li>
   <li>Custom node views for widget blocks — each widget type is a ProseMirror node with <code>atom: true</code>.</li>
-  <li>Document serialized as Tiptap JSON (not HTML). Stored in Neo4j as JSONB.</li>
+  <li>Document serialized as Tiptap JSON (not HTML). Stored in PostgreSQL as JSONB.</li>
 </ul>
 
 <h3>Entry point: "Start a new analysis"</h3>
@@ -394,14 +511,13 @@ export function registerWidget(type, loader) {
 <h3>Issues on data points</h3>
 <p>Any authenticated user with <code>contributor</code> role (or higher) can raise an <strong>issue</strong> on any entity, relationship, or data point in the graph.</p>
 
-<pre class="pl-code">(:Issue {issue_id, title, body_md, status, created_at, updated_at})
-// status: open | under_review | resolved | rejected | closed
-
-(User)-[:CREATED]->(Issue)
-(Issue)-[:ABOUT]->(Company|Authority|Person|Contract|Relationship)
-(Issue)-[:HAS_COMMENT]->(Comment {body_md, created_at})
-(User)-[:AUTHORED]->(Comment)
-(User)-[:VOTED {direction: "up"|"down"}]->(Issue)</pre>
+<pre class="pl-code">-- PostgreSQL: issues table (see schema above)
+-- entity_type + entity_id reference graph entities (e.g. 'Company', 'gmr-123')
+-- Comments via comments table (parent_type='issue', parent_id=issue.id)
+-- Votes via a separate issue_votes(issue_id, user_id, direction) table
+--
+-- The graph API resolves entity_id → name/label on read.
+-- Graph stays clean: no application nodes in Neo4j.</pre>
 
 <h3>Issue types</h3>
 <table class="pl-table">
@@ -434,7 +550,7 @@ export function registerWidget(type, loader) {
 <p>Users with <code>moderator</code> or <code>admin</code> role can <strong>resolve</strong> an issue, which may trigger:</p>
 <ul>
   <li><strong>Entity merge</strong> (duplicate_entity) → uses existing Entity Resolution UI</li>
-  <li><strong>Property update</strong> (incorrect_data) → direct Neo4j update with audit trail</li>
+  <li><strong>Property update</strong> (incorrect_data) → Neo4j graph update via API with audit trail in PostgreSQL</li>
   <li><strong>New relationship</strong> (missing_connection) → creates edge in graph</li>
   <li>All resolutions logged as <code>(:Resolution {action, before, after, resolved_by, resolved_at})</code></li>
 </ul>
@@ -475,10 +591,10 @@ export function registerWidget(type, loader) {
   </tbody>
 </table>
 
-<pre class="pl-code">(:Sanction {type, reason, starts_at, expires_at, lifted_at})
-(User)-[:SANCTIONED]->(Sanction)
-(Sanction)-[:APPLIED_BY]->(Moderator:User)
-// All sanctions visible in public moderation log</pre>
+<pre class="pl-code">-- PostgreSQL: sanctions table (see schema above)
+-- user_id, type, reason, starts_at, expires_at, applied_by
+-- All sanctions visible in public moderation log
+-- Ban enforcement: auth middleware checks sanctions table on each request</pre>
 
 <h3>Public moderation log</h3>
 <p>Every moderation action (flag resolution, sanction, content removal) is logged and publicly visible at <code>/admin/moderation-log</code>. A transparency platform must be transparent about its own governance.</p>
@@ -627,7 +743,7 @@ export function registerWidget(type, loader) {
   <ul>
     <li>Deploy Zitadel to k8s (Helm chart, PostgreSQL)</li>
     <li>Configure OIDC: magic link, FranceConnect, GitHub</li>
-    <li>FastAPI JWT middleware + user sync to Neo4j</li>
+    <li>FastAPI JWT middleware + user sync to PostgreSQL</li>
     <li>Vue OIDC login flow (redirect-based)</li>
     <li>User profile page, group management API</li>
     <li>Role assignment API (admin-only)</li>
@@ -639,7 +755,7 @@ export function registerWidget(type, loader) {
 <div class="pl-phase">
   <h3>Phase 2 — Report CRUD + Rich Text (2 weeks)</h3>
   <ul>
-    <li>Report/Section Neo4j model + CRUD API</li>
+    <li>Report/Section PostgreSQL schema (Alembic migration) + CRUD API</li>
     <li>Tiptap integration in Vue (basic: headings, paragraphs, lists, bold, italic, links)</li>
     <li>Section locking (acquire/release/timeout)</li>
     <li>"Start a new analysis" entry point</li>
@@ -710,7 +826,9 @@ export function registerWidget(type, loader) {
   <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
   <tbody>
     <tr><td>Identity provider</td><td><strong>Zitadel</strong></td><td>Single Go binary, ~256MB RAM, OIDC-certified, API-first, FranceConnect-ready</td></tr>
-    <tr><td>Permissions</td><td><strong>Neo4j (RBAC + ReBAC)</strong></td><td>No extra service — permissions are graph relationships, resolved in one Cypher query</td></tr>
+    <tr><td>Application DB</td><td><strong>PostgreSQL</strong></td><td>Users, reports, permissions, issues, moderation — ACID, Alembic migrations, SQLAlchemy ORM. Shared instance with Zitadel.</td></tr>
+    <tr><td>Knowledge graph</td><td><strong>Neo4j (existing)</strong></td><td>Public data only — companies, contracts, authorities, directors. Rebuildable from sources.</td></tr>
+    <tr><td>Permissions</td><td><strong>PostgreSQL (RBAC + per-report access)</strong></td><td>Single SQL query resolves global role + direct access + group access. No extra service.</td></tr>
     <tr><td>Rich text editor</td><td><strong>Tiptap (ProseMirror)</strong></td><td>Industry standard, Vue 3 support, custom node views for widget blocks</td></tr>
     <tr><td>Collaboration</td><td><strong>Section-level locking (LWW)</strong></td><td>No CRDT overhead. Upgrade to Yjs per-section later if needed</td></tr>
     <tr><td>Widget embedding</td><td><strong>Vue component registry + typed JSON config</strong></td><td>Extensible (one file per widget type), serializable, lazy-loaded</td></tr>
@@ -722,10 +840,13 @@ export function registerWidget(type, loader) {
 
 <h3>Deployment additions to k8s</h3>
 <pre class="pl-code">Namespace: gmr
-├── zitadel (new, 1 replica, 256Mi, Postgres PVC 5Gi)
-├── gmr-api (existing, add auth middleware + report/issue routers)
+├── postgresql (new, 1 replica, 256Mi, PVC 10Gi)
+│   ├── DB: zitadel  (Zitadel's internal state)
+│   └── DB: gmr_app  (users, reports, issues, permissions, moderation)
+├── zitadel (new, 1 replica, 256Mi, uses postgresql)
+├── gmr-api (existing, add auth middleware + report/issue routers + SQLAlchemy)
 ├── gmr-web (existing, add Tiptap + auth flow + widget registry)
-└── neo4j (existing, add User/Group/Report/Issue nodes)</pre>
+└── neo4j (existing, unchanged — public knowledge graph only)</pre>
 </section>
 
     </main>
