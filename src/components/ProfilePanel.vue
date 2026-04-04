@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import ContractsPanel from './ContractsPanel.vue'
+import PocketButton from './PocketButton.vue'
 import { fmtMoney } from '../utils/format.js'
 
 const props = defineProps({
@@ -9,6 +10,9 @@ const props = defineProps({
   gmrId: { type: String, default: null },
   companyName: { type: String, default: null },
 })
+
+const pocketConfig = computed(() => ({ entityId: props.gmrId || props.symbol }))
+const pocketName = computed(() => `${props.companyName || props.symbol} — Profile`)
 
 const profile = ref(null)
 const profileState = ref('loading')
@@ -46,7 +50,14 @@ watch(() => props.symbol, (sym) => {
   <div class="profile-panel" data-testid="profile-panel">
     <!-- Company info card -->
     <div class="pp-header">
-      <h2 class="pp-name">{{ companyName || profile?.company_name || symbol }}</h2>
+      <div class="pp-header-top">
+        <h2 class="pp-name">{{ companyName || profile?.company_name || symbol }}</h2>
+        <PocketButton
+          widget-type="entity_profile"
+          :config="pocketConfig"
+          :default-name="pocketName"
+        />
+      </div>
       <div class="pp-meta">
         <span v-if="data?.data_source" class="pp-tag">{{ data.data_source.toUpperCase() }}</span>
         <span v-if="profile?.country" class="pp-tag">{{ profile.country }}</span>
@@ -136,6 +147,7 @@ watch(() => props.symbol, (sym) => {
 .profile-panel { padding: 0.5rem 0; }
 
 .pp-header { margin-bottom: 1.25rem; }
+.pp-header-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .pp-name { font-size: 1.1rem; font-weight: 700; margin: 0; }
 .pp-meta { display: flex; gap: 0.4rem; margin-top: 0.4rem; flex-wrap: wrap; }
 .pp-tag {

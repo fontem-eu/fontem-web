@@ -1,12 +1,27 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import cytoscape from 'cytoscape'
+import PocketButton from './PocketButton.vue'
 
 const props = defineProps({
   entityId: { type: String, required: true },
 })
 
 const emit = defineEmits(['navigate'])
+
+// ── Pocket snapshot config ──────────────────────────────────
+const pocketConfig = computed(() => ({
+  entityId: props.entityId,
+  depth: depth.value,
+  typeFilters: { ...typeFilters.value },
+  timeRange: timeRange.value,
+  summaryEdges: summaryEdges.value,
+}))
+
+const pocketName = computed(() => {
+  const id = props.entityId || 'unknown'
+  return `${id} — Graph (depth ${depth.value})`
+})
 
 // ── State ────────────────────────────────────────────────────
 const depth = ref(1)
@@ -793,6 +808,13 @@ watch(() => props.entityId, async () => {
         <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">PNG</button>
         <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">JSON</button>
       </div>
+
+      <!-- Pocket -->
+      <PocketButton
+        widget-type="graph_explorer"
+        :config="pocketConfig"
+        :default-name="pocketName"
+      />
 
       <!-- Saved views -->
       <button

@@ -1,10 +1,14 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fmtMoney } from '../utils/format.js'
+import PocketButton from './PocketButton.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
 })
+
+const pocketConfig = computed(() => ({ entityId: props.symbol }))
+const pocketName = computed(() => `${props.symbol} — Contracts`)
 
 const state = ref('loading')
 const data = ref(null)
@@ -134,7 +138,14 @@ const topCpv = computed(() => {
 
     <!-- Data -->
     <div v-else-if="state === 'done' && data">
-      <!-- Summary cards -->
+      <!-- Pocket + Summary cards -->
+      <div class="contracts-toolbar">
+        <PocketButton
+          widget-type="contracts_table"
+          :config="pocketConfig"
+          :default-name="pocketName"
+        />
+      </div>
       <div class="contracts-summary" data-testid="contracts-summary">
         <div class="cs-card">
           <span class="cs-num">{{ data.contract_count.toLocaleString() }}</span>
@@ -214,6 +225,7 @@ const topCpv = computed(() => {
 
 <style scoped>
 .contracts-panel { padding: 0.5rem 0; }
+.contracts-toolbar { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; }
 
 .contracts-msg {
   text-align: center;

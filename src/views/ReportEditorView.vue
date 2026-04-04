@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import { getWidgetTypes } from '../widgets/registry.js'
+import { usePocket } from '../composables/usePocket.js'
 import {
   getReport,
   updateReport,
@@ -23,33 +23,30 @@ const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
 
-// ── Widget insertion modal ──────────────────────────────────────
-const showWidgetModal = ref(false)
-const widgetTargetIndex = ref(null)
-const widgetType = ref('')
-const widgetEntityId = ref('')
-const widgetTypes = getWidgetTypes()
+// ── Pocket-based widget insertion ─────────────────────────────
+const { items: pocketItems, remove: removePocketItem, refresh: refreshPocket } = usePocket()
+const showPocketModal = ref(false)
+const pocketTargetIndex = ref(null)
 
-function openWidgetModal(sectionIndex) {
-  widgetTargetIndex.value = sectionIndex
-  widgetType.value = widgetTypes[0]?.key || ''
-  widgetEntityId.value = ''
-  showWidgetModal.value = true
+function openPocketModal(sectionIndex) {
+  refreshPocket()
+  pocketTargetIndex.value = sectionIndex
+  showPocketModal.value = true
 }
 
-function insertWidget() {
-  if (!widgetType.value || widgetTargetIndex.value === null) return
+function insertFromPocket(item) {
+  if (pocketTargetIndex.value === null) return
   const config = {
-    widget_type: widgetType.value,
+    widget_type: item.widget_type,
     schema_version: 1,
-    entityId: widgetEntityId.value,
+    ...item.config,
   }
   const marker = '\n```widget\n' + JSON.stringify(config) + '\n```\n'
-  const sec = sections.value[widgetTargetIndex.value]
+  const sec = sections.value[pocketTargetIndex.value]
   if (sec?.editor) {
     sec.editor.commands.insertContent(marker)
   }
-  showWidgetModal.value = false
+  showPocketModal.value = false
 }
 
 // ── Editor helpers ──────────────────────────────────────────────
@@ -199,9 +196,9 @@ async function save() {
           <button
             class="toolbar-btn"
             data-testid="insert-widget-btn"
-            @click="openWidgetModal(idx)"
+            @click="openPocketModal(idx)"
           >
-            Insert Widget
+            Insert from Pocket
           </button>
           <button
             v-if="sections.length > 1"
@@ -224,37 +221,42 @@ async function save() {
       </button>
     </template>
 
-    <!-- Widget insertion modal -->
+    <!-- Pocket picker modal -->
     <div
-      v-if="showWidgetModal"
+      v-if="showPocketModal"
       class="modal-overlay"
-      data-testid="widget-modal"
-      @click.self="showWidgetModal = false"
+      data-testid="pocket-modal"
+      @click.self="showPocketModal = false"
     >
       <div class="modal-content">
-        <h3>Insert Widget</h3>
-        <label class="modal-label">
-          Type
-          <select v-model="widgetType" data-testid="widget-type-select">
-            <option v-for="wt in widgetTypes" :key="wt.key" :value="wt.key">
-              {{ wt.label }}
-            </option>
-          </select>
-        </label>
-        <label class="modal-label">
-          Entity ID
-          <input
-            v-model="widgetEntityId"
-            type="text"
-            placeholder="e.g. AAPL or UUID"
-            data-testid="widget-entity-input"
-          />
-        </label>
+        <h3>Insert from Pocket</h3>
+        <p v-if="!pocketItems.length" class="pocket-empty">
+          Your pocket is empty. Use the
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -1px"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+          Pocket button on any visualization to save a snapshot here.
+        </p>
+        <ul v-else class="pocket-list" data-testid="pocket-list">
+          <li
+            v-for="item in pocketItems"
+            :key="item.id"
+            class="pocket-item"
+            :data-testid="'pocket-item-' + item.id"
+          >
+            <div class="pocket-item-info" @click="insertFromPocket(item)">
+              <span class="pocket-item-type">{{ item.widget_type.replace(/_/g, ' ') }}</span>
+              <span class="pocket-item-name">{{ item.name }}</span>
+            </div>
+            <button
+              class="pocket-item-remove"
+              title="Remove from pocket"
+              @click.stop="removePocketItem(item.id)"
+            >
+              &times;
+            </button>
+          </li>
+        </ul>
         <div class="modal-actions">
-          <button @click="showWidgetModal = false">Cancel</button>
-          <button class="save-btn" data-testid="widget-insert-confirm" @click="insertWidget">
-            Insert
-          </button>
+          <button @click="showPocketModal = false">Close</button>
         </div>
       </div>
     </div>
@@ -509,4 +511,75 @@ async function save() {
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* Pocket picker */
+.pocket-empty {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.pocket-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.pocket-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pocket-item:last-child { border-bottom: none; }
+
+.pocket-item-info {
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.pocket-item-info:hover .pocket-item-name { color: var(--accent); }
+
+.pocket-item-type {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.pocket-item-name {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
+}
+
+.pocket-item-remove {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pocket-item-remove:hover { color: #dc2626; background: var(--surface); }
 </style>
