@@ -11,6 +11,10 @@ export default defineConfig({
         target: 'https://gmr.void42.net',
         changeOrigin: true,
       },
+      '/capi': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+      },
     },
   },
 })

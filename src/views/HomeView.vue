@@ -66,6 +66,8 @@ const features = [
   },
 ]
 
+const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+
 const popular = ['AAPL', 'ASML.AS', 'SAP.DE', 'GALP.LS', 'MSFT', 'NVDA', 'TSLA', 'GOOGL']
 
 const selectedTicker = computed(() => route.params.ticker || null)
@@ -149,6 +151,15 @@ function onClose() {
         </div>
 
         <!-- Right controls -->
+        <router-link
+          v-if="hasToken"
+          to="/reports"
+          class="text-xs font-semibold tracking-wide px-3 py-1.5 rounded"
+          style="background: var(--accent); color: #fff; text-decoration: none"
+          data-testid="start-analysis-btn"
+        >
+          Start Analysis
+        </router-link>
         <ThemeToggle />
       </div>
     </header>

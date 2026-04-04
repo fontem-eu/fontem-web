@@ -11,6 +11,12 @@ import CoverageView from './views/CoverageView.vue'
 import RoadmapView from './views/RoadmapView.vue'
 import FeatureDetailView from './views/FeatureDetailView.vue'
 import PlanView from './views/PlanView.vue'
+import ReportListView from './views/ReportListView.vue'
+import ReportView from './views/ReportView.vue'
+import ReportEditorView from './views/ReportEditorView.vue'
+import IssuesView from './views/IssuesView.vue'
+import IssueDetailView from './views/IssueDetailView.vue'
+import ModerationView from './views/ModerationView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -28,6 +34,16 @@ const router = createRouter({
     { path: '/admin/roadmap', component: RoadmapView },
     { path: '/admin/roadmap/:id', component: FeatureDetailView },
     { path: '/admin/plan', component: PlanView },
+    { path: '/admin/moderation', component: ModerationView },
+
+    // Issues
+    { path: '/issues', component: IssuesView },
+    { path: '/issues/:id', component: IssueDetailView },
+
+    // Reports
+    { path: '/reports', component: ReportListView },
+    { path: '/reports/:id', component: ReportView },
+    { path: '/reports/:id/edit', component: ReportEditorView },
 
     // Company views — all under /c/ or /company/ prefix
     { path: '/company/:gmr_id', component: CompanyProfileView },
