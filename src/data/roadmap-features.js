@@ -5,160 +5,169 @@
  *   data-source  — external datasets to ingest
  *   insight       — tools that turn data into understanding
  *   platform      — user-facing infrastructure (auth, collaboration)
+ *
+ * Already implemented (removed from roadmap):
+ *   - Collaborative Reports (gmr-community-api: reports, sections, sharing, pocket)
+ *   - Community Curation (issues, moderation, flags, sanctions, trust levels)
+ *   - Entity Dashboards (ProfilePanel: company/authority/person profiles, directors, contracts, groups)
  */
 
 export const features = [
   // ── Insight tools (data → understanding) ──────────────────
 
   {
-    id: 'collaborative-reports',
-    title: 'Collaborative Reports',
+    id: 'llm-assistant',
+    title: 'AI-Assisted Report Writing',
     category: 'insight',
     status: 'proposed',
     effort: 'High',
-    source: 'Internal',
-    sourceUrl: null,
-    format: 'Web UI + API + Neo4j storage',
+    source: 'Anthropic Claude API',
+    sourceUrl: 'https://docs.anthropic.com/en/docs',
+    format: 'Web UI (in-editor) + API proxy',
     coverage: 'All loaded entities',
     summary:
-      'Wikipedia-style collaborative investigations built on live graph data. ' +
-      'Authenticated users create, share, and co-edit structured reports ' +
-      'with embedded visualizations that stay connected to the underlying graph.',
+      'An LLM embedded in the report editor that can query the graph API, summarise ' +
+      'data, draft analysis paragraphs, and answer questions — all grounded in real GMR data.',
     description: `
 ## The problem
 
-Data without narrative is noise. A journalist discovers that Company X received €50M in public contracts while its director also sits on the board of the awarding authority — but there's no way to document this finding, share it with colleagues, or build on it over time. The insight dies in a browser tab.
+Reports are powerful, but writing them is slow. A journalist staring at 200 contracts needs help extracting patterns, drafting summaries, and asking "what if" questions. An LLM that can read the graph is the force multiplier.
 
-## What collaborative reports are
+## Architecture
 
-A **report** is a structured document that combines:
+Three options were evaluated:
 
-- **Narrative text** — the human-written analysis, context, and conclusions
-- **Embedded graph snapshots** — saved views from the graph explorer (entity, depth, filters, highlighted paths) that render live data, not static screenshots
-- **Data tables** — query results (e.g. "all contracts between Authority X and Company Y, sorted by date") that update when the underlying data changes
-- **Annotations** — user-added notes on specific entities or relationships ("this director resigned 2 days after the contract was awarded")
+| Approach | Cost model | Latency | Context control | Verdict |
+|----------|-----------|---------|----------------|---------|
+| **A. Backend-proxied API** | Per-token (Anthropic API) | 1-5s | Full server-side control | **Chosen** |
+| B. Embedded Claude terminal (iframe) | User's own Claude subscription | <1s | No control — user pastes data manually | Too unstructured |
+| C. Frontend-only SDK | Per-token, key exposed | 1-5s | No server-side safety | Insecure |
 
-## Collaboration model
+**Option A wins** because the backend controls context, enforces quotas, and keeps the API key secret.
 
-Each report has a **visibility level**:
-
-| Level | Who can read | Who can edit | Use case |
-|-------|-------------|-------------|----------|
-| **Private** | Author only | Author only | Work in progress, personal research |
-| **Team** | Named collaborators | Named collaborators | Newsroom investigation, research group |
-| **Public (read-only)** | Anyone | Author + collaborators | Published investigation, reference report |
-| **Public (commentable)** | Anyone | Author + collaborators (comments: anyone) | Community-reviewed investigation |
-
-## Report structure
+## How it works
 
 \`\`\`
-Report
-├── Title + abstract
-├── Author(s) + creation/update dates
-├── Visibility level
-├── Sections (ordered)
-│   ├── Section 1: "Background"
-│   │   ├── Text block (Markdown)
-│   │   └── Graph embed: Company X at depth 2
-│   ├── Section 2: "The contract trail"
-│   │   ├── Text block
-│   │   ├── Data table: contracts between Auth Y → Company X
-│   │   └── Graph embed: path from Director Z to Auth Y
-│   └── Section 3: "Conclusions"
-│       └── Text block
-├── Comments (if commentable)
-└── Revision history
+User types prompt in report editor
+    → POST /capi/assist/chat
+    → gmr-community-api validates JWT, checks quota
+    → Builds system prompt with:
+        - Neo4j schema (node labels, relationship types, properties)
+        - Current report context (title, sections so far)
+        - Available tool definitions (graph API endpoints)
+    → Calls Anthropic Messages API with tool_use enabled
+    → Claude may call tools (graph queries, contract lookups, etc.)
+    → Backend executes tool calls against edgar-gmr-etl API
+    → Returns final response with citations
+    → Frontend renders in editor sidebar
 \`\`\`
 
-## Data model (Neo4j)
+## Tool-use: giving Claude access to the graph
+
+The key insight: Claude's **tool_use** feature lets us define the GMR REST API as callable tools. The LLM decides which endpoints to call, the backend executes them, and Claude synthesises the results.
+
+### Tools exposed to Claude
+
+| Tool | Maps to | Purpose |
+|------|---------|---------|
+| \`search_entities\` | \`GET /api/tickers/search\` | Find companies, authorities, persons by name |
+| \`get_company\` | \`GET /api/companies/{id}\` | Full company profile with contracts, directors, group |
+| \`get_authority\` | \`GET /api/authorities/{id}\` | Authority profile with awarded contracts |
+| \`get_contracts\` | \`GET /api/companies/{id}/contracts\` | Contracts for an entity |
+| \`explore_graph\` | \`GET /api/graph/{id}?depth=N\` | Graph traversal from any entity |
+| \`find_paths\` | \`GET /api/graph/paths/find\` | Find connections between two entities |
+| \`get_fundamentals\` | \`GET /api/{ticker}/fundamentals\` | Financial data |
+
+### Example interaction
+
+User: "Summarise Metro Mondego's procurement patterns"
+
+Claude internally:
+1. Calls \`search_entities("Metro Mondego")\` → gets authority_id
+2. Calls \`get_authority(authority_id)\` → sees 51 contracts, €699M total
+3. Calls \`get_contracts(authority_id)\` → gets top contracts by value
+4. Calls \`explore_graph(authority_id, depth=1)\` → sees supplier network
+5. Synthesises: "Metro Mondego awarded 51 contracts totalling €699M. The top 3 suppliers account for 72% of total spend..."
+
+## Context management
+
+| Context layer | Size | Purpose |
+|--------------|------|---------|
+| System prompt | ~2K tokens | Schema, safety rules, available tools |
+| Report context | ~1K tokens | Title, abstract, section summaries |
+| Conversation history | Last 10 turns | Continuity within a session |
+| Tool results | Variable | Fresh data from graph API |
+
+**Total context budget:** ~8K tokens system + tool results. User messages and tool calls fill the rest. Use \`claude-sonnet-4-6\` for cost efficiency (~$3/M input, $15/M output).
+
+## Cost control
+
+| Control | Implementation |
+|---------|---------------|
+| Per-user daily quota | PostgreSQL: \`llm_usage(user_id, date, tokens_in, tokens_out)\` |
+| Default: 50K tokens/day | Configurable per trust_level |
+| Rate limit | 10 requests/minute per user (FastAPI middleware) |
+| Max response | 4096 tokens per completion |
+| Admin override | Admins get unlimited |
+
+## Schema changes
+
+### PostgreSQL (gmr-community-api)
+
+\`\`\`sql
+CREATE TABLE llm_usage (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id TEXT NOT NULL,
+    date DATE NOT NULL DEFAULT CURRENT_DATE,
+    tokens_in BIGINT NOT NULL DEFAULT 0,
+    tokens_out BIGINT NOT NULL DEFAULT 0,
+    request_count INT NOT NULL DEFAULT 0,
+    UNIQUE(user_id, date)
+);
+
+CREATE TABLE llm_conversations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id TEXT NOT NULL,
+    report_id TEXT,
+    messages JSONB NOT NULL DEFAULT '[]',
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+\`\`\`
+
+## New files
+
+| File | Purpose |
+|------|---------|
+| \`gmr-community-api/src/services/llm_service.py\` | Claude API client with tool execution loop |
+| \`gmr-community-api/src/services/llm_tools.py\` | Tool definitions + proxy calls to edgar-gmr-etl |
+| \`gmr-community-api/src/api/routers/assist.py\` | \`POST /assist/chat\`, \`GET /assist/usage\` |
+| \`gmr-community-api/src/repositories/llm_repository.py\` | Usage tracking + conversation persistence |
+| \`gmr-community-api/migrations/versions/002_llm_tables.py\` | Alembic migration |
+| \`gmr-web/src/components/AssistPanel.vue\` | Chat sidebar in report editor |
+| \`gmr-web/src/api/community.js\` | Add \`sendAssistMessage()\`, \`getUsage()\` |
+
+## Environment variables
 
 \`\`\`
-(:User {user_id, email, name, role})
-(:Report {report_id, title, abstract, visibility, created_at, updated_at})
-(:Section {section_id, order, type, content_md, query_cypher, graph_state_json})
-(:Comment {comment_id, body, created_at})
-
-(User)-[:AUTHORED]->(Report)
-(User)-[:COLLABORATES_ON]->(Report)
-(Report)-[:HAS_SECTION]->(Section)
-(Section)-[:REFERENCES]->(Company|Authority|Person|Contract)
-(User)-[:COMMENTED {at}]->(Report)
-(Comment)-[:ON]->(Report)
+ANTHROPIC_API_KEY=sk-ant-...        # K8s secret
+ANTHROPIC_MODEL=claude-sonnet-4-6   # Default model
+LLM_DAILY_QUOTA=50000               # Tokens per user per day
+GMR_API_INTERNAL=http://gmr-api.gmr.svc.cluster.local:8000  # Internal API URL for tool calls
 \`\`\`
 
-## Embedded graph snapshots
+## Frontend UX
 
-A graph embed stores the full state needed to re-render a graph explorer view:
-
-\`\`\`json
-{
-  "center_id": "gmr-123",
-  "depth": 2,
-  "type_filters": ["Company", "Authority"],
-  "time_range": "3y",
-  "summary_edges": true,
-  "highlighted_path": { "from": "per-456", "to": "auth-789" },
-  "locked_nodes": ["gmr-123"],
-  "annotation": "Notice how the same 3 companies appear in all contracts"
-}
-\`\`\`
-
-When a reader opens the report, each embed renders a live Cytoscape graph using the saved state. If the underlying data has changed (new contracts loaded), the graph reflects the current state — the embed is a query, not a screenshot.
-
-## Embedded data tables
-
-A data table embed stores a parameterized query:
-
-\`\`\`json
-{
-  "type": "contracts",
-  "params": { "authority_id": "auth-789", "company_gmr_id": "gmr-123" },
-  "columns": ["date", "title", "value_eur", "cpv"],
-  "sort": { "key": "value_eur", "desc": true },
-  "caption": "Contracts awarded by Ville de Paris to Acme Corp"
-}
-\`\`\`
-
-The frontend fetches the data via the existing API and renders it inline. The table is always current.
-
-## Authentication
-
-Reports require user accounts. Lightweight authentication options:
-
-1. **Email + magic link** — no password, lowest friction
-2. **OAuth** (France Connect, EU Login, GitHub) — for institutional users
-3. **Anonymous read** — public reports are readable without login
-
-Roles:
-- **Reader** — can view public reports, leave comments
-- **Contributor** — can create reports, collaborate on others' reports
-- **Moderator** — can flag/hide reports, manage community
-
-## Implementation phases
-
-| Phase | Scope | Effort |
-|-------|-------|--------|
-| 1. Auth + basic reports | User accounts (magic link), create/edit private reports with Markdown sections, save/load from Neo4j | 2-3 weeks |
-| 2. Graph embeds | Embed saved graph explorer states in sections, live rendering in report view | 1-2 weeks |
-| 3. Data table embeds | Parameterized API queries rendered as tables inside sections | 1 week |
-| 4. Collaboration | Invite collaborators by email, team visibility level, concurrent editing (last-write-wins for v1) | 2 weeks |
-| 5. Public + comments | Public visibility, comment threads, moderation queue | 1-2 weeks |
-| 6. Revision history | Track section-level changes, diff view, restore previous versions | 1 week |
-
-## Example use case: "Who profits from Metro Mondego?"
-
-1. Journalist searches "Metro Mondego" → sees Authority with 51 contracts, €699M total
-2. Opens graph explorer → sees 9 supplier companies, notices 2 share the same director
-3. Clicks "New Report" → creates "Metro Mondego procurement analysis"
-4. Adds graph embed showing the Authority at depth 2 with CLIENT_OF edges
-5. Adds data table of the top 10 contracts by value
-6. Writes narrative connecting the shared director to the two winning companies
-7. Shares report as "Public (commentable)" before the elections
-8. Citizens and other journalists comment, suggest leads, verify facts
+The report editor gets a collapsible **Assist panel** (right sidebar):
+- Chat-style interface with user messages and AI responses
+- Responses include inline citations linking to graph entities
+- "Insert into report" button copies AI text into the active section
+- Token usage indicator at bottom
+- Conversation persists per report (reload-safe)
 `,
     impact:
-      'Transforms the platform from a data browser into an investigative workspace. ' +
-      'The report becomes a citeable, verifiable artifact — the fact-checker\'s equivalent of a scientific paper.',
+      'The most transformative feature. Turns every user into a data analyst. ' +
+      'A citizen asks "is this company getting unusual amounts of public money?" and gets a sourced answer in seconds.',
   },
   {
     id: 'anomaly-detection',
@@ -175,51 +184,80 @@ Roles:
       'unusually concentrated procurement, director networks spanning buyers and suppliers, ' +
       'shell-like entities, and abnormal contract timing.',
     description: `
-## The problem
-
-With 3.6M companies and 779K contracts, no human can manually scan for irregularities. We need the graph to surface what's unusual.
-
-## Proposed red-flag patterns
-
-Each pattern is a Cypher query that returns entities matching a structural signature:
+## Red-flag patterns (Cypher queries)
 
 ### 1. Revolving door
-A person who directed a public authority also directs a company that won contracts from that authority.
+Person who directed a public authority also directs a company that won contracts from it.
 
-\`\`\`
+\`\`\`cypher
 MATCH (p:Person)-[:DIRECTS]->(a:Authority)
 MATCH (p)-[:DIRECTS]->(c:Company)
 MATCH (a)-[:CLIENT_OF]->(c)
-RETURN p, a, c
+RETURN p.name, a.name, c.name, r.total_eur
 \`\`\`
 
 ### 2. Contract concentration
-An authority awards >50% of its total spend to a single company.
+Authority awards >50% of total spend to a single supplier.
+
+\`\`\`cypher
+MATCH (a:Authority)-[r:CLIENT_OF]->(c:Company)
+WITH a, sum(r.total_eur) AS total_spend, collect({company: c.name, eur: r.total_eur}) AS suppliers
+UNWIND suppliers AS s
+WITH a, total_spend, s WHERE s.eur > total_spend * 0.5
+RETURN a.name, s.company, s.eur, total_spend
+\`\`\`
 
 ### 3. Shell-like entities
-Companies with no employees, no financial data, no website, but winning large public contracts.
+Companies with no financials, no employees, but winning large contracts.
 
 ### 4. Bid-splitting
-Multiple small contracts just below the threshold that would trigger a public tender, awarded to the same company by the same authority within a short period.
+Multiple contracts just below public tender threshold, same authority→company, within 90 days.
 
 ### 5. Cross-border director networks
-Same person directing companies in 3+ countries that all supply to the same authority.
+Person directing companies in 3+ countries that all supply the same authority.
 
-## Output
+## Implementation plan
 
-A dashboard showing flagged entities with:
-- The pattern that triggered the flag
-- The specific entities and relationships involved
-- A "severity" score (number of patterns matched, contract values involved)
-- One-click navigation to the graph explorer centered on the flagged entity
-- One-click "Start report" to document the finding
+### Schema changes (Neo4j)
+
+\`\`\`cypher
+CREATE (:RedFlag {id, pattern, severity, entity_ids, details_json, detected_at, reviewed: false})
+CREATE INDEX redflag_pattern FOR (r:RedFlag) ON (r.pattern)
+CREATE INDEX redflag_reviewed FOR (r:RedFlag) ON (r.reviewed)
+\`\`\`
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/detect_anomalies.py\` | Run all pattern queries, create RedFlag nodes |
+| \`edgar-gmr-etl/src/api/routers/red_flags.py\` | \`GET /red-flags\`, \`GET /red-flags/{entity_id}\`, \`POST /red-flags/{id}/review\` |
+| \`gmr-web/src/views/RedFlagsView.vue\` | Dashboard: sortable table with severity, pattern, entities |
+| \`gmr-web/src/components/RedFlagBadge.vue\` | Small badge shown on entity profiles when flags exist |
+
+### New CronJob
+
+\`\`\`yaml
+# cronjob-anomaly-detection.yaml
+schedule: "0 8 * * 1"  # Weekly Monday 08:00 UTC
+command: python3 -m src.etl.detect_anomalies
+\`\`\`
+
+### API endpoints
+
+| Endpoint | Purpose |
+|----------|---------|
+| \`GET /red-flags?pattern=&severity_min=&reviewed=false&limit=50\` | List flags with filters |
+| \`GET /red-flags/entity/{entity_id}\` | Flags involving a specific entity |
+| \`POST /red-flags/{id}/review\` | Mark as reviewed (admin) |
+| \`GET /red-flags/stats\` | Counts by pattern and severity |
 
 ## Important caveat
 
-Red flags are **not accusations**. A flag means "this structure is statistically unusual and warrants human review." The dashboard must clearly communicate this.
+Red flags are **not accusations**. The UI must clearly state: "This structure is statistically unusual and warrants human review."
 `,
     impact:
-      'Turns passive data into active leads. Investigative journalists get a prioritized list of structures worth examining instead of searching blindly.',
+      'Turns passive data into active leads. Investigative journalists get a prioritized list of structures worth examining.',
   },
   {
     id: 'entity-watchlists',
@@ -232,42 +270,93 @@ Red flags are **not accusations**. A flag means "this structure is statistically
     format: 'Web UI + email notifications',
     coverage: 'All loaded entities',
     summary:
-      'Users "watch" entities they care about and receive alerts when new data appears: ' +
-      'new contracts, new directors, new corporate group changes, new lobbying activities.',
+      'Users watch entities and receive alerts when new data appears: ' +
+      'new contracts, new directors, new corporate group changes.',
     description: `
-## Concept
-
-A researcher investigating a specific company or authority shouldn't have to check the platform daily. Instead, they add entities to a personal watchlist, and the platform notifies them when something changes.
-
 ## What triggers an alert
 
 - New contract awarded to/by the watched entity
 - New director appointed or resigned
 - New subsidiary added to the corporate group
-- Entity appears in a newly loaded lobbying declaration
 - Entity flagged by anomaly detection
+- Entity appears in a newly loaded dataset
 
-## Alert channels
+## Schema changes
 
-1. **In-app notification** — bell icon with unread count
-2. **Email digest** — daily or weekly summary of changes across all watched entities
-3. **Webhook** (for power users / newsrooms) — push notifications to Slack, custom integrations
+### PostgreSQL (gmr-community-api)
 
-## Implementation
+\`\`\`sql
+CREATE TABLE watchlist (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id TEXT NOT NULL,
+    entity_id TEXT NOT NULL,
+    entity_type TEXT NOT NULL,  -- company, authority, person
+    entity_name TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    UNIQUE(user_id, entity_id)
+);
 
-Each alert is a lightweight Neo4j node:
+CREATE TABLE alert (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id TEXT NOT NULL,
+    entity_id TEXT NOT NULL,
+    alert_type TEXT NOT NULL,  -- new_contract, new_director, new_subsidiary, red_flag
+    title TEXT NOT NULL,
+    details JSONB NOT NULL DEFAULT '{}',
+    read BOOLEAN DEFAULT false,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
 
+CREATE INDEX idx_alert_user_read ON alert(user_id, read);
 \`\`\`
-(:Watch {user_id, entity_id, entity_type, created_at})
-(:Alert {alert_id, type, entity_id, details_json, created_at, read: false})
-(User)-[:WATCHES]->(Company|Authority|Person)
-(Alert)-[:ABOUT]->(Company|Authority|Person)
+
+## New files
+
+| File | Purpose |
+|------|---------|
+| \`gmr-community-api/src/domain/watchlist.py\` | Watch, Alert dataclasses |
+| \`gmr-community-api/src/repositories/watchlist_repository.py\` | ABC for watch/alert CRUD |
+| \`gmr-community-api/src/infra/memory/mem_watchlist_repo.py\` | InMemory impl |
+| \`gmr-community-api/src/infra/postgres/pg_watchlist_repo.py\` | Postgres impl |
+| \`gmr-community-api/src/services/watchlist_service.py\` | Watch/unwatch, generate alerts, mark read |
+| \`gmr-community-api/src/api/routers/watchlist.py\` | REST endpoints |
+| \`gmr-community-api/migrations/versions/003_watchlist.py\` | Alembic migration |
+| \`gmr-web/src/components/WatchButton.vue\` | Toggle watch on any entity profile |
+| \`gmr-web/src/components/AlertBell.vue\` | Header bell icon with unread count |
+| \`gmr-web/src/views/AlertsView.vue\` | Full alerts list with filters |
+
+## API endpoints
+
+| Endpoint | Purpose |
+|----------|---------|
+| \`POST /watchlist\` | Watch an entity |
+| \`DELETE /watchlist/{entity_id}\` | Unwatch |
+| \`GET /watchlist\` | List watched entities |
+| \`GET /alerts?read=false&limit=20\` | List alerts |
+| \`POST /alerts/{id}/read\` | Mark as read |
+| \`POST /alerts/read-all\` | Mark all as read |
+
+## Alert generation
+
+A background job runs after each ETL load:
+1. Query Neo4j for entities with new data since last run
+2. Cross-reference with watchlist table
+3. Create alert rows for matching users
+
+### New CronJob
+
+\`\`\`yaml
+# cronjob-generate-alerts.yaml
+schedule: "30 6 * * 1-5"  # Weekdays 06:30 UTC (after TED daily at 06:00)
+command: python3 -m src.etl.generate_alerts
 \`\`\`
 
-A background job runs after each ETL load, compares the new state to the previous state, and generates alerts for watched entities.
+## Email digest (phase 2)
+
+Weekly email via SendGrid/SES with all unread alerts. Requires \`email_preferences\` table extension.
 `,
     impact:
-      'Keeps investigators in the loop without requiring daily visits. When a watched company wins a new contract 2 weeks before an election, the journalist knows immediately.',
+      'Keeps investigators in the loop without daily visits. When a watched company wins a new contract before an election, the journalist knows immediately.',
   },
   {
     id: 'natural-language',
@@ -283,87 +372,169 @@ A background job runs after each ETL load, compares the new state to the previou
       'Ask questions in plain language — "Who are the biggest suppliers to the French Ministry of Defence?" ' +
       '— and get graph-backed answers with citations.',
     description: `
-## Concept
-
-The graph already contains the answers. The barrier is knowing Cypher. Natural language queries bridge this gap by translating human questions into structured graph queries.
-
 ## Architecture
+
+Reuses the same LLM infrastructure as AI-Assisted Report Writing, but exposed as a standalone search interface.
 
 \`\`\`
 User question (text)
-    → LLM (Claude API) with graph schema context
-    → Cypher query
-    → Neo4j execution
-    → Result formatting
-    → Answer with citations (entity links, graph embeds)
+    → POST /capi/assist/query
+    → Same tool_use loop as report assistant
+    → But returns structured answer card instead of chat
 \`\`\`
 
-The LLM receives the Neo4j schema (node labels, relationship types, key properties) as context and generates a Cypher query. The platform executes it, formats the result, and returns an answer grounded in real data.
+## Depends on
+
+- **AI-Assisted Report Writing** — shares the LLM service, tool definitions, and quota system
+
+## New files (incremental over LLM assistant)
+
+| File | Purpose |
+|------|---------|
+| \`gmr-community-api/src/api/routers/assist.py\` | Add \`POST /assist/query\` endpoint |
+| \`gmr-web/src/components/NaturalLanguageBar.vue\` | Search bar with "Ask a question" mode |
+| \`gmr-web/src/components/AnswerCard.vue\` | Structured answer display with citations |
 
 ## Safety
 
-- The LLM generates **read-only** Cypher (no MERGE, CREATE, DELETE)
-- A query validator rejects any write operations before execution
-- Results always link back to source entities (clickable)
-- The generated Cypher is shown to the user for transparency
+- LLM generates **read-only** API calls only (no mutations)
+- Generated queries shown to user for transparency
+- Results always link back to source entities
+- Unauthenticated users get 5 free queries/day (encourage sign-up)
 
 ## Example queries
 
-| Question | Generated Cypher (simplified) |
-|----------|------------------------------|
-| "Who are the top 5 suppliers to Ville de Paris?" | \`MATCH (a:Authority {name: 'Ville de Paris'})-[:CLIENT_OF]->(c) RETURN c ORDER BY r.total_eur DESC LIMIT 5\` |
-| "How is Jean Dupont connected to Metro Mondego?" | \`shortestPath between Person and Authority\` |
-| "Which companies won contracts in both France and Germany?" | \`MATCH (c)-[:SUPPLIER_OF]->(:Authority {country: 'FRA'}) MATCH (c)-[:SUPPLIER_OF]->(:Authority {country: 'DEU'}) RETURN c\` |
+| Question | Tools called |
+|----------|-------------|
+| "Who are the top 5 suppliers to Ville de Paris?" | search_entities → get_authority → get_contracts |
+| "How is Jean Dupont connected to Metro Mondego?" | search_entities (x2) → find_paths |
+| "Which companies won contracts in both France and Germany?" | explore_graph with filters |
+| "How much public money did VINCI receive in 2024?" | search_entities → get_contracts |
 `,
     impact:
-      'Removes the last barrier between citizens and public data. The interested voter who doesn\'t know what Cypher is can still ask "did company X get public money?"',
+      'Removes the last barrier between citizens and public data. No Cypher knowledge needed.',
   },
   {
-    id: 'entity-dashboards',
-    title: 'Entity Dashboards',
+    id: 'factcheck-api',
+    title: 'Fact-Check Query API',
     category: 'insight',
     status: 'proposed',
     effort: 'Medium',
     source: 'Internal',
     sourceUrl: null,
-    format: 'Web UI',
+    format: 'REST API',
     coverage: 'All loaded entities',
-    summary:
-      'Rich summary pages for every entity type — not just companies, but authorities, persons, ' +
-      'and associations — with key metrics, timelines, and relationship summaries.',
+    summary: 'High-level API for common transparency questions. Designed for newsroom integration.',
     description: `
-## Current state
+## Endpoints
 
-The company profile page exists but is basic. Authorities, persons, and associations have no dedicated profile at all.
+Pre-built queries that combine multiple graph traversals into single answers:
 
-## Proposed dashboards
+| Endpoint | Purpose | Combines |
+|----------|---------|----------|
+| \`GET /factcheck/money/{entity_id}\` | All public money received | Contracts + subsidies + grants |
+| \`GET /factcheck/connections/{a}/{b}\` | All paths between two entities | Graph paths + shared directors |
+| \`GET /factcheck/network/{person_id}\` | Person's full network | Companies + authorities + associations |
+| \`GET /factcheck/red-flags/{entity_id}\` | All anomaly flags | RedFlag nodes |
+| \`GET /factcheck/timeline/{entity_id}\` | Chronological event log | Contracts + directors + elections |
 
-### Authority dashboard
-- Total spend (by year, by sector)
-- Top 10 suppliers (by total EUR)
-- Contract concentration score (% of spend going to top 3 suppliers)
-- Geographic reach (which countries do its suppliers come from?)
-- Director overlap with suppliers (red flag indicator)
-- Timeline of contracts
+## Response format
 
-### Person dashboard
-- All current and past roles (companies, authorities, associations)
-- Timeline of role changes
-- Companies directed that received public money (total EUR)
-- Network visualization: the person at center, all connected entities
+\`\`\`json
+{
+  "question": "How much public money did VINCI receive?",
+  "answer": {
+    "total_eur": 2450000000,
+    "breakdown": { "contracts": 2300000000, "grants": 150000000 },
+    "period": "2020-2025"
+  },
+  "sources": [
+    { "type": "TED", "count": 487, "loaded_at": "2026-04-01" },
+    { "type": "FTS", "count": 12, "loaded_at": "2026-03-15" }
+  ],
+  "confidence": "high",
+  "explore_url": "/c/vinci-gmr-id/contracts"
+}
+\`\`\`
 
-### Association dashboard (when RNA loaded)
-- Purpose, creation date, location
-- Subsidies received (when loaded)
-- Board members and their other affiliations
-- Similar associations in the same sector/region
+## New files
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/api/routers/factcheck.py\` | All /factcheck endpoints |
+| \`edgar-gmr-etl/tests/test_api_factcheck.py\` | Unit tests |
+
+## Depends on
+
+Multiple data sources being loaded. Endpoints gracefully degrade — if grants aren't loaded yet, the \`money\` endpoint returns contracts only with a \`sources\` array indicating what's available.
 `,
-    impact:
-      'Makes every entity a starting point for investigation. A researcher hearing a name in the news can look it up and get a complete picture in seconds.',
+    impact: 'A single API answering transparency questions across all sources. Embeddable in newsroom workflows, WhatsApp bots, or other tools.',
   },
 
   // ── Data sources ──────────────────────────────────────────
 
+  {
+    id: 'sirene',
+    title: 'SIRENE (French Business Registry)',
+    category: 'data-source',
+    status: 'proposed',
+    source: 'INSEE — Base SIRENE',
+    sourceUrl: 'https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/',
+    format: 'CSV bulk download (monthly), ~12M establishments',
+    coverage: 'France',
+    effort: 'Medium',
+    summary: 'The French entity backbone. SIREN is the common key across all French data sources.',
+    description: `
+## Why SIRENE first
+
+SIREN numbers link subsidies, associations, tax data, lobbying declarations, and campaign finance. Loading SIRENE makes entity matching across all French sources **precise** instead of fuzzy name-based.
+
+## Data model extension
+
+### Company node enrichment
+
+\`\`\`cypher
+// Add SIREN/SIRET to existing Company nodes (matched via name+country or VAT)
+SET c.siren = "123456789"
+SET c.siret_hq = "12345678900012"
+SET c.naf_code = "6201Z"
+SET c.naf_label = "Computer programming"
+SET c.address = "12 rue de la Paix, 75002 Paris"
+SET c.employee_range = "50-99"
+SET c.legal_form = "SAS"
+SET c.creation_date = date("2015-03-12")
+\`\`\`
+
+### New index
+
+\`\`\`cypher
+CREATE INDEX company_siren IF NOT EXISTS FOR (c:Company) ON (c.siren)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_sirene.py\` | Download monthly CSV (~2GB), stream-parse, MERGE into Company nodes |
+| \`edgar-gmr-etl/src/etl/sirene_matcher.py\` | Match SIRENE entries to existing Company nodes (SIREN→VAT, name+dept) |
+
+## Matching strategy
+
+1. SIREN → existing Company.vat (French VAT = FR + SIREN check digits)
+2. Name + department exact match → existing Company nodes
+3. Unmatched → create new Company node with \`gmr_id.from_national_id("FR", siren)\`
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 3 1 * *"  # Monthly, 1st at 03:00 UTC
+command: python3 -m src.etl.load_sirene
+\`\`\`
+
+## Size: ~4M active enterprises, ~12M establishments. CSV ~2GB compressed.
+`,
+    impact: 'The authoritative French entity backbone. Enables address-based geographic analysis and precise cross-source matching for all French data.',
+  },
   {
     id: 'associations',
     title: 'French Associations (RNA)',
@@ -375,29 +546,63 @@ The company profile page exists but is basic. Authorities, persons, and associat
     coverage: 'France',
     effort: 'Low',
     summary:
-      'Load 1.5M French associations into the graph. Cross-reference leaders with company directors and elected officials.',
+      'Load 1.5M French associations. Cross-reference leaders with company directors and elected officials.',
     description: `
-## Data source
+## Depends on
 
-The RNA (Répertoire National des Associations) contains all French associations declared under the loi 1901. Published as a CSV on data.gouv.fr, updated regularly.
+- **SIRENE** — for SIREN-based matching of associations that have a business registration
 
-## Data model
+## Schema changes (Neo4j)
+
+\`\`\`cypher
+CREATE CONSTRAINT assoc_rna IF NOT EXISTS FOR (a:Association) REQUIRE a.rna_id IS UNIQUE
+CREATE INDEX assoc_siren IF NOT EXISTS FOR (a:Association) ON (a.siren)
+\`\`\`
+
+### New node
 
 \`\`\`
-(:Association {rna_id, name, purpose, address, department, creation_date, dissolution_date})
-(Person)-[:LEADS]->(Association)
-(Association)-[:LOCATED_IN]->(Commune)
+(:Association {
+    rna_id,         -- "W751234567"
+    siren,          -- nullable, links to SIRENE
+    name,
+    purpose,        -- short description
+    address,
+    department,     -- "75", "13", etc.
+    creation_date,
+    dissolution_date,
+    last_updated
+})
 \`\`\`
+
+### New relationships
+
+\`\`\`
+(:Person)-[:LEADS {role: "president"|"treasurer"|"secretary"}]->(:Association)
+(:Association)-[:RECEIVED_SUBSIDY]->(:Subsidy)  -- when subsidies data loaded
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_rna.py\` | Download RNA CSV, parse, MERGE Association nodes |
+| \`edgar-gmr-etl/src/etl/load_rna_leaders.py\` | Parse JOAFE announcements for board member names, link to Person nodes |
 
 ## Cross-references
 
-- JOAFE (Journal Officiel des Associations) provides board member names → link to existing Person nodes
-- SIRENE SIREN numbers → link associations that also have a business registration
-- Subsidies data → link to Grant/Subsidy nodes when that data is loaded
+- JOAFE (Journal Officiel des Associations) board member names → match to existing Person nodes by name+birth_year
+- SIREN → match to Company nodes (some associations are also registered businesses)
+- Department → geographic analysis
 
-## Size: ~1.5M associations, ~300MB CSV
+## CronJob
+
+\`\`\`yaml
+schedule: "0 4 15 * *"  # Monthly, 15th at 04:00 UTC
+command: python3 -m src.etl.load_rna
+\`\`\`
 `,
-    impact: 'Makes the civil society visible. Citizens discover local associations; journalists trace conflict-of-interest networks.',
+    impact: 'Makes civil society visible. Journalists trace conflict-of-interest networks between associations, companies, and public officials.',
   },
   {
     id: 'lobbying-eu',
@@ -409,30 +614,54 @@ The RNA (Répertoire National des Associations) contains all French associations
     format: 'XML bulk download + REST API (JSON)',
     coverage: 'EU-wide (~13K registered entities)',
     effort: 'Low',
-    summary: 'EU-level lobbying data: who is lobbying for what, how much they spend, and which EP access passes they hold.',
+    summary: 'EU-level lobbying data: who lobbies, how much they spend, which EP access passes they hold.',
     description: `
-## Data source
+## Schema changes (Neo4j)
 
-The EU Transparency Register contains ~13K organizations that lobby EU institutions. Bulk XML download updated regularly.
+\`\`\`cypher
+CREATE CONSTRAINT lobbyist_tr_id IF NOT EXISTS FOR (l:Lobbyist) REQUIRE l.tr_id IS UNIQUE
+\`\`\`
 
-## Key fields
-
-- Organization name, type, country
-- Lobbying costs (annual range)
-- EP access passes (named individuals)
-- Legislative interests (which dossiers they follow)
-- EU grants received
-
-## Data model
+### New nodes
 
 \`\`\`
-(:Lobbyist {tr_id, name, country, type, annual_costs_min, annual_costs_max})
-(Lobbyist)-[:REPRESENTS]->(Company|Association)
-(Lobbyist)-[:HAS_EP_PASS {person_name}]->(:EUInstitution)
-(Lobbyist)-[:INTERESTS]->(LegislativeDossier)
+(:Lobbyist {
+    tr_id,              -- EU Transparency Register ID
+    name,
+    country,
+    type,               -- "company", "trade_assoc", "ngo", "consultancy", "law_firm"
+    annual_costs_min,   -- EUR
+    annual_costs_max,
+    fte_lobbyists,
+    ep_passes,          -- count of EP access badges
+    last_updated
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:Lobbyist)-[:REPRESENTS]->(Company)     -- matched via name/VAT/LEI
+(:Lobbyist)-[:HAS_EP_PASS {person_name}]->(:EUInstitution {name: "European Parliament"})
+(:Lobbyist)-[:INTERESTS {dossier}]->(:LegislativeDossier)
+(:Lobbyist)-[:RECEIVED_EU_GRANT {amount_eur, year}]->(:Grant)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_eu_lobbying.py\` | Download XML, parse, MERGE Lobbyist nodes + relationships |
+| \`edgar-gmr-etl/src/etl/eu_lobby_matcher.py\` | Match lobbyists to existing Company nodes (name, VAT, country) |
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 5 1 * *"  # Monthly, 1st at 05:00 UTC
+command: python3 -m src.etl.load_eu_lobbying
 \`\`\`
 `,
-    impact: 'Answers "who is lobbying for what?" Cross-reference with procurement data to check if lobbying correlates with contracts.',
+    impact: 'Answers "who is lobbying for what?" Cross-reference with procurement to check if lobbying correlates with contracts.',
   },
   {
     id: 'lobbying-fr',
@@ -444,26 +673,50 @@ The EU Transparency Register contains ~13K organizations that lobby EU instituti
     format: 'JSON / CSV on data.gouv.fr',
     coverage: 'France (~15K declarations, ~2K lobbyists)',
     effort: 'Low',
-    summary: 'French lobbying register + asset declarations of public officials. The link between money and politics.',
+    summary: 'French lobbying register + asset declarations of public officials.',
     description: `
 ## Two datasets
 
-1. **Répertoire des représentants d'intérêts** — French lobbying register (~2K entities)
+1. **Répertoire des représentants d'intérêts** — ~2K entities that lobby French institutions
 2. **Declarations of assets and interests** — Ministers, MPs, mayors, senior officials (~15K declarations)
 
-## Data model
+## Schema changes (Neo4j)
+
+### New nodes
 
 \`\`\`
-(Person)-[:DECLARED {year}]->(AssetDeclaration {real_estate, securities, income, debts})
-(Lobbyist)-[:LOBBIES]->(Person)  // official being lobbied
-(Lobbyist)-[:REPRESENTS]->(Company|Association)
+(:AssetDeclaration {
+    declaration_id,
+    person_id,      -- links to Person
+    mandate,        -- "député", "sénateur", "maire"
+    real_estate_eur,
+    securities_eur,
+    income_eur,
+    debts_eur,
+    year
+})
 \`\`\`
 
-## Cross-references
+### New relationships
 
-- Officials → link to existing Person nodes (directors, election candidates)
-- Lobbyists → link to Company nodes (GLEIF/SIRENE match)
-- Asset values → track evolution over time (is an official getting richer?)
+\`\`\`
+(:Person)-[:DECLARED]->(AssetDeclaration)
+(:Lobbyist)-[:LOBBIED {year, topic}]->(Person)  -- official being lobbied
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_hatvp.py\` | Download JSON, create AssetDeclaration + Lobbyist nodes |
+| \`edgar-gmr-etl/src/etl/hatvp_matcher.py\` | Match officials to Person nodes, lobbyists to Company/Lobbyist |
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 4 1 */3 *"  # Quarterly
+command: python3 -m src.etl.load_hatvp
+\`\`\`
 `,
     impact: 'Directly relevant for 2027: voters check what their representatives own and who lobbies them.',
   },
@@ -479,25 +732,52 @@ The EU Transparency Register contains ~13K organizations that lobby EU instituti
     effort: 'Low',
     summary: 'Campaign accounts for all French elections. Track spending patterns across cycles.',
     description: `
-## Data
+## Schema changes (Neo4j)
 
-Campaign accounts for presidential, legislative, municipal, regional, and European elections. Published by the CNCCFP on data.gouv.fr.
-
-## Key fields
-
-- Candidate name, party, constituency
-- Total receipts and expenses
-- Breakdown by category (advertising, travel, staff, events)
-- Accepted/rejected status
-
-## Data model
+### New nodes
 
 \`\`\`
-(:Candidate {name, party})-[:RAN_IN]->(Election {type, year, constituency})
-(:CampaignAccount {total_receipts, total_expenses, status})-[:FOR]->(Candidate)
+(:Election {
+    election_id,    -- "presidentielle-2022", "legislatives-2024-01"
+    type,           -- "presidentielle", "legislative", "municipale", "europeenne"
+    year,
+    round,          -- 1 or 2
+    constituency    -- nullable (for legislative/municipal)
+})
+
+(:CampaignAccount {
+    account_id,
+    candidate_name,
+    party,
+    total_receipts_eur,
+    total_expenses_eur,
+    status          -- "approved", "rejected", "reformed"
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:Person)-[:RAN_IN]->(Election)
+(:CampaignAccount)-[:FOR]->(Person)
+(:CampaignAccount)-[:IN]->(Election)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_campaign_finance.py\` | Download CSVs by election, parse, MERGE |
+
+## CronJob
+
+Not needed — campaign data is published once per election cycle. Manual trigger:
+
+\`\`\`bash
+python3 -m src.etl.load_campaign_finance --election presidentielle-2027
 \`\`\`
 `,
-    impact: 'Foundational for 2027 fact-checking. "How much did candidate X spend?" becomes a one-click query.',
+    impact: 'Foundational for 2027. "How much did candidate X spend?" becomes a one-click query.',
   },
   {
     id: 'elections',
@@ -509,19 +789,49 @@ Campaign accounts for presidential, legislative, municipal, regional, and Europe
     format: 'CSV / JSON, granularity down to bureau de vote',
     coverage: 'France (all elections since 2002+)',
     effort: 'Low',
-    summary: 'Election results at commune and bureau-de-vote level. The electoral backbone.',
+    summary: 'Election results at commune and bureau-de-vote level.',
     description: `
-## Data
+## Schema changes (Neo4j)
 
-Vote counts by bureau de vote, commune, department, region — candidate names, party affiliation, turnout, blank/null ballots. All French elections since 2002+.
+### Extends Election node
+
+\`\`\`
+(:ElectionResult {
+    result_id,
+    election_id,
+    candidate_name,
+    commune_code,   -- INSEE code
+    votes,
+    pct,
+    elected         -- boolean
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:ElectionResult)-[:IN]->(Election)
+(:ElectionResult)-[:FOR]->(Person)
+(:ElectionResult)-[:AT]->(Commune)
+\`\`\`
+
+## Depends on
+
+- **Campaign Finance** — shares Election nodes and Person matching
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_elections.py\` | Download CSVs, parse, MERGE results |
 
 ## Cross-references
 
-- Candidates → link to Person nodes (directors, lobbyists)
-- Communes → link to Authority nodes (municipal procurement)
-- Parties → link to campaign finance data
+- Candidates → Person nodes (directors, lobbyists)
+- Communes → Authority nodes (municipal procurement)
+- Parties → CampaignAccount linkage
 `,
-    impact: 'Correlate voting patterns with procurement spending, subsidies, and lobbying activity by constituency.',
+    impact: 'Correlate voting patterns with procurement spending, subsidies, and lobbying by constituency.',
   },
   {
     id: 'eu-funds',
@@ -535,17 +845,48 @@ Vote counts by bureau de vote, commune, department, region — candidate names, 
     effort: 'Medium',
     summary: 'All recipients of EU funds: Horizon, Erasmus, structural funds, cohesion projects.',
     description: `
-## Two sources
+## Schema changes (Neo4j)
 
-1. **EU Financial Transparency System (FTS)** — all Commission-managed funds. CSV bulk download by year.
-2. **ESIF Open Data (Cohesion)** — structural and investment funds with regional granularity. JSON API.
+\`\`\`cypher
+CREATE CONSTRAINT grant_id IF NOT EXISTS FOR (g:Grant) REQUIRE g.grant_id IS UNIQUE
+CREATE INDEX grant_programme IF NOT EXISTS FOR (g:Grant) ON (g.programme)
+CREATE INDEX grant_year IF NOT EXISTS FOR (g:Grant) ON (g.year)
+\`\`\`
 
-## Data model
+### New nodes
 
 \`\`\`
-(:Grant {grant_id, programme, amount_eur, year})
-(Grant)-[:AWARDED_TO]->(Company|Association)
-(Grant)-[:FUNDED_BY]->(Programme {name: "Horizon Europe"})
+(:Grant {
+    grant_id,       -- "FTS-2024-12345" or "ESIF-2024-67890"
+    source,         -- "fts" or "esif"
+    programme,      -- "Horizon Europe", "Erasmus+", "ERDF", etc.
+    title,
+    amount_eur,
+    year,
+    country
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:Grant)-[:AWARDED_TO]->(Company|Association)
+(:Grant)-[:FUNDED_BY]->(Programme)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_eu_fts.py\` | Download FTS CSV by year, parse, MERGE Grant nodes |
+| \`edgar-gmr-etl/src/etl/load_eu_cohesion.py\` | Query Cohesion JSON API, MERGE Grant nodes |
+| \`edgar-gmr-etl/src/etl/grant_matcher.py\` | Match recipients to existing Company/Association nodes |
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 3 1 */3 *"  # Quarterly
+command: python3 -m src.etl.load_eu_fts --year $(date +%Y)
 \`\`\`
 `,
     impact: 'Completes the money map: procurement + grants = the full picture of public money flows.',
@@ -560,13 +901,46 @@ Vote counts by bureau de vote, commune, department, region — candidate names, 
     format: 'CSV bulk download',
     coverage: 'France',
     effort: 'Low',
-    summary: 'Public subsidies paid to French associations: amount, recipient, purpose, granting authority.',
+    summary: 'Public subsidies paid to French associations.',
     description: `
-## Cross-references
+## Depends on
 
-- Recipients → link to Association nodes (RNA match)
-- Granting authorities → link to Authority nodes
-- Purpose → categorize by sector for aggregation
+- **SIRENE** — for SIREN-based matching of recipients
+- **Associations (RNA)** — for linking subsidies to association profiles
+
+## Schema changes (Neo4j)
+
+### New node
+
+\`\`\`
+(:Subsidy {
+    subsidy_id,     -- hash of authority+recipient+year+amount
+    amount_eur,
+    purpose,
+    year,
+    authority_name
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:Authority)-[:GRANTED]->(Subsidy)
+(:Subsidy)-[:RECEIVED_BY]->(Association|Company)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_fr_subsidies.py\` | Download CSV, match recipients by SIREN, MERGE |
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 4 1 */6 *"  # Every 6 months
+command: python3 -m src.etl.load_fr_subsidies
+\`\`\`
 `,
     impact: 'Answers "which associations receive public money, from whom, and how much?"',
   },
@@ -577,20 +951,58 @@ Vote counts by bureau de vote, commune, department, region — candidate names, 
     status: 'proposed',
     source: 'European Parliament Open Data Portal + Parltrack',
     sourceUrl: 'https://data.europarl.europa.eu/',
-    format: 'XML / RDF / CSV / SPARQL endpoint',
+    format: 'XML / JSON via Parltrack mirror',
     coverage: 'EU Parliament (all MEPs, all sessions)',
     effort: 'Medium',
-    summary: 'MEP profiles, committee memberships, and roll-call votes. Cross-reference with lobbying register.',
+    summary: 'MEP profiles, committee memberships, and roll-call votes.',
     description: `
-## Data
+## Schema changes (Neo4j)
 
-Roll-call votes by MEP, plenary session results, committee votes, parliamentary questions. Parltrack.org offers a clean JSON mirror.
+### New nodes
 
-## Cross-references
+\`\`\`
+(:MEP {
+    mep_id,         -- EP identifier
+    person_id,      -- links to Person
+    name,
+    country,
+    party_national,
+    party_eu,       -- EPP, S&D, Renew, etc.
+    term_start,
+    term_end
+})
 
-- MEPs → link to Person nodes
-- Votes on specific dossiers → link to Lobbyist interests (who lobbied on this topic?)
-- MEP country → link to national election results
+(:Vote {
+    vote_id,
+    dossier,
+    title,
+    date,
+    result          -- "adopted", "rejected"
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:Person)-[:SERVED_AS]->(MEP)
+(:MEP)-[:VOTED {position: "for"|"against"|"abstain"}]->(Vote)
+(:MEP)-[:MEMBER_OF {role}]->(Committee)
+(:Lobbyist)-[:INTERESTS]->(Vote)  -- via legislative dossier matching
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_eu_parliament.py\` | Download from Parltrack JSON, MERGE MEPs + votes |
+| \`edgar-gmr-etl/src/etl/ep_matcher.py\` | Match MEPs to Person nodes, votes to lobbying interests |
+
+## CronJob
+
+\`\`\`yaml
+schedule: "0 5 * * 0"  # Weekly Sunday 05:00 UTC
+command: python3 -m src.etl.load_eu_parliament
+\`\`\`
 `,
     impact: 'Track MEP voting alignment with lobbying interests and party discipline.',
   },
@@ -606,37 +1018,38 @@ Roll-call votes by MEP, plenary session results, committee votes, parliamentary 
     effort: 'Low',
     summary: 'Public subsidies to press organizations. Cross-reference with ownership data.',
     description: `
-## Data
+## Schema changes (Neo4j)
 
-Direct public aid to press organizations: amounts by publication, aid type (postal, distribution, pluralism).
+### New node
+
+\`\`\`
+(:PressAid {
+    aid_id,
+    publication_name,
+    aid_type,       -- "postal", "distribution", "pluralism", "digital"
+    amount_eur,
+    year
+})
+\`\`\`
+
+### New relationships
+
+\`\`\`
+(:PressAid)-[:RECEIVED_BY]->(Company)  -- press companies matched via SIREN
+(:Company)-[:OWNS]->(Company)          -- media ownership (community-curated)
+\`\`\`
+
+## ETL pipeline
+
+| File | Purpose |
+|------|---------|
+| \`edgar-gmr-etl/src/etl/load_press_subsidies.py\` | Download CSV, match publications to Company nodes via SIREN/name |
 
 ## Media ownership gap
 
-Media ownership data has no authoritative machine-readable source in Europe. EurOMo (media-ownership.eu) has research data but no bulk API. Community curation (via Collaborative Reports) is the pragmatic path.
+No authoritative machine-readable source in Europe. EurOMo (media-ownership.eu) has research data but no bulk API. **Community curation via reports** is the pragmatic path — users document ownership chains in collaborative reports.
 `,
     impact: 'Critical for fighting fake news: check who owns a publication, who funds it, and what their other interests are.',
-  },
-  {
-    id: 'sirene',
-    title: 'SIRENE (French Business Registry)',
-    category: 'data-source',
-    status: 'proposed',
-    source: 'INSEE — Base SIRENE',
-    sourceUrl: 'https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/',
-    format: 'CSV bulk download (monthly), ~12M establishments',
-    coverage: 'France',
-    effort: 'Medium',
-    summary: 'Complete French business registry with SIREN/SIRET, addresses, and sector codes.',
-    description: `
-## Data
-
-All French enterprises and establishments: SIREN/SIRET numbers, addresses, NAF sector codes, legal form, creation dates, employee count ranges.
-
-## Why it matters
-
-SIREN is the common key across French data sources. Subsidies, associations, tax data, social security data — all reference SIREN. Loading SIRENE makes entity matching across all French sources precise instead of fuzzy.
-`,
-    impact: 'The authoritative French entity backbone. Enables address-based geographic analysis and precise cross-source matching.',
   },
   {
     id: 'beneficial-ownership',
@@ -652,80 +1065,35 @@ SIREN is the common key across French data sources. Subsidies, associations, tax
     description: `
 ## Legal status
 
-The CJEU ruled in November 2022 (Cases C-37/20 and C-601/20) that unrestricted public access to beneficial ownership registers violates the right to privacy. Access now requires demonstrating "legitimate interest."
+The CJEU ruled in November 2022 (Cases C-37/20 and C-601/20) that unrestricted public access to beneficial ownership registers violates privacy rights. Access now requires "legitimate interest."
 
-The EU's new AML package (AMLD6, expected transposition 2025-2027) aims to restore access with conditions. OpenOwnership.org tracks which registers are open.
+The EU's AMLD6 package (expected transposition 2025-2027) aims to restore access with conditions.
 
-## When it reopens
+## Prepared schema (ready when access reopens)
 
-Design the data model now so we're ready:
+\`\`\`cypher
+CREATE CONSTRAINT bo_id IF NOT EXISTS FOR (bo:BeneficialOwner) REQUIRE bo.bo_id IS UNIQUE
+\`\`\`
 
 \`\`\`
-(:BeneficialOwner {name, nationality, birth_year})
-(BeneficialOwner)-[:OWNS {share_pct, direct}]->(Company)
+(:BeneficialOwner {
+    bo_id,
+    name,
+    nationality,
+    birth_year,
+    person_id       -- links to Person when matched
+})
+
+(:BeneficialOwner)-[:OWNS {share_pct, direct: boolean}]->(Company)
 \`\`\`
+
+## Action items
+
+- Monitor OpenOwnership.org for register status updates
+- Pre-build ETL for UK (Companies House PSC — already open) as proof of concept
+- When AMLD6 transposes: adapt per member state
 `,
     impact: 'The holy grail of corporate transparency. Who actually owns the companies that receive public money?',
-  },
-  {
-    id: 'factcheck-api',
-    title: 'Fact-Check Query API',
-    category: 'insight',
-    status: 'proposed',
-    effort: 'Medium',
-    source: 'Internal',
-    sourceUrl: null,
-    format: 'REST API',
-    coverage: 'All loaded entities',
-    summary: 'Structured API for common transparency questions. Designed for newsroom integration.',
-    description: `
-## Concept
-
-A high-level API layer above the raw graph that answers common fact-check patterns:
-
-- \`GET /factcheck/money/{entity_id}\` — all public money received (contracts + subsidies + grants)
-- \`GET /factcheck/connections/{entity_a}/{entity_b}\` — all paths connecting two entities
-- \`GET /factcheck/network/{person_id}\` — all entities connected to a person (companies, authorities, associations)
-- \`GET /factcheck/red-flags/{entity_id}\` — all anomaly patterns involving this entity
-
-## Output format
-
-Each response includes:
-- The answer (structured data)
-- Source citations (which dataset, when loaded)
-- Confidence level (direct match vs. fuzzy)
-- One-click links to explore in the graph
-`,
-    impact: 'A single API that answers transparency questions combining 10+ sources. Embeddable in newsroom workflows.',
-  },
-  {
-    id: 'community',
-    title: 'Community Curation',
-    category: 'platform',
-    status: 'proposed',
-    effort: 'High',
-    source: 'Internal — user-generated',
-    sourceUrl: null,
-    format: 'Web UI + API',
-    coverage: 'All entities',
-    summary: 'Community-driven data curation: flag errors, suggest merges, curate media ownership.',
-    description: `
-## Concept
-
-Allow authenticated users to:
-- **Flag incorrect data** — "this company name is misspelled"
-- **Suggest entity merges** — "these two entries are the same company"
-- **Add missing connections** — "this person also directs this association"
-- **Curate media ownership** — the one area where no structured open data exists
-
-A moderation queue ensures quality. Trusted contributors get higher privileges over time (similar to Wikipedia's autoconfirmed user system).
-
-## Depends on
-
-- User authentication (from Collaborative Reports feature)
-- Entity Resolution UI (already built)
-`,
-    impact: 'Scales data curation beyond what any single team can maintain. The community becomes the source of truth for hard-to-automate data.',
   },
 ]
 
