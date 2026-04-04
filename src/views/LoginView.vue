@@ -1,35 +1,64 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const token = ref('')
 const error = ref(null)
 const loading = ref(false)
+const manualToken = ref('')
+
+const GOOGLE_CLIENT_ID =
+  '1075253652266-hbea8sdsn4ihh6as732duohspgvf5eh4.apps.googleusercontent.com'
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
-async function handleSignIn() {
-  error.value = null
-  const trimmed = token.value.trim()
-  if (!trimmed) {
-    error.value = 'Please enter a token.'
-    return
-  }
+onMounted(() => {
+  if (hasToken.value) return
 
+  /* Wait for the Google GSI script to load, then render the button */
+  waitForGoogle(() => {
+    window.google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: onGoogleResponse,
+    })
+    window.google.accounts.id.renderButton(
+      document.getElementById('google-signin-btn'),
+      {
+        type: 'standard',
+        shape: 'rectangular',
+        theme: 'outline',
+        text: 'signin_with',
+        size: 'large',
+        width: 320,
+      },
+    )
+  })
+})
+
+function waitForGoogle(cb, attempts = 0) {
+  if (window.google?.accounts?.id) {
+    cb()
+  } else if (attempts < 50) {
+    setTimeout(() => waitForGoogle(cb, attempts + 1), 100)
+  }
+}
+
+async function onGoogleResponse(response) {
+  error.value = null
   loading.value = true
   try {
-    /* Validate by calling /capi/users/me — if 401, token is bad */
-    const res = await fetch('/capi/users/me', {
-      headers: { Authorization: `Bearer ${trimmed}` },
+    const res = await fetch('/capi/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential: response.credential }),
     })
     if (!res.ok) {
-      const text = await res.text().catch(() => '')
-      throw new Error(res.status === 401 ? 'Invalid or expired token.' : `HTTP ${res.status}: ${text}`)
+      const data = await res.json().catch(() => ({}))
+      throw new Error(data.detail || `HTTP ${res.status}`)
     }
-    localStorage.setItem('gmr-token', trimmed)
-    router.push('/')
-    /* Reload to update all reactive hasToken checks */
+    const data = await res.json()
+    localStorage.setItem('gmr-token', data.access_token)
+    localStorage.setItem('gmr-user', JSON.stringify(data.user))
     window.location.href = '/'
   } catch (err) {
     error.value = err.message
@@ -38,8 +67,25 @@ async function handleSignIn() {
   }
 }
 
+async function handleTokenSignIn() {
+  const trimmed = manualToken.value.trim()
+  if (!trimmed) return
+  error.value = null
+  try {
+    const res = await fetch('/capi/users/me', {
+      headers: { Authorization: `Bearer ${trimmed}` },
+    })
+    if (!res.ok) throw new Error('Invalid or expired token')
+    localStorage.setItem('gmr-token', trimmed)
+    window.location.href = '/'
+  } catch (err) {
+    error.value = err.message
+  }
+}
+
 function handleSignOut() {
   localStorage.removeItem('gmr-token')
+  localStorage.removeItem('gmr-user')
   window.location.href = '/'
 }
 </script>
@@ -57,44 +103,38 @@ function handleSignOut() {
         </div>
       </template>
 
-      <!-- Sign in form -->
+      <!-- Sign in -->
       <template v-else>
         <h1 class="login-title">Sign in to GMR</h1>
         <p class="login-desc">
-          Enter your access token to start creating reports, raising issues, and collaborating with the community.
+          Sign in to start creating reports, raising issues, and collaborating with the community.
         </p>
 
         <div v-if="error" class="login-error" data-testid="login-error">{{ error }}</div>
+        <div v-if="loading" class="login-loading">Signing in...</div>
 
-        <form class="login-form" @submit.prevent="handleSignIn">
-          <label class="login-label" for="token-input">Access token</label>
-          <input
-            id="token-input"
-            v-model="token"
-            type="password"
-            class="login-input"
-            placeholder="Paste your JWT token"
-            autocomplete="off"
-            data-testid="token-input"
-          />
-          <button
-            type="submit"
-            class="btn-primary"
-            :disabled="loading"
-            data-testid="sign-in-submit"
-          >
-            {{ loading ? 'Signing in...' : 'Sign in' }}
-          </button>
-        </form>
+        <!-- Google button rendered here by GSI -->
+        <div id="google-signin-btn" class="google-btn-wrapper" data-testid="google-signin-btn"></div>
 
-        <div class="login-footer">
-          <p>
-            Don't have an account?
-            <span class="login-hint">
-              SSO via Zitadel is coming soon. Contact your admin for an access token.
-            </span>
-          </p>
-        </div>
+        <div class="login-divider"><span>or</span></div>
+
+        <!-- Manual token entry (for dev / admin) -->
+        <details class="token-details">
+          <summary class="token-summary">Sign in with token</summary>
+          <form class="token-form" @submit.prevent="handleTokenSignIn">
+            <input
+              v-model="manualToken"
+              type="password"
+              class="login-input"
+              placeholder="Paste a JWT token"
+              autocomplete="off"
+              data-testid="token-input"
+            />
+            <button type="submit" class="btn-secondary btn-sm" data-testid="token-submit">
+              Sign in
+            </button>
+          </form>
+        </details>
       </template>
     </div>
   </div>
@@ -139,32 +179,63 @@ function handleSignOut() {
   font-size: 0.8rem;
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.login-loading {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
 }
 
-.login-label {
+.google-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
+.token-details { margin-top: 0; }
+
+.token-summary {
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text);
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.token-summary:hover { color: var(--text); }
+
+.token-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .login-input {
-  padding: 0.6rem 0.75rem;
+  flex: 1;
+  padding: 0.5rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   background: var(--bg);
   color: var(--text);
   outline: none;
-  transition: border-color 0.15s;
 }
 
-.login-input:focus {
-  border-color: var(--accent);
-}
+.login-input:focus { border-color: var(--accent); }
 
 .btn-primary {
   padding: 0.6rem 1.2rem;
@@ -175,11 +246,9 @@ function handleSignOut() {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
 }
 
 .btn-primary:hover { opacity: 0.9; }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .btn-secondary {
   padding: 0.6rem 1.2rem;
@@ -197,26 +266,14 @@ function handleSignOut() {
   color: var(--text);
 }
 
+.btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+}
+
 .login-actions {
   display: flex;
   gap: 0.75rem;
   margin-top: 1rem;
-}
-
-.login-footer {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.login-footer p { margin: 0; }
-
-.login-hint {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: var(--muted);
 }
 </style>

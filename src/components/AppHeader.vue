@@ -9,6 +9,10 @@ const route = useRoute()
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
+const user = computed(() => {
+  try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') } catch { return null }
+})
+
 /* GitHub-style nav tabs — only for authenticated users */
 const navTabs = [
   { key: 'reports', label: 'Reports', path: '/reports' },
@@ -33,10 +37,8 @@ function onTickerSelect(symbol) {
 
 function signOut() {
   localStorage.removeItem('gmr-token')
-  router.push('/')
-  /* Force reactivity by triggering a page reload — simplest approach
-     since hasToken is based on localStorage, not a reactive store */
-  window.location.reload()
+  localStorage.removeItem('gmr-user')
+  window.location.href = '/'
 }
 </script>
 
@@ -57,6 +59,14 @@ function signOut() {
       <!-- Right side: auth + theme -->
       <div class="header-right">
         <template v-if="hasToken">
+          <img
+            v-if="user?.avatar_url"
+            :src="user.avatar_url"
+            :alt="user.name || 'User'"
+            class="user-avatar"
+            referrerpolicy="no-referrer"
+          />
+          <span v-if="user?.name" class="user-name hidden sm:inline">{{ user.name }}</span>
           <button
             class="sign-out-btn"
             data-testid="sign-out-btn"
@@ -154,6 +164,23 @@ function signOut() {
 .sign-in-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sign-out-btn {
