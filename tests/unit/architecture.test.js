@@ -14,8 +14,8 @@ const diagramBlock = source.match(/const diagrams = \{(.+?)\n\}/s)?.[1] || ''
 const diagramEntries = [...diagramBlock.matchAll(/(\w+):\s*`([^`]+)`/gs)]
 
 describe('Architecture diagrams', () => {
-  it('has exactly 8 diagrams defined', () => {
-    expect(diagramEntries.length).toBe(8)
+  it('has exactly 9 diagrams defined', () => {
+    expect(diagramEntries.length).toBe(9)
   })
 
   it('pre-renders diagrams via mermaid.render() to avoid HTML parsing issues', () => {
@@ -25,13 +25,14 @@ describe('Architecture diagrams', () => {
   })
 
   const expectedDiagrams = [
-    { name: 'infra', mustContain: 'flowchart', nodes: ['WEB', 'API', 'NEO'] },
-    { name: 'schema', mustContain: 'erDiagram', nodes: ['Company', 'Contract', 'Person', 'CPV'] },
-    { name: 'layers', mustContain: 'flowchart', nodes: ['FinancialDataSource', 'GraphDataSource'] },
-    { name: 'api', mustContain: 'flowchart', nodes: ['Financial', 'Procurement', 'Graph'] },
+    { name: 'infra', mustContain: 'flowchart', nodes: ['WEB', 'API', 'CAPI', 'PG', 'ZIT', 'NEO'] },
+    { name: 'schema', mustContain: 'erDiagram', nodes: ['Company', 'Contract', 'CLIENT_OF'] },
+    { name: 'layers', mustContain: 'flowchart', nodes: ['GraphAPI', 'CommunityAPI', 'ReportRepository', 'PermissionService'] },
+    { name: 'api', mustContain: 'flowchart', nodes: ['Financial', 'Reports', 'Issues', 'Mod'] },
     { name: 'etl', mustContain: 'flowchart', nodes: ['GLEIF_L1', 'TED_PKG', 'DEDUP'] },
-    { name: 'frontend', mustContain: 'flowchart', nodes: ['SEARCH', 'DISPATCH', 'GraphExplorer'] },
-    { name: 'graphflow', mustContain: 'sequenceDiagram', nodes: ['Browser', 'FastAPI', 'Neo4j'] },
+    { name: 'frontend', mustContain: 'flowchart', nodes: ['ReportPages', 'CommunityPages', 'WidgetRenderer'] },
+    { name: 'reportflow', mustContain: 'sequenceDiagram', nodes: ['community-api', 'PostgreSQL', 'Neo4j'] },
+    { name: 'separation', mustContain: 'flowchart', nodes: ['PostgreSQL', 'Neo4j', 'reports', 'Company'] },
     { name: 'identity', mustContain: 'flowchart', nodes: ['GLEIF', 'EDGAR', 'DEDUP'] },
   ]
 

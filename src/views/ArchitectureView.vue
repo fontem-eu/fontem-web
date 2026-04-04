@@ -39,11 +39,15 @@ const diagrams = {
     TED_API["TED API<br/>ted.europa.eu"]
     GLEIF_API["GLEIF API<br/>leidata.gleif.org"]
     RNE_API["RNE API<br/>recherche-entreprises"]
+    ZITADEL_EXT["FranceConnect<br/>EU Login"]
   end
   subgraph K8s["k8s cluster — gmr namespace"]
-    WEB["gmr-web<br/>nginx + Vue 3 SPA"]
-    API["gmr-api<br/>FastAPI + uvicorn"]
+    WEB["gmr-web<br/>nginx + Vue 3 SPA<br/>+ Tiptap editor"]
+    API["gmr-api<br/>FastAPI + Neo4j<br/>public data"]
+    CAPI["gmr-community-api<br/>FastAPI + PostgreSQL<br/>reports + issues"]
     NEO["Neo4j 5 CE<br/>APOC plugin<br/>12Gi RAM / 50Gi PVC"]
+    PG["PostgreSQL 16<br/>users + reports + issues<br/>permissions + moderation"]
+    ZIT["Zitadel<br/>OIDC IdP<br/>user management"]
     PROM["Prometheus<br/>ServiceMonitor"]
   end
   subgraph Storage
@@ -52,18 +56,24 @@ const diagrams = {
   end
   USER -->|HTTPS| WEB
   WEB -->|"/api/*"| API
+  WEB -->|"/capi/*"| CAPI
+  WEB -->|"OIDC login"| ZIT
   API --> NEO
   API -->|read-only| NFS
   API -->|read-only| ESEF_PVC
+  CAPI --> PG
+  CAPI -->|"entity names"| API
+  ZIT --> PG
+  ZIT -.-> ZITADEL_EXT
   API -->|"/metrics"| PROM
-  subgraph ETL["CronJobs (scheduled)"]
+  subgraph ETL["CronJobs"]
     GLEIF_JOB["GLEIF L1+L2<br/>weekly"]
     TED_JOB["TED contracts<br/>daily"]
     DIR_JOB["FR directors<br/>monthly"]
   end
-  GLEIF_API -.->|download| GLEIF_JOB
-  TED_API -.->|download| TED_JOB
-  RNE_API -.->|download| DIR_JOB
+  GLEIF_API -.-> GLEIF_JOB
+  TED_API -.-> TED_JOB
+  RNE_API -.-> DIR_JOB
   GLEIF_JOB --> NEO
   TED_JOB --> NEO
   DIR_JOB --> NEO`,
@@ -78,6 +88,8 @@ const diagrams = {
   Contract }o--o| CPV : CATEGORIZED_AS
   Person }o--o{ Company : DIRECTS
   Company }o--o{ Company : SAME_AS
+  Authority }o--o{ Company : CLIENT_OF
+  Company }o--o{ Authority : SUPPLIER_OF
   Company {
     string gmr_id PK
     string lei UK
@@ -132,58 +144,68 @@ const diagrams = {
     string division
   }`,
 
-  // 3. Backend layers — hexagonal architecture
+  // 3. Backend layers — both APIs side by side
   layers: `flowchart TD
-  subgraph Presentation["Presentation Layer (11 routers)"]
-    R_FIN["Financial routers<br/>fundamentals / valuation / prices / gmr_long / gmr_short / gmr_data"]
-    R_PROC["Procurement routers<br/>contracts / search / authorities / sectors"]
-    R_GOV["Governance routers<br/>persons / entity-resolution / data-quality"]
-    R_GRAPH["Graph router<br/>graph traversal / path finding"]
-    R_INFRA["Infra routers<br/>health / tickers"]
+  subgraph GraphAPI["gmr-api (edgar-gmr-etl) — Neo4j public data"]
+    direction TB
+    subgraph GP["REST Routers (11)"]
+      R_FIN["Financial<br/>fundamentals / valuation / prices"]
+      R_PROC["Procurement<br/>contracts / search / authorities"]
+      R_GRAPH["Graph<br/>traversal / path finding"]
+      R_GOV["Governance<br/>persons / entity-resolution"]
+    end
+    subgraph GD["Domain ABCs"]
+      ABC1["FinancialDataSource"]
+      ABC2["ContractDataSource"]
+      ABC3["PersonDataSource"]
+    end
+    subgraph GI["Neo4j Implementations"]
+      G1["GraphDataSource"]
+      G2["GraphContractSource"]
+      G3["GraphPersonSource"]
+      NEO_C["Neo4jClient"]
+    end
+    GP --> GD
+    GD --> GI
+    GI --> NEO_C
   end
-  subgraph DI["Dependency Injection (dependencies.py)"]
-    D1["get_data_source()"]
-    D2["get_contract_source()"]
-    D3["get_person_source()"]
-    D4["get_data_quality_source()"]
-    D5["get_neo4j_client()"]
+  subgraph CommunityAPI["gmr-community-api — PostgreSQL app state"]
+    direction TB
+    subgraph CP["REST Routers (6)"]
+      CR["Reports<br/>CRUD + sections + locking"]
+      CI["Issues<br/>CRUD + comments + votes"]
+      CS["Sharing<br/>access grants"]
+      CM["Moderation<br/>flags + sanctions + log"]
+      CU["Users + Groups"]
+      CA["Auth middleware<br/>JWT validation"]
+    end
+    subgraph CSVC["Service Layer"]
+      SRP["ReportService"]
+      SIS["IssueService"]
+      SPM["PermissionService"]
+      SMD["ModerationService"]
+    end
+    subgraph CREP["Repository ABCs"]
+      RR["ReportRepository"]
+      RI["IssueRepository"]
+      RPR["PermissionRepository"]
+      RMR["ModerationRepository"]
+      RU["UserRepository"]
+      RG["GroupRepository"]
+    end
+    subgraph CIMP["Implementations"]
+      PG_R["PgReportRepo"]
+      PG_I["PgIssueRepo"]
+      PG_P["PgPermissionRepo"]
+      PG_M["PgModerationRepo"]
+      MEM["InMemoryXxxRepo<br/>(unit tests)"]
+    end
+    CP --> CSVC
+    CSVC --> CREP
+    CREP --> CIMP
   end
-  subgraph Domain["Domain Layer (ABCs in src/analysis/)"]
-    ABC1["FinancialDataSource<br/>8 abstract methods"]
-    ABC2["ContractDataSource<br/>4 abstract methods"]
-    ABC3["PersonDataSource<br/>3 abstract methods"]
-    ABC4["DataQualitySource<br/>4 abstract methods"]
-    LOGIC["Pure analysis<br/>GMRLong / GMRShort<br/>Fundamentals / Valuation"]
-  end
-  subgraph Infra["Infrastructure Layer (src/data/)"]
-    G1["GraphDataSource<br/>Neo4j + CSV fallback"]
-    G2["GraphContractSource<br/>Neo4j"]
-    G3["GraphPersonSource<br/>Neo4j"]
-    G4["GraphDataQualitySource<br/>Neo4j"]
-    NEO_C["Neo4jClient<br/>bolt driver wrapper"]
-    CSV1["LocalEdgarFetcher<br/>EDGAR JSON files"]
-    CSV2["LocalPriceFetcher<br/>daily OHLCV CSVs"]
-  end
-  R_FIN --> D1
-  R_PROC --> D2
-  R_GOV --> D3
-  R_GOV --> D4
-  R_GRAPH --> D5
-  D1 --> ABC1
-  D2 --> ABC2
-  D3 --> ABC3
-  D4 --> ABC4
-  ABC1 --> G1
-  ABC2 --> G2
-  ABC3 --> G3
-  ABC4 --> G4
-  G1 --> NEO_C
-  G1 --> CSV1
-  G1 --> CSV2
-  G2 --> NEO_C
-  G3 --> NEO_C
-  G4 --> NEO_C
-  LOGIC --> ABC1`,
+  NEO_C -->|bolt| NEO[(Neo4j)]
+  CIMP -->|SQL| PG[(PostgreSQL)]`,
 
   // 4. ETL pipeline — data sources to graph
   etl: `flowchart TD
@@ -231,125 +253,185 @@ const diagrams = {
   frontend: `flowchart TD
   subgraph App["Vue 3 SPA (gmr-web)"]
     ROUTER["Vue Router"]
-    subgraph Pages["Page Components"]
+    subgraph DataPages["Data Exploration"]
       HOME["HomeView<br/>Landing + Ticker Detail"]
-      ADMIN["AdminView<br/>Hub"]
-      DQ["DataQualityView<br/>Health Dashboard"]
-      ER["EntityResolutionView<br/>3-Panel Merge UI"]
-      ARCH["ArchitectureView<br/>Mermaid Diagrams"]
-      COV["CoverageView<br/>Test Matrix"]
-      CP["CompanyProfileView<br/>Standalone Profile"]
-    end
-    subgraph Core["Core Components"]
-      SEARCH["TickerSearch<br/>debounced search + dropdown"]
-      DISPATCH["TickerFinancials<br/>view dispatcher + data loader"]
-      NAV["DataViewSelector<br/>grouped desktop nav<br/>mobile dropdown"]
-    end
-    subgraph Panels["9 View Panels"]
-      P1["ProfilePanel"]
-      P2["SummaryPanel<br/>D3 candlestick chart"]
-      P3["Fundamentals table"]
-      P4["IncomePanel"]
-      P5["CashflowPanel"]
-      P6["BalancePanel"]
-      P7["ValuationPanel"]
-      P8["ContractsPanel<br/>sortable table + cards"]
+      CP["CompanyProfileView"]
       P9["GraphExplorer<br/>Cytoscape + path finding<br/>+ timeline + export"]
+      P8["ContractsPanel<br/>companies + authorities"]
     end
-    subgraph Shared["Shared"]
-      THEME["useTheme<br/>dark/light + localStorage"]
-      ANALYTICS["useAnalytics<br/>Umami events"]
-      FMT["format.js<br/>fmtMoney / fmtPrice"]
+    subgraph ReportPages["Collaborative Reports"]
+      RL["ReportListView<br/>my reports + shared + public"]
+      RV["ReportView<br/>read-only + widget embeds"]
+      RE["ReportEditorView<br/>Tiptap + widget insertion"]
+      SM["ShareModal<br/>collaborators + visibility"]
+    end
+    subgraph CommunityPages["Community"]
+      IL["IssuesView<br/>list + filter tabs"]
+      ID["IssueDetailView<br/>comments + votes + mod actions"]
+      IC["IssueCreateModal<br/>entity-linked issue creation"]
+      MV["ModerationView<br/>flagged content + action log"]
+    end
+    subgraph AdminPages["Admin"]
+      ADMIN["AdminView Hub"]
+      DQ["DataQualityView"]
+      ER["EntityResolutionView"]
+      ARCH["ArchitectureView"]
+      PLAN["PlanView"]
+      ROAD["RoadmapView"]
+    end
+    subgraph Widgets["Widget System"]
+      WR["WidgetRenderer<br/>resolves type, renders component"]
+      REG["registry.js<br/>graph_explorer, contracts_table,<br/>entity_profile"]
+      GEE["GraphExplorerEmbed<br/>storeState / restoreFromState"]
+      CTE["ContractsTableEmbed"]
+      EPE["EntityProfileEmbed"]
+    end
+    subgraph APIs["API Clients"]
+      GMR_JS["gmr.js<br/>fetch /api/* (graph data)"]
+      CAPI_JS["community.js<br/>fetch /capi/* (app data)"]
     end
   end
-  ROUTER --> HOME
-  ROUTER --> ADMIN
-  ROUTER --> CP
-  ADMIN --> DQ
-  ADMIN --> ER
-  ADMIN --> ARCH
-  ADMIN --> COV
-  HOME --> SEARCH
-  HOME --> NAV
-  HOME --> DISPATCH
-  DISPATCH --> P1
-  DISPATCH --> P2
-  DISPATCH --> P3
-  DISPATCH --> P4
-  DISPATCH --> P5
-  DISPATCH --> P6
-  DISPATCH --> P7
-  DISPATCH --> P8
-  DISPATCH --> P9
-  P9 -->|"fetch /api/graph/"| API_GRAPH["Graph API"]
-  P8 -->|"fetch /api/companies/"| API_PROC["Procurement API"]
-  DISPATCH -->|"fetch /api/fundamentals"| API_FIN["Financial API"]`,
+  ROUTER --> DataPages
+  ROUTER --> ReportPages
+  ROUTER --> CommunityPages
+  ROUTER --> AdminPages
+  RE --> WR
+  RV --> WR
+  WR --> REG
+  REG --> GEE
+  REG --> CTE
+  REG --> EPE
+  RE --> CAPI_JS
+  IL --> CAPI_JS
+  P9 --> GMR_JS
+  P8 --> GMR_JS`,
 
-  // 6. API endpoint map — full surface area
+  // 6. API endpoint map — both APIs
   api: `flowchart LR
-  subgraph Financial["Financial Endpoints"]
-    E1["GET /{ticker}/fundamentals<br/>P/E, P/B, ROE, margins, 10Y"]
-    E2["GET /{ticker}/gmr_long<br/>value investing screen"]
-    E3["GET /{ticker}/gmr_short<br/>swing trading screen"]
-    E4["GET /{ticker}/gmr_data<br/>raw spreadsheet data"]
-    E5["GET /{ticker}/gmr_data_csv<br/>CSV download"]
-    E6["GET /{ticker}/valuation<br/>EV, EBITDA, ROIC"]
-    E7["GET /{ticker}/prices<br/>OHLCV history"]
-    E8["GET /tickers/search<br/>ticker lookup"]
+  subgraph GAPI["/api/* — gmr-api (Neo4j)"]
+    subgraph Financial["Financial"]
+      E1["GET /{ticker}/fundamentals"]
+      E2["GET /{ticker}/gmr_long"]
+      E6["GET /{ticker}/valuation"]
+      E7["GET /{ticker}/prices"]
+      E8["GET /tickers/search"]
+    end
+    subgraph Procurement["Procurement"]
+      E9["GET /companies/{id}/contracts"]
+      E10["GET /companies/{id}"]
+      E11["GET /authorities/{id}/contracts"]
+      E15["GET /search"]
+    end
+    subgraph Graph["Graph"]
+      E16["GET /graph/{id}?depth&types&since&summary"]
+      E17["GET /graph/paths/find?from&to"]
+    end
+    subgraph Gov["Governance"]
+      E20["GET /entity-resolution/candidates"]
+      E21["POST /entity-resolution/resolve"]
+      E22["GET /data-quality"]
+    end
   end
-  subgraph Procurement["Procurement Endpoints"]
-    E9["GET /companies/{id}/contracts<br/>awarded contracts"]
-    E10["GET /companies/{id}<br/>company profile + group"]
-    E11["GET /authorities/{id}/contracts<br/>issued contracts"]
-    E12["GET /authorities/{id}<br/>authority profile"]
-    E13["GET /contracts/sectors<br/>CPV aggregation"]
-    E14["GET /contracts/{notice}<br/>contract detail"]
-    E15["GET /search<br/>unified search"]
-  end
-  subgraph Graph["Graph Explorer Endpoints"]
-    E16["GET /graph/{id}<br/>entity traversal depth 0-3<br/>500-node cap"]
-    E17["GET /graph/paths/find<br/>shortest + extra paths"]
-  end
-  subgraph Governance["Governance Endpoints"]
-    E18["GET /persons/search<br/>name search"]
-    E19["GET /persons/{id}<br/>roles history"]
-    E20["GET /entity-resolution/candidates<br/>unreviewed SAME_AS"]
-    E21["POST /entity-resolution/resolve<br/>approve/reject merge"]
-    E22["GET /data-quality<br/>health overview"]
-    E23["GET /v1/health/data<br/>liveness probe"]
+  subgraph CAPI["/capi/* — community-api (PostgreSQL)"]
+    subgraph Reports["Reports"]
+      C1["POST /reports"]
+      C2["GET /reports"]
+      C3["GET /reports/{id}"]
+      C4["PUT /reports/{id}/sections/{sid}"]
+      C5["POST /reports/{id}/sections/{sid}/lock"]
+    end
+    subgraph Sharing["Sharing"]
+      C6["GET /reports/{id}/access"]
+      C7["POST /reports/{id}/access"]
+    end
+    subgraph Issues["Issues"]
+      C8["POST /issues"]
+      C9["GET /issues/{id}"]
+      C10["POST /issues/{id}/comments"]
+      C11["POST /issues/{id}/vote"]
+    end
+    subgraph Mod["Moderation"]
+      C12["POST /flags"]
+      C13["POST /moderation/sanctions"]
+      C14["GET /moderation/log"]
+    end
+    subgraph Auth["Auth"]
+      C15["GET /users/me"]
+      C16["POST /groups"]
+    end
   end`,
 
-  // 7. Request flow — graph explorer path finding
-  graphflow: `sequenceDiagram
+  // 7. Request flow — collaborative report with embeds
+  reportflow: `sequenceDiagram
   participant B as Browser
   participant N as nginx
-  participant F as FastAPI
-  participant R as graph.py
+  participant C as community-api
+  participant PG as PostgreSQL
+  participant G as gmr-api
   participant DB as Neo4j
 
-  B->>N: GET /c/SOCOMEC-uuid/graph
-  N->>B: Vue SPA (index.html)
-  Note over B: GraphExplorer.vue mounts
-  B->>N: GET /api/graph/{uuid}?depth=1
-  N->>F: proxy to :8000
-  F->>R: graph_traverse(uuid, depth=1)
-  R->>DB: MATCH (n:Company {gmr_id}) ... detect entity
-  DB-->>R: Company found
-  R->>DB: MATCH path = (start)-[*1..1]-(neighbor)
-  DB-->>R: paths (nodes + relationships)
-  R-->>F: GraphResponse (nodes, edges, truncated)
-  F-->>B: JSON
-  Note over B: Cytoscape renders graph
-  B->>N: GET /api/graph/paths/find?from=A&to=B
-  N->>F: proxy
-  F->>R: graph_paths(from, to)
-  R->>DB: shortestPath((a)-[*..5]-(b))
-  DB-->>R: path
-  R->>DB: extra paths within shortest+2
-  DB-->>R: additional paths
-  R-->>F: PathResponse
-  F-->>B: JSON
-  Note over B: Highlight paths in blue`,
+  Note over B: User clicks "Start Analysis"
+  B->>N: POST /capi/reports {title}
+  N->>C: create report
+  C->>PG: INSERT INTO reports
+  PG-->>C: report_id
+  C-->>B: {id, title, visibility: private}
+
+  Note over B: User writes + inserts graph widget
+  B->>N: PUT /capi/reports/{id}/sections/{sid}
+  N->>C: save section (Tiptap JSON + widget config)
+  C->>PG: UPDATE sections SET content_json
+  C->>PG: INSERT INTO section_versions
+  C-->>B: 200 OK
+
+  Note over B: Reader opens published report
+  B->>N: GET /capi/reports/{id}
+  N->>C: load report + sections
+  C->>PG: SELECT + permission check
+  C-->>B: report with sections
+
+  Note over B: WidgetRenderer encounters graph_explorer embed
+  B->>N: GET /api/graph/{entity}?depth=2&since=2025-04
+  N->>G: proxy to graph API
+  G->>DB: MATCH path = (start)-[*1..2]-(n)
+  DB-->>G: nodes + edges
+  G-->>B: GraphResponse
+  Note over B: Cytoscape renders live graph inside report`,
+
+  // 8. Data separation — what lives where
+  separation: `flowchart LR
+  subgraph PGData["PostgreSQL (application state)"]
+    U["users"]
+    UR["user_roles"]
+    GR["groups + group_members"]
+    R["reports"]
+    S["sections + section_versions"]
+    RA["report_access"]
+    I["issues + comments"]
+    IV["issue_votes"]
+    F["flags + sanctions"]
+    ML["moderation_log"]
+  end
+  subgraph NEOData["Neo4j (public knowledge graph)"]
+    CO["Company (3.6M)"]
+    CT["Contract (779K)"]
+    AU["Authority (71K)"]
+    PE["Person"]
+    LI["Listing"]
+    FY["FinancialYear"]
+    CP2["CPV"]
+    REL["AWARDED / AWARDED_TO<br/>CLIENT_OF / SUPPLIER_OF<br/>SUBSIDIARY_OF / DIRECTS<br/>LISTED_AS / REPORTED"]
+  end
+  I -.->|"entity_type + entity_id<br/>(external reference)"| CO
+  I -.->|"external ref"| AU
+  I -.->|"external ref"| PE
+  S -.->|"widget config fetches<br/>/api/graph/{id}"| NEOData
+  subgraph Rebuild["Rebuildable from sources"]
+    SRC["GLEIF + TED + EDGAR + ESEF + RNE"]
+  end
+  SRC -->|"ETL scripts"| NEOData
+  Note1["PostgreSQL: ACID, migrations,<br/>user data survives graph rebuild"]
+  Note2["Neo4j: traversal-optimized,<br/>rebuildable, public data only"]`,
 
   // 8. Identity resolution — gmr_id generation
   identity: `flowchart TD
@@ -398,19 +480,20 @@ const diagrams = {
 }
 
 const sections = [
-  { id: 'infra', title: 'Infrastructure', desc: 'Kubernetes cluster, pods, storage, external data sources, CronJobs.' },
-  { id: 'schema', title: 'Neo4j Data Model', desc: '8 node labels, 8 relationship types, key properties and constraints.' },
-  { id: 'layers', title: 'Backend Architecture', desc: 'Hexagonal layers: routers, dependency injection, domain ABCs, Neo4j implementations.' },
-  { id: 'api', title: 'API Surface', desc: '23 endpoints across financial, procurement, graph, and governance domains.' },
-  { id: 'etl', title: 'Data Pipeline', desc: '10 ETL scripts loading GLEIF, EDGAR, ESEF, TED, and French directors into Neo4j.' },
-  { id: 'frontend', title: 'Frontend Components', desc: 'Vue 3 SPA: 7 pages, 13 components, 9 view panels, 2 composables.' },
-  { id: 'graphflow', title: 'Graph Explorer Flow', desc: 'How the graph explorer fetches, renders, and highlights paths.' },
+  { id: 'infra', title: 'Infrastructure', desc: 'k8s cluster: 3 APIs, 2 databases, IdP, storage, CronJobs.' },
+  { id: 'schema', title: 'Neo4j Data Model', desc: '8 node labels, 10 relationship types including CLIENT_OF/SUPPLIER_OF.' },
+  { id: 'layers', title: 'Backend Architecture', desc: 'Two hexagonal APIs: gmr-api (Neo4j) and gmr-community-api (PostgreSQL).' },
+  { id: 'api', title: 'API Surface', desc: '58 endpoints: 23 graph API + 35 community API (reports, issues, moderation).' },
+  { id: 'etl', title: 'Data Pipeline', desc: '10 ETL scripts + materialize_trade_edges for CLIENT_OF/SUPPLIER_OF.' },
+  { id: 'frontend', title: 'Frontend Components', desc: '15 pages, widget system, Tiptap editor, report embeds, issue tracker.' },
+  { id: 'reportflow', title: 'Report Flow', desc: 'How reports are created, edited, and rendered with live widget embeds.' },
+  { id: 'separation', title: 'Data Separation', desc: 'PostgreSQL for app state, Neo4j for public data. Clean boundary.' },
   { id: 'identity', title: 'Identity Resolution', desc: 'How gmr_id is generated, countries normalized, and duplicates resolved.' },
 ]
 
 const expanded = ref({
   infra: true, schema: false, layers: false, api: false,
-  etl: false, frontend: false, graphflow: false, identity: false,
+  etl: false, frontend: false, reportflow: false, separation: false, identity: false,
 })
 
 function toggle(id) {
@@ -447,31 +530,31 @@ function collapseAll() {
     <!-- Quick stats -->
     <div class="arch-stats">
       <div class="arch-stat">
-        <div class="arch-stat__value">3.4M+</div>
+        <div class="arch-stat__value">3.6M+</div>
         <div class="arch-stat__label">Companies</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">379K</div>
+        <div class="arch-stat__value">779K</div>
         <div class="arch-stat__label">Contracts</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">251K</div>
-        <div class="arch-stat__label">Parent-Child</div>
+        <div class="arch-stat__value">735K</div>
+        <div class="arch-stat__label">Trade Edges</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">27</div>
-        <div class="arch-stat__label">EU Countries</div>
+        <div class="arch-stat__value">3</div>
+        <div class="arch-stat__label">Repos</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">23</div>
+        <div class="arch-stat__value">58</div>
         <div class="arch-stat__label">API Endpoints</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">456</div>
+        <div class="arch-stat__value">510</div>
         <div class="arch-stat__label">Backend Tests</div>
       </div>
       <div class="arch-stat">
-        <div class="arch-stat__value">321</div>
+        <div class="arch-stat__value">343</div>
         <div class="arch-stat__label">Frontend Tests</div>
       </div>
     </div>
@@ -481,6 +564,9 @@ function collapseAll() {
       <span class="arch-tag">Vue 3</span>
       <span class="arch-tag">FastAPI</span>
       <span class="arch-tag">Neo4j 5</span>
+      <span class="arch-tag">PostgreSQL 16</span>
+      <span class="arch-tag">SQLAlchemy 2</span>
+      <span class="arch-tag">Tiptap</span>
       <span class="arch-tag">Cytoscape.js</span>
       <span class="arch-tag">D3.js</span>
       <span class="arch-tag">Tailwind CSS</span>
@@ -511,14 +597,20 @@ function collapseAll() {
         <tbody>
           <tr>
             <td><strong>gmr-web</strong></td>
-            <td>Vue 3 + Vite + Tailwind + D3 + Cytoscape + Mermaid</td>
-            <td>321 vitest + 175 Playwright (Chromium + Firefox)</td>
+            <td>Vue 3 + Vite + Tailwind + Tiptap + D3 + Cytoscape + Mermaid</td>
+            <td>343 vitest + 175 Playwright (Chromium + Firefox)</td>
             <td>Docker (nginx) &rarr; Helm &rarr; k8s gmr namespace</td>
           </tr>
           <tr>
             <td><strong>edgar-gmr-etl</strong></td>
             <td>FastAPI + Neo4j driver + pandas + pycountry</td>
-            <td>456 pytest + pylint 9.9+</td>
+            <td>459 pytest + pylint 9.9+</td>
+            <td>Docker (Python 3.12) &rarr; Helm &rarr; k8s gmr namespace</td>
+          </tr>
+          <tr>
+            <td><strong>gmr-community-api</strong></td>
+            <td>FastAPI + SQLAlchemy 2 + Alembic + PostgreSQL</td>
+            <td>51 pytest (0.10s, InMemory repos)</td>
             <td>Docker (Python 3.12) &rarr; Helm &rarr; k8s gmr namespace</td>
           </tr>
         </tbody>
