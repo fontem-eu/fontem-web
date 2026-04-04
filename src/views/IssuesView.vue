@@ -67,7 +67,6 @@ function formatDate(dateStr) {
   <div class="issues-page" data-testid="issues-view">
     <header class="issues-header">
       <div>
-        <router-link to="/" class="issues-back">&larr; Home</router-link>
         <h1>Issues</h1>
       </div>
       <button class="issues-raise-btn" data-testid="issues-raise-btn" @click="showCreate = true">
@@ -146,11 +145,6 @@ function formatDate(dateStr) {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0.3rem 0 0;
-}
-.issues-back {
-  font-size: 0.85rem;
-  color: var(--accent);
-  text-decoration: none;
 }
 .issues-raise-btn {
   padding: 0.5rem 1rem;

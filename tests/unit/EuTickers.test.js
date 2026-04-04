@@ -224,8 +224,8 @@ describe('HomeView — EU ticker routing', () => {
     expect(router.currentRoute.value.path).toBe('/c/ASML.AS/summary')
   })
 
-  it('onTickerSelect navigates to /ASML.AS/summary for EU tickers', async () => {
-    const { wrapper, router } = await mountHomeAt('/c/AAPL/summary')
+  it('onTickerSelect navigates to /ASML.AS/summary for EU tickers from landing', async () => {
+    const { wrapper, router } = await mountHomeAt('/')
     const pushSpy = vi.spyOn(router, 'push')
     await wrapper.findComponent(TickerSearchStub).vm.$emit('select', 'ASML.AS')
     expect(pushSpy).toHaveBeenCalledWith('/c/ASML.AS/summary')

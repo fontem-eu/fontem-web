@@ -17,6 +17,8 @@ import ReportEditorView from './views/ReportEditorView.vue'
 import IssuesView from './views/IssuesView.vue'
 import IssueDetailView from './views/IssueDetailView.vue'
 import ModerationView from './views/ModerationView.vue'
+import LoginView from './views/LoginView.vue'
+import ActivityView from './views/ActivityView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -35,6 +37,12 @@ const router = createRouter({
     { path: '/admin/roadmap/:id', component: FeatureDetailView },
     { path: '/admin/plan', component: PlanView },
     { path: '/admin/moderation', component: ModerationView },
+
+    // Auth
+    { path: '/login', component: LoginView },
+
+    // User
+    { path: '/activity', component: ActivityView },
 
     // Issues
     { path: '/issues', component: IssuesView },

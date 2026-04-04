@@ -4,7 +4,6 @@ import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
-import ThemeToggle from '../components/ThemeToggle.vue'
 import { useAnalytics } from '../composables/useAnalytics.js'
 
 const route = useRoute()
@@ -65,8 +64,6 @@ const features = [
     body: 'Transparent metrics: entity resolution stats, data freshness, country coverage, source traceability.',
   },
 ]
-
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
 const popular = ['AAPL', 'ASML.AS', 'SAP.DE', 'GALP.LS', 'MSFT', 'NVDA', 'TSLA', 'GOOGL']
 
@@ -130,177 +127,216 @@ function onClose() {
 </script>
 
 <template>
-  <div class="min-h-screen" style="background: var(--bg)">
-    <!-- ── Banner ─────────────────────────────────────────── -->
-    <header class="border-b" style="border-color: var(--border)">
-      <div class="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 sm:gap-6 sm:px-6 sm:py-4">
-        <!-- Logo -->
-        <div class="shrink-0" style="cursor: pointer" @click="router.push('/')">
-          <h1 class="text-xl font-bold leading-none tracking-tight">
-            <span style="color: var(--accent)">GMR</span>
-            <span class="hidden sm:inline" style="color: var(--text)"> Knowledge Graph</span>
-          </h1>
-          <p class="mt-1 hidden text-xs font-medium uppercase tracking-widest sm:block" style="color: var(--muted)">
-            3.4M+ companies &middot; 379K contracts &middot; 27 EU countries
+  <div class="mx-auto w-full px-4 sm:px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-2xl'">
+    <main>
+      <!-- ── Landing ──────────────────────────────────────── -->
+      <div v-if="!selectedTicker" class="mt-8 pb-12 sm:mt-14 sm:pb-16">
+
+        <!-- Hero -->
+        <div class="mb-5 space-y-2 text-center sm:mb-10">
+          <p class="text-2xl font-bold tracking-tight" style="color: var(--text)">
+            EU Enterprise Knowledge Graph
+          </p>
+          <p class="hidden text-sm leading-relaxed sm:block" style="color: var(--muted)">
+            Companies, financials, EU public procurement contracts, directors, and
+            corporate group structures — all traceable to official sources.
+          </p>
+          <p class="text-sm sm:hidden" style="color: var(--muted)">
+            Companies · Contracts · Directors · Financials
           </p>
         </div>
 
-        <!-- Search bar — fills remaining space -->
-        <div class="flex-1">
-          <TickerSearch :selected-symbol="selectedTicker" :compact="true" @select="onTickerSelect" />
-        </div>
-
-        <!-- Right controls -->
-        <router-link
-          v-if="hasToken"
-          to="/reports"
-          class="text-xs font-semibold tracking-wide px-3 py-1.5 rounded"
-          style="background: var(--accent); color: #fff; text-decoration: none"
-          data-testid="start-analysis-btn"
-        >
-          Start Analysis
-        </router-link>
-        <ThemeToggle />
-      </div>
-    </header>
-
-    <!-- ── Content ────────────────────────────────────────── -->
-    <div class="mx-auto w-full px-4 sm:px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-xl'">
-      <main>
-        <!-- ── Landing ──────────────────────────────────────── -->
-        <div v-if="!selectedTicker" class="mt-8 pb-12 sm:mt-14 sm:pb-16">
-
-          <!-- Hero -->
-          <div class="mb-5 space-y-2 text-center sm:mb-10">
-            <p class="text-2xl font-bold tracking-tight" style="color: var(--text)">
-              EU Enterprise Knowledge Graph
-            </p>
-            <!-- Desktop: full context -->
-            <p class="hidden text-sm leading-relaxed sm:block" style="color: var(--muted)">
-              Companies, financials, EU public procurement contracts, directors, and
-              corporate group structures — all traceable to official sources.
-            </p>
-            <!-- Mobile: one compact line -->
-            <p class="text-sm sm:hidden" style="color: var(--muted)">
-              Companies · Contracts · Directors · Financials
-            </p>
-          </div>
-
-          <!-- How it works — 3-step strip -->
-          <div class="mb-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs sm:mb-10">
-            <span class="font-semibold" style="color: var(--text)">Search a ticker</span>
-            <span style="color: var(--muted)">›</span>
-            <span class="font-semibold" style="color: var(--text)">pick a view</span>
-            <span style="color: var(--muted)">›</span>
-            <span class="font-semibold" style="color: var(--text)">explore up to 10 years of data</span>
-          </div>
-
-          <!-- Recently viewed — only shown when history exists -->
-          <div v-if="recentCompanies.length" class="mb-5 sm:mb-8" data-testid="recent-tickers">
-            <p
-              class="mb-3 text-xs font-semibold uppercase tracking-widest"
-              style="color: var(--muted)"
-            >
-              Recently viewed
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <button
-                v-for="entry in recentCompanies"
-                :key="entry.id"
-                class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
-                style="border-color: var(--accent); background: var(--surface); color: var(--accent)"
-                @click="onTickerSelect(entry.id)"
-              >
-                {{ entry.name }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Popular tickers — prominent on all screen sizes -->
-          <div class="mb-6 sm:mb-10">
-            <p
-              class="mb-3 text-xs font-semibold uppercase tracking-widest"
-              style="color: var(--muted)"
-            >
-              Popular
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <button
-                v-for="t in popular"
-                :key="t"
-                class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
-                style="border-color: var(--border); background: var(--surface); color: var(--text)"
-                @click="onTickerSelect(t)"
-                @mouseover="$event.currentTarget.style.borderColor = 'var(--accent)'"
-                @mouseleave="$event.currentTarget.style.borderColor = 'var(--border)'"
-              >
-                {{ t }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Feature cards — desktop only (hidden on mobile to keep it compact) -->
+        <!-- ── Two main paths ─────────────────────────────── -->
+        <div class="mb-8 grid gap-4 sm:grid-cols-2 sm:mb-12" data-testid="landing-paths">
+          <!-- Path 1: Search the graph -->
           <div
-            class="mb-10 hidden gap-3 sm:grid sm:grid-cols-3"
-            data-testid="features-grid"
+            class="path-card"
+            data-testid="path-graph"
+            @click="$refs.graphSearchInput?.focus()"
           >
-            <div
-              v-for="f in features"
-              :key="f.title"
-              class="border p-4"
-              style="border-color: var(--border); background: var(--surface)"
-            >
-              <div class="mb-2 text-xs font-bold uppercase tracking-widest" style="color: var(--accent)">
-                {{ f.title }}
-              </div>
-              <div class="text-xs leading-relaxed" style="color: var(--muted)">{{ f.body }}</div>
+            <div class="path-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
+            <div class="path-label">Search the Graph</div>
+            <p class="path-desc">
+              Look up any company, authority, or person. Explore financials, contracts, directors, and corporate structures.
+            </p>
+            <div class="mt-3">
+              <TickerSearch
+                ref="graphSearchInput"
+                :selected-symbol="selectedTicker"
+                :compact="true"
+                @select="onTickerSelect"
+              />
             </div>
           </div>
 
-          <!-- Disclaimer -->
-          <!-- Desktop: full text -->
-          <div class="hidden border-l-2 pl-4 sm:block" style="border-color: var(--border)">
-            <p class="mb-1 text-xs font-bold uppercase tracking-widest" style="color: var(--muted)">
-              Invest with care
+          <!-- Path 2: Explore reports -->
+          <router-link
+            to="/reports"
+            class="path-card"
+            data-testid="path-reports"
+            style="text-decoration: none"
+          >
+            <div class="path-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+            <div class="path-label">Reports &amp; Analysis</div>
+            <p class="path-desc">
+              Browse community investigations, collaborative reports, and data-driven analysis by researchers and journalists.
             </p>
-            <p class="text-xs leading-relaxed" style="color: var(--muted)">
-              Markets are uncertain and past performance is no guarantee of future results. This
-              platform provides raw financial data for informational purposes only — not investment
-              advice. Do your own research, diversify broadly, and never invest more than you can
-              afford to lose.
-            </p>
+            <span class="path-link">Browse reports &rarr;</span>
+          </router-link>
+        </div>
+
+        <!-- Recently viewed -->
+        <div v-if="recentCompanies.length" class="mb-5 sm:mb-8" data-testid="recent-tickers">
+          <p
+            class="mb-3 text-xs font-semibold uppercase tracking-widest"
+            style="color: var(--muted)"
+          >
+            Recently viewed
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="entry in recentCompanies"
+              :key="entry.id"
+              class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
+              style="border-color: var(--accent); background: var(--surface); color: var(--accent)"
+              @click="onTickerSelect(entry.id)"
+            >
+              {{ entry.name }}
+            </button>
           </div>
-          <!-- Mobile: single line -->
-          <p class="text-xs sm:hidden" style="color: var(--muted)">
-            For informational use only. Not investment advice.
+        </div>
+
+        <!-- Popular tickers -->
+        <div class="mb-6 sm:mb-10">
+          <p
+            class="mb-3 text-xs font-semibold uppercase tracking-widest"
+            style="color: var(--muted)"
+          >
+            Popular
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="t in popular"
+              :key="t"
+              class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
+              style="border-color: var(--border); background: var(--surface); color: var(--text)"
+              @click="onTickerSelect(t)"
+              @mouseover="$event.currentTarget.style.borderColor = 'var(--accent)'"
+              @mouseleave="$event.currentTarget.style.borderColor = 'var(--border)'"
+            >
+              {{ t }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Feature cards — desktop only -->
+        <div
+          class="mb-10 hidden gap-3 sm:grid sm:grid-cols-3"
+          data-testid="features-grid"
+        >
+          <div
+            v-for="f in features"
+            :key="f.title"
+            class="border p-4"
+            style="border-color: var(--border); background: var(--surface)"
+          >
+            <div class="mb-2 text-xs font-bold uppercase tracking-widest" style="color: var(--accent)">
+              {{ f.title }}
+            </div>
+            <div class="text-xs leading-relaxed" style="color: var(--muted)">{{ f.body }}</div>
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="hidden border-l-2 pl-4 sm:block" style="border-color: var(--border)">
+          <p class="mb-1 text-xs font-bold uppercase tracking-widest" style="color: var(--muted)">
+            Invest with care
+          </p>
+          <p class="text-xs leading-relaxed" style="color: var(--muted)">
+            Markets are uncertain and past performance is no guarantee of future results. This
+            platform provides raw financial data for informational purposes only — not investment
+            advice. Do your own research, diversify broadly, and never invest more than you can
+            afford to lose.
           </p>
         </div>
-
-        <!-- ── Ticker detail ─────────────────────────────────── -->
-        <div v-if="selectedTicker" class="mt-6 flex flex-col gap-0 sm:flex-row sm:items-start sm:gap-4" data-testid="ticker-detail">
-          <DataViewSelector
-            :model-value="selectedView"
-            :groups="VIEW_GROUPS"
-            @update:model-value="onViewChange"
-          />
-          <TickerFinancials
-            :symbol="selectedTicker"
-            :view="selectedView"
-            class="min-w-0 flex-1"
-            @close="onClose"
-            @company-resolved="onCompanyResolved"
-          />
-        </div>
-      </main>
-
-      <!-- ── Footer ──────────────────────────────────────── -->
-      <footer class="pb-10 pt-12">
-        <p class="text-xs tracking-wide" style="color: var(--muted)">
-          Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
-          &nbsp;&middot;&nbsp;
-          <router-link to="/admin" style="color: var(--accent)">Admin</router-link>
+        <p class="text-xs sm:hidden" style="color: var(--muted)">
+          For informational use only. Not investment advice.
         </p>
-      </footer>
-    </div>
+      </div>
+
+      <!-- ── Ticker detail ─────────────────────────────────── -->
+      <div v-if="selectedTicker" class="mt-6 flex flex-col gap-0 sm:flex-row sm:items-start sm:gap-4" data-testid="ticker-detail">
+        <DataViewSelector
+          :model-value="selectedView"
+          :groups="VIEW_GROUPS"
+          @update:model-value="onViewChange"
+        />
+        <TickerFinancials
+          :symbol="selectedTicker"
+          :view="selectedView"
+          class="min-w-0 flex-1"
+          @close="onClose"
+          @company-resolved="onCompanyResolved"
+        />
+      </div>
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────── -->
+    <footer class="pb-10 pt-12">
+      <p class="text-xs tracking-wide" style="color: var(--muted)">
+        Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
+        &nbsp;&middot;&nbsp;
+        <router-link to="/admin" style="color: var(--accent)">Admin</router-link>
+      </p>
+    </footer>
   </div>
 </template>
+
+<style scoped>
+.path-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+.path-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.path-icon {
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.path-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+.path-desc {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+}
+.path-link {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+</style>
