@@ -31,7 +31,9 @@ const showSearch = computed(() => {
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
-  const view = isUuid ? 'profile' : 'summary'
+  /* Preserve the current view if we're already on a ticker page */
+  const currentView = route.params.view
+  const view = isUuid ? 'profile' : (currentView || 'summary')
   router.push('/c/' + symbol + '/' + view)
 }
 
@@ -46,10 +48,10 @@ function signOut() {
   <header class="app-header">
     <div class="header-top">
       <!-- Logo -->
-      <div class="header-logo" @click="router.push('/')">
+      <h1 class="header-logo" @click="router.push('/')">
         <span class="logo-accent">GMR</span>
         <span class="logo-sub hidden sm:inline"> Knowledge Graph</span>
-      </div>
+      </h1>
 
       <!-- Search bar — shown on sub-pages -->
       <div v-if="showSearch" class="header-search">

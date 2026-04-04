@@ -126,14 +126,14 @@ test.describe('Responsive layout — Android (Pixel 7, 412px)', () => {
 
   // ── Slim logo ────────────────────────────────────────────────
 
-  test('logo reads only "GMR" on mobile (not "Ticker Search")', async ({ page }) => {
+  test('logo reads only "GMR" on mobile (not "Knowledge Graph")', async ({ page }) => {
     await page.goto('/')
     // "GMR" is visible
     await expect(page.locator('h1 span').first()).toBeVisible()
     await expect(page.locator('h1 span').first()).toHaveText('GMR')
-    // "Ticker Search" span exists in DOM but is hidden
-    const tickerSearchSpan = page.locator('h1 span', { hasText: 'Ticker Search' })
-    await expect(tickerSearchSpan).toBeHidden()
+    // "Knowledge Graph" span exists in DOM but is hidden on mobile
+    const kgSpan = page.locator('h1 span', { hasText: 'Knowledge Graph' })
+    await expect(kgSpan).toBeHidden()
   })
 
   test('search input has enough width to be usable when logo is slim', async ({ page }) => {
