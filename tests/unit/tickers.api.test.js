@@ -85,7 +85,7 @@ describe('searchTickers', () => {
   })
 
   it('throws an error on a non-OK HTTP response', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }))
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500, text: () => Promise.resolve('Internal Server Error') }))
     await expect(searchTickers('apple')).rejects.toThrow('HTTP 500')
   })
 })

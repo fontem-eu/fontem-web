@@ -7,7 +7,10 @@
  */
 export async function fetchGmrData(ticker, years = 10) {
   const res = await fetch(`/api/${encodeURIComponent(ticker)}/gmr_data?years=${years}`)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }
 
@@ -20,7 +23,10 @@ export async function fetchGmrData(ticker, years = 10) {
  */
 export async function fetchFundamentals(ticker, years = 10) {
   const res = await fetch(`/api/${encodeURIComponent(ticker)}/fundamentals?years=${years}`)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }
 
@@ -33,7 +39,10 @@ export async function fetchFundamentals(ticker, years = 10) {
  */
 export async function fetchValuation(ticker, years = 10) {
   const res = await fetch(`/api/${encodeURIComponent(ticker)}/valuation?years=${years}`)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }
 
@@ -48,6 +57,9 @@ export async function fetchPriceHistory(ticker, period = '1y') {
   const res = await fetch(
     `/api/${encodeURIComponent(ticker)}/prices?period=${encodeURIComponent(period)}`
   )
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }

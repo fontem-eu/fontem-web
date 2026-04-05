@@ -12,7 +12,10 @@ export async function searchTickers(query, limit = 10) {
   }
   const url = `${BASE}/search?query=${encodeURIComponent(query.trim())}&limit=${limit}`
   const res = await fetch(url)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }
 
@@ -28,6 +31,9 @@ export async function searchAll(query, limit = 10) {
   }
   const url = `/api/search?q=${encodeURIComponent(query.trim())}&limit=${limit}`
   const res = await fetch(url)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`HTTP ${res.status}: ${text}`)
+  }
   return res.json()
 }
