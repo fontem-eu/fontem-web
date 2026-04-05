@@ -7,7 +7,7 @@ const BASE = '/api/tickers'
  * @returns {Promise<{query: string, results: object[], count: number, total_available: number}>}
  */
 export async function searchTickers(query, limit = 10) {
-  if (!query || !query.trim()) {
+  if (!query?.trim()) {
     return { query: query ?? '', results: [], count: 0, total_available: 0 }
   }
   const url = `${BASE}/search?query=${encodeURIComponent(query.trim())}&limit=${limit}`
@@ -26,7 +26,7 @@ export async function searchTickers(query, limit = 10) {
  * @returns {Promise<{query: string, companies: object[], authorities: object[]}>}
  */
 export async function searchAll(query, limit = 10) {
-  if (!query || !query.trim()) {
+  if (!query?.trim()) {
     return { query: query ?? '', companies: [], authorities: [] }
   }
   const url = `/api/search?q=${encodeURIComponent(query.trim())}&limit=${limit}`

@@ -26,9 +26,8 @@ function isActive(path) {
 
 /* Search is hidden on landing page (has its own inline search) and login page */
 const showSearch = computed(() => {
-  if (route.path === '/' && !route.params.ticker) return false
-  if (route.path === '/login') return false
-  return true
+  const onLanding = route.path === '/' && !route.params.ticker
+  return !onLanding && route.path !== '/login'
 })
 
 function onTickerSelect(symbol) {
