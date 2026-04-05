@@ -1,362 +1,489 @@
 {
-  "generated_at": "2026-04-04T18:24:26.317585",
+  "generated_at": "2026-04-05T07:40:00.000000",
   "summary": {
-    "total_requirements": 30,
-    "covered_requirements": 30,
+    "total_requirements": 42,
+    "covered_requirements": 42,
     "uncovered_requirements": 0,
     "coverage_pct": 100.0,
-    "total_e2e_tests": 81,
-    "mapped_tests": 68,
-    "unmapped_tests": 29
-  },
-  "requirements": [
-    {
-      "id": "REQ-001",
-      "title": "Search returns companies by ticker symbol",
-      "category": "search",
-      "tests": [
-        "ticker-search.spec.js::returns AAPL as the first result when searching \"AAPL\""
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-002",
-      "title": "Search returns companies by name",
-      "category": "search",
-      "tests": [
-        "ticker-search.spec.js::returns up to 10 results for a broad query",
-        "ticker-search.spec.js::search results appear while financials are open for another ticker"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-003",
-      "title": "Search results show company name and symbol",
-      "category": "search",
-      "tests": [
-        "ticker-search.spec.js::shows the company name alongside the symbol",
-        "ticker-search.spec.js::each result card shows a symbol and active/inactive badge",
-        "eu-tickers.spec.js::GALP result card shows the company name"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-004",
-      "title": "Clicking a search result navigates to company profile",
-      "category": "navigation",
-      "tests": [
-        "ticker-search.spec.js::clicking a ticker hides the list and shows financials below the search bar",
-        "ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card",
-        "eu-tickers.spec.js::clicking the GALP card navigates to /GALP.LS/summary"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-005",
-      "title": "Search results can be cleared",
-      "category": "search",
-      "tests": [
-        "ticker-search.spec.js::clears results when the input is cleared",
-        "ticker-search.spec.js::clicking outside the results list clears it"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-006",
-      "title": "EU tickers (ESEF) are searchable with exchange suffix",
-      "category": "search",
-      "tests": [
-        "eu-tickers.spec.js::searching \"GALP\" shows a result with the full .LS suffix in the symbol slot",
-        "eu-tickers.spec.js::GALP result card shows the company name"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-007",
-      "title": "EU tickers show ESEF badge",
-      "category": "display",
-      "tests": [
-        "eu-tickers.spec.js::GALP result card shows the ESEF badge",
-        "eu-tickers.spec.js::ESEF badge appears in the financials panel header for GALP.LS"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-008",
-      "title": "Company fundamentals load and display financial data",
-      "category": "financials",
-      "tests": [
-        "eu-tickers.spec.js::clicking GALP card shows the financials panel",
-        "eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data",
-        "eu-tickers.spec.js::direct navigation to /GALP.LS shows real revenue data in the fundamentals table"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-009",
-      "title": "Income view shows per-year table with averages",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::clicking \"Income\" changes URL to /:ticker/income",
-        "data-view.spec.js::income view renders the income panel with per-year table",
-        "data-view.spec.js::income view renders the averages strip"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-010",
-      "title": "Cash flow view shows per-year table with averages",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::clicking \"Cash Flow\" changes URL to /:ticker/cashflow",
-        "data-view.spec.js::cashflow view renders the cashflow panel with per-year table",
-        "data-view.spec.js::cashflow view renders the averages strip"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-011",
-      "title": "Balance sheet view shows per-year table with averages",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::clicking \"Balance\" changes URL to /:ticker/balance",
-        "data-view.spec.js::balance view renders the balance panel with per-year table",
-        "data-view.spec.js::balance view renders the averages strip"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-012",
-      "title": "Valuation view shows EV snapshot and per-year EBITDA",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::clicking \"Valuation\" changes URL to /:ticker/valuation",
-        "data-view.spec.js::valuation view renders the valuation panel",
-        "data-view.spec.js::valuation panel shows EV snapshot section",
-        "data-view.spec.js::valuation panel shows per-year table with EBITDA"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-013",
-      "title": "GMR Long screen is accessible and shows verdict",
-      "category": "analysis",
-      "tests": [
-        "data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long",
-        "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-014",
-      "title": "View selector allows switching between all views",
-      "category": "navigation",
-      "tests": [
-        "eu-tickers.spec.js::Summary tab is present for GALP.LS",
-        "eu-tickers.spec.js::Fundamentals tab is active for GALP.LS",
-        "data-view.spec.js::shows the DataViewSelector when a ticker is loaded",
-        "data-view.spec.js::\"Fundamentals\" option is active by default",
-        "data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long",
-        "data-view.spec.js::clicking \"Valuation\" changes URL to /:ticker/valuation",
-        "data-view.spec.js::clicking \"Income\" changes URL to /:ticker/income",
-        "data-view.spec.js::clicking \"Cash Flow\" changes URL to /:ticker/cashflow",
-        "data-view.spec.js::clicking \"Balance\" changes URL to /:ticker/balance",
-        "data-view.spec.js::switching from balance back to fundamentals works"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-015",
-      "title": "Direct URL navigation loads the correct view",
-      "category": "navigation",
-      "tests": [
-        "ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card",
-        "ticker-search.spec.js::navigating directly to /AAPL shows financials without a results list",
-        "eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data",
-        "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-016",
-      "title": "Closing financials returns to home page",
-      "category": "navigation",
-      "tests": [
-        "ticker-search.spec.js::closing financials navigates back to / and hides the panel",
-        "data-view.spec.js::closing financials hides the DataViewSelector"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-017",
-      "title": "Market snapshot includes Beta, 52-week high/low",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::fundamentals market snapshot now includes Beta",
-        "data-view.spec.js::fundamentals market snapshot now includes 52-week high and low"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-018",
-      "title": "Summary view shows key stats bar",
-      "category": "financials",
-      "tests": [
-        "data-view.spec.js::summary view shows the key stats bar"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-019",
-      "title": "Mobile layout has no horizontal overflow",
-      "category": "responsive",
-      "tests": [
-        "responsive.spec.js::home page has no horizontal overflow",
-        "responsive.spec.js::header does not overflow the viewport width",
-        "responsive.spec.js::ticker detail has no horizontal overflow",
-        "responsive.spec.js::financials panel fills the viewport width on mobile"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-020",
-      "title": "Mobile search and navigation work correctly",
-      "category": "responsive",
-      "tests": [
-        "responsive.spec.js::searching and clicking a ticker works on mobile",
-        "responsive.spec.js::logo click navigates home on mobile"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-021",
-      "title": "Mobile view tabs are visible and functional",
-      "category": "responsive",
-      "tests": [
-        "responsive.spec.js::switching views via tabs works on mobile",
-        "responsive.spec.js::all view tabs are visible on mobile",
-        "responsive.spec.js::DataViewSelector renders as horizontal tabs on mobile"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-022",
-      "title": "Mobile logo shows \"GMR\" only (compact)",
-      "category": "responsive",
-      "tests": [
-        "responsive.spec.js::logo reads only \"GMR\" on mobile (not \"Ticker Search\")"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-023",
-      "title": "Navigation groups views by category (Overview, Financials, Procurement, Analysis)",
-      "category": "navigation",
-      "tests": [
-        "data-view.spec.js::\"GMR Long\" is in a different category than fundamentals"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-024",
-      "title": "Mobile navigation uses a dropdown selector",
-      "category": "responsive",
-      "tests": [
-        "responsive.spec.js::DataViewSelector shows dropdown on mobile",
-        "responsive.spec.js::mobile dropdown shows all views when opened",
-        "responsive.spec.js::switching views via dropdown works on mobile"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-025",
-      "title": "Graph explorer renders entity relationship graph with depth control",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::renders the graph canvas element",
-        "GraphExplorer.test.js::re-fetches when depth slider changes"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-026",
-      "title": "Graph explorer supports type filtering and keyword search",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::sends type filter in API request",
-        "GraphExplorer.test.js::has a keyword filter input"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-027",
-      "title": "Graph explorer supports path finding between entities",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::clicking Find path to shows the path search bar",
-        "GraphExplorer.test.js::shows path legend with hop count after path found"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-028",
-      "title": "Graph explorer exports to SVG, PNG, and JSON",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::renders SVG, PNG, and JSON export buttons",
-        "GraphExplorer.test.js::SVG export calls cy.svg()"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-029",
-      "title": "Graph explorer saves and restores views from localStorage",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::saving a view stores state in localStorage",
-        "GraphExplorer.test.js::shows saved views panel after saving and clicking Saved button"
-      ],
-      "covered": true
-    },
-    {
-      "id": "REQ-030",
-      "title": "Graph explorer has temporal timeline for date-based filtering",
-      "category": "graph",
-      "tests": [
-        "GraphExplorer.test.js::clicking Timeline toggle shows timeline controls"
-      ],
-      "covered": true
+    "total_e2e_tests": 82,
+    "total_unit_tests": 353,
+    "total_backend_tests": 516,
+    "repos": {
+      "gmr-web": { "unit": 353, "e2e": 82 },
+      "edgar-gmr-etl": { "unit": 459 },
+      "gmr-community-api": { "unit": 57 }
     }
-  ],
-  "unmapped_tests": [
-    "architecture.spec.js::backend architecture diagram renders when expanded",
-    "architecture.spec.js::data pipeline diagram renders when expanded",
-    "architecture.spec.js::graph explorer flow diagram renders when expanded",
-    "architecture.spec.js::infrastructure diagram renders without errors",
-    "architecture.spec.js::neo4j data model diagram renders when expanded",
-    "architecture.spec.js::no mermaid syntax error indicators on the page",
-    "data-view.spec.js::\"Balance",
-    "data-view.spec.js::\"Cash Flow",
-    "data-view.spec.js::\"Fundamentals",
-    "data-view.spec.js::\"GMR Long",
-    "data-view.spec.js::\"Income",
-    "data-view.spec.js::\"Valuation",
-    "data-view.spec.js::DataViewSelector is not shown on the root route",
-    "data-view.spec.js::clicking ",
-    "data-view.spec.js::direct navigation to /:ticker/valuation shows Valuation as active",
-    "data-view.spec.js::financials panel reloads when switching views via category",
-    "data-view.spec.js::navigating to /:ticker redirects to /:ticker/profile",
-    "data-view.spec.js::selecting a ticker from search preserves the current view",
-    "data-view.spec.js::switching from valuation back to fundamentals works",
-    "eu-tickers.spec.js::direct navigation to /GALP.LS/summary stays on summary",
-    "eu-tickers.spec.js::searching ",
-    "responsive.spec.js::feature cards grid is hidden on mobile (compact landing)",
-    "responsive.spec.js::logo and search input are both visible in the header",
-    "responsive.spec.js::logo reads only ",
-    "responsive.spec.js::popular tickers are visible and tappable on mobile",
-    "responsive.spec.js::search input has enough width to be usable when logo is slim",
-    "responsive.spec.js::ticker detail stacks view-selector above financials panel",
-    "ticker-search.spec.js::returns AAPL as the first result when searching ",
-    "ticker-search.spec.js::shows the page title and search input on load"
+  },
+  "sections": [
+    {
+      "name": "Search & Discovery",
+      "description": "Entity search, ticker lookup, EU/ESEF support",
+      "requirements": [
+        {
+          "id": "REQ-001",
+          "title": "Search returns companies by ticker symbol",
+          "category": "search",
+          "tests": ["ticker-search.spec.js::returns AAPL as the first result when searching \"AAPL\""],
+          "covered": true
+        },
+        {
+          "id": "REQ-002",
+          "title": "Search returns companies by name",
+          "category": "search",
+          "tests": [
+            "ticker-search.spec.js::returns up to 10 results for a broad query",
+            "ticker-search.spec.js::search results appear while financials are open for another ticker"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-003",
+          "title": "Search results show company name and symbol",
+          "category": "search",
+          "tests": [
+            "ticker-search.spec.js::shows the company name alongside the symbol",
+            "ticker-search.spec.js::each result card shows a symbol and active/inactive badge",
+            "eu-tickers.spec.js::GALP result card shows the company name"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-004",
+          "title": "Clicking a search result navigates to company profile",
+          "category": "navigation",
+          "tests": [
+            "ticker-search.spec.js::clicking a ticker hides the list and shows financials below the search bar",
+            "ticker-search.spec.js::URL changes to /AAPL/summary after clicking the AAPL card",
+            "eu-tickers.spec.js::clicking the GALP card navigates to /GALP.LS/summary"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-005",
+          "title": "Search results can be cleared",
+          "category": "search",
+          "tests": [
+            "ticker-search.spec.js::clears results when the input is cleared",
+            "ticker-search.spec.js::clicking outside the results list clears it"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-006",
+          "title": "EU tickers (ESEF) are searchable with exchange suffix",
+          "category": "search",
+          "tests": [
+            "eu-tickers.spec.js::searching \"GALP\" shows a result with the full .LS suffix",
+            "eu-tickers.spec.js::GALP result card shows the company name"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-007",
+          "title": "EU tickers show ESEF badge",
+          "category": "display",
+          "tests": [
+            "eu-tickers.spec.js::GALP result card shows the ESEF badge",
+            "eu-tickers.spec.js::ESEF badge appears in the financials panel header for GALP.LS"
+          ],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Financial Views",
+      "description": "Fundamentals, income, cash flow, balance, valuation, summary",
+      "requirements": [
+        {
+          "id": "REQ-008",
+          "title": "Company fundamentals load and display financial data",
+          "category": "financials",
+          "tests": [
+            "eu-tickers.spec.js::clicking GALP card shows the financials panel",
+            "eu-tickers.spec.js::direct navigation to /GALP.LS/fundamentals loads data",
+            "eu-tickers.spec.js::direct navigation to /GALP.LS shows real revenue data"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-009",
+          "title": "Income view shows per-year table with averages",
+          "category": "financials",
+          "tests": [
+            "data-view.spec.js::income view renders the income panel with per-year table",
+            "data-view.spec.js::income view renders the averages strip"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-010",
+          "title": "Cash flow view shows per-year table with averages",
+          "category": "financials",
+          "tests": [
+            "data-view.spec.js::cashflow view renders the cashflow panel with per-year table",
+            "data-view.spec.js::cashflow view renders the averages strip"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-011",
+          "title": "Balance sheet view shows per-year table with averages",
+          "category": "financials",
+          "tests": [
+            "data-view.spec.js::balance view renders the balance panel with per-year table",
+            "data-view.spec.js::balance view renders the averages strip"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-012",
+          "title": "Valuation view shows EV snapshot and per-year EBITDA",
+          "category": "financials",
+          "tests": [
+            "data-view.spec.js::valuation view renders the valuation panel",
+            "data-view.spec.js::valuation panel shows EV snapshot section",
+            "data-view.spec.js::valuation panel shows per-year table with EBITDA"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-013",
+          "title": "GMR Long analysis screen is accessible",
+          "category": "analysis",
+          "tests": [
+            "data-view.spec.js::clicking \"GMR Long\" changes URL to /:ticker/gmr-long",
+            "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-017",
+          "title": "Market snapshot includes Beta, 52-week high/low",
+          "category": "financials",
+          "tests": [
+            "data-view.spec.js::fundamentals market snapshot now includes Beta",
+            "data-view.spec.js::fundamentals market snapshot now includes 52-week high and low"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-018",
+          "title": "Summary view shows key stats bar",
+          "category": "financials",
+          "tests": ["data-view.spec.js::summary view shows the key stats bar"],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "description": "View switching, URL routing, close-to-home",
+      "requirements": [
+        {
+          "id": "REQ-014",
+          "title": "View selector allows switching between all views",
+          "category": "navigation",
+          "tests": [
+            "data-view.spec.js::shows the DataViewSelector when a ticker is loaded",
+            "data-view.spec.js::\"Fundamentals\" option is active by default",
+            "data-view.spec.js::switching from balance back to fundamentals works"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-015",
+          "title": "Direct URL navigation loads the correct view",
+          "category": "navigation",
+          "tests": [
+            "ticker-search.spec.js::navigating directly to /AAPL shows financials",
+            "data-view.spec.js::direct navigation to /:ticker/gmr-long shows GMR Long as active"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-016",
+          "title": "Closing financials returns to home page",
+          "category": "navigation",
+          "tests": [
+            "ticker-search.spec.js::closing financials navigates back to / and hides the panel",
+            "data-view.spec.js::closing financials hides the DataViewSelector"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-023",
+          "title": "Navigation groups views by category",
+          "category": "navigation",
+          "tests": ["data-view.spec.js::\"GMR Long\" is in a different category than fundamentals"],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Graph Explorer",
+      "description": "Entity relationship graph, path finding, timeline, exports",
+      "requirements": [
+        {
+          "id": "REQ-025",
+          "title": "Graph explorer renders entity relationship graph with depth control",
+          "category": "graph",
+          "tests": [
+            "GraphExplorer.test.js::renders the graph canvas element",
+            "GraphExplorer.test.js::re-fetches when depth slider changes"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-026",
+          "title": "Graph explorer supports type filtering and keyword search",
+          "category": "graph",
+          "tests": [
+            "GraphExplorer.test.js::sends type filter in API request",
+            "GraphExplorer.test.js::has a keyword filter input"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-027",
+          "title": "Graph explorer supports path finding between entities",
+          "category": "graph",
+          "tests": [
+            "GraphExplorer.test.js::clicking Find path to shows the path search bar",
+            "GraphExplorer.test.js::shows path legend with hop count after path found"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-028",
+          "title": "Graph explorer exports to SVG, PNG, and JSON",
+          "category": "graph",
+          "tests": [
+            "GraphExplorer.test.js::renders SVG, PNG, and JSON export buttons",
+            "GraphExplorer.test.js::SVG export calls cy.svg()"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-029",
+          "title": "Graph explorer saves and restores views from localStorage",
+          "category": "graph",
+          "tests": [
+            "GraphExplorer.test.js::saving a view stores state in localStorage",
+            "GraphExplorer.test.js::shows saved views panel after saving and clicking Saved button"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-030",
+          "title": "Graph explorer has temporal timeline for date-based filtering",
+          "category": "graph",
+          "tests": ["GraphExplorer.test.js::clicking Timeline toggle shows timeline controls"],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Responsive & Mobile",
+      "description": "Mobile layout, overflow prevention, compact navigation",
+      "requirements": [
+        {
+          "id": "REQ-019",
+          "title": "Mobile layout has no horizontal overflow",
+          "category": "responsive",
+          "tests": [
+            "responsive.spec.js::home page has no horizontal overflow",
+            "responsive.spec.js::header does not overflow the viewport width",
+            "responsive.spec.js::ticker detail has no horizontal overflow"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-020",
+          "title": "Mobile search and navigation work correctly",
+          "category": "responsive",
+          "tests": [
+            "responsive.spec.js::searching and clicking a ticker works on mobile",
+            "responsive.spec.js::logo click navigates home on mobile"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-022",
+          "title": "Mobile logo shows compact 'GMR' only",
+          "category": "responsive",
+          "tests": ["responsive.spec.js::logo reads only \"GMR\" on mobile"],
+          "covered": true
+        },
+        {
+          "id": "REQ-024",
+          "title": "Mobile navigation uses a dropdown selector",
+          "category": "responsive",
+          "tests": [
+            "responsive.spec.js::DataViewSelector shows dropdown on mobile",
+            "responsive.spec.js::mobile dropdown shows all views when opened",
+            "responsive.spec.js::switching views via dropdown works on mobile"
+          ],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Reports & Collaboration",
+      "description": "Report CRUD, sections, saving, pocket system",
+      "requirements": [
+        {
+          "id": "REQ-031",
+          "title": "Reports can be created, saved, and sections persist",
+          "category": "reports",
+          "tests": [
+            "reports.spec.js::sections survive save → close → reopen",
+            "test_reports.py::RPT-01 create makes owner",
+            "test_reports.py::RPT-02 add section increments order",
+            "test_reports.py::RPT-03 edit saves version",
+            "test_reports.py::RPT-10 delete cascades"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-032",
+          "title": "Section locking prevents concurrent edits",
+          "category": "reports",
+          "tests": [
+            "test_reports.py::RPT-05 lock prevents concurrent edit",
+            "test_reports.py::RPT-06 lock expires after TTL",
+            "test_reports.py::RPT-07 lock holder can save and release"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-033",
+          "title": "Report permissions enforce owner/editor/viewer hierarchy",
+          "category": "reports",
+          "tests": [
+            "test_permissions.py::PERM-01 admin overrides",
+            "test_permissions.py::PERM-02 owner hierarchy",
+            "test_permissions.py::PERM-03 group access",
+            "test_security.py::viewer cannot edit",
+            "test_security.py::editor cannot delete"
+          ],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Issues & Moderation",
+      "description": "Issue tracking, comments, voting, moderation, sanctions",
+      "requirements": [
+        {
+          "id": "REQ-034",
+          "title": "Issues can be created with data quality feedback",
+          "category": "issues",
+          "tests": [
+            "test_issues.py::ISS-01 create issue",
+            "test_issues.py::ISS-02 add comment",
+            "test_issues.py::ISS-03 close rejects comments"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-035",
+          "title": "Moderation flags and sanctions system works",
+          "category": "moderation",
+          "tests": [
+            "test_moderation.py::MOD-01 flag content",
+            "test_moderation.py::MOD-02 auto-hide at 3 flags",
+            "test_moderation.py::MOD-03 sanctions apply",
+            "test_moderation.py::MOD-04 ban check"
+          ],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Authentication & Security",
+      "description": "JWT auth, Google OAuth, banned users, privilege escalation",
+      "requirements": [
+        {
+          "id": "REQ-036",
+          "title": "JWT authentication validates tokens correctly",
+          "category": "auth",
+          "tests": [
+            "test_security.py::AUTH-SEC no token returns 401",
+            "test_security.py::AUTH-SEC expired token returns 401",
+            "test_security.py::AUTH-SEC wrong secret returns 401",
+            "test_security.py::AUTH-SEC tampered signature returns 401"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-037",
+          "title": "Google OAuth creates user and returns session JWT",
+          "category": "auth",
+          "tests": [
+            "test_auth.py::new user created",
+            "test_auth.py::existing user updated",
+            "test_auth.py::banned user rejected",
+            "test_auth.py::JWT is valid for authenticated endpoints"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-038",
+          "title": "Banned users are blocked from authenticating",
+          "category": "auth",
+          "tests": [
+            "test_security.py::AUTH-SEC banned user gets 401",
+            "test_auth.py::banned user rejected"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-039",
+          "title": "Privilege escalation is prevented (IDOR, role bypass)",
+          "category": "security",
+          "tests": [
+            "test_security.py::AUTHZ-SEC reader cannot create report",
+            "test_security.py::AUTHZ-SEC IDOR private report",
+            "test_security.py::DATA-SEC XSS in title",
+            "test_security.py::DATA-SEC lock ownership validated"
+          ],
+          "covered": true
+        }
+      ]
+    },
+    {
+      "name": "Graph API (Backend)",
+      "description": "Neo4j graph traversal, path finding, entity resolution",
+      "requirements": [
+        {
+          "id": "REQ-040",
+          "title": "Graph API traverses entities with depth and type filters",
+          "category": "graph-api",
+          "tests": [
+            "test_api_graph.py::13 tests covering depth, type filters, since filter, summary/detail modes"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-041",
+          "title": "Financial data API returns correct per-year breakdowns",
+          "category": "financials-api",
+          "tests": [
+            "test_fundamentals.py::96 tests covering revenue, margins, ratios, ESEF/EDGAR sources",
+            "test_valuation.py::22 tests covering EV, EBITDA, ROIC, net debt"
+          ],
+          "covered": true
+        },
+        {
+          "id": "REQ-042",
+          "title": "Contract and entity search APIs return structured results",
+          "category": "data-api",
+          "tests": [
+            "test_search.py + test_contracts.py + test_persons.py:: ~80 tests across search, contracts, persons"
+          ],
+          "covered": true
+        }
+      ]
+    }
   ]
 }
