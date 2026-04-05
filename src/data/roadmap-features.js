@@ -33,17 +33,56 @@ export const features = [
 
 Reports are powerful, but writing them is slow. A journalist staring at 200 contracts needs help extracting patterns, drafting summaries, and asking "what if" questions. An LLM that can read the graph is the force multiplier.
 
-## Architecture
-
-Three options were evaluated:
+## Architecture — four approaches evaluated
 
 | Approach | Cost model | Latency | Context control | Verdict |
 |----------|-----------|---------|----------------|---------|
-| **A. Backend-proxied API** | Per-token (Anthropic API) | 1-5s | Full server-side control | **Chosen** |
-| B. Embedded Claude terminal (iframe) | User's own Claude subscription | <1s | No control — user pastes data manually | Too unstructured |
-| C. Frontend-only SDK | Per-token, key exposed | 1-5s | No server-side safety | Insecure |
+| **A. Backend-proxied API** | Per-token (Anthropic API) | 1-5s | Full server-side control | Good default |
+| **B. Claude CLI as OpenAI-compatible proxy** | Flat subscription ($20/mo per seat) | 1-5s | Full control via system prompt | **Preferred — cheapest at scale** |
+| C. Embedded Claude terminal (iframe) | User's own subscription | <1s | No control — user pastes data manually | Too unstructured |
+| D. Frontend-only SDK | Per-token, key exposed | 1-5s | No server-side safety | Insecure |
 
-**Option A wins** because the backend controls context, enforces quotas, and keeps the API key secret.
+### Option B: Claude CLI proxy (recommended)
+
+The key insight: \`claude\` CLI (Claude Code) can be run as a long-lived subprocess that accepts prompts via stdin and returns responses via stdout. We wrap it in a thin server that exposes an **OpenAI-compatible \`/v1/chat/completions\`** endpoint. This lets us:
+
+1. Use a flat-rate Claude Pro/Team subscription instead of per-token API billing
+2. Expose a standard OpenAI API — any LLM client library works (LangChain, LlamaIndex, etc.)
+3. Keep full server-side control over context, tools, and quotas
+
+\`\`\`
+gmr-community-api (FastAPI)
+    │
+    ├── POST /assist/chat (user-facing, authed)
+    │       │
+    │       ▼
+    │   LLM Service layer
+    │       │ builds system prompt + tools
+    │       │ calls internal OpenAI-compatible endpoint
+    │       ▼
+    └── claude-proxy sidecar (K8s pod)
+            │
+            ├── Manages a pool of \`claude\` CLI sessions
+            ├── Exposes POST /v1/chat/completions (OpenAI spec)
+            ├── Translates OpenAI messages → Claude CLI stdin
+            ├── Parses Claude CLI stdout → OpenAI response format
+            └── Handles session keepalive + re-auth
+\`\`\`
+
+### Session management challenges
+
+The Claude CLI authenticates via OAuth browser flow. For a headless server:
+
+1. **Initial auth**: Run \`claude auth login\` once interactively, save the session token (\`~/.claude/credentials.json\`)
+2. **Session persistence**: Mount the credentials as a K8s secret. Token refreshes happen automatically.
+3. **Session expiry**: Claude CLI sessions last ~30 days. A CronJob runs \`claude auth status\` daily and alerts if expiring.
+4. **Fallback**: If the CLI session dies, fall back to Option A (API key) automatically. The LLM Service has a \`provider\` abstraction: \`ClaudeCliProvider\` vs \`AnthropicApiProvider\`.
+
+### Hybrid strategy
+
+- **Default**: Claude CLI proxy (flat subscription cost)
+- **Fallback**: Anthropic API (per-token, for burst capacity or CLI downtime)
+- **Switching**: Automatic — if CLI returns an auth error, retry with API
 
 ## How it works
 
@@ -55,7 +94,7 @@ User types prompt in report editor
         - Neo4j schema (node labels, relationship types, properties)
         - Current report context (title, sections so far)
         - Available tool definitions (graph API endpoints)
-    → Calls Anthropic Messages API with tool_use enabled
+    → Calls claude-proxy /v1/chat/completions (OpenAI format)
     → Claude may call tools (graph queries, contract lookups, etc.)
     → Backend executes tool calls against edgar-gmr-etl API
     → Returns final response with citations
@@ -63,10 +102,6 @@ User types prompt in report editor
 \`\`\`
 
 ## Tool-use: giving Claude access to the graph
-
-The key insight: Claude's **tool_use** feature lets us define the GMR REST API as callable tools. The LLM decides which endpoints to call, the backend executes them, and Claude synthesises the results.
-
-### Tools exposed to Claude
 
 | Tool | Maps to | Purpose |
 |------|---------|---------|
@@ -89,17 +124,6 @@ Claude internally:
 4. Calls \`explore_graph(authority_id, depth=1)\` → sees supplier network
 5. Synthesises: "Metro Mondego awarded 51 contracts totalling €699M. The top 3 suppliers account for 72% of total spend..."
 
-## Context management
-
-| Context layer | Size | Purpose |
-|--------------|------|---------|
-| System prompt | ~2K tokens | Schema, safety rules, available tools |
-| Report context | ~1K tokens | Title, abstract, section summaries |
-| Conversation history | Last 10 turns | Continuity within a session |
-| Tool results | Variable | Fresh data from graph API |
-
-**Total context budget:** ~8K tokens system + tool results. User messages and tool calls fill the rest. Use \`claude-sonnet-4-6\` for cost efficiency (~$3/M input, $15/M output).
-
 ## Cost control
 
 | Control | Implementation |
@@ -110,9 +134,7 @@ Claude internally:
 | Max response | 4096 tokens per completion |
 | Admin override | Admins get unlimited |
 
-## Schema changes
-
-### PostgreSQL (gmr-community-api)
+## Schema changes (PostgreSQL)
 
 \`\`\`sql
 CREATE TABLE llm_usage (
@@ -139,22 +161,82 @@ CREATE TABLE llm_conversations (
 
 | File | Purpose |
 |------|---------|
-| \`gmr-community-api/src/services/llm_service.py\` | Claude API client with tool execution loop |
+| \`claude-proxy/server.py\` | OpenAI-compatible wrapper around Claude CLI subprocess |
+| \`claude-proxy/Dockerfile\` | Node + Claude CLI + Python server |
+| \`claude-proxy/deployment/\` | K8s deployment (sidecar or standalone) |
+| \`gmr-community-api/src/services/llm_service.py\` | Provider abstraction (CLI proxy vs API) |
 | \`gmr-community-api/src/services/llm_tools.py\` | Tool definitions + proxy calls to edgar-gmr-etl |
 | \`gmr-community-api/src/api/routers/assist.py\` | \`POST /assist/chat\`, \`GET /assist/usage\` |
 | \`gmr-community-api/src/repositories/llm_repository.py\` | Usage tracking + conversation persistence |
-| \`gmr-community-api/migrations/versions/002_llm_tables.py\` | Alembic migration |
 | \`gmr-web/src/components/AssistPanel.vue\` | Chat sidebar in report editor |
-| \`gmr-web/src/api/community.js\` | Add \`sendAssistMessage()\`, \`getUsage()\` |
 
 ## Environment variables
 
 \`\`\`
-ANTHROPIC_API_KEY=sk-ant-...        # K8s secret
-ANTHROPIC_MODEL=claude-sonnet-4-6   # Default model
+# Claude CLI proxy (primary)
+CLAUDE_PROXY_URL=http://claude-proxy.gmr.svc.cluster.local:8080
+# Anthropic API (fallback)
+ANTHROPIC_API_KEY=sk-ant-...        # K8s secret, used only as fallback
+ANTHROPIC_MODEL=claude-sonnet-4-6   # Default model for API fallback
 LLM_DAILY_QUOTA=50000               # Tokens per user per day
-GMR_API_INTERNAL=http://gmr-api.gmr.svc.cluster.local:8000  # Internal API URL for tool calls
+GMR_API_INTERNAL=http://gmr-api.gmr.svc.cluster.local  # Internal API for tool calls
 \`\`\`
+
+## Test plan
+
+LLM features are inherently fuzzy. Here's how we test them rigorously:
+
+### Unit tests (deterministic — mock the LLM)
+
+| Test ID | Description | Method |
+|---------|-------------|--------|
+| LLM-U01 | System prompt includes Neo4j schema | Mock LLM, assert system message contains node labels |
+| LLM-U02 | Tool definitions match API spec | Assert tool JSON schemas validate against OpenAPI spec |
+| LLM-U03 | Tool execution calls correct API endpoints | Mock httpx, verify URL + params for each tool |
+| LLM-U04 | Quota enforcement blocks over-limit users | Set quota to 1 token, verify 429 response |
+| LLM-U05 | Rate limiter rejects burst requests | Send 11 requests in 1s, verify 10th succeeds, 11th returns 429 |
+| LLM-U06 | Conversation history is persisted | Send 2 messages, reload, verify history has both |
+| LLM-U07 | Provider fallback works | Mock CLI provider to fail, verify API provider is used |
+| LLM-U08 | Auth required | Call /assist/chat without JWT, verify 401 |
+| LLM-U09 | Banned user blocked | Ban user, call /assist/chat, verify 401 |
+| LLM-U10 | Usage tracking records tokens | Mock LLM response with known token count, verify DB row |
+
+### Integration tests (real LLM, controlled prompts)
+
+| Test ID | Description | Success criteria |
+|---------|-------------|-----------------|
+| LLM-I01 | "How many companies are in the graph?" | Response contains a number > 1M |
+| LLM-I02 | "Search for VINCI" | Response calls search_entities tool, returns company name |
+| LLM-I03 | "What contracts did Metro Mondego award?" | Response calls get_authority + get_contracts, mentions € values |
+| LLM-I04 | "How is person X connected to company Y?" | Response calls find_paths, describes connection |
+| LLM-I05 | Multi-turn: ask a question, then "tell me more" | Second response uses conversation context |
+
+### Evaluation criteria for integration tests
+
+Since LLM output is non-deterministic, we use **assertion functions** not exact string matching:
+
+\`\`\`python
+def assert_llm_response(response, criteria):
+    """Evaluate an LLM response against fuzzy criteria."""
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["content"]) > 50  # not a trivial response
+    assert body["tool_calls_made"] >= criteria.get("min_tools", 0)
+    for keyword in criteria.get("must_contain", []):
+        assert keyword.lower() in body["content"].lower(), f"Missing: {keyword}"
+    for keyword in criteria.get("must_not_contain", []):
+        assert keyword.lower() not in body["content"].lower(), f"Unwanted: {keyword}"
+\`\`\`
+
+### End-to-end tests (Playwright)
+
+| Test ID | Description |
+|---------|-------------|
+| LLM-E01 | Assist panel opens in report editor |
+| LLM-E02 | Typing a message shows loading state |
+| LLM-E03 | Response renders with entity links |
+| LLM-E04 | "Insert into report" copies text to active section |
+| LLM-E05 | Usage indicator updates after a message |
 
 ## Frontend UX
 
