@@ -271,7 +271,9 @@ function renderGraph() {
           'border-width': 3,
           'border-color': '#ef4444',
           'font-weight': 'bold',
-          'font-size': '12px',
+          'font-size': '11px',
+          'text-max-width': '100px',
+          'text-wrap': 'ellipsis',
         },
       },
       {

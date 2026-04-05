@@ -9,6 +9,8 @@ import { useAnalytics } from '../composables/useAnalytics.js'
 const route = useRoute()
 const router = useRouter()
 
+const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+
 const VIEW_GROUPS = [
   {
     key: 'overview', label: 'Overview',
@@ -191,6 +193,20 @@ function onClose() {
               Browse community investigations, collaborative reports, and data-driven analysis by researchers and journalists.
             </p>
             <span class="path-link">Browse reports &rarr;</span>
+          </router-link>
+        </div>
+
+        <!-- Sign-in CTA for anonymous users -->
+        <div v-if="!hasToken" class="mb-8 text-center sm:mb-12" data-testid="anon-cta">
+          <p class="text-sm" style="color: var(--muted)">
+            Sign in to create reports, raise issues, and collaborate with the community.
+          </p>
+          <router-link
+            to="/login"
+            class="inline-block mt-2 px-4 py-2 text-sm font-semibold rounded"
+            style="background: var(--accent); color: #fff; text-decoration: none"
+          >
+            Sign in to get started
           </router-link>
         </div>
 

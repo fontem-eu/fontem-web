@@ -24,9 +24,11 @@ function isActive(path) {
   return route.path.startsWith(path)
 }
 
-/* Search is shown everywhere except the landing page (HomeView has its own inline search) */
+/* Search is hidden on landing page (has its own inline search) and login page */
 const showSearch = computed(() => {
-  return route.path !== '/' || route.params.ticker
+  if (route.path === '/' && !route.params.ticker) return false
+  if (route.path === '/login') return false
+  return true
 })
 
 function onTickerSelect(symbol) {

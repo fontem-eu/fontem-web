@@ -151,8 +151,9 @@ function formatDate(dateStr) {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
   align-self: center;
 }
@@ -168,7 +169,7 @@ function formatDate(dateStr) {
   padding: 0.4rem 0.85rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 0.85rem;
   color: var(--muted);
   cursor: pointer;
