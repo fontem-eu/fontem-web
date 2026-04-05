@@ -1,0 +1,6 @@
+projectKey=gmr-web
+serverUrl=http://sonarqube.sonarqube.svc.cluster.local:9000
+serverVersion=10.7.0.96327
+dashboardUrl=http://sonarqube.sonarqube.svc.cluster.local:9000/dashboard?id=gmr-web
+ceTaskId=3c8f395d-8dd1-40ec-822a-8c27733aa673
+ceTaskUrl=http://sonarqube.sonarqube.svc.cluster.local:9000/api/ce/task?id=3c8f395d-8dd1-40ec-822a-8c27733aa673
