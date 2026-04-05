@@ -26,7 +26,8 @@ analyze: test
 		-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
 		-Dsonar.host.url=$(SONAR_URL) \
 		-Dsonar.token=$(SONAR_TOKEN) \
-		-Dsonar.scm.provider=git
+		-Dsonar.scm.provider=git \
+		'-Dsonar.coverage.exclusions=src/views/**/*,src/data/**/*,src/main.js'
 	@echo "Dashboard: $(SONAR_URL)/dashboard?id=$(PROJECT)"
 
 # ── Deploy ───────────────────────────────────────────────────
