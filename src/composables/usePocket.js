@@ -32,7 +32,7 @@ export function usePocket() {
 
   /** Save a visualization snapshot to the pocket. */
   function save(widgetType, config, name) {
-    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+    const id = crypto.randomUUID()
     const item = {
       id,
       name: name || `${config.entityId || 'unknown'} — ${widgetType.replace(/_/g, ' ')}`,

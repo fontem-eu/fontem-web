@@ -182,7 +182,7 @@ const topCpv = computed(() => {
             <tr v-for="c in sortedContracts" :key="c.ted_notice_id">
               <td class="nowrap">{{ c.award_date?.substring(0, 10) || '—' }}</td>
               <td>
-                <a v-if="c.ted_url" :href="c.ted_url" target="_blank" rel="noopener">{{ c.title }}</a>
+                <a v-if="c.ted_url" :href="c.ted_url" target="_blank" rel="noopener noreferrer">{{ c.title }}</a>
                 <span v-else>{{ c.title }}</span>
               </td>
               <td class="num">{{ c.value_eur ? fmtMoney(c.value_eur) : '—' }}</td>
@@ -202,7 +202,7 @@ const topCpv = computed(() => {
               v-if="c.ted_url"
               :href="c.ted_url"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="cc-title"
             >{{ c.title }}</a>
             <span v-else class="cc-title">{{ c.title }}</span>
