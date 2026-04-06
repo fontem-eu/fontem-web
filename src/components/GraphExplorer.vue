@@ -26,7 +26,7 @@ const pocketName = computed(() => {
 // ── State ────────────────────────────────────────────────────
 const depth = ref(1)
 const typeFilters = ref({
-  Company: true, Contract: true, Authority: true, Person: true,
+  Company: true, Contract: true, Authority: true, Person: true, Lobbyist: true,
 })
 const keyword = ref('')
 const timeRange = ref('12m') // '12m' | '3y' | '5y' | 'all'
@@ -67,11 +67,13 @@ let playInterval = null
 
 // ── Node styles ──────────────────────────────────────────────
 const NODE_STYLES = {
-  Company:   { shape: 'ellipse',   color: '#3b82f6' },
-  Contract:  { shape: 'diamond',   color: '#f59e0b' },
-  Authority: { shape: 'hexagon',   color: '#10b981' },
-  Person:    { shape: 'triangle',  color: '#8b5cf6' },
-  Unknown:   { shape: 'ellipse',   color: '#6b7280' },
+  Company:       { shape: 'ellipse',          color: '#3b82f6' },
+  Contract:      { shape: 'diamond',          color: '#f59e0b' },
+  Authority:     { shape: 'hexagon',          color: '#10b981' },
+  Person:        { shape: 'triangle',         color: '#8b5cf6' },
+  Lobbyist:      { shape: 'round-rectangle',  color: '#ec4899' },
+  LobbyInterest: { shape: 'tag',             color: '#f472b6' },
+  Unknown:       { shape: 'ellipse',          color: '#6b7280' },
 }
 
 // ── Time range ───────────────────────────────────────────────
@@ -609,7 +611,7 @@ function saveView() {
 
 function restoreView(view) {
   depth.value = view.depth ?? 1
-  typeFilters.value = view.typeFilters ?? { Company: true, Contract: true, Authority: true, Person: true }
+  typeFilters.value = view.typeFilters ?? { Company: true, Contract: true, Authority: true, Person: true, Lobbyist: true }
   keyword.value = view.keyword ?? ''
   if (view.centerId && view.centerId !== props.entityId) {
     emit('navigate', view.centerId)
