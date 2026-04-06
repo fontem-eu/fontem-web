@@ -136,3 +136,16 @@ export function getModerationLog() {
 export function getCurrentUser() {
   return request('GET', '/users/me')
 }
+
+// ── AI Assist ──────────────────────────────────────────────────
+export function sendAssistMessage(message, history = [], reportContext = null) {
+  return request('POST', '/assist/chat', {
+    message,
+    history,
+    report_context: reportContext,
+  })
+}
+
+export function getAssistTools() {
+  return request('GET', '/assist/tools')
+}

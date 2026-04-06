@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { usePocket } from '../composables/usePocket.js'
+import AssistPanel from '../components/AssistPanel.vue'
 import {
   getReport,
   updateReport,
@@ -48,6 +49,19 @@ function insertFromPocket(item) {
   }
   showPocketModal.value = false
 }
+
+// ── AI Assist ──────────────────────────────────────────────────
+function onAssistInsert(text) {
+  // Insert into the last active section (or the first one)
+  const sec = sections.value[sections.value.length - 1]
+  if (sec?.editor) {
+    sec.editor.commands.insertContent(`<p>${text}</p>`)
+  }
+}
+
+const reportContext = computed(() => {
+  return `Title: ${title.value}\nAbstract: ${abstract.value || 'none'}\nSections: ${sections.value.length}`
+})
 
 // ── Editor helpers ──────────────────────────────────────────────
 function createEditor(content = '') {
@@ -148,6 +162,10 @@ async function save() {
           <option value="shared">Shared</option>
           <option value="public">Public</option>
         </select>
+        <AssistPanel
+          :report-context="reportContext"
+          @insert="onAssistInsert"
+        />
         <button
           class="save-btn"
           :disabled="saving"
