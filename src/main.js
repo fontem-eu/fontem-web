@@ -19,6 +19,7 @@ import IssueDetailView from './views/IssueDetailView.vue'
 import ModerationView from './views/ModerationView.vue'
 import LoginView from './views/LoginView.vue'
 import ActivityView from './views/ActivityView.vue'
+import DevPortalView from './views/DevPortalView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -37,6 +38,7 @@ const router = createRouter({
     { path: '/admin/roadmap/:id', component: FeatureDetailView },
     { path: '/admin/plan', component: PlanView },
     { path: '/admin/moderation', component: ModerationView },
+    { path: '/admin/dev', component: DevPortalView },
 
     // Auth
     { path: '/login', component: LoginView },

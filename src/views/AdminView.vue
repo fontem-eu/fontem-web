@@ -12,6 +12,7 @@ const tools = [
   { path: '/admin/roadmap', title: 'Mission & Roadmap', desc: 'Platform mission, vision for 2027, and proposed features with data sources.' },
   { path: '/admin/plan', title: 'Implementation Plan', desc: 'Auth, collaborative reports, embeddable visualizations, community curation, moderation, and security test plan.' },
   { path: '/admin/moderation', title: 'Moderation', desc: 'Review flagged content, resolve disputes, and view the moderation action log.' },
+  { path: '/admin/dev', title: 'Developer Portal', desc: 'All tools in one place: ArgoCD, SonarQube, Dependency-Track, Uptime Kuma, Gitea, and more.' },
 ]
 </script>
 
