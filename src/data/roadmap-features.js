@@ -19,7 +19,7 @@ export const features = [
     id: 'llm-assistant',
     title: 'AI-Assisted Report Writing',
     category: 'insight',
-    status: 'proposed',
+    status: 'in-progress',
     effort: 'High',
     source: 'Anthropic Claude API',
     sourceUrl: 'https://docs.anthropic.com/en/docs',
