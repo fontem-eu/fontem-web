@@ -47,3 +47,26 @@ deploy:
 	kubectl -n gmr rollout restart deployment gmr-web
 
 .PHONY: all test analyze coverage-matrix build release deploy
+
+# ── Security & SBOM ─────────────────────────────────────────
+audit:
+	npm audit --omit=dev 2>&1 || true
+	@echo ""
+	@echo "=== Renovate Dependency Report ==="
+	LOG_LEVEL=warn npx renovate --platform=local --dry-run 2>&1 | grep -E "dependency|update|→|->|current|new" | head -30 || true
+
+DTRACK_URL  ?= http://dependency-track.dependency-track.svc.cluster.local:8080
+DTRACK_KEY  ?= $(shell cat /config/.dtrack-api-key 2>/dev/null)
+
+sbom:
+	npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json
+	curl -s -X POST "$(DTRACK_URL)/api/v1/bom" \
+		-H "X-Api-Key: $(DTRACK_KEY)" \
+		-H "Content-Type: multipart/form-data" \
+		-F "autoCreate=true" \
+		-F "projectName=$(PROJECT)" \
+		-F "projectVersion=main" \
+		-F "bom=@sbom.json" > /dev/null
+	@echo "SBOM uploaded to Dependency-Track"
+
+.PHONY: audit sbom
