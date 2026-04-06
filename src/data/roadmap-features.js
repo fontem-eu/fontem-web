@@ -690,7 +690,7 @@ command: python3 -m src.etl.load_rna
     id: 'lobbying-eu',
     title: 'EU Lobbying Register',
     category: 'data-source',
-    status: 'proposed',
+    status: 'done',
     source: 'EU Transparency Register — European Commission',
     sourceUrl: 'https://ec.europa.eu/transparencyregister/public/opendata',
     format: 'XML bulk download + REST API (JSON)',
