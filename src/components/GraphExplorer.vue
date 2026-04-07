@@ -205,6 +205,7 @@ function clearPathState() {
 function renderGraph() {
   if (!graphData.value || !cyContainer.value) return
 
+  const isDark = document.documentElement.classList.contains('dark')
   const elements = []
 
   for (const node of graphData.value.nodes) {
@@ -224,10 +225,13 @@ function renderGraph() {
   }
 
   for (const edge of graphData.value.edges) {
+    // Skip SUPPLIER_OF — it's the inverse of CLIENT_OF, redundant
+    if (edge.type === 'SUPPLIER_OF') continue
+
     // Format label for summary edges
     const props = edge.properties || {}
     let edgeLabel = edge.type
-    if ((edge.type === 'CLIENT_OF' || edge.type === 'SUPPLIER_OF') && props.contracts) {
+    if (edge.type === 'CLIENT_OF' && props.contracts) {
       edgeLabel = `${props.contracts} contracts`
     }
     elements.push({
@@ -262,7 +266,9 @@ function renderGraph() {
           'text-margin-y': 4,
           'width': 24,
           'height': 24,
-          'color': 'var(--text, #333)',
+          'color': isDark ? '#e0e0e0' : '#333',
+          'text-outline-color': isDark ? '#0a0a0a' : '#ffffff',
+          'text-outline-width': isDark ? 2 : 1,
         },
       },
       {
@@ -282,36 +288,44 @@ function renderGraph() {
         selector: 'edge',
         style: {
           'width': 1.5,
-          'line-color': '#94a3b8',
-          'target-arrow-color': '#94a3b8',
+          'line-color': isDark ? '#64748b' : '#94a3b8',
+          'target-arrow-color': isDark ? '#64748b' : '#94a3b8',
           'target-arrow-shape': 'triangle',
           'curve-style': 'bezier',
           'label': 'data(label)',
           'font-size': '8px',
-          'color': '#94a3b8',
+          'color': isDark ? '#94a3b8' : '#64748b',
           'text-rotation': 'autorotate',
+          'text-outline-color': isDark ? '#0a0a0a' : '#ffffff',
+          'text-outline-width': 1,
         },
       },
       {
-        selector: 'edge[relType = "CLIENT_OF"], edge[relType = "SUPPLIER_OF"]',
+        selector: 'edge[relType = "CLIENT_OF"]',
         style: {
           'width': 3,
-          'line-color': '#0ea5e9',
-          'target-arrow-color': '#0ea5e9',
+          'line-color': isDark ? '#38bdf8' : '#0ea5e9',
+          'target-arrow-color': isDark ? '#38bdf8' : '#0ea5e9',
           'font-size': '9px',
           'font-weight': 'bold',
-          'color': '#0ea5e9',
+          'color': isDark ? '#38bdf8' : '#0ea5e9',
         },
       },
     ],
     layout: {
       name: 'cose',
       animate: false,
-      nodeRepulsion: 8000,
-      idealEdgeLength: 80,
-      gravity: 0.3,
+      nodeRepulsion: 32000,
+      idealEdgeLength: 120,
+      gravity: 0.15,
+      numIter: 500,
+      nodeDimensionsIncludeLabels: true,
     },
     wheelSensitivity: 0.3,
+    textureOnViewport: true,          // Cache node textures for faster pan/zoom
+    hideEdgesOnViewport: true,        // Hide edges during interactions for speed
+    hideLabelsOnViewport: true,       // Hide labels during pan/zoom
+    minZoomedFontSize: 8,            // Don't render tiny labels
   })
 
   cy.on('tap', 'node', (evt) => {
