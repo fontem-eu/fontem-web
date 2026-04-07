@@ -1,6 +1,5 @@
 <script setup>
 import { ref, nextTick } from 'vue'
-import { sendAssistMessage } from '../api/community.js'
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
@@ -32,20 +31,67 @@ async function send() {
   await nextTick()
   scrollToBottom()
 
+  const assistMsg = { role: 'assistant', text: '', tools: 0, suggestions: [] }
+  messages.value.push(assistMsg)
+
   try {
-    const result = await sendAssistMessage(text, chatHistory.value, props.reportContext)
-    messages.value.push({
-      role: 'assistant',
-      text: result.content,
-      tools: result.tool_calls_made || 0,
-      suggestions: result.suggestions || [],
+    const token = localStorage.getItem('gmr-token')
+    const res = await fetch('/capi/assist/chat/stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        message: text,
+        history: chatHistory.value,
+        report_context: props.reportContext,
+      }),
     })
-    // Update history for multi-turn
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+    const reader = res.body.getReader()
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      buffer += decoder.decode(value, { stream: true })
+
+      while (buffer.includes('\n\n')) {
+        const idx = buffer.indexOf('\n\n')
+        const block = buffer.slice(0, idx)
+        buffer = buffer.slice(idx + 2)
+
+        let eventType = 'chunk'
+        let eventData = ''
+        for (const line of block.split('\n')) {
+          if (line.startsWith('event: ')) eventType = line.slice(7)
+          else if (line.startsWith('data: ')) eventData = line.slice(6)
+        }
+
+        if (eventType === 'chunk' && eventData) {
+          try {
+            assistMsg.text += JSON.parse(eventData).text || ''
+            await nextTick()
+            scrollToBottom()
+          } catch { /* skip malformed */ }
+        } else if (eventType === 'error') {
+          try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
+        }
+      }
+    }
+
     chatHistory.value.push({ role: 'user', content: text })
-    chatHistory.value.push({ role: 'assistant', content: result.content })
+    chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
   } catch (err) {
     error.value = err.message
-    messages.value.push({ role: 'error', text: err.message })
+    if (!assistMsg.text) {
+      messages.value.pop()
+      messages.value.push({ role: 'error', text: err.message })
+    }
   } finally {
     loading.value = false
     await nextTick()
