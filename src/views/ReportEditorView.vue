@@ -86,12 +86,18 @@ function removeSection(index) {
 }
 
 // ── Load report ─────────────────────────────────────────────────
-onMounted(async () => {
+async function loadReport() {
   try {
     const report = await getReport(reportId)
     title.value = report.title || ''
     abstract.value = report.abstract || ''
     visibility.value = report.visibility || 'private'
+
+    // Destroy old editors and rebuild sections
+    for (const sec of sections.value) {
+      if (sec.editor) sec.editor.destroy()
+    }
+    sections.value = []
 
     const reportSections = report.sections || []
     if (reportSections.length === 0) {
@@ -102,6 +108,15 @@ onMounted(async () => {
         sections.value.push({ id: sec.id, editor, content: sec.content || '' })
       }
     }
+  } catch (err) {
+    error.value = err.message
+    if (!sections.value.length) addNewSection()
+  }
+}
+
+onMounted(async () => {
+  try {
+    await loadReport()
   } catch (err) {
     error.value = err.message
     addNewSection()
@@ -164,7 +179,10 @@ async function save() {
         </select>
         <AssistPanel
           :report-context="reportContext"
+          :report-id="reportId"
+          :editor-state="{ sections: sections, title: title, abstract: abstract }"
           @insert="onAssistInsert"
+          @refresh="loadReport"
         />
         <button
           class="save-btn"

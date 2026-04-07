@@ -1,11 +1,14 @@
 <script setup>
 import { ref, nextTick } from 'vue'
+import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
+  reportId: { type: String, default: '' },
+  editorState: { type: Object, default: () => ({}) },
 })
 
-const emit = defineEmits(['insert'])
+const emit = defineEmits(['insert', 'refresh'])
 
 const open = ref(false)
 const input = ref('')
@@ -84,6 +87,8 @@ async function send() {
       }
     }
 
+    // Parse any edit proposals from the response
+    assistMsg.proposals = parseProposals(assistMsg.text)
     chatHistory.value.push({ role: 'user', content: text })
     chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
   } catch (err) {
@@ -107,6 +112,50 @@ function scrollToBottom() {
 
 function insertText(text) {
   emit('insert', text)
+}
+
+/**
+ * Parse JSON proposals from Claude's response text.
+ * Claude returns propose_edit results as JSON objects with "proposed": true.
+ */
+function parseProposals(text) {
+  const proposals = []
+  const jsonPattern = /\{[^{}]*"proposed"\s*:\s*true[^{}]*\}/g
+  let match
+  while ((match = jsonPattern.exec(text)) !== null) {
+    try {
+      const parsed = JSON.parse(match[0])
+      if (parsed.proposed && parsed.action) {
+        const validation = validateProposal({ action: parsed.action, ...parsed.params })
+        if (validation.valid) {
+          proposals.push({ action: parsed.action, params: parsed.params, description: parsed.description })
+        }
+      }
+    } catch { /* skip malformed JSON */ }
+  }
+  return proposals
+}
+
+async function applyProposal(proposal, msgIndex) {
+  const result = await executeProposal(props.reportId, proposal, props.editorState)
+  if (result.ok) {
+    // Mark as applied in the message
+    const msg = messages.value[msgIndex]
+    if (msg?.proposals) {
+      const idx = msg.proposals.indexOf(proposal)
+      if (idx >= 0) msg.proposals[idx] = { ...proposal, applied: true }
+    }
+    emit('refresh')
+  } else {
+    error.value = `Edit failed: ${result.error}`
+  }
+}
+
+function dismissProposal(proposal, msgIndex) {
+  const msg = messages.value[msgIndex]
+  if (msg?.proposals) {
+    msg.proposals = msg.proposals.filter(p => p !== proposal)
+  }
 }
 
 function insertSuggestion(suggestion) {
@@ -170,6 +219,25 @@ function clearChat() {
               <button class="msg-action" @click="insertText(msg.text)">
                 Insert into report
               </button>
+            </div>
+            <!-- Edit proposals -->
+            <div v-if="msg.proposals?.length" class="msg-proposals">
+              <div
+                v-for="(p, pi) in msg.proposals"
+                :key="pi"
+                class="msg-proposal"
+                :class="{ 'proposal-applied': p.applied }"
+              >
+                <div class="proposal-header">
+                  <span class="proposal-action">{{ p.action.replace(/_/g, ' ') }}</span>
+                  <span v-if="p.applied" class="proposal-status">Applied</span>
+                </div>
+                <div class="proposal-desc">{{ p.description }}</div>
+                <div v-if="!p.applied" class="proposal-buttons">
+                  <button class="proposal-apply" @click="applyProposal(p, i)">Apply</button>
+                  <button class="proposal-dismiss" @click="dismissProposal(p, i)">Dismiss</button>
+                </div>
+              </div>
             </div>
             <!-- Visualization suggestions -->
             <div v-if="msg.suggestions?.length" class="msg-suggestions">
@@ -370,6 +438,76 @@ function clearChat() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.msg-proposals {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.msg-proposal {
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+}
+
+.proposal-applied {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.proposal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.proposal-action {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--accent);
+}
+
+.proposal-status {
+  font-size: 0.6rem;
+  color: #15803d;
+  font-weight: 600;
+}
+
+.proposal-desc {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.proposal-buttons {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.proposal-apply {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.proposal-dismiss {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .msg-error {
