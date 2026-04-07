@@ -46,7 +46,7 @@ deploy:
 	helm upgrade --install gmr-web ./deployment --set-string version=$(TAG)
 	kubectl -n gmr rollout restart deployment gmr-web
 
-.PHONY: all test analyze coverage-matrix build release deploy
+.PHONY: all test analyze coverage-matrix build release deploy security
 
 # ── Security & SBOM ─────────────────────────────────────────
 audit:
@@ -69,4 +69,7 @@ sbom:
 		-F "bom=@sbom.json" > /dev/null
 	@echo "SBOM uploaded to Dependency-Track"
 
-.PHONY: audit sbom
+.PHONY: audit sbom security
+
+security:
+	npm audit --omit=dev
