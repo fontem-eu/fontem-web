@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { fmtMoney } from '../utils/format.js'
+import { fmtEur } from '../utils/format.js'
 import PocketButton from './PocketButton.vue'
 
 const props = defineProps({
@@ -152,7 +152,7 @@ const topCpv = computed(() => {
           <span class="cs-label">Contracts</span>
         </div>
         <div class="cs-card">
-          <span class="cs-num">{{ fmtMoney(data.total_contract_value_eur) }}</span>
+          <span class="cs-num">{{ fmtEur(data.total_contract_value_eur) }}</span>
           <span class="cs-label">Total Value (EUR)</span>
         </div>
         <div v-if="topAuthority" class="cs-card cs-card--wide">
@@ -185,7 +185,7 @@ const topCpv = computed(() => {
                 <a v-if="c.ted_url" :href="c.ted_url" target="_blank" rel="noopener noreferrer">{{ c.title }}</a>
                 <span v-else>{{ c.title }}</span>
               </td>
-              <td class="num">{{ c.value_eur ? fmtMoney(c.value_eur) : '—' }}</td>
+              <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}</td>
               <td>{{ c.authority }} <span class="ctag">{{ c.authority_country }}</span></td>
               <td class="nowrap">{{ c.cpv || '—' }}</td>
               <td class="nowrap">{{ c.procedure_type || '—' }}</td>
@@ -208,7 +208,7 @@ const topCpv = computed(() => {
             <span v-else class="cc-title">{{ c.title }}</span>
           </div>
           <div class="cc-details">
-            <span v-if="c.value_eur" class="cc-value">{{ fmtMoney(c.value_eur) }}</span>
+            <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span>
             <span v-if="c.award_date" class="cc-date">{{ c.award_date.substring(0, 10) }}</span>
             <span v-if="c.procedure_type" class="ctag">{{ c.procedure_type }}</span>
           </div>

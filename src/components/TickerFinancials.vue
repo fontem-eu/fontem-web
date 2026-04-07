@@ -243,7 +243,7 @@ const gmrSnapshot = computed(() => {
       label: 'Last Dividend',
       value:
         s.last_dividend_amount != null && s.last_dividend_amount > 0
-          ? `$${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
+          ? `${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
           : '—',
       testid: 'snap-div',
     },
@@ -297,7 +297,7 @@ const fundMktSnapshot = computed(() => {
       label: 'Last Dividend',
       value:
         s.last_dividend_amount != null && s.last_dividend_amount > 0
-          ? `$${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
+          ? `${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
           : '—',
       testid: 'fund-snap-div',
     },

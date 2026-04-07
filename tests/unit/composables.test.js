@@ -32,8 +32,13 @@ describe('format utilities', () => {
     format = await import('../../src/utils/format.js')
   })
 
-  it('fmtMoney formats large numbers', () => {
+  it('fmtMoney formats large numbers with $ by default', () => {
+    expect(format.fmtMoney(1234567890)).toContain('$')
     expect(format.fmtMoney(1234567890)).toContain('1')
+  })
+
+  it('fmtEur formats with € symbol', () => {
+    expect(format.fmtEur(5000000)).toBe('€5.0M')
   })
 
   it('fmtMoney handles null/undefined', () => {
