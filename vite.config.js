@@ -5,6 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
 
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.js'],
+  },
+
   server: {
     proxy: {
       '/api': {

@@ -1,7 +1,23 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import cytoscape from 'cytoscape'
 import PocketButton from './PocketButton.vue'
+
+// Lazy imports — Sigma requires WebGL which isn't available in test environments
+let Graph, Sigma, forceAtlas2, noverlap
+async function ensureImports() {
+  if (!Graph) {
+    const [g, s, fa2, nol] = await Promise.all([
+      import('graphology'),
+      import('sigma'),
+      import('graphology-layout-forceatlas2'),
+      import('graphology-layout-noverlap'),
+    ])
+    Graph = g.default || g
+    Sigma = s.default || s.Sigma || s
+    forceAtlas2 = fa2.default || fa2
+    noverlap = nol.default || nol
+  }
+}
 
 const props = defineProps({
   entityId: { type: String, required: true },
@@ -61,7 +77,8 @@ const timelineMax = ref(null)
 const timelineStats = ref({ contracts: 0, directors: 0, subsidiaries: 0 })
 const timelinePlaying = ref(false)
 
-let cy = null
+let graph = null      // graphology instance
+let renderer = null   // sigma renderer
 let searchDebounce = null
 let playInterval = null
 
@@ -201,148 +218,119 @@ function clearPathState() {
   selectedPathIndex.value = null
 }
 
-// ── Cytoscape rendering ──────────────────────────────────────
-function renderGraph() {
+// ── Sigma / graphology rendering (WebGL) ─────────────────────
+async function renderGraph() {
   if (!graphData.value || !cyContainer.value) return
+  await ensureImports()
 
   const isDark = document.documentElement.classList.contains('dark')
-  const elements = []
 
+  // Clean up previous renderer
+  if (renderer) { renderer.kill(); renderer = null }
+  if (graph) { graph.clear(); graph = null }
+
+  graph = new Graph()
+
+  // Add nodes
   for (const node of graphData.value.nodes) {
     const style = NODE_STYLES[node.type] || NODE_STYLES.Unknown
-    elements.push({
-      group: 'nodes',
-      data: {
-        id: node.id,
-        label: node.label,
-        type: node.type,
-        properties: node.properties,
-        color: style.color,
-        shape: style.shape,
-        isCenter: node.id === graphData.value.center.id,
-      },
+    const isCenter = node.id === graphData.value.center.id
+    graph.addNode(node.id, {
+      label: node.label,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: isCenter ? 12 : 6,
+      color: style.color,
+      type: node.type,
+      properties: node.properties,
+      borderColor: isCenter ? '#ef4444' : null,
+      _origColor: style.color,
+      _origSize: isCenter ? 12 : 6,
+      _hidden: false,
     })
   }
 
+  // Add edges
   for (const edge of graphData.value.edges) {
-    // Skip SUPPLIER_OF — it's the inverse of CLIENT_OF, redundant
     if (edge.type === 'SUPPLIER_OF') continue
-
-    // Format label for summary edges
+    const edgeId = `${edge.source}-${edge.target}-${edge.type}`
     const props = edge.properties || {}
-    let edgeLabel = edge.type
-    if (edge.type === 'CLIENT_OF' && props.contracts) {
-      edgeLabel = `${props.contracts} contracts`
-    }
-    elements.push({
-      group: 'edges',
-      data: {
-        id: `${edge.source}-${edge.target}-${edge.type}`,
-        source: edge.source,
-        target: edge.target,
-        label: edgeLabel,
+    const isClient = edge.type === 'CLIENT_OF'
+    try {
+      graph.addEdge(edge.source, edge.target, {
+        id: edgeId,
+        label: isClient && props.contracts ? `${props.contracts} contracts` : edge.type,
+        color: isClient
+          ? (isDark ? '#38bdf8' : '#0ea5e9')
+          : (isDark ? '#475569' : '#94a3b8'),
+        size: isClient ? 2.5 : 1,
         relType: edge.type,
         properties: props,
-      },
-    })
+        _origColor: isClient
+          ? (isDark ? '#38bdf8' : '#0ea5e9')
+          : (isDark ? '#475569' : '#94a3b8'),
+        _hidden: false,
+      })
+    } catch { /* skip duplicate edges */ }
   }
 
-  if (cy) cy.destroy()
-
-  cy = cytoscape({
-    container: cyContainer.value,
-    elements,
-    style: [
-      {
-        selector: 'node',
-        style: {
-          'background-color': 'data(color)',
-          'shape': 'data(shape)',
-          'label': 'data(label)',
-          'font-size': '10px',
-          'text-wrap': 'ellipsis',
-          'text-max-width': '80px',
-          'text-valign': 'bottom',
-          'text-margin-y': 4,
-          'width': 24,
-          'height': 24,
-          'color': isDark ? '#e0e0e0' : '#333',
-          'text-outline-color': isDark ? '#0a0a0a' : '#ffffff',
-          'text-outline-width': isDark ? 2 : 1,
-        },
-      },
-      {
-        selector: 'node[?isCenter]',
-        style: {
-          'width': 36,
-          'height': 36,
-          'border-width': 3,
-          'border-color': '#ef4444',
-          'font-weight': 'bold',
-          'font-size': '11px',
-          'text-max-width': '100px',
-          'text-wrap': 'ellipsis',
-        },
-      },
-      {
-        selector: 'edge',
-        style: {
-          'width': 1.5,
-          'line-color': isDark ? '#64748b' : '#94a3b8',
-          'target-arrow-color': isDark ? '#64748b' : '#94a3b8',
-          'target-arrow-shape': 'triangle',
-          'curve-style': 'bezier',
-          'label': 'data(label)',
-          'font-size': '8px',
-          'color': isDark ? '#94a3b8' : '#64748b',
-          'text-rotation': 'autorotate',
-          'text-outline-color': isDark ? '#0a0a0a' : '#ffffff',
-          'text-outline-width': 1,
-        },
-      },
-      {
-        selector: 'edge[relType = "CLIENT_OF"]',
-        style: {
-          'width': 3,
-          'line-color': isDark ? '#38bdf8' : '#0ea5e9',
-          'target-arrow-color': isDark ? '#38bdf8' : '#0ea5e9',
-          'font-size': '9px',
-          'font-weight': 'bold',
-          'color': isDark ? '#38bdf8' : '#0ea5e9',
-        },
-      },
-    ],
-    layout: {
-      name: 'cose',
-      animate: false,
-      nodeRepulsion: 32000,
-      idealEdgeLength: 120,
-      gravity: 0.15,
-      numIter: 500,
-      nodeDimensionsIncludeLabels: true,
+  // Layout: ForceAtlas2 (runs synchronously for small graphs, fast)
+  const iterations = Math.min(graph.order * 3, 500)
+  forceAtlas2.assign(graph, {
+    iterations,
+    settings: {
+      gravity: 0.5,
+      scalingRatio: 10,
+      strongGravityMode: false,
+      barnesHutOptimize: graph.order > 200,
     },
-    wheelSensitivity: 0.3,
-    textureOnViewport: true,          // Cache node textures for faster pan/zoom
-    hideEdgesOnViewport: true,        // Hide edges during interactions for speed
-    hideLabelsOnViewport: true,       // Hide labels during pan/zoom
-    minZoomedFontSize: 8,            // Don't render tiny labels
   })
 
-  cy.on('tap', 'node', (evt) => {
-    const node = evt.target
-    const pos = node.renderedPosition()
+  // Prevent label overlap
+  noverlap.assign(graph, { maxIterations: 50, ratio: 2 })
+
+  // Create Sigma renderer (WebGL)
+  renderer = new Sigma(graph, cyContainer.value, {
+    labelColor: { color: isDark ? '#e0e0e0' : '#333333' },
+    labelFont: 'Inter, system-ui, sans-serif',
+    labelSize: 12,
+    labelRenderedSizeThreshold: 6,
+    edgeLabelColor: { color: isDark ? '#94a3b8' : '#64748b' },
+    edgeLabelFont: 'Inter, system-ui, sans-serif',
+    edgeLabelSize: 10,
+    renderEdgeLabels: true,
+    defaultEdgeType: 'arrow',
+    minCameraRatio: 0.1,
+    maxCameraRatio: 10,
+    nodeReducer: (node, data) => {
+      if (data._hidden) return { ...data, hidden: true }
+      if (data.borderColor) {
+        return { ...data, borderSize: 2, borderColor: data.borderColor }
+      }
+      return data
+    },
+    edgeReducer: (_edge, data) => {
+      if (data._hidden) return { ...data, hidden: true }
+      return data
+    },
+  })
+
+  // Click handler
+  renderer.on('clickNode', ({ node }) => {
+    const attrs = graph.getNodeAttributes(node)
+    const pos = renderer.graphToViewport(graph.getNodeAttributes(node))
     tooltip.value = {
       x: pos.x,
       y: pos.y,
-      id: node.data('id'),
-      label: node.data('label'),
-      type: node.data('type'),
-      properties: node.data('properties') || {},
+      id: node,
+      label: attrs.label,
+      type: attrs.type,
+      properties: attrs.properties || {},
     }
   })
 
-  cy.on('tap', (evt) => {
-    if (evt.target === cy) tooltip.value = null
+  renderer.on('clickStage', () => {
+    tooltip.value = null
   })
 
   applyKeywordFilter()
@@ -351,9 +339,8 @@ function renderGraph() {
 
 // ── Path highlighting ────────────────────────────────────────
 function highlightPaths() {
-  if (!cy || !pathData.value || !pathData.value.paths.length) return
+  if (!graph || !pathData.value || !pathData.value.paths.length) return
 
-  // Collect node IDs and edge keys on active paths
   const pathNodeIds = new Set()
   const pathEdgeKeys = new Set()
 
@@ -363,43 +350,33 @@ function highlightPaths() {
 
   for (const p of activePaths) {
     for (const nid of p.node_ids) pathNodeIds.add(nid)
-    for (const e of p.edges) {
-      pathEdgeKeys.add(`${e.source}-${e.target}-${e.type}`)
-    }
+    for (const e of p.edges) pathEdgeKeys.add(`${e.source}-${e.target}-${e.type}`)
   }
 
-  // Dim non-path elements
-  cy.nodes().forEach((node) => {
-    if (pathNodeIds.has(node.data('id'))) {
-      node.style('opacity', 1)
+  graph.forEachNode((node, attrs) => {
+    graph.setNodeAttribute(node, 'color', pathNodeIds.has(node) ? attrs._origColor : '#2a2a2a')
+    graph.setNodeAttribute(node, 'size', pathNodeIds.has(node) ? attrs._origSize : 3)
+  })
+
+  graph.forEachEdge((edge, attrs) => {
+    const key = attrs.id || edge
+    if (pathEdgeKeys.has(key)) {
+      const isOnShortest = isEdgeOnShortestPath(key)
+      graph.setEdgeAttribute(edge, 'color', isOnShortest ? '#3b82f6' : '#93c5fd')
+      graph.setEdgeAttribute(edge, 'size', isOnShortest ? 3 : 1.5)
     } else {
-      node.style('opacity', 0.15)
+      graph.setEdgeAttribute(edge, 'color', '#1a1a1a')
+      graph.setEdgeAttribute(edge, 'size', 0.5)
     }
   })
 
-  cy.edges().forEach((edge) => {
-    const key = edge.data('id')
-    if (pathEdgeKeys.has(key)) {
-      const isOnShortest = isEdgeOnShortestPath(edge.data())
-      edge.style({
-        'opacity': 1,
-        'width': isOnShortest ? 3 : 2,
-        'line-color': isOnShortest ? '#3b82f6' : '#93c5fd',
-        'target-arrow-color': isOnShortest ? '#3b82f6' : '#93c5fd',
-        'line-style': isOnShortest ? 'solid' : 'dashed',
-      })
-    } else {
-      edge.style('opacity', 0.1)
-    }
-  })
+  if (renderer) renderer.refresh()
 }
 
-function isEdgeOnShortestPath(edgeData) {
+function isEdgeOnShortestPath(edgeKey) {
   if (!pathData.value || !pathData.value.paths.length) return false
   const shortest = pathData.value.paths[0]
-  return shortest.edges.some(
-    (e) => `${e.source}-${e.target}-${e.type}` === edgeData.id,
-  )
+  return shortest.edges.some((e) => `${e.source}-${e.target}-${e.type}` === edgeKey)
 }
 
 function selectPath(index) {
@@ -409,29 +386,29 @@ function selectPath(index) {
 
 // ── Edge type filter ─────────────────────────────────────────
 function applyEdgeTypeFilter() {
-  if (!cy) return
-  cy.edges().forEach((edge) => {
-    const rt = edge.data('relType')
-    if (rt && edgeTypeFilters.value[rt] === false) {
-      edge.style('display', 'none')
-    } else {
-      edge.style('display', 'element')
-    }
+  if (!graph) return
+  graph.forEachEdge((edge, attrs) => {
+    const rt = attrs.relType
+    graph.setEdgeAttribute(edge, '_hidden', rt && edgeTypeFilters.value[rt] === false)
   })
+  if (renderer) renderer.refresh()
 }
 
 // ── Keyword filter ───────────────────────────────────────────
 function applyKeywordFilter() {
-  if (!cy) return
+  if (!graph) return
   const q = keyword.value.toLowerCase().trim()
-  cy.nodes().forEach((node) => {
-    const label = (node.data('label') || '').toLowerCase()
+  graph.forEachNode((node, attrs) => {
+    const label = (attrs.label || '').toLowerCase()
     if (q && !label.includes(q)) {
-      node.style('opacity', 0.15)
+      graph.setNodeAttribute(node, 'color', '#2a2a2a')
+      graph.setNodeAttribute(node, 'size', 3)
     } else {
-      node.style('opacity', 1)
+      graph.setNodeAttribute(node, 'color', attrs._origColor)
+      graph.setNodeAttribute(node, 'size', attrs._origSize)
     }
   })
+  if (renderer) renderer.refresh()
 }
 
 // ── Temporal ──────────────────────────────────────────────────
@@ -456,54 +433,48 @@ function computeTimelineRange() {
 }
 
 function applyTimelineFilter() {
-  if (!cy || !timelineEnabled.value || !timelineDate.value) return
+  if (!graph || !timelineEnabled.value || !timelineDate.value) return
 
   let contracts = 0
   let directors = 0
   let subsidiaries = 0
+  const hiddenNodes = new Set()
 
-  cy.nodes().forEach((node) => {
-    const type = node.data('type')
-    const props = node.data('properties') || {}
+  graph.forEachNode((node, attrs) => {
+    const type = attrs.type
+    const props = attrs.properties || {}
 
     if (type === 'Contract') {
       const pubDate = (props.publication_date || '').slice(0, 7)
       if (pubDate && pubDate > timelineDate.value) {
-        node.style('display', 'none')
+        graph.setNodeAttribute(node, '_hidden', true)
+        hiddenNodes.add(node)
       } else {
-        node.style('display', 'element')
+        graph.setNodeAttribute(node, '_hidden', false)
         if (pubDate) contracts++
       }
     } else if (type === 'Person') {
-      // Person nodes are always shown; DIRECTS filtering would need edge dates
-      node.style('display', 'element')
+      graph.setNodeAttribute(node, '_hidden', false)
       directors++
     } else {
-      node.style('display', 'element')
-      if (type === 'Company' && node.data('id') !== graphData.value?.center?.id) {
-        subsidiaries++
-      }
+      graph.setNodeAttribute(node, '_hidden', false)
+      if (type === 'Company' && node !== graphData.value?.center?.id) subsidiaries++
     }
   })
 
-  // Hide edges whose endpoints are hidden
-  cy.edges().forEach((edge) => {
-    const src = cy.getElementById(edge.data('source'))
-    const tgt = cy.getElementById(edge.data('target'))
-    if (src.style('display') === 'none' || tgt.style('display') === 'none') {
-      edge.style('display', 'none')
-    } else {
-      edge.style('display', 'element')
-    }
+  graph.forEachEdge((edge, _attrs, source, target) => {
+    graph.setEdgeAttribute(edge, '_hidden', hiddenNodes.has(source) || hiddenNodes.has(target))
   })
 
   timelineStats.value = { contracts, directors, subsidiaries }
+  if (renderer) renderer.refresh()
 }
 
 function clearTimelineFilter() {
-  if (!cy) return
-  cy.nodes().forEach((n) => n.style('display', 'element'))
-  cy.edges().forEach((e) => e.style('display', 'element'))
+  if (!graph) return
+  graph.forEachNode((node) => graph.setNodeAttribute(node, '_hidden', false))
+  graph.forEachEdge((edge) => graph.setEdgeAttribute(edge, '_hidden', false))
+  if (renderer) renderer.refresh()
 }
 
 function toggleTimeline() {
@@ -564,22 +535,31 @@ function indexToMonth(idx) {
 
 // ── Export ────────────────────────────────────────────────────
 function exportSvg() {
-  if (!cy) return
-  const svg = cy.svg({ full: true })
-  downloadFile(svg, 'graph.svg', 'image/svg+xml')
+  // Sigma doesn't export SVG natively — export PNG instead
+  exportPng()
 }
 
 function exportPng() {
-  if (!cy) return
-  const png = cy.png({ full: true, scale: 2 })
+  if (!renderer) return
+  // Sigma exposes the canvas layers
+  const layers = renderer.getCanvases()
+  const canvas = document.createElement('canvas')
+  const mainCanvas = layers.edges || layers.nodes || Object.values(layers)[0]
+  if (!mainCanvas) return
+  canvas.width = mainCanvas.width
+  canvas.height = mainCanvas.height
+  const ctx = canvas.getContext('2d')
+  // Draw all layers in order
+  for (const layer of Object.values(layers)) {
+    ctx.drawImage(layer, 0, 0)
+  }
   const link = document.createElement('a')
-  link.href = png
+  link.href = canvas.toDataURL('image/png')
   link.download = 'graph.png'
   link.click()
 }
 
 function exportJson() {
-  if (!cy) return
   const data = {
     graph: graphData.value,
     paths: pathData.value,
@@ -666,7 +646,8 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  if (cy) cy.destroy()
+  if (renderer) { renderer.kill(); renderer = null }
+  if (graph) { graph.clear(); graph = null }
   clearTimeout(searchDebounce)
   stopPlay()
 })

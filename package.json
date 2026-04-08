@@ -22,8 +22,11 @@
     "@tiptap/extension-placeholder": "^3.22.2",
     "@tiptap/starter-kit": "^3.22.2",
     "@tiptap/vue-3": "^3.22.2",
-    "cytoscape": "^3.33.1",
     "d3": "^7.9.0",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-layout-noverlap": "^0.4.2",
+    "sigma": "^3.0.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
