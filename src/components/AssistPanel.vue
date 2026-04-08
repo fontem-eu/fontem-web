@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onUnmounted } from 'vue'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 
 const props = defineProps({
@@ -18,8 +18,41 @@ const error = ref(null)
 const chatHistory = ref([])
 const messagesEl = ref(null)
 
+// Streaming status
+const streamPhase = ref(null)   // 'thinking' | 'searching' | 'analyzing' | 'synthesizing' | 'streaming' | null
+const streamElapsed = ref(0)
+let elapsedTimer = null
+
 function toggle() {
   open.value = !open.value
+}
+
+function startElapsedTimer() {
+  const start = Date.now()
+  streamElapsed.value = 0
+  elapsedTimer = setInterval(() => {
+    streamElapsed.value = Math.round((Date.now() - start) / 1000)
+  }, 1000)
+}
+
+function stopElapsedTimer() {
+  if (elapsedTimer) {
+    clearInterval(elapsedTimer)
+    elapsedTimer = null
+  }
+  streamPhase.value = null
+  streamElapsed.value = 0
+}
+
+onUnmounted(stopElapsedTimer)
+
+const PHASE_LABELS = {
+  connecting: 'Connecting',
+  thinking: 'Thinking',
+  searching: 'Searching the graph',
+  analyzing: 'Analyzing data',
+  synthesizing: 'Preparing response',
+  streaming: 'Writing',
 }
 
 async function send() {
@@ -30,12 +63,14 @@ async function send() {
   input.value = ''
   loading.value = true
   error.value = null
+  streamPhase.value = 'connecting'
+  startElapsedTimer()
 
   await nextTick()
   scrollToBottom()
 
-  const assistMsg = { role: 'assistant', text: '', tools: 0, suggestions: [] }
-  messages.value.push(assistMsg)
+  // Don't create assistant message yet — wait for first chunk
+  let assistMsg = null
 
   try {
     const token = localStorage.getItem('gmr-token')
@@ -75,9 +110,22 @@ async function send() {
           else if (line.startsWith('data: ')) eventData = line.slice(6)
         }
 
-        if (eventType === 'chunk' && eventData) {
+        if (eventType === 'status' && eventData) {
           try {
-            assistMsg.text += JSON.parse(eventData).text || ''
+            const status = JSON.parse(eventData)
+            streamPhase.value = status.phase
+            await nextTick()
+            scrollToBottom()
+          } catch { /* skip */ }
+        } else if (eventType === 'chunk' && eventData) {
+          try {
+            const chunkText = JSON.parse(eventData).text || ''
+            if (!assistMsg) {
+              assistMsg = { role: 'assistant', text: '', tools: 0, suggestions: [] }
+              messages.value.push(assistMsg)
+            }
+            assistMsg.text += chunkText
+            streamPhase.value = 'streaming'
             await nextTick()
             scrollToBottom()
           } catch { /* skip malformed */ }
@@ -87,18 +135,23 @@ async function send() {
       }
     }
 
-    // Parse any edit proposals from the response
-    assistMsg.proposals = parseProposals(assistMsg.text)
-    chatHistory.value.push({ role: 'user', content: text })
-    chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
+    // If we never got any chunks, show an error
+    if (!assistMsg) {
+      messages.value.push({ role: 'error', text: 'No response received from assistant.' })
+    } else {
+      // Parse any edit proposals from the response
+      assistMsg.proposals = parseProposals(assistMsg.text)
+      chatHistory.value.push({ role: 'user', content: text })
+      chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
+    }
   } catch (err) {
     error.value = err.message
-    if (!assistMsg.text) {
-      messages.value.pop()
+    if (!assistMsg) {
       messages.value.push({ role: 'error', text: err.message })
     }
   } finally {
     loading.value = false
+    stopElapsedTimer()
     await nextTick()
     scrollToBottom()
   }
@@ -139,7 +192,6 @@ function parseProposals(text) {
 async function applyProposal(proposal, msgIndex) {
   const result = await executeProposal(props.reportId, proposal, props.editorState)
   if (result.ok) {
-    // Mark as applied in the message
     const msg = messages.value[msgIndex]
     if (msg?.proposals) {
       const idx = msg.proposals.indexOf(proposal)
@@ -172,6 +224,7 @@ function clearChat() {
   messages.value = []
   chatHistory.value = []
   error.value = null
+  stopElapsedTimer()
 }
 </script>
 
@@ -199,7 +252,7 @@ function clearChat() {
 
       <!-- Messages -->
       <div ref="messagesEl" class="assist-messages" data-testid="assist-messages">
-        <div v-if="!messages.length" class="assist-empty">
+        <div v-if="!messages.length && !loading" class="assist-empty">
           Ask me about the data — I can search entities, find connections,
           and suggest visualizations for your report.
         </div>
@@ -256,7 +309,17 @@ function clearChat() {
           </div>
           <div v-else-if="msg.role === 'error'" class="msg-error">{{ msg.text }}</div>
         </div>
-        <div v-if="loading" class="assist-loading">Thinking...</div>
+
+        <!-- Streaming status indicator -->
+        <div v-if="loading && streamPhase" class="assist-status" data-testid="assist-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-dot"></span>
+            <span class="status-dot"></span>
+          </div>
+          <span class="status-label">{{ PHASE_LABELS[streamPhase] || 'Working' }}</span>
+          <span v-if="streamElapsed > 0" class="status-elapsed">{{ streamElapsed }}s</span>
+        </div>
       </div>
 
       <!-- Input -->
@@ -516,10 +579,52 @@ function clearChat() {
   padding: 0.3rem 0;
 }
 
-.assist-loading {
+/* Animated streaming status */
+.assist-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  margin-top: 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 12px 4px;
+  max-width: 90%;
+}
+
+.status-indicator {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.4s infinite ease-in-out;
+}
+
+.status-dot:nth-child(2) { animation-delay: 0.2s; }
+.status-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1.1); }
+}
+
+.status-label {
   font-size: 0.75rem;
   color: var(--muted);
-  font-style: italic;
+  font-weight: 500;
+}
+
+.status-elapsed {
+  font-size: 0.65rem;
+  color: var(--muted);
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
 }
 
 .assist-input {
