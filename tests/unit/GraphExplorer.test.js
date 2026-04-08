@@ -23,16 +23,19 @@ vi.mock('cytoscape', () => ({
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
 
+// Use a valid UUID as default entity ID so resolveEntityId skips the search API call
+const DEFAULT_ENTITY_ID = 'aaa00000-0000-4000-8000-000000000001'
+
 function makeGraphResponse(overrides = {}) {
   return {
-    center: { id: 'comp-aaa', label: 'Acme Corp', type: 'Company', properties: {} },
+    center: { id: DEFAULT_ENTITY_ID, label: 'Acme Corp', type: 'Company', properties: {} },
     nodes: [
-      { id: 'comp-aaa', label: 'Acme Corp', type: 'Company', properties: {} },
+      { id: DEFAULT_ENTITY_ID, label: 'Acme Corp', type: 'Company', properties: {} },
       { id: 'con-111', label: 'Road works', type: 'Contract', properties: { value_eur: 500000 } },
       { id: 'auth-xxx', label: 'Ville de Paris', type: 'Authority', properties: { country: 'FRA' } },
     ],
     edges: [
-      { source: 'con-111', target: 'comp-aaa', type: 'AWARDED_TO', properties: {} },
+      { source: 'con-111', target: DEFAULT_ENTITY_ID, type: 'AWARDED_TO', properties: {} },
       { source: 'auth-xxx', target: 'con-111', type: 'AWARDED', properties: {} },
     ],
     truncated: false,
@@ -43,7 +46,7 @@ function makeGraphResponse(overrides = {}) {
 
 function mountExplorer(props = {}) {
   return mount(GraphExplorer, {
-    props: { entityId: 'comp-aaa', ...props },
+    props: { entityId: DEFAULT_ENTITY_ID, ...props },
     attachTo: document.body,
   })
 }
@@ -379,7 +382,7 @@ describe('GraphExplorer', () => {
     const stored = JSON.parse(localStorage.getItem('gmr-graph-saved-views'))
     expect(stored).toHaveLength(1)
     expect(stored[0].name).toBe('My Graph')
-    expect(stored[0].centerId).toBe('comp-aaa')
+    expect(stored[0].centerId).toBe(DEFAULT_ENTITY_ID)
     expect(stored[0].depth).toBe(1)
 
     window.prompt.mockRestore?.()
@@ -388,7 +391,7 @@ describe('GraphExplorer', () => {
   // Saved views panel shows after saving
   it('shows saved views panel after saving and clicking "Saved" button', async () => {
     localStorage.setItem('gmr-graph-saved-views', JSON.stringify([
-      { name: 'Test View', centerId: 'comp-aaa', depth: 2, savedAt: '2026-04-01' },
+      { name: 'Test View', centerId: DEFAULT_ENTITY_ID, depth: 2, savedAt: '2026-04-01' },
     ]))
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -409,7 +412,7 @@ describe('GraphExplorer', () => {
   // Delete saved view
   it('deleting a saved view removes it from localStorage', async () => {
     localStorage.setItem('gmr-graph-saved-views', JSON.stringify([
-      { name: 'View A', centerId: 'comp-aaa', depth: 1, savedAt: '2026-04-01' },
+      { name: 'View A', centerId: DEFAULT_ENTITY_ID, depth: 1, savedAt: '2026-04-01' },
       { name: 'View B', centerId: 'comp-bbb', depth: 2, savedAt: '2026-04-01' },
     ]))
     mockFetch.mockResolvedValueOnce({
@@ -427,6 +430,81 @@ describe('GraphExplorer', () => {
     const stored = JSON.parse(localStorage.getItem('gmr-graph-saved-views'))
     expect(stored).toHaveLength(1)
     expect(stored[0].name).toBe('View B')
+  })
+
+  // ── Regression: entity ID resolution ─────────────────────────
+
+  // GE-REG-01: Ticker entityId resolves to gmr_id via search API
+  it('resolves ticker entityId to gmr_id before calling graph API', async () => {
+    // First call: search API to resolve ticker
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        query: 'EADSF',
+        companies: [{ gmr_id: 'fe8e-uuid', name: 'Airbus', ticker: 'EADSF', symbol: 'EADSF' }],
+      }),
+    })
+    // Second call: graph API with resolved UUID
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    mountExplorer({ entityId: 'EADSF' })
+    await flushPromises()
+
+    // First call should be the search API (ticker resolution)
+    expect(mockFetch.mock.calls[0][0]).toContain('/api/search?q=EADSF')
+    // Second call should use the resolved gmr_id
+    expect(mockFetch.mock.calls[1][0]).toContain('/api/graph/fe8e-uuid')
+  })
+
+  // GE-REG-02: UUID entityId skips resolution
+  it('does not call search API when entityId is already a UUID', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    mountExplorer({ entityId: 'fe8e9249-2bf4-574c-8ee4-db13e31cae38' })
+    await flushPromises()
+
+    // Should go directly to graph API — no search call
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch.mock.calls[0][0]).toContain('/api/graph/fe8e9249-2bf4-574c-8ee4-db13e31cae38')
+  })
+
+  // GE-REG-03: Empty graph does not crash (ForceAtlas2 zero-iterations guard)
+  it('does not throw on empty graph response', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse({
+        nodes: [],
+        edges: [],
+        total_available: 0,
+      }),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Should show empty message without throwing
+    expect(wrapper.find('[data-testid="ge-empty"]').exists()).toBe(true)
+  })
+
+  // GE-REG-04: Single-node graph does not crash
+  it('does not throw on single-node graph response', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse({
+        nodes: [
+          { id: DEFAULT_ENTITY_ID, label: 'Acme Corp', type: 'Company', properties: {} },
+        ],
+        edges: [],
+        total_available: 1,
+      }),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-status"]').text()).toContain('1 nodes')
   })
 
   // ── Timeline tests ──────────────────────────────────────────

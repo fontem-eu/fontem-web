@@ -103,18 +103,38 @@ function computeSinceDate() {
   return now.toISOString().slice(0, 10)
 }
 
+// ── Resolve entity ID ────────────────────────────────────────
+const _UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+async function resolveEntityId(id) {
+  if (_UUID_RE.test(id)) return id
+  // Ticker — resolve to gmr_id via search API
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(id)}&limit=1`)
+    if (res.ok) {
+      const data = await res.json()
+      const match = (data.companies || []).find(
+        (c) => c.ticker === id || c.symbol === id,
+      )
+      if (match?.gmr_id) return match.gmr_id
+    }
+  } catch { /* fall through */ }
+  return id // best-effort fallback
+}
+
 // ── Graph API ────────────────────────────────────────────────
 async function fetchGraph() {
   loading.value = true
   error.value = null
   tooltip.value = null
   try {
+    const entityId = await resolveEntityId(props.entityId)
     const types = Object.entries(typeFilters.value)
       .filter(([, v]) => v)
       .map(([k]) => k)
       .join(',')
     const sinceDate = computeSinceDate()
-    const url = `/api/graph/${encodeURIComponent(props.entityId)}`
+    const url = `/api/graph/${encodeURIComponent(entityId)}`
       + `?depth=${depth.value}`
       + (types ? `&types=${types}` : '')
       + (sinceDate ? `&since=${sinceDate}` : '')
@@ -241,7 +261,7 @@ async function renderGraph() {
       y: Math.random() * 100,
       size: isCenter ? 12 : 6,
       color: style.color,
-      type: node.type,
+      nodeType: node.type,
       properties: node.properties,
       borderColor: isCenter ? '#ef4444' : null,
       _origColor: style.color,
@@ -275,19 +295,21 @@ async function renderGraph() {
   }
 
   // Layout: ForceAtlas2 (runs synchronously for small graphs, fast)
-  const iterations = Math.min(graph.order * 3, 500)
-  forceAtlas2.assign(graph, {
-    iterations,
-    settings: {
-      gravity: 0.5,
-      scalingRatio: 10,
-      strongGravityMode: false,
-      barnesHutOptimize: graph.order > 200,
-    },
-  })
+  if (graph.order > 1) {
+    const iterations = Math.min(graph.order * 3, 500)
+    forceAtlas2.assign(graph, {
+      iterations,
+      settings: {
+        gravity: 0.5,
+        scalingRatio: 10,
+        strongGravityMode: false,
+        barnesHutOptimize: graph.order > 200,
+      },
+    })
 
-  // Prevent label overlap
-  noverlap.assign(graph, { maxIterations: 50, ratio: 2 })
+    // Prevent label overlap
+    noverlap.assign(graph, { maxIterations: 50, ratio: 2 })
+  }
 
   // Create Sigma renderer (WebGL)
   renderer = new Sigma(graph, cyContainer.value, {
@@ -324,7 +346,7 @@ async function renderGraph() {
       y: pos.y,
       id: node,
       label: attrs.label,
-      type: attrs.type,
+      type: attrs.nodeType,
       properties: attrs.properties || {},
     }
   })
@@ -441,7 +463,7 @@ function applyTimelineFilter() {
   const hiddenNodes = new Set()
 
   graph.forEachNode((node, attrs) => {
-    const type = attrs.type
+    const type = attrs.nodeType
     const props = attrs.properties || {}
 
     if (type === 'Contract') {
