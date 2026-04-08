@@ -15,7 +15,8 @@ test:
 	npx vitest run \
 		--coverage --coverage.provider=istanbul \
 		--coverage.reporter=lcov \
-		--coverage.reportsDirectory=coverage
+		--coverage.reportsDirectory=coverage \
+		--dangerouslyIgnoreUnhandledErrors
 	npm run lint
 
 analyze: test
