@@ -6,6 +6,12 @@ const router = useRouter()
 const error = ref(null)
 const loading = ref(false)
 const manualToken = ref('')
+const mode = ref('login') // 'login' | 'register'
+const loginEmail = ref('')
+const loginPassword = ref('')
+const regName = ref('')
+const regEmail = ref('')
+const regPassword = ref('')
 
 const GOOGLE_CLIENT_ID =
   '1075253652266-hbea8sdsn4ihh6as732duohspgvf5eh4.apps.googleusercontent.com'
@@ -83,6 +89,54 @@ async function handleTokenSignIn() {
   }
 }
 
+async function handleLocalLogin() {
+  error.value = null
+  loading.value = true
+  try {
+    const res = await fetch('/capi/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value }),
+    })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      throw new Error(data.detail || `HTTP ${res.status}`)
+    }
+    const data = await res.json()
+    localStorage.setItem('gmr-token', data.access_token)
+    localStorage.setItem('gmr-user', JSON.stringify(data.user))
+    window.location.href = '/'
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
+async function handleRegister() {
+  error.value = null
+  loading.value = true
+  try {
+    const res = await fetch('/capi/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regEmail.value, password: regPassword.value, name: regName.value }),
+    })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      throw new Error(data.detail || `HTTP ${res.status}`)
+    }
+    const data = await res.json()
+    localStorage.setItem('gmr-token', data.access_token)
+    localStorage.setItem('gmr-user', JSON.stringify(data.user))
+    window.location.href = '/'
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
 function handleSignOut() {
   localStorage.removeItem('gmr-token')
   localStorage.removeItem('gmr-user')
@@ -113,26 +167,42 @@ function handleSignOut() {
         <div v-if="error" class="login-error" data-testid="login-error">{{ error }}</div>
         <div v-if="loading" class="login-loading">Signing in...</div>
 
-        <!-- Google button rendered here by GSI -->
+        <!-- Mode tabs -->
+        <div class="auth-tabs">
+          <button :class="{ active: mode === 'login' }" @click="mode = 'login'">Sign in</button>
+          <button :class="{ active: mode === 'register' }" @click="mode = 'register'">Create account</button>
+        </div>
+
+        <!-- Login form -->
+        <form v-if="mode === 'login'" class="auth-form" @submit.prevent="handleLocalLogin">
+          <input v-model="loginEmail" type="email" class="login-input" placeholder="Email" required data-testid="login-email" />
+          <input v-model="loginPassword" type="password" class="login-input" placeholder="Password" required data-testid="login-password" />
+          <button type="submit" class="btn-primary" :disabled="loading" data-testid="login-submit">
+            {{ loading ? 'Signing in...' : 'Sign in' }}
+          </button>
+        </form>
+
+        <!-- Register form -->
+        <form v-if="mode === 'register'" class="auth-form" @submit.prevent="handleRegister">
+          <input v-model="regName" type="text" class="login-input" placeholder="Full name" required data-testid="reg-name" />
+          <input v-model="regEmail" type="email" class="login-input" placeholder="Email" required data-testid="reg-email" />
+          <input v-model="regPassword" type="password" class="login-input" placeholder="Password (min 8 chars)" required minlength="8" data-testid="reg-password" />
+          <button type="submit" class="btn-primary" :disabled="loading" data-testid="reg-submit">
+            {{ loading ? 'Creating account...' : 'Create account' }}
+          </button>
+        </form>
+
+        <div class="login-divider"><span>or continue with</span></div>
+
+        <!-- Google button -->
         <div id="google-signin-btn" class="google-btn-wrapper" data-testid="google-signin-btn"></div>
 
-        <div class="login-divider"><span>or</span></div>
-
-        <!-- Manual token entry (for dev / admin) -->
+        <!-- Token entry (dev) -->
         <details class="token-details">
           <summary class="token-summary">Sign in with token</summary>
           <form class="token-form" @submit.prevent="handleTokenSignIn">
-            <input
-              v-model="manualToken"
-              type="password"
-              class="login-input"
-              placeholder="Paste a JWT token"
-              autocomplete="off"
-              data-testid="token-input"
-            />
-            <button type="submit" class="btn-secondary btn-sm" data-testid="token-submit">
-              Sign in
-            </button>
+            <input v-model="manualToken" type="password" class="login-input" placeholder="Paste a JWT token" autocomplete="off" data-testid="token-input" />
+            <button type="submit" class="btn-secondary btn-sm" data-testid="token-submit">Go</button>
           </form>
         </details>
       </template>
@@ -154,6 +224,38 @@ function handleSignOut() {
   border-radius: 8px;
   padding: 2rem;
   background: var(--surface);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.auth-tabs button {
+  flex: 1;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.auth-tabs button.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .login-title {
