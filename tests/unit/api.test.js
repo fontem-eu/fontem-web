@@ -49,6 +49,38 @@ describe('gmr.js API', () => {
     mockFetch.mockResolvedValue(mock404())
     await expect(gmrApi.fetchGmrData('BAD')).rejects.toThrow('HTTP 404: Not Found')
   })
+
+  it('fetchPriceHistory defaults to period 1y', async () => {
+    mockFetch.mockResolvedValue(mockOk([]))
+    await gmrApi.fetchPriceHistory('AAPL')
+    expect(mockFetch).toHaveBeenCalledWith('/api/AAPL/prices?period=1y')
+  })
+
+  it('fetchFundamentals throws on error response', async () => {
+    mockFetch.mockResolvedValue(mock404())
+    await expect(gmrApi.fetchFundamentals('BAD')).rejects.toThrow('HTTP 404')
+  })
+
+  it('fetchValuation throws on error response', async () => {
+    mockFetch.mockResolvedValue(mock404())
+    await expect(gmrApi.fetchValuation('BAD')).rejects.toThrow('HTTP 404')
+  })
+
+  it('fetchPriceHistory throws on error response', async () => {
+    mockFetch.mockResolvedValue(mock404())
+    await expect(gmrApi.fetchPriceHistory('BAD')).rejects.toThrow('HTTP 404')
+  })
+
+  it('error message includes empty string when res.text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 500, text: () => Promise.reject(new Error('fail')) })
+    await expect(gmrApi.fetchGmrData('X')).rejects.toThrow('HTTP 500: ')
+  })
+
+  it('encodes special characters in ticker', async () => {
+    mockFetch.mockResolvedValue(mockOk({}))
+    await gmrApi.fetchGmrData('A&B')
+    expect(mockFetch).toHaveBeenCalledWith('/api/A%26B/gmr_data?years=10')
+  })
 })
 
 describe('tickers.js API', () => {
@@ -80,6 +112,37 @@ describe('tickers.js API', () => {
   it('throws on non-ok response', async () => {
     mockFetch.mockResolvedValue(mock404())
     await expect(tickersApi.searchTickers('xxx')).rejects.toThrow('HTTP 404')
+  })
+
+  it('searchTickers returns empty for null query', async () => {
+    const result = await tickersApi.searchTickers(null)
+    expect(result.results).toEqual([])
+    expect(result.query).toBe('')
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('searchTickers returns empty for undefined query', async () => {
+    const result = await tickersApi.searchTickers(undefined)
+    expect(result.results).toEqual([])
+    expect(result.query).toBe('')
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('searchAll returns empty for null query', async () => {
+    const result = await tickersApi.searchAll(null)
+    expect(result.companies).toEqual([])
+    expect(result.query).toBe('')
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('searchAll throws on non-ok response', async () => {
+    mockFetch.mockResolvedValue(mock404())
+    await expect(tickersApi.searchAll('test')).rejects.toThrow('HTTP 404')
+  })
+
+  it('searchAll error includes empty when text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 503, text: () => Promise.reject(new Error('fail')) })
+    await expect(tickersApi.searchAll('test')).rejects.toThrow('HTTP 503: ')
   })
 })
 

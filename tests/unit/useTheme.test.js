@@ -100,4 +100,26 @@ describe('useTheme composable', () => {
     toggle()
     expect(localStorage.getItem('gmr-theme')).toBe('light')
   })
+
+  it('defaults to light when matchMedia is undefined (no saved preference)', () => {
+    vi.stubGlobal('matchMedia', undefined)
+    const { isDark, init } = useTheme()
+    init()
+    expect(isDark.value).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+  })
+
+  it('defaults to light when matchMedia returns null matches (no saved preference)', () => {
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: null }))
+    const { isDark, init } = useTheme()
+    init()
+    expect(isDark.value).toBe(false)
+  })
+
+  it('persists under the key gmr-theme specifically', () => {
+    const { init } = useTheme()
+    init()
+    expect(localStorage.getItem('gmr-theme')).not.toBeNull()
+    expect(localStorage.getItem('theme')).toBeNull()
+  })
 })
