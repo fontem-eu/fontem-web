@@ -149,3 +149,11 @@ export function sendAssistMessage(message, history = [], reportContext = null) {
 export function getAssistTools() {
   return request('GET', '/assist/tools')
 }
+
+export function getConversation(reportId) {
+  return request('GET', `/assist/conversations/${reportId}`)
+}
+
+export function saveConversation(reportId, messages) {
+  return request('PUT', `/assist/conversations/${reportId}`, { messages })
+}

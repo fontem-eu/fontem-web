@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { marked } from 'marked'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import { getReport } from '../api/community.js'
+
+marked.setOptions({ breaks: true, gfm: true })
 
 const route = useRoute()
 const reportId = route.params.id
@@ -37,11 +40,35 @@ function formatDate(dateStr) {
 }
 
 /**
- * Parse section HTML for widget blocks (```widget\n{...}\n```)
- * and return an array of { type: 'html'|'widget', content|config }.
+ * Detect if content is markdown (vs. HTML).
+ * Content from TipTap starts with <p>, <h1>, etc. Markdown starts with plain text.
  */
-function parseSectionContent(html) {
-  if (!html) return []
+function isMarkdown(content) {
+  if (!content) return false
+  const trimmed = content.trim()
+  // If it starts with an HTML tag, it's likely HTML from TipTap
+  if (/^<[a-z][\s\S]*>/i.test(trimmed)) return false
+  // If it has markdown indicators, treat as markdown
+  if (/^#{1,6}\s|^\*\*|^- |^\d+\.\s|^\|.*\|/m.test(trimmed)) return true
+  // If it has no HTML tags at all, treat as markdown
+  if (!/<[a-z][\s\S]*?>/i.test(trimmed)) return true
+  return false
+}
+
+/**
+ * Parse section content for widget blocks (```widget\n{...}\n```)
+ * and return an array of { type: 'html'|'widget', content|config }.
+ * Supports both HTML (from TipTap) and markdown content.
+ */
+function parseSectionContent(content) {
+  if (!content) return []
+
+  // Convert markdown to HTML if needed
+  let html = content
+  if (isMarkdown(content)) {
+    html = marked.parse(content)
+  }
+
   const parts = []
   // Match widget blocks in various HTML wrappings
   const regex = /(?:<pre><code>)?```widget\n([\s\S]*?)\n```(?:<\/code><\/pre>)?/g

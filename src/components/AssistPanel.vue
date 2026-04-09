@@ -1,6 +1,8 @@
 <script setup>
-import { ref, nextTick, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
+import { getConversation, saveConversation } from '../api/community.js'
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
@@ -18,13 +20,26 @@ const error = ref(null)
 const chatHistory = ref([])
 const messagesEl = ref(null)
 
-// Streaming status
-const streamPhase = ref(null)   // 'thinking' | 'searching' | 'analyzing' | 'synthesizing' | 'streaming' | null
+// Streaming status — now shows real tool activity
+const streamPhase = ref(null)
+const streamDetail = ref('')
 const streamElapsed = ref(0)
 let elapsedTimer = null
 
+// Configure marked for safe rendering
+marked.setOptions({ breaks: true, gfm: true })
+
+function renderMarkdown(text) {
+  if (!text) return ''
+  return marked.parse(text)
+}
+
 function toggle() {
   open.value = !open.value
+}
+
+function close() {
+  open.value = false
 }
 
 function startElapsedTimer() {
@@ -41,19 +56,43 @@ function stopElapsedTimer() {
     elapsedTimer = null
   }
   streamPhase.value = null
+  streamDetail.value = ''
   streamElapsed.value = 0
 }
 
 onUnmounted(stopElapsedTimer)
 
-const PHASE_LABELS = {
-  connecting: 'Connecting',
-  thinking: 'Thinking',
-  searching: 'Searching the graph',
-  analyzing: 'Analyzing data',
-  synthesizing: 'Preparing response',
-  streaming: 'Writing',
+// ── Conversation persistence ──────────────────────────────────
+
+async function loadConversation() {
+  if (!props.reportId) return
+  try {
+    const conv = await getConversation(props.reportId)
+    if (conv && conv.messages && conv.messages.length > 0) {
+      messages.value = conv.messages
+      chatHistory.value = conv.messages
+        .filter(m => m.role === 'user' || m.role === 'assistant')
+        .map(m => ({ role: m.role, content: m.text }))
+      await nextTick()
+      scrollToBottom()
+    }
+  } catch {
+    // Silent fail — conversation just won't be restored
+  }
 }
+
+async function persistConversation() {
+  if (!props.reportId || messages.value.length === 0) return
+  try {
+    await saveConversation(props.reportId, messages.value)
+  } catch {
+    // Silent fail — conversation still works in-memory
+  }
+}
+
+onMounted(loadConversation)
+
+// ── Send message ─────────────────────────────────────────────
 
 async function send() {
   const text = input.value.trim()
@@ -64,12 +103,12 @@ async function send() {
   loading.value = true
   error.value = null
   streamPhase.value = 'connecting'
+  streamDetail.value = 'Starting assistant...'
   startElapsedTimer()
 
   await nextTick()
   scrollToBottom()
 
-  // Don't create assistant message yet — wait for first chunk
   let assistMsg = null
 
   try {
@@ -114,6 +153,7 @@ async function send() {
           try {
             const status = JSON.parse(eventData)
             streamPhase.value = status.phase
+            streamDetail.value = status.detail || ''
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
@@ -121,11 +161,12 @@ async function send() {
           try {
             const chunkText = JSON.parse(eventData).text || ''
             if (!assistMsg) {
-              assistMsg = { role: 'assistant', text: '', tools: 0, suggestions: [] }
+              assistMsg = { role: 'assistant', text: '' }
               messages.value.push(assistMsg)
             }
             assistMsg.text += chunkText
             streamPhase.value = 'streaming'
+            streamDetail.value = 'Writing response...'
             await nextTick()
             scrollToBottom()
           } catch { /* skip malformed */ }
@@ -135,11 +176,9 @@ async function send() {
       }
     }
 
-    // If we never got any chunks, show an error
     if (!assistMsg) {
       messages.value.push({ role: 'error', text: 'No response received from assistant.' })
     } else {
-      // Parse any edit proposals from the response
       assistMsg.proposals = parseProposals(assistMsg.text)
       chatHistory.value.push({ role: 'user', content: text })
       chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
@@ -154,6 +193,7 @@ async function send() {
     stopElapsedTimer()
     await nextTick()
     scrollToBottom()
+    persistConversation()
   }
 }
 
@@ -167,10 +207,6 @@ function insertText(text) {
   emit('insert', text)
 }
 
-/**
- * Parse JSON proposals from Claude's response text.
- * Claude returns propose_edit results as JSON objects with "proposed": true.
- */
 function parseProposals(text) {
   const proposals = []
   const jsonPattern = /\{[^{}]*"proposed"\s*:\s*true[^{}]*\}/g
@@ -225,6 +261,7 @@ function clearChat() {
   chatHistory.value = []
   error.value = null
   stopElapsedTimer()
+  persistConversation()
 }
 </script>
 
@@ -243,11 +280,17 @@ function clearChat() {
       <span>AI Assist</span>
     </button>
 
+    <!-- Panel overlay (click outside to close on mobile) -->
+    <div v-if="open" class="assist-backdrop" @click="close"></div>
+
     <!-- Panel -->
     <div v-if="open" class="assist-panel" data-testid="assist-panel">
       <div class="assist-header">
         <span class="assist-title">AI Assistant</span>
-        <button class="assist-clear" @click="clearChat" title="Clear chat">Clear</button>
+        <div class="assist-header-actions">
+          <button class="assist-clear" @click="clearChat" title="Clear chat">Clear</button>
+          <button class="assist-close" data-testid="assist-close" @click="close" title="Close">&times;</button>
+        </div>
       </div>
 
       <!-- Messages -->
@@ -264,10 +307,8 @@ function clearChat() {
         >
           <div v-if="msg.role === 'user'" class="msg-user">{{ msg.text }}</div>
           <div v-else-if="msg.role === 'assistant'" class="msg-assistant">
-            <div class="msg-text" v-text="msg.text"></div>
-            <div v-if="msg.tools" class="msg-meta">
-              {{ msg.tools }} tool call{{ msg.tools === 1 ? '' : 's' }} made
-            </div>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div class="msg-text msg-markdown" v-html="renderMarkdown(msg.text)"></div>
             <div class="msg-actions">
               <button class="msg-action" @click="insertText(msg.text)">
                 Insert into report
@@ -317,8 +358,10 @@ function clearChat() {
             <span class="status-dot"></span>
             <span class="status-dot"></span>
           </div>
-          <span class="status-label">{{ PHASE_LABELS[streamPhase] || 'Working' }}</span>
-          <span v-if="streamElapsed > 0" class="status-elapsed">{{ streamElapsed }}s</span>
+          <div class="status-text">
+            <span class="status-detail">{{ streamDetail || 'Working...' }}</span>
+            <span v-if="streamElapsed > 0" class="status-elapsed">{{ streamElapsed }}s</span>
+          </div>
         </div>
       </div>
 
@@ -366,6 +409,21 @@ function clearChat() {
   color: var(--accent);
 }
 
+/* Backdrop for mobile: click outside to close */
+.assist-backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .assist-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+  }
+}
+
 .assist-panel {
   position: fixed;
   top: 0;
@@ -380,18 +438,37 @@ function clearChat() {
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
 }
 
+/* On mobile: full width but not quite full height — leave room to see the page */
+@media (max-width: 768px) {
+  .assist-panel {
+    width: 100%;
+    top: 3rem;
+    height: calc(100vh - 3rem);
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 12px 12px 0 0;
+  }
+}
+
 .assist-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .assist-title {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
+}
+
+.assist-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .assist-clear {
@@ -403,6 +480,26 @@ function clearChat() {
 }
 
 .assist-clear:hover { color: var(--text); }
+
+.assist-close {
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.assist-close:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
 
 .assist-messages {
   flex: 1;
@@ -440,17 +537,23 @@ function clearChat() {
   max-width: 95%;
 }
 
-.msg-text {
-  white-space: pre-wrap;
-  line-height: 1.5;
-  color: var(--text);
-}
-
-.msg-meta {
-  font-size: 0.65rem;
-  color: var(--muted);
-  margin-top: 0.3rem;
-}
+/* Markdown rendering in assistant messages */
+.msg-markdown { line-height: 1.5; color: var(--text); }
+.msg-markdown :deep(p) { margin: 0.3rem 0; }
+.msg-markdown :deep(h1),
+.msg-markdown :deep(h2),
+.msg-markdown :deep(h3) { margin: 0.5rem 0 0.2rem; font-size: 0.9rem; font-weight: 700; }
+.msg-markdown :deep(ul),
+.msg-markdown :deep(ol) { padding-left: 1.2rem; margin: 0.3rem 0; }
+.msg-markdown :deep(li) { margin: 0.15rem 0; }
+.msg-markdown :deep(table) { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin: 0.4rem 0; }
+.msg-markdown :deep(th),
+.msg-markdown :deep(td) { border: 1px solid var(--border); padding: 0.25rem 0.4rem; text-align: left; }
+.msg-markdown :deep(th) { background: var(--bg); font-weight: 600; }
+.msg-markdown :deep(code) { background: var(--bg); padding: 0.1rem 0.25rem; border-radius: 3px; font-size: 0.8em; }
+.msg-markdown :deep(pre) { background: var(--bg); padding: 0.5rem; border-radius: 4px; overflow-x: auto; }
+.msg-markdown :deep(strong) { font-weight: 600; }
+.msg-markdown :deep(a) { color: var(--accent); }
 
 .msg-actions {
   margin-top: 0.4rem;
@@ -579,7 +682,7 @@ function clearChat() {
   padding: 0.3rem 0;
 }
 
-/* Animated streaming status */
+/* Animated streaming status with detail text */
 .assist-status {
   display: flex;
   align-items: center;
@@ -596,6 +699,7 @@ function clearChat() {
   display: flex;
   gap: 3px;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .status-dot {
@@ -614,16 +718,25 @@ function clearChat() {
   40% { opacity: 1; transform: scale(1.1); }
 }
 
-.status-label {
+.status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.status-detail {
   font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--text);
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .status-elapsed {
   font-size: 0.65rem;
   color: var(--muted);
-  opacity: 0.7;
   font-variant-numeric: tabular-nums;
 }
 
@@ -632,6 +745,7 @@ function clearChat() {
   gap: 0.4rem;
   padding: 0.75rem;
   border-top: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .assist-input input {

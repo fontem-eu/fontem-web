@@ -19,7 +19,7 @@ const reportId = route.params.id
 const title = ref('')
 const abstract = ref('')
 const visibility = ref('private')
-const sections = ref([])   // { id, editor, content }
+const sections = ref([])   // { id, editor, content, markdownMode, markdownText }
 const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
@@ -76,7 +76,27 @@ function createEditor(content = '') {
 
 function addNewSection() {
   const editor = createEditor()
-  sections.value.push({ id: null, editor, content: '' })
+  sections.value.push({ id: null, editor, content: '', markdownMode: false, markdownText: '' })
+}
+
+function toggleMarkdownMode(index) {
+  const sec = sections.value[index]
+  if (!sec) return
+  if (sec.markdownMode) {
+    // Switch back to rich text — convert markdown to HTML and set in editor
+    if (sec.markdownText.trim()) {
+      import('marked').then(({ marked }) => {
+        marked.setOptions({ breaks: true, gfm: true })
+        const html = marked.parse(sec.markdownText)
+        sec.editor.commands.setContent(html)
+      })
+    }
+    sec.markdownMode = false
+  } else {
+    // Switch to markdown mode — store current HTML
+    sec.markdownText = sec.editor ? sec.editor.getText() : ''
+    sec.markdownMode = true
+  }
 }
 
 function removeSection(index) {
@@ -142,7 +162,10 @@ async function save() {
       visibility: visibility.value,
     })
     for (const sec of sections.value) {
-      const html = sec.editor ? sec.editor.getHTML() : ''
+      // If in markdown mode, save the raw markdown text (ReportView detects and renders it)
+      const html = sec.markdownMode
+        ? sec.markdownText
+        : (sec.editor ? sec.editor.getHTML() : '')
       if (sec.id) {
         await editSection(reportId, sec.id, html)
       } else {
@@ -231,6 +254,14 @@ async function save() {
           <span class="section-label">Section {{ idx + 1 }}</span>
           <button
             class="toolbar-btn"
+            :class="{ 'toolbar-btn--active': sec.markdownMode }"
+            data-testid="toggle-markdown-btn"
+            @click="toggleMarkdownMode(idx)"
+          >
+            {{ sec.markdownMode ? 'Rich Text' : 'Markdown' }}
+          </button>
+          <button
+            class="toolbar-btn"
             data-testid="insert-widget-btn"
             @click="openPocketModal(idx)"
           >
@@ -245,7 +276,14 @@ async function save() {
             Remove
           </button>
         </div>
-        <EditorContent :editor="sec.editor" class="tiptap-editor" />
+        <textarea
+          v-if="sec.markdownMode"
+          v-model="sec.markdownText"
+          class="markdown-editor"
+          placeholder="Write markdown here..."
+          data-testid="markdown-textarea"
+        />
+        <EditorContent v-else :editor="sec.editor" class="tiptap-editor" />
       </div>
 
       <button
@@ -434,9 +472,31 @@ async function save() {
   cursor: pointer;
 }
 
+.toolbar-btn--active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
 .toolbar-btn.danger {
   color: #dc2626;
   border-color: #dc2626;
+}
+
+.markdown-editor {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  padding: 0.75rem;
+  border: none;
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .tiptap-editor {
