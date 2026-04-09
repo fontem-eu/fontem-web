@@ -2,7 +2,10 @@
  * Vitest setup — mock browser APIs not available in jsdom.
  */
 
-// Sigma.js requires WebGL2RenderingContext at import time
+// Sigma.js requires WebGL rendering context globals at import time
+if (typeof globalThis.WebGLRenderingContext === 'undefined') {
+  globalThis.WebGLRenderingContext = class WebGLRenderingContext {}
+}
 if (typeof globalThis.WebGL2RenderingContext === 'undefined') {
   globalThis.WebGL2RenderingContext = {
     BOOL: 0x8B56,

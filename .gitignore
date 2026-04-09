@@ -148,3 +148,7 @@ test-results
 # Old prototype directory
 web/
 .scannerwork/
+
+# Stryker mutation testing
+reports/
+.stryker-tmp/
