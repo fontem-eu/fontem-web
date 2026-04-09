@@ -152,3 +152,4 @@ web/
 # Stryker mutation testing
 reports/
 .stryker-tmp/
+sbom.json
