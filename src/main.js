@@ -10,7 +10,15 @@ import ArchitectureView from './views/ArchitectureView.vue'
 import CoverageView from './views/CoverageView.vue'
 import RoadmapView from './views/RoadmapView.vue'
 import FeatureDetailView from './views/FeatureDetailView.vue'
-import PlanView from './views/PlanView.vue'
+import DataQualityHubView from './views/DataQualityHubView.vue'
+import ContractsDQView from './views/dq/ContractsDQView.vue'
+import GleifDQView from './views/dq/GleifDQView.vue'
+import EdgarDQView from './views/dq/EdgarDQView.vue'
+import EsefDQView from './views/dq/EsefDQView.vue'
+import LobbyingDQView from './views/dq/LobbyingDQView.vue'
+import DirectorsDQView from './views/dq/DirectorsDQView.vue'
+import TradeEdgesDQView from './views/dq/TradeEdgesDQView.vue'
+import DedupDQView from './views/dq/DedupDQView.vue'
 import ReportListView from './views/ReportListView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
@@ -31,13 +39,21 @@ const router = createRouter({
 
     // Admin area (static prefix — no dynamic segments at root level)
     { path: '/admin', component: AdminView },
-    { path: '/admin/data-quality', component: DataQualityView },
+    { path: '/admin/data-quality', component: DataQualityHubView },
+    { path: '/admin/data-quality/overview', component: DataQualityView },
+    { path: '/admin/data-quality/contracts', component: ContractsDQView },
+    { path: '/admin/data-quality/gleif', component: GleifDQView },
+    { path: '/admin/data-quality/edgar', component: EdgarDQView },
+    { path: '/admin/data-quality/esef', component: EsefDQView },
+    { path: '/admin/data-quality/lobbying', component: LobbyingDQView },
+    { path: '/admin/data-quality/directors', component: DirectorsDQView },
+    { path: '/admin/data-quality/trade-edges', component: TradeEdgesDQView },
+    { path: '/admin/data-quality/dedup', component: DedupDQView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
     { path: '/admin/architecture', component: ArchitectureView },
     { path: '/admin/coverage', component: CoverageView },
     { path: '/admin/roadmap', component: RoadmapView },
     { path: '/admin/roadmap/:id', component: FeatureDetailView },
-    { path: '/admin/plan', component: PlanView },
     { path: '/admin/moderation', component: ModerationView },
     { path: '/admin/dev', component: DevPortalView },
     { path: '/admin/smoke-tests', component: SmokeTestsView },
