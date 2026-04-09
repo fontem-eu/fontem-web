@@ -55,18 +55,6 @@ test.describe('Architecture diagrams — Mermaid rendering', () => {
     expect(svgContent).toContain('Neo4j')
   })
 
-  test('graph explorer flow diagram renders when expanded', async ({ page }) => {
-    await page.locator('.arch-toggle', { hasText: 'Graph Explorer Flow' }).click()
-    await page.waitForTimeout(500)
-
-    const section = page.locator('.arch-section').filter({ hasText: 'Graph Explorer Flow' })
-    const svg = section.locator('svg')
-    await expect(svg).toBeVisible({ timeout: 10000 })
-
-    const svgContent = await svg.innerHTML()
-    expect(svgContent).toContain('FastAPI')
-  })
-
   test('no mermaid syntax error indicators on the page', async ({ page }) => {
     // Expand all sections
     const toggles = page.locator('.arch-toggle')

@@ -41,7 +41,7 @@ test.describe('GMR Ticker Search', () => {
     await page.locator('.gmr-card').first().waitFor({ timeout: 5000 })
     const count = await page.locator('.gmr-card').count()
     expect(count).toBeGreaterThanOrEqual(5)
-    expect(count).toBeLessThanOrEqual(10)
+    expect(count).toBeLessThanOrEqual(30)  // includes companies + lobbyists
   })
 
   test('each result card shows a symbol and active/inactive badge', async ({ page }) => {
