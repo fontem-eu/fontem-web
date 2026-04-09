@@ -81,6 +81,21 @@ describe('gmr.js API', () => {
     await gmrApi.fetchGmrData('A&B')
     expect(mockFetch).toHaveBeenCalledWith('/api/A%26B/gmr_data?years=10')
   })
+
+  it('fetchPriceHistory falls back to empty text when res.text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 502, text: () => Promise.reject(new Error('fail')) })
+    await expect(gmrApi.fetchPriceHistory('X')).rejects.toThrow('HTTP 502: ')
+  })
+
+  it('fetchFundamentals falls back to empty text when res.text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 503, text: () => Promise.reject(new Error('fail')) })
+    await expect(gmrApi.fetchFundamentals('X')).rejects.toThrow('HTTP 503: ')
+  })
+
+  it('fetchValuation falls back to empty text when res.text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 504, text: () => Promise.reject(new Error('fail')) })
+    await expect(gmrApi.fetchValuation('X')).rejects.toThrow('HTTP 504: ')
+  })
 })
 
 describe('tickers.js API', () => {
@@ -143,6 +158,11 @@ describe('tickers.js API', () => {
   it('searchAll error includes empty when text() rejects', async () => {
     mockFetch.mockResolvedValue({ ok: false, status: 503, text: () => Promise.reject(new Error('fail')) })
     await expect(tickersApi.searchAll('test')).rejects.toThrow('HTTP 503: ')
+  })
+
+  it('searchTickers falls back to empty text when res.text() rejects', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 502, text: () => Promise.reject(new Error('fail')) })
+    await expect(tickersApi.searchTickers('test')).rejects.toThrow('HTTP 502: ')
   })
 })
 

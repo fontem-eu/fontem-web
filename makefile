@@ -47,7 +47,10 @@ deploy:
 	helm upgrade --install gmr-web ./deployment --set-string version=$(TAG)
 	kubectl -n gmr rollout restart deployment gmr-web
 
-.PHONY: all test analyze coverage-matrix build release deploy security
+mutation:
+	npx stryker run
+
+.PHONY: all test analyze mutation coverage-matrix build release deploy security
 
 # ── Security & SBOM ─────────────────────────────────────────
 audit:

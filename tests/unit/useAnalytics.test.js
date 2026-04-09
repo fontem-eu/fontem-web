@@ -86,4 +86,68 @@ describe('useAnalytics', () => {
     track('event')
     expect(mockFetch).not.toHaveBeenCalled()
   })
+
+  it('payload includes hostname from window.location', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { page } = useAnalytics()
+    page()
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.payload).toHaveProperty('hostname')
+    expect(typeof body.payload.hostname).toBe('string')
+  })
+
+  it('payload includes language from navigator', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { page } = useAnalytics()
+    page()
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.payload).toHaveProperty('language')
+    expect(typeof body.payload.language).toBe('string')
+  })
+
+  it('payload includes screen dimensions', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { page } = useAnalytics()
+    page()
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.payload).toHaveProperty('screen')
+    expect(typeof body.payload.screen).toBe('string')
+  })
+
+  it('page() without arg uses current pathname as url', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { page } = useAnalytics()
+    page()
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.payload.url).toBe(window.location.pathname)
+  })
+
+  it('track() includes base payload fields', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { track } = useAnalytics()
+    track('ev', { k: 'v' })
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.payload.website).toBe('abc-123')
+    expect(body.payload).toHaveProperty('hostname')
+    expect(body.payload).toHaveProperty('url')
+    expect(body.payload).toHaveProperty('language')
+    expect(body.payload).toHaveProperty('screen')
+  })
+
+  it('body is JSON stringified with type "event"', () => {
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { track } = useAnalytics()
+    track('x')
+    const raw = mockFetch.mock.calls[0][1].body
+    const parsed = JSON.parse(raw)
+    expect(parsed).toHaveProperty('type', 'event')
+    expect(parsed).toHaveProperty('payload')
+  })
+
+  it('placeholder string "REPLACE_WITH_WEBSITE_ID" is exact match', () => {
+    window.UMAMI_WEBSITE_ID = 'REPLACE_WITH_WEBSITE_ID_extra'
+    const { page } = useAnalytics()
+    page()
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
 })
