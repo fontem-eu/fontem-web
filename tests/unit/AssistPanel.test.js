@@ -2,13 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import AssistPanel from '../../src/components/AssistPanel.vue'
 
-// Mock the community API
+// Mock the community API — the assistant module owns history server-side,
+// so the frontend only reads it via getAssistConversation.
 vi.mock('../../src/api/community.js', () => ({
-  getConversation: vi.fn().mockResolvedValue(null),
-  saveConversation: vi.fn().mockResolvedValue({}),
+  getAssistConversation: vi.fn().mockResolvedValue(null),
+  getAssistUsage: vi.fn().mockResolvedValue({
+    tokens_1h: 0, tokens_24h: 0, tokens_7d: 0,
+  }),
 }))
 
-// Mock useEditProposals
 vi.mock('../../src/composables/useEditProposals.js', () => ({
   validateProposal: vi.fn(() => ({ valid: false })),
   executeProposal: vi.fn(),
@@ -61,21 +63,19 @@ describe('AssistPanel', () => {
     expect(wrapper.find('.assist-empty').exists()).toBe(true)
   })
 
-  it('loads conversation on mount when reportId is set', async () => {
-    const { getConversation } = await import('../../src/api/community.js')
-    expect(getConversation).toHaveBeenCalledWith('report-1')
+  it('loads conversation on mount using a report-scoped conversation key', async () => {
+    const { getAssistConversation } = await import('../../src/api/community.js')
+    expect(getAssistConversation).toHaveBeenCalledWith('report:report-1')
   })
 
-  it('restores persisted messages from conversation API', async () => {
-    const { getConversation } = await import('../../src/api/community.js')
-    getConversation.mockResolvedValueOnce({
-      id: 'conv-1',
-      report_id: 'report-1',
+  it('restores persisted messages from the assistant module', async () => {
+    const { getAssistConversation } = await import('../../src/api/community.js')
+    getAssistConversation.mockResolvedValueOnce({
+      conversation_key: 'report:report-2',
       messages: [
-        { role: 'user', text: 'Hello' },
-        { role: 'assistant', text: 'Hi there' },
+        { role: 'user', content: 'Hello', created_at: '2026-01-01T00:00:00Z' },
+        { role: 'assistant', content: 'Hi there', created_at: '2026-01-01T00:00:01Z' },
       ],
-      updated_at: '2026-01-01T00:00:00Z',
     })
 
     const w = mount(AssistPanel, {

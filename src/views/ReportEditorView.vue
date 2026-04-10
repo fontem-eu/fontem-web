@@ -6,6 +6,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { usePocket } from '../composables/usePocket.js'
 import AssistPanel from '../components/AssistPanel.vue'
+import { buildReportContext } from '../utils/reportContext.js'
 import {
   getReport,
   updateReport,
@@ -62,7 +63,19 @@ function onAssistInsert(text) {
 }
 
 const reportContext = computed(() => {
-  return `Title: ${title.value}\nAbstract: ${abstract.value || 'none'}\nSections: ${sections.value.length}`
+  // Hand the assistant the full current editor state. The assistant
+  // module owns budget/truncation on its side — we just render the
+  // user's in-memory report into a markdown-ish blob.
+  return buildReportContext({
+    title: title.value,
+    abstract: abstract.value,
+    sections: sections.value.map((sec) => ({
+      id: sec.id,
+      markdownMode: sec.markdownMode,
+      markdownText: sec.markdownText,
+      html: sec.editor ? sec.editor.getHTML() : sec.content,
+    })),
+  })
 })
 
 // ── Editor helpers ──────────────────────────────────────────────

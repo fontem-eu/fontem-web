@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createHmac } from 'node:crypto'
+import { createHmac, randomUUID } from 'node:crypto'
 
 /**
  * Regression: report sections must persist across save → close → reopen.
@@ -11,7 +11,7 @@ import { createHmac } from 'node:crypto'
  * with a pre-made JWT.
  */
 
-function makeTestToken() {
+function makeTestToken({ sub = 'e2e-test-user', email = 'e2e@test.gmr' } = {}) {
   const prebuilt = process.env.CAPI_TEST_TOKEN
   if (prebuilt) return prebuilt
 
@@ -27,8 +27,8 @@ function makeTestToken() {
   const header = { alg: 'HS256', typ: 'JWT' }
   const now = Math.floor(Date.now() / 1000)
   const payload = {
-    sub: 'e2e-test-user',
-    email: 'e2e@test.gmr',
+    sub,
+    email,
     name: 'E2E Test User',
     iat: now,
     exp: now + 3600,
@@ -46,6 +46,12 @@ function makeTestToken() {
     .digest('base64url')
 
   return `${head}.${body}.${sig}`
+}
+
+/** Build a fresh-per-test token so per-user usage counts start at zero. */
+function makeFreshUserToken() {
+  const uuid = randomUUID()
+  return makeTestToken({ sub: uuid, email: `${uuid.slice(0, 8)}@test.gmr` })
 }
 
 test.describe('Report sections persistence', () => {
@@ -193,5 +199,107 @@ test.describe('Report sections persistence', () => {
     await page.request.delete(`${baseUrl}/capi/reports/${reportId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
+  })
+})
+
+
+/**
+ * Assistant agent smoke test: verifies the full stack from UI to Claude.
+ *
+ * This test hits the real claude-proxy and real Claude, so it can be
+ * flaky if the LLM is slow or the proxy is unreachable. It is NOT
+ * gated per-PR — run as part of the nightly smoke suite. Its job is
+ * to catch prompt-plumbing regressions that our mocked contract tests
+ * can't see.
+ *
+ * Flow:
+ *   1. Fresh user (so tokens_1h starts at zero)
+ *   2. GET /assist/usage → expect 0
+ *   3. Create a report with a distinctive phrase in a section
+ *   4. Open the editor, open the assist panel, ask about the phrase
+ *   5. Wait for a streamed response
+ *   6. GET /assist/usage → expect tokens_1h > 0 (accounting works)
+ *   7. Delete the report to clean up
+ */
+test.describe('Assistant consumption metrics', () => {
+  test('user sends a message then sees their token usage go up', async ({ page }) => {
+    test.setTimeout(120_000)  // LLM calls can be slow
+
+    const token = makeFreshUserToken()
+    await page.goto('/')
+    await page.evaluate((t) => localStorage.setItem('gmr-token', t), token)
+    const baseUrl = page.url().replace(/\/$/, '')
+    const authHeaders = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    }
+
+    // Step 1+2: fresh user — usage must be all zeros
+    const before = await page.request.get(`${baseUrl}/capi/assist/usage`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    expect(before.ok()).toBeTruthy()
+    const beforeBody = await before.json()
+    expect(beforeBody.tokens_1h).toBe(0)
+    expect(beforeBody.tokens_24h).toBe(0)
+    expect(beforeBody.tokens_7d).toBe(0)
+
+    // Step 3: create a report and seed a section with a distinctive phrase
+    const distinctive = `SIEMENS-${Date.now()}`
+    const createResp = await page.request.post(`${baseUrl}/capi/reports`, {
+      headers: authHeaders,
+      data: { title: 'E2E Assistant Smoke', abstract: 'Testing context plumbing' },
+    })
+    expect(createResp.ok()).toBeTruthy()
+    const reportId = (await createResp.json()).id
+    await page.request.post(
+      `${baseUrl}/capi/reports/${reportId}/sections`,
+      {
+        headers: authHeaders,
+        data: { content: `<p>The company under review is ${distinctive}.</p>` },
+      },
+    )
+
+    try {
+      // Step 4: open the editor and the assist panel
+      await page.goto(`/reports/${reportId}/edit`)
+      await page.waitForSelector('[data-testid="report-editor"]', { timeout: 10000 })
+      await page.click('[data-testid="assist-toggle"]')
+      await page.waitForSelector('[data-testid="assist-panel"]', { timeout: 5000 })
+
+      // Step 5: ask a question grounded in the section content
+      const question = 'What company is under review in my report? Answer in one word.'
+      await page.fill('[data-testid="assist-input"]', question)
+      await page.click('[data-testid="assist-send"]')
+
+      // Wait for at least one assistant message to appear.
+      await page.waitForSelector('.assist-msg--assistant', { timeout: 60_000 })
+
+      // The response should contain the distinctive phrase, proving the
+      // report context actually reached the LLM. Give streaming a moment.
+      await page.waitForFunction(
+        (phrase) => {
+          const msgs = document.querySelectorAll('.assist-msg--assistant .msg-markdown')
+          return Array.from(msgs).some((el) => el.textContent.includes(phrase))
+        },
+        distinctive,
+        { timeout: 60_000 },
+      )
+
+      // Step 6: token usage must have gone up for this user
+      const after = await page.request.get(`${baseUrl}/capi/assist/usage`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      expect(after.ok()).toBeTruthy()
+      const afterBody = await after.json()
+      expect(afterBody.tokens_1h).toBeGreaterThan(0)
+      expect(afterBody.tokens_24h).toBeGreaterThanOrEqual(afterBody.tokens_1h)
+      expect(afterBody.tokens_7d).toBeGreaterThanOrEqual(afterBody.tokens_24h)
+    } finally {
+      // Cleanup
+      await page.request.delete(`${baseUrl}/capi/reports/${reportId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+    }
   })
 })

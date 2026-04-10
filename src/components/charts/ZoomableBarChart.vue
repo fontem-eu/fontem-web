@@ -109,6 +109,13 @@ function draw() {
   const innerW = width - MARGIN.left - MARGIN.right
   const innerH = props.height - MARGIN.top - MARGIN.bottom
 
+  // Total span in days — used to cap the zoom scale below
+  const rawDates = props.data.map((d) => new Date(d.date).getTime())
+  const totalDays = Math.max(
+    1,
+    (Math.max(...rawDates) - Math.min(...rawDates)) / 86400000,
+  )
+
   // Determine bucket based on data span and zoom
   const bucket = getBucket(props.data, innerW, currentTransform.k)
 

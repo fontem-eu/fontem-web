@@ -2,13 +2,17 @@
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
-import { getConversation, saveConversation } from '../api/community.js'
+import { getAssistConversation } from '../api/community.js'
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
   reportId: { type: String, default: '' },
   editorState: { type: Object, default: () => ({}) },
 })
+
+function conversationKey() {
+  return props.reportId ? `report:${props.reportId}` : ''
+}
 
 const emit = defineEmits(['insert', 'refresh'])
 
@@ -17,7 +21,6 @@ const input = ref('')
 const loading = ref(false)
 const messages = ref([])
 const error = ref(null)
-const chatHistory = ref([])
 const messagesEl = ref(null)
 
 // Streaming status — now shows real tool activity
@@ -62,31 +65,22 @@ function stopElapsedTimer() {
 
 onUnmounted(stopElapsedTimer)
 
-// ── Conversation persistence ──────────────────────────────────
+// ── Conversation loading ──────────────────────────────────────
+// History is owned and persisted server-side by the assistant module.
+// We just hydrate the UI with whatever it returns for this report.
 
 async function loadConversation() {
-  if (!props.reportId) return
+  const key = conversationKey()
+  if (!key) return
   try {
-    const conv = await getConversation(props.reportId)
-    if (conv && conv.messages && conv.messages.length > 0) {
-      messages.value = conv.messages
-      chatHistory.value = conv.messages
-        .filter(m => m.role === 'user' || m.role === 'assistant')
-        .map(m => ({ role: m.role, content: m.text }))
+    const conv = await getAssistConversation(key)
+    if (conv && Array.isArray(conv.messages) && conv.messages.length > 0) {
+      messages.value = conv.messages.map(m => ({ role: m.role, text: m.content }))
       await nextTick()
       scrollToBottom()
     }
   } catch {
     // Silent fail — conversation just won't be restored
-  }
-}
-
-async function persistConversation() {
-  if (!props.reportId || messages.value.length === 0) return
-  try {
-    await saveConversation(props.reportId, messages.value)
-  } catch {
-    // Silent fail — conversation still works in-memory
   }
 }
 
@@ -121,8 +115,8 @@ async function send() {
       },
       body: JSON.stringify({
         message: text,
-        history: chatHistory.value,
-        report_context: props.reportContext,
+        conversation_key: conversationKey(),
+        context_block: props.reportContext,
       }),
     })
 
@@ -180,8 +174,6 @@ async function send() {
       messages.value.push({ role: 'error', text: 'No response received from assistant.' })
     } else {
       assistMsg.proposals = parseProposals(assistMsg.text)
-      chatHistory.value.push({ role: 'user', content: text })
-      chatHistory.value.push({ role: 'assistant', content: assistMsg.text })
     }
   } catch (err) {
     error.value = err.message
@@ -193,7 +185,6 @@ async function send() {
     stopElapsedTimer()
     await nextTick()
     scrollToBottom()
-    persistConversation()
   }
 }
 
@@ -257,11 +248,11 @@ function insertSuggestion(suggestion) {
 }
 
 function clearChat() {
+  // Clears the local UI view only. Server-side history is preserved
+  // (the assistant module is the source of truth for conversation state).
   messages.value = []
-  chatHistory.value = []
   error.value = null
   stopElapsedTimer()
-  persistConversation()
 }
 </script>
 

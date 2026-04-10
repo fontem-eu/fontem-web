@@ -138,22 +138,13 @@ export function getCurrentUser() {
 }
 
 // ── AI Assist ──────────────────────────────────────────────────
-export function sendAssistMessage(message, history = [], reportContext = null) {
-  return request('POST', '/assist/chat', {
-    message,
-    history,
-    report_context: reportContext,
-  })
+// The assistant owns its own history and token accounting server-side.
+// Frontend callers only send the current message + a context blob.
+
+export function getAssistConversation(conversationKey) {
+  return request('GET', `/assist/conversations/${encodeURIComponent(conversationKey)}`)
 }
 
-export function getAssistTools() {
-  return request('GET', '/assist/tools')
-}
-
-export function getConversation(reportId) {
-  return request('GET', `/assist/conversations/${reportId}`)
-}
-
-export function saveConversation(reportId, messages) {
-  return request('PUT', `/assist/conversations/${reportId}`, { messages })
+export function getAssistUsage() {
+  return request('GET', '/assist/usage')
 }
