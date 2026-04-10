@@ -107,4 +107,91 @@ test.describe('Report sections persistence', () => {
       headers: { Authorization: `Bearer ${token}` },
     })
   })
+
+  test('editing an existing report: add, edit, delete sections survive reload', async ({ page }) => {
+    // Inject auth token
+    await page.goto('/')
+    await page.evaluate((t) => localStorage.setItem('gmr-token', t), token)
+    const baseUrl = page.url().replace(/\/$/, '')
+
+    // Seed: create a report and three initial sections via the API
+    const createResp = await page.request.post(`${baseUrl}/capi/reports`, {
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      data: { title: 'E2E Edit Flow', abstract: 'Initial' },
+    })
+    expect(createResp.ok()).toBeTruthy()
+    const reportId = (await createResp.json()).id
+
+    const original = [
+      `FIRST-${Date.now()}`,
+      `SECOND-${Date.now()}`,
+      `THIRD-${Date.now()}`,
+    ]
+    for (const content of original) {
+      const resp = await page.request.post(
+        `${baseUrl}/capi/reports/${reportId}/sections`,
+        {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          data: { content: `<p>${content}</p>` },
+        },
+      )
+      expect(resp.ok()).toBeTruthy()
+    }
+
+    // Open the editor and wait for all three sections to render
+    await page.goto(`/reports/${reportId}/edit`)
+    await page.waitForSelector('[data-testid="report-editor"]', { timeout: 10000 })
+    await expect(page.locator('[data-testid^="section-"]')).toHaveCount(3)
+
+    // Edit the first section's content
+    const editedFirst = `EDITED-FIRST-${Date.now()}`
+    const firstEditor = page.locator('.tiptap-editor .tiptap').nth(0)
+    await firstEditor.click()
+    await firstEditor.fill(editedFirst)
+
+    // Delete the middle (second) section
+    await page.locator('[data-testid="remove-section-btn"]').nth(1).click()
+    await expect(page.locator('[data-testid^="section-"]')).toHaveCount(2)
+
+    // Add a brand-new section with fresh content
+    await page.locator('[data-testid="add-section-btn"]').click()
+    await expect(page.locator('[data-testid^="section-"]')).toHaveCount(3)
+    const addedContent = `ADDED-${Date.now()}`
+    const lastEditor = page.locator('.tiptap-editor .tiptap').last()
+    await lastEditor.click()
+    await lastEditor.fill(addedContent)
+
+    // Save
+    await page.click('[data-testid="save-report"]')
+    await expect(page.locator('[data-testid="save-report"]')).not.toBeDisabled({
+      timeout: 10000,
+    })
+
+    // Navigate away and back
+    await page.goto('/reports')
+    await page.waitForTimeout(500)
+    await page.goto(`/reports/${reportId}/edit`)
+    await page.waitForSelector('[data-testid="report-editor"]', { timeout: 10000 })
+    await expect(page.locator('[data-testid^="section-"]')).toHaveCount(3)
+
+    // Collect visible section text and assert the expected set
+    const editorTexts = await page.locator('.tiptap-editor .tiptap').allTextContents()
+    const joined = editorTexts.join('\n')
+
+    // Edited content is present
+    expect(joined).toContain(editedFirst)
+    // Added content is present
+    expect(joined).toContain(addedContent)
+    // Third section survived untouched
+    expect(joined).toContain(original[2])
+    // Deleted section is gone — this is the regression guard
+    expect(joined).not.toContain(original[1])
+    // And the original first-section content was replaced by the edit
+    expect(joined).not.toContain(original[0])
+
+    // Cleanup
+    await page.request.delete(`${baseUrl}/capi/reports/${reportId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  })
 })

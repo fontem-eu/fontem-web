@@ -11,6 +11,7 @@ import {
   updateReport,
   addSection,
   editSection,
+  deleteSection,
 } from '../api/community.js'
 
 const route = useRoute()
@@ -20,6 +21,7 @@ const title = ref('')
 const abstract = ref('')
 const visibility = ref('private')
 const sections = ref([])   // { id, editor, content, markdownMode, markdownText }
+const deletedSectionIds = ref([])  // ids of persisted sections removed since last load
 const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
@@ -102,6 +104,7 @@ function toggleMarkdownMode(index) {
 function removeSection(index) {
   const sec = sections.value[index]
   if (sec.editor) sec.editor.destroy()
+  if (sec.id) deletedSectionIds.value.push(sec.id)
   sections.value.splice(index, 1)
 }
 
@@ -118,6 +121,7 @@ async function loadReport() {
       if (sec.editor) sec.editor.destroy()
     }
     sections.value = []
+    deletedSectionIds.value = []
 
     const reportSections = report.sections || []
     if (reportSections.length === 0) {
@@ -161,6 +165,13 @@ async function save() {
       abstract: abstract.value,
       visibility: visibility.value,
     })
+    // Persist deletions first so a failed add/edit later doesn't leave
+    // orphaned sections lingering on the server.
+    while (deletedSectionIds.value.length) {
+      const id = deletedSectionIds.value[0]
+      await deleteSection(reportId, id)
+      deletedSectionIds.value.shift()
+    }
     for (const sec of sections.value) {
       // If in markdown mode, save the raw markdown text (ReportView detects and renders it)
       const html = sec.markdownMode
