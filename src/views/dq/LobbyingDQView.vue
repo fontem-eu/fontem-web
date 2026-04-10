@@ -15,7 +15,7 @@ onMounted(async () => {
 })
 const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ label: c.country, value: c.count })))
 const costBars = computed(() => (data.value?.cost_distribution || []).map(c => ({ label: c.bucket, value: c.count })))
-const regTimeline = computed(() => (data.value?.registrations_timeline || []).map(d => ({ date: d.date + '-01', value: d.value })))
+const regTimeline = computed(() => data.value?.registrations_timeline || [])
 </script>
 <template>
   <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>EU Lobbying Register</h1><p class="dq-sub">Transparency Register — lobbyist registrations, EP access, spending</p></div><ThemeToggle /></header>
