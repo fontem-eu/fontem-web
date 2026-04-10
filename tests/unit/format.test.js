@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { fmtMoney, fmtEur, fmtPrice } from '../../src/utils/format.js'
+import { fmtMoney, fmtEur, fmtPrice, fmtCompact, fmtDual } from '../../src/utils/format.js'
 
 describe('fmtMoney', () => {
   // null / undefined guard
@@ -83,9 +83,9 @@ describe('fmtMoney', () => {
     expect(fmtMoney(1500, 3)).toBe('$2K')
   })
 
-  // Unknown currency fallback
-  it('falls back to currency code + space for unknown currency', () => {
-    expect(fmtMoney(1e6, 1, 'JPY')).toBe('JPY 1.0M')
+  // Truly unknown currency falls back to "{CCY}\u00A0" prefix
+  it('falls back to currency code + nbsp for unknown currency', () => {
+    expect(fmtMoney(1e6, 1, 'XYZ')).toBe('XYZ\u00A01.0M')
   })
 
   // Known currencies
@@ -97,8 +97,12 @@ describe('fmtMoney', () => {
     expect(fmtMoney(1e6, 1, 'GBP')).toBe('£1.0M')
   })
 
-  it('uses "CHF " for CHF', () => {
-    expect(fmtMoney(1e6, 1, 'CHF')).toBe('CHF 1.0M')
+  it('uses "CHF" with nbsp for CHF', () => {
+    expect(fmtMoney(1e6, 1, 'CHF')).toBe('CHF\u00A01.0M')
+  })
+
+  it('uses ¥ for JPY', () => {
+    expect(fmtMoney(1e6, 1, 'JPY')).toBe('¥1.0M')
   })
 
   // Negative with each tier
@@ -164,10 +168,54 @@ describe('fmtPrice', () => {
   })
 
   it('falls back to currency code for unknown currency', () => {
-    expect(fmtPrice(10, 'JPY')).toBe('JPY 10.00')
+    expect(fmtPrice(10, 'XYZ')).toBe('XYZ\u00A010.00')
+  })
+
+  it('uses ¥ for JPY', () => {
+    expect(fmtPrice(10, 'JPY')).toBe('¥10.00')
   })
 
   it('formats with thousands separator', () => {
     expect(fmtPrice(1234567.89)).toBe('$1,234,567.89')
+  })
+})
+
+describe('fmtCompact', () => {
+  it('formats EUR billions', () => {
+    expect(fmtCompact(2.5e9, 'EUR')).toBe('€2.5B')
+  })
+
+  it('formats PLN millions', () => {
+    expect(fmtCompact(5e6, 'PLN')).toBe('PLN\u00A05.0M')
+  })
+
+  it('uses 0 decimals for K', () => {
+    expect(fmtCompact(1500)).toBe('€2K')
+  })
+
+  it('returns dash for null', () => {
+    expect(fmtCompact(null)).toBe('—')
+  })
+})
+
+describe('fmtDual', () => {
+  it('returns just EUR for EUR-denominated values', () => {
+    expect(fmtDual(1e6, 'EUR', 1e6)).toBe('€1.0M')
+  })
+
+  it('shows original first, EUR in parens for non-EUR', () => {
+    expect(fmtDual(5e6, 'PLN', 1.17e6)).toBe('PLN\u00A05.0M (€1.2M)')
+  })
+
+  it('returns just original when EUR is null', () => {
+    expect(fmtDual(5e6, 'PLN', null)).toBe('PLN\u00A05.0M')
+  })
+
+  it('returns dash when both null', () => {
+    expect(fmtDual(null, 'PLN', null)).toBe('—')
+  })
+
+  it('handles SEK billion', () => {
+    expect(fmtDual(2e9, 'SEK', 1.8e8)).toBe('SEK\u00A02.0B (€180.0M)')
   })
 })

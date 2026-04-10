@@ -209,9 +209,10 @@ function draw() {
       d3.select(event.target).attr('opacity', 0.85)
     })
 
-  // Zoom
+  // Zoom — max scale based on aggregated bar count
+  const maxZoom = Math.max(2, aggregated.length / 5)
   zoomBehavior = d3.zoom()
-    .scaleExtent([0.5, totalDays / 5])
+    .scaleExtent([0.5, maxZoom])
     .translateExtent([[0, 0], [innerW, innerH]])
     .on('zoom', (event) => {
       currentTransform = event.transform
