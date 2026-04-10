@@ -2,6 +2,15 @@
  * Vitest setup — mock browser APIs not available in jsdom.
  */
 
+// ResizeObserver is needed by D3 chart components
+if (typeof globalThis.ResizeObserver === 'undefined') {
+  globalThis.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+}
+
 // Sigma.js requires WebGL rendering context globals at import time
 if (typeof globalThis.WebGLRenderingContext === 'undefined') {
   globalThis.WebGLRenderingContext = class WebGLRenderingContext {}

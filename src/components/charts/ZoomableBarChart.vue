@@ -61,10 +61,14 @@ function aggregateData(rawData, bucket) {
     return String(d.date.getFullYear())
   })
 
-  return groups.map(([key, items]) => ({
-    key: bucket === 'day' ? items[0].date : new Date(bucket === 'year' ? `${key}-01-01` : `${key}-01`),
-    value: d3.sum(items, (d) => d.value),
-  }))
+  return groups.map(([key, items]) => {
+    let keyDate
+    if (bucket === 'year') keyDate = new Date(`${key}-01-01`)
+    else if (bucket === 'month') keyDate = new Date(`${key}-01`)
+    else if (bucket === 'week') keyDate = new Date(key)  // already ISO YYYY-MM-DD
+    else keyDate = items[0].date
+    return { key: keyDate, value: d3.sum(items, (d) => d.value) }
+  })
 }
 
 function formatDateLabel(date, bucket) {
