@@ -34,11 +34,34 @@ const MARGIN = { top: 20, right: 20, bottom: 40, left: 60 }
 let svg, xScale, yScale, barsGroup, zoomBehavior
 let currentTransform = d3.zoomIdentity
 
-function getBucket(data, pixelsPerBar) {
-  // Decide aggregation level based on how much horizontal space each bar gets
-  if (pixelsPerBar > 8) return 'day'
-  if (pixelsPerBar > 3) return 'week'
-  if (pixelsPerBar > 0.8) return 'month'
+function getBucket(data, innerWidth, transformK) {
+  // Decide aggregation level based on actual time span and available width.
+  // Don't aggregate beyond the data's natural granularity.
+  if (!data || data.length < 2) return 'day'
+
+  const dates = data.map((d) => new Date(d.date).getTime())
+  const minMs = Math.min(...dates)
+  const maxMs = Math.max(...dates)
+  const spanDays = (maxMs - minMs) / 86400000
+
+  // Detect natural data granularity (median gap between consecutive points)
+  const sorted = [...dates].sort((a, b) => a - b)
+  const gaps = []
+  for (let i = 1; i < sorted.length; i++) gaps.push(sorted[i] - sorted[i - 1])
+  gaps.sort((a, b) => a - b)
+  const medianGapDays = gaps[Math.floor(gaps.length / 2)] / 86400000
+
+  // If data is sparse (median gap > 60 days), bars represent the natural unit
+  if (medianGapDays > 200) return 'year'
+  if (medianGapDays > 25) return 'month'
+  if (medianGapDays > 4) return 'week'
+
+  // Daily data: aggregate based on zoom level + span
+  const effectiveWidth = innerWidth * (transformK || 1)
+  const pixelsPerDay = effectiveWidth / spanDays
+  if (pixelsPerDay > 8) return 'day'
+  if (pixelsPerDay > 3) return 'week'
+  if (pixelsPerDay > 0.8) return 'month'
   return 'year'
 }
 
@@ -86,11 +109,8 @@ function draw() {
   const innerW = width - MARGIN.left - MARGIN.right
   const innerH = props.height - MARGIN.top - MARGIN.bottom
 
-  // Determine bucket based on zoom
-  const totalDays = props.data.length
-  const effectiveWidth = innerW * currentTransform.k
-  const pixelsPerBar = effectiveWidth / totalDays
-  const bucket = getBucket(props.data, pixelsPerBar)
+  // Determine bucket based on data span and zoom
+  const bucket = getBucket(props.data, innerW, currentTransform.k)
 
   const aggregated = aggregateData(props.data, bucket)
   if (aggregated.length === 0) return
