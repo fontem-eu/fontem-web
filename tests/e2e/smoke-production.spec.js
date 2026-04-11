@@ -130,21 +130,27 @@ test.describe.serial('Production Smoke Tests', () => {
 
   test('SMOKE-10: AI Assistant responds with data', async ({ request, baseURL }) => {
     expect(authToken).toBeTruthy()
-    // baseURL provided by Playwright fixture
 
-    // Use the blocking /assist/chat endpoint (not streaming, for test reliability)
-    const resp = await request.post(`${baseURL}/capi/assist/chat`, {
-      headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+    // The streaming endpoint is the only supported path. We consume the
+    // whole stream into a buffer and assert the assistant produced a
+    // non-trivial response. Token accounting is covered in reports.spec.js.
+    const resp = await request.post(`${baseURL}/capi/assist/chat/stream`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
       data: {
         message: 'Search for Apple Inc in the graph. What is their ticker symbol?',
-        report_context: `Title: ${REPORT_TITLE}`,
+        conversation_key: `report:${reportId}`,
+        context_block: `# ${REPORT_TITLE}\n\nSmoke test context.`,
       },
-      timeout: 90000,
+      timeout: 90_000,
     })
     expect(resp.ok()).toBeTruthy()
-    const result = await resp.json()
-    expect(result.content.length).toBeGreaterThan(10)
-    // The assistant should respond with something meaningful (data or explanation)
+    const body = await resp.text()
+    // Consumed stream should include at least one chunk event with text
+    expect(body).toMatch(/event:\s*chunk/)
+    expect(body.length).toBeGreaterThan(50)
   })
 
   test('SMOKE-11: Delete report (cleanup)', async ({ request, baseURL }) => {
