@@ -67,17 +67,19 @@ export function fmtMoney(n, arg2 = 'USD', arg3 = {}) {
   const opts = arg3 || {}
   if (opts.compact !== false) return fmtCompact(n, currency, opts.decimals ?? 1)
 
+  // Coerce n to a number once so the type is unambiguous downstream
+  const num = Number(n)
   const locale = opts.locale || (typeof navigator !== 'undefined' && navigator.language) || 'en-US'
-  const decimals = opts.decimals ?? (Math.abs(n) >= 1000 ? 0 : 2)
+  const decimals = opts.decimals ?? (Math.abs(num) >= 1000 ? 0 : 2)
   try {
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency,
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
-    }).format(Number(n))
+    }).format(num)
   } catch {
-    return fmtCompact(n, currency, decimals)
+    return fmtCompact(num, currency, decimals)
   }
 }
 

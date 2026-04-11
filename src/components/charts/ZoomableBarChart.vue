@@ -101,6 +101,18 @@ function formatDateLabel(date, bucket) {
   return d3.timeFormat('%d %b %Y')(date)
 }
 
+// Tick format string per bucket — extracted to avoid nested ternary code smell
+const TICK_FORMATS = { year: '%Y', month: '%b %y', week: '%d %b', day: '%d %b' }
+function tickFormat(bucket) {
+  return TICK_FORMATS[bucket] || '%d %b'
+}
+
+// Human label per bucket — extracted to avoid nested ternary code smell
+const BUCKET_LABELS = { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
+function bucketLabel(bucket) {
+  return BUCKET_LABELS[bucket] || 'Daily'
+}
+
 function draw() {
   const el = containerRef.value
   if (!el || !props.data || props.data.length === 0) return
@@ -157,7 +169,7 @@ function draw() {
   const xAxisG = g.append('g')
     .attr('class', 'x-axis')
     .attr('transform', `translate(0,${innerH})`)
-    .call(d3.axisBottom(xScale).ticks(Math.min(aggregated.length, 12)).tickFormat(d3.timeFormat(bucket === 'year' ? '%Y' : bucket === 'month' ? '%b %y' : '%d %b')))
+    .call(d3.axisBottom(xScale).ticks(Math.min(aggregated.length, 12)).tickFormat(d3.timeFormat(tickFormat(bucket))))
 
   xAxisG.selectAll('text').attr('fill', 'var(--muted, #999)').style('font-size', '10px')
   xAxisG.selectAll('line, path').attr('stroke', 'var(--border, #ddd)')
@@ -231,7 +243,7 @@ function draw() {
     .attr('text-anchor', 'end')
     .attr('fill', 'var(--muted, #999)')
     .style('font-size', '10px')
-    .text(bucket === 'day' ? 'Daily' : bucket === 'week' ? 'Weekly' : bucket === 'month' ? 'Monthly' : 'Yearly')
+    .text(bucketLabel(bucket))
 }
 
 let resizeObserver

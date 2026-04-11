@@ -59,11 +59,11 @@ export function buildReportContext(report) {
 
   const parts = []
 
-  if (report.title && report.title.trim()) {
+  if (report.title?.trim()) {
     parts.push(`# ${report.title.trim()}`)
   }
 
-  if (report.abstract && report.abstract.trim()) {
+  if (report.abstract?.trim()) {
     parts.push(report.abstract.trim())
   }
 

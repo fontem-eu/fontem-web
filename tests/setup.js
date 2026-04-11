@@ -37,10 +37,7 @@ HTMLCanvasElement.prototype.getContext = function (type, ...args) {
       drawingBufferWidth: this.width,
       drawingBufferHeight: this.height,
       getExtension: () => null,
-      getParameter: (p) => {
-        if (p === 0x1F02) return 'Mock WebGL'
-        return 0
-      },
+      getParameter: (p) => (p === 0x1F02 ? 'Mock WebGL' : 0),
       createShader: () => ({}),
       shaderSource: () => {},
       compileShader: () => {},
