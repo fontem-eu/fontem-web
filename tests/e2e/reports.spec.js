@@ -295,6 +295,25 @@ test.describe('Assistant consumption metrics', () => {
       expect(afterBody.tokens_1h).toBeGreaterThan(0)
       expect(afterBody.tokens_24h).toBeGreaterThanOrEqual(afterBody.tokens_1h)
       expect(afterBody.tokens_7d).toBeGreaterThanOrEqual(afterBody.tokens_24h)
+
+      // Step 7: usage-history endpoint returns per-day data for today
+      const histResp = await page.request.get(`${baseUrl}/capi/assist/usage-history?days=7`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      expect(histResp.ok()).toBeTruthy()
+      const hist = await histResp.json()
+      expect(hist.days).toBe(7)
+      expect(hist.points.length).toBeGreaterThan(0)
+      const today = new Date().toISOString().slice(0, 10)
+      const todayPoint = hist.points.find((p) => p.date === today)
+      expect(todayPoint).toBeTruthy()
+      expect(todayPoint.tokens_in + todayPoint.tokens_out).toBeGreaterThan(0)
+
+      // Step 8: AI usage metrics page renders the chart
+      await page.goto('/ai-usage')
+      await expect(page.locator('.usage-title')).toHaveText('AI usage metrics', { timeout: 10000 })
+      // Summary cards should show non-zero values (we just consumed tokens)
+      await expect(page.locator('.usage-card-value').first()).not.toHaveText('0', { timeout: 5000 })
     } finally {
       // Cleanup
       await page.request.delete(`${baseUrl}/capi/reports/${reportId}`, {

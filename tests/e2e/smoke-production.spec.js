@@ -37,7 +37,7 @@ test.describe.serial('Production Smoke Tests', () => {
     await expect(page.locator('[data-testid="app-nav"]')).toBeVisible({ timeout: 5000 })
   })
 
-  test('SMOKE-03: User name appears in header', async ({ page }) => {
+  test('SMOKE-03: Profile menu opens and shows sign-out', async ({ page }) => {
     // Login first
     await page.goto('/login')
     await page.fill('[data-testid="login-email"]', TEST_EMAIL)
@@ -45,7 +45,13 @@ test.describe.serial('Production Smoke Tests', () => {
     await page.click('[data-testid="login-submit"]')
     await page.waitForURL('/', { timeout: 15000 })
 
+    // Profile icon should be visible
+    await expect(page.locator('[data-testid="profile-menu-trigger"]')).toBeVisible()
+
+    // Click to open menu, sign-out should appear
+    await page.click('[data-testid="profile-menu-trigger"]')
     await expect(page.locator('[data-testid="sign-out-btn"]')).toBeVisible()
+    await expect(page.locator('[data-testid="menu-ai-usage"]')).toBeVisible()
   })
 
   test('SMOKE-04: Search for Apple returns results', async ({ page }) => {
@@ -153,7 +159,43 @@ test.describe.serial('Production Smoke Tests', () => {
     expect(body.length).toBeGreaterThan(50)
   })
 
-  test('SMOKE-11: Delete report (cleanup)', async ({ request, baseURL }) => {
+  test('SMOKE-11: AI usage-history returns data after assistant turn', async ({ request, baseURL }) => {
+    expect(authToken).toBeTruthy()
+
+    // The assistant turn in SMOKE-10 consumed tokens. The usage-history
+    // endpoint should now return at least one day with non-zero totals.
+    const histResp = await request.get(`${baseURL}/capi/assist/usage-history?days=7`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    })
+    expect(histResp.ok()).toBeTruthy()
+    const hist = await histResp.json()
+    expect(hist.days).toBe(7)
+    expect(hist.points.length).toBeGreaterThan(0)
+
+    // Today's bucket must have non-zero tokens
+    const today = new Date().toISOString().slice(0, 10)
+    const todayPoint = hist.points.find((p) => p.date === today)
+    expect(todayPoint).toBeTruthy()
+    expect(todayPoint.tokens_in + todayPoint.tokens_out).toBeGreaterThan(0)
+  })
+
+  test('SMOKE-12: AI usage page renders with data', async ({ page }) => {
+    // Login
+    await page.goto('/login')
+    await page.fill('[data-testid="login-email"]', TEST_EMAIL)
+    await page.fill('[data-testid="login-password"]', TEST_PASSWORD)
+    await page.click('[data-testid="login-submit"]')
+    await page.waitForURL('/', { timeout: 15000 })
+
+    // Navigate to AI usage page
+    await page.goto('/ai-usage')
+    await expect(page.locator('.usage-title')).toHaveText('AI usage metrics', { timeout: 10000 })
+
+    // Summary cards should render (researcher account has historical usage)
+    await expect(page.locator('.usage-card')).toHaveCount(3, { timeout: 5000 })
+  })
+
+  test('SMOKE-13: Delete report (cleanup)', async ({ request, baseURL }) => {
     expect(reportId).toBeTruthy()
     // baseURL provided by Playwright fixture
     const resp = await request.delete(`${baseURL}/capi/reports/${reportId}`, {
