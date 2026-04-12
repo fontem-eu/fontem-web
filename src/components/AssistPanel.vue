@@ -3,6 +3,7 @@ import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
+import { sanitizeMarkdown } from '../utils/sanitize.js'
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
@@ -34,7 +35,7 @@ marked.setOptions({ breaks: true, gfm: true })
 
 function renderMarkdown(text) {
   if (!text) return ''
-  return marked.parse(text)
+  return sanitizeMarkdown(marked.parse(text))
 }
 
 function toggle() {

@@ -5,6 +5,7 @@
  * This is the FRONTEND validation + execution layer.
  */
 import { editSection, addSection, updateReport } from '../api/community.js'
+import { sanitizeHtml } from '../utils/sanitize.js'
 
 /** Action schemas — must match gmr-mcp-server/src/edit-actions.js exactly. */
 const EDIT_ACTIONS = {
@@ -46,16 +47,16 @@ export async function executeProposal(reportId, proposal, editorState) {
   try {
     switch (action) {
       case 'add_section': {
-        await addSection(reportId, p.content)
+        await addSection(reportId, sanitizeHtml(p.content))
         return { ok: true }
       }
       case 'update_section': {
         const idx = p.section_index === -1 ? editorState.sections.length - 1 : p.section_index
         const sec = editorState.sections[idx]
         if (!sec?.id) return { ok: false, error: `Section ${idx} not found` }
-        await editSection(reportId, sec.id, p.content)
-        // Also update the Tiptap editor if available
-        if (sec.editor) sec.editor.commands.setContent(p.content)
+        const clean = sanitizeHtml(p.content)
+        await editSection(reportId, sec.id, clean)
+        if (sec.editor) sec.editor.commands.setContent(clean)
         return { ok: true }
       }
       case 'update_title': {

@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { marked } from 'marked'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import { getReport } from '../api/community.js'
+import { sanitizeHtml } from '../utils/sanitize.js'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -143,7 +144,7 @@ function parseSectionContent(content) {
         :data-testid="`report-section-${idx}`"
       >
         <template v-for="(part, pi) in parseSectionContent(sec.content)" :key="pi">
-          <div v-if="part.type === 'html'" class="section-html" v-html="part.content" />
+          <div v-if="part.type === 'html'" class="section-html" v-html="sanitizeHtml(part.content)" />
           <WidgetRenderer v-else-if="part.type === 'widget'" :config="part.config" />
         </template>
       </div>

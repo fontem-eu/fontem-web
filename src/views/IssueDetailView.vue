@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getIssue, addComment, voteIssue } from '../api/community.js'
+import { sanitizeMarkdown } from '../utils/sanitize.js'
 
 const route = useRoute()
 const issueId = route.params.id
@@ -98,7 +99,7 @@ function formatDate(dateStr) {
 function renderMarkdown(text) {
   if (!text) return ''
   // Minimal markdown: bold, italic, code, line breaks
-  return text
+  const html = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -106,6 +107,7 @@ function renderMarkdown(text) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
     .replace(/\n/g, '<br>')
+  return sanitizeMarkdown(html)
 }
 </script>
 
