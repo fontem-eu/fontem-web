@@ -58,11 +58,19 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="sign-out-btn"]').exists()).toBe(false)
   })
 
-  it('shows Sign out button when authenticated', async () => {
+  it('shows profile menu trigger when authenticated', async () => {
     localStorage.setItem('gmr-token', 'test-token')
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="sign-out-btn"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="profile-menu-trigger"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="sign-in-btn"]').exists()).toBe(false)
+  })
+
+  it('shows Sign out button in profile dropdown', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    const { wrapper } = await mountAt('/')
+    await wrapper.find('[data-testid="profile-menu-trigger"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="sign-out-btn"]').exists()).toBe(true)
   })
 
   it('shows nav tabs when authenticated', async () => {
@@ -103,11 +111,13 @@ describe('AppHeader', () => {
     expect(reportsTab.classes()).toContain('active')
   })
 
-  it('shows user name when available', async () => {
+  it('shows user name in profile dropdown', async () => {
     localStorage.setItem('gmr-token', 'test-token')
     localStorage.setItem('gmr-user', JSON.stringify({ name: 'Alice', email: 'a@b.com' }))
     const { wrapper } = await mountAt('/')
-    expect(wrapper.text()).toContain('Alice')
+    await wrapper.find('[data-testid="profile-menu-trigger"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="profile-menu"]').text()).toContain('Alice')
   })
 
   it('preserves current view when selecting a ticker', async () => {

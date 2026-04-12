@@ -3,15 +3,12 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
 import ThemeToggle from './ThemeToggle.vue'
+import ProfileDropdown from './ProfileDropdown.vue'
 
 const router = useRouter()
 const route = useRoute()
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
-
-const user = computed(() => {
-  try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') } catch { return null }
-})
 
 /* GitHub-style nav tabs — only for authenticated users */
 const navTabs = [
@@ -38,11 +35,7 @@ function onTickerSelect(symbol) {
   router.push('/c/' + symbol + '/' + view)
 }
 
-function signOut() {
-  localStorage.removeItem('gmr-token')
-  localStorage.removeItem('gmr-user')
-  window.location.href = '/'
-}
+
 </script>
 
 <template>
@@ -62,21 +55,7 @@ function signOut() {
       <!-- Right side: auth + theme -->
       <div class="header-right">
         <template v-if="hasToken">
-          <img
-            v-if="user?.avatar_url"
-            :src="user.avatar_url"
-            :alt="user.name || 'User'"
-            class="user-avatar"
-            referrerpolicy="no-referrer"
-          />
-          <span v-if="user?.name" class="user-name hidden sm:inline">{{ user.name }}</span>
-          <button
-            class="sign-out-btn"
-            data-testid="sign-out-btn"
-            @click="signOut"
-          >
-            Sign out
-          </button>
+          <ProfileDropdown />
         </template>
         <template v-else>
           <router-link
@@ -86,8 +65,8 @@ function signOut() {
           >
             Sign in
           </router-link>
+          <ThemeToggle />
         </template>
-        <ThemeToggle />
       </div>
     </div>
 
@@ -167,40 +146,6 @@ function signOut() {
 .sign-in-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
-}
-
-.user-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.user-name {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text);
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.sign-out-btn {
-  padding: 0.35rem 0.85rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted);
-  background: none;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-
-.sign-out-btn:hover {
-  border-color: var(--accent);
-  color: var(--text);
 }
 
 /* GitHub-style underline tabs */

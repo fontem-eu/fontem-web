@@ -17,6 +17,13 @@
  */
 import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import * as d3 from 'd3'
+import {
+  getBucket,
+  aggregateData,
+  formatDateLabel,
+  tickFormat,
+  bucketLabel,
+} from './timeSeriesAggregation.js'
 
 const props = defineProps({
   data: { type: Array, required: true },        // [{date, value}]
@@ -33,85 +40,6 @@ const MARGIN = { top: 20, right: 20, bottom: 40, left: 60 }
 
 let svg, xScale, yScale, barsGroup, zoomBehavior
 let currentTransform = d3.zoomIdentity
-
-function getBucket(data, innerWidth, transformK) {
-  // Decide aggregation level based on actual time span and available width.
-  // Don't aggregate beyond the data's natural granularity.
-  if (!data || data.length < 2) return 'day'
-
-  const dates = data.map((d) => new Date(d.date).getTime())
-  const minMs = Math.min(...dates)
-  const maxMs = Math.max(...dates)
-  const spanDays = (maxMs - minMs) / 86400000
-
-  // Detect natural data granularity (median gap between consecutive points)
-  const sorted = [...dates].sort((a, b) => a - b)
-  const gaps = []
-  for (let i = 1; i < sorted.length; i++) gaps.push(sorted[i] - sorted[i - 1])
-  gaps.sort((a, b) => a - b)
-  const medianGapDays = gaps[Math.floor(gaps.length / 2)] / 86400000
-
-  // If data is sparse (median gap > 60 days), bars represent the natural unit
-  if (medianGapDays > 200) return 'year'
-  if (medianGapDays > 25) return 'month'
-  if (medianGapDays > 4) return 'week'
-
-  // Daily data: aggregate based on zoom level + span
-  const effectiveWidth = innerWidth * (transformK || 1)
-  const pixelsPerDay = effectiveWidth / spanDays
-  if (pixelsPerDay > 8) return 'day'
-  if (pixelsPerDay > 3) return 'week'
-  if (pixelsPerDay > 0.8) return 'month'
-  return 'year'
-}
-
-function aggregateData(rawData, bucket) {
-  if (!rawData || rawData.length === 0) return []
-
-  const parsed = rawData.map((d) => ({
-    date: new Date(d.date),
-    value: d.value,
-  }))
-
-  if (bucket === 'day') return parsed.map((d) => ({ key: d.date, value: d.value }))
-
-  const groups = d3.groups(parsed, (d) => {
-    if (bucket === 'week') {
-      const monday = d3.timeMonday(d.date)
-      return monday.toISOString().slice(0, 10)
-    }
-    if (bucket === 'month') return `${d.date.getFullYear()}-${String(d.date.getMonth() + 1).padStart(2, '0')}`
-    return String(d.date.getFullYear())
-  })
-
-  return groups.map(([key, items]) => {
-    let keyDate
-    if (bucket === 'year') keyDate = new Date(`${key}-01-01`)
-    else if (bucket === 'month') keyDate = new Date(`${key}-01`)
-    else if (bucket === 'week') keyDate = new Date(key)  // already ISO YYYY-MM-DD
-    else keyDate = items[0].date
-    return { key: keyDate, value: d3.sum(items, (d) => d.value) }
-  })
-}
-
-function formatDateLabel(date, bucket) {
-  if (bucket === 'year') return d3.timeFormat('%Y')(date)
-  if (bucket === 'month') return d3.timeFormat('%b %Y')(date)
-  if (bucket === 'week') return `W${d3.timeFormat('%V')(date)} ${d3.timeFormat('%Y')(date)}`
-  return d3.timeFormat('%d %b %Y')(date)
-}
-
-// Tick format string per bucket — extracted to avoid nested ternary code smell
-const TICK_FORMATS = { year: '%Y', month: '%b %y', week: '%d %b', day: '%d %b' }
-function tickFormat(bucket) {
-  return TICK_FORMATS[bucket] || '%d %b'
-}
-
-// Human label per bucket — extracted to avoid nested ternary code smell
-const BUCKET_LABELS = { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
-function bucketLabel(bucket) {
-  return BUCKET_LABELS[bucket] || 'Daily'
-}
 
 function draw() {
   const el = containerRef.value

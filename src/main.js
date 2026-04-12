@@ -27,6 +27,7 @@ import IssueDetailView from './views/IssueDetailView.vue'
 import ModerationView from './views/ModerationView.vue'
 import LoginView from './views/LoginView.vue'
 import ActivityView from './views/ActivityView.vue'
+import AIUsageView from './views/AIUsageView.vue'
 import DevPortalView from './views/DevPortalView.vue'
 import SmokeTestsView from './views/SmokeTestsView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
@@ -63,6 +64,7 @@ const router = createRouter({
 
     // User
     { path: '/activity', component: ActivityView },
+    { path: '/ai-usage', component: AIUsageView },
 
     // Issues
     { path: '/issues', component: IssuesView },

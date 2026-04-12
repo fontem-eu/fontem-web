@@ -148,3 +148,7 @@ export function getAssistConversation(conversationKey) {
 export function getAssistUsage() {
   return request('GET', '/assist/usage')
 }
+
+export function getAssistUsageHistory(days = 30) {
+  return request('GET', `/assist/usage-history?days=${days}`)
+}
