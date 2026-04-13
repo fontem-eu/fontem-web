@@ -88,9 +88,9 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
   })
 
-  it('hides search bar on landing page', async () => {
+  it('shows search bar on landing page', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
+    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(true)
   })
 
   it('hides search bar on login page', async () => {

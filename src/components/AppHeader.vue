@@ -21,11 +21,8 @@ function isActive(path) {
   return route.path.startsWith(path)
 }
 
-/* Search is hidden on landing page (has its own inline search) and login page */
-const showSearch = computed(() => {
-  const onLanding = route.path === '/' && !route.params.ticker
-  return !onLanding && route.path !== '/login'
-})
+/* Search is hidden only on the login page */
+const showSearch = computed(() => route.path !== '/login')
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
