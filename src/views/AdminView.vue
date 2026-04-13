@@ -7,12 +7,10 @@ onMounted(() => { document.title = 'Admin — GMR' })
 const tools = [
   { path: '/admin/data-quality', title: 'Data Quality', desc: 'Per-pipeline dashboards: contracts, GLEIF, EDGAR, ESEF, lobbying, directors. Zoomable charts, gap detection.' },
   { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
-  { path: '/admin/architecture', title: 'Architecture', desc: 'System diagrams: data flow, interfaces, Neo4j schema, request lifecycle.' },
-  { path: '/admin/coverage', title: 'E2E Coverage', desc: 'Requirements × e2e test matrix. 30 requirements, 175+ tests, generated at build time.' },
-  { path: '/admin/roadmap', title: 'Mission & Roadmap', desc: 'Platform mission, vision for 2027, and proposed features with data sources.' },
   { path: '/admin/moderation', title: 'Moderation', desc: 'Review flagged content, resolve disputes, and view the moderation action log.' },
-  { path: '/admin/smoke-tests', title: 'Smoke Tests', desc: 'Production smoke test plan: 13 user flows covering auth, search, reports, and AI assistant. Runs every 8h.' },
-  { path: '/admin/dev', title: 'Developer Portal', desc: 'All tools in one place: ArgoCD, SonarQube, Dependency-Track, Uptime Kuma, Gitea, and more.' },
+  { path: 'http://docs.void42.internal/shelves/architecture', title: 'Architecture', desc: 'System diagrams: infrastructure, data model, APIs, ETL, identity resolution.', external: true },
+  { path: 'http://docs.void42.internal/books/testing', title: 'Testing', desc: 'E2E coverage matrix and production smoke test plan.', external: true },
+  { path: 'http://docs.void42.internal/books/developer-guide', title: 'Developer Guide', desc: 'Service directory, repositories, and quick commands.', external: true },
 ]
 </script>
 

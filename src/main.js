@@ -6,10 +6,6 @@ import DataQualityView from './views/DataQualityView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import AdminView from './views/AdminView.vue'
-import ArchitectureView from './views/ArchitectureView.vue'
-import CoverageView from './views/CoverageView.vue'
-import RoadmapView from './views/RoadmapView.vue'
-import FeatureDetailView from './views/FeatureDetailView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
 import ContractsDQView from './views/dq/ContractsDQView.vue'
 import GleifDQView from './views/dq/GleifDQView.vue'
@@ -28,8 +24,6 @@ import ModerationView from './views/ModerationView.vue'
 import LoginView from './views/LoginView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
-import DevPortalView from './views/DevPortalView.vue'
-import SmokeTestsView from './views/SmokeTestsView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -51,13 +45,7 @@ const router = createRouter({
     { path: '/admin/data-quality/trade-edges', component: TradeEdgesDQView },
     { path: '/admin/data-quality/dedup', component: DedupDQView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
-    { path: '/admin/architecture', component: ArchitectureView },
-    { path: '/admin/coverage', component: CoverageView },
-    { path: '/admin/roadmap', component: RoadmapView },
-    { path: '/admin/roadmap/:id', component: FeatureDetailView },
     { path: '/admin/moderation', component: ModerationView },
-    { path: '/admin/dev', component: DevPortalView },
-    { path: '/admin/smoke-tests', component: SmokeTestsView },
 
     // Auth
     { path: '/login', component: LoginView },
