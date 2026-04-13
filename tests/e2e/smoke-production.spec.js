@@ -19,11 +19,15 @@ test.describe.serial('Production Smoke Tests', () => {
   let reportId = null
   let authToken = null
 
-  test('SMOKE-01: Login page loads with email/password form', async ({ page }) => {
+  test('SMOKE-01: Login page loads with email/password form and Google button', async ({ page }) => {
     await page.goto('/login')
     await expect(page.locator('[data-testid="login-email"]')).toBeVisible({ timeout: 10000 })
     await expect(page.locator('[data-testid="login-password"]')).toBeVisible()
     await expect(page.locator('[data-testid="login-submit"]')).toBeVisible()
+
+    // Regression: Google Sign-In button must render (CSP must allow accounts.google.com)
+    await expect(page.locator('[data-testid="google-signin-btn"] iframe, [data-testid="google-signin-btn"] div[role="button"]'))
+      .toBeVisible({ timeout: 10000 })
   })
 
   test('SMOKE-02: Login with test credentials', async ({ page }) => {
