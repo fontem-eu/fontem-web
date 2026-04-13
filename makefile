@@ -50,7 +50,10 @@ deploy:
 mutation:
 	npx stryker run
 
-.PHONY: all test analyze mutation coverage-matrix build release deploy security
+local-e2e:
+	./scripts/run-e2e-local.sh
+
+.PHONY: all test analyze mutation coverage-matrix build release deploy security local-e2e
 
 # ── Security & SBOM ─────────────────────────────────────────
 audit:

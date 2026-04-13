@@ -1,0 +1,64 @@
+# Local e2e test stack — builds community-api and gmr-api from the filesystem.
+#
+# Usage:
+#   docker compose -f docker-compose.test.yml up -d --build
+#   BASE_URL=http://localhost:5173 npx playwright test
+#   docker compose -f docker-compose.test.yml down -v
+#
+# The Vite dev server runs on the host (npm run dev) and proxies
+# /capi/ → community-api:8001, /api/ → gmr-api:8000 via vite.config.local.js.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: gmr_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/testpassword
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "testpassword", "RETURN 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+  community-api:
+    build:
+      context: ../gmr-community-api
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://postgres:test@postgres:5432/gmr_app"
+      JWT_SECRET: "dev-secret-do-not-use-in-production"
+      CLAUDE_PROXY_URL: "http://localhost:9999"  # no proxy in local tests
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  gmr-api:
+    build:
+      context: ../edgar-gmr-etl
+    environment:
+      NEO4J_URI: "bolt://neo4j:7687"
+      NEO4J_USER: "neo4j"
+      NEO4J_PASSWORD: "testpassword"
+    ports:
+      - "8000:8000"
+    depends_on:
+      neo4j:
+        condition: service_healthy
