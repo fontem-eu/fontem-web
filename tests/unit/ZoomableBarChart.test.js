@@ -1,25 +1,12 @@
 /**
- * Tests the date aggregation logic in ZoomableBarChart.
- * The chart auto-aggregates daily → weekly → monthly → yearly based on zoom.
+ * Tests for the time-series bar chart component and its aggregation logic.
+ *
+ * The component uses Canvas for rendering. jsdom doesn't support Canvas,
+ * so component tests verify mount/unmount, props, and DOM structure — not
+ * the rendered pixels. Aggregation logic is tested via the shared module.
  */
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-
-// Mock D3 since jsdom can't render SVG
-vi.mock('d3', async () => {
-  const actual = await vi.importActual('d3')
-  return {
-    ...actual,
-    select: () => ({
-      selectAll: () => ({ remove: () => {} }),
-      append: () => ({
-        attr: () => ({ attr: () => ({ attr: () => ({}) }) }),
-      }),
-      call: () => ({}),
-    }),
-  }
-})
-
 import ZoomableBarChart from '../../src/components/charts/ZoomableBarChart.vue'
 
 describe('ZoomableBarChart', () => {
@@ -59,6 +46,40 @@ describe('ZoomableBarChart', () => {
     })
     expect(wrapper.exists()).toBe(true)
   })
+
+  it('renders timespan buttons', () => {
+    const wrapper = mount(ZoomableBarChart, {
+      props: { data: sampleData },
+    })
+    const buttons = wrapper.findAll('.tbc-btn')
+    expect(buttons.length).toBe(5)
+    expect(buttons.map(b => b.text())).toEqual(['6M', '1Y', '2Y', '5Y', 'All'])
+  })
+
+  it('renders granularity select', () => {
+    const wrapper = mount(ZoomableBarChart, {
+      props: { data: sampleData },
+    })
+    const select = wrapper.find('.tbc-select')
+    expect(select.exists()).toBe(true)
+    const options = select.findAll('option')
+    expect(options.map(o => o.text())).toEqual(['Day', 'Week', 'Month', 'Year'])
+  })
+
+  it('defaults to "All" timespan', () => {
+    const wrapper = mount(ZoomableBarChart, {
+      props: { data: sampleData },
+    })
+    const active = wrapper.find('.tbc-btn.active')
+    expect(active.text()).toBe('All')
+  })
+
+  it('renders a canvas element', () => {
+    const wrapper = mount(ZoomableBarChart, {
+      props: { data: sampleData },
+    })
+    expect(wrapper.find('canvas').exists()).toBe(true)
+  })
 })
 
 describe('ZoomableBarChart date aggregation', () => {
@@ -68,7 +89,6 @@ describe('ZoomableBarChart date aggregation', () => {
     const parsed = rawData.map((d) => ({ date: new Date(d.date), value: d.value }))
     if (bucket === 'day') return parsed.map((d) => ({ key: d.date, value: d.value }))
 
-    // Simulate d3.groups
     const groupsMap = new Map()
     for (const d of parsed) {
       let key
@@ -114,7 +134,7 @@ describe('ZoomableBarChart date aggregation', () => {
     })
   })
 
-  it('month bucket produces valid Date keys (regression)', () => {
+  it('month bucket produces valid Date keys', () => {
     const out = aggregateData(data, 'month')
     expect(out.length).toBeGreaterThan(0)
     out.forEach((d) => {
@@ -123,7 +143,7 @@ describe('ZoomableBarChart date aggregation', () => {
     })
   })
 
-  it('week bucket produces valid Date keys (regression for double-suffix bug)', () => {
+  it('week bucket produces valid Date keys', () => {
     const out = aggregateData(data, 'week')
     expect(out.length).toBeGreaterThan(0)
     out.forEach((d) => {
