@@ -1,10 +1,8 @@
 <script setup>
 /**
- * Zoomable time-series line chart — sibling of ZoomableBarChart.
+ * Time-series line chart with Grafana-style timespan selector.
  *
- * Reuses the shared aggregation helpers (bucket selection, date
- * grouping, axis labels) so both chart types degrade identically
- * as you zoom out (daily → weekly → monthly → yearly).
+ * Canvas-based for performance. Supports multiple series with legend.
  *
  * Props:
  *   series: [{ name, color, data: [{date, value}] }]
@@ -13,18 +11,14 @@
  *   formatValue: tooltip number formatter
  *   showLegend: render legend above chart (default: true)
  */
-import { ref, watch, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
-import * as d3 from 'd3'
+import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import {
-  getBucket,
   aggregateData,
   formatDateLabel,
-  tickFormat,
-  bucketLabel,
 } from './timeSeriesAggregation.js'
 
 const props = defineProps({
-  series: { type: Array, required: true }, // [{name, color, data: [{date, value}]}]
+  series: { type: Array, required: true },
   height: { type: Number, default: 300 },
   valueLabel: { type: String, default: 'Value' },
   formatValue: { type: Function, default: (v) => v.toLocaleString() },
@@ -32,237 +26,309 @@ const props = defineProps({
 })
 
 const containerRef = ref(null)
+const canvasRef = ref(null)
 const tooltip = ref(null)
+const timespan = ref('all')
+const granularity = ref('month')
 
-const MARGIN = { top: 20, right: 20, bottom: 40, left: 60 }
+const MARGIN = { top: 10, right: 15, bottom: 30, left: 55 }
 
-let currentTransform = d3.zoomIdentity
+const TIMESPANS = [
+  { key: '6m', label: '6M', months: 6 },
+  { key: '1y', label: '1Y', months: 12 },
+  { key: '2y', label: '2Y', months: 24 },
+  { key: '5y', label: '5Y', months: 60 },
+  { key: 'all', label: 'All', months: null },
+]
+
+const GRANULARITIES = [
+  { key: 'day', label: 'Day' },
+  { key: 'week', label: 'Week' },
+  { key: 'month', label: 'Month' },
+  { key: 'year', label: 'Year' },
+]
 
 const hasAnyPoints = computed(
-  () => Array.isArray(props.series) && props.series.some((s) => s.data && s.data.length > 0),
+  () => Array.isArray(props.series) && props.series.some(s => s.data && s.data.length > 0),
 )
 
-function resolveColor(el, s, fallbackVar) {
-  if (s.color) return s.color
-  const v = getComputedStyle(el).getPropertyValue(fallbackVar)?.trim()
-  return v || '#2563eb'
+const DEFAULT_COLORS = ['#2563eb', '#999', '#16a34a', '#dc2626', '#9333ea', '#ea580c']
+
+function getColor(s, i) {
+  return s.color || DEFAULT_COLORS[i % DEFAULT_COLORS.length]
 }
 
-function draw() {
-  const el = containerRef.value
-  if (!el || !hasAnyPoints.value) return
+// Filter + aggregate each series
+const processedSeries = computed(() => {
+  if (!hasAnyPoints.value) return []
+  const span = TIMESPANS.find(t => t.key === timespan.value)
+  let cutoff = null
+  if (span?.months) {
+    const d = new Date()
+    d.setMonth(d.getMonth() - span.months)
+    cutoff = d.toISOString()
+  }
+  return props.series.map((s, i) => {
+    const filtered = cutoff ? (s.data || []).filter(d => d.date >= cutoff) : (s.data || [])
+    return {
+      name: s.name,
+      color: getColor(s, i),
+      points: aggregateData(filtered, granularity.value),
+    }
+  }).filter(s => s.points.length > 0)
+})
 
-  const width = el.clientWidth
+watch(timespan, (ts) => {
+  const months = TIMESPANS.find(t => t.key === ts)?.months
+  if (!months || months <= 6) granularity.value = 'day'
+  else if (months <= 24) granularity.value = 'month'
+  else granularity.value = 'year'
+})
+
+let hitPoints = []
+
+function render() {
+  const canvas = canvasRef.value
+  const container = containerRef.value
+  if (!canvas || !container) return
+
+  const dpr = window.devicePixelRatio || 1
+  const width = container.clientWidth
+  const height = props.height
+
+  canvas.width = width * dpr
+  canvas.height = height * dpr
+  canvas.style.width = width + 'px'
+  canvas.style.height = height + 'px'
+
+  const ctx = canvas.getContext('2d')
+  ctx.scale(dpr, dpr)
+  ctx.clearRect(0, 0, width, height)
+
+  const data = processedSeries.value
+  if (data.length === 0) return
+
   const innerW = width - MARGIN.left - MARGIN.right
-  const innerH = props.height - MARGIN.top - MARGIN.bottom
+  const innerH = height - MARGIN.top - MARGIN.bottom
 
-  // Pool every point across series to decide a single aggregation bucket
-  // so both lines stay aligned on the x-axis.
-  const pooled = props.series.flatMap((s) => s.data || [])
-  const bucket = getBucket(pooled, innerW, currentTransform.k)
+  // Shared scales
+  const allKeys = data.flatMap(s => s.points.map(p => p.key.getTime()))
+  const xMin = Math.min(...allKeys)
+  const xMax = Math.max(...allKeys)
+  const xSpan = xMax - xMin || 1
+  const yMax = Math.max(...data.flatMap(s => s.points.map(p => p.value))) * 1.1 || 1
 
-  // Aggregate each series independently at the chosen bucket
-  const aggregatedSeries = props.series.map((s, i) => ({
-    name: s.name,
-    color: resolveColor(el, s, i === 0 ? '--accent' : '--muted'),
-    points: aggregateData(s.data || [], bucket),
-  })).filter((s) => s.points.length > 0)
+  const xScale = (t) => MARGIN.left + ((t - xMin) / xSpan) * innerW
+  const yScale = (v) => MARGIN.top + innerH - (v / yMax) * innerH
 
-  if (aggregatedSeries.length === 0) return
+  // Grid
+  const mutedColor = getComputedStyle(container).getPropertyValue('--muted')?.trim() || '#999'
+  const borderColor = getComputedStyle(container).getPropertyValue('--border')?.trim() || '#eee'
+  ctx.font = '10px sans-serif'
+  ctx.textBaseline = 'middle'
 
-  // Shared x-domain across series
-  const allKeys = aggregatedSeries.flatMap((s) => s.points.map((p) => p.key))
-  const xDomain = d3.extent(allKeys)
-  const padMs = (xDomain[1] - xDomain[0]) * 0.01 || 86400000
-  const xScale = d3.scaleTime()
-    .domain([new Date(xDomain[0].getTime() - padMs), new Date(xDomain[1].getTime() + padMs)])
-    .range([0, innerW])
-
-  const yMax = d3.max(aggregatedSeries, (s) => d3.max(s.points, (p) => p.value)) || 1
-  const yScale = d3.scaleLinear()
-    .domain([0, yMax * 1.1])
-    .nice()
-    .range([innerH, 0])
-
-  d3.select(el).selectAll('*').remove()
-
-  const clipId = `clip-${Math.random().toString(36).slice(2)}`
-
-  const svg = d3.select(el)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', props.height)
-
-  svg.append('defs')
-    .append('clipPath')
-    .attr('id', clipId)
-    .append('rect')
-    .attr('width', innerW)
-    .attr('height', innerH)
-
-  const g = svg.append('g')
-    .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
-
-  const xAxisG = g.append('g')
-    .attr('class', 'x-axis')
-    .attr('transform', `translate(0,${innerH})`)
-    .call(
-      d3.axisBottom(xScale)
-        .ticks(Math.min(Math.max(...aggregatedSeries.map((s) => s.points.length)), 12))
-        .tickFormat(d3.timeFormat(tickFormat(bucket))),
-    )
-  xAxisG.selectAll('text').attr('fill', 'var(--muted, #999)').style('font-size', '10px')
-  xAxisG.selectAll('line, path').attr('stroke', 'var(--border, #ddd)')
-
-  const yAxisG = g.append('g')
-    .attr('class', 'y-axis')
-    .call(d3.axisLeft(yScale).ticks(6).tickFormat(d3.format('~s')))
-  yAxisG.selectAll('text').attr('fill', 'var(--muted, #999)').style('font-size', '10px')
-  yAxisG.selectAll('line, path').attr('stroke', 'var(--border, #ddd)')
-
-  g.append('text')
-    .attr('transform', 'rotate(-90)')
-    .attr('y', -45)
-    .attr('x', -innerH / 2)
-    .attr('text-anchor', 'middle')
-    .attr('fill', 'var(--muted, #999)')
-    .style('font-size', '11px')
-    .text(props.valueLabel)
-
-  const plot = g.append('g').attr('clip-path', `url(#${clipId})`)
-  const rescaledX = currentTransform.rescaleX(xScale)
-
-  const lineGen = d3.line()
-    .x((d) => rescaledX(d.key))
-    .y((d) => yScale(d.value))
-    .curve(d3.curveMonotoneX)
-
-  for (const s of aggregatedSeries) {
-    plot.append('path')
-      .datum(s.points)
-      .attr('fill', 'none')
-      .attr('stroke', s.color)
-      .attr('stroke-width', 2)
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-linecap', 'round')
-      .attr('d', lineGen)
-
-    plot.selectAll(null)
-      .data(s.points)
-      .join('circle')
-      .attr('cx', (d) => rescaledX(d.key))
-      .attr('cy', (d) => yScale(d.value))
-      .attr('r', 3)
-      .attr('fill', s.color)
-      .attr('stroke', 'var(--bg, #fff)')
-      .attr('stroke-width', 1)
-      .on('mouseenter', (event, d) => {
-        tooltip.value = {
-          x: event.offsetX,
-          y: event.offsetY - 10,
-          label: formatDateLabel(d.key, bucket),
-          value: `${s.name}: ${props.formatValue(d.value)}`,
-        }
-        d3.select(event.target).attr('r', 5)
-      })
-      .on('mouseleave', (event) => {
-        tooltip.value = null
-        d3.select(event.target).attr('r', 3)
-      })
+  const yTicks = 5
+  for (let i = 0; i <= yTicks; i++) {
+    const v = (yMax / yTicks) * i
+    const y = yScale(v)
+    ctx.fillStyle = mutedColor
+    ctx.textAlign = 'right'
+    ctx.fillText(formatCompact(v), MARGIN.left - 8, y)
+    ctx.strokeStyle = borderColor
+    ctx.lineWidth = 0.5
+    ctx.beginPath()
+    ctx.moveTo(MARGIN.left, y)
+    ctx.lineTo(width - MARGIN.right, y)
+    ctx.stroke()
   }
 
-  const totalPoints = d3.sum(aggregatedSeries, (s) => s.points.length)
-  const maxZoom = Math.max(2, totalPoints / 5)
-  const zoomBehavior = d3.zoom()
-    .scaleExtent([0.5, maxZoom])
-    .translateExtent([[0, 0], [innerW, innerH]])
-    .on('zoom', (event) => {
-      currentTransform = event.transform
-      draw()
-    })
-
-  svg.call(zoomBehavior)
-  if (currentTransform !== d3.zoomIdentity) {
-    svg.call(zoomBehavior.transform, currentTransform)
+  // X labels
+  const allPts = data[0].points
+  const labelEvery = Math.max(1, Math.floor(allPts.length / 10))
+  ctx.fillStyle = mutedColor
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'top'
+  for (let i = 0; i < allPts.length; i += labelEvery) {
+    ctx.fillText(formatDateLabel(allPts[i].key, granularity.value), xScale(allPts[i].key.getTime()), MARGIN.top + innerH + 8)
   }
 
-  svg.append('text')
-    .attr('x', width - MARGIN.right - 5)
-    .attr('y', MARGIN.top + 12)
-    .attr('text-anchor', 'end')
-    .attr('fill', 'var(--muted, #999)')
-    .style('font-size', '10px')
-    .text(bucketLabel(bucket))
+  // Y label
+  ctx.save()
+  ctx.translate(12, MARGIN.top + innerH / 2)
+  ctx.rotate(-Math.PI / 2)
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'top'
+  ctx.font = '11px sans-serif'
+  ctx.fillStyle = mutedColor
+  ctx.fillText(props.valueLabel, 0, 0)
+  ctx.restore()
+
+  // Lines + dots
+  hitPoints = []
+  for (const s of data) {
+    ctx.strokeStyle = s.color
+    ctx.lineWidth = 2
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    ctx.beginPath()
+    for (let i = 0; i < s.points.length; i++) {
+      const px = xScale(s.points[i].key.getTime())
+      const py = yScale(s.points[i].value)
+      if (i === 0) ctx.moveTo(px, py)
+      else ctx.lineTo(px, py)
+      hitPoints.push({ x: px, y: py, series: s.name, color: s.color, data: s.points[i] })
+    }
+    ctx.stroke()
+
+    // Dots
+    ctx.fillStyle = s.color
+    for (const p of s.points) {
+      const px = xScale(p.key.getTime())
+      const py = yScale(p.value)
+      ctx.beginPath()
+      ctx.arc(px, py, 2.5, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
 }
+
+function formatCompact(v) {
+  if (v >= 1e9) return (v / 1e9).toFixed(1) + 'B'
+  if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M'
+  if (v >= 1e3) return (v / 1e3).toFixed(1) + 'K'
+  return Math.round(v).toString()
+}
+
+function onMouseMove(event) {
+  const rect = canvasRef.value?.getBoundingClientRect()
+  if (!rect || hitPoints.length === 0) return
+  const mx = event.clientX - rect.left
+  const my = event.clientY - rect.top
+  let closest = null
+  let minDist = 20
+  for (const hp of hitPoints) {
+    const dist = Math.hypot(mx - hp.x, my - hp.y)
+    if (dist < minDist) {
+      minDist = dist
+      closest = hp
+    }
+  }
+  if (closest) {
+    tooltip.value = {
+      x: event.offsetX,
+      y: event.offsetY - 10,
+      label: formatDateLabel(closest.data.key, granularity.value),
+      value: `${closest.series}: ${props.formatValue(closest.data.value)}`,
+    }
+  } else {
+    tooltip.value = null
+  }
+}
+
+function onMouseLeave() {
+  tooltip.value = null
+}
+
+watch(processedSeries, () => nextTick(render))
 
 let resizeObserver
 onMounted(() => {
-  resizeObserver = new ResizeObserver(() => draw())
+  resizeObserver = new ResizeObserver(() => render())
   if (containerRef.value) resizeObserver.observe(containerRef.value)
 })
 onBeforeUnmount(() => {
   if (resizeObserver) resizeObserver.disconnect()
 })
 
-watch(
-  () => props.series,
-  () => {
-    currentTransform = d3.zoomIdentity
-    nextTick(draw)
-  },
-  { deep: true },
+const legendItems = computed(() =>
+  props.series.map((s, i) => ({ name: s.name, color: getColor(s, i) }))
 )
-
-const legendItems = computed(() => {
-  const el = containerRef.value
-  return props.series.map((s, i) => ({
-    name: s.name,
-    color: s.color || (el ? resolveColor(el, s, i === 0 ? '--accent' : '--muted') : '#2563eb'),
-  }))
-})
 </script>
 
 <template>
-  <div class="zlc-wrap">
-    <div v-if="showLegend && series && series.length > 0" class="zlc-legend">
-      <span v-for="item in legendItems" :key="item.name" class="zlc-legend-item">
-        <span class="zlc-swatch" :style="{ background: item.color }" />
+  <div class="tlc-wrap">
+    <div class="tlc-controls">
+      <div class="tlc-timespans">
+        <button
+          v-for="t in TIMESPANS"
+          :key="t.key"
+          :class="['tlc-btn', { active: timespan === t.key }]"
+          @click="timespan = t.key"
+        >{{ t.label }}</button>
+      </div>
+      <select v-model="granularity" class="tlc-select">
+        <option v-for="g in GRANULARITIES" :key="g.key" :value="g.key">{{ g.label }}</option>
+      </select>
+    </div>
+    <div v-if="showLegend && series && series.length > 0" class="tlc-legend">
+      <span v-for="item in legendItems" :key="item.name" class="tlc-legend-item">
+        <span class="tlc-swatch" :style="{ background: item.color }" />
         {{ item.name }}
       </span>
     </div>
-    <div ref="containerRef" class="zlc-chart" />
+    <div ref="containerRef" class="tlc-chart" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
+      <canvas ref="canvasRef" />
+    </div>
     <div
       v-if="tooltip"
-      class="zlc-tooltip"
+      class="tlc-tooltip"
       :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }"
     >
-      <div class="zlc-tt-label">{{ tooltip.label }}</div>
-      <div class="zlc-tt-value">{{ tooltip.value }}</div>
+      <div class="tlc-tt-label">{{ tooltip.label }}</div>
+      <div class="tlc-tt-value">{{ tooltip.value }}</div>
     </div>
-    <div v-if="!hasAnyPoints" class="zlc-empty">No data available</div>
+    <div v-if="!hasAnyPoints" class="tlc-empty">No data available</div>
   </div>
 </template>
 
 <style scoped>
-.zlc-wrap { position: relative; }
-.zlc-chart { width: 100%; cursor: grab; }
-.zlc-chart:active { cursor: grabbing; }
-.zlc-empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.85rem; }
-.zlc-legend {
+.tlc-wrap { position: relative; }
+.tlc-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0 0.5rem;
+}
+.tlc-timespans { display: flex; gap: 2px; }
+.tlc-btn {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--border, #ddd);
+  background: var(--bg, #fff);
+  color: var(--muted, #999);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tlc-btn.active {
+  background: var(--accent, #2563eb);
+  color: #fff;
+  border-color: var(--accent, #2563eb);
+}
+.tlc-btn:hover:not(.active) { border-color: var(--accent, #2563eb); color: var(--text); }
+.tlc-select {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border, #ddd);
+  border-radius: 3px;
+  background: var(--bg, #fff);
+  color: var(--text);
+  cursor: pointer;
+}
+.tlc-chart { width: 100%; }
+.tlc-chart canvas { display: block; }
+.tlc-empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.85rem; }
+.tlc-legend {
   display: flex;
   gap: 1rem;
   padding: 0.25rem 0 0.5rem;
   font-size: 0.75rem;
   color: var(--muted);
 }
-.zlc-legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
-.zlc-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 2px;
-  border-radius: 1px;
-}
-.zlc-tooltip {
+.tlc-legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+.tlc-swatch { display: inline-block; width: 12px; height: 2px; border-radius: 1px; }
+.tlc-tooltip {
   position: absolute;
   pointer-events: none;
   background: var(--bg, #fff);
@@ -274,6 +340,6 @@ const legendItems = computed(() => {
   transform: translate(-50%, -100%);
   z-index: 10;
 }
-.zlc-tt-label { color: var(--muted); font-size: 0.65rem; }
-.zlc-tt-value { font-weight: 600; color: var(--text); }
+.tlc-tt-label { color: var(--muted); font-size: 0.65rem; }
+.tlc-tt-value { font-weight: 600; color: var(--text); }
 </style>
