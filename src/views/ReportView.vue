@@ -57,22 +57,43 @@ function isMarkdown(content) {
 }
 
 /**
- * Parse section content for widget blocks (```widget\n{...}\n```)
- * and return an array of { type: 'html'|'widget', content|config }.
- * Supports both HTML (from TipTap) and markdown content.
+ * Unescape HTML entities that marked.parse() introduces inside code blocks.
+ */
+function unescapeHtml(s) {
+  return s
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&#39;/g, "'")
+}
+
+/**
+ * Parse section content for widget blocks and return an array of
+ * { type: 'html'|'widget', content|config }.
+ *
+ * Widget syntax: ```widget\n{JSON}\n```
+ *
+ * After marked.parse(), this becomes:
+ *   <pre><code class="language-widget">{HTML-escaped JSON}\n</code></pre>
+ *
+ * We match both the raw markdown form (TipTap HTML mode) and the
+ * marked-rendered form (markdown mode).
  */
 function parseSectionContent(content) {
   if (!content) return []
 
-  // Convert markdown to HTML if needed
   let html = content
   if (isMarkdown(content)) {
     html = marked.parse(content)
   }
 
+  // Match both forms:
+  // 1. Raw markdown:  ```widget\n{...}\n```
+  // 2. marked HTML:   <pre><code class="language-widget">{...}\n</code></pre>
+  const regex = /(?:<pre><code class="language-widget">)([\s\S]*?)(?:<\/code><\/pre>)|```widget\n([\s\S]*?)\n```/g
+
   const parts = []
-  // Match widget blocks in various HTML wrappings
-  const regex = /(?:<pre><code>)?```widget\n([\s\S]*?)\n```(?:<\/code><\/pre>)?/g
   let lastIndex = 0
   let match
 
@@ -80,8 +101,9 @@ function parseSectionContent(content) {
     if (match.index > lastIndex) {
       parts.push({ type: 'html', content: html.slice(lastIndex, match.index) })
     }
+    const raw = (match[1] || match[2] || '').trim()
     try {
-      const config = JSON.parse(match[1])
+      const config = JSON.parse(unescapeHtml(raw))
       parts.push({ type: 'widget', config })
     } catch {
       parts.push({ type: 'html', content: match[0] })
