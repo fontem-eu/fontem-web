@@ -2,13 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gmr-web
-  namespace: gmr
+  namespace: {{ .Release.Namespace }}
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
   rules:
-    - host: gmr.void42.net
+    - host: {{ .Values.domain | default "gmr.void42.net" }}
       http:
         paths:
           - path: /
