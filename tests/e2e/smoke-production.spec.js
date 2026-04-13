@@ -26,7 +26,7 @@ test.describe.serial('Production Smoke Tests', () => {
     await expect(page.locator('[data-testid="login-submit"]')).toBeVisible()
 
     // Regression: Google Sign-In button must render (CSP must allow accounts.google.com)
-    await expect(page.locator('[data-testid="google-signin-btn"] iframe, [data-testid="google-signin-btn"] div[role="button"]'))
+    await expect(page.locator('[data-testid="google-signin-btn"] iframe').first())
       .toBeVisible({ timeout: 10000 })
   })
 
