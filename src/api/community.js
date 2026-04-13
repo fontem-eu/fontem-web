@@ -5,16 +5,44 @@
 
 function authHeaders() {
   const token = localStorage.getItem('gmr-token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
+  if (!token) return {}
+
+  // Check JWT expiry client-side to avoid sending stale tokens
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    if (payload.exp && payload.exp * 1000 < Date.now()) {
+      localStorage.removeItem('gmr-token')
+      localStorage.removeItem('gmr-user')
+      window.location.href = '/login'
+      return {}
+    }
+  } catch { /* malformed token — let the server reject it */ }
+
+  return { Authorization: `Bearer ${token}` }
 }
 
-async function request(method, path, body) {
+async function request(method, path, body, { retries = 0 } = {}) {
   const opts = {
     method,
     headers: { ...authHeaders(), 'Content-Type': 'application/json' },
   }
   if (body !== undefined) opts.body = JSON.stringify(body)
   const res = await fetch(`/capi${path}`, opts)
+
+  // Auto-redirect on auth failure
+  if (res.status === 401) {
+    localStorage.removeItem('gmr-token')
+    localStorage.removeItem('gmr-user')
+    window.location.href = '/login'
+    throw new Error('Session expired')
+  }
+
+  // Retry on transient server errors (GET only)
+  if (res.status >= 500 && method === 'GET' && retries < 2) {
+    await new Promise((r) => setTimeout(r, 1000 * (retries + 1)))
+    return request(method, path, body, { retries: retries + 1 })
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)

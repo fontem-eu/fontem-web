@@ -82,6 +82,15 @@ const router = createRouter({
   ],
 })
 
+// Auth guard: redirect to login if visiting a protected route without a token
+const AUTH_REQUIRED = ['/reports', '/issues', '/activity', '/ai-usage', '/admin']
+router.beforeEach((to) => {
+  const needsAuth = AUTH_REQUIRED.some((prefix) => to.path.startsWith(prefix))
+  if (needsAuth && !localStorage.getItem('gmr-token')) {
+    return '/login'
+  }
+})
+
 // Track a page view on every navigation (replaces Umami's auto-track script)
 const { page } = useAnalytics()
 router.afterEach((to) => { page(to.fullPath) })

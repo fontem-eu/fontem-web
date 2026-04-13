@@ -28,15 +28,6 @@ describe('Community API client', () => {
     })
   }
 
-  function mockError(status, detail = 'error') {
-    fetchMock.mockResolvedValueOnce({
-      ok: false,
-      status,
-      json: () => Promise.resolve({ detail }),
-      text: () => Promise.resolve(detail),
-    })
-  }
-
   it('listReports calls GET /capi/reports', async () => {
     mockOk({ reports: [] })
     await communityApi.listReports()
@@ -96,9 +87,20 @@ describe('Community API client', () => {
     expect(headers.Authorization).toBe('Bearer test-jwt')
   })
 
-  it('throws on HTTP error', async () => {
-    mockError(500, 'Internal error')
-    await expect(communityApi.listReports()).rejects.toThrow('HTTP 500')
+  it('throws on HTTP error after retries', async () => {
+    vi.useFakeTimers()
+    // Return 500 persistently so retries also fail
+    fetchMock.mockResolvedValue({
+      ok: false, status: 500,
+      text: () => Promise.resolve('Internal error'),
+    })
+    const p = communityApi.listReports()
+    // Advance past retry delays (1s + 2s)
+    for (let i = 0; i < 3; i++) {
+      await vi.advanceTimersByTimeAsync(3000)
+    }
+    await expect(p).rejects.toThrow('HTTP 500')
+    vi.useRealTimers()
   })
 
   it('encodes URI components for IDs with special chars', async () => {
