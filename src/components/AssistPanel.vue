@@ -149,6 +149,15 @@ async function send() {
             const status = JSON.parse(eventData)
             streamPhase.value = status.phase
             streamDetail.value = status.detail || ''
+            // Capture propose_edit proposals from tool_use events
+            if (status.proposal && status.proposal.action) {
+              if (!assistMsg) {
+                assistMsg = { role: 'assistant', text: '' }
+                messages.value.push(assistMsg)
+              }
+              if (!assistMsg._toolProposals) assistMsg._toolProposals = []
+              assistMsg._toolProposals.push(status.proposal)
+            }
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
@@ -174,7 +183,15 @@ async function send() {
     if (!assistMsg) {
       messages.value.push({ role: 'error', text: 'No response received from assistant.' })
     } else {
-      assistMsg.proposals = parseProposals(assistMsg.text)
+      // Merge proposals from text parsing and from tool_use events
+      const textProposals = parseProposals(assistMsg.text)
+      const toolProposals = (assistMsg._toolProposals || []).map(p => ({
+        action: p.action,
+        params: { content: p.content, ...p },
+        description: p.description || `${p.action}: ${(p.content || '').slice(0, 80)}`,
+      }))
+      assistMsg.proposals = [...toolProposals, ...textProposals]
+      delete assistMsg._toolProposals
     }
   } catch (err) {
     error.value = err.message
