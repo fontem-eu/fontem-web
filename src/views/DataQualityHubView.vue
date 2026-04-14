@@ -17,6 +17,10 @@ const pipelines = [
   { id: 'directors', title: 'French Directors', desc: 'RNE person data — role distribution, data completeness, company coverage.', icon: '👤' },
   { id: 'trade-edges', title: 'Trade Edges', desc: 'Materialized authority↔company relationships — pair counts, value aggregation.', icon: '🔗' },
   { id: 'dedup', title: 'Deduplication', desc: 'SAME_AS queue — pending review, auto-merged, resolution rate.', icon: '🔍' },
+  { id: 'sanctions', title: 'Sanctions', desc: 'Sanctioned entities — persons vs organisations, regime coverage, company matching.', icon: '🚫' },
+  { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋' },
+  { id: 'beneficial-ownership', title: 'Beneficial Ownership', desc: 'Beneficial owners — OWNS relationships, country distribution, ownership types.', icon: '👥' },
+  { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍' },
 ]
 
 async function loadOverview() {
@@ -50,6 +54,10 @@ function pipelineStat(id) {
     directors: g.Person,
     'trade-edges': null,
     dedup: stats.value.matching?.same_as_pending,
+    sanctions: g.SanctionedEntity,
+    firds: null,
+    'beneficial-ownership': g.BeneficialOwner,
+    cdp: null,
   }
   const v = m[id]
   if (v == null) return ''

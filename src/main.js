@@ -15,6 +15,10 @@ import LobbyingDQView from './views/dq/LobbyingDQView.vue'
 import DirectorsDQView from './views/dq/DirectorsDQView.vue'
 import TradeEdgesDQView from './views/dq/TradeEdgesDQView.vue'
 import DedupDQView from './views/dq/DedupDQView.vue'
+import SanctionsDQView from './views/dq/SanctionsDQView.vue'
+import FirdsDQView from './views/dq/FirdsDQView.vue'
+import BeneficialOwnershipDQView from './views/dq/BeneficialOwnershipDQView.vue'
+import CdpDQView from './views/dq/CdpDQView.vue'
 import ReportListView from './views/ReportListView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
@@ -44,6 +48,10 @@ const router = createRouter({
     { path: '/admin/data-quality/directors', component: DirectorsDQView },
     { path: '/admin/data-quality/trade-edges', component: TradeEdgesDQView },
     { path: '/admin/data-quality/dedup', component: DedupDQView },
+    { path: '/admin/data-quality/sanctions', component: SanctionsDQView },
+    { path: '/admin/data-quality/firds', component: FirdsDQView },
+    { path: '/admin/data-quality/beneficial-ownership', component: BeneficialOwnershipDQView },
+    { path: '/admin/data-quality/cdp', component: CdpDQView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
     { path: '/admin/moderation', component: ModerationView },
 
