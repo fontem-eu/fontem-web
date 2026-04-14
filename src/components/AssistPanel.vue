@@ -201,18 +201,35 @@ function insertText(text) {
 
 function parseProposals(text) {
   const proposals = []
-  const jsonPattern = /\{[^{}]*"proposed"\s*:\s*true[^{}]*\}/g
-  let match
-  while ((match = jsonPattern.exec(text)) !== null) {
+  // Extract top-level JSON objects containing "proposed": true.
+  // We can't use a simple regex because proposals have nested braces
+  // (e.g. params: {widget_type: "...", entityId: "..."}). Instead,
+  // find each '{' that precedes '"proposed"' and track brace depth.
+  let i = 0
+  while (i < text.length) {
+    const propIdx = text.indexOf('"proposed"', i)
+    if (propIdx === -1) break
+    // Walk backwards to find the opening brace
+    let start = text.lastIndexOf('{', propIdx)
+    if (start === -1) { i = propIdx + 1; continue }
+    // Walk forward tracking brace depth to find the matching close
+    let depth = 0
+    let end = -1
+    for (let j = start; j < text.length; j++) {
+      if (text[j] === '{') depth++
+      else if (text[j] === '}') { depth--; if (depth === 0) { end = j + 1; break } }
+    }
+    if (end === -1) { i = propIdx + 1; continue }
     try {
-      const parsed = JSON.parse(match[0])
+      const parsed = JSON.parse(text.slice(start, end))
       if (parsed.proposed && parsed.action) {
-        const validation = validateProposal({ action: parsed.action, ...parsed.params })
+        const validation = validateProposal({ action: parsed.action, params: parsed.params })
         if (validation.valid) {
           proposals.push({ action: parsed.action, params: parsed.params, description: parsed.description })
         }
       }
     } catch { /* skip malformed JSON */ }
+    i = end
   }
   return proposals
 }
@@ -307,21 +324,22 @@ function clearChat() {
               </button>
             </div>
             <!-- Edit proposals -->
-            <div v-if="msg.proposals?.length" class="msg-proposals">
+            <div v-if="msg.proposals?.length" class="msg-proposals" data-testid="assist-proposals">
               <div
                 v-for="(p, pi) in msg.proposals"
                 :key="pi"
                 class="msg-proposal"
                 :class="{ 'proposal-applied': p.applied }"
+                :data-testid="`assist-proposal-${pi}`"
               >
                 <div class="proposal-header">
-                  <span class="proposal-action">{{ p.action.replace(/_/g, ' ') }}</span>
-                  <span v-if="p.applied" class="proposal-status">Applied</span>
+                  <span class="proposal-action" data-testid="proposal-action">{{ p.action.replace(/_/g, ' ') }}</span>
+                  <span v-if="p.applied" class="proposal-status" data-testid="proposal-applied">Applied</span>
                 </div>
-                <div class="proposal-desc">{{ p.description }}</div>
+                <div class="proposal-desc" data-testid="proposal-desc">{{ p.description }}</div>
                 <div v-if="!p.applied" class="proposal-buttons">
-                  <button class="proposal-apply" @click="applyProposal(p, i)">Apply</button>
-                  <button class="proposal-dismiss" @click="dismissProposal(p, i)">Dismiss</button>
+                  <button class="proposal-apply" data-testid="proposal-apply" @click="applyProposal(p, i)">Apply</button>
+                  <button class="proposal-dismiss" data-testid="proposal-dismiss" @click="dismissProposal(p, i)">Dismiss</button>
                 </div>
               </div>
             </div>
