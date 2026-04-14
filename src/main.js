@@ -19,6 +19,8 @@ import SanctionsDQView from './views/dq/SanctionsDQView.vue'
 import FirdsDQView from './views/dq/FirdsDQView.vue'
 import BeneficialOwnershipDQView from './views/dq/BeneficialOwnershipDQView.vue'
 import CdpDQView from './views/dq/CdpDQView.vue'
+import NutsDQView from './views/dq/NutsDQView.vue'
+import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import ReportListView from './views/ReportListView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
@@ -52,6 +54,8 @@ const router = createRouter({
     { path: '/admin/data-quality/firds', component: FirdsDQView },
     { path: '/admin/data-quality/beneficial-ownership', component: BeneficialOwnershipDQView },
     { path: '/admin/data-quality/cdp', component: CdpDQView },
+    { path: '/admin/data-quality/nuts', component: NutsDQView },
+    { path: '/admin/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
     { path: '/admin/moderation', component: ModerationView },
 

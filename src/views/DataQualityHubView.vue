@@ -21,6 +21,8 @@ const pipelines = [
   { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋' },
   { id: 'beneficial-ownership', title: 'Beneficial Ownership', desc: 'Beneficial owners — OWNS relationships, country distribution, ownership types.', icon: '👥' },
   { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍' },
+  { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺' },
+  { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺' },
 ]
 
 async function loadOverview() {
@@ -58,6 +60,8 @@ function pipelineStat(id) {
     firds: null,
     'beneficial-ownership': g.BeneficialOwner,
     cdp: null,
+    nuts: g.NUTSRegion,
+    'eu-knowledge-graph': g.CohesionProject,
   }
   const v = m[id]
   if (v == null) return ''
