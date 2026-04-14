@@ -199,7 +199,49 @@ test.describe.serial('Production Smoke Tests', () => {
     await expect(page.locator('.usage-card')).toHaveCount(3, { timeout: 5000 })
   })
 
-  test('SMOKE-13: Delete report (cleanup)', async ({ request, baseURL }) => {
+  test('SMOKE-13: Data quality API returns valid overview', async ({ request, baseURL }) => {
+    const resp = await request.get(`${baseURL}/api/data-quality`)
+    expect(resp.ok()).toBeTruthy()
+    const data = await resp.json()
+    // Graph stats must have non-zero node counts
+    expect(data.graph.nodes.Company).toBeGreaterThan(0)
+    expect(data.graph.nodes.Contract).toBeGreaterThan(0)
+    expect(data.graph.relationships).toBeGreaterThan(0)
+    // Coverage stats must be present
+    expect(data.coverage).toBeTruthy()
+    expect(data.coverage.companies_with_contracts).toBeGreaterThan(0)
+  })
+
+  test('SMOKE-14: Data quality per-pipeline endpoints return data', async ({ request, baseURL }) => {
+    const endpoints = [
+      '/api/data-quality/contracts/timeline',
+      '/api/data-quality/gleif',
+      '/api/data-quality/nuts',
+      '/api/data-quality/eu-knowledge-graph',
+      '/api/data-quality/sanctions',
+    ]
+    for (const ep of endpoints) {
+      const resp = await request.get(`${baseURL}${ep}`)
+      expect(resp.ok(), `${ep} should return 200`).toBeTruthy()
+      const data = await resp.json()
+      expect(data, `${ep} should return non-empty data`).toBeTruthy()
+    }
+  })
+
+  test('SMOKE-15: Data quality hub page renders', async ({ page }) => {
+    await page.goto('/login')
+    await page.fill('[data-testid="login-email"]', TEST_EMAIL)
+    await page.fill('[data-testid="login-password"]', TEST_PASSWORD)
+    await page.click('[data-testid="login-submit"]')
+    await page.waitForURL('/', { timeout: 15000 })
+
+    await page.goto('/admin/data-quality')
+    // The hub should show the heading and pipeline links
+    await expect(page.locator('h1:has-text("Data Quality")')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('a[href*="/admin/data-quality/contracts"]')).toBeVisible()
+  })
+
+  test('SMOKE-16: Delete report (cleanup)', async ({ request, baseURL }) => {
     expect(reportId).toBeTruthy()
     // baseURL provided by Playwright fixture
     const resp = await request.delete(`${baseURL}/capi/reports/${reportId}`, {
