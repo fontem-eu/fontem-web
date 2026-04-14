@@ -72,15 +72,11 @@ function setLink() {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 4px 6px;
-  background: #1a1a2e;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 .bubble-toolbar button {
   border: none;
   background: transparent;
-  color: #ccc;
+  color: var(--muted, #999);
   font-size: 0.75rem;
   padding: 4px 6px;
   border-radius: 3px;
@@ -88,7 +84,7 @@ function setLink() {
   min-width: 28px;
   text-align: center;
 }
-.bubble-toolbar button:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.bubble-toolbar button.active { background: rgba(255,255,255,0.2); color: #fff; }
-.separator { width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+.bubble-toolbar button:hover { background: var(--bg, #f5f5f5); color: var(--text); }
+.bubble-toolbar button.active { background: var(--accent, #2563eb); color: #fff; }
+.separator { width: 1px; height: 16px; background: var(--border, #ddd); margin: 0 4px; }
 </style>

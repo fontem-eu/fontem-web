@@ -10,7 +10,7 @@
  */
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { Editor, EditorContent, BubbleMenu, FloatingMenu } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Image } from '@tiptap/extension-image'
@@ -230,20 +230,17 @@ async function save() {
         data-testid="report-abstract-input"
       />
 
-      <!-- Unified Editor -->
+      <!-- Unified Editor with static toolbar -->
       <div class="editor-body" data-testid="editor-body">
-        <BubbleMenu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
+        <div v-if="editor" class="editor-toolbar" data-testid="editor-toolbar">
           <BubbleToolbar :editor="editor" />
-        </BubbleMenu>
-
-        <FloatingMenu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
+          <span class="toolbar-sep" />
           <FloatingToolbar
             :editor="editor"
             @upload-image="handleImageUpload"
             @insert-widget="openPocketModal"
           />
-        </FloatingMenu>
-
+        </div>
         <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
       </div>
 
@@ -306,7 +303,9 @@ async function save() {
 .abstract-input { display: block; width: 100%; padding: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.85rem; border-radius: 4px; resize: vertical; outline: none; margin-bottom: 1.5rem; }
 .abstract-input:focus { border-color: var(--accent); }
 
-.editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; }
+.editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; overflow: hidden; }
+.editor-toolbar { display: flex; align-items: center; gap: 4px; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); background: var(--bg); flex-wrap: wrap; }
+.toolbar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
 .tiptap-editor { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text); }
 .tiptap-editor :deep(.tiptap) { outline: none; min-height: 350px; }
 .tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: var(--muted); pointer-events: none; float: left; height: 0; }
