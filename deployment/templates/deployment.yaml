@@ -28,6 +28,12 @@ spec:
                   fieldPath: metadata.namespace
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
           volumeMounts:
             - name: umami-config
               mountPath: /usr/share/nginx/html/umami-config.js
