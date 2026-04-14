@@ -1,25 +1,24 @@
 /**
  * Edit proposal executor — validates and applies AI-proposed edits.
  *
- * The action schemas are mirrored from gmr-mcp-server/src/edit-actions.js.
- * This is the FRONTEND validation + execution layer.
+ * Works with the unified TipTap editor (v2). The assistant can:
+ * - insert_content: append HTML/text at the end of the document
+ * - update_title: change the report title
+ * - update_abstract: change the report abstract
+ * - insert_widget: insert a widget node at the cursor
  */
-import { editSection, addSection, updateReport } from '../api/community.js'
+import { updateReport } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
 
-/** Action schemas — must match gmr-mcp-server/src/edit-actions.js exactly. */
 const EDIT_ACTIONS = {
   add_section: { requiredParams: ['content'] },
-  update_section: { requiredParams: ['section_index', 'content'] },
+  insert_content: { requiredParams: ['content'] },
+  update_section: { requiredParams: ['content'] },
   update_title: { requiredParams: ['title'] },
   update_abstract: { requiredParams: ['abstract'] },
-  insert_widget: { requiredParams: ['section_index', 'widget_type', 'entityId'] },
+  insert_widget: { requiredParams: ['widget_type', 'entityId'] },
 }
 
-/**
- * Validate a proposed edit action.
- * Returns { valid: true } or { valid: false, error: string }.
- */
 export function validateProposal(proposal) {
   if (!proposal || typeof proposal !== 'object') return { valid: false, error: 'Invalid proposal' }
   const spec = EDIT_ACTIONS[proposal.action]
@@ -33,30 +32,26 @@ export function validateProposal(proposal) {
 }
 
 /**
- * Execute a validated proposal against the community API.
+ * Execute a proposal against the unified editor.
  *
- * @param {string} reportId - Current report ID
+ * @param {string} reportId
  * @param {object} proposal - { action, params: {...} }
- * @param {object} editorState - { sections: [{id, editor}], title, abstract }
- * @returns {Promise<{ok: boolean, error?: string}>}
+ * @param {object} editorState - { editor, title, abstract }
  */
 export async function executeProposal(reportId, proposal, editorState) {
   const p = proposal.params || proposal
   const action = proposal.action
+  const editor = editorState.editor || editorState.sections?.[0]?.editor
 
   try {
     switch (action) {
-      case 'add_section': {
-        await addSection(reportId, sanitizeHtml(p.content))
-        return { ok: true }
-      }
+      case 'add_section':
+      case 'insert_content':
       case 'update_section': {
-        const idx = p.section_index === -1 ? editorState.sections.length - 1 : p.section_index
-        const sec = editorState.sections[idx]
-        if (!sec?.id) return { ok: false, error: `Section ${idx} not found` }
+        // All content insertions go to the unified editor
+        if (!editor) return { ok: false, error: 'No editor available' }
         const clean = sanitizeHtml(p.content)
-        await editSection(reportId, sec.id, clean)
-        if (sec.editor) sec.editor.commands.setContent(clean)
+        editor.chain().focus().insertContent(clean).run()
         return { ok: true }
       }
       case 'update_title': {
@@ -68,17 +63,16 @@ export async function executeProposal(reportId, proposal, editorState) {
         return { ok: true }
       }
       case 'insert_widget': {
-        const idx = p.section_index === -1 ? editorState.sections.length - 1 : p.section_index
-        const sec = editorState.sections[idx]
-        if (!sec?.editor) return { ok: false, error: `Section ${idx} has no editor` }
-        const config = {
-          widget_type: p.widget_type,
-          schema_version: 1,
-          entityId: p.entityId,
-          ...(p.depth ? { depth: p.depth } : {}),
-        }
-        const marker = '\n```widget\n' + JSON.stringify(config) + '\n```\n'
-        sec.editor.commands.insertContent(marker)
+        if (!editor) return { ok: false, error: 'No editor available' }
+        editor.chain().focus().insertContent({
+          type: 'widget',
+          attrs: {
+            widget_type: p.widget_type,
+            schema_version: 1,
+            entityId: p.entityId,
+            ...(p.depth ? { depth: p.depth } : {}),
+          },
+        }).run()
         return { ok: true }
       }
       default:

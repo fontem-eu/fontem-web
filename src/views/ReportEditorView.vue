@@ -1,18 +1,36 @@
 <script setup>
+/**
+ * Confluence-style report editor — single unified TipTap document.
+ *
+ * No sections, no markdown/rich-text toggle. One WYSIWYG editor with:
+ * - Bubble menu (formatting on text selection)
+ * - Floating menu (insert blocks on empty lines)
+ * - Inline image upload (to MinIO)
+ * - Widget nodes (interactive Vue components inline)
+ */
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent, BubbleMenu, FloatingMenu } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import { usePocket } from '../composables/usePocket.js'
+import { Image } from '@tiptap/extension-image'
+import { Link } from '@tiptap/extension-link'
+import { Underline } from '@tiptap/extension-underline'
+import { TextAlign } from '@tiptap/extension-text-align'
+import { Table } from '@tiptap/extension-table'
+import { TableRow } from '@tiptap/extension-table-row'
+import { TableCell } from '@tiptap/extension-table-cell'
+import { TableHeader } from '@tiptap/extension-table-header'
+import { WidgetNode } from '../extensions/WidgetNode.js'
+import BubbleToolbar from '../components/BubbleToolbar.vue'
+import FloatingToolbar from '../components/FloatingToolbar.vue'
 import AssistPanel from '../components/AssistPanel.vue'
-import { buildReportContext } from '../utils/reportContext.js'
+import { usePocket } from '../composables/usePocket.js'
 import {
   getReport,
   updateReport,
-  addSection,
-  editSection,
-  deleteSection,
+  saveDocument,
+  uploadImage,
 } from '../api/community.js'
 
 const route = useRoute()
@@ -21,107 +39,92 @@ const reportId = route.params.id
 const title = ref('')
 const abstract = ref('')
 const visibility = ref('private')
-const sections = ref([])   // { id, editor, content, markdownMode, markdownText }
-const deletedSectionIds = ref([])  // ids of persisted sections removed since last load
 const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
 
-// ── Pocket-based widget insertion ─────────────────────────────
+// ── Pocket ──────────────────────────────────────────────────
 const { items: pocketItems, remove: removePocketItem, refresh: refreshPocket } = usePocket()
 const showPocketModal = ref(false)
-const pocketTargetIndex = ref(null)
 
-function openPocketModal(sectionIndex) {
+function openPocketModal() {
   refreshPocket()
-  pocketTargetIndex.value = sectionIndex
   showPocketModal.value = true
 }
 
 function insertFromPocket(item) {
-  if (pocketTargetIndex.value === null) return
-  const config = {
-    widget_type: item.widget_type,
-    schema_version: 1,
-    ...item.config,
-  }
-  const marker = '\n```widget\n' + JSON.stringify(config) + '\n```\n'
-  const sec = sections.value[pocketTargetIndex.value]
-  if (sec?.editor) {
-    sec.editor.commands.insertContent(marker)
-  }
+  if (!editor) return
+  editor.chain().focus().insertContent({
+    type: 'widget',
+    attrs: {
+      widget_type: item.widget_type,
+      entityId: item.config?.entityId || item.config?.entity_id,
+      schema_version: 1,
+      ...(item.config?.depth ? { depth: item.config.depth } : {}),
+    },
+  }).run()
   showPocketModal.value = false
 }
 
-// ── AI Assist ──────────────────────────────────────────────────
-function onAssistInsert(text) {
-  // Insert into the last active section (or the first one)
-  const sec = sections.value[sections.value.length - 1]
-  if (sec?.editor) {
-    sec.editor.commands.insertContent(`<p>${text}</p>`)
-  }
+// ── Image upload ────────────────────────────────────────────
+const fileInput = ref(null)
+
+async function handleImageUpload() {
+  fileInput.value?.click()
 }
 
-const reportContext = computed(() => {
-  // Hand the assistant the full current editor state. The assistant
-  // module owns budget/truncation on its side — we just render the
-  // user's in-memory report into a markdown-ish blob.
-  return buildReportContext({
-    title: title.value,
-    abstract: abstract.value,
-    sections: sections.value.map((sec) => ({
-      id: sec.id,
-      markdownMode: sec.markdownMode,
-      markdownText: sec.markdownText,
-      html: sec.editor ? sec.editor.getHTML() : sec.content,
-    })),
-  })
-})
+async function onFileSelected(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+  try {
+    const result = await uploadImage(reportId, file)
+    editor.chain().focus().setImage({ src: result.url }).run()
+  } catch (err) {
+    error.value = `Image upload failed: ${err.message}`
+  }
+  event.target.value = ''
+}
 
-// ── Editor helpers ──────────────────────────────────────────────
+// ── Editor ──────────────────────────────────────────────────
+let editor = null
+
 function createEditor(content = '') {
   return new Editor({
     extensions: [
       StarterKit,
-      Placeholder.configure({ placeholder: 'Write your analysis here...' }),
+      Placeholder.configure({ placeholder: 'Start writing your analysis...' }),
+      Image.configure({ inline: false, allowBase64: false }),
+      Link.configure({ openOnClick: false, autolink: true }),
+      Underline,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableCell,
+      TableHeader,
+      WidgetNode,
     ],
     content,
   })
 }
 
-function addNewSection() {
-  const editor = createEditor()
-  sections.value.push({ id: null, editor, content: '', markdownMode: false, markdownText: '' })
-}
-
-function toggleMarkdownMode(index) {
-  const sec = sections.value[index]
-  if (!sec) return
-  if (sec.markdownMode) {
-    // Switch back to rich text — convert markdown to HTML and set in editor
-    if (sec.markdownText.trim()) {
-      import('marked').then(({ marked }) => {
-        marked.setOptions({ breaks: true, gfm: true })
-        const html = marked.parse(sec.markdownText)
-        sec.editor.commands.setContent(html)
-      })
-    }
-    sec.markdownMode = false
-  } else {
-    // Switch to markdown mode — store current HTML
-    sec.markdownText = sec.editor ? sec.editor.getText() : ''
-    sec.markdownMode = true
+// ── AI Assist ───────────────────────────────────────────────
+function onAssistInsert(text) {
+  if (editor) {
+    editor.chain().focus().insertContent(`<p>${text}</p>`).run()
   }
 }
 
-function removeSection(index) {
-  const sec = sections.value[index]
-  if (sec.editor) sec.editor.destroy()
-  if (sec.id) deletedSectionIds.value.push(sec.id)
-  sections.value.splice(index, 1)
-}
+const reportContext = computed(() => {
+  if (!editor) return ''
+  const text = editor.getText()
+  const parts = []
+  if (title.value?.trim()) parts.push(`# ${title.value.trim()}`)
+  if (abstract.value?.trim()) parts.push(abstract.value.trim())
+  if (text?.trim()) parts.push(text.trim())
+  return parts.join('\n\n')
+})
 
-// ── Load report ─────────────────────────────────────────────────
+// ── Load ────────────────────────────────────────────────────
 async function loadReport() {
   try {
     const report = await getReport(reportId)
@@ -129,25 +132,19 @@ async function loadReport() {
     abstract.value = report.abstract || ''
     visibility.value = report.visibility || 'private'
 
-    // Destroy old editors and rebuild sections
-    for (const sec of sections.value) {
-      if (sec.editor) sec.editor.destroy()
-    }
-    sections.value = []
-    deletedSectionIds.value = []
+    if (editor) editor.destroy()
 
-    const reportSections = report.sections || []
-    if (reportSections.length === 0) {
-      addNewSection()
+    // v2: TipTap JSON document
+    if (report.content_doc?.version === 2) {
+      editor = createEditor(report.content_doc.tiptap)
     } else {
-      for (const sec of reportSections) {
-        const editor = createEditor(sec.content || '')
-        sections.value.push({ id: sec.id, editor, content: sec.content || '' })
-      }
+      // v1: concatenate section HTML into a single document
+      const html = (report.sections || []).map(s => s.content || '').join('')
+      editor = createEditor(html || '')
     }
   } catch (err) {
     error.value = err.message
-    if (!sections.value.length) addNewSection()
+    if (!editor) editor = createEditor()
   }
 }
 
@@ -156,19 +153,17 @@ onMounted(async () => {
     await loadReport()
   } catch (err) {
     error.value = err.message
-    addNewSection()
+    editor = createEditor()
   } finally {
     loading.value = false
   }
 })
 
 onBeforeUnmount(() => {
-  for (const sec of sections.value) {
-    if (sec.editor) sec.editor.destroy()
-  }
+  if (editor) editor.destroy()
 })
 
-// ── Save ────────────────────────────────────────────────────────
+// ── Save ────────────────────────────────────────────────────
 async function save() {
   saving.value = true
   error.value = null
@@ -178,33 +173,13 @@ async function save() {
       abstract: abstract.value,
       visibility: visibility.value,
     })
-    // Persist deletions first so a failed add/edit later doesn't leave
-    // orphaned sections lingering on the server.
-    while (deletedSectionIds.value.length) {
-      const id = deletedSectionIds.value[0]
-      await deleteSection(reportId, id)
-      deletedSectionIds.value.shift()
-    }
-    for (const sec of sections.value) {
-      // If in markdown mode, save the raw markdown text (ReportView detects and renders it)
-      const html = sec.markdownMode
-        ? sec.markdownText
-        : (sec.editor ? sec.editor.getHTML() : '')
-      if (sec.id) {
-        await editSection(reportId, sec.id, html)
-      } else {
-        const created = await addSection(reportId, html)
-        if (created?.id) sec.id = created.id
-      }
-    }
+    await saveDocument(reportId, editor.getJSON())
   } catch (err) {
     error.value = err.message
   } finally {
     saving.value = false
   }
 }
-
-
 </script>
 
 <template>
@@ -215,11 +190,7 @@ async function save() {
         &larr; Reports
       </router-link>
       <div class="header-actions">
-        <select
-          v-model="visibility"
-          class="visibility-select"
-          data-testid="visibility-select"
-        >
+        <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
           <option value="private">Private</option>
           <option value="shared">Shared</option>
           <option value="public">Public</option>
@@ -227,25 +198,17 @@ async function save() {
         <AssistPanel
           :report-context="reportContext"
           :report-id="reportId"
-          :editor-state="{ sections: sections, title: title, abstract: abstract }"
+          :editor-state="{ editor, title: title, abstract: abstract }"
           @insert="onAssistInsert"
           @refresh="loadReport"
         />
-        <button
-          class="save-btn"
-          :disabled="saving"
-          data-testid="save-report"
-          @click="save"
-        >
+        <button class="save-btn" :disabled="saving" data-testid="save-report" @click="save">
           {{ saving ? 'Saving...' : 'Save' }}
         </button>
       </div>
     </div>
 
-    <!-- Error -->
     <div v-if="error" class="error-bar" data-testid="editor-error">{{ error }}</div>
-
-    <!-- Loading -->
     <div v-if="loading" class="loading-msg">Loading report...</div>
 
     <template v-else>
@@ -267,56 +230,31 @@ async function save() {
         data-testid="report-abstract-input"
       />
 
-      <!-- Sections -->
-      <div
-        v-for="(sec, idx) in sections"
-        :key="idx"
-        class="section-block"
-        :data-testid="`section-${idx}`"
-      >
-        <div class="section-toolbar">
-          <span class="section-label">Section {{ idx + 1 }}</span>
-          <button
-            class="toolbar-btn"
-            :class="{ 'toolbar-btn--active': sec.markdownMode }"
-            data-testid="toggle-markdown-btn"
-            @click="toggleMarkdownMode(idx)"
-          >
-            {{ sec.markdownMode ? 'Rich Text' : 'Markdown' }}
-          </button>
-          <button
-            class="toolbar-btn"
-            data-testid="insert-widget-btn"
-            @click="openPocketModal(idx)"
-          >
-            Insert from Pocket
-          </button>
-          <button
-            v-if="sections.length > 1"
-            class="toolbar-btn danger"
-            data-testid="remove-section-btn"
-            @click="removeSection(idx)"
-          >
-            Remove
-          </button>
-        </div>
-        <textarea
-          v-if="sec.markdownMode"
-          v-model="sec.markdownText"
-          class="markdown-editor"
-          placeholder="Write markdown here..."
-          data-testid="markdown-textarea"
-        />
-        <EditorContent v-else :editor="sec.editor" class="tiptap-editor" />
+      <!-- Unified Editor -->
+      <div class="editor-body" data-testid="editor-body">
+        <BubbleMenu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
+          <BubbleToolbar :editor="editor" />
+        </BubbleMenu>
+
+        <FloatingMenu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
+          <FloatingToolbar
+            :editor="editor"
+            @upload-image="handleImageUpload"
+            @insert-widget="openPocketModal"
+          />
+        </FloatingMenu>
+
+        <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
       </div>
 
-      <button
-        class="add-section-btn"
-        data-testid="add-section-btn"
-        @click="addNewSection"
-      >
-        + Add section
-      </button>
+      <!-- Hidden file input for image upload -->
+      <input
+        ref="fileInput"
+        type="file"
+        accept="image/png,image/jpeg,image/gif,image/webp"
+        style="display: none"
+        @change="onFileSelected"
+      />
     </template>
 
     <!-- Pocket picker modal -->
@@ -327,11 +265,9 @@ async function save() {
       @click.self="showPocketModal = false"
     >
       <div class="modal-content">
-        <h3>Insert from Pocket</h3>
+        <h3>Insert Widget</h3>
         <p v-if="!pocketItems.length" class="pocket-empty">
-          Your pocket is empty. Use the
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -1px"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
-          Pocket button on any visualization to save a snapshot here.
+          Your pocket is empty. Save visualizations using the Pocket button first.
         </p>
         <ul v-else class="pocket-list" data-testid="pocket-list">
           <li
@@ -341,16 +277,10 @@ async function save() {
             :data-testid="'pocket-item-' + item.id"
           >
             <div class="pocket-item-info" @click="insertFromPocket(item)">
-              <span class="pocket-item-type">{{ item.widget_type.replace(/_/g, ' ') }}</span>
+              <span class="pocket-item-type">{{ item.widget_type?.replace(/_/g, ' ') }}</span>
               <span class="pocket-item-name">{{ item.name }}</span>
             </div>
-            <button
-              class="pocket-item-remove"
-              title="Remove from pocket"
-              @click.stop="removePocketItem(item.id)"
-            >
-              &times;
-            </button>
+            <button class="pocket-item-remove" @click.stop="removePocketItem(item.id)">&times;</button>
           </li>
         </ul>
         <div class="modal-actions">
@@ -362,344 +292,52 @@ async function save() {
 </template>
 
 <style scoped>
-.report-editor {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
-}
+.report-editor { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem; }
+.editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.back-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.visibility-select { padding: 0.35rem 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.8rem; border-radius: 4px; }
+.save-btn { padding: 0.4rem 1rem; background: var(--accent); color: #fff; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+.save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.error-bar { padding: 0.5rem 0.75rem; margin-bottom: 1rem; background: #fee2e2; color: #991b1b; border-radius: 4px; font-size: 0.8rem; }
+.loading-msg { color: var(--muted); font-size: 0.85rem; text-align: center; padding: 2rem 0; }
+.title-input { display: block; width: 100%; padding: 0.5rem 0; border: none; border-bottom: 2px solid var(--border); background: transparent; color: var(--text); font-size: 1.5rem; font-weight: 700; outline: none; margin-bottom: 0.75rem; }
+.title-input:focus { border-color: var(--accent); }
+.abstract-input { display: block; width: 100%; padding: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.85rem; border-radius: 4px; resize: vertical; outline: none; margin-bottom: 1.5rem; }
+.abstract-input:focus { border-color: var(--accent); }
 
-.editor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.back-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.85rem;
-}
-
-.header-actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.visibility-select {
-  padding: 0.35rem 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.8rem;
-  border-radius: 4px;
-}
-
-.save-btn {
-  padding: 0.4rem 1rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.save-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.error-bar {
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 1rem;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-.loading-msg {
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-align: center;
-  padding: 2rem 0;
-}
-
-.title-input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem 0;
-  border: none;
-  border-bottom: 2px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  font-size: 1.5rem;
-  font-weight: 700;
-  outline: none;
-  margin-bottom: 0.75rem;
-}
-
-.title-input:focus {
-  border-color: var(--accent);
-}
-
-.abstract-input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.85rem;
-  border-radius: 4px;
-  resize: vertical;
-  outline: none;
-  margin-bottom: 1.5rem;
-}
-
-.abstract-input:focus {
-  border-color: var(--accent);
-}
-
-.section-block {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  background: var(--surface);
-}
-
-.section-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.75rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.section-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--muted);
-  flex: 1;
-}
-
-.toolbar-btn {
-  padding: 0.2rem 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.7rem;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.toolbar-btn--active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.toolbar-btn.danger {
-  color: #dc2626;
-  border-color: #dc2626;
-}
-
-.markdown-editor {
-  display: block;
-  width: 100%;
-  min-height: 200px;
-  padding: 0.75rem;
-  border: none;
-  background: var(--surface);
-  color: var(--text);
-  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  resize: vertical;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.tiptap-editor {
-  padding: 0.75rem;
-  min-height: 150px;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.tiptap-editor :deep(.tiptap) {
-  outline: none;
-  min-height: 120px;
-}
-
-.tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) {
-  content: attr(data-placeholder);
-  color: var(--muted);
-  pointer-events: none;
-  float: left;
-  height: 0;
-}
-
-.tiptap-editor :deep(.tiptap h1) { font-size: 1.4rem; font-weight: 700; margin: 0.5rem 0; }
-.tiptap-editor :deep(.tiptap h2) { font-size: 1.2rem; font-weight: 600; margin: 0.5rem 0; }
+.editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; }
+.tiptap-editor { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text); }
+.tiptap-editor :deep(.tiptap) { outline: none; min-height: 350px; }
+.tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: var(--muted); pointer-events: none; float: left; height: 0; }
+.tiptap-editor :deep(.tiptap h1) { font-size: 1.4rem; font-weight: 700; margin: 0.75rem 0 0.5rem; }
+.tiptap-editor :deep(.tiptap h2) { font-size: 1.2rem; font-weight: 600; margin: 0.75rem 0 0.5rem; }
 .tiptap-editor :deep(.tiptap h3) { font-size: 1.05rem; font-weight: 600; margin: 0.5rem 0; }
-.tiptap-editor :deep(.tiptap ul),
-.tiptap-editor :deep(.tiptap ol) { padding-left: 1.5rem; margin: 0.5rem 0; }
+.tiptap-editor :deep(.tiptap ul), .tiptap-editor :deep(.tiptap ol) { padding-left: 1.5rem; margin: 0.5rem 0; }
 .tiptap-editor :deep(.tiptap code) { background: var(--bg); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.85em; }
 .tiptap-editor :deep(.tiptap pre) { background: var(--bg); padding: 0.75rem; border-radius: 4px; overflow-x: auto; }
-
-.add-section-btn {
-  display: block;
-  width: 100%;
-  padding: 0.6rem;
-  border: 2px dashed var(--border);
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.85rem;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-bottom: 2rem;
-}
-
-.add-section-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.tiptap-editor :deep(.tiptap img) { max-width: 100%; height: auto; border-radius: 4px; margin: 0.5rem 0; }
+.tiptap-editor :deep(.tiptap table) { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+.tiptap-editor :deep(.tiptap th), .tiptap-editor :deep(.tiptap td) { border: 1px solid var(--border); padding: 0.4rem 0.6rem; text-align: left; font-size: 0.85rem; }
+.tiptap-editor :deep(.tiptap th) { background: var(--bg); font-weight: 600; }
+.tiptap-editor :deep(.tiptap blockquote) { border-left: 3px solid var(--accent); padding-left: 0.75rem; color: var(--muted); margin: 0.5rem 0; }
+.tiptap-editor :deep(.tiptap hr) { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+.tiptap-editor :deep(.tiptap a) { color: var(--accent); text-decoration: underline; }
 
 /* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1.5rem;
-  width: 90%;
-  max-width: 400px;
-}
-
-.modal-content h3 {
-  margin: 0 0 1rem;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.modal-label {
-  display: block;
-  margin-bottom: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.modal-label select,
-.modal-label input {
-  display: block;
-  width: 100%;
-  margin-top: 0.25rem;
-  padding: 0.4rem 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 0.85rem;
-  border-radius: 4px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.modal-actions button {
-  padding: 0.35rem 0.75rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Pocket picker */
-.pocket-empty {
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.pocket-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.pocket-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; width: 90%; max-width: 400px; }
+.modal-content h3 { margin: 0 0 1rem; font-size: 1rem; color: var(--text); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
+.modal-actions button { padding: 0.35rem 0.75rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.8rem; border-radius: 4px; cursor: pointer; }
+.pocket-empty { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+.pocket-list { list-style: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; }
+.pocket-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
 .pocket-item:last-child { border-bottom: none; }
-
-.pocket-item-info {
-  flex: 1;
-  cursor: pointer;
-  min-width: 0;
-}
-
+.pocket-item-info { flex: 1; cursor: pointer; min-width: 0; }
 .pocket-item-info:hover .pocket-item-name { color: var(--accent); }
-
-.pocket-item-type {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
-
-.pocket-item-name {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.15s;
-}
-
-.pocket-item-remove {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  border: none;
-  background: none;
-  color: var(--muted);
-  font-size: 1.1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pocket-item-remove:hover { color: #dc2626; background: var(--surface); }
+.pocket-item-type { display: block; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.pocket-item-name { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pocket-item-remove { flex-shrink: 0; width: 24px; height: 24px; border: none; background: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.pocket-item-remove:hover { color: #dc2626; }
 </style>

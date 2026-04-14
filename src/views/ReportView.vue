@@ -1,7 +1,17 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+import { Image } from '@tiptap/extension-image'
+import { Link } from '@tiptap/extension-link'
+import { Underline } from '@tiptap/extension-underline'
+import { Table } from '@tiptap/extension-table'
+import { TableRow } from '@tiptap/extension-table-row'
+import { TableCell } from '@tiptap/extension-table-cell'
+import { TableHeader } from '@tiptap/extension-table-header'
+import { WidgetNode } from '../extensions/WidgetNode.js'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import { getReport } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
@@ -13,6 +23,8 @@ const reportId = route.params.id
 
 const report = ref(null)
 const loading = ref(true)
+const isV2 = ref(false)
+let readOnlyEditor = null
 const error = ref(null)
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
@@ -20,11 +32,28 @@ const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 onMounted(async () => {
   try {
     report.value = await getReport(reportId)
+    // v2 reports use a read-only TipTap editor for rendering (supports widget nodes)
+    if (report.value.content_doc?.version === 2) {
+      isV2.value = true
+      readOnlyEditor = new Editor({
+        editable: false,
+        extensions: [
+          StarterKit, Image, Link, Underline,
+          Table, TableRow, TableCell, TableHeader,
+          WidgetNode,
+        ],
+        content: report.value.content_doc.tiptap,
+      })
+    }
   } catch (err) {
     error.value = err.message
   } finally {
     loading.value = false
   }
+})
+
+onBeforeUnmount(() => {
+  if (readOnlyEditor) readOnlyEditor.destroy()
 })
 
 function formatDate(dateStr) {
@@ -158,9 +187,15 @@ function parseSectionContent(content) {
         {{ report.abstract }}
       </p>
 
-      <!-- Sections -->
+      <!-- v2: TipTap JSON rendered via read-only editor (supports widget nodes) -->
+      <div v-if="isV2" class="report-body" data-testid="report-section-0">
+        <EditorContent v-if="readOnlyEditor" :editor="readOnlyEditor" class="report-tiptap" />
+      </div>
+
+      <!-- v1: Legacy section-based rendering -->
       <div
         v-for="(sec, idx) in (report.sections || [])"
+        v-else
         :key="sec.id || idx"
         class="report-section"
         :data-testid="`report-section-${idx}`"
@@ -251,6 +286,19 @@ function parseSectionContent(content) {
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
+
+.report-body { margin-bottom: 1.5rem; }
+.report-tiptap { font-size: 0.9rem; line-height: 1.7; color: var(--text); }
+.report-tiptap :deep(.tiptap) { outline: none; }
+.report-tiptap :deep(.tiptap h1) { font-size: 1.4rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+.report-tiptap :deep(.tiptap h2) { font-size: 1.2rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+.report-tiptap :deep(.tiptap h3) { font-size: 1.05rem; font-weight: 600; margin: 0.75rem 0; }
+.report-tiptap :deep(.tiptap img) { max-width: 100%; height: auto; border-radius: 4px; }
+.report-tiptap :deep(.tiptap table) { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+.report-tiptap :deep(.tiptap th), .report-tiptap :deep(.tiptap td) { border: 1px solid var(--border); padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+.report-tiptap :deep(.tiptap th) { background: var(--bg); font-weight: 600; }
+.report-tiptap :deep(.tiptap blockquote) { border-left: 3px solid var(--accent); padding-left: 0.75rem; color: var(--muted); }
+.report-tiptap :deep(.tiptap a) { color: var(--accent); text-decoration: underline; }
 
 .report-section {
   margin-bottom: 1.5rem;
