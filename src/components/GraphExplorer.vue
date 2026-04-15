@@ -82,6 +82,15 @@ let renderer = null   // sigma renderer
 let searchDebounce = null
 let playInterval = null
 
+// ── Expand/collapse state ───────────────────────────────────
+// expandedNodes: Set of node IDs whose neighbors have been fetched and are visible
+// collapsedNodes: Set of node IDs whose neighbors have been fetched but are hidden
+// childrenOf: Map of node ID → Set of child node IDs added by expansion
+const expandedNodes = ref(new Set())
+const collapsedNodes = ref(new Set())
+const childrenOf = new Map()  // not reactive — internal bookkeeping
+const expandLoading = ref(null)  // node ID currently being loaded
+
 // ── Node styles ──────────────────────────────────────────────
 const NODE_STYLES = {
   Company:       { shape: 'ellipse',          color: '#3b82f6' },
@@ -326,6 +335,18 @@ async function renderGraph() {
     maxCameraRatio: 10,
     nodeReducer: (node, data) => {
       if (data._hidden) return { ...data, hidden: true }
+      // Collapsed node visual cue: amber border
+      if (collapsedNodes.value.has(node)) {
+        return { ...data, borderSize: 3, borderColor: '#f59e0b' }
+      }
+      // Expanded node visual cue: green border
+      if (expandedNodes.value.has(node)) {
+        return { ...data, borderSize: 2, borderColor: '#10b981' }
+      }
+      // Loading node: pulsing effect via larger size
+      if (expandLoading.value === node) {
+        return { ...data, borderSize: 3, borderColor: '#3b82f6' }
+      }
       if (data.borderColor) {
         return { ...data, borderSize: 2, borderColor: data.borderColor }
       }
@@ -337,17 +358,35 @@ async function renderGraph() {
     },
   })
 
-  // Click handler
+  // Click handler — single click shows tooltip, double click expands/collapses
+  let clickTimer = null
   renderer.on('clickNode', ({ node }) => {
-    const attrs = graph.getNodeAttributes(node)
-    const pos = renderer.graphToViewport(graph.getNodeAttributes(node))
-    tooltip.value = {
-      x: pos.x,
-      y: pos.y,
-      id: node,
-      label: attrs.label,
-      type: attrs.nodeType,
-      properties: attrs.properties || {},
+    if (clickTimer) {
+      // Double click — expand/collapse
+      clearTimeout(clickTimer)
+      clickTimer = null
+      tooltip.value = null
+      toggleNodeExpansion(node)
+    } else {
+      // Single click — show tooltip after delay
+      clickTimer = setTimeout(() => {
+        clickTimer = null
+        const attrs = graph.getNodeAttributes(node)
+        const pos = renderer.graphToViewport(graph.getNodeAttributes(node))
+        const isExpanded = expandedNodes.value.has(node)
+        const isCollapsed = collapsedNodes.value.has(node)
+        tooltip.value = {
+          x: pos.x,
+          y: pos.y,
+          id: node,
+          label: attrs.label,
+          type: attrs.nodeType,
+          properties: attrs.properties || {},
+          isExpanded,
+          isCollapsed,
+          hasChildren: childrenOf.has(node),
+        }
+      }, 250)
     }
   })
 
@@ -355,8 +394,146 @@ async function renderGraph() {
     tooltip.value = null
   })
 
+  // Reset expand/collapse state on full re-render
+  expandedNodes.value.clear()
+  collapsedNodes.value.clear()
+  childrenOf.clear()
+
   applyKeywordFilter()
   applyEdgeTypeFilter()
+}
+
+// ── Expand / Collapse ───────────────────────────────────────
+
+async function toggleNodeExpansion(nodeId) {
+  if (!graph || !graph.hasNode(nodeId)) return
+
+  if (expandedNodes.value.has(nodeId)) {
+    // Collapse: hide children
+    collapseNode(nodeId)
+  } else if (collapsedNodes.value.has(nodeId)) {
+    // Re-expand: show previously hidden children
+    reExpandNode(nodeId)
+  } else {
+    // First expansion: fetch neighbors from API
+    await expandNode(nodeId)
+  }
+  renderer?.refresh()
+}
+
+async function expandNode(nodeId) {
+  expandLoading.value = nodeId
+  try {
+    const res = await fetch(`/api/graph/${encodeURIComponent(nodeId)}?depth=1&summary=${summaryEdges.value}`)
+    if (!res.ok) return
+    const data = await res.json()
+
+    const isDark = document.documentElement.classList.contains('dark')
+    const parentAttrs = graph.getNodeAttributes(nodeId)
+    const newChildren = new Set()
+
+    // Add new nodes (skip if already in graph)
+    for (const node of data.nodes) {
+      if (graph.hasNode(node.id)) continue
+      const style = NODE_STYLES[node.type] || NODE_STYLES.Unknown
+      graph.addNode(node.id, {
+        label: node.label,
+        x: parentAttrs.x + (Math.random() - 0.5) * 30,
+        y: parentAttrs.y + (Math.random() - 0.5) * 30,
+        size: 5,
+        color: style.color,
+        nodeType: node.type,
+        properties: node.properties,
+        _origColor: style.color,
+        _origSize: 5,
+        _hidden: false,
+        _addedBy: nodeId,
+      })
+      newChildren.add(node.id)
+    }
+
+    // Add new edges (skip duplicates)
+    for (const edge of data.edges) {
+      if (edge.type === 'SUPPLIER_OF') continue
+      const edgeId = `${edge.source}-${edge.target}-${edge.type}`
+      if (graph.hasEdge(edgeId)) continue
+      if (!graph.hasNode(edge.source) || !graph.hasNode(edge.target)) continue
+      const props = edge.properties || {}
+      const isClient = edge.type === 'CLIENT_OF'
+      try {
+        graph.addEdge(edge.source, edge.target, {
+          id: edgeId,
+          label: isClient && props.contracts ? `${props.contracts} contracts` : edge.type,
+          color: isClient ? (isDark ? '#38bdf8' : '#0ea5e9') : (isDark ? '#475569' : '#94a3b8'),
+          size: isClient ? 2.5 : 1,
+          relType: edge.type,
+          properties: props,
+          _origColor: isClient ? (isDark ? '#38bdf8' : '#0ea5e9') : (isDark ? '#475569' : '#94a3b8'),
+          _hidden: false,
+        })
+      } catch { /* skip */ }
+    }
+
+    // Run layout on the new nodes to position them nicely
+    if (newChildren.size > 0 && graph.order > 1) {
+      await ensureImports()
+      forceAtlas2.assign(graph, {
+        iterations: Math.min(newChildren.size * 5, 100),
+        settings: { gravity: 0.5, scalingRatio: 10, strongGravityMode: false },
+      })
+    }
+
+    childrenOf.set(nodeId, newChildren)
+    expandedNodes.value.add(nodeId)
+    collapsedNodes.value.delete(nodeId)
+
+    // Visual cue: increase parent node size to indicate it has been expanded
+    graph.setNodeAttribute(nodeId, 'size', (parentAttrs._origSize || 6) * 1.3)
+  } finally {
+    expandLoading.value = null
+  }
+}
+
+function collapseNode(nodeId) {
+  const children = childrenOf.get(nodeId)
+  if (!children) return
+
+  // Hide all children and their edges
+  for (const childId of children) {
+    if (!graph.hasNode(childId)) continue
+    graph.setNodeAttribute(childId, '_hidden', true)
+    // Hide edges connected to this child
+    graph.forEachEdge(childId, (edge) => {
+      graph.setEdgeAttribute(edge, '_hidden', true)
+    })
+  }
+
+  expandedNodes.value.delete(nodeId)
+  collapsedNodes.value.add(nodeId)
+
+  // Visual cue: dashed border for collapsed nodes
+  graph.setNodeAttribute(nodeId, 'borderColor', '#f59e0b')
+  graph.setNodeAttribute(nodeId, 'borderSize', 3)
+}
+
+function reExpandNode(nodeId) {
+  const children = childrenOf.get(nodeId)
+  if (!children) return
+
+  // Show all children and their edges
+  for (const childId of children) {
+    if (!graph.hasNode(childId)) continue
+    graph.setNodeAttribute(childId, '_hidden', false)
+    graph.forEachEdge(childId, (edge) => {
+      graph.setEdgeAttribute(edge, '_hidden', false)
+    })
+  }
+
+  collapsedNodes.value.delete(nodeId)
+  expandedNodes.value.add(nodeId)
+
+  // Remove collapsed visual cue
+  graph.setNodeAttribute(nodeId, 'borderColor', null)
 }
 
 // ── Path highlighting ────────────────────────────────────────
@@ -1009,6 +1186,9 @@ watch(() => props.entityId, async () => {
     <div v-if="loading" class="ge-loading" data-testid="ge-loading">
       Loading graph...
     </div>
+    <div v-if="expandLoading" class="ge-expand-loading" data-testid="ge-expand-loading">
+      Expanding node...
+    </div>
 
     <!-- Error -->
     <div v-if="error" class="ge-error" data-testid="ge-error">
@@ -1053,6 +1233,13 @@ watch(() => props.entityId, async () => {
         Value: &euro;{{ Number(tooltip.properties.value_eur).toLocaleString() }}
       </div>
       <div class="ge-tooltip__actions">
+        <button
+          class="ge-tooltip__btn ge-tooltip__btn--expand"
+          data-testid="ge-expand-collapse"
+          @click="toggleNodeExpansion(tooltip.id); tooltip = null"
+        >
+          {{ tooltip.isExpanded ? '▼ Collapse' : tooltip.isCollapsed ? '▶ Expand' : '▶ Expand' }}
+        </button>
         <button
           v-if="tooltip.type === 'Company'"
           class="ge-tooltip__btn"
@@ -1528,5 +1715,22 @@ watch(() => props.entityId, async () => {
 .ge-tooltip__btn:hover {
   background: var(--accent);
   color: white;
+}
+.ge-tooltip__btn--expand {
+  font-weight: 600;
+}
+.ge-expand-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg, #fff);
+  border: 1px solid var(--border, #ddd);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: var(--muted, #999);
+  z-index: 20;
+  pointer-events: none;
 }
 </style>

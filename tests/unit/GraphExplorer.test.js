@@ -507,6 +507,112 @@ describe('GraphExplorer', () => {
     expect(wrapper.find('[data-testid="ge-status"]').text()).toContain('1 nodes')
   })
 
+  // ── Expand/Collapse tests ───────────────────────────────────
+
+  // GE-UI-20: Expand button appears in tooltip
+  it('tooltip includes expand/collapse button', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Simulate tooltip being set (normally done by click handler)
+    wrapper.vm.tooltip = {
+      x: 100, y: 100,
+      id: 'con-111',
+      label: 'Road works',
+      type: 'Contract',
+      properties: {},
+      isExpanded: false,
+      isCollapsed: false,
+      hasChildren: false,
+    }
+    await wrapper.vm.$nextTick()
+
+    const expandBtn = wrapper.find('[data-testid="ge-expand-collapse"]')
+    expect(expandBtn.exists()).toBe(true)
+    expect(expandBtn.text()).toContain('Expand')
+  })
+
+  // GE-UI-21: Expand button text changes based on state
+  it('tooltip shows "Collapse" when node is expanded', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    wrapper.vm.tooltip = {
+      x: 100, y: 100,
+      id: 'con-111',
+      label: 'Road works',
+      type: 'Contract',
+      properties: {},
+      isExpanded: true,
+      isCollapsed: false,
+      hasChildren: true,
+    }
+    await wrapper.vm.$nextTick()
+
+    const expandBtn = wrapper.find('[data-testid="ge-expand-collapse"]')
+    expect(expandBtn.text()).toContain('Collapse')
+  })
+
+  // GE-UI-22: Expand loading indicator
+  it('shows loading indicator during node expansion', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Set expandLoading state directly
+    wrapper.vm.expandLoading = 'con-111'
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find('[data-testid="ge-expand-loading"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Expanding node')
+  })
+
+  // GE-UI-23: toggleNodeExpansion calls fetch for unvisited nodes
+  it('expand fetches neighbor data from API', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeGraphResponse(),
+    })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    // Mock the expansion API call
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        center: { id: 'con-111', label: 'Road works', type: 'Contract', properties: {} },
+        nodes: [
+          { id: 'con-111', label: 'Road works', type: 'Contract', properties: {} },
+          { id: 'comp-new', label: 'New Corp', type: 'Company', properties: {} },
+        ],
+        edges: [
+          { source: 'con-111', target: 'comp-new', type: 'AWARDED_TO', properties: {} },
+        ],
+        truncated: false,
+        total_available: 2,
+      }),
+    })
+
+    await wrapper.vm.toggleNodeExpansion('con-111')
+    await flushPromises()
+
+    // Should have called the graph API for the node
+    const expandCall = mockFetch.mock.calls.find(c => c[0].includes('/api/graph/con-111'))
+    expect(expandCall).toBeTruthy()
+    expect(expandCall[0]).toContain('depth=1')
+  })
+
   // ── Timeline tests ──────────────────────────────────────────
 
   // Timeline toggle shows slider when data has dates
