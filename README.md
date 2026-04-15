@@ -159,3 +159,5 @@ Example response:
 
 `status` is `"ok"` when both stores contain data, `"empty"` when one or
 both are unpopulated (e.g. after a fresh deployment before the ETL jobs run).
+
+<!-- CI validation 2026-04-15T14:02:27 -->
