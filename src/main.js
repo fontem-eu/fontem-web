@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
-import DataQualityView from './views/DataQualityView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import AdminView from './views/AdminView.vue'
@@ -21,6 +20,7 @@ import BeneficialOwnershipDQView from './views/dq/BeneficialOwnershipDQView.vue'
 import CdpDQView from './views/dq/CdpDQView.vue'
 import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
+import OverviewDQView from './views/dq/OverviewDQView.vue'
 import ReportListView from './views/ReportListView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
@@ -41,7 +41,7 @@ const router = createRouter({
     // Admin area (static prefix — no dynamic segments at root level)
     { path: '/admin', component: AdminView },
     { path: '/admin/data-quality', component: DataQualityHubView },
-    { path: '/admin/data-quality/overview', component: DataQualityView },
+    { path: '/admin/data-quality/overview', component: OverviewDQView },
     { path: '/admin/data-quality/contracts', component: ContractsDQView },
     { path: '/admin/data-quality/gleif', component: GleifDQView },
     { path: '/admin/data-quality/edgar', component: EdgarDQView },
