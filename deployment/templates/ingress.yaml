@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: {{ .Values.domain | default "gmr.void42.net" }}
+    - host: {{ .Values.domain }}
       http:
         paths:
           - path: /

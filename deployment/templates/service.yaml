@@ -6,14 +6,14 @@ metadata:
   labels:
     app: gmr-web
 spec:
-  type: {{ .Values.serviceType | default "NodePort" }}
+  type: {{ .Values.serviceType }}
   selector:
     app: gmr-web
   ports:
     - name: http
       port: 80
       targetPort: 80
-      {{- if eq (.Values.serviceType | default "NodePort") "NodePort" }}
+      {{- if eq .Values.serviceType "NodePort" }}
       nodePort: 31147
       {{- end }}
       protocol: TCP

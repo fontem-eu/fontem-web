@@ -1,1 +1,3 @@
-version: "v0c5ef08"
+version: "latest"
+domain: localhost
+serviceType: ClusterIP
