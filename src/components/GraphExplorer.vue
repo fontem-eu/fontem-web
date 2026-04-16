@@ -376,8 +376,8 @@ async function renderGraph() {
         const isExpanded = expandedNodes.value.has(node)
         const isCollapsed = collapsedNodes.value.has(node)
         tooltip.value = {
-          x: pos.x,
-          y: pos.y,
+          x: pos.x + (cyContainer.value?.offsetLeft ?? 0),
+          y: pos.y + (cyContainer.value?.offsetTop ?? 0),
           id: node,
           label: attrs.label,
           type: attrs.nodeType,
