@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import PocketButton from './PocketButton.vue'
+import MultiSelect from './MultiSelect.vue'
 
 // Lazy imports — Sigma requires WebGL which isn't available in test environments
 let Graph, Sigma, forceAtlas2, noverlap
@@ -53,6 +54,7 @@ const graphData = ref(null)
 const error = ref(null)
 const tooltip = ref(null)
 const cyContainer = ref(null)
+const optionsOpen = ref(false)
 
 // ── Path finding state ───────────────────────────────────────
 const pathMode = ref(false)
@@ -101,6 +103,15 @@ const NODE_STYLES = {
   LobbyInterest: { shape: 'tag',             color: '#f472b6' },
   Unknown:       { shape: 'ellipse',          color: '#6b7280' },
 }
+
+/** Color map for MultiSelect dots — derived from NODE_STYLES */
+const nodeTypeColors = Object.fromEntries(
+  Object.entries(NODE_STYLES).map(([k, v]) => [k, v.color]),
+)
+
+// ── Depth stepper ───────────────────────────────────────────
+function incrementDepth() { if (depth.value < 3) depth.value++ }
+function decrementDepth() { if (depth.value > 0) depth.value-- }
 
 // ── Time range ───────────────────────────────────────────────
 function computeSinceDate() {
@@ -896,140 +907,125 @@ watch(() => props.entityId, async () => {
   <div class="graph-explorer" data-testid="graph-explorer">
     <!-- Controls bar -->
     <div class="ge-controls" data-testid="ge-controls">
-      <!-- Depth slider -->
-      <label class="ge-control">
+      <!-- Depth stepper -->
+      <div class="ge-stepper" data-testid="ge-depth">
         <span class="ge-control__label">Depth</span>
-        <input
-          v-model.number="depth"
-          type="range"
-          min="0"
-          max="3"
-          step="1"
-          data-testid="ge-depth-slider"
-        />
-        <span class="ge-control__value" data-testid="ge-depth-value">{{ depth }}</span>
-      </label>
+        <button
+          class="ge-stepper__btn"
+          data-testid="ge-depth-dec"
+          :disabled="depth <= 0"
+          @click="decrementDepth"
+        >−</button>
+        <span class="ge-stepper__value" data-testid="ge-depth-value">{{ depth }}</span>
+        <button
+          class="ge-stepper__btn"
+          data-testid="ge-depth-inc"
+          :disabled="depth >= 3"
+          @click="incrementDepth"
+        >+</button>
+      </div>
 
-      <!-- Time range -->
+      <!-- Period -->
       <div class="ge-control" data-testid="ge-time-range">
         <span class="ge-control__label">Period</span>
         <select v-model="timeRange" class="ge-select" data-testid="ge-time-select">
-          <option value="12m">Last 12 months</option>
-          <option value="3y">Last 3 years</option>
-          <option value="5y">Last 5 years</option>
-          <option value="all">All time</option>
+          <option value="12m">12 mo</option>
+          <option value="3y">3 yr</option>
+          <option value="5y">5 yr</option>
+          <option value="all">All</option>
         </select>
       </div>
 
-      <!-- Type filters -->
-      <div class="ge-control ge-control--types">
-        <span class="ge-control__label">Types</span>
-        <label
-          v-for="(checked, type) in typeFilters"
-          :key="type"
-          class="ge-type-filter"
-          :data-testid="`ge-filter-${type.toLowerCase()}`"
-        >
-          <input
-            v-model="typeFilters[type]"
-            type="checkbox"
-          />
-          <span
-            class="ge-type-dot"
-            :style="{ background: NODE_STYLES[type]?.color || '#6b7280' }"
-          ></span>
-          {{ type }}
-        </label>
-      </div>
-
-      <!-- Keyword filter -->
-      <label class="ge-control">
-        <span class="ge-control__label">Filter</span>
-        <input
-          v-model="keyword"
-          type="text"
-          placeholder="keyword..."
-          class="ge-keyword"
-          data-testid="ge-keyword"
-        />
-      </label>
-
-      <!-- Edge type filters (populated dynamically) -->
-      <div
-        v-if="Object.keys(edgeTypeFilters).length > 0"
-        class="ge-control ge-control--types"
-        data-testid="ge-edge-filters"
-      >
-        <span class="ge-control__label">Edges</span>
-        <label
-          v-for="(checked, relType) in edgeTypeFilters"
-          :key="relType"
-          class="ge-type-filter"
-        >
-          <input
-            v-model="edgeTypeFilters[relType]"
-            type="checkbox"
-          />
-          {{ relType }}
-        </label>
-      </div>
-
-      <!-- Summary toggle -->
-      <label class="ge-type-filter" data-testid="ge-summary-toggle">
-        <input v-model="summaryEdges" type="checkbox" />
-        <span class="ge-control__label">Summary edges</span>
-      </label>
-
-      <!-- Path mode toggle -->
-      <button
-        class="ge-path-btn"
-        :class="{ 'ge-path-btn--active': pathMode }"
-        data-testid="ge-path-toggle"
-        @click="togglePathMode"
-      >
-        {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
-      </button>
-
-      <!-- Timeline toggle -->
-      <button
-        class="ge-path-btn"
-        :class="{ 'ge-path-btn--active': timelineEnabled }"
-        data-testid="ge-timeline-toggle"
-        @click="toggleTimeline"
-      >
-        {{ timelineEnabled ? '✕ Timeline' : 'Timeline' }}
-      </button>
-
-      <!-- Export -->
-      <div class="ge-control ge-control--export">
-        <button class="ge-export-btn" data-testid="ge-export-svg" @click="exportSvg">SVG</button>
-        <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">PNG</button>
-        <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">JSON</button>
-      </div>
-
-      <!-- Pocket -->
-      <PocketButton
-        widget-type="graph_explorer"
-        :config="pocketConfig"
-        :default-name="pocketName"
+      <!-- Node type multi-select -->
+      <MultiSelect
+        v-model="typeFilters"
+        label="Nodes"
+        :colors="nodeTypeColors"
+        data-testid="ge-node-filters"
       />
 
-      <!-- Saved views -->
-      <button
-        class="ge-path-btn"
-        data-testid="ge-save-view"
-        @click="saveView"
-      >
-        Save view
-      </button>
-      <button
-        v-if="savedViews.length > 0"
-        class="ge-path-btn"
-        data-testid="ge-show-saved"
-        @click="showSavedViews = !showSavedViews"
-      >
-        Saved ({{ savedViews.length }})
-      </button>
+      <!-- Edge type multi-select -->
+      <MultiSelect
+        v-if="Object.keys(edgeTypeFilters).length > 0"
+        v-model="edgeTypeFilters"
+        label="Edges"
+        data-testid="ge-edge-filters"
+      />
+
+      <!-- Keyword filter -->
+      <input
+        v-model="keyword"
+        type="text"
+        placeholder="Filter…"
+        class="ge-keyword"
+        data-testid="ge-keyword"
+      />
+
+      <!-- Options gear -->
+      <div class="ge-options" data-testid="ge-options">
+        <button
+          class="ge-options__trigger"
+          data-testid="ge-options-btn"
+          title="More options"
+          :class="{ 'ge-options__trigger--active': optionsOpen }"
+          @click.stop="optionsOpen = !optionsOpen"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 4.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm0 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm0 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+          </svg>
+        </button>
+        <div v-if="optionsOpen" class="ge-options__menu" data-testid="ge-options-menu">
+          <label class="ge-options__item" data-testid="ge-summary-toggle">
+            <input v-model="summaryEdges" type="checkbox" />
+            Summary edges
+          </label>
+          <button
+            class="ge-options__item"
+            data-testid="ge-path-toggle"
+            @click="togglePathMode(); optionsOpen = false"
+          >
+            {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
+          </button>
+          <button
+            class="ge-options__item"
+            data-testid="ge-timeline-toggle"
+            @click="toggleTimeline(); optionsOpen = false"
+          >
+            {{ timelineEnabled ? '✕ Timeline' : 'Timeline' }}
+          </button>
+          <div class="ge-options__divider"></div>
+          <div class="ge-options__group">
+            <span class="ge-options__group-label">Export</span>
+            <div class="ge-options__export">
+              <button class="ge-export-btn" data-testid="ge-export-svg" @click="exportSvg">SVG</button>
+              <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">PNG</button>
+              <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">JSON</button>
+            </div>
+          </div>
+          <div class="ge-options__divider"></div>
+          <button
+            class="ge-options__item"
+            data-testid="ge-save-view"
+            @click="saveView(); optionsOpen = false"
+          >
+            Save view
+          </button>
+          <button
+            v-if="savedViews.length > 0"
+            class="ge-options__item"
+            data-testid="ge-show-saved"
+            @click="showSavedViews = !showSavedViews; optionsOpen = false"
+          >
+            Saved ({{ savedViews.length }})
+          </button>
+          <div class="ge-options__divider"></div>
+          <PocketButton
+            widget-type="graph_explorer"
+            :config="pocketConfig"
+            :default-name="pocketName"
+          />
+        </div>
+      </div>
     </div>
 
     <!-- Saved views panel -->
@@ -1279,18 +1275,18 @@ watch(() => props.entityId, async () => {
 .ge-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 8px 0;
+  gap: 8px;
+  padding: 6px 0;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .ge-control {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 4px;
+  font-size: 11px;
   color: var(--text);
 }
 
@@ -1302,24 +1298,45 @@ watch(() => props.entityId, async () => {
   font-size: 10px;
 }
 
-.ge-control__value {
+/* ── Depth stepper ─────────────────────── */
+.ge-stepper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ge-stepper__btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1;
+  padding: 0;
+}
+
+.ge-stepper__btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ge-stepper__btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.ge-stepper__value {
+  font-weight: 700;
+  font-size: 12px;
   min-width: 16px;
   text-align: center;
-}
-
-.ge-control--types {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.ge-type-filter {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  cursor: pointer;
 }
 
 .ge-type-dot {
@@ -1341,22 +1358,92 @@ watch(() => props.entityId, async () => {
 
 .ge-keyword {
   padding: 2px 6px;
-  font-size: 12px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 3px;
-  width: 120px;
-}
-
-.ge-select {
-  padding: 2px 6px;
   font-size: 11px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
   border-radius: 3px;
+  width: 90px;
+}
+
+/* ── Options menu ──────────────────────── */
+.ge-options {
+  position: relative;
+  margin-left: auto;
+}
+
+.ge-options__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
   cursor: pointer;
+  border-radius: 4px;
+}
+
+.ge-options__trigger:hover,
+.ge-options__trigger--active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ge-options__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 30;
+  min-width: 200px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 4px 0;
+}
+
+.ge-options__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ge-options__item:hover {
+  background: var(--surface);
+}
+
+.ge-options__divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+.ge-options__group {
+  padding: 4px 12px;
+}
+
+.ge-options__group-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.ge-options__export {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
 }
 
 .ge-status {
@@ -1385,7 +1472,10 @@ watch(() => props.entityId, async () => {
 
 .ge-canvas {
   flex: 1;
-  min-height: 400px;
+  /* Immersive: fill the viewport minus the app toolbar (≈48px) and a small bezel
+     so the user can scroll back up. 100svh = small viewport height (accounts for
+     mobile browser chrome). */
+  min-height: max(400px, calc(100svh - 56px));
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface);
@@ -1536,11 +1626,6 @@ watch(() => props.entityId, async () => {
 }
 
 /* ── Export ──────────────────────────────── */
-.ge-control--export {
-  display: flex;
-  gap: 3px;
-}
-
 .ge-export-btn {
   padding: 2px 6px;
   font-size: 10px;

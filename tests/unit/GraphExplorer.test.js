@@ -71,8 +71,8 @@ describe('GraphExplorer', () => {
     expect(wrapper.find('[data-testid="ge-canvas"]').exists()).toBe(true)
   })
 
-  // GE-UI-02: Depth slider triggers re-fetch
-  it('re-fetches when depth slider changes', async () => {
+  // GE-UI-02: Depth stepper triggers re-fetch
+  it('re-fetches when depth stepper changes', async () => {
     mockFetch.mockResolvedValue({
       ok: true,
       json: async () => makeGraphResponse(),
@@ -82,15 +82,15 @@ describe('GraphExplorer', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
 
-    // Change depth
-    await wrapper.find('[data-testid="ge-depth-slider"]').setValue(2)
+    // Increment depth via stepper button
+    await wrapper.find('[data-testid="ge-depth-inc"]').trigger('click')
     await flushPromises()
 
     expect(mockFetch).toHaveBeenCalledTimes(2)
     expect(mockFetch.mock.calls[1][0]).toContain('depth=2')
   })
 
-  // GE-UI-03: Type filter changes fetch params
+  // GE-UI-03: Type filter changes fetch params (via MultiSelect)
   it('sends type filter in API request', async () => {
     mockFetch.mockResolvedValue({
       ok: true,
@@ -103,9 +103,10 @@ describe('GraphExplorer', () => {
     const url0 = mockFetch.mock.calls[0][0]
     expect(url0).toContain('types=')
 
-    // Uncheck Contract
-    const contractFilter = wrapper.find('[data-testid="ge-filter-contract"] input')
-    await contractFilter.setValue(false)
+    // Open the Nodes multi-select and uncheck Contract
+    await wrapper.find('[data-testid="ms-trigger-nodes"]').trigger('click')
+    const contractCheckbox = wrapper.find('[data-testid="ms-item-contract"] input')
+    await contractCheckbox.trigger('change')
     await flushPromises()
 
     const url1 = mockFetch.mock.calls[mockFetch.mock.calls.length - 1][0]
@@ -191,7 +192,7 @@ describe('GraphExplorer', () => {
     expect(wrapper.find('[data-testid="ge-loading"]').exists()).toBe(true)
   })
 
-  // Controls render
+  // Controls render — compact toolbar
   it('renders all control elements', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -201,17 +202,15 @@ describe('GraphExplorer', () => {
     await flushPromises()
 
     expect(wrapper.find('[data-testid="ge-controls"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="ge-depth-slider"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="ge-filter-company"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="ge-filter-contract"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="ge-filter-authority"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="ge-filter-person"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-depth"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-node-filters"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-keyword"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="ge-options-btn"]').exists()).toBe(true)
   })
 
   // ── Path finding tests ──────────────────────────────────────
 
-  // GE-UI-12: Path mode toggle shows search bar
+  // GE-UI-12: Path mode toggle shows search bar (via options menu)
   it('clicking "Find path to…" shows the path search bar', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -222,6 +221,8 @@ describe('GraphExplorer', () => {
 
     expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(false)
 
+    // Open options menu, then click path toggle
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-path-input"]').exists()).toBe(true)
@@ -237,7 +238,8 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
-    // Enter path mode
+    // Enter path mode via options menu
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
 
     // Mock path finding response
@@ -279,7 +281,8 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
-    // Enter path mode and directly set target + path data
+    // Enter path mode via options menu
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
 
     // Mock path finding with no results
@@ -310,18 +313,20 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
-    // Enter path mode
+    // Enter path mode via options menu
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(true)
 
-    // Exit path mode
+    // Exit path mode via options menu
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-path-toggle"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-path-bar"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="ge-path-legend"]').exists()).toBe(false)
   })
 
-  // Path toggle button exists
-  it('has a "Find path to…" toggle button', async () => {
+  // Path toggle button exists (inside options menu)
+  it('has a "Find path to…" toggle button in options menu', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeGraphResponse(),
@@ -329,6 +334,7 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     const btn = wrapper.find('[data-testid="ge-path-toggle"]')
     expect(btn.exists()).toBe(true)
     expect(btn.text()).toContain('Find path to')
@@ -336,8 +342,8 @@ describe('GraphExplorer', () => {
 
   // ── Export tests ────────────────────────────────────────────
 
-  // GE-UI-14: Export buttons exist
-  it('renders SVG, PNG, and JSON export buttons', async () => {
+  // GE-UI-14: Export buttons exist (inside options menu)
+  it('renders SVG, PNG, and JSON export buttons in options menu', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeGraphResponse(),
@@ -345,13 +351,14 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-export-svg"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-export-png"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="ge-export-json"]').exists()).toBe(true)
   })
 
-  // GE-UI-14b: Export SVG button exists (now exports PNG via Sigma WebGL)
-  it('SVG export button is rendered', async () => {
+  // GE-UI-14b: Export SVG button exists (inside options menu)
+  it('SVG export button is rendered in options menu', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeGraphResponse(),
@@ -359,6 +366,7 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-export-svg"]').exists()).toBe(true)
   })
 
@@ -377,6 +385,8 @@ describe('GraphExplorer', () => {
     // Mock prompt to return a name
     vi.spyOn(window, 'prompt').mockReturnValue('My Graph')
 
+    // Open options menu, then click save
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-save-view"]').trigger('click')
 
     const stored = JSON.parse(localStorage.getItem('gmr-graph-saved-views'))
@@ -400,6 +410,8 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
+    // Open options menu to find Saved button
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     const savedBtn = wrapper.find('[data-testid="ge-show-saved"]')
     expect(savedBtn.exists()).toBe(true)
     expect(savedBtn.text()).toContain('Saved (1)')
@@ -422,7 +434,8 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
-    // Open saved panel
+    // Open options menu, then open saved panel
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     await wrapper.find('[data-testid="ge-show-saved"]').trigger('click')
     // Delete first view
     await wrapper.find('[data-testid="ge-saved-delete-0"]').trigger('click')
@@ -615,7 +628,7 @@ describe('GraphExplorer', () => {
 
   // ── Timeline tests ──────────────────────────────────────────
 
-  // Timeline toggle shows slider when data has dates
+  // Timeline toggle shows slider when data has dates (via options menu)
   it('clicking Timeline toggle shows timeline controls', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -625,10 +638,12 @@ describe('GraphExplorer', () => {
     await flushPromises()
 
     expect(wrapper.find('[data-testid="ge-timeline"]').exists()).toBe(false)
+    // Open options menu to find timeline toggle
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="ge-timeline-toggle"]').exists()).toBe(true)
   })
 
-  // Timeline toggle button label changes
+  // Timeline toggle button label changes (via options menu)
   it('timeline toggle button text changes when active', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -637,11 +652,15 @@ describe('GraphExplorer', () => {
     const wrapper = mountExplorer()
     await flushPromises()
 
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
     const btn = wrapper.find('[data-testid="ge-timeline-toggle"]')
     expect(btn.text()).toBe('Timeline')
 
     await btn.trigger('click')
-    expect(btn.text()).toContain('Timeline')
+    // Menu closes after click; re-open to check text
+    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
+    const btn2 = wrapper.find('[data-testid="ge-timeline-toggle"]')
+    expect(btn2.text()).toContain('Timeline')
   })
 
   // ── Time range tests ────────────────────────────────────────
