@@ -1,3 +1,3 @@
-version: "latest"
+version: "vbf141f7"
 domain: localhost
 serviceType: ClusterIP
