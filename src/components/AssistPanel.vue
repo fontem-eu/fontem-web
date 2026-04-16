@@ -392,6 +392,11 @@ function clearChat() {
         </div>
       </div>
 
+      <p class="assist-disclosure">
+        Conversations are processed by an EU-based AI provider.
+        <router-link to="/privacy">See our privacy policy.</router-link>
+      </p>
+
       <!-- Input -->
       <form class="assist-input" @submit.prevent="send">
         <input
@@ -765,6 +770,22 @@ function clearChat() {
   font-size: 0.65rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+}
+
+.assist-disclosure {
+  padding: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.65rem;
+  color: var(--muted);
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+.assist-disclosure a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.assist-disclosure a:hover {
+  color: var(--accent);
 }
 
 .assist-input {

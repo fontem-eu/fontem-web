@@ -8,6 +8,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme.js'
+import { deleteAssistConversations } from '../api/community.js'
 
 const router = useRouter()
 const { isDark, toggle: toggleTheme } = useTheme()
@@ -35,6 +36,30 @@ function onThemeClick() {
 function onUsageClick() {
   closeMenu()
   router.push('/ai-usage')
+}
+
+function onPrivacyClick() {
+  closeMenu()
+  router.push('/privacy')
+}
+
+const clearingAiData = ref(false)
+const clearAiStatus = ref(null)
+
+async function onClearAiDataClick() {
+  if (!window.confirm('Delete all AI conversation history?')) return
+  clearingAiData.value = true
+  clearAiStatus.value = null
+  try {
+    await deleteAssistConversations()
+    clearAiStatus.value = 'success'
+    setTimeout(() => { clearAiStatus.value = null }, 3000)
+  } catch {
+    clearAiStatus.value = 'error'
+    setTimeout(() => { clearAiStatus.value = null }, 3000)
+  } finally {
+    clearingAiData.value = false
+  }
 }
 
 function onSignOutClick() {
@@ -180,6 +205,58 @@ onBeforeUnmount(() => {
         <span>AI usage metrics</span>
       </button>
 
+      <button
+        type="button"
+        class="profile-menu-item"
+        role="menuitem"
+        data-testid="menu-clear-ai"
+        :disabled="clearingAiData"
+        @click="onClearAiDataClick"
+      >
+        <span class="profile-menu-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </span>
+        <span>{{ clearingAiData ? 'Clearing...' : 'Clear AI data' }}</span>
+        <span v-if="clearAiStatus === 'success'" class="profile-menu-feedback profile-menu-feedback--ok">Done</span>
+        <span v-if="clearAiStatus === 'error'" class="profile-menu-feedback profile-menu-feedback--err">Failed</span>
+      </button>
+
+      <button
+        type="button"
+        class="profile-menu-item"
+        role="menuitem"
+        data-testid="menu-privacy"
+        @click="onPrivacyClick"
+      >
+        <span class="profile-menu-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </span>
+        <span>Privacy policy</span>
+      </button>
+
       <div class="profile-menu-sep" />
 
       <button
@@ -301,6 +378,17 @@ onBeforeUnmount(() => {
   height: 1px;
   background: var(--border);
   margin: 0.3rem 0;
+}
+.profile-menu-feedback {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.profile-menu-feedback--ok {
+  color: #15803d;
+}
+.profile-menu-feedback--err {
+  color: #dc2626;
 }
 .profile-menu-signout {
   color: var(--muted);

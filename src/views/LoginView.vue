@@ -207,6 +207,9 @@ function handleSignOut() {
         </details>
       </template>
     </div>
+    <p class="login-privacy">
+      <router-link to="/privacy">Privacy policy</router-link>
+    </p>
   </div>
 </template>
 
@@ -377,5 +380,18 @@ function handleSignOut() {
   display: flex;
   gap: 0.75rem;
   margin-top: 1rem;
+}
+
+.login-privacy {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+}
+.login-privacy a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.login-privacy a:hover {
+  color: var(--accent);
 }
 </style>

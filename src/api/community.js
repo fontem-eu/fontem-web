@@ -173,6 +173,10 @@ export function getAssistConversation(conversationKey) {
   return request('GET', `/assist/conversations/${encodeURIComponent(conversationKey)}`)
 }
 
+export function deleteAssistConversations() {
+  return request('DELETE', '/assist/conversations')
+}
+
 export function getAssistUsage() {
   return request('GET', '/assist/usage')
 }
