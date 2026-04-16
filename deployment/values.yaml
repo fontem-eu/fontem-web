@@ -1,3 +1,4 @@
 version: "vbf141f7"
 domain: localhost
 serviceType: ClusterIP
+replicas: 1
