@@ -137,6 +137,10 @@ function onKeyDown(event) {
     event.preventDefault()
     const t = results.value[activeIndex.value]
     emit('select', t._navKey ?? t.ticker ?? t.symbol)
+    results.value = []
+    state.value = 'idle'
+    query.value = ''
+    activeIndex.value = -1
   } else if (event.key === 'Escape') {
     results.value = []
     state.value = 'idle'
@@ -209,7 +213,7 @@ onUnmounted(() => {
           :key="t.symbol"
           :ticker="t"
           :selected="i === activeIndex"
-          @select="emit('select', $event)"
+          @select="emit('select', $event); results = []; state = 'idle'; query = ''; activeIndex = -1"
         />
       </div>
     </div>
