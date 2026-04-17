@@ -55,6 +55,22 @@ const error = ref(null)
 const tooltip = ref(null)
 const cyContainer = ref(null)
 const optionsOpen = ref(false)
+const fullscreen = ref(false)
+
+function enterFullscreen() {
+  fullscreen.value = true
+  document.body.style.overflow = 'hidden'
+  // Sigma needs to resize to the new container dimensions
+  nextTick(() => renderer?.refresh?.())
+}
+function exitFullscreen() {
+  fullscreen.value = false
+  document.body.style.overflow = ''
+  nextTick(() => renderer?.refresh?.())
+}
+function onKeydown(e) {
+  if (e.key === 'Escape' && fullscreen.value) exitFullscreen()
+}
 
 // ── Path finding state ───────────────────────────────────────
 const pathMode = ref(false)
@@ -850,12 +866,16 @@ function goToProfile(nodeId, nodeType) {
 
 // ── Lifecycle ────────────────────────────────────────────────
 onMounted(async () => {
+  document.addEventListener('keydown', onKeydown)
   await fetchGraph()
   await nextTick()
   renderGraph()
 })
 
 onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKeydown)
+  // Release body scroll lock if still in fullscreen
+  if (fullscreen.value) document.body.style.overflow = ''
   if (renderer) { renderer.kill(); renderer = null }
   if (graph) { graph.clear(); graph = null }
   clearTimeout(searchDebounce)
@@ -904,7 +924,23 @@ watch(() => props.entityId, async () => {
 </script>
 
 <template>
-  <div class="graph-explorer" data-testid="graph-explorer">
+  <div
+    class="graph-explorer"
+    :class="{ 'graph-explorer--fullscreen': fullscreen }"
+    data-testid="graph-explorer"
+  >
+    <!-- Fullscreen close button (top-right) -->
+    <button
+      v-if="fullscreen"
+      class="ge-fs-close"
+      data-testid="ge-fs-close"
+      title="Exit fullscreen"
+      @click="exitFullscreen"
+    >
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+        <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
     <!-- Controls bar -->
     <div class="ge-controls" data-testid="ge-controls">
       <!-- Depth stepper -->
@@ -960,6 +996,19 @@ watch(() => props.entityId, async () => {
         class="ge-keyword"
         data-testid="ge-keyword"
       />
+
+      <!-- Fullscreen toggle (hidden when already fullscreen — use X close instead) -->
+      <button
+        v-if="!fullscreen"
+        class="ge-fs-btn"
+        data-testid="ge-fullscreen-btn"
+        title="Fullscreen"
+        @click="enterFullscreen"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/>
+        </svg>
+      </button>
 
       <!-- Options gear -->
       <div class="ge-options" data-testid="ge-options">
@@ -1366,10 +1415,28 @@ watch(() => props.entityId, async () => {
   width: 90px;
 }
 
+/* ── Fullscreen toggle ─────────────────── */
+.ge-fs-btn {
+  margin-left: auto;  /* pushes this and the gear to the right */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.ge-fs-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ── Options menu ──────────────────────── */
 .ge-options {
   position: relative;
-  margin-left: auto;
 }
 
 .ge-options__trigger {
@@ -1472,13 +1539,80 @@ watch(() => props.entityId, async () => {
 
 .ge-canvas {
   flex: 1;
-  /* Immersive: fill the viewport minus the app toolbar (≈48px) and a small bezel
-     so the user can scroll back up. 100svh = small viewport height (accounts for
-     mobile browser chrome). */
-  min-height: max(400px, calc(100svh - 56px));
+  min-height: 400px;
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface);
+}
+
+/* ── Fullscreen mode ───────────────────── */
+.graph-explorer--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  padding: 8px;
+  margin: 0;
+  min-height: 0;
+}
+
+.graph-explorer--fullscreen .ge-canvas {
+  min-height: 0;  /* fill remaining flex space instead of using min-height */
+}
+
+/* Close X button (top-right) */
+.ge-fs-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.ge-fs-close:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Landscape short screens (phone in landscape) — put controls as a left rail */
+@media (orientation: landscape) and (max-height: 600px) {
+  .graph-explorer--fullscreen {
+    flex-direction: row;
+  }
+  .graph-explorer--fullscreen .ge-controls {
+    flex-direction: column;
+    align-items: stretch;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    margin-bottom: 0;
+    margin-right: 8px;
+    padding: 0 8px 0 0;
+    max-width: 180px;
+  }
+  /* In left rail, the options gear should stay at the bottom */
+  .graph-explorer--fullscreen .ge-fs-btn,
+  .graph-explorer--fullscreen .ge-options {
+    margin-left: 0;
+    margin-top: auto;
+  }
+  .graph-explorer--fullscreen .ge-options__menu {
+    left: calc(100% + 4px);
+    right: auto;
+    top: 0;
+  }
+  /* Keep close X clear of the rail */
+  .ge-fs-close {
+    top: 8px;
+    right: 8px;
+  }
 }
 
 /* ── Path mode ──────────────────────────── */
