@@ -165,6 +165,10 @@ export function getCurrentUser() {
   return request('GET', '/users/me')
 }
 
+export function deleteCurrentUser() {
+  return request('DELETE', '/users/me')
+}
+
 // ── AI Assist ──────────────────────────────────────────────────
 // The assistant owns its own history and token accounting server-side.
 // Frontend callers only send the current message + a context blob.
