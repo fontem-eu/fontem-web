@@ -29,6 +29,7 @@ import LoginView from './views/LoginView.vue'
 import PrivacyView from './views/PrivacyView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
+import NotFoundView from './views/NotFoundView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -79,6 +80,9 @@ const router = createRouter({
     { path: '/company/:gmr_id', component: CompanyProfileView },
     { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
     { path: '/c/:ticker/:view', component: HomeView },
+
+    // 404 — must be last
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
 })
 
