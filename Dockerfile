@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
 RUN apk add --no-cache ca-certificates && update-ca-certificates
+ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/void42-ca.crt
 
 COPY package*.json .npmrc ./
 RUN npm ci
