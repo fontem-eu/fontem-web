@@ -8,7 +8,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme.js'
-import { deleteAssistConversations } from '../api/community.js'
+import { deleteAssistConversations, deleteCurrentUser } from '../api/community.js'
 
 const router = useRouter()
 const { isDark, toggle: toggleTheme } = useTheme()
@@ -66,6 +66,31 @@ function onSignOutClick() {
   localStorage.removeItem('gmr-token')
   localStorage.removeItem('gmr-user')
   window.location.href = '/'
+}
+
+const deletingAccount = ref(false)
+const deleteAccountStatus = ref(null)
+
+async function onDeleteAccountClick() {
+  if (!window.confirm(
+    'Permanently delete your account and ALL associated data?\n\n' +
+    'This includes your reports, comments, AI conversations, and profile. ' +
+    'This action cannot be undone.'
+  )) return
+  deletingAccount.value = true
+  deleteAccountStatus.value = null
+  try {
+    await deleteCurrentUser()
+    localStorage.removeItem('gmr-token')
+    localStorage.removeItem('gmr-user')
+    localStorage.removeItem('gmr-cookie-consent')
+    window.location.href = '/'
+  } catch {
+    deleteAccountStatus.value = 'error'
+    setTimeout(() => { deleteAccountStatus.value = null }, 3000)
+  } finally {
+    deletingAccount.value = false
+  }
 }
 
 function onDocumentClick(event) {
@@ -261,6 +286,41 @@ onBeforeUnmount(() => {
 
       <button
         type="button"
+        class="profile-menu-item profile-menu-danger"
+        role="menuitem"
+        data-testid="menu-delete-account"
+        :disabled="deletingAccount"
+        @click="onDeleteAccountClick"
+      >
+        <span class="profile-menu-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 6h18" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" />
+            <line x1="14" y1="11" x2="14" y2="17" />
+          </svg>
+        </span>
+        <span>{{ deletingAccount ? 'Deleting...' : 'Delete account' }}</span>
+        <span
+          v-if="deleteAccountStatus === 'error'"
+          class="profile-menu-feedback profile-menu-feedback--err"
+        >Failed</span>
+      </button>
+
+      <div class="profile-menu-sep" />
+
+      <button
+        type="button"
         class="profile-menu-item profile-menu-signout"
         role="menuitem"
         data-testid="sign-out-btn"
@@ -395,5 +455,18 @@ onBeforeUnmount(() => {
 }
 .profile-menu-signout:hover {
   color: var(--text);
+}
+.profile-menu-danger {
+  color: #dc2626;
+}
+.profile-menu-danger .profile-menu-icon {
+  color: #dc2626;
+}
+.profile-menu-danger:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+.profile-menu-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
