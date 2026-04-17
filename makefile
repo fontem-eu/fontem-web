@@ -47,13 +47,36 @@ deploy:
 	helm upgrade --install gmr-web ./deployment --set-string version=$(TAG)
 	kubectl -n gmr rollout restart deployment gmr-web
 
+# Build + push + commit the new tag to dev/gmr-web.yaml in the gitops
+# repo. ArgoCD's gmr-web-dev Application syncs automatically. This is
+# the "iterate locally in dev" workflow for the hot-loop dev env.
+#
+# Requires GITOPS_TOKEN (Gitea PAT) for the git push.
+GITOPS_REPO  ?= http://oauth2:$(GITOPS_TOKEN)@gitea-http.dev-tools.svc.cluster.local:3000/golden/gitops.git
+GITOPS_EMAIL ?= $(USER)@local
+GITOPS_NAME  ?= $(USER) (local dev)
+
+deploy-dev: build release
+	@if [ -z "$(GITOPS_TOKEN)" ]; then echo "GITOPS_TOKEN not set (Gitea PAT for gitops push)"; exit 1; fi
+	@tmp=$$(mktemp -d) && \
+	  git clone --depth=1 $(GITOPS_REPO) $$tmp >/dev/null 2>&1 && \
+	  cd $$tmp && \
+	  sed -i 's/version: ".*"/version: "$(TAG)"/' dev/gmr-web.yaml && \
+	  git config user.email "$(GITOPS_EMAIL)" && \
+	  git config user.name "$(GITOPS_NAME)" && \
+	  git add dev/gmr-web.yaml && \
+	  (git diff --cached --quiet && echo "dev/gmr-web.yaml already at $(TAG)") || \
+	  (git commit -m "dev: deploy gmr-web $(TAG) (local)" && git push origin main) ; \
+	  rm -rf $$tmp
+	@echo "gmr-web:$(TAG) deployed to gmr-dev"
+
 mutation:
 	npx stryker run
 
 local-e2e:
 	./scripts/run-e2e-local.sh
 
-.PHONY: all test analyze mutation coverage-matrix build release deploy security local-e2e
+.PHONY: all test analyze mutation coverage-matrix build release deploy deploy-dev security local-e2e
 
 # ── Security & SBOM ─────────────────────────────────────────
 audit:
