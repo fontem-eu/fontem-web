@@ -4,7 +4,10 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
-COPY package*.json ./
+COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
+RUN apk add --no-cache ca-certificates && update-ca-certificates
+
+COPY package*.json .npmrc ./
 RUN npm ci
 
 COPY . .
