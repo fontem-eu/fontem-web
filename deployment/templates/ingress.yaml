@@ -4,7 +4,10 @@ metadata:
   name: gmr-web
   namespace: {{ .Release.Namespace }}
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: {{ .Values.entrypoints | default "web" | quote }}
+    {{- if .Values.tlsRedirect }}
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-to-https@kubernetescrd
+    {{- end }}
 spec:
   ingressClassName: traefik
   rules:
