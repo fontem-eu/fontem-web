@@ -7,8 +7,10 @@ describe('useAnalytics', () => {
   beforeEach(async () => {
     vi.resetModules()
     vi.stubGlobal('fetch', mockFetch)
-    // Default: no website ID set
+    // Default: no website ID set, consent granted (so consent is not the
+    // default reason for no-ops in most tests)
     delete window.UMAMI_WEBSITE_ID
+    localStorage.setItem('gmr-cookie-consent', 'accepted')
     const mod = await import('../../src/composables/useAnalytics.js')
     useAnalytics = mod.useAnalytics
   })
@@ -18,6 +20,7 @@ describe('useAnalytics', () => {
     mockFetch.mockReset()
     mockFetch.mockResolvedValue({})
     delete window.UMAMI_WEBSITE_ID
+    localStorage.removeItem('gmr-cookie-consent')
   })
 
   it('does not send events when UMAMI_WEBSITE_ID is not set', () => {
@@ -111,5 +114,21 @@ describe('useAnalytics', () => {
     const { page } = useAnalytics()
     page()
     expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not send events when consent has not been given', () => {
+    localStorage.removeItem('gmr-cookie-consent')
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { page } = useAnalytics()
+    page()
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('does not send events when consent is declined', () => {
+    localStorage.setItem('gmr-cookie-consent', 'declined')
+    window.UMAMI_WEBSITE_ID = 'abc-123'
+    const { track } = useAnalytics()
+    track('event')
+    expect(mockFetch).not.toHaveBeenCalled()
   })
 })

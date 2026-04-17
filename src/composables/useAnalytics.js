@@ -29,9 +29,15 @@ function _basePayload() {
   }
 }
 
+function _hasConsent() {
+  if (typeof localStorage === 'undefined') return false
+  return localStorage.getItem('gmr-cookie-consent') === 'accepted'
+}
+
 function _send(payload) {
   const id = _websiteId()
   if (!id || id === 'REPLACE_WITH_WEBSITE_ID') return
+  if (!_hasConsent()) return
   // fire-and-forget; ignore errors so analytics never breaks the UI
   fetch(ENDPOINT, {
     method: 'POST',
