@@ -30,6 +30,7 @@ import PrivacyView from './views/PrivacyView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
 import NotFoundView from './views/NotFoundView.vue'
+import GeoView from './views/GeoView.vue'
 import { useAnalytics } from './composables/useAnalytics.js'
 import './assets/main.css'
 
@@ -62,6 +63,9 @@ const router = createRouter({
 
     // Legal
     { path: '/privacy', component: PrivacyView },
+
+    // Geo explorer
+    { path: '/geo', component: GeoView },
 
     // User
     { path: '/activity', component: ActivityView },
