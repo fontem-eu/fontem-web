@@ -4,6 +4,7 @@ const registry = {
   graph_explorer: () => import('./GraphExplorerEmbed.vue'),
   contracts_table: () => import('./ContractsTableEmbed.vue'),
   entity_profile: () => import('./EntityProfileEmbed.vue'),
+  entity_nuts_map: () => import('./EntityNutsMapEmbed.vue'),
 }
 
 export function resolveWidget(type) {

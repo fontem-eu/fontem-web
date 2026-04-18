@@ -10,6 +10,7 @@ import BalancePanel from './BalancePanel.vue'
 import ContractsPanel from './ContractsPanel.vue'
 import ProfilePanel from './ProfilePanel.vue'
 import GraphExplorer from './GraphExplorer.vue'
+import EntityNutsMap from './EntityNutsMap.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -594,6 +595,13 @@ function isFundNegative(year, key) {
     <template v-else-if="state === 'done' && view === 'graph'">
       <div data-testid="graph-panel-wrap">
         <GraphExplorer :entity-id="companyGmrId || symbol" />
+      </div>
+    </template>
+
+    <!-- ── Entity Business Map ──────────────────────────────── -->
+    <template v-else-if="view === 'entity-nuts-map'">
+      <div data-testid="entity-nuts-map-wrap">
+        <EntityNutsMap :entity-id="companyGmrId || symbol" />
       </div>
     </template>
 

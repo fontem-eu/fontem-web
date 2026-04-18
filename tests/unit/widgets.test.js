@@ -4,11 +4,12 @@ import { resolveWidget, getWidgetTypes } from '../../src/widgets/registry.js'
 describe('Widget Registry', () => {
   it('getWidgetTypes returns all registered types', () => {
     const types = getWidgetTypes()
-    expect(types).toHaveLength(3)
+    expect(types).toHaveLength(4)
     const keys = types.map((t) => t.key)
     expect(keys).toContain('graph_explorer')
     expect(keys).toContain('contracts_table')
     expect(keys).toContain('entity_profile')
+    expect(keys).toContain('entity_nuts_map')
   })
 
   it('getWidgetTypes returns human-readable labels', () => {
