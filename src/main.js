@@ -19,6 +19,7 @@ import CdpDQView from './views/dq/CdpDQView.vue'
 import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import OverviewDQView from './views/dq/OverviewDQView.vue'
+import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
 import ReportListView from './views/ReportListView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
@@ -43,6 +44,7 @@ const router = createRouter({
     { path: '/admin', component: AdminView },
     { path: '/admin/data-quality', component: DataQualityHubView },
     { path: '/admin/data-quality/overview', component: OverviewDQView },
+    { path: '/admin/data-quality/connectedness', component: ConnectednessDQView },
     { path: '/admin/data-quality/contracts', component: ContractsDQView },
     { path: '/admin/data-quality/gleif', component: GleifDQView },
     { path: '/admin/data-quality/edgar', component: EdgarDQView },

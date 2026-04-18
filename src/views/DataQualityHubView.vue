@@ -10,6 +10,7 @@ const error = ref(null)
 
 const pipelines = [
   { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true },
+  { id: 'connectedness', title: 'Graph Connectedness', desc: 'Degree distribution, orphans, mean/median/max — how well-connected the knowledge graph is.', icon: '🕸️', featured: true },
   { id: 'contracts', title: 'TED Contracts', desc: 'EU public procurement awards — daily volume, country coverage, field completeness, match quality.', icon: '📄' },
   { id: 'gleif', title: 'GLEIF Companies', desc: 'Global LEI entity data — active/inactive, country distribution, parent-child relationships.', icon: '🏢' },
   { id: 'edgar', title: 'US EDGAR', desc: 'SEC financial statements — filing coverage by year, XBRL field completeness, sparse companies.', icon: '📊' },
