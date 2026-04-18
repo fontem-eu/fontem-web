@@ -32,7 +32,10 @@ const VIEW_GROUPS = [
   },
   {
     key: 'procurement', label: 'Procurement',
-    views: [{ key: 'contracts', label: 'Contracts' }],
+    views: [
+      { key: 'contracts',       label: 'Contracts' },
+      { key: 'entity-nuts-map', label: 'Business Map' },
+    ],
   },
   {
     key: 'analysis', label: 'Analysis',

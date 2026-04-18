@@ -37,9 +37,26 @@ export async function fetchAggregate({
 
 /**
  * Fetch NUTS boundary GeoJSON for a level.
- * Only level 0 is bundled today; levels 1–3 return 501 until the geometry
- * is sourced.
  */
 export async function fetchBoundaries(level = 0) {
   return _json(`/api/geo/nuts-boundaries?level=${level}`)
+}
+
+/**
+ * Aggregate one entity's contract volume by NUTS region.
+ *
+ * @param {string} entityId  — gmr_id (Company) or authority_id (Authority)
+ * @param {object} opts
+ * @param {number} [opts.level=0]   — NUTS level 0..3
+ * @param {string} [opts.metric='contracts']  — 'contracts' | 'contracts_eur'
+ * @param {string} [opts.scopeNuts]  — ancestor NUTS code prefix filter
+ */
+export async function fetchEntityAggregate(entityId, {
+  level = 0,
+  metric = 'contracts',
+  scopeNuts,
+} = {}) {
+  const params = new URLSearchParams({ level: String(level), metric })
+  if (scopeNuts) params.set('scope_nuts', scopeNuts)
+  return _json(`/api/geo/entity/${encodeURIComponent(entityId)}/aggregate?${params.toString()}`)
 }

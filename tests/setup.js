@@ -2,6 +2,11 @@
  * Vitest setup — mock browser APIs not available in jsdom.
  */
 
+// maplibre-gl calls URL.createObjectURL at module init time to register a worker blob
+if (typeof globalThis.URL.createObjectURL === 'undefined') {
+  globalThis.URL.createObjectURL = () => 'blob:mock'
+}
+
 // ResizeObserver is needed by D3 chart components
 if (typeof globalThis.ResizeObserver === 'undefined') {
   globalThis.ResizeObserver = class ResizeObserver {
