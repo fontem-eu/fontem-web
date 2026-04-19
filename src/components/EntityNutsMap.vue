@@ -23,6 +23,32 @@ const scopeOptions = ref([])      // [{code, name}] for the scope dropdown
 // Blue → red sequential color scale (low = blue, high = red)
 const COLOR_STOPS = ['#eff6ff', '#bfdbfe', '#60a5fa', '#fbbf24', '#f97316', '#dc2626']
 
+function buildColorExpression(rows) {
+  const positives = rows.map((r) => r.value).filter((v) => v > 0).sort((a, b) => a - b)
+  // No data → everything stays the baseline tint
+  if (positives.length === 0) return COLOR_STOPS[0]
+  // Pick quantile thresholds, then dedupe so MapLibre's step expression has
+  // strictly-increasing stops.  Duplicates silently break the fill layer.
+  const buckets = COLOR_STOPS.length - 1
+  const raw = Array.from({ length: buckets }, (_, i) => {
+    const idx = Math.floor(((i + 1) / (buckets + 1)) * positives.length)
+    return positives[Math.min(positives.length - 1, Math.max(0, idx))]
+  })
+  const thresholds = []
+  for (const t of raw) {
+    const last = thresholds[thresholds.length - 1]
+    if (last === undefined || t > last) thresholds.push(t)
+  }
+  // First entry must be > 0 so value=0 regions still render as COLOR_STOPS[0].
+  if (thresholds[0] === 0) thresholds[0] = Math.min(...positives)
+  return [
+    'step',
+    ['get', 'value'],
+    COLOR_STOPS[0],
+    ...thresholds.flatMap((t, i) => [t, COLOR_STOPS[i + 1]]),
+  ]
+}
+
 const SCOPE_LABELS = {
   1: 'Country (NUTS 0)',
   2: 'NUTS 1 macro-region',
@@ -76,22 +102,12 @@ async function refresh() {
 function applyChoropleth(geojson, rows) {
   if (!map) return
   const byCode = new Map(rows.map((r) => [r.nuts_code, r.value]))
-  const values = rows.map((r) => r.value).filter((v) => v > 0).sort((a, b) => a - b)
-  const thresholds = COLOR_STOPS.slice(1).map((_, i) => {
-    const idx = Math.floor(((i + 1) / COLOR_STOPS.length) * values.length)
-    return values[Math.max(0, idx - 1)] || 0
-  })
 
   for (const f of geojson.features) {
     f.properties.value = byCode.get(f.properties.nuts_code) ?? 0
   }
 
-  const colorExpr = [
-    'step',
-    ['get', 'value'],
-    COLOR_STOPS[0],
-    ...thresholds.flatMap((t, i) => [t, COLOR_STOPS[i + 1]]),
-  ]
+  const colorExpr = buildColorExpression(rows)
 
   const addOrUpdate = () => {
     if (map.getSource('enu')) {
