@@ -191,9 +191,9 @@ async function save() {
       </router-link>
       <div class="header-actions">
         <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
-          <option value="private">Private</option>
-          <option value="shared">Shared</option>
-          <option value="public">Public</option>
+          <option value="private">Private — only me</option>
+          <option value="public_auth">Signed-in users</option>
+          <option value="public_open">Public — anyone</option>
         </select>
         <AssistPanel
           :report-context="reportContext"

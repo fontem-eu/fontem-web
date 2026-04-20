@@ -274,9 +274,13 @@ function parseSectionContent(content) {
   letter-spacing: 0.05em;
 }
 
+.badge-public_open { background: #d1fae5; color: #065f46; }
+.badge-public_auth { background: #dbeafe; color: #1e40af; }
+.badge-group { background: #dbeafe; color: #1e40af; }
+.badge-private { background: #f3f4f6; color: #6b7280; }
+/* Legacy values kept so historical reports still render a styled pill. */
 .badge-public { background: #d1fae5; color: #065f46; }
 .badge-shared { background: #dbeafe; color: #1e40af; }
-.badge-private { background: #f3f4f6; color: #6b7280; }
 
 .report-abstract {
   font-size: 0.95rem;
