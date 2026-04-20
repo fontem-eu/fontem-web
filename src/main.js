@@ -40,24 +40,29 @@ const router = createRouter({
   routes: [
     { path: '/', component: HomeView },
 
-    // Admin area (static prefix — no dynamic segments at root level)
+    // Admin area — auth-guarded (see AUTH_REQUIRED below).
     { path: '/admin', component: AdminView },
-    { path: '/admin/data-quality', component: DataQualityHubView },
-    { path: '/admin/data-quality/overview', component: OverviewDQView },
-    { path: '/admin/data-quality/contracts', component: ContractsDQView },
-    { path: '/admin/data-quality/gleif', component: GleifDQView },
-    { path: '/admin/data-quality/edgar', component: EdgarDQView },
-    { path: '/admin/data-quality/esef', component: EsefDQView },
-    { path: '/admin/data-quality/lobbying', component: LobbyingDQView },
-    { path: '/admin/data-quality/trade-edges', component: TradeEdgesDQView },
-    { path: '/admin/data-quality/dedup', component: DedupDQView },
-    { path: '/admin/data-quality/sanctions', component: SanctionsDQView },
-    { path: '/admin/data-quality/firds', component: FirdsDQView },
-    { path: '/admin/data-quality/cdp', component: CdpDQView },
-    { path: '/admin/data-quality/nuts', component: NutsDQView },
-    { path: '/admin/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
     { path: '/admin/moderation', component: ModerationView },
+
+    // Data quality — public (the platform's transparency surface).
+    // Anyone can browse coverage, freshness, and source breakdowns.
+    { path: '/data-quality', component: DataQualityHubView },
+    { path: '/data-quality/overview', component: OverviewDQView },
+    { path: '/data-quality/contracts', component: ContractsDQView },
+    { path: '/data-quality/gleif', component: GleifDQView },
+    { path: '/data-quality/edgar', component: EdgarDQView },
+    { path: '/data-quality/esef', component: EsefDQView },
+    { path: '/data-quality/lobbying', component: LobbyingDQView },
+    { path: '/data-quality/trade-edges', component: TradeEdgesDQView },
+    { path: '/data-quality/dedup', component: DedupDQView },
+    { path: '/data-quality/sanctions', component: SanctionsDQView },
+    { path: '/data-quality/firds', component: FirdsDQView },
+    { path: '/data-quality/cdp', component: CdpDQView },
+    { path: '/data-quality/nuts', component: NutsDQView },
+    { path: '/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
+    // Legacy /admin/data-quality/* paths redirect to /data-quality/* for bookmarks.
+    { path: '/admin/data-quality/:page*', redirect: (to) => `/data-quality/${to.params.page || ''}` },
 
     // Auth
     { path: '/login', component: LoginView },

@@ -17,7 +17,7 @@ const regionBars = computed(() => (data.value?.top_regions || []).map(r => ({ la
 const levelBars = computed(() => (data.value?.by_level || []).map(l => ({ label: `Level ${l.level}`, value: l.n })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>NUTS Regions</h1><p class="dq-sub">Eurostat NUTS classification — geographic coverage of companies and authorities</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>NUTS Regions</h1><p class="dq-sub">Eurostat NUTS classification — geographic coverage of companies and authorities</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">Loading...</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total_regions.toLocaleString()" label="Total Regions" /><StatCard :value="data.companies_linked.toLocaleString()" label="Companies Linked" /><StatCard :value="data.authorities_linked.toLocaleString()" label="Authorities Linked" /></div>

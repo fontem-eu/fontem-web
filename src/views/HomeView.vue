@@ -110,15 +110,6 @@ function onClose() {
         />
       </div>
     </main>
-
-    <!-- ── Footer ──────────────────────────────────────── -->
-    <footer class="pb-10 pt-12">
-      <p class="text-xs tracking-wide" style="color: var(--muted)">
-        Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
-        &nbsp;&middot;&nbsp;
-        <router-link to="/admin" style="color: var(--accent)">Admin</router-link>
-      </p>
-    </footer>
   </div>
 </template>
 

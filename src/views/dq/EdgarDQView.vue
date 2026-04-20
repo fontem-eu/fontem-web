@@ -15,7 +15,7 @@ onMounted(async () => {
 const fieldBars = computed(() => Object.entries(data.value?.field_coverage || {}).map(([k, v]) => ({ label: k.replace(/_/g, ' '), value: v })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>US EDGAR Financials</h1><p class="dq-sub">SEC financial statements — XBRL field coverage and filing trends</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>US EDGAR Financials</h1><p class="dq-sub">SEC financial statements — XBRL field coverage and filing trends</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">Loading...</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.companies.toLocaleString()" label="US Companies" /><StatCard :value="data.financial_years.toLocaleString()" label="Financial Years" /></div>

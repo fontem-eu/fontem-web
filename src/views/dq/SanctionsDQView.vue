@@ -16,7 +16,7 @@ const matchPct = computed(() => data.value ? Math.round(data.value.matched_to_co
 const regimeBars = computed(() => (data.value?.top_regimes || []).map(r => ({ label: r.regime, value: r.n })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>Sanctions</h1><p class="dq-sub">Sanctioned entities — persons, organisations, regime coverage and company matching</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>Sanctions</h1><p class="dq-sub">Sanctioned entities — persons, organisations, regime coverage and company matching</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">Loading...</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Sanctioned Entities" /><StatCard :value="data.persons.toLocaleString()" label="Persons" /><StatCard :value="data.entities.toLocaleString()" label="Organisations" /><StatCard :value="data.matched_to_companies.toLocaleString()" label="Matched to Companies" /></div>

@@ -77,7 +77,7 @@ const currencyBars = computed(() => {
   <div class="dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
         <h1>TED Contracts</h1>
         <p class="dq-sub">EU public procurement awards — volume, coverage, currency quality</p>
       </div>

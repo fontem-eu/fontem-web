@@ -13,7 +13,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>Trade Edges</h1><p class="dq-sub">Materialized authority-company trade relationships from contracts</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>Trade Edges</h1><p class="dq-sub">Materialized authority-company trade relationships from contracts</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">Loading...</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="(data.trade_pairs || 0).toLocaleString()" label="Trade Pairs" /><StatCard :value="fmtEur(data.total_eur)" label="Total EUR Value" /><StatCard :value="(data.total_contracts || 0).toLocaleString()" label="Total Contracts" /></div>
