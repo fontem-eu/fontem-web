@@ -21,7 +21,7 @@ const FIELDS = [
 const newVat = ref('')
 
 onMounted(async () => {
-  document.title = 'Entity Resolution — GMR'
+  document.title = 'Entity Resolution — Fontem'
   await loadCandidates()
 })
 

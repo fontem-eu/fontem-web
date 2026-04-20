@@ -49,9 +49,9 @@ describe('AppHeader', () => {
   beforeEach(() => localStorage.clear())
   afterEach(() => { localStorage.clear(); vi.restoreAllMocks() })
 
-  it('renders the GMR logo', async () => {
+  it('renders the Fontem wordmark in the header logo', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('h1').text()).toContain('GMR')
+    expect(wrapper.find('h1').text()).toBe('Fontem')
   })
 
   it('shows Sign in button when not authenticated', async () => {

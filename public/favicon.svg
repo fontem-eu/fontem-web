@@ -1,16 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Fontem favicon — a droplet ("source") rising above two pool
+    ripples ("reflection"). The two-tone scheme mirrors the wordmark:
+    indigo for the source, rose for the reflection.
+
+    Background inverts with the OS preferred colour scheme so the
+    favicon stays legible in both browser-tab backgrounds.
+  -->
   <style>
-    .bg { fill: #0d0d0d; }
-    @media (prefers-color-scheme: light) { .bg { fill: #f0f0f0; } }
+    .bg { fill: #ffffff; }
+    .drop { fill: #4f46e5; }
+    .pool { fill: #b45a7a; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0a0a0a; }
+      .drop { fill: #818cf8; }
+      .pool { fill: #f472b6; }
+    }
   </style>
 
-  <!-- Container -->
   <rect class="bg" width="32" height="32" rx="6"/>
 
-  <!-- Three ascending bars, bottom-aligned at y=29           -->
-  <!-- Heights: 6 → 13 → 22  (roughly ×2 each step)          -->
-  <!-- Opacity: 0.38 → 0.65 → 1.0  (fade = depth + recency)  -->
-  <rect x="4"  y="23" width="6" height="6"  rx="1.5" fill="#22c55e" opacity="0.38"/>
-  <rect x="13" y="16" width="6" height="13" rx="1.5" fill="#22c55e" opacity="0.65"/>
-  <rect x="22" y="7"  width="6" height="22" rx="1.5" fill="#22c55e"/>
+  <!-- Droplet — teardrop shape, point up, base down. Centered on x=16. -->
+  <path
+    class="drop"
+    d="M16 5 C16 5 10 12 10 17 A6 6 0 0 0 22 17 C22 12 16 5 16 5 Z"
+  />
+
+  <!-- Pool ripples — two short horizontal bars below the drop -->
+  <rect class="pool" x="7"  y="24" width="8" height="2" rx="1"/>
+  <rect class="pool" x="17" y="24" width="8" height="2" rx="1"/>
 </svg>

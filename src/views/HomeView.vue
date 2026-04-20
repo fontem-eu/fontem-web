@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
+import Wordmark from '../components/Wordmark.vue'
 import { useAnalytics } from '../composables/useAnalytics.js'
 
 const route = useRoute()
@@ -37,7 +38,7 @@ const VIEW_GROUPS = [
   },
   {
     key: 'analysis', label: 'Analysis',
-    views: [{ key: 'gmr-long', label: 'GMR Long' }],
+    views: [{ key: 'gmr-long', label: 'Long-Term Value' }],
   },
 ]
 
@@ -48,7 +49,7 @@ function onCompanyResolved(info) {
   if (info?.name) {
     const view = selectedView.value || 'summary'
     const label = view.charAt(0).toUpperCase() + view.slice(1)
-    document.title = `${info.name} — ${label} | GMR`
+    document.title = `${info.name} — ${label} | Fontem`
   }
 }
 
@@ -67,7 +68,7 @@ function onViewChange(view) {
 }
 
 function onClose() {
-  document.title = 'GMR — EU Enterprise Knowledge Graph'
+  document.title = 'Fontem — EU Enterprise Knowledge Graph'
   router.push('/')
 }
 </script>
@@ -79,7 +80,7 @@ function onClose() {
       <div v-if="!selectedTicker" class="landing" data-testid="landing">
         <div class="landing-card">
           <div class="landing-logo">
-            <span class="logo-accent">GMR</span>
+            <Wordmark size="lg" />
           </div>
           <TickerSearch
             ref="graphSearchInput"
@@ -131,13 +132,9 @@ function onClose() {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .landing-logo {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
   margin-bottom: 1.25rem;
   line-height: 1;
 }
-.landing-logo .logo-accent { color: var(--accent); }
 .landing-search {
   display: block;
   margin: 0 auto;
@@ -151,6 +148,5 @@ function onClose() {
 }
 @media (min-width: 640px) {
   .landing-card { padding: 2.5rem 2rem; }
-  .landing-logo { font-size: 2.75rem; }
 }
 </style>

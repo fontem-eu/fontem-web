@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
-onMounted(() => { document.title = 'Privacy Policy — GMR' })
+onMounted(() => { document.title = 'Privacy Policy — Fontem' })
 </script>
 
 <template>
@@ -9,9 +9,9 @@ onMounted(() => { document.title = 'Privacy Policy — GMR' })
     <h1>Privacy Policy</h1>
     <p class="privacy-updated">Last updated: April 2026</p>
 
-    <h2>1. What GMR is</h2>
+    <h2>1. What Fontem is</h2>
     <p>
-      GMR is a civic transparency platform that connects EU public procurement data,
+      Fontem is a civic transparency platform that connects EU public procurement data,
       corporate ownership registries, and cohesion policy funding into a single
       knowledge graph. Its goal is to make public spending and corporate structures
       easier to explore and understand.
@@ -19,7 +19,7 @@ onMounted(() => { document.title = 'Privacy Policy — GMR' })
 
     <h2>2. Data in the knowledge graph</h2>
     <p>
-      All data in the GMR knowledge graph relates to <strong>legal entities</strong>
+      All data in the Fontem knowledge graph relates to <strong>legal entities</strong>
       (companies, public authorities, and organisations) — not natural persons.
       We aggregate publicly available data from the following sources:
     </p>
@@ -73,7 +73,7 @@ onMounted(() => { document.title = 'Privacy Policy — GMR' })
     </ul>
     <p>
       To exercise any of these rights, contact us at
-      <a href="mailto:privacy@gmr.void42.net">privacy@gmr.void42.net</a>.
+      <a href="mailto:privacy@fontem.eu">privacy@fontem.eu</a>.
     </p>
     <p>
       You also have the right to lodge a complaint with a supervisory authority
@@ -89,7 +89,7 @@ onMounted(() => { document.title = 'Privacy Policy — GMR' })
     <h2>7. Changes to this policy</h2>
     <p>
       We may update this policy from time to time. When we do, we will revise the
-      "last updated" date at the top of this page. Continued use of GMR after changes
+      "last updated" date at the top of this page. Continued use of Fontem after changes
       constitutes acceptance of the updated policy.
     </p>
   </div>

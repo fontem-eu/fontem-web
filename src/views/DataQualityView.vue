@@ -12,7 +12,7 @@ onMounted(async () => {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     data.value = await res.json()
     state.value = 'done'
-    document.title = 'Data Quality — GMR'
+    document.title = 'Data Quality — Fontem'
   } catch {
     state.value = 'error'
   }

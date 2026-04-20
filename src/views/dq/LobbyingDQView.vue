@@ -6,7 +6,7 @@ import GaugeChart from '../../components/charts/GaugeChart.vue'
 import ZoomableBarChart from '../../components/charts/ZoomableBarChart.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 
-onMounted(() => { document.title = 'Lobbying Data Quality — GMR' })
+onMounted(() => { document.title = 'Lobbying Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
-onMounted(() => { document.title = 'Data Quality — GMR Admin' })
+onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
 
 const loading = ref(true)
 const stats = ref(null)

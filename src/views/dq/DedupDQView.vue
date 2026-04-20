@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 
-onMounted(() => { document.title = 'Deduplication Data Quality — GMR' })
+onMounted(() => { document.title = 'Deduplication Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

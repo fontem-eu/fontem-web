@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import ProfileDropdown from './ProfileDropdown.vue'
+import Wordmark from './Wordmark.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -51,8 +52,7 @@ function onTickerSelect(symbol) {
     <div class="header-top">
       <!-- Logo -->
       <h1 class="header-logo" @click="router.push('/')">
-        <span class="logo-accent">GMR</span>
-        <span class="logo-sub hidden sm:inline"> Knowledge Graph</span>
+        <Wordmark size="sm" />
       </h1>
 
       <!-- Search bar — shown on sub-pages -->

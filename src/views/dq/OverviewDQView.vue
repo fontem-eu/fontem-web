@@ -5,7 +5,7 @@ import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 
-onMounted(() => { document.title = 'Data Quality Overview — GMR' })
+onMounted(() => { document.title = 'Data Quality Overview — Fontem' })
 
 const overlap = ref(null)
 const countryCodes = ref(null)

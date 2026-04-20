@@ -24,6 +24,12 @@
     --accent: #4f46e5; /* indigo-600 */
     --negative: #dc2626; /* red-600 — financial losses only */
 
+    /* Brand tokens — the two-tone Fontem wordmark and any marketing
+       surface. Kept separate from --accent so a future accent shift
+       (e.g. theme experiments) doesn't accidentally repaint the logo. */
+    --brand-primary: #4f46e5;   /* indigo — the source */
+    --brand-secondary: #b45a7a; /* dusty rose — the reflection */
+
     --badge-ok-bg: #dcfce7;
     --badge-ok-text: #15803d;
     --badge-ko-bg: #fee2e2;
@@ -44,6 +50,9 @@
     --muted: #888888;
     --accent: #818cf8; /* indigo-400 — readable on near-black */
     --negative: #f87171; /* red-400 — financial losses only */
+
+    --brand-primary: #818cf8;   /* lighter indigo for dark backgrounds */
+    --brand-secondary: #f472b6; /* brighter rose so it sings on black */
 
     --badge-ok-bg: #052e16;
     --badge-ok-text: #4ade80;
@@ -72,6 +81,12 @@
     --muted: #8c6f58;    /* warm taupe */
     --accent: #b45a7a;   /* dusty rose — the pastel flower */
     --negative: #c04b2a; /* burnt sienna */
+
+    /* Autumn flips the polarity: rose becomes the dominant brand tone
+       (matches the theme's accent); indigo softens into a dusty plum
+       so the wordmark reads as warm + considered, not clashing. */
+    --brand-primary: #b45a7a;   /* rose */
+    --brand-secondary: #6b4f8f; /* dusty plum */
 
     --badge-ok-bg: #e8efd6;      /* sage wash */
     --badge-ok-text: #5b6a2f;    /* olive */

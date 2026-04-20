@@ -4,7 +4,7 @@ import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 
-onMounted(() => { document.title = 'EU Knowledge Graph Data Quality — GMR' })
+onMounted(() => { document.title = 'EU Knowledge Graph Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {
