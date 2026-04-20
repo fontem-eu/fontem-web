@@ -3,25 +3,26 @@ import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 import ThemeToggle from '../../src/components/ThemeToggle.vue'
 
-// ── Stable mock refs shared across all tests ─────────────────
-const mockIsDark = ref(false)
-const mockToggle = vi.fn()
+// Stable mock refs shared across all tests
+const mockTheme = ref('light')
+const mockCycle = vi.fn()
 
 vi.mock('../../src/composables/useTheme.js', () => ({
   useTheme: () => ({
-    isDark: mockIsDark,
-    toggle: mockToggle,
+    theme: mockTheme,
+    cycle: mockCycle,
     init: vi.fn(),
   }),
 }))
 
 describe('ThemeToggle component', () => {
   beforeEach(() => {
-    mockIsDark.value = false
-    mockToggle.mockClear()
-    // Toggle actually flips the ref so reactivity works in tests
-    mockToggle.mockImplementation(() => {
-      mockIsDark.value = !mockIsDark.value
+    mockTheme.value = 'light'
+    mockCycle.mockClear()
+    // cycle() walks light → dark → autumn → light
+    mockCycle.mockImplementation(() => {
+      const order = ['light', 'dark', 'autumn']
+      mockTheme.value = order[(order.indexOf(mockTheme.value) + 1) % order.length]
     })
   })
 
@@ -31,62 +32,80 @@ describe('ThemeToggle component', () => {
   })
 
   it('shows the moon icon in light mode', () => {
-    mockIsDark.value = false
+    mockTheme.value = 'light'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="leaf-icon"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(false)
   })
 
-  it('shows the sun icon in dark mode', () => {
-    mockIsDark.value = true
+  it('shows the leaf icon in dark mode', () => {
+    mockTheme.value = 'dark'
+    const wrapper = mount(ThemeToggle)
+    expect(wrapper.find('[data-testid="leaf-icon"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(false)
+  })
+
+  it('shows the sun icon in autumn mode', () => {
+    mockTheme.value = 'autumn'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="leaf-icon"]').exists()).toBe(false)
   })
 
-  it('has aria-label "Switch to dark mode" when in light mode', () => {
-    mockIsDark.value = false
+  it('aria-label announces the next theme in light mode', () => {
+    mockTheme.value = 'light'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('button').attributes('aria-label')).toBe('Switch to dark mode')
   })
 
-  it('has aria-label "Switch to light mode" when in dark mode', () => {
-    mockIsDark.value = true
+  it('aria-label announces the next theme in dark mode', () => {
+    mockTheme.value = 'dark'
+    const wrapper = mount(ThemeToggle)
+    expect(wrapper.find('button').attributes('aria-label')).toBe('Switch to autumn theme')
+  })
+
+  it('aria-label announces the next theme in autumn mode', () => {
+    mockTheme.value = 'autumn'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('button').attributes('aria-label')).toBe('Switch to light mode')
   })
 
-  it('calls toggle when the button is clicked', async () => {
+  it('calls cycle when the button is clicked', async () => {
     const wrapper = mount(ThemeToggle)
     await wrapper.find('button').trigger('click')
-    expect(mockToggle).toHaveBeenCalledOnce()
+    expect(mockCycle).toHaveBeenCalledOnce()
   })
 
-  it('switches from moon to sun icon after clicking in light mode', async () => {
-    mockIsDark.value = false
+  it('cycles light → dark on first click', async () => {
+    mockTheme.value = 'light'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(true)
-
     await wrapper.find('button').trigger('click')
-
-    expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="leaf-icon"]').exists()).toBe(true)
   })
 
-  it('switches from sun to moon icon after clicking in dark mode', async () => {
-    mockIsDark.value = true
+  it('cycles dark → autumn on next click', async () => {
+    mockTheme.value = 'dark'
+    const wrapper = mount(ThemeToggle)
+    expect(wrapper.find('[data-testid="leaf-icon"]').exists()).toBe(true)
+    await wrapper.find('button').trigger('click')
+    expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(true)
+  })
+
+  it('cycles autumn → light on next click', async () => {
+    mockTheme.value = 'autumn'
     const wrapper = mount(ThemeToggle)
     expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(true)
-
     await wrapper.find('button').trigger('click')
-
     expect(wrapper.find('[data-testid="moon-icon"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="sun-icon"]').exists()).toBe(false)
   })
 
-  it('sets aria-pressed to reflect dark mode state', () => {
-    mockIsDark.value = true
+  it('data-theme attribute reflects the current theme', () => {
+    mockTheme.value = 'autumn'
     const wrapper = mount(ThemeToggle)
-    expect(wrapper.find('button').attributes('aria-pressed')).toBe('true')
+    expect(wrapper.find('button').attributes('data-theme')).toBe('autumn')
   })
 })

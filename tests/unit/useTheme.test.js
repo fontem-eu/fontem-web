@@ -20,7 +20,7 @@ describe('useTheme composable', () => {
   beforeEach(async () => {
     vi.resetModules()
     localStorage.clear()
-    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.remove('dark', 'autumn')
     mockMatchMedia(false)
     // Fresh import after resetModules gives us a clean singleton ref
     const mod = await import('../../src/composables/useTheme.js')
@@ -121,5 +121,60 @@ describe('useTheme composable', () => {
     init()
     expect(localStorage.getItem('gmr-theme')).not.toBeNull()
     expect(localStorage.getItem('theme')).toBeNull()
+  })
+
+  // ── Autumn theme ─────────────────────────────────────────────
+
+  it('restores a saved "autumn" preference on init', () => {
+    localStorage.setItem('gmr-theme', 'autumn')
+    const { theme, isDark, init } = useTheme()
+    init()
+    expect(theme.value).toBe('autumn')
+    expect(isDark.value).toBe(false)
+    expect(document.documentElement.classList.contains('autumn')).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+  })
+
+  it('setTheme switches directly to autumn', () => {
+    const { theme, setTheme, init } = useTheme()
+    init()
+    setTheme('autumn')
+    expect(theme.value).toBe('autumn')
+    expect(document.documentElement.classList.contains('autumn')).toBe(true)
+    expect(localStorage.getItem('gmr-theme')).toBe('autumn')
+  })
+
+  it('cycle() walks light → dark → autumn → light', () => {
+    const { theme, cycle, init } = useTheme()
+    init()
+    expect(theme.value).toBe('light')
+    cycle()
+    expect(theme.value).toBe('dark')
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    cycle()
+    expect(theme.value).toBe('autumn')
+    expect(document.documentElement.classList.contains('autumn')).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    cycle()
+    expect(theme.value).toBe('light')
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(document.documentElement.classList.contains('autumn')).toBe(false)
+  })
+
+  it('setTheme ignores unknown names', () => {
+    const { theme, setTheme, init } = useTheme()
+    init()
+    setTheme('hot-pink')
+    expect(theme.value).toBe('light') // unchanged
+  })
+
+  it('dark and autumn classes are mutually exclusive', () => {
+    const { setTheme, init } = useTheme()
+    init()
+    setTheme('dark')
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    setTheme('autumn')
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(document.documentElement.classList.contains('autumn')).toBe(true)
   })
 })
