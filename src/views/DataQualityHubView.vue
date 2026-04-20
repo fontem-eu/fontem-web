@@ -94,7 +94,7 @@ function pipelineStat(id) {
         <router-link
           v-for="p in pipelines"
           :key="p.id"
-          :to="`/admin/data-quality/${p.id}`"
+          :to="`/data-quality/${p.id}`"
           class="dqh-card"
           :class="{ 'dqh-card--featured': p.featured }"
         >

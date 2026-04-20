@@ -17,7 +17,7 @@ const activePct = computed(() => data.value ? Math.round(data.value.active / Mat
 const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ label: c.country, value: c.count })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>GLEIF Companies</h1><p class="dq-sub">Global LEI directory — entity identification and corporate structure</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>GLEIF Companies</h1><p class="dq-sub">Global LEI directory — entity identification and corporate structure</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">Loading...</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Companies" /><StatCard :value="data.with_lei.toLocaleString()" label="With LEI" /><StatCard :value="data.subsidiary_links.toLocaleString()" label="Subsidiary Links" /><StatCard :value="data.orphan_subsidiaries.toLocaleString()" label="Orphan Subsidiaries" color="#d97706" /></div>

@@ -70,7 +70,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
   <div class="dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/admin/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
         <h1>Data Quality Overview</h1>
         <p class="dq-sub">Cross-source overlap, country code consistency, and field completeness across all data sources</p>
       </div>

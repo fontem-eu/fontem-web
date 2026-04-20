@@ -5,7 +5,7 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 onMounted(() => { document.title = 'Admin — GMR' })
 
 const tools = [
-  { path: '/admin/data-quality', title: 'Data Quality', desc: 'Per-pipeline dashboards: contracts, GLEIF, EDGAR, ESEF, lobbying, directors. Zoomable charts, gap detection.' },
+  { path: '/data-quality', title: 'Data Quality', desc: 'Per-pipeline dashboards: contracts, GLEIF, EDGAR, ESEF, lobbying, directors. Zoomable charts, gap detection.' },
   { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
   { path: '/admin/moderation', title: 'Moderation', desc: 'Review flagged content, resolve disputes, and view the moderation action log.' },
   { path: 'http://docs.void42.internal/shelves/architecture', title: 'Architecture', desc: 'System diagrams: infrastructure, data model, APIs, ETL, identity resolution.', external: true },
