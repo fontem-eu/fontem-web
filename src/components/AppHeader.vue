@@ -10,19 +10,23 @@ const route = useRoute()
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
-/* GitHub-style nav tabs — only for authenticated users */
+/* Top-level nav tabs — only for authenticated users.
+ * Issues and Activity live in the profile dropdown now. */
 const navTabs = [
-  { key: 'reports', label: 'Reports', path: '/reports' },
-  { key: 'issues', label: 'Issues', path: '/issues' },
-  { key: 'activity', label: 'Activity', path: '/activity' },
+  { key: 'home', label: 'Home', path: '/' },
+  { key: 'feed', label: 'Feed', path: '/feed' },
+  { key: 'my-reports', label: 'My Reports', path: '/my-reports' },
 ]
 
 function isActive(path) {
+  if (path === '/') return route.path === '/'
   return route.path.startsWith(path)
 }
 
-/* Search is hidden only on the login page */
-const showSearch = computed(() => route.path !== '/login')
+/* The landing page has its own centered search card, and the login
+ * page has no search.  Every other page shows the compact header
+ * search so users can jump to any entity. */
+const showSearch = computed(() => route.path !== '/login' && route.path !== '/')
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)

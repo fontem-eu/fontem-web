@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { listReports, createReport } from '../api/community.js'
 
@@ -10,11 +10,9 @@ const loading = ref(true)
 const error = ref(null)
 const creating = ref(false)
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
-
 onMounted(async () => {
   try {
-    const data = await listReports()
+    const data = await listReports({ scope: 'mine' })
     reports.value = data.reports || data || []
   } catch (err) {
     error.value = err.message
@@ -58,11 +56,10 @@ function truncate(text, maxLen = 140) {
 </script>
 
 <template>
-  <div class="report-list" data-testid="report-list">
+  <div class="report-list" data-testid="my-reports">
     <div class="list-header">
-      <h1 class="list-title">Reports</h1>
+      <h1 class="list-title">My Reports</h1>
       <button
-        v-if="hasToken"
         class="new-report-btn"
         :disabled="creating"
         data-testid="new-report-btn"
@@ -72,22 +69,18 @@ function truncate(text, maxLen = 140) {
       </button>
     </div>
 
-    <!-- Error -->
-    <div v-if="error" class="error-bar" data-testid="report-list-error">{{ error }}</div>
+    <div v-if="error" class="error-bar" data-testid="my-reports-error">{{ error }}</div>
 
-    <!-- Loading -->
     <div v-if="loading" class="loading-msg">Loading reports...</div>
 
-    <!-- Empty -->
     <div
       v-else-if="reports.length === 0"
       class="empty-msg"
-      data-testid="report-list-empty"
+      data-testid="my-reports-empty"
     >
       No reports yet. Start your first analysis above.
     </div>
 
-    <!-- Report cards -->
     <div v-else class="report-cards">
       <div
         v-for="r in reports"
@@ -108,7 +101,7 @@ function truncate(text, maxLen = 140) {
         <p v-if="r.abstract" class="card-abstract">{{ truncate(r.abstract) }}</p>
         <div class="card-meta">
           <span v-if="r.author">{{ r.author.name || r.author }}</span>
-          <span v-if="r.created_at">&middot; {{ formatDate(r.created_at) }}</span>
+          <span v-if="r.updated_at">&middot; {{ formatDate(r.updated_at) }}</span>
         </div>
       </div>
     </div>
@@ -121,21 +114,18 @@ function truncate(text, maxLen = 140) {
   margin: 0 auto;
   padding: 1.5rem 1rem;
 }
-
 .list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 }
-
 .list-title {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--text);
   margin: 0;
 }
-
 .new-report-btn {
   padding: 0.5rem 1.2rem;
   background: var(--accent);
@@ -146,12 +136,7 @@ function truncate(text, maxLen = 140) {
   font-weight: 600;
   cursor: pointer;
 }
-
-.new-report-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
+.new-report-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .error-bar {
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
@@ -160,21 +145,13 @@ function truncate(text, maxLen = 140) {
   border-radius: 4px;
   font-size: 0.8rem;
 }
-
-.loading-msg,
-.empty-msg {
+.loading-msg, .empty-msg {
   text-align: center;
   padding: 2rem 0;
   font-size: 0.85rem;
   color: var(--muted);
 }
-
-.report-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
+.report-cards { display: flex; flex-direction: column; gap: 0.75rem; }
 .report-card {
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -183,11 +160,7 @@ function truncate(text, maxLen = 140) {
   cursor: pointer;
   transition: border-color 0.15s;
 }
-
-.report-card:hover {
-  border-color: var(--accent);
-}
-
+.report-card:hover { border-color: var(--accent); }
 .card-top {
   display: flex;
   align-items: center;
@@ -195,14 +168,7 @@ function truncate(text, maxLen = 140) {
   gap: 0.5rem;
   margin-bottom: 0.35rem;
 }
-
-.card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0;
-}
-
+.card-title { font-size: 1rem; font-weight: 600; color: var(--text); margin: 0; }
 .visibility-badge {
   padding: 0.15rem 0.4rem;
   border-radius: 3px;
@@ -212,22 +178,10 @@ function truncate(text, maxLen = 140) {
   letter-spacing: 0.05em;
   flex-shrink: 0;
 }
-
-.badge-public { background: #d1fae5; color: #065f46; }
+.badge-public_open { background: #d1fae5; color: #065f46; }
+.badge-public_auth { background: #d1fae5; color: #065f46; }
 .badge-shared { background: #dbeafe; color: #1e40af; }
 .badge-private { background: #f3f4f6; color: #6b7280; }
-
-.card-abstract {
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin: 0 0 0.5rem;
-}
-
-.card-meta {
-  display: flex;
-  gap: 0.3rem;
-  font-size: 0.7rem;
-  color: var(--muted);
-}
+.card-abstract { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.5rem; }
+.card-meta { display: flex; gap: 0.3rem; font-size: 0.7rem; color: var(--muted); }
 </style>
