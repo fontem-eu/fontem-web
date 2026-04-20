@@ -1,0 +1,83 @@
+# Fontem — the primary-source transparency platform.
+#
+# We explicitly allow the major AI crawlers. The platform exists so that
+# verifiable facts are easier to find and harder to hide; having our
+# content indexable and RAG-retrievable is part of that mission.
+#
+# The only disallow set is for routes that are either per-user
+# (my-reports, activity) or unlikely to be useful in search results
+# (admin tools, login). Everything else is fair game.
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+# AI crawlers — spelled out so future policy tightening is explicit
+# rather than inherited from User-agent: *.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /my-reports
+Disallow: /activity
+Disallow: /ai-usage
+Disallow: /login
+Disallow: /api/
+Disallow: /capi/
+
+Sitemap: https://fontem.eu/sitemap.xml
