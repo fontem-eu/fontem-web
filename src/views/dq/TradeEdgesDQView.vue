@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 
-onMounted(() => { document.title = 'Trade Edges Data Quality — GMR' })
+onMounted(() => { document.title = 'Trade Edges Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 const fmtEur = (v) => v != null ? new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v) : '-'

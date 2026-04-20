@@ -159,7 +159,7 @@ function handleSignOut() {
 
       <!-- Sign in -->
       <template v-else>
-        <h1 class="login-title">Sign in to GMR</h1>
+        <h1 class="login-title">Sign in to Fontem</h1>
         <p class="login-desc">
           Sign in to start creating reports, raising issues, and collaborating with the community.
         </p>

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
-onMounted(() => { document.title = 'Page not found — GMR' })
+onMounted(() => { document.title = 'Page not found — Fontem' })
 </script>
 
 <template>

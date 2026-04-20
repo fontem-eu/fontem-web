@@ -10,7 +10,7 @@ const props = defineProps({
 defineEmits(['update:modelValue'])
 
 const GMR_LONG_TOOLTIP =
-  'GMR Long scores a stock for long-term value investing using 5-year averages: ' +
+  'Long-Term Value scores a stock for long-term value investing using 5-year averages: ' +
   'P/E ≤ 15, P/B ≤ 1.5, ROE ≥ 15%, Net Margin ≥ 15%, D/E ≤ 1.5, Div. Yield ≥ 3.5%. ' +
   'Developed by Gonçalo Martins Rato.'
 

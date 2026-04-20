@@ -5,7 +5,7 @@ import StatCard from '../../components/charts/StatCard.vue'
 import ZoomableBarChart from '../../components/charts/ZoomableBarChart.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 
-onMounted(() => { document.title = 'ESEF Data Quality — GMR' })
+onMounted(() => { document.title = 'ESEF Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

@@ -1,11 +1,11 @@
 {
-  "name": "GMR — EU Enterprise Knowledge Graph",
-  "short_name": "GMR",
-  "description": "EU company data, financials, and public procurement — traceable to official sources.",
+  "name": "Fontem — Follow the numbers, verify the claims",
+  "short_name": "Fontem",
+  "description": "The primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, cross-checked against the official registers.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#faf3e6",
+  "theme_color": "#b45a7a",
   "icons": [
     {
       "src": "/icon-192.png",

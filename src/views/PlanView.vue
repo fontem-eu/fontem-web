@@ -3,7 +3,7 @@ import { ref, onMounted, nextTick } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 onMounted(() => {
-  document.title = 'Implementation Plan — GMR'
+  document.title = 'Implementation Plan — Fontem'
   nextTick(() => {
     const hash = window.location.hash.slice(1)
     if (hash) document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' })

@@ -16,7 +16,7 @@ onMounted(async () => {
     const res = await fetch(`/api/companies/${encodeURIComponent(gmrId.value)}`)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     profile.value = await res.json()
-    document.title = `${profile.value.company_name || gmrId.value} | GMR`
+    document.title = `${profile.value.company_name || gmrId.value} | Fontem`
     state.value = 'done'
   } catch {
     state.value = 'error'

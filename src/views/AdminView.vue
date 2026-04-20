@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
-onMounted(() => { document.title = 'Admin — GMR' })
+onMounted(() => { document.title = 'Admin — Fontem' })
 
 const tools = [
   { path: '/data-quality', title: 'Data Quality', desc: 'Per-pipeline dashboards: contracts, GLEIF, EDGAR, ESEF, lobbying, directors. Zoomable charts, gap detection.' },

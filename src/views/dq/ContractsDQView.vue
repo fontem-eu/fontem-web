@@ -7,7 +7,7 @@ import ZoomableBarChart from '../../components/charts/ZoomableBarChart.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 import { fmtEur } from '../../utils/format.js'
 
-onMounted(() => { document.title = 'TED Contracts Data Quality — GMR' })
+onMounted(() => { document.title = 'TED Contracts Data Quality — Fontem' })
 
 const loading = ref(true)
 const timeline = ref([])
