@@ -96,7 +96,11 @@ const router = createRouter({
 })
 
 // Auth guard: redirect to login if visiting a protected route without a token
-const AUTH_REQUIRED = ['/my-reports', '/reports', '/feed', '/issues', '/activity', '/ai-usage', '/admin']
+// /feed is intentionally public — the platform's transparency stance is
+// that anyone can browse reports, logged in or not. Auth is only required
+// for the user's own workspace (/my-reports, /issues, /activity) and the
+// legacy /reports alias.
+const AUTH_REQUIRED = ['/my-reports', '/reports', '/issues', '/activity', '/ai-usage', '/admin']
 router.beforeEach((to) => {
   const needsAuth = AUTH_REQUIRED.some((prefix) => to.path.startsWith(prefix))
   if (needsAuth && !localStorage.getItem('gmr-token')) {

@@ -93,8 +93,17 @@ describe('AppHeader', () => {
     expect(nav.text()).not.toContain('Activity')
   })
 
-  it('hides nav tabs when not authenticated', async () => {
+  it('shows Home + Feed nav tabs to anonymous visitors (My Reports is hidden)', async () => {
     const { wrapper } = await mountAt('/')
+    const nav = wrapper.find('[data-testid="app-nav"]')
+    expect(nav.exists()).toBe(true)
+    expect(nav.text()).toContain('Home')
+    expect(nav.text()).toContain('Feed')
+    expect(nav.text()).not.toContain('My Reports')
+  })
+
+  it('hides nav tabs on the login page regardless of auth state', async () => {
+    const { wrapper } = await mountAt('/login')
     expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
   })
 

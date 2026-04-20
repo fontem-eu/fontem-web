@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
@@ -44,35 +44,7 @@ const VIEW_GROUPS = [
 const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView = computed(() => route.params.view || 'summary')
 
-// ── Recent companies (localStorage) ──────────────────────────
-// Stores {id, name} objects instead of raw ticker strings
-const RECENT_KEY = 'gmr-recent-companies'
-const MAX_RECENT = 5
-
-function loadRecent() {
-  try {
-    const raw = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]')
-    // Migrate old format (plain strings) to new format (objects)
-    return raw.map((item) => {
-      if (typeof item === 'string') return { id: item, name: item }
-      return item
-    })
-  } catch { return [] }
-}
-
-const recentCompanies = ref(loadRecent())
-
-function saveRecent(id, name) {
-  const displayName = name || id
-  const entry = { id, name: displayName }
-  const updated = [entry, ...recentCompanies.value.filter((e) => e.id !== id)].slice(0, MAX_RECENT)
-  recentCompanies.value = updated
-  try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)) } catch { /* ignore */ }
-}
-
-// Update recent + page title when TickerFinancials resolves company name
 function onCompanyResolved(info) {
-  if (info?.id) saveRecent(info.id, info.name)
   if (info?.name) {
     const view = selectedView.value || 'summary'
     const label = view.charAt(0).toUpperCase() + view.slice(1)
@@ -119,23 +91,6 @@ function onClose() {
           <p class="landing-hint">
             Search companies, public entities, lobbyists and more…
           </p>
-        </div>
-
-        <div v-if="recentCompanies.length" class="mt-6 text-center" data-testid="recent-tickers">
-          <p class="mb-2 text-xs font-semibold uppercase tracking-widest" style="color: var(--muted)">
-            Recently viewed
-          </p>
-          <div class="flex flex-wrap justify-center gap-2">
-            <button
-              v-for="entry in recentCompanies"
-              :key="entry.id"
-              class="border px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-150"
-              style="border-color: var(--accent); background: var(--surface); color: var(--accent)"
-              @click="onTickerSelect(entry.id)"
-            >
-              {{ entry.name }}
-            </button>
-          </div>
         </div>
       </div>
 

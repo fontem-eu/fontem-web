@@ -10,13 +10,20 @@ const route = useRoute()
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
-/* Top-level nav tabs — only for authenticated users.
- * Issues and Activity live in the profile dropdown now. */
-const navTabs = [
-  { key: 'home', label: 'Home', path: '/' },
-  { key: 'feed', label: 'Feed', path: '/feed' },
-  { key: 'my-reports', label: 'My Reports', path: '/my-reports' },
-]
+/* Top-level nav tabs.  Home + Feed are public (browsing public reports
+ * does not require auth — transparency is the point); My Reports is
+ * authed-only because it's the user's own workspace. Issues and
+ * Activity live in the profile dropdown. */
+const navTabs = computed(() => {
+  const base = [
+    { key: 'home', label: 'Home', path: '/' },
+    { key: 'feed', label: 'Feed', path: '/feed' },
+  ]
+  if (hasToken.value) {
+    base.push({ key: 'my-reports', label: 'My Reports', path: '/my-reports' })
+  }
+  return base
+})
 
 function isActive(path) {
   if (path === '/') return route.path === '/'
@@ -53,26 +60,26 @@ function onTickerSelect(symbol) {
         <TickerSearch :compact="true" @select="onTickerSelect" />
       </div>
 
-      <!-- Right side: auth + theme -->
+      <!-- Right side: theme toggle + auth. Pinned to the far right
+           via `margin-left: auto` below, even when the search bar is
+           absent (landing / login pages). -->
       <div class="header-right">
-        <template v-if="hasToken">
-          <ProfileDropdown />
-        </template>
-        <template v-else>
-          <router-link
-            to="/login"
-            class="sign-in-btn"
-            data-testid="sign-in-btn"
-          >
-            Sign in
-          </router-link>
-          <ThemeToggle />
-        </template>
+        <ThemeToggle />
+        <ProfileDropdown v-if="hasToken" />
+        <router-link
+          v-else
+          to="/login"
+          class="sign-in-btn"
+          data-testid="sign-in-btn"
+        >
+          Sign in
+        </router-link>
       </div>
     </div>
 
-    <!-- GitHub-style nav tabs (authenticated only) -->
-    <nav v-if="hasToken" class="header-nav" data-testid="app-nav">
+    <!-- Top-level nav tabs — visible to everyone on non-login pages.
+         Contents adapt to auth state (My Reports requires a token). -->
+    <nav v-if="route.path !== '/login'" class="header-nav" data-testid="app-nav">
       <router-link
         v-for="tab in navTabs"
         :key="tab.key"
@@ -131,6 +138,10 @@ function onTickerSelect(symbol) {
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+  /* Always pinned to the top-right — critical when the search bar is
+   * absent (landing / login) and there'd otherwise be no sibling
+   * pushing us over. */
+  margin-left: auto;
 }
 
 .sign-in-btn {

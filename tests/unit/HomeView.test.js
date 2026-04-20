@@ -158,43 +158,14 @@ describe('HomeView', () => {
     expect(pushSpy).toHaveBeenCalledWith('/')
   })
 
-  // ── Recent tickers ───────────────────────────────────────────
-
-  it('does not show recently-viewed section when localStorage is empty', async () => {
-    localStorage.clear()
-    const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="recent-tickers"]').exists()).toBe(false)
-  })
-
-  it('shows recently-viewed section when localStorage has entries', async () => {
+  // Recently-viewed was removed from the landing card — the tests that
+  // covered it went with it. The landing is now a single centered search
+  // card with nothing else below it.
+  it('does not render a recently-viewed block', async () => {
     localStorage.setItem('gmr-recent-companies', JSON.stringify([
       { id: 'AAPL', name: 'Apple Inc.' },
-      { id: 'MSFT', name: 'Microsoft Corp' },
     ]))
     const { wrapper } = await mountAt('/')
-    const recent = wrapper.find('[data-testid="recent-tickers"]')
-    expect(recent.exists()).toBe(true)
-    expect(recent.text()).toContain('Apple Inc.')
-    expect(recent.text()).toContain('Microsoft Corp')
-  })
-
-  it('migrates old string format in localStorage', async () => {
-    localStorage.setItem('gmr-recent-companies', JSON.stringify(['AAPL', 'MSFT']))
-    const { wrapper } = await mountAt('/')
-    const recent = wrapper.find('[data-testid="recent-tickers"]')
-    expect(recent.exists()).toBe(true)
-    // Old strings are auto-migrated: {id: 'AAPL', name: 'AAPL'}
-    expect(recent.text()).toContain('AAPL')
-  })
-
-  it('caps recently-viewed list at 5 entries', async () => {
-    localStorage.setItem('gmr-recent-companies', JSON.stringify([
-      { id: 'A', name: 'A' }, { id: 'B', name: 'B' },
-      { id: 'C', name: 'C' }, { id: 'D', name: 'D' },
-      { id: 'E', name: 'E' },
-    ]))
-    await mountAt('/')
-    const stored = JSON.parse(localStorage.getItem('gmr-recent-companies') || '[]')
-    expect(stored).toHaveLength(5)
+    expect(wrapper.find('[data-testid="recent-tickers"]').exists()).toBe(false)
   })
 })
