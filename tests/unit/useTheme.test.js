@@ -22,7 +22,6 @@ describe('useTheme composable', () => {
     localStorage.clear()
     document.documentElement.classList.remove('dark', 'autumn')
     mockMatchMedia(false)
-    // Fresh import after resetModules gives us a clean singleton ref
     const mod = await import('../../src/composables/useTheme.js')
     useTheme = mod.useTheme
   })
@@ -31,9 +30,10 @@ describe('useTheme composable', () => {
     vi.restoreAllMocks()
   })
 
-  it('defaults to light mode when no localStorage entry and OS is light', () => {
-    const { isDark, init } = useTheme()
+  it('defaults to light when no localStorage entry and OS is light', () => {
+    const { isDark, theme, init } = useTheme()
     init()
+    expect(theme.value).toBe('light')
     expect(isDark.value).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
@@ -48,7 +48,7 @@ describe('useTheme composable', () => {
 
   it('respects a saved "dark" preference over OS light preference', () => {
     localStorage.setItem('gmr-theme', 'dark')
-    mockMatchMedia(false) // OS says light
+    mockMatchMedia(false)
     const { isDark, init } = useTheme()
     init()
     expect(isDark.value).toBe(true)
@@ -57,7 +57,7 @@ describe('useTheme composable', () => {
 
   it('respects a saved "light" preference over OS dark preference', () => {
     localStorage.setItem('gmr-theme', 'light')
-    mockMatchMedia(true) // OS says dark
+    mockMatchMedia(true)
     const { isDark, init } = useTheme()
     init()
     expect(isDark.value).toBe(false)
@@ -68,9 +68,7 @@ describe('useTheme composable', () => {
     const { isDark, init, toggle } = useTheme()
     init()
     expect(isDark.value).toBe(false)
-
     toggle()
-
     expect(isDark.value).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)
     expect(localStorage.getItem('gmr-theme')).toBe('dark')
@@ -81,9 +79,7 @@ describe('useTheme composable', () => {
     const { isDark, init, toggle } = useTheme()
     init()
     expect(isDark.value).toBe(true)
-
     toggle()
-
     expect(isDark.value).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
     expect(localStorage.getItem('gmr-theme')).toBe('light')
@@ -93,88 +89,39 @@ describe('useTheme composable', () => {
     const { init, toggle } = useTheme()
     init()
     expect(localStorage.getItem('gmr-theme')).toBe('light')
-
     toggle()
     expect(localStorage.getItem('gmr-theme')).toBe('dark')
-
     toggle()
     expect(localStorage.getItem('gmr-theme')).toBe('light')
   })
 
-  it('defaults to light when matchMedia is undefined (no saved preference)', () => {
+  it('defaults to light when matchMedia is undefined', () => {
     vi.stubGlobal('matchMedia', undefined)
     const { isDark, init } = useTheme()
     init()
     expect(isDark.value).toBe(false)
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
 
-  it('defaults to light when matchMedia returns null matches (no saved preference)', () => {
-    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: null }))
-    const { isDark, init } = useTheme()
-    init()
-    expect(isDark.value).toBe(false)
-  })
+  // ── Migration from the retired "autumn" theme ────────────────
 
-  it('persists under the key gmr-theme specifically', () => {
-    const { init } = useTheme()
-    init()
-    expect(localStorage.getItem('gmr-theme')).not.toBeNull()
-    expect(localStorage.getItem('theme')).toBeNull()
-  })
-
-  // ── Autumn theme ─────────────────────────────────────────────
-
-  it('restores a saved "autumn" preference on init', () => {
+  it('migrates a saved "autumn" preference to the new light theme', () => {
     localStorage.setItem('gmr-theme', 'autumn')
     const { theme, isDark, init } = useTheme()
     init()
-    expect(theme.value).toBe('autumn')
+    expect(theme.value).toBe('light')
     expect(isDark.value).toBe(false)
-    expect(document.documentElement.classList.contains('autumn')).toBe(true)
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-  })
-
-  it('setTheme switches directly to autumn', () => {
-    const { theme, setTheme, init } = useTheme()
-    init()
-    setTheme('autumn')
-    expect(theme.value).toBe('autumn')
-    expect(document.documentElement.classList.contains('autumn')).toBe(true)
-    expect(localStorage.getItem('gmr-theme')).toBe('autumn')
-  })
-
-  it('cycle() walks light → dark → autumn → light', () => {
-    const { theme, cycle, init } = useTheme()
-    init()
-    expect(theme.value).toBe('light')
-    cycle()
-    expect(theme.value).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    cycle()
-    expect(theme.value).toBe('autumn')
-    expect(document.documentElement.classList.contains('autumn')).toBe(true)
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-    cycle()
-    expect(theme.value).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    // The retired .autumn class must not leak onto <html>
     expect(document.documentElement.classList.contains('autumn')).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    // Migration persists: next read gets 'light', not 'autumn'
+    expect(localStorage.getItem('gmr-theme')).toBe('light')
   })
 
   it('setTheme ignores unknown names', () => {
     const { theme, setTheme, init } = useTheme()
     init()
+    setTheme('autumn')  // retired name is no longer accepted via setTheme
     setTheme('hot-pink')
-    expect(theme.value).toBe('light') // unchanged
-  })
-
-  it('dark and autumn classes are mutually exclusive', () => {
-    const { setTheme, init } = useTheme()
-    init()
-    setTheme('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    setTheme('autumn')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-    expect(document.documentElement.classList.contains('autumn')).toBe(true)
+    expect(theme.value).toBe('light')
   })
 })

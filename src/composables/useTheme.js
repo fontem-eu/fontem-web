@@ -1,27 +1,32 @@
 import { computed, ref } from 'vue'
 
-// Module-level singleton so every component sees the same reactive value.
-// Valid values: 'light' | 'dark' | 'autumn'.  'autumn' is a warm
-// cream-and-rose pastel variant designed to sit between the two extremes.
-export const THEMES = ['light', 'dark', 'autumn']
+/**
+ * Theme singleton.  Two modes: 'light' (cream + rose, the default) and
+ * 'dark' (warm near-black + rose).  Earlier 'autumn' saved values are
+ * mapped to 'light' on load — the autumn palette *became* the light
+ * palette after the rebrand.
+ */
+export const THEMES = ['light', 'dark']
 
 const theme = ref('light')
-
-// Backward-compat: code that only cared about light↔dark can keep
-// reading isDark. (autumn counts as "not dark" for this purpose — it's
-// a light-ish palette.)
+// Backward-compat: existing code reads isDark.
 const isDark = computed(() => theme.value === 'dark')
 
 function applyTheme(name) {
   theme.value = name
-  // Mutually-exclusive theme classes on <html>. Light is the default
-  // (no class); dark and autumn each get their own class.
   const root = document.documentElement
   root.classList.remove('dark', 'autumn')
-  if (name === 'dark' || name === 'autumn') {
-    root.classList.add(name)
-  }
+  if (name === 'dark') root.classList.add('dark')
   localStorage.setItem('gmr-theme', name)
+}
+
+function normalizeSaved(raw) {
+  // Migration: anything that's not 'dark' (including the now-retired
+  // 'autumn' and the old stark-white 'light') collapses into the new
+  // warm 'light'.
+  if (raw === 'dark') return 'dark'
+  if (raw === 'light' || raw === 'autumn') return 'light'
+  return null // unknown → fall back to OS preference
 }
 
 export function useTheme() {
@@ -29,30 +34,19 @@ export function useTheme() {
     if (THEMES.includes(name)) applyTheme(name)
   }
 
-  /** Cycle through the three themes: light → dark → autumn → light. */
-  function cycle() {
-    const idx = THEMES.indexOf(theme.value)
-    applyTheme(THEMES[(idx + 1) % THEMES.length])
-  }
-
-  /**
-   * Backward-compat: code that called `toggle()` expected a light↔dark flip.
-   * Preserved so existing tests and the ProfileDropdown's theme row keep
-   * working without churn. New call sites should prefer `cycle()` or
-   * `setTheme(name)`.
-   */
   function toggle() {
     applyTheme(theme.value === 'dark' ? 'light' : 'dark')
   }
 
   /**
-   * Read persisted preference (or fall back to OS preference) and apply it.
-   * Call once on app mount — the anti-FOUC script in index.html already sets
-   * the class synchronously, so this just syncs the reactive ref.
+   * Read persisted preference (or fall back to OS preference) and apply
+   * it.  The anti-FOUC script in index.html has already set the class
+   * synchronously; this mainly syncs the reactive ref and migrates any
+   * legacy 'autumn' value to 'light'.
    */
   function init() {
-    const saved = localStorage.getItem('gmr-theme')
-    if (THEMES.includes(saved)) {
+    const saved = normalizeSaved(localStorage.getItem('gmr-theme'))
+    if (saved !== null) {
       applyTheme(saved)
       return
     }
@@ -62,5 +56,5 @@ export function useTheme() {
     applyTheme(prefersDark ? 'dark' : 'light')
   }
 
-  return { theme, isDark, setTheme, cycle, toggle, init }
+  return { theme, isDark, setTheme, toggle, init }
 }

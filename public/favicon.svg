@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!--
-    Fontem favicon — a droplet ("source") rising above two pool
-    ripples ("reflection"). The two-tone scheme mirrors the wordmark:
-    indigo for the source, rose for the reflection.
+    Fontem favicon — a droplet ("source") above two pool ripples
+    ("reflection"). The two-tone colour scheme mirrors the wordmark:
+    rose drop, plum pool.
 
     Background inverts with the OS preferred colour scheme so the
-    favicon stays legible in both browser-tab backgrounds.
+    favicon stays legible against both light and dark browser chrome.
   -->
   <style>
-    .bg { fill: #ffffff; }
-    .drop { fill: #4f46e5; }
-    .pool { fill: #b45a7a; }
+    .bg { fill: #faf3e6; }                       /* linen */
+    .drop { fill: #b45a7a; }                     /* rose */
+    .pool { fill: #6b4f8f; }                     /* plum */
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #0a0a0a; }
-      .drop { fill: #818cf8; }
-      .pool { fill: #f472b6; }
+      .bg { fill: #14100c; }                     /* espresso */
+      .drop { fill: #d48aa8; }                   /* rose (lifted) */
+      .pool { fill: #c1a6d9; }                   /* lavender */
     }
   </style>
 

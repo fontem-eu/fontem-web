@@ -2,91 +2,33 @@
 @import '@fontsource-variable/inter';
 
 /* ── Theme variants (toggled via class on <html>) ─────────
-   `.dark`   — near-black palette, cool accent
-   `.autumn` — warm cream base with dusty-rose floral accents
+   `.dark` — warm dark (near-black with a slight espresso shift),
+             same rose + lavender accents as light. No other variants
+             — one warm light, one warm dark, family continuity.
    Default (no class) is light. */
 @custom-variant dark (&:where(.dark, .dark *));
-@custom-variant autumn (&:where(.autumn, .autumn *));
 
 /* ── Design tokens ──────────────────────────────────────────
-   Light and dark values live as CSS custom properties.
-   The same Tailwind classes work in both modes because
-   the underlying variables change — no dark: prefixes needed
-   for color-sensitive classes.
+   Single warm colour family across both themes. Light is cream-and-
+   rose; dark is espresso-and-rose. Same brand accents in both so the
+   wordmark and UI hit-targets keep their identity when a user flips
+   the toggle.
    ─────────────────────────────────────────────────────────── */
 @layer base {
   :root {
-    --bg: #ffffff;
-    --surface: #f5f5f5;
-    --border: #e5e5e5;
-    --text: #111111;
-    --muted: #6b6b6b;
-    --accent: #4f46e5; /* indigo-600 */
-    --negative: #dc2626; /* red-600 — financial losses only */
-
-    /* Brand tokens — the two-tone Fontem wordmark and any marketing
-       surface. Kept separate from --accent so a future accent shift
-       (e.g. theme experiments) doesn't accidentally repaint the logo. */
-    --brand-primary: #4f46e5;   /* indigo — the source */
-    --brand-secondary: #b45a7a; /* dusty rose — the reflection */
-
-    --badge-ok-bg: #dcfce7;
-    --badge-ok-text: #15803d;
-    --badge-ko-bg: #fee2e2;
-    --badge-ko-text: #b91c1c;
-    --badge-tag-bg: #f0f0f0;
-    --badge-tag-text: #374151;
-    --badge-esef-bg: #dbeafe;
-    --badge-esef-text: #1d4ed8;
-    --badge-edgar-bg: #dcfce7;
-    --badge-edgar-text: #15803d;
-  }
-
-  .dark {
-    --bg: #0a0a0a;
-    --surface: #141414;
-    --border: #2a2a2a;
-    --text: #f0f0f0;
-    --muted: #888888;
-    --accent: #818cf8; /* indigo-400 — readable on near-black */
-    --negative: #f87171; /* red-400 — financial losses only */
-
-    --brand-primary: #818cf8;   /* lighter indigo for dark backgrounds */
-    --brand-secondary: #f472b6; /* brighter rose so it sings on black */
-
-    --badge-ok-bg: #052e16;
-    --badge-ok-text: #4ade80;
-    --badge-ko-bg: #450a0a;
-    --badge-ko-text: #f87171;
-    --badge-tag-bg: #1a1a1a;
-    --badge-tag-text: #9ca3af;
-    --badge-esef-bg: #1e3a5f;
-    --badge-esef-text: #93c5fd;
-    --badge-edgar-bg: #052e16;
-    --badge-edgar-text: #4ade80;
-  }
-
-  /* ── Autumn ─────────────────────────────────────────────────
-     Warm cream / aged-linen surface, espresso text, and a dusty-rose
-     accent that reads like a chrysanthemum against the page.  Sits
-     between light and dark in contrast — easier on the eyes than pure
-     white without the cave feel of dark mode.
-     Semantic badges lean into ochre / rose / sage so they don't clash
-     with the warm base. */
-  .autumn {
+    /* Light — aged linen + espresso */
     --bg: #faf3e6;       /* aged linen */
     --surface: #fffaec;  /* ivory, a touch lighter than bg */
     --border: #e6d3b8;   /* tan */
     --text: #3e2b1f;     /* espresso */
     --muted: #8c6f58;    /* warm taupe */
-    --accent: #b45a7a;   /* dusty rose — the pastel flower */
+    --accent: #b45a7a;   /* dusty rose */
     --negative: #c04b2a; /* burnt sienna */
 
-    /* Autumn flips the polarity: rose becomes the dominant brand tone
-       (matches the theme's accent); indigo softens into a dusty plum
-       so the wordmark reads as warm + considered, not clashing. */
-    --brand-primary: #b45a7a;   /* rose */
-    --brand-secondary: #6b4f8f; /* dusty plum */
+    /* Brand tokens — the two-tone Fontem wordmark. Kept separate from
+       --accent so a future accent tweak won't repaint the logo. */
+    --brand-primary: #b45a7a;   /* rose — the source */
+    --brand-secondary: #6b4f8f; /* dusty plum — the reflection */
 
     --badge-ok-bg: #e8efd6;      /* sage wash */
     --badge-ok-text: #5b6a2f;    /* olive */
@@ -98,6 +40,35 @@
     --badge-esef-text: #6a3d54;  /* plum */
     --badge-edgar-bg: #f5dfc2;   /* ochre wash */
     --badge-edgar-text: #8a5420; /* burnt umber */
+  }
+
+  .dark {
+    /* Dark — near-black with a slight warm undertone so it rhymes with
+       the light cream rather than clashing.  Kept very dark for real
+       contrast; the warmth is in the green channel of bg, not brown.
+       Full dark-brown would read as a coffee-shop menu and eat text
+       legibility. Restraint wins here. */
+    --bg: #14100c;       /* espresso near-black */
+    --surface: #1d1713;  /* cards — one step up */
+    --border: #332820;   /* warm dark */
+    --text: #f3e8d4;     /* warm cream — mirrors light's bg */
+    --muted: #8a7661;    /* warm taupe */
+    --accent: #d48aa8;   /* rose, lifted for contrast */
+    --negative: #e08363; /* warm sienna */
+
+    --brand-primary: #d48aa8;   /* rose */
+    --brand-secondary: #c1a6d9; /* lavender — plum lifted for dark */
+
+    --badge-ok-bg: #2a3818;      /* moss on dark */
+    --badge-ok-text: #b0c472;    /* light olive */
+    --badge-ko-bg: #3a1c12;      /* deep sienna */
+    --badge-ko-text: #e89878;    /* warm peach */
+    --badge-tag-bg: #2a2017;     /* dark oat */
+    --badge-tag-text: #b0957a;   /* warm taupe */
+    --badge-esef-bg: #2b1f37;    /* deep mauve */
+    --badge-esef-text: #c5a8d9;  /* dusty lavender */
+    --badge-edgar-bg: #382516;   /* dark ochre */
+    --badge-edgar-text: #d9a870; /* warm amber */
   }
 
   *,
@@ -114,12 +85,6 @@
 
   html.dark {
     color-scheme: dark;
-  }
-
-  html.autumn {
-    /* Autumn is a light-family palette — tell the UA so form controls,
-     * scrollbars, etc. render against a light backdrop. */
-    color-scheme: light;
   }
 
   body {

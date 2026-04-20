@@ -4,8 +4,8 @@
   "description": "The primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, cross-checked against the official registers.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4f46e5",
+  "background_color": "#faf3e6",
+  "theme_color": "#b45a7a",
   "icons": [
     {
       "src": "/icon-192.png",

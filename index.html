@@ -12,16 +12,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="description" content="Fontem — the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, linked into one graph and cross-checked against the official registers."/>
     <!-- Anti-FOUC: apply theme class before first paint.
-         Supported themes: 'light' (default, no class), 'dark', 'autumn'. -->
+         Two themes: 'light' (default, no class) and 'dark'.
+         Legacy 'autumn' persists as 'light' via migration on init. -->
     <script>
       ;(function () {
         var saved = localStorage.getItem('gmr-theme')
-        if (saved === 'dark' || saved === 'autumn') {
-          document.documentElement.classList.add(saved)
+        if (saved === 'dark') {
+          document.documentElement.classList.add('dark')
           return
         }
-        if (!saved &&
-            window.matchMedia &&
+        // 'light' and legacy 'autumn' both render as the new warm light.
+        if (saved === 'light' || saved === 'autumn') return
+        if (window.matchMedia &&
             window.matchMedia('(prefers-color-scheme: dark)').matches) {
           document.documentElement.classList.add('dark')
         }
