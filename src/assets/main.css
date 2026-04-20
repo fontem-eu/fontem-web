@@ -1,8 +1,12 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 
-/* ── Dark-mode variant (toggled via .dark on <html>) ─────── */
+/* ── Theme variants (toggled via class on <html>) ─────────
+   `.dark`   — near-black palette, cool accent
+   `.autumn` — warm cream base with dusty-rose floral accents
+   Default (no class) is light. */
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant autumn (&:where(.autumn, .autumn *));
 
 /* ── Design tokens ──────────────────────────────────────────
    Light and dark values live as CSS custom properties.
@@ -53,6 +57,34 @@
     --badge-edgar-text: #4ade80;
   }
 
+  /* ── Autumn ─────────────────────────────────────────────────
+     Warm cream / aged-linen surface, espresso text, and a dusty-rose
+     accent that reads like a chrysanthemum against the page.  Sits
+     between light and dark in contrast — easier on the eyes than pure
+     white without the cave feel of dark mode.
+     Semantic badges lean into ochre / rose / sage so they don't clash
+     with the warm base. */
+  .autumn {
+    --bg: #faf3e6;       /* aged linen */
+    --surface: #fffaec;  /* ivory, a touch lighter than bg */
+    --border: #e6d3b8;   /* tan */
+    --text: #3e2b1f;     /* espresso */
+    --muted: #8c6f58;    /* warm taupe */
+    --accent: #b45a7a;   /* dusty rose — the pastel flower */
+    --negative: #c04b2a; /* burnt sienna */
+
+    --badge-ok-bg: #e8efd6;      /* sage wash */
+    --badge-ok-text: #5b6a2f;    /* olive */
+    --badge-ko-bg: #f6d9cf;      /* dusty peach */
+    --badge-ko-text: #8a2e1b;    /* deep sienna */
+    --badge-tag-bg: #f1e3cc;     /* oat */
+    --badge-tag-text: #5a4330;   /* walnut */
+    --badge-esef-bg: #e7d9e3;    /* dusty mauve */
+    --badge-esef-text: #6a3d54;  /* plum */
+    --badge-edgar-bg: #f5dfc2;   /* ochre wash */
+    --badge-edgar-text: #8a5420; /* burnt umber */
+  }
+
   *,
   *::before,
   *::after {
@@ -67,6 +99,12 @@
 
   html.dark {
     color-scheme: dark;
+  }
+
+  html.autumn {
+    /* Autumn is a light-family palette — tell the UA so form controls,
+     * scrollbars, etc. render against a light backdrop. */
+    color-scheme: light;
   }
 
   body {

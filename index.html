@@ -11,13 +11,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="description" content="EU company data, financials, and public procurement — traceable to official sources."/>
-    <!-- Anti-FOUC: apply theme class before first paint -->
+    <!-- Anti-FOUC: apply theme class before first paint.
+         Supported themes: 'light' (default, no class), 'dark', 'autumn'. -->
     <script>
       ;(function () {
         var saved = localStorage.getItem('gmr-theme')
-        var prefersDark =
-          window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (saved === 'dark' || (!saved && prefersDark)) {
+        if (saved === 'dark' || saved === 'autumn') {
+          document.documentElement.classList.add(saved)
+          return
+        }
+        if (!saved &&
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches) {
           document.documentElement.classList.add('dark')
         }
       })()
