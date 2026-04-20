@@ -38,6 +38,16 @@ function onUsageClick() {
   router.push('/ai-usage')
 }
 
+function onIssuesClick() {
+  closeMenu()
+  router.push('/issues')
+}
+
+function onActivityClick() {
+  closeMenu()
+  router.push('/activity')
+}
+
 function onPrivacyClick() {
   closeMenu()
   router.push('/privacy')
@@ -202,6 +212,38 @@ onBeforeUnmount(() => {
           </svg>
         </span>
         <span>{{ isDark ? 'Light mode' : 'Dark mode' }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="profile-menu-item"
+        role="menuitem"
+        data-testid="menu-issues"
+        @click="onIssuesClick"
+      >
+        <span class="profile-menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </span>
+        <span>Issues</span>
+      </button>
+
+      <button
+        type="button"
+        class="profile-menu-item"
+        role="menuitem"
+        data-testid="menu-activity"
+        @click="onActivityClick"
+      >
+        <span class="profile-menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+        </span>
+        <span>Activity</span>
       </button>
 
       <button

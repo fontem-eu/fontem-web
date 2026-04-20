@@ -18,6 +18,8 @@ function makeRouter() {
     routes: [
       { path: '/', component: { template: '<div />' } },
       { path: '/login', component: { template: '<div />' } },
+      { path: '/feed', component: { template: '<div />' } },
+      { path: '/my-reports', component: { template: '<div />' } },
       { path: '/reports', component: { template: '<div />' } },
       { path: '/issues', component: { template: '<div />' } },
       { path: '/activity', component: { template: '<div />' } },
@@ -78,9 +80,17 @@ describe('AppHeader', () => {
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Reports')
-    expect(nav.text()).toContain('Issues')
-    expect(nav.text()).toContain('Activity')
+    expect(nav.text()).toContain('Home')
+    expect(nav.text()).toContain('Feed')
+    expect(nav.text()).toContain('My Reports')
+  })
+
+  it('moves Issues and Activity out of the top-level nav', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    const { wrapper } = await mountAt('/')
+    const nav = wrapper.find('[data-testid="app-nav"]')
+    expect(nav.text()).not.toContain('Issues')
+    expect(nav.text()).not.toContain('Activity')
   })
 
   it('hides nav tabs when not authenticated', async () => {
@@ -88,9 +98,9 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
   })
 
-  it('shows search bar on landing page', async () => {
+  it('hides search bar on the landing page (home has its own card)', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(true)
+    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
   })
 
   it('hides search bar on login page', async () => {
@@ -98,17 +108,17 @@ describe('AppHeader', () => {
     expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
   })
 
-  it('shows search bar on reports page', async () => {
+  it('shows search bar on feed page', async () => {
     localStorage.setItem('gmr-token', 'test-token')
-    const { wrapper } = await mountAt('/reports')
+    const { wrapper } = await mountAt('/feed')
     expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(true)
   })
 
   it('marks active nav tab', async () => {
     localStorage.setItem('gmr-token', 'test-token')
-    const { wrapper } = await mountAt('/reports')
-    const reportsTab = wrapper.find('[data-testid="nav-reports"]')
-    expect(reportsTab.classes()).toContain('active')
+    const { wrapper } = await mountAt('/my-reports')
+    const tab = wrapper.find('[data-testid="nav-my-reports"]')
+    expect(tab.classes()).toContain('active')
   })
 
   it('shows user name in profile dropdown', async () => {

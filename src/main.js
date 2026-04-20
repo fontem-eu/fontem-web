@@ -19,7 +19,8 @@ import CdpDQView from './views/dq/CdpDQView.vue'
 import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import OverviewDQView from './views/dq/OverviewDQView.vue'
-import ReportListView from './views/ReportListView.vue'
+import FeedView from './views/FeedView.vue'
+import MyReportsView from './views/MyReportsView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
 import IssuesView from './views/IssuesView.vue'
@@ -75,8 +76,12 @@ const router = createRouter({
     { path: '/issues', component: IssuesView },
     { path: '/issues/:id', component: IssueDetailView },
 
+    // Feed (public reports — signed-in users)
+    { path: '/feed', component: FeedView },
+
     // Reports
-    { path: '/reports', component: ReportListView },
+    { path: '/my-reports', component: MyReportsView },
+    { path: '/reports', redirect: '/my-reports' },
     { path: '/reports/:id', component: ReportView },
     { path: '/reports/:id/edit', component: ReportEditorView },
 
@@ -91,7 +96,7 @@ const router = createRouter({
 })
 
 // Auth guard: redirect to login if visiting a protected route without a token
-const AUTH_REQUIRED = ['/reports', '/issues', '/activity', '/ai-usage', '/admin']
+const AUTH_REQUIRED = ['/my-reports', '/reports', '/feed', '/issues', '/activity', '/ai-usage', '/admin']
 router.beforeEach((to) => {
   const needsAuth = AUTH_REQUIRED.some((prefix) => to.path.startsWith(prefix))
   if (needsAuth && !localStorage.getItem('gmr-token')) {

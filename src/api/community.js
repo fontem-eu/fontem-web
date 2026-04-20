@@ -60,8 +60,13 @@ export function getReport(id) {
   return request('GET', `/reports/${encodeURIComponent(id)}`)
 }
 
-export function listReports() {
-  return request('GET', '/reports')
+export function listReports({ scope, limit, offset } = {}) {
+  const params = new URLSearchParams()
+  if (scope) params.set('scope', scope)
+  if (limit !== undefined) params.set('limit', String(limit))
+  if (offset !== undefined) params.set('offset', String(offset))
+  const qs = params.toString()
+  return request('GET', qs ? `/reports?${qs}` : '/reports')
 }
 
 export function updateReport(id, fields) {
