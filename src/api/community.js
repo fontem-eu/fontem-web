@@ -22,15 +22,21 @@ function authHeaders() {
 }
 
 async function request(method, path, body, { retries = 0 } = {}) {
-  const opts = {
-    method,
-    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
-  }
+  const headers = { ...authHeaders(), 'Content-Type': 'application/json' }
+  // Did we actually send a token on this request?  Needed below to tell
+  // "session expired" apart from "anonymous call to a token-optional
+  // endpoint that happened to 401" — we should only punt the user to
+  // /login in the first case.
+  const sentAuth = 'Authorization' in headers
+  const opts = { method, headers }
   if (body !== undefined) opts.body = JSON.stringify(body)
   const res = await fetch(`/capi${path}`, opts)
 
-  // Auto-redirect on auth failure
-  if (res.status === 401) {
+  // Auto-redirect only when a stale token triggered the 401. Anonymous
+  // callers (no token) should surface the error so the calling view can
+  // render the right state (e.g. a 404 page for private reports they
+  // tried to open via direct link).
+  if (res.status === 401 && sentAuth) {
     localStorage.removeItem('gmr-token')
     localStorage.removeItem('gmr-user')
     window.location.href = '/login'
