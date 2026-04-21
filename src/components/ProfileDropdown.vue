@@ -17,6 +17,7 @@ const open = ref(false)
 const rootRef = ref(null)
 
 const user = computed(() => {
+  if (typeof localStorage === 'undefined') return null
   try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') } catch { return null }
 })
 

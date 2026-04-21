@@ -9,7 +9,11 @@ import Wordmark from './Wordmark.vue'
 const router = useRouter()
 const route = useRoute()
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+// Safe during SSR: localStorage doesn't exist on the server, so
+// anonymous render is the default. Client re-evaluates on hydration.
+const hasToken = computed(
+  () => typeof localStorage !== 'undefined' && !!localStorage.getItem('gmr-token'),
+)
 
 /* Top-level nav tabs.  Home + Feed are public (browsing public reports
  * does not require auth — transparency is the point); My Reports is

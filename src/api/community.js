@@ -4,6 +4,9 @@
  */
 
 function authHeaders() {
+  // localStorage + window don't exist during SSR; no auth from the
+  // server — anonymous requests happen via the same code path.
+  if (typeof localStorage === 'undefined') return {}
   const token = localStorage.getItem('gmr-token')
   if (!token) return {}
 

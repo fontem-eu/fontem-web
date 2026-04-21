@@ -7,6 +7,9 @@ import { useRoute, useRouter } from 'vue-router'
 const PUBLIC_ORDER = ['/', '/feed']
 const AUTHED_ORDER = ['/', '/feed', '/my-reports']
 function currentOrder() {
+  // Safe on the server (SSR) — no localStorage there, default to the
+  // anonymous order; the client re-evaluates on hydration.
+  if (typeof localStorage === 'undefined') return PUBLIC_ORDER
   return localStorage.getItem('gmr-token') ? AUTHED_ORDER : PUBLIC_ORDER
 }
 
