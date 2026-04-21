@@ -17,6 +17,7 @@ const TITLES = {
   '/data-quality': 'Data quality — Fontem',
   '/sparql': 'SPARQL — Fontem',
   '/login': 'Sign in — Fontem',
+  '/donate': 'Support Fontem',
 }
 
 const DESCRIPTIONS = {
@@ -26,6 +27,7 @@ const DESCRIPTIONS = {
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
   '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
   '/login': 'Sign in to Fontem to publish reports, raise issues, and save your research.',
+  '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
 }
 
 const DEFAULT_TITLE = 'Fontem — Follow the numbers, verify the claims'

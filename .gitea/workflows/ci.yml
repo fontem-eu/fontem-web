@@ -90,6 +90,7 @@ jobs:
           probe /privacy       "Privacy"
           probe /data-quality  "Data quality"
           probe /sparql        "SPARQL"
+          probe /donate        "Support"
       - name: Probe critical static assets
         # og-card.png + robots.txt ship as real files in public/. If
         # they disappear (the og-card.png 404 that broke WhatsApp
