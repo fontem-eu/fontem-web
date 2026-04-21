@@ -1,10 +1,10 @@
 /**
- * SSR entry — imported by the Fastify server for each request.
+ * Render entry — imported by scripts/prerender.js at build time.
  *
- * Creates a fresh Vue SSR app per request (Vue 3 requires this so two
- * requests don't share reactive state), installs the router, navigates
- * to the URL, and returns the rendered HTML plus any per-page meta the
- * render collected (title, description, JSON-LD).
+ * Runs the Vue app through vue/server-renderer's renderToString for a
+ * given URL and returns { html, head } with per-route meta. No runtime
+ * server uses this anymore; everything is baked into static HTML at
+ * build time and served by nginx.
  */
 import { renderToString } from 'vue/server-renderer'
 import { createFontemApp } from './app.js'
@@ -28,12 +28,10 @@ export async function render(url, context = {}) {
 
   const html = await renderToString(app, context)
   const jsonLd = buildJsonLd(currentRoute, context)
-  // Prefer the request's actual host for absolute URLs (og:url, og:image,
-  // canonical).  Falls back to CANONICAL_URL (env) or the hard default.
-  // This is why WhatsApp / Slack / etc. couldn't fetch og:image: the
-  // static index.html pinned `fontem.eu` but the site was served at
-  // `gmr.void42.net`, where fontem.eu DNS didn't point. Now every
-  // render self-anchors to whatever host the request came in on.
+  // Build absolute URLs (og:url, canonical, og:image) from the origin
+  // the prerender script passes in — production bakes `www.fontem.eu`.
+  // The defensive fallback to CANONICAL_URL env stays for local dev +
+  // preview runs where no request context is supplied.
   const origin = absoluteOrigin(context.requestHost, context.requestProto)
   const head = {
     title: titleForPath(currentRoute),

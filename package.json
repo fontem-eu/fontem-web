@@ -4,11 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server/index.js",
-    "dev:vite": "vite",
-    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.js --outDir dist/server",
-    "start": "NODE_ENV=production node server/index.js",
-    "preview": "NODE_ENV=production node server/index.js",
+    "dev": "vite",
+    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.js --outDir dist/server && node scripts/prerender.js",
+    "preview": "vite preview --outDir dist/client",
     "test:unit": "vitest run",
     "test:ssr": "vitest run tests/ssr",
     "test:unit:watch": "vitest",
@@ -21,8 +19,6 @@
     "test:mutation": "stryker run"
   },
   "dependencies": {
-    "@fastify/http-proxy": "^11.4.4",
-    "@fastify/static": "^9.1.2",
     "@fontsource-variable/inter": "^5.2.8",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.2.2",
     "@tiptap/extension-bubble-menu": "^3.22.3",
@@ -41,7 +37,6 @@
     "@tiptap/vue-3": "^3.22.2",
     "d3": "^7.9.0",
     "dompurify": "^3.3.3",
-    "fastify": "^5.8.5",
     "graphology": "^0.26.0",
     "graphology-layout-forceatlas2": "^0.10.1",
     "graphology-layout-noverlap": "^0.4.2",
