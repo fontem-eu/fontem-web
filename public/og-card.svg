@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Fontem OG card — 1200×630 per OpenGraph recommendation.
+       Warm cream background, two-tone wordmark, tagline + source attribution.
+       Pure SVG so the file stays small and re-renders crisply at any
+       resolution the consumer chooses. -->
+  <defs>
+    <style>
+      .bg     { fill: #faf3e6; }
+      .text   { fill: #3e2b1f; }
+      .muted  { fill: #8c6f58; }
+      .rose   { fill: #b45a7a; }
+      .plum   { fill: #6b4f8f; }
+      .border { fill: #e6d3b8; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="630"/>
+
+  <!-- Thin top accent line in rose, like a watermark. -->
+  <rect class="rose" y="0" width="1200" height="4"/>
+
+  <!-- Wordmark: "Fontem" — Fon in rose, tem in plum. Two-tone matches
+       the in-app Wordmark component. Centered, generous leading. -->
+  <g transform="translate(600, 280)">
+    <text
+      text-anchor="middle"
+      font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+      font-weight="800"
+      font-size="180"
+      letter-spacing="-3"
+    >
+      <tspan class="rose">Fon</tspan><tspan class="plum">tem</tspan>
+    </text>
+  </g>
+
+  <!-- Tagline -->
+  <text
+    x="600" y="390"
+    text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="500"
+    font-size="40"
+    class="text"
+  >Follow the numbers, verify the claims.</text>
+
+  <!-- Subtitle / attribution -->
+  <text
+    x="600" y="450"
+    text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="400"
+    font-size="24"
+    class="muted"
+  >EU companies · public procurement · lobbyists · sanctions</text>
+
+  <!-- Tiny droplet + pool mark — echoes the favicon -->
+  <g transform="translate(600, 530)">
+    <!-- Droplet -->
+    <path class="rose" d="M0,-20 C0,-20 -10,0 -10,10 A10,10 0 0,0 10,10 C10,0 0,-20 0,-20 Z"/>
+    <!-- Pool ripples -->
+    <rect class="plum" x="-26" y="18" width="18" height="3" rx="1.5"/>
+    <rect class="plum" x="8"   y="18" width="18" height="3" rx="1.5"/>
+  </g>
+
+  <!-- Domain badge, bottom-right -->
+  <text
+    x="1170" y="600"
+    text-anchor="end"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="600"
+    font-size="22"
+    class="rose"
+  >www.fontem.eu</text>
+</svg>
