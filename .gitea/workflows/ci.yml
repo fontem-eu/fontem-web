@@ -16,6 +16,83 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+  # Build the shipped image and probe it on every PR. Catches the class
+  # of bugs that slipped past unit tests in the SSR era: port/plumbing
+  # mismatches, missing static assets (og-card.png shipped as 404),
+  # nginx config that fails to start, and prerender script failures
+  # (since `npm run build` runs prerender and the docker build will
+  # fail if it throws).
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Docker
+        run: curl -fsSL https://nexus.void42.internal/repository/docker-releases/linux/static/stable/x86_64/docker-27.5.1.tgz | tar xz --strip-components=1 -C /usr/local/bin docker/docker
+      - name: Build image
+        run: docker build --network host -t gmr-web:smoke .
+      - name: Run container
+        # Bind host 8080 → container 80. If the image ever stops
+        # listening on 80 (the SSR port-mismatch that broke staging),
+        # the readiness probe below fails and the job errors out.
+        run: docker run -d --name gmr-web-smoke -p 8080:80 gmr-web:smoke
+      - name: Wait for readiness
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS -o /dev/null http://localhost:8080/; then
+              echo "ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "container did not become ready"
+          docker logs gmr-web-smoke
+          exit 1
+      - name: Probe prerendered routes
+        # Every route we advertise as prerendered must return 200 with
+        # its route-specific <title>. A plain-SPA fallback would serve
+        # the generic shell title, which we'd catch here.
+        run: |
+          set -e
+          probe() {
+            local path="$1"
+            local expect="$2"
+            local body
+            body=$(curl -fsS "http://localhost:8080$path")
+            if ! grep -q "<title>$expect" <<<"$body"; then
+              echo "FAIL $path: missing title containing '$expect'"
+              echo "$body" | grep -oE '<title>[^<]*' | head -1
+              exit 1
+            fi
+            echo "OK   $path — $expect"
+          }
+          probe /              "Fontem"
+          probe /feed          "Feed"
+          probe /privacy       "Privacy"
+          probe /data-quality  "Data quality"
+          probe /sparql        "SPARQL"
+      - name: Probe critical static assets
+        # og-card.png + robots.txt ship as real files in public/. If
+        # they disappear (the og-card.png 404 that broke WhatsApp
+        # previews) this flags it before prod.
+        run: |
+          set -e
+          check() {
+            local path="$1"
+            local min_bytes="$2"
+            local bytes
+            bytes=$(curl -fsS -o /dev/null -w '%{size_download}' "http://localhost:8080$path")
+            if [ "$bytes" -lt "$min_bytes" ]; then
+              echo "FAIL $path: $bytes bytes (< $min_bytes)"
+              exit 1
+            fi
+            echo "OK   $path — $bytes bytes"
+          }
+          check /og-card.png  1000
+          check /robots.txt   100
+      - name: Stop container
+        if: always()
+        run: docker rm -f gmr-web-smoke
+
   analyze:
     needs: test
     if: github.ref == 'refs/heads/main'
@@ -38,7 +115,7 @@ jobs:
             -F "autoCreate=true" -F "bom=@sbom.json"
 
   build-deploy:
-    needs: test
+    needs: [test, smoke]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
