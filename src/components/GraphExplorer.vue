@@ -921,6 +921,12 @@ watch(() => props.entityId, async () => {
   await nextTick()
   renderGraph()
 })
+
+async function retryFetch() {
+  await fetchGraph()
+  await nextTick()
+  renderGraph()
+}
 </script>
 
 <template>
@@ -1235,9 +1241,22 @@ watch(() => props.entityId, async () => {
       Expanding node...
     </div>
 
-    <!-- Error -->
-    <div v-if="error" class="ge-error" data-testid="ge-error">
-      {{ error }}
+    <!-- Error — prominent card with retry. Hides the canvas below so
+         the user sees the error, not a 400px empty square. -->
+    <div v-if="error" class="ge-error" data-testid="ge-error" role="alert">
+      <div class="ge-error__icon" aria-hidden="true">!</div>
+      <div class="ge-error__body">
+        <div class="ge-error__title">Couldn't load the graph</div>
+        <div class="ge-error__message">{{ error }}</div>
+      </div>
+      <button
+        type="button"
+        class="ge-error__retry"
+        data-testid="ge-error-retry"
+        @click="retryFetch"
+      >
+        Retry
+      </button>
     </div>
 
     <!-- Empty state -->
@@ -1249,8 +1268,11 @@ watch(() => props.entityId, async () => {
       No connections found for this entity.
     </div>
 
-    <!-- Canvas -->
+    <!-- Canvas — hidden on error via v-show so the sigma ref stays
+         mounted and renderGraph() can pick up where it left off after
+         a successful retry. -->
     <div
+      v-show="!error"
       ref="cyContainer"
       class="ge-canvas"
       data-testid="ge-canvas"
@@ -1526,7 +1548,7 @@ watch(() => props.entityId, async () => {
   font-weight: 600;
 }
 
-.ge-loading, .ge-error, .ge-empty {
+.ge-loading, .ge-empty {
   padding: 24px;
   text-align: center;
   font-size: 13px;
@@ -1534,7 +1556,56 @@ watch(() => props.entityId, async () => {
 }
 
 .ge-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 8px 0;
+  background: color-mix(in srgb, #ef4444 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+.ge-error__icon {
+  flex: 0 0 24px;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+.ge-error__body { flex: 1 1 auto; min-width: 0; }
+.ge-error__title {
+  font-weight: 600;
   color: #ef4444;
+  margin-bottom: 2px;
+}
+.ge-error__message {
+  color: var(--muted);
+  word-break: break-word;
+}
+.ge-error__retry {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ge-error__retry:hover {
+  background: #ef4444;
+  color: #fff;
+}
+.ge-error__retry:focus-visible {
+  outline: 2px solid #ef4444;
+  outline-offset: 2px;
 }
 
 .ge-canvas {

@@ -182,6 +182,26 @@ describe('GraphExplorer', () => {
     await flushPromises()
 
     expect(wrapper.find('[data-testid="ge-error"]').exists()).toBe(true)
+    // Retry button is the actionable affordance — without it, users
+    // had to refresh the page to recover from a transient failure.
+    expect(wrapper.find('[data-testid="ge-error-retry"]').exists()).toBe(true)
+  })
+
+  // Retry clears the error and re-fetches
+  it('retry button re-fetches after an error', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: false, status: 500 })
+      .mockResolvedValueOnce({ ok: true, json: async () => makeGraphResponse() })
+    const wrapper = mountExplorer()
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="ge-error"]').exists()).toBe(true)
+
+    await wrapper.find('[data-testid="ge-error-retry"]').trigger('click')
+    await flushPromises()
+
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(wrapper.find('[data-testid="ge-error"]').exists()).toBe(false)
   })
 
   // Loading state
