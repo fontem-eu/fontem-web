@@ -4,6 +4,7 @@ import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
+import ConsolidationView from './views/ConsolidationView.vue'
 import AdminView from './views/AdminView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
 import ContractsDQView from './views/dq/ContractsDQView.vue'
@@ -43,6 +44,7 @@ const router = createRouter({
     // Admin area — auth-guarded (see AUTH_REQUIRED below).
     { path: '/admin', component: AdminView },
     { path: '/admin/entity-resolution', component: EntityResolutionView },
+    { path: '/admin/consolidation', component: ConsolidationView },
     { path: '/admin/moderation', component: ModerationView },
 
     // Data quality — public (the platform's transparency surface).
