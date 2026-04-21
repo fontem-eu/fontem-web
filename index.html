@@ -11,6 +11,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="description" content="Fontem — the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, linked into one graph and cross-checked against the official registers."/>
+    <!-- OpenGraph / Twitter — baseline for link previews on the SPA
+         shell. Server-side rendering overrides these per route so
+         deep URLs (a specific report, company, etc.) get their own. -->
+    <meta property="og:site_name" content="Fontem"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Fontem — Follow the numbers, verify the claims"/>
+    <meta property="og:description" content="Primary-source transparency for EU public procurement, corporate ownership, and cohesion funding. Cross-check claims against the official registers."/>
+    <meta property="og:url" content="https://fontem.eu/"/>
+    <meta property="og:image" content="https://fontem.eu/og-card.png"/>
+    <meta property="og:locale" content="en_EU"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Fontem — Follow the numbers, verify the claims"/>
+    <meta name="twitter:description" content="Primary-source transparency for EU public procurement, corporate ownership, and cohesion funding."/>
+    <meta name="twitter:image" content="https://fontem.eu/og-card.png"/>
     <!-- Anti-FOUC: apply theme class before first paint.
          Two themes: 'light' (default, no class) and 'dark'.
          Legacy 'autumn' persists as 'light' via migration on init. -->
