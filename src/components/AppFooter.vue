@@ -16,6 +16,7 @@ import { computed } from 'vue'
 const PRIVILEGED = new Set(['moderator', 'admin'])
 
 const user = computed(() => {
+  if (typeof localStorage === 'undefined') return null
   try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') }
   catch { return null }
 })
@@ -31,6 +32,8 @@ const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
       <router-link to="/privacy" data-testid="footer-privacy">Privacy</router-link>
       <span aria-hidden="true">&middot;</span>
       <router-link to="/data-quality" data-testid="footer-data-quality">Data quality</router-link>
+      <span aria-hidden="true">&middot;</span>
+      <router-link to="/sparql" data-testid="footer-sparql">SPARQL</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>
         <router-link to="/admin" data-testid="footer-admin">Admin</router-link>

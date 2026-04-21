@@ -30,6 +30,15 @@ export default [
     },
   },
   {
+    // Server-side code runs under Node; needs process, fetch, etc.
+    files: ['server/**', 'src/entry-server.js', 'src/ssr/**'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
     files: ['tests/**'],
     languageOptions: {
       globals: {

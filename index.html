@@ -3,17 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--ssr-head-->
     <title>Fontem — Follow the numbers, verify the claims</title>
+    <meta name="description" content="Fontem — the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, linked into one graph and cross-checked against the official registers."/>
+    <!--/ssr-head-->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <link rel="manifest" href="/manifest.json"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <meta name="theme-color" content="#0d1117"/>
+    <meta name="theme-color" content="#b45a7a"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="description" content="Fontem — the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding, linked into one graph and cross-checked against the official registers."/>
-    <!-- OpenGraph / Twitter — baseline for link previews on the SPA
-         shell. Server-side rendering overrides these per route so
-         deep URLs (a specific report, company, etc.) get their own. -->
+    <!-- OpenGraph / Twitter — baseline for link previews on SPA-only
+         pages. The SSR layer injects per-route overrides via the
+         ssr-head marker above. -->
     <meta property="og:site_name" content="Fontem"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Fontem — Follow the numbers, verify the claims"/>
@@ -30,12 +32,12 @@
          Legacy 'autumn' persists as 'light' via migration on init. -->
     <script>
       ;(function () {
+        if (typeof localStorage === 'undefined') return
         var saved = localStorage.getItem('gmr-theme')
         if (saved === 'dark') {
           document.documentElement.classList.add('dark')
           return
         }
-        // 'light' and legacy 'autumn' both render as the new warm light.
         if (saved === 'light' || saved === 'autumn') return
         if (window.matchMedia &&
             window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -53,7 +55,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app"><!--ssr-outlet--></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
