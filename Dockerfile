@@ -38,10 +38,16 @@ COPY server ./server
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/index.html ./index.html
 
+# Match the containerPort the Deployment + Service already expose.
+# Binding to 80 requires a Node >= 18 unprivileged port; since we run
+# under tini + non-root uid, cap-net-bind-service is set at the pod
+# level by the Helm chart.  Before the SSR migration nginx was the
+# image and also listened on 80, so this keeps the k8s plumbing
+# unchanged on the first roll.
 ENV NODE_ENV=production
-ENV PORT=8080
+ENV PORT=80
 ENV POD_NAMESPACE=gmr
-EXPOSE 8080
+EXPOSE 80
 
 # tini as PID 1 so Node gets clean SIGTERM signals on rolling restarts.
 ENTRYPOINT ["/usr/bin/tini", "--"]
