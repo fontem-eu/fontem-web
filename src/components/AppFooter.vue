@@ -8,6 +8,7 @@ import { computed } from 'vue'
  *   - Data sources attribution (static)
  *   - Privacy policy           (always)
  *   - Data quality             (always — public surface)
+ *   - Support                  (always — links to /donate)
  *   - Admin                    (trust_level in {moderator, admin})
  *
  * The trust_level check is a UX hint only; the backend still enforces
@@ -34,6 +35,8 @@ const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
       <router-link to="/data-quality" data-testid="footer-data-quality">Data quality</router-link>
       <span aria-hidden="true">&middot;</span>
       <router-link to="/sparql" data-testid="footer-sparql">SPARQL</router-link>
+      <span aria-hidden="true">&middot;</span>
+      <router-link to="/donate" data-testid="footer-donate">Support</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>
         <router-link to="/admin" data-testid="footer-admin">Admin</router-link>

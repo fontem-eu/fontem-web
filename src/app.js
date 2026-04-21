@@ -46,6 +46,7 @@ import AIUsageView from './views/AIUsageView.vue'
 import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
 import SparqlView from './views/SparqlView.vue'
+import DonateView from './views/DonateView.vue'
 
 import './assets/main.css'
 
@@ -80,6 +81,10 @@ const ROUTES = [
 
   // Legal
   { path: '/privacy', component: PrivacyView },
+
+  // Donations — public
+  { path: '/donate', component: DonateView },
+  { path: '/support', redirect: '/donate' },
 
   // SPARQL — public graph query surface
   { path: '/sparql', component: SparqlView },

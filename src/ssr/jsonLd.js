@@ -79,10 +79,27 @@ const DATA_QUALITY_HUB = {
   ],
 }
 
+const DONATE_PAGE = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Support Fontem',
+  url: `${CANONICAL}/donate`,
+  isPartOf: { '@type': 'WebSite', url: CANONICAL },
+  about: ORGANIZATION,
+  potentialAction: {
+    '@type': 'DonateAction',
+    // Recipient nonprofit assigned by the fiscal host on Open
+    // Collective; the URL is the stable entry point.
+    target: 'https://opencollective.com/fontem',
+    recipient: ORGANIZATION,
+  },
+}
+
 const BUILDERS = {
   '/': () => [ORGANIZATION, WEBSITE],
   '/privacy': () => [PRIVACY_PAGE],
   '/data-quality': () => [DATA_QUALITY_HUB],
+  '/donate': () => [DONATE_PAGE],
   '/feed': (ctx) => [feedItemList(ctx)],
 }
 
