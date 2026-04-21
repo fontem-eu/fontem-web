@@ -81,9 +81,21 @@ describe('SSR render — unknown routes', () => {
   })
 })
 
-describe('SSR head canonical', () => {
-  it('emits an absolute URL pointing at fontem.eu by default', async () => {
+describe('SSR head canonical + og:image', () => {
+  it('falls back to CANONICAL_URL / www.fontem.eu when host is absent', async () => {
     const { head } = await render('/')
-    expect(head.canonical).toBe('https://fontem.eu/')
+    // No requestHost in context → fallback. www.fontem.eu is what's
+    // actually wired today; fontem.eu apex is planned.
+    expect(head.canonical).toBe('https://www.fontem.eu/')
+    expect(head.ogImage).toBe('https://www.fontem.eu/og-card.png')
+  })
+
+  it('uses the request host when supplied (dynamic per request)', async () => {
+    const { head } = await render('/privacy', {
+      requestHost: 'gmr.void42.net',
+      requestProto: 'https',
+    })
+    expect(head.canonical).toBe('https://gmr.void42.net/privacy')
+    expect(head.ogImage).toBe('https://gmr.void42.net/og-card.png')
   })
 })

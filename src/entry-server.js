@@ -25,24 +25,32 @@ export async function render(url, context = {}) {
   await router.isReady()
 
   const currentRoute = router.currentRoute.value
-  const matched = currentRoute.matched[0]
-  if (!matched) {
-    // Unmatched routes fall through to the 404 view via the catch-all
-    // at the bottom of the route table.
-  }
 
   const html = await renderToString(app, context)
   const jsonLd = buildJsonLd(currentRoute, context)
+  // Prefer the request's actual host for absolute URLs (og:url, og:image,
+  // canonical).  Falls back to CANONICAL_URL (env) or the hard default.
+  // This is why WhatsApp / Slack / etc. couldn't fetch og:image: the
+  // static index.html pinned `fontem.eu` but the site was served at
+  // `gmr.void42.net`, where fontem.eu DNS didn't point. Now every
+  // render self-anchors to whatever host the request came in on.
+  const origin = absoluteOrigin(context.requestHost, context.requestProto)
   const head = {
     title: titleForPath(currentRoute),
     description: descriptionForPath(currentRoute),
     jsonLd,
-    canonical: canonicalUrl(url),
+    canonical: `${origin}${url}`,
+    origin,
+    ogImage: `${origin}/og-card.png`,
   }
   return { html, head }
 }
 
-function canonicalUrl(path) {
-  const origin = (globalThis.process?.env?.CANONICAL_URL || 'https://fontem.eu').replace(/\/$/, '')
-  return `${origin}${path}`
+function absoluteOrigin(requestHost, requestProto) {
+  if (requestHost) {
+    const scheme = requestProto || 'https'
+    return `${scheme}://${requestHost}`
+  }
+  const fallback = globalThis.process?.env?.CANONICAL_URL || 'https://www.fontem.eu'
+  return fallback.replace(/\/$/, '')
 }

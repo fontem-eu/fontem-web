@@ -13,20 +13,15 @@
     <meta name="theme-color" content="#b45a7a"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <!-- OpenGraph / Twitter — baseline for link previews on SPA-only
-         pages. The SSR layer injects per-route overrides via the
-         ssr-head marker above. -->
+    <!-- Host-stable OpenGraph values. Per-route og:title, og:description,
+         og:url, og:image come from the SSR head block above, anchored to
+         whatever host the request came in on — so link previews work on
+         fontem.eu, www.fontem.eu, gmr.void42.net, or any staging domain
+         without re-building the bundle. -->
     <meta property="og:site_name" content="Fontem"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Fontem — Follow the numbers, verify the claims"/>
-    <meta property="og:description" content="Primary-source transparency for EU public procurement, corporate ownership, and cohesion funding. Cross-check claims against the official registers."/>
-    <meta property="og:url" content="https://fontem.eu/"/>
-    <meta property="og:image" content="https://fontem.eu/og-card.png"/>
     <meta property="og:locale" content="en_EU"/>
     <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Fontem — Follow the numbers, verify the claims"/>
-    <meta name="twitter:description" content="Primary-source transparency for EU public procurement, corporate ownership, and cohesion funding."/>
-    <meta name="twitter:image" content="https://fontem.eu/og-card.png"/>
     <!-- Anti-FOUC: apply theme class before first paint.
          Two themes: 'light' (default, no class) and 'dark'.
          Legacy 'autumn' persists as 'light' via migration on init. -->

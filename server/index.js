@@ -168,12 +168,31 @@ async function buildServer() {
         render = mod.render
       }
 
-      const shouldSSR = SSR_ROUTES.has(url)
-      const rendered = shouldSSR
-        ? await render(url, {})
-        : { html: '', head: { title: null, description: null, jsonLd: [], canonical: null } }
+      // Pass the real request host into the renderer so per-page
+      // absolute URLs (og:url, og:image, canonical) anchor to whatever
+      // domain the visitor actually hit — works on www.fontem.eu,
+      // fontem.eu (when DNS lands), gmr.void42.net, localhost, etc.
+      const requestHost = req.headers['x-forwarded-host'] || req.headers.host
+      const requestProto = req.headers['x-forwarded-proto'] ||
+        (req.protocol === 'https' || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http')
 
-      const headHtml = renderHead(rendered.head, url)
+      const shouldSSR = SSR_ROUTES.has(url)
+      const renderCtx = { requestHost, requestProto }
+      const rendered = shouldSSR
+        ? await render(url, renderCtx)
+        : {
+            html: '',
+            head: {
+              title: null,
+              description: null,
+              jsonLd: [],
+              canonical: null,
+              origin: absoluteOriginFromReq(requestHost, requestProto),
+              ogImage: `${absoluteOriginFromReq(requestHost, requestProto)}/og-card.png`,
+            },
+          }
+
+      const headHtml = renderHead(rendered.head)
       const finalHtml = html
         .replace(/<!--ssr-head-->[\s\S]*?<!--\/ssr-head-->/, headHtml)
         .replace('<!--ssr-outlet-->', rendered.html)
@@ -197,17 +216,31 @@ async function buildServer() {
  * canonical) into the HTML that replaces the `<!--ssr-head-->` marker.
  * Hand-escaped; we control both sides so no HTML injection surface.
  */
-// eslint-disable-next-line no-unused-vars
-function renderHead(head, url) {
+function renderHead(head) {
   const parts = []
-  if (head.title) parts.push(`<title>${escapeHtml(head.title)}</title>`)
+  if (head.title) {
+    parts.push(`<title>${escapeHtml(head.title)}</title>`)
+    parts.push(`<meta property="og:title" content="${escapeHtml(head.title)}"/>`)
+    parts.push(`<meta name="twitter:title" content="${escapeHtml(head.title)}"/>`)
+  }
   if (head.description) {
     parts.push(
       `<meta name="description" content="${escapeHtml(head.description)}"/>`
     )
+    parts.push(
+      `<meta property="og:description" content="${escapeHtml(head.description)}"/>`
+    )
+    parts.push(
+      `<meta name="twitter:description" content="${escapeHtml(head.description)}"/>`
+    )
   }
   if (head.canonical) {
     parts.push(`<link rel="canonical" href="${escapeHtml(head.canonical)}"/>`)
+    parts.push(`<meta property="og:url" content="${escapeHtml(head.canonical)}"/>`)
+  }
+  if (head.ogImage) {
+    parts.push(`<meta property="og:image" content="${escapeHtml(head.ogImage)}"/>`)
+    parts.push(`<meta name="twitter:image" content="${escapeHtml(head.ogImage)}"/>`)
   }
   for (const doc of (head.jsonLd || [])) {
     parts.push(
@@ -215,6 +248,14 @@ function renderHead(head, url) {
     )
   }
   return parts.join('\n    ')
+}
+
+// Reused in the non-SSR branch so SPA shells still emit host-matched
+// og:url + og:image (so link previews work on every route, not just
+// the SSR'd ones).
+function absoluteOriginFromReq(host, proto) {
+  if (host) return `${proto || 'https'}://${host}`
+  return (process.env.CANONICAL_URL || 'https://www.fontem.eu').replace(/\/$/, '')
 }
 
 function escapeHtml(s) {
