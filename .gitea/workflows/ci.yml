@@ -16,6 +16,26 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+  # Pre-build supply-chain gate. Runs in parallel with `test` — failing
+  # on High+ CVEs in package-lock.json blocks the merge before any image
+  # gets built or signed. Uses the shared gmr-ci action so the threshold
+  # and scanner version are controlled in one place across all repos.
+  #
+  # We check out gmr-ci into `.gmr-ci/` and invoke the action via a
+  # local path — act_runner v0.3.1 doesn't resolve URL-prefixed `uses:`
+  # against the cluster-internal Gitea, but `./path` resolves locally.
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: golden/gmr-ci
+          path: .gmr-ci
+          token: ${{ secrets.GMR_CI_READ_TOKEN }}
+      - name: OSV-Scanner lockfile gate
+        uses: ./.gmr-ci/actions/osv-scan
+
   # Build the shipped image and probe it on every PR. Catches the class
   # of bugs that slipped past unit tests in the SSR era: port/plumbing
   # mismatches, missing static assets (og-card.png shipped as 404),
@@ -101,21 +121,24 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies and generate coverage
         run: npm ci && npx vitest run --dangerouslyIgnoreUnhandledErrors --coverage
+      - uses: actions/checkout@v4
+        with:
+          repository: golden/gmr-ci
+          path: .gmr-ci
+          token: ${{ secrets.GMR_CI_READ_TOKEN }}
       - name: SonarQube scan
         run: |
           npx sonarqube-scanner -Dsonar.host.url=http://sonarqube.sonarqube.svc.cluster.local:9000 -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-      - name: Generate SBOM
-        run: npx @cyclonedx/cyclonedx-npm --output-file sbom.json
-      - name: Upload SBOM to Dependency-Track
-        run: |
-          curl -fsS -X POST "http://dependency-track.dependency-track.svc.cluster.local:8080/api/v1/bom" \
-            -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
-            -H "Content-Type: multipart/form-data" \
-            -F "projectName=gmr-web" -F "projectVersion=$(git rev-parse --short HEAD)" \
-            -F "autoCreate=true" -F "bom=@sbom.json"
+      - name: Generate + upload SBOM
+        uses: ./.gmr-ci/actions/sbom-generate
+        with:
+          language: node
+          project-name: gmr-web
+          project-version: ${{ github.sha }}
+          dtrack-key: ${{ secrets.DTRACK_API_KEY }}
 
   build-deploy:
-    needs: [test, smoke]
+    needs: [test, smoke, security]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
