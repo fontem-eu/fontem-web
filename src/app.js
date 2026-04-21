@@ -31,6 +31,7 @@ import CdpDQView from './views/dq/CdpDQView.vue'
 import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import OverviewDQView from './views/dq/OverviewDQView.vue'
+import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
 import FeedView from './views/FeedView.vue'
 import MyReportsView from './views/MyReportsView.vue'
 import ReportView from './views/ReportView.vue'
@@ -71,6 +72,7 @@ const ROUTES = [
   { path: '/data-quality/cdp', component: CdpDQView },
   { path: '/data-quality/nuts', component: NutsDQView },
   { path: '/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
+  { path: '/data-quality/connectedness', component: ConnectednessDQView },
   { path: '/admin/data-quality/:page*', redirect: (to) => `/data-quality/${to.params.page || ''}` },
 
   // Auth
