@@ -35,6 +35,8 @@ jobs:
           token: ${{ secrets.GMR_CI_READ_TOKEN }}
       - name: OSV-Scanner lockfile gate
         uses: ./.gmr-ci/actions/osv-scan
+      - name: Secret scan (gitleaks)
+        uses: ./.gmr-ci/actions/secret-scan
 
   # Build the shipped image and probe it on every PR. Catches the class
   # of bugs that slipped past unit tests in the SSR era: port/plumbing
@@ -164,9 +166,10 @@ jobs:
         name: Build, push, sign, attest
         uses: ./.gmr-ci/actions/docker-build-sign
         with:
-          # In-cluster Gitea registry for speed — same registry as
-          # contribute.void42.internal, just via the internal DNS.
-          image: gitea-http.dev-tools.svc.cluster.local:3000/golden/gmr-web
+          # HTTPS via the Vault-PKI wildcard cert; drops the old
+          # in-cluster gitea-http:3000 path so push + cosign don't
+          # need --allow-http-registry anymore.
+          image: contribute.void42.internal/golden/gmr-web
           cosign-key: ${{ secrets.COSIGN_KEY }}
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
@@ -176,7 +179,7 @@ jobs:
         env:
           TAG: ${{ steps.image.outputs.tag }}
         run: |
-          git clone --depth=1 http://oauth2:${{ secrets.REGISTRY_PASSWORD }}@gitea-http.dev-tools.svc.cluster.local:3000/golden/gitops.git /tmp/gitops
+          git clone --depth=1 https://oauth2:${{ secrets.REGISTRY_PASSWORD }}@contribute.void42.internal/golden/gitops.git /tmp/gitops
           cd /tmp/gitops
           sed -i "s/version: \".*\"/version: \"$TAG\"/" staging/gmr-web.yaml
           git config user.name "GMR CI"
