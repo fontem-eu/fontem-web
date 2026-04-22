@@ -40,6 +40,24 @@
         }
       })()
     </script>
+    <!-- Anti-FOUC for <html lang>: set the attribute before first paint
+         so screen readers + SEO see the user's chosen language from
+         render #1. Normalised against the 24 EU codes; unknown → 'en'. -->
+    <script>
+      ;(function () {
+        if (typeof localStorage === 'undefined') return
+        var codes = 'bg,cs,da,de,el,en,es,et,fi,fr,ga,hr,hu,it,lt,lv,mt,nl,pl,pt,ro,sk,sl,sv'.split(',')
+        function norm(v) {
+          if (!v || typeof v !== 'string') return null
+          var c = v.trim().slice(0, 2).toLowerCase()
+          return codes.indexOf(c) >= 0 ? c : null
+        }
+        var lang = norm(localStorage.getItem('gmr-lang'))
+                || (typeof navigator !== 'undefined' && norm(navigator.language))
+                || 'en'
+        document.documentElement.lang = lang
+      })()
+    </script>
     <!--
       Runtime analytics config — mounted as a ConfigMap by Kubernetes.
       Sets window.UMAMI_WEBSITE_ID before the app boots.

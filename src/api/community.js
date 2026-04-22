@@ -3,6 +3,8 @@
  * issues, moderation, and user management.
  */
 
+import { withLang } from './_lang.js'
+
 function authHeaders() {
   // localStorage + window don't exist during SSR; no auth from the
   // server — anonymous requests happen via the same code path.
@@ -33,7 +35,7 @@ async function request(method, path, body, { retries = 0 } = {}) {
   const sentAuth = 'Authorization' in headers
   const opts = { method, headers }
   if (body !== undefined) opts.body = JSON.stringify(body)
-  const res = await fetch(`/capi${path}`, opts)
+  const res = await fetch(`/capi${withLang(path)}`, opts)
 
   // Auto-redirect only when a stale token triggered the 401. Anonymous
   // callers (no token) should surface the error so the calling view can

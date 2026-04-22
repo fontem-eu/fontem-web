@@ -1,3 +1,5 @@
+import { withLang } from './_lang.js'
+
 /**
  * Fetch the GMR financial data for a ticker.
  * Endpoint: GET /api/<ticker>/gmr_data
@@ -6,7 +8,7 @@
  * @param {number} years  — number of historical fiscal years (default 10)
  */
 export async function fetchGmrData(ticker, years = 10) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/gmr_data?years=${years}`)
+  const res = await fetch(withLang(`/api/${encodeURIComponent(ticker)}/gmr_data?years=${years}`))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
@@ -22,7 +24,7 @@ export async function fetchGmrData(ticker, years = 10) {
  * @param {number} years  — number of historical fiscal years (default 10)
  */
 export async function fetchFundamentals(ticker, years = 10) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/fundamentals?years=${years}`)
+  const res = await fetch(withLang(`/api/${encodeURIComponent(ticker)}/fundamentals?years=${years}`))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
@@ -38,7 +40,7 @@ export async function fetchFundamentals(ticker, years = 10) {
  * @param {number} years  — number of historical fiscal years (default 10)
  */
 export async function fetchValuation(ticker, years = 10) {
-  const res = await fetch(`/api/${encodeURIComponent(ticker)}/valuation?years=${years}`)
+  const res = await fetch(withLang(`/api/${encodeURIComponent(ticker)}/valuation?years=${years}`))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
@@ -55,7 +57,7 @@ export async function fetchValuation(ticker, years = 10) {
  */
 export async function fetchPriceHistory(ticker, period = '1y') {
   const res = await fetch(
-    `/api/${encodeURIComponent(ticker)}/prices?period=${encodeURIComponent(period)}`
+    withLang(`/api/${encodeURIComponent(ticker)}/prices?period=${encodeURIComponent(period)}`),
   )
   if (!res.ok) {
     const text = await res.text().catch(() => '')

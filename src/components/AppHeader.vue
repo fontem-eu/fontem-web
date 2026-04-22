@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
 import ThemeToggle from './ThemeToggle.vue'
+import LangPicker from './LangPicker.vue'
 import ProfileDropdown from './ProfileDropdown.vue'
 import Wordmark from './Wordmark.vue'
 
@@ -68,6 +69,7 @@ function onTickerSelect(symbol) {
            via `margin-left: auto` below, even when the search bar is
            absent (landing / login pages). -->
       <div class="header-right">
+        <LangPicker />
         <ThemeToggle />
         <ProfileDropdown v-if="hasToken" />
         <router-link

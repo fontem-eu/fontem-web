@@ -4,8 +4,10 @@
  * Mirrors the backend routes in edgar-gmr-etl/src/api/routers/geo.py.
  */
 
+import { withLang } from './_lang.js'
+
 async function _json(url) {
-  const res = await fetch(url)
+  const res = await fetch(withLang(url))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
