@@ -124,9 +124,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies and generate coverage
         run: npm ci && npx vitest run --dangerouslyIgnoreUnhandledErrors --coverage
-      - name: SonarQube scan
+      - name: SonarQube scan (blocking on quality gate)
+        # qualitygate.wait=true keeps the scanner running until Sonar
+        # publishes the gate verdict for this analysis, then exits
+        # non-zero on ERROR. Without it the scanner returns the moment
+        # the report upload finishes and CI goes green even when the
+        # gate is red.
         run: |
-          npx sonarqube-scanner -Dsonar.host.url=http://sonarqube.sonarqube.svc.cluster.local:9000 -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+          npx sonarqube-scanner \
+            -Dsonar.host.url=http://sonarqube.sonarqube.svc.cluster.local:9000 \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.qualitygate.wait=true
 
   # Build → sign → attest the SBOM → deploy. SBOM generation moved
   # into this job (from the old `analyze` job) so the same file can
