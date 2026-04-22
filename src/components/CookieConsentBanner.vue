@@ -31,11 +31,6 @@ function decline() {
 
 <template>
   <Teleport to="body">
-    <!-- Native <dialog> with [open] renders non-modally (no backdrop /
-         focus trap) so the page stays interactive while the banner is up.
-         Sonar S6819 flags <div role="dialog"> as an accessibility
-         anti-pattern; the native element carries the same semantics
-         without an explicit role. -->
     <dialog v-if="visible" open class="ccb" aria-label="Cookie consent" data-testid="cookie-consent-banner">
       <div class="ccb-text">
         We use a self-hosted analytics cookie to understand which pages are useful.
