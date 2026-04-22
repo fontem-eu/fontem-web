@@ -31,7 +31,12 @@ function decline() {
 
 <template>
   <Teleport to="body">
-    <div v-if="visible" class="ccb" role="dialog" aria-label="Cookie consent" data-testid="cookie-consent-banner">
+    <!-- Native <dialog> with [open] renders non-modally (no backdrop /
+         focus trap) so the page stays interactive while the banner is up.
+         Sonar S6819 flags <div role="dialog"> as an accessibility
+         anti-pattern; the native element carries the same semantics
+         without an explicit role. -->
+    <dialog v-if="visible" open class="ccb" aria-label="Cookie consent" data-testid="cookie-consent-banner">
       <div class="ccb-text">
         We use a self-hosted analytics cookie to understand which pages are useful.
         No tracking, no third parties.
@@ -55,11 +60,14 @@ function decline() {
           Accept
         </button>
       </div>
-    </div>
+    </dialog>
   </Teleport>
 </template>
 
 <style scoped>
+/* Native <dialog> ships UA defaults (margin, border, width:-moz-fit-content,
+   block-level auto-sizing) — neutralise those so the banner still spans
+   the full viewport the way it did as a plain <div>. */
 .ccb {
   position: fixed;
   bottom: 0;
@@ -70,8 +78,13 @@ function decline() {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  width: auto;
   padding: 0.85rem 1.2rem;
   background: var(--surface);
+  border: 0;
   border-top: 1px solid var(--border);
   color: var(--text);
   font-size: 0.85rem;
