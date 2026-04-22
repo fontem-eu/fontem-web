@@ -166,10 +166,15 @@ jobs:
         name: Build, push, sign, attest
         uses: ./.gmr-ci/actions/docker-build-sign
         with:
-          # HTTPS via the Vault-PKI wildcard cert; drops the old
-          # in-cluster gitea-http:3000 path so push + cosign don't
-          # need --allow-http-registry anymore.
-          image: contribute.void42.internal/golden/gmr-web
+          # Push via the cluster-internal Gitea URL over plaintext HTTP —
+          # the same backend that contribute.void42.internal fronts.
+          # Signatures are path-keyed in the repo, so Kyverno still finds
+          # them when deployments reference the image by its HTTPS
+          # hostname. PR #56 briefly flipped this to contribute.void42
+          # .internal but dockerd 29.4's containerd-snapshotter image
+          # path doesn't read /etc/docker/certs.d, so `docker login`
+          # rejects the void42 private CA and the job dies on push.
+          image: gitea-http.dev-tools.svc.cluster.local:3000/golden/gmr-web
           cosign-key: ${{ secrets.COSIGN_KEY }}
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}

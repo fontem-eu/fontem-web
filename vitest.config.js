@@ -10,5 +10,11 @@ export default defineConfig({
     globals: true,
     include: ['tests/unit/**/*.test.js', 'tests/ssr/**/*.test.js'],
     setupFiles: ['tests/setup.js'],
+    coverage: {
+      // Match the already-installed @vitest/coverage-istanbul — Vitest's
+      // default provider is v8, which we don't ship and which pulled the
+      // CI `analyze` job down with a MISSING DEPENDENCY.
+      provider: 'istanbul',
+    },
   },
 })
