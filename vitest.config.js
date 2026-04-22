@@ -15,6 +15,12 @@ export default defineConfig({
       // default provider is v8, which we don't ship and which pulled the
       // CI `analyze` job down with a MISSING DEPENDENCY.
       provider: 'istanbul',
+      // Include lcov so sonar-project.properties'
+      // sonar.javascript.lcov.reportPaths=coverage/lcov.info actually
+      // finds something. Without it Sonar logged "No LCOV files were
+      // found" and the gate went red at 0% coverage even though the
+      // CI `analyze` job itself reported success.
+      reporter: ['text', 'html', 'lcov'],
     },
   },
 })
