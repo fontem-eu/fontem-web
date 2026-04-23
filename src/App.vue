@@ -2,14 +2,19 @@
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from './composables/useTheme.js'
+import { useLang } from './composables/useLang.js'
 import { useSwipeNav } from './composables/useSwipeNav.js'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
 
-const { init } = useTheme()
-// Sync the reactive ref with whatever the anti-FOUC script set on <html>
-onMounted(() => init())
+const { init: initTheme } = useTheme()
+const { init: initLang } = useLang()
+// Sync the reactive refs with whatever the anti-FOUC scripts set on <html>
+onMounted(() => {
+  initTheme()
+  initLang()
+})
 
 // Horizontal swipe between Home / Feed / My Reports on mobile.
 useSwipeNav()
