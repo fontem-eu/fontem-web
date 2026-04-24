@@ -13,8 +13,12 @@ const regName = ref('')
 const regEmail = ref('')
 const regPassword = ref('')
 
+// Fontem Google OAuth client (fontem.eu brand-holder account, ID-token
+// flow only — no client secret touches the browser or the backend).
+// Rotate by issuing a new OAuth client in Google Cloud and updating
+// both this constant AND the default in gmr-community-api's auth.py.
 const GOOGLE_CLIENT_ID =
-  '1075253652266-hbea8sdsn4ihh6as732duohspgvf5eh4.apps.googleusercontent.com'
+  '1055538305131-87jn8h6gunj55q1akfdkuv6kpg43ld4t.apps.googleusercontent.com'
 
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
