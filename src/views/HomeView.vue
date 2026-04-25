@@ -195,13 +195,10 @@ function truncate(text, maxLen = 160) {
         <!-- ── Landing-extra: onboarding ───────────────────── -->
         <section class="landing-extra" data-testid="landing-extra">
           <p class="landing-explainer" data-testid="landing-explainer">
-            Fontem is an open knowledge graph of EU public-sector activity.
-            It links companies, contracting authorities, lobbyists and EU
-            funding into a single queryable surface, sourced directly from
-            TED, GLEIF, the EU Transparency Register, and the Cohesion Open
-            Data Platform. Search any entity to see who does business with
-            whom, where the money flows, and what the official record says
-            — every figure verifiable against the source.
+            An open knowledge graph linking EU companies, public
+            procurement, lobbyists and cohesion funding — built directly
+            on TED, GLEIF, the EU Transparency Register, and the Cohesion
+            Open Data Platform. Every figure verifiable at the source.
           </p>
 
           <div class="example-chips" data-testid="example-chips">
