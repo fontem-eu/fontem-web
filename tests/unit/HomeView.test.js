@@ -260,5 +260,25 @@ describe('HomeView', () => {
     expect(wrapper.find('[data-testid="landing-explainer"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="example-chips"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="howitworks"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="landing-demo"]').exists()).toBe(false)
+  })
+
+  it('embeds the demo video on the landing page', async () => {
+    const { wrapper } = await mountAt('/')
+    const section = wrapper.find('[data-testid="landing-demo"]')
+    expect(section.exists()).toBe(true)
+    const video = section.find('video')
+    expect(video.exists()).toBe(true)
+    expect(video.attributes('src')).toBe('/landing-demo.mp4')
+    // autoplay + muted + loop + playsinline are all required for the
+    // browser to start playback without a user gesture. Vue 3 special-
+    // cases `muted` to set the IDL property instead of the attribute,
+    // so for that one we check the element directly. The others land
+    // in the rendered HTML the normal way.
+    const html = video.html()
+    expect(html).toContain('autoplay')
+    expect(html).toContain('loop')
+    expect(html).toContain('playsinline')
+    expect(video.element.muted).toBe(true)
   })
 })
