@@ -17,6 +17,14 @@ export default defineConfig({
     // the steady slowness AND the occasional 15s+ first-cold-import.
     testTimeout: 15000,
     retry: 2,
+    // Run all tests in a single forked process. Vitest's default
+    // multi-fork pool was thrashing the act-runner: workers timed out
+    // calling back to the main process for module-fetch with errors
+    // like `[vitest-worker]: Timeout calling "fetch" ...`. Single-fork
+    // is slower wall-clock but eliminates cross-process IPC contention
+    // entirely. Locally still parallelises by file via test isolation.
+    pool: 'forks',
+    poolOptions: { forks: { singleFork: true } },
     coverage: {
       // Match the already-installed @vitest/coverage-istanbul — Vitest's
       // default provider is v8, which we don't ship and which pulled the
