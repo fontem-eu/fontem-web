@@ -78,7 +78,14 @@ function truncate(text, maxLen = 140) {
       class="empty-msg"
       data-testid="my-reports-empty"
     >
-      No reports yet. Start your first analysis above.
+      <p class="empty-msg-text">No reports yet. Start your first analysis above.</p>
+      <router-link
+        to="/feed"
+        class="empty-cta-btn"
+        data-testid="my-reports-empty-cta"
+      >
+        Or read recent public reports →
+      </router-link>
     </div>
 
     <div v-else class="report-cards">
@@ -144,6 +151,27 @@ function truncate(text, maxLen = 140) {
   color: #991b1b;
   border-radius: 4px;
   font-size: 0.8rem;
+}
+.empty-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.empty-msg-text { margin: 0; }
+.empty-cta-btn {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.empty-cta-btn:hover {
+  background: var(--accent);
+  color: #fff;
 }
 .loading-msg, .empty-msg {
   text-align: center;
