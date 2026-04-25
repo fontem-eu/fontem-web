@@ -128,12 +128,25 @@ const STEPS = [
 ]
 
 const recentReports = ref([])
+const demoVideo = ref(null)
+
 onMounted(async () => {
   try {
     const data = await listReports({ scope: 'public', limit: 3 })
     recentReports.value = Array.isArray(data) ? data : (data?.reports ?? [])
   } catch {
     // DonateView pattern: silent degrade — never a scary banner on the homepage.
+  }
+
+  // Honour prefers-reduced-motion — pause the demo loop. The browser
+  // will already not autoplay if a user has heavy motion-reduction
+  // settings, but the explicit pause + a `controls` toggle would be
+  // a future polish; for now, just halt the loop.
+  if (typeof window !== 'undefined' && demoVideo.value) {
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+    if (prefersReduced?.matches) {
+      try { demoVideo.value.pause() } catch { /* noop */ }
+    }
   }
 })
 
@@ -226,6 +239,27 @@ function truncate(text, maxLen = 160) {
                 />
               </div>
             </div>
+          </section>
+
+          <section class="demo-clip" data-testid="landing-demo">
+            <h2 class="demo-clip-title">A 45-second tour</h2>
+            <div class="demo-clip-frame">
+              <video
+                ref="demoVideo"
+                class="demo-clip-video"
+                src="/landing-demo.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a report"
+              />
+            </div>
+            <p class="demo-clip-caption">
+              A signed-in researcher walks from a search to a published report.
+              Recorded against the live platform — no animation, no edits.
+            </p>
           </section>
 
           <section
@@ -423,6 +457,47 @@ function truncate(text, maxLen = 160) {
   margin-top: 0.75rem;
 }
 .howitworks-step.has-gif .howitworks-gif { display: block; }
+
+/* Demo clip: 16:10 video (matches the recorder's 1280×800 viewport),
+   centered, with a subtle frame so it reads as media not a hero
+   background. preload="metadata" + autoplay + muted on the element
+   itself; the JS side pauses on prefers-reduced-motion. */
+.demo-clip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.demo-clip-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.85rem;
+  text-align: center;
+}
+.demo-clip-frame {
+  width: 100%;
+  max-width: 36rem;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.demo-clip-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.demo-clip-caption {
+  margin: 0.85rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 36rem;
+  line-height: 1.45;
+}
 
 /* Recent reports: report-card rules copied verbatim from FeedView so the
    visual matches /feed exactly. */

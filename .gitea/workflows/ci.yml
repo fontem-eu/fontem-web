@@ -118,8 +118,9 @@ jobs:
             fi
             echo "OK   $path — $bytes bytes"
           }
-          check /og-card.png  1000
-          check /robots.txt   100
+          check /og-card.png       1000
+          check /robots.txt         100
+          check /landing-demo.mp4  500000
       - name: Stop container
         if: always()
         run: docker rm -f gmr-web-smoke

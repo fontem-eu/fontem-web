@@ -1,3 +1,4 @@
+/* eslint-disable no-console -- CLI progress output is the legitimate channel here */
 /**
  * Fontem platform tour — standalone Playwright recording script.
  *
