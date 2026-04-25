@@ -1,7 +1,15 @@
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+
+// HomeView calls listReports() on mount to populate the "Recently published"
+// strip on the landing page. Mock the API module so tests stay deterministic.
+vi.mock('../../src/api/community.js', () => ({
+  listReports: vi.fn(() => Promise.resolve([])),
+}))
+
 import HomeView from '../../src/views/HomeView.vue'
+import { listReports } from '../../src/api/community.js'
 
 // Stub child components to isolate HomeView logic
 const TickerSearchStub = {
@@ -34,6 +42,10 @@ function makeRouter() {
       { path: '/', component: HomeView },
       { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
       { path: '/c/:ticker/:view', component: HomeView },
+      // Stubbed for landing-extra <router-link>s — the chips deep-link to
+      // these and we don't want "no route match" warns flooding the test log.
+      { path: '/feed', component: { template: '<div />' } },
+      { path: '/reports/:id', component: { template: '<div />' } },
     ],
   })
 }
@@ -58,6 +70,10 @@ async function mountAt(path = '/') {
 }
 
 describe('HomeView', () => {
+  beforeEach(() => {
+    listReports.mockReset()
+    listReports.mockResolvedValue([])
+  })
   afterEach(() => {
     vi.restoreAllMocks()
   })
@@ -159,13 +175,90 @@ describe('HomeView', () => {
   })
 
   // Recently-viewed was removed from the landing card — the tests that
-  // covered it went with it. The landing is now a single centered search
-  // card with nothing else below it.
+  // covered it went with it.
   it('does not render a recently-viewed block', async () => {
     localStorage.setItem('gmr-recent-companies', JSON.stringify([
       { id: 'AAPL', name: 'Apple Inc.' },
     ]))
     const { wrapper } = await mountAt('/')
     expect(wrapper.find('[data-testid="recent-tickers"]').exists()).toBe(false)
+  })
+
+  // ── Landing-extra: onboarding strip ─────────────────────────
+
+  it('renders the explainer paragraph naming the four data sources', async () => {
+    const { wrapper } = await mountAt('/')
+    const explainer = wrapper.find('[data-testid="landing-explainer"]')
+    expect(explainer.exists()).toBe(true)
+    const text = explainer.text()
+    // Each source is name-checked once. If anyone changes the explainer,
+    // they must keep the four primary upstreams visible by name.
+    expect(text).toContain('TED')
+    expect(text).toContain('GLEIF')
+    expect(text).toContain('Transparency Register')
+    expect(text).toContain('Cohesion')
+  })
+
+  it('renders three example chips, each as a router-link with a / path', async () => {
+    const { wrapper } = await mountAt('/')
+    const chips = wrapper.findAll('[data-testid="example-chips"] a')
+    expect(chips).toHaveLength(3)
+    for (const chip of chips) {
+      // <router-link> renders as an <a> with href once mounted under a
+      // real router; verify the href starts with /.
+      expect(chip.attributes('href')).toMatch(/^\//)
+    }
+    expect(wrapper.find('[data-testid="example-chip-company"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="example-chip-graph"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="example-chip-report"]').exists()).toBe(true)
+  })
+
+  it('renders three "how it works" steps with names + descriptions', async () => {
+    const { wrapper } = await mountAt('/')
+    const steps = wrapper.findAll('[data-testid="howitworks"] .howitworks-step')
+    expect(steps).toHaveLength(3)
+    expect(wrapper.find('[data-testid="howitworks-step-search"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="howitworks-step-crosscheck"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="howitworks-step-publish"]').exists()).toBe(true)
+  })
+
+  it('does not render any GIF slot until a step has a gif set (default state)', async () => {
+    const { wrapper } = await mountAt('/')
+    const steps = wrapper.findAll('[data-testid="howitworks"] .howitworks-step')
+    for (const step of steps) {
+      expect(step.classes()).not.toContain('has-gif')
+      expect(step.find('.howitworks-gif').exists()).toBe(false)
+    }
+  })
+
+  it('fetches and renders up to 3 recent public reports', async () => {
+    listReports.mockResolvedValueOnce([
+      { id: 'r1', title: 'Report A', abstract: 'short', updated_at: '2026-04-01' },
+      { id: 'r2', title: 'Report B', abstract: 'short', updated_at: '2026-04-02' },
+      { id: 'r3', title: 'Report C', abstract: 'short', updated_at: '2026-04-03' },
+    ])
+    const { wrapper } = await mountAt('/')
+    expect(listReports).toHaveBeenCalledWith({ scope: 'public', limit: 3 })
+    const cards = wrapper.findAll('[data-testid="recent-reports"] .report-card')
+    expect(cards).toHaveLength(3)
+    expect(cards[0].text()).toContain('Report A')
+  })
+
+  it('silently hides the recent-reports section when the API errors', async () => {
+    listReports.mockRejectedValueOnce(new Error('500'))
+    const { wrapper } = await mountAt('/')
+    // Section is gated on recentReports.length, so an empty/failed fetch
+    // means it never renders. No scary error banner — fundraising-page
+    // pattern from DonateView.
+    expect(wrapper.find('[data-testid="recent-reports"]').exists()).toBe(false)
+    expect(wrapper.text()).not.toMatch(/error|failed|sorry/i)
+  })
+
+  it('hides the entire landing-extra section when a ticker is selected', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
+    expect(wrapper.find('[data-testid="landing-extra"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="landing-explainer"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="example-chips"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="howitworks"]').exists()).toBe(false)
   })
 })

@@ -91,6 +91,16 @@ jobs:
           probe /data-quality  "Data quality"
           probe /sparql        "SPARQL"
           probe /donate        "Support"
+
+          # Landing onboarding strip must be in the SSR'd HTML for `/`.
+          # If it's missing, the homepage degraded to "search bar only" —
+          # which is the regression this whole PR was meant to prevent.
+          body=$(curl -fsS "http://localhost:8080/")
+          if ! grep -q 'data-testid="landing-explainer"' <<<"$body"; then
+            echo "FAIL /: landing-explainer missing from prerendered HTML"
+            exit 1
+          fi
+          echo "OK   /  — landing-explainer present"
       - name: Probe critical static assets
         # og-card.png + robots.txt ship as real files in public/. If
         # they disappear (the og-card.png 404 that broke WhatsApp
