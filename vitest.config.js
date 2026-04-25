@@ -10,6 +10,11 @@ export default defineConfig({
     globals: true,
     include: ['tests/unit/**/*.test.js', 'tests/ssr/**/*.test.js'],
     setupFiles: ['tests/setup.js'],
+    // Vitest defaults to 5s; under load on the act-runner we routinely
+    // see legitimately-passing tests spend 5–7s in the
+    // mountMap/mountHomeAt/Sigma init paths and trip the timeout. 15s
+    // gives headroom without masking real hangs.
+    testTimeout: 15000,
     coverage: {
       // Match the already-installed @vitest/coverage-istanbul — Vitest's
       // default provider is v8, which we don't ship and which pulled the
