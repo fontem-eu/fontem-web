@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 const state = ref('loading')
@@ -7,124 +7,65 @@ const candidates = ref([])
 const selected = ref(null)
 const resolving = ref(false)
 const message = ref('')
-const validationErrors = ref([])
 
-// Editable merged fields (vat is a list)
-const merged = ref({ name: '', country: '', lei: '', vat: [] })
-
-const FIELDS = [
-  { key: 'name', label: 'Name', placeholder: 'Company legal name' },
-  { key: 'country', label: 'Country', placeholder: 'ISO alpha-3 (e.g. FRA)' },
-  { key: 'lei', label: 'LEI', placeholder: '20-char alphanumeric (optional)' },
-]
-// VAT is handled separately — it's a list, not a string
-const newVat = ref('')
+// Reviewer name persisted to localStorage so the consolidator's audit
+// log carries something more useful than "anonymous". Falls through to
+// "ui-reviewer" if the user hasn't set a name.
+const REVIEWER_KEY = 'gmr-reviewer-name'
+const reviewerName = ref(localStorage.getItem(REVIEWER_KEY) || '')
+function persistReviewer() {
+  if (reviewerName.value.trim()) {
+    localStorage.setItem(REVIEWER_KEY, reviewerName.value.trim())
+  }
+}
+const effectiveReviewer = computed(
+  () => reviewerName.value.trim() || 'ui-reviewer'
+)
 
 onMounted(async () => {
   document.title = 'Entity Resolution — Fontem'
   await loadCandidates()
 })
 
-// When selection changes, populate the editable merged fields
-watch(selected, (sel) => {
-  if (!sel) return
-  // Merge VAT lists from both sides, deduplicate
-  const dupVats = Array.isArray(sel.dup_vat) ? sel.dup_vat : (sel.dup_vat ? [sel.dup_vat] : [])
-  const canVats = Array.isArray(sel.canonical_vat) ? sel.canonical_vat : (sel.canonical_vat ? [sel.canonical_vat] : [])
-  const allVats = [...new Set([...canVats, ...dupVats].filter(Boolean))]
-  merged.value = {
-    name: sel.canonical_name ?? sel.dup_name ?? '',
-    country: sel.canonical_country ?? sel.dup_country ?? '',
-    lei: sel.canonical_lei ?? sel.dup_lei ?? '',
-    vat: allVats,
-  }
-  validationErrors.value = []
-  message.value = ''
-})
-
 async function loadCandidates() {
   state.value = 'loading'
   try {
-    const res = await fetch('/api/entity-resolution/candidates?limit=100')
+    // Real endpoint on the consolidator (reverse-proxied through nginx).
+    // The earlier /api/entity-resolution/* route never existed.
+    const res = await fetch('/api/consolidator/candidates?reviewed=false&limit=100')
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = await res.json()
-    candidates.value = data.candidates
+    candidates.value = await res.json()
     state.value = candidates.value.length > 0 ? 'done' : 'empty'
-    if (!selected.value && candidates.value.length > 0) {
-      selected.value = candidates.value[0]
-    }
-  } catch {
+    selected.value = candidates.value[0] || null
+  } catch (e) {
     state.value = 'error'
+    message.value = `Error: ${e.message}`
   }
 }
 
-function validateLocally() {
-  const errors = []
-  const m = merged.value
-  if (m.name.trim().length < 2) errors.push('Name must be at least 2 characters')
-  if (m.country.trim().length !== 3) errors.push('Country must be a 3-letter ISO alpha-3 code')
-  if (m.lei.trim() && m.lei.trim().length !== 20) errors.push('LEI must be exactly 20 characters')
-  if (m.lei.trim() && !/^[A-Z0-9]+$/i.test(m.lei.trim())) errors.push('LEI must be alphanumeric')
-  for (const vat of m.vat) {
-    if (vat.trim() && vat.trim().length < 4) errors.push(`VAT "${vat}" too short`)
-  }
-  return errors
-}
-
-async function resolve(action) {
+async function decide(decision, fromId, toId) {
   if (!selected.value) return
   resolving.value = true
   message.value = ''
-  validationErrors.value = []
-
-  if (action === 'approve') {
-    const localErrors = validateLocally()
-    if (localErrors.length) {
-      validationErrors.value = localErrors
-      resolving.value = false
-      return
-    }
-  }
-
+  persistReviewer()
   try {
-    const { dup_id, canonical_id } = selected.value
-    const body = {
-      action,
-      canonical_gmr_id: canonical_id,
-    }
-    if (action === 'approve') {
-      body.merged_properties = {
-        name: merged.value.name.trim() || null,
-        country: merged.value.country.trim().toUpperCase() || null,
-        lei: merged.value.lei.trim() || null,
-        vat: merged.value.vat.filter((v) => v.trim()),
-      }
-    }
-    const res = await fetch(
-      `/api/entity-resolution/resolve/${encodeURIComponent(dup_id)}/${encodeURIComponent(canonical_id)}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      },
-    )
+    const url = `/api/consolidator/candidates/${encodeURIComponent(fromId)}/${encodeURIComponent(toId)}/decide`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ decision, reviewer: effectiveReviewer.value }),
+    })
     if (!res.ok) {
-      const err = await res.json()
-      if (err.detail?.validation_errors) {
-        validationErrors.value = err.detail.validation_errors
-        resolving.value = false
-        return
-      }
-      throw new Error(`HTTP ${res.status}`)
+      const err = await res.text()
+      throw new Error(`HTTP ${res.status}: ${err.slice(0, 120)}`)
     }
-    await res.json()
-    message.value = action === 'approve'
-      ? `Merged into ${canonical_id.substring(0, 8)}...`
-      : 'Rejected — marked as different entities'
+    const body = await res.json()
+    message.value = decisionMessage(body.outcome, fromId, toId)
+    // Drop the resolved pair from the queue and pick the next one.
     candidates.value = candidates.value.filter(
-      (c) => c.dup_id !== dup_id || c.canonical_id !== canonical_id,
+      (c) => !(c.from_id === selected.value.from_id && c.to_id === selected.value.to_id)
     )
-    selected.value = candidates.value.length > 0 ? candidates.value[0] : null
+    selected.value = candidates.value[0] || null
     if (candidates.value.length === 0) state.value = 'empty'
   } catch (e) {
     message.value = `Error: ${e.message}`
@@ -133,35 +74,65 @@ async function resolve(action) {
   }
 }
 
-function pickLeft(key) { merged.value[key] = selected.value?.[`dup_${key}`] ?? '' }
-function pickRight(key) { merged.value[key] = selected.value?.[`canonical_${key}`] ?? '' }
-function leftVal(key) { return selected.value?.[`dup_${key}`] ?? '' }
-function rightVal(key) { return selected.value?.[`canonical_${key}`] ?? '' }
-function isConflict(key) {
-  const l = leftVal(key)
-  const r = rightVal(key)
-  return l && r && l !== r
-}
-function formatVatList(val) {
-  if (Array.isArray(val)) return val.filter(Boolean)
-  if (val) return [val]
-  return []
-}
-function addVat() {
-  const v = newVat.value.trim()
-  if (v && !merged.value.vat.includes(v)) {
-    merged.value.vat.push(v)
+function decisionMessage(outcome, fromId, toId) {
+  const f = fromId.slice(0, 8)
+  const t = toId.slice(0, 8)
+  switch (outcome) {
+    case 'manual_merge':
+      return `Merged ${t}… into ${f}…`
+    case 'manual_reject':
+      return `Rejected — ${f}… and ${t}… are different entities`
+    case 'manual_keep_related':
+      return `Kept as related — ${f}… and ${t}… are distinct but linked`
+    default:
+      return outcome
   }
-  newVat.value = ''
 }
-function removeVat(i) { merged.value.vat.splice(i, 1) }
-function addVatFromSide(side) {
-  const vals = formatVatList(selected.value?.[`${side}_vat`])
-  for (const v of vals) {
-    if (v && !merged.value.vat.includes(v)) {
-      merged.value.vat.push(v)
+
+// Display helpers for the two side-by-side panels. Both Authority and
+// Company nodes are flagged through this view, so we render whichever
+// keys exist on each entity in a stable preferred order.
+const PREFERRED_KEYS = [
+  'name', 'country', 'name_lang',
+  'lei', 'vat', 'cik',
+  'authority_id', 'gmr_id',
+]
+function entityRows(entity) {
+  if (!entity) return []
+  const seen = new Set()
+  const rows = []
+  for (const k of PREFERRED_KEYS) {
+    if (entity[k] !== undefined && entity[k] !== null && entity[k] !== '') {
+      rows.push([k, entity[k]])
+      seen.add(k)
     }
   }
+  // Plus any other primitive props (skip the embedding vector and the
+  // 23 translated-name fields which would crowd the card).
+  for (const [k, v] of Object.entries(entity)) {
+    if (seen.has(k)) continue
+    if (k.startsWith('name_') && k !== 'name_lang') continue
+    if (k.endsWith('_embedding') || k.endsWith('_embedding_encoder')
+        || k.endsWith('_embedding_dim')) continue
+    if (Array.isArray(v) && v.length > 5) continue
+    if (typeof v === 'object' && v !== null) continue
+    rows.push([k, v])
+  }
+  return rows.slice(0, 12) // Keep cards readable.
+}
+
+function ruleBadge(rule) {
+  // Short, human-readable display name for the rule.
+  return rule.replace(/_authority$|_company$/, '').replace(/_/g, ' ')
+}
+
+function pct(v) {
+  return v == null ? '—' : `${(v * 100).toFixed(1)}%`
+}
+
+function formatValue(v) {
+  if (Array.isArray(v)) return v.join(', ')
+  return String(v)
 }
 </script>
 
@@ -171,134 +142,132 @@ function addVatFromSide(side) {
       <div>
         <router-link to="/admin" class="er-back">&larr; Admin</router-link>
         <h1>Entity Resolution</h1>
-        <p class="er-subtitle">Review and merge duplicate company nodes</p>
+        <p class="er-subtitle">
+          Review and decide on flagged duplicate pairs
+          <span class="er-reviewer-line">
+            &middot; reviewer: <input
+              v-model="reviewerName"
+              class="er-reviewer-input"
+              placeholder="your name"
+              @blur="persistReviewer"
+            />
+          </span>
+        </p>
       </div>
       <ThemeToggle />
     </header>
 
     <div v-if="state === 'loading'" class="er-msg">Loading candidates...</div>
-    <div v-else-if="state === 'error'" class="er-msg">Failed to load candidates.</div>
+    <div v-else-if="state === 'error'" class="er-msg">
+      <p>Failed to load candidates.</p>
+      <p class="er-note">{{ message }}</p>
+    </div>
     <div v-else-if="state === 'empty'" class="er-msg">
-      <p>No merge candidates pending review.</p>
-      <p class="er-note">All entity conflicts have been resolved.</p>
+      <p>No pairs pending review.</p>
+      <p class="er-note">All flagged pairs have been resolved.</p>
     </div>
 
     <div v-else class="er-layout">
       <!-- Left sidebar: candidate list -->
       <aside class="er-list">
-        <h2>Candidates ({{ candidates.length }})</h2>
+        <h2>Pending ({{ candidates.length }})</h2>
         <div
           v-for="c in candidates"
-          :key="c.dup_id + c.canonical_id"
+          :key="c.from_id + c.to_id"
           class="er-list__item"
           :class="{ 'er-list__item--active': selected === c }"
           @click="selected = c"
         >
           <div class="er-list__names">
-            <span>{{ c.dup_name || c.dup_id.substring(0, 8) }}</span>
+            <span>{{ c.source_entity?.name || c.from_id.slice(0, 8) }}</span>
             <span class="er-list__arrow">&harr;</span>
-            <span>{{ c.canonical_name || c.canonical_id.substring(0, 8) }}</span>
+            <span>{{ c.target_entity?.name || c.to_id.slice(0, 8) }}</span>
           </div>
           <div class="er-list__meta">
-            {{ c.method || 'auto' }} &middot; {{ (c.confidence * 100).toFixed(0) }}%
+            {{ c.entity_type }} &middot; {{ pct(c.confidence) }}
+            <span v-if="c.detections && c.detections.length > 1" class="er-list__multi">
+              · {{ c.detections.length }} rules
+            </span>
+            <span v-if="c.conflict" class="er-list__conflict">· conflict</span>
           </div>
         </div>
       </aside>
 
-      <!-- Main: three-panel merge view -->
+      <!-- Main: pair-comparison view -->
       <main v-if="selected" class="er-merge">
+        <!-- Detection chips: every rule that flagged this pair -->
+        <div class="er-detections">
+          <h3>Why flagged</h3>
+          <div class="er-chips">
+            <span
+              v-for="d in (selected.detections && selected.detections.length
+                            ? selected.detections
+                            : [{ rule_name: selected.rule_name, confidence: selected.confidence, detected_at: selected.detected_at }])"
+              :key="d.rule_name"
+              class="er-chip"
+              :title="d.detected_at"
+            >
+              <span class="er-chip__rule">{{ ruleBadge(d.rule_name) }}</span>
+              <span class="er-chip__conf">{{ pct(d.confidence) }}</span>
+            </span>
+          </div>
+          <p v-if="selected.conflict" class="er-conflict-note">
+            One or more rules reported a hard-conflict on this pair (e.g. mismatched LEI / VAT).
+            Review carefully before merging.
+          </p>
+        </div>
+
+        <!-- Side-by-side entity panels -->
         <div class="er-panels">
-          <!-- Left: duplicate (read-only) -->
           <div class="er-panel er-panel--left">
-            <h3>Duplicate (will be removed)</h3>
-            <div v-for="f in FIELDS" :key="f.key" class="er-field">
-              <span class="er-field__label">{{ f.label }}</span>
-              <span class="er-field__value">{{ leftVal(f.key) || '\u2014' }}</span>
-              <button v-if="leftVal(f.key) && leftVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickLeft(f.key)">&larr;</button>
-            </div>
-            <div class="er-field">
-              <span class="er-field__label">VAT</span>
-              <div class="er-vat-list">
-                <span v-for="v in formatVatList(selected.dup_vat)" :key="v" class="er-vat-tag">{{ v }}</span>
-                <span v-if="!formatVatList(selected.dup_vat).length">&mdash;</span>
-              </div>
-              <button v-if="formatVatList(selected.dup_vat).length" class="er-pick" title="Add all" @click="addVatFromSide('dup')">&larr;</button>
-            </div>
-            <div class="er-field">
-              <span class="er-field__label">gmr_id</span>
-              <span class="er-field__value er-mono">{{ selected.dup_id.substring(0, 12) }}...</span>
+            <h3>Entity A
+              <span class="er-panel__id">{{ selected.from_id.slice(0, 12) }}…</span>
+            </h3>
+            <div v-for="[k, v] in entityRows(selected.source_entity)" :key="k" class="er-field">
+              <span class="er-field__label">{{ k }}</span>
+              <span class="er-field__value">{{ formatValue(v) }}</span>
             </div>
           </div>
-
-          <!-- Center: editable merged result -->
-          <div class="er-panel er-panel--center">
-            <h3>Merge Result (editable)</h3>
-            <div v-for="f in FIELDS" :key="f.key" class="er-field" :class="{ 'er-field--conflict': isConflict(f.key) }">
-              <label class="er-field__label" :for="'merge-' + f.key">{{ f.label }}</label>
-              <input
-                :id="'merge-' + f.key"
-                v-model="merged[f.key]"
-                class="er-input"
-                :placeholder="f.placeholder"
-                :class="{ 'er-input--conflict': isConflict(f.key) }"
-              />
-            </div>
-            <div class="er-field er-field--vat">
-              <label class="er-field__label">VAT numbers</label>
-              <div class="er-vat-edit">
-                <div class="er-vat-tags">
-                  <span v-for="(v, i) in merged.vat" :key="i" class="er-vat-tag er-vat-tag--editable">
-                    {{ v }}
-                    <button class="er-vat-remove" title="Remove" @click="removeVat(i)">&times;</button>
-                  </span>
-                </div>
-                <div class="er-vat-add">
-                  <input v-model="newVat" class="er-input er-input--sm" placeholder="Add VAT..." @keydown.enter.prevent="addVat()" />
-                  <button class="er-pick" @click="addVat()">+</button>
-                </div>
-              </div>
-            </div>
-            <div class="er-field">
-              <span class="er-field__label">gmr_id</span>
-              <span class="er-field__value er-mono">{{ selected.canonical_id.substring(0, 12) }}... (canonical)</span>
-            </div>
-          </div>
-
-          <!-- Right: canonical (read-only) -->
           <div class="er-panel er-panel--right">
-            <h3>Canonical (will survive)</h3>
-            <div v-for="f in FIELDS" :key="f.key" class="er-field">
-              <span class="er-field__label">{{ f.label }}</span>
-              <span class="er-field__value">{{ rightVal(f.key) || '\u2014' }}</span>
-              <button v-if="rightVal(f.key) && rightVal(f.key) !== merged[f.key]" class="er-pick" title="Use this value" @click="pickRight(f.key)">&rarr;</button>
-            </div>
-            <div class="er-field">
-              <span class="er-field__label">VAT</span>
-              <div class="er-vat-list">
-                <span v-for="v in formatVatList(selected.canonical_vat)" :key="v" class="er-vat-tag">{{ v }}</span>
-                <span v-if="!formatVatList(selected.canonical_vat).length">&mdash;</span>
-              </div>
-              <button v-if="formatVatList(selected.canonical_vat).length" class="er-pick" title="Add all" @click="addVatFromSide('canonical')">&rarr;</button>
-            </div>
-            <div class="er-field">
-              <span class="er-field__label">gmr_id</span>
-              <span class="er-field__value er-mono">{{ selected.canonical_id.substring(0, 12) }}...</span>
+            <h3>Entity B
+              <span class="er-panel__id">{{ selected.to_id.slice(0, 12) }}…</span>
+            </h3>
+            <div v-for="[k, v] in entityRows(selected.target_entity)" :key="k" class="er-field">
+              <span class="er-field__label">{{ k }}</span>
+              <span class="er-field__value">{{ formatValue(v) }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Validation errors -->
-        <div v-if="validationErrors.length" class="er-errors">
-          <p v-for="(err, i) in validationErrors" :key="i" class="er-errors__item">{{ err }}</p>
-        </div>
-
-        <!-- Actions -->
+        <!-- Decision actions -->
         <div class="er-actions">
-          <button class="er-btn er-btn--approve" :disabled="resolving" @click="resolve('approve')">
-            Merge with edits
+          <button
+            class="er-btn er-btn--merge"
+            :disabled="resolving"
+            @click="decide('merge', selected.from_id, selected.to_id)"
+          >
+            Merge — keep A (B is removed)
           </button>
-          <button class="er-btn er-btn--reject" :disabled="resolving" @click="resolve('reject')">
-            Not the same entity
+          <button
+            class="er-btn er-btn--merge"
+            :disabled="resolving"
+            @click="decide('merge', selected.to_id, selected.from_id)"
+          >
+            Merge — keep B (A is removed)
+          </button>
+          <button
+            class="er-btn er-btn--related"
+            :disabled="resolving"
+            @click="decide('keep_as_related', selected.from_id, selected.to_id)"
+          >
+            Keep as related
+          </button>
+          <button
+            class="er-btn er-btn--reject"
+            :disabled="resolving"
+            @click="decide('reject', selected.from_id, selected.to_id)"
+          >
+            Different entities — reject
           </button>
           <span v-if="message" class="er-message">{{ message }}</span>
         </div>
@@ -314,10 +283,12 @@ function addVatFromSide(side) {
 .er-header h1 { font-size: 1.4rem; font-weight: 700; margin: 0.3rem 0 0; }
 .er-back { font-size: 0.85rem; color: var(--accent); text-decoration: none; }
 .er-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+.er-reviewer-line { font-size: 0.8rem; }
+.er-reviewer-input { font-size: 0.8rem; border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.3rem; background: var(--bg); color: var(--text); width: 9rem; }
 .er-msg { text-align: center; padding: 4rem 1rem; color: var(--muted); }
 .er-note { font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7; }
 
-.er-layout { display: grid; grid-template-columns: 260px 1fr; gap: 1.25rem; }
+.er-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.25rem; }
 @media (max-width: 768px) { .er-layout { grid-template-columns: 1fr; } }
 
 .er-list h2 { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -327,51 +298,38 @@ function addVatFromSide(side) {
 .er-list__names { font-size: 0.82rem; font-weight: 600; display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; }
 .er-list__arrow { color: var(--muted); font-size: 0.75rem; }
 .er-list__meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
+.er-list__multi { font-weight: 600; color: var(--accent); }
+.er-list__conflict { color: #cf222e; font-weight: 600; }
 
-.er-panels { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+.er-detections { margin-bottom: 1rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+.er-detections h3 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 0.5rem; }
+.er-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.er-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.5rem; background: var(--surface, #f6f8fa); border: 1px solid var(--border); border-radius: 999px; font-size: 0.78rem; }
+.er-chip__rule { font-family: monospace; }
+.er-chip__conf { font-weight: 700; color: var(--accent); }
+.er-conflict-note { margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(207, 34, 46, 0.08); color: #cf222e; border-radius: 4px; font-size: 0.78rem; }
+
+.er-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
 @media (max-width: 900px) { .er-panels { grid-template-columns: 1fr; } }
 
 .er-panel { border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; background: var(--bg); }
 .er-panel--left { border-top: 3px solid #d29922; }
-.er-panel--center { border-top: 3px solid var(--accent); }
 .er-panel--right { border-top: 3px solid #1a7f37; }
+.er-panel h3 { font-size: 0.85rem; font-weight: 700; margin: 0 0 0.6rem; display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.er-panel__id { font-family: monospace; font-size: 0.7rem; color: var(--muted); font-weight: 400; }
 
-.er-panel h3 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.6rem; }
-
-.er-field { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; gap: 0.3rem; }
+.er-field { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; gap: 0.5rem; }
 .er-field:last-child { border-bottom: none; }
-.er-field--conflict { background: rgba(210, 153, 34, 0.08); }
-.er-field__label { color: var(--muted); font-size: 0.75rem; min-width: 50px; flex-shrink: 0; }
-.er-field__value { font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
-.er-mono { font-family: monospace; font-size: 0.75rem; }
+.er-field__label { color: var(--muted); font-size: 0.75rem; min-width: 80px; flex-shrink: 0; font-family: monospace; }
+.er-field__value { font-weight: 500; text-align: right; max-width: 65%; word-break: break-word; }
 
-.er-pick { background: none; border: 1px solid var(--border); border-radius: 3px; padding: 0 0.3rem; font-size: 0.7rem; cursor: pointer; color: var(--accent); flex-shrink: 0; }
-.er-pick:hover { background: var(--surface); }
-
-.er-input { width: 100%; padding: 0.3rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem; background: var(--bg); color: var(--text); font-family: inherit; }
-.er-input:focus { outline: none; border-color: var(--accent); }
-.er-input--conflict { border-color: #d29922; }
-
-.er-errors { margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; background: #ffeef0; border: 1px solid #cf222e; border-radius: 6px; }
-.er-errors__item { font-size: 0.82rem; color: #cf222e; margin: 0.2rem 0; }
-
-.er-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
-.er-btn { padding: 0.5rem 1.25rem; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.er-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.er-btn { padding: 0.45rem 0.9rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: var(--bg); color: var(--text); }
+.er-btn:hover:not(:disabled) { border-color: var(--accent); }
 .er-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.er-btn--approve { background: #1a7f37; color: #fff; }
-.er-btn--approve:hover:not(:disabled) { opacity: 0.9; }
-.er-btn--reject { background: var(--border); color: var(--text); }
-.er-btn--reject:hover:not(:disabled) { opacity: 0.8; }
-.er-message { font-size: 0.82rem; color: var(--muted); }
-
-.er-field--vat { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-.er-vat-list { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-.er-vat-edit { width: 100%; }
-.er-vat-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.3rem; }
-.er-vat-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; background: var(--surface, #f6f8fa); border: 1px solid var(--border); border-radius: 3px; font-family: monospace; }
-.er-vat-tag--editable { display: inline-flex; align-items: center; gap: 0.2rem; }
-.er-vat-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; padding: 0; line-height: 1; }
-.er-vat-remove:hover { color: #cf222e; }
-.er-vat-add { display: flex; gap: 0.3rem; }
-.er-input--sm { flex: 1; padding: 0.2rem 0.4rem; font-size: 0.78rem; }
+.er-btn--merge { background: #1a7f37; color: #fff; border-color: #1a7f37; }
+.er-btn--merge:hover:not(:disabled) { opacity: 0.9; }
+.er-btn--related { background: var(--surface, #f6f8fa); }
+.er-btn--reject { background: var(--surface, #f6f8fa); color: #cf222e; }
+.er-message { font-size: 0.82rem; color: var(--muted); margin-left: auto; }
 </style>
