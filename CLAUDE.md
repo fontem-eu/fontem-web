@@ -1,6 +1,9 @@
 # gmr-web conventions
 
-See also: [/config/repos/CLAUDE.md](/config/repos/CLAUDE.md) for workspace-wide rules.
+See also:
+- [/config/repos/CLAUDE.md](/config/repos/CLAUDE.md) — workspace-wide rules
+- BookStack Developer Guide — https://docs.void42.internal/books/developer-guide
+  Platform architecture, SSO, CI/CD, deploy runbook, debug playbook, secrets, PR workflow.
 
 ## Full gate (this repo)
 ```
@@ -14,12 +17,12 @@ All three must pass. Fix failures before committing.
 `git status` must show `nothing to commit, working tree clean` when done.
 
 ## Deploy
-```
-npm run build
-docker build -t gmr-web:latest .
-docker tag gmr-web:latest contribute.void42.internal/golden/gmr-web:latest
-docker push contribute.void42.internal/golden/gmr-web:latest
-kubectl set image deployment/gmr-web -n gmr nginx=contribute.void42.internal/golden/gmr-web:latest
-kubectl rollout status deployment/gmr-web -n gmr --timeout=60s
-```
+
+Default flow: push to main → CI builds + signs + deploys via gitops-bump.
+ArgoCD applies within ~30s. **Don't `kubectl set image` against the
+ArgoCD-managed deployment** — it will get reset.
+
+Manual hotfix-only flow (when CI is broken or you need <5 min ship):
+see https://docs.void42.internal/books/developer-guide/page/deployment-runbook
+
 Production: https://gmr.void42.net
