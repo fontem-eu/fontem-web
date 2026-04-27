@@ -273,6 +273,7 @@ watch(selectedDataset, (d) => {
 
 // ── Lifecycle ────────────────────────────────────────────────────────
 onMounted(async () => {
+  document.title = 'Atlas — Map European statistics on Fontem'
   _readUrl()
 
   map = new maplibregl.Map({

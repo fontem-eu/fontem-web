@@ -16,6 +16,7 @@ const TITLES = {
   '/privacy': 'Privacy policy — Fontem',
   '/data-quality': 'Data quality — Fontem',
   '/sparql': 'SPARQL — Fontem',
+  '/atlas': 'Atlas — Map European statistics on Fontem',
   '/login': 'Sign in — Fontem',
   '/donate': 'Support Fontem',
 }
@@ -26,6 +27,7 @@ const DESCRIPTIONS = {
   '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
   '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
+  '/atlas': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
   '/login': 'Sign in to Fontem to publish reports, raise issues, and save your research.',
   '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
 }
