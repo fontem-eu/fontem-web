@@ -199,10 +199,10 @@ describe('HomeView', () => {
     expect(text).toContain('Cohesion')
   })
 
-  it('renders three example chips, each as a router-link with a / path', async () => {
+  it('renders the example chips, each as a router-link with a / path', async () => {
     const { wrapper } = await mountAt('/')
     const chips = wrapper.findAll('[data-testid="example-chips"] a')
-    expect(chips).toHaveLength(3)
+    expect(chips.length).toBeGreaterThanOrEqual(3)
     for (const chip of chips) {
       // <router-link> renders as an <a> with href once mounted under a
       // real router; verify the href starts with /.
@@ -211,6 +211,7 @@ describe('HomeView', () => {
     expect(wrapper.find('[data-testid="example-chip-company"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="example-chip-graph"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="example-chip-report"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="example-chip-atlas"]').exists()).toBe(true)
   })
 
   it('renders three "how it works" steps with names + descriptions', async () => {

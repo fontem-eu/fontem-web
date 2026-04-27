@@ -95,6 +95,11 @@ const EXAMPLE_CHIPS = [
     label: 'Read a community report',
     to: '/reports/d13f6e62-da50-4d4f-a401-8ab409e69ae4',
   },
+  {
+    key: 'atlas',
+    label: 'Map a Eurostat dataset across Europe',
+    to: '/atlas',
+  },
 ]
 
 // `gif` slot is reserved (CSS aspect-ratio 16/9). When the asset lands in

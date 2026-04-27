@@ -19,6 +19,7 @@ function makeRouter() {
       { path: '/', component: { template: '<div />' } },
       { path: '/login', component: { template: '<div />' } },
       { path: '/feed', component: { template: '<div />' } },
+      { path: '/atlas', component: { template: '<div />' } },
       { path: '/my-reports', component: { template: '<div />' } },
       { path: '/reports', component: { template: '<div />' } },
       { path: '/issues', component: { template: '<div />' } },
@@ -82,7 +83,16 @@ describe('AppHeader', () => {
     expect(nav.exists()).toBe(true)
     expect(nav.text()).toContain('Home')
     expect(nav.text()).toContain('Feed')
+    expect(nav.text()).toContain('Atlas')
     expect(nav.text()).toContain('My Reports')
+  })
+
+  it('shows Atlas tab to anonymous visitors too', async () => {
+    const { wrapper } = await mountAt('/')
+    const nav = wrapper.find('[data-testid="app-nav"]')
+    expect(nav.text()).toContain('Atlas')
+    expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href'))
+      .toBe('/atlas')
   })
 
   it('moves Issues and Activity out of the top-level nav', async () => {

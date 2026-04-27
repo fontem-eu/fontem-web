@@ -24,6 +24,7 @@ const navTabs = computed(() => {
   const base = [
     { key: 'home', label: 'Home', path: '/' },
     { key: 'feed', label: 'Feed', path: '/feed' },
+    { key: 'atlas', label: 'Atlas', path: '/atlas' },
   ]
   if (hasToken.value) {
     base.push({ key: 'my-reports', label: 'My Reports', path: '/my-reports' })

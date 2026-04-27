@@ -1,0 +1,253 @@
+/**
+ * Tests for AtlasView — the Eurostat dataset explorer.
+ *
+ * Covers:
+ * - Empty state when /stats/datasets returns []
+ * - Dataset selector renders grouped by theme
+ * - Picking a dataset triggers /stats/series with nuts_level
+ * - NUTS level picker is constrained to the dataset's allowed levels
+ * - Year slider is built from the data, defaults to most recent year
+ * - Slice picker appears only when there are multiple dim combinations
+ * - Selecting a slice + year filters the choropleth rows correctly
+ * - Map cleanup on unmount
+ */
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { mount, flushPromises } from '@vue/test-utils'
+import { createRouter, createMemoryHistory } from 'vue-router'
+
+const { mapInstance } = vi.hoisted(() => ({
+  mapInstance: {
+    addControl: vi.fn(),
+    on: vi.fn(),
+    once: vi.fn((event, cb) => { if (event === 'load') cb() }),
+    addSource: vi.fn(),
+    getSource: vi.fn(() => null),
+    addLayer: vi.fn(),
+    getCanvas: vi.fn(() => ({ style: {} })),
+    isStyleLoaded: vi.fn(() => true),
+    setPaintProperty: vi.fn(),
+    remove: vi.fn(),
+  },
+}))
+
+vi.mock('maplibre-gl', () => ({
+  default: {
+    Map: vi.fn(() => mapInstance),
+    NavigationControl: vi.fn(),
+  },
+}))
+vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
+
+const DATASETS = [
+  {
+    code: 'nama_10r_2gdp', label: 'GDP × NUTS-2', theme: 'economy',
+    nuts_levels: [2], time_unit: 'year', enabled: true,
+  },
+  {
+    code: 'demo_r_pjangrp3', label: 'Population × age × sex × NUTS-3',
+    theme: 'population', nuts_levels: [2, 3], time_unit: 'year', enabled: true,
+  },
+  {
+    code: 'disabled_one', label: 'Disabled', theme: 'economy',
+    nuts_levels: [2], time_unit: 'year', enabled: false,
+  },
+]
+
+const SERIES_GDP = {
+  data: [
+    { geo_code: 'DE21', year: 2020, value: 100, dimensions: { unit: 'MIO_EUR' } },
+    { geo_code: 'DE21', year: 2021, value: 110, dimensions: { unit: 'MIO_EUR' } },
+    { geo_code: 'FR10', year: 2020, value: 200, dimensions: { unit: 'MIO_EUR' } },
+    { geo_code: 'FR10', year: 2021, value: 210, dimensions: { unit: 'MIO_EUR' } },
+  ],
+}
+
+const SERIES_POP = {
+  data: [
+    { geo_code: 'DE21', year: 2020, value: 5000, dimensions: { sex: 'T', age: 'TOTAL' } },
+    { geo_code: 'DE21', year: 2020, value: 2500, dimensions: { sex: 'M', age: 'TOTAL' } },
+    { geo_code: 'DE21', year: 2020, value: 2500, dimensions: { sex: 'F', age: 'TOTAL' } },
+    { geo_code: 'FR10', year: 2020, value: 9000, dimensions: { sex: 'T', age: 'TOTAL' } },
+    { geo_code: 'FR10', year: 2020, value: 4500, dimensions: { sex: 'M', age: 'TOTAL' } },
+    { geo_code: 'FR10', year: 2020, value: 4500, dimensions: { sex: 'F', age: 'TOTAL' } },
+  ],
+}
+
+const BOUNDARIES_L2 = {
+  type: 'FeatureCollection',
+  features: [
+    { type: 'Feature', properties: { nuts_code: 'DE21', name: 'Oberbayern' },
+      geometry: { type: 'Polygon', coordinates: [[[11,47],[12,47],[12,48],[11,48],[11,47]]] } },
+    { type: 'Feature', properties: { nuts_code: 'FR10', name: 'Île-de-France' },
+      geometry: { type: 'Polygon', coordinates: [[[2,48],[3,48],[3,49],[2,49],[2,48]]] } },
+  ],
+}
+
+const originalFetch = globalThis.fetch
+
+function makeFetch({ datasets = DATASETS, series = SERIES_GDP } = {}) {
+  return vi.fn().mockImplementation((url) => {
+    if (url.includes('/stats/datasets')) {
+      return Promise.resolve({ ok: true, json: async () => datasets })
+    }
+    if (url.includes('/stats/series')) {
+      return Promise.resolve({ ok: true, json: async () => series })
+    }
+    if (url.includes('/geo/nuts-boundaries')) {
+      return Promise.resolve({ ok: true, json: async () => BOUNDARIES_L2 })
+    }
+    return Promise.resolve({ ok: false, status: 404, text: async () => 'not found' })
+  })
+}
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  globalThis.fetch = makeFetch()
+})
+afterEach(() => {
+  globalThis.fetch = originalFetch
+})
+
+async function mountAtlas(initialPath = '/atlas') {
+  const { default: AtlasView } = await import('../../src/views/AtlasView.vue')
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [{ path: '/atlas', component: AtlasView }],
+  })
+  await router.push(initialPath)
+  await router.isReady()
+  return mount(AtlasView, {
+    global: { plugins: [router] },
+    attachTo: document.body,
+  })
+}
+
+describe('AtlasView — empty state', () => {
+  it('shows the empty banner when /stats/datasets returns []', async () => {
+    globalThis.fetch = makeFetch({ datasets: [] })
+    const w = await mountAtlas()
+    await flushPromises()
+    expect(w.find('[data-testid="atlas-empty"]').exists()).toBe(true)
+    w.unmount()
+  })
+
+  it('shows an error banner when /stats/datasets fails', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false, status: 503, text: async () => 'stats unavailable',
+    })
+    const w = await mountAtlas()
+    await flushPromises()
+    expect(w.find('[data-testid="atlas-error"]').exists()).toBe(true)
+    w.unmount()
+  })
+})
+
+describe('AtlasView — dataset picker', () => {
+  it('groups enabled datasets by theme and skips disabled', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    const sel = w.find('[data-testid="atlas-dataset"]')
+    expect(sel.exists()).toBe(true)
+    const groups = sel.findAll('optgroup')
+    const labels = groups.map((g) => g.attributes('label'))
+    expect(labels).toContain('economy')
+    expect(labels).toContain('population')
+    // Disabled dataset is excluded
+    expect(sel.text()).not.toContain('Disabled')
+    w.unmount()
+  })
+
+  it('seeds selection from the URL query', async () => {
+    const w = await mountAtlas('/atlas?dataset=nama_10r_2gdp&level=2')
+    await flushPromises()
+    const sel = w.find('[data-testid="atlas-dataset"]')
+    expect(sel.element.value).toBe('nama_10r_2gdp')
+    w.unmount()
+  })
+})
+
+describe('AtlasView — series fetching', () => {
+  it('fetches /stats/series with nuts_level once a dataset is picked', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('nama_10r_2gdp')
+    await flushPromises()
+    const calls = globalThis.fetch.mock.calls.map((c) => c[0])
+    const seriesCall = calls.find((u) => u.includes('/stats/series'))
+    expect(seriesCall).toBeTruthy()
+    expect(seriesCall).toContain('dataset=nama_10r_2gdp')
+    expect(seriesCall).toContain('nuts_level=2')
+    w.unmount()
+  })
+
+  it('fetches NUTS boundaries for the picked level', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('nama_10r_2gdp')
+    await flushPromises()
+    const calls = globalThis.fetch.mock.calls.map((c) => c[0])
+    expect(calls.some((u) => u.includes('/geo/nuts-boundaries?level=2'))).toBe(true)
+    w.unmount()
+  })
+
+  it('constrains NUTS level options to the dataset.nuts_levels', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    // Population dataset allows NUTS 2 and 3
+    await w.find('[data-testid="atlas-dataset"]').setValue('demo_r_pjangrp3')
+    await flushPromises()
+    const sel = w.find('[data-testid="atlas-level"]')
+    const values = sel.findAll('option').map((o) => o.element.value)
+    expect(values).toEqual(['2', '3'])
+    w.unmount()
+  })
+})
+
+describe('AtlasView — year slider', () => {
+  it('builds the slider bounds from the observation years', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('nama_10r_2gdp')
+    await flushPromises()
+    const slider = w.find('[data-testid="atlas-year"]')
+    expect(slider.exists()).toBe(true)
+    expect(slider.attributes('min')).toBe('2020')
+    expect(slider.attributes('max')).toBe('2021')
+    // Defaults to the latest year
+    expect(Number(slider.element.value)).toBe(2021)
+    w.unmount()
+  })
+})
+
+describe('AtlasView — slice picker', () => {
+  it('hides the slice picker when there is only one dim combo', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('nama_10r_2gdp')
+    await flushPromises()
+    expect(w.find('[data-testid="atlas-slice"]').exists()).toBe(false)
+    w.unmount()
+  })
+
+  it('shows the slice picker when multiple dim combos exist', async () => {
+    globalThis.fetch = makeFetch({ series: SERIES_POP })
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('demo_r_pjangrp3')
+    await flushPromises()
+    const slicePicker = w.find('[data-testid="atlas-slice"]')
+    expect(slicePicker.exists()).toBe(true)
+    const opts = slicePicker.findAll('option')
+    expect(opts.length).toBe(3) // sex=T, sex=M, sex=F
+    w.unmount()
+  })
+})
+
+describe('AtlasView — map cleanup', () => {
+  it('removes the map on unmount', async () => {
+    const w = await mountAtlas()
+    await flushPromises()
+    w.unmount()
+    expect(mapInstance.remove).toHaveBeenCalled()
+  })
+})
