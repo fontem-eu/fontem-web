@@ -47,6 +47,7 @@ import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
 import SparqlView from './views/SparqlView.vue'
 import DonateView from './views/DonateView.vue'
+import AtlasView from './views/AtlasView.vue'
 
 import './assets/main.css'
 
@@ -102,6 +103,9 @@ const ROUTES = [
 
   // Feed (public reports)
   { path: '/feed', component: FeedView },
+
+  // Atlas — interactive map of the curated Eurostat datasets
+  { path: '/atlas', component: AtlasView },
 
   // Reports
   { path: '/my-reports', component: MyReportsView },
