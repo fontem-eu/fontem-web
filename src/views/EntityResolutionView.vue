@@ -1,6 +1,23 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+
+// Three review queues live behind one screen:
+//   - same_as     : entity duplicates flagged by the consolidator's
+//                   matching rules (existing behaviour)
+//   - represents  : Lobbyist → Company links the resolver-driven
+//                   load_eu_lobbying ETL writes with reviewed=false
+//   - sanctioned  : Company → SanctionedEntity links the
+//                   resolver-driven load_eu_sanctions ETL writes with
+//                   reviewed=false (always, regardless of tier — the
+//                   defamation cost of an auto-approved sanction
+//                   match is too high)
+const MODES = [
+  { id: 'same_as',    label: 'Duplicates',   relType: null },
+  { id: 'represents', label: 'Lobbying',     relType: 'REPRESENTS' },
+  { id: 'sanctioned', label: 'Sanctions',    relType: 'SANCTIONED' },
+]
+const mode = ref('same_as')
 
 const state = ref('loading')
 const candidates = ref([])
@@ -27,19 +44,75 @@ onMounted(async () => {
   await loadCandidates()
 })
 
+watch(mode, async () => {
+  await loadCandidates()
+})
+
 async function loadCandidates() {
   state.value = 'loading'
+  message.value = ''
   try {
-    // Real endpoint on the consolidator (reverse-proxied through nginx).
-    // The earlier /api/entity-resolution/* route never existed.
-    const res = await fetch('/api/consolidator/candidates?reviewed=false&limit=100')
+    let res
+    if (mode.value === 'same_as') {
+      res = await fetch('/api/consolidator/candidates?reviewed=false&limit=100')
+    } else {
+      const cfg = MODES.find((m) => m.id === mode.value)
+      res = await fetch(
+        `/api/consolidator/relationships?rel_type=${cfg.relType}&reviewed=false&limit=100`,
+      )
+    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    candidates.value = await res.json()
+    candidates.value = (await res.json()).map(_normalise)
     state.value = candidates.value.length > 0 ? 'done' : 'empty'
     selected.value = candidates.value[0] || null
   } catch (e) {
     state.value = 'error'
     message.value = `Error: ${e.message}`
+  }
+}
+
+// Normalise both /candidates and /relationships rows into the same
+// shape the template renders. The two endpoints diverge meaningfully
+// on key naming, but the *display* concept (Source ↔ Target plus
+// edge metadata) is identical.
+function _normalise(row) {
+  if (mode.value === 'same_as') {
+    // /candidates row
+    return {
+      _mode: 'same_as',
+      key: `${row.from_id}::${row.to_id}`,
+      from_id: row.from_id,
+      to_id: row.to_id,
+      entity_type: row.entity_type,
+      source_entity: row.source_entity,
+      target_entity: row.target_entity,
+      detections: row.detections || [
+        { rule_name: row.rule_name, confidence: row.confidence,
+          detected_at: row.detected_at },
+      ],
+      confidence: row.confidence,
+      conflict: row.conflict,
+    }
+  }
+  // /relationships row
+  return {
+    _mode: mode.value,
+    key: row.edge_id,
+    edge_id: row.edge_id,
+    rel_type: row.rel_type,
+    from_id: row.source.id,
+    to_id: row.target.id,
+    entity_type: row.source.labels[0],
+    source_entity: { ...row.source.props, _label: row.source.labels[0] },
+    target_entity: { ...row.target.props, _label: row.target.labels[0] },
+    detections: [
+      { rule_name: row.method || row.tier || 'resolver',
+        confidence: row.confidence,
+        detected_at: row.detected_at },
+    ],
+    confidence: row.confidence,
+    tier: row.tier,
+    conflict: false,
   }
 }
 
@@ -49,21 +122,10 @@ async function decide(decision, fromId, toId) {
   message.value = ''
   persistReviewer()
   try {
-    const url = `/api/consolidator/candidates/${encodeURIComponent(fromId)}/${encodeURIComponent(toId)}/decide`
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ decision, reviewer: effectiveReviewer.value }),
-    })
-    if (!res.ok) {
-      const err = await res.text()
-      throw new Error(`HTTP ${res.status}: ${err.slice(0, 120)}`)
-    }
-    const body = await res.json()
+    const body = await _postDecision(decision, fromId, toId)
     message.value = decisionMessage(body.outcome, fromId, toId)
-    // Drop the resolved pair from the queue and pick the next one.
     candidates.value = candidates.value.filter(
-      (c) => !(c.from_id === selected.value.from_id && c.to_id === selected.value.to_id)
+      (c) => c.key !== selected.value.key,
     )
     selected.value = candidates.value[0] || null
     if (candidates.value.length === 0) state.value = 'empty'
@@ -74,9 +136,32 @@ async function decide(decision, fromId, toId) {
   }
 }
 
+async function _postDecision(decision, fromId, toId) {
+  let url
+  let payload
+  if (selected.value._mode === 'same_as') {
+    url = `/api/consolidator/candidates/${encodeURIComponent(fromId)}/${encodeURIComponent(toId)}/decide`
+    payload = { decision, reviewer: effectiveReviewer.value }
+  } else {
+    // Relationship-review endpoint: edge_id keyed, accept/reject only.
+    url = `/api/consolidator/relationships/${encodeURIComponent(selected.value.edge_id)}/decide`
+    payload = { decision, reviewer: effectiveReviewer.value }
+  }
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`HTTP ${res.status}: ${err.slice(0, 120)}`)
+  }
+  return res.json()
+}
+
 function decisionMessage(outcome, fromId, toId) {
-  const f = fromId.slice(0, 8)
-  const t = toId.slice(0, 8)
+  const f = (fromId || '').slice(0, 8)
+  const t = (toId || '').slice(0, 8)
   switch (outcome) {
     case 'manual_merge':
       return `Merged ${t}… into ${f}…`
@@ -84,6 +169,10 @@ function decisionMessage(outcome, fromId, toId) {
       return `Rejected — ${f}… and ${t}… are different entities`
     case 'manual_keep_related':
       return `Kept as related — ${f}… and ${t}… are distinct but linked`
+    case 'manual_accept_relationship':
+      return `Accepted — ${f}… → ${t}… relationship confirmed`
+    case 'manual_reject_relationship':
+      return `Rejected — ${f}… → ${t}… relationship removed`
     default:
       return outcome
   }
@@ -143,7 +232,7 @@ function formatValue(v) {
         <router-link to="/admin" class="er-back">&larr; Admin</router-link>
         <h1>Entity Resolution</h1>
         <p class="er-subtitle">
-          Review and decide on flagged duplicate pairs
+          Review and decide on flagged candidates
           <span class="er-reviewer-line">
             &middot; reviewer: <input
               v-model="reviewerName"
@@ -156,6 +245,20 @@ function formatValue(v) {
       </div>
       <ThemeToggle />
     </header>
+
+    <!-- Mode tabs: switch between SAME_AS / REPRESENTS / SANCTIONED queues -->
+    <nav class="er-tabs" role="tablist">
+      <button
+        v-for="m in MODES"
+        :key="m.id"
+        :class="['er-tab', { 'er-tab--active': mode === m.id }]"
+        :aria-selected="mode === m.id"
+        role="tab"
+        @click="mode = m.id"
+      >
+        {{ m.label }}
+      </button>
+    </nav>
 
     <div v-if="state === 'loading'" class="er-msg">Loading candidates...</div>
     <div v-else-if="state === 'error'" class="er-msg">
@@ -173,7 +276,7 @@ function formatValue(v) {
         <h2>Pending ({{ candidates.length }})</h2>
         <div
           v-for="c in candidates"
-          :key="c.from_id + c.to_id"
+          :key="c.key"
           class="er-list__item"
           :class="{ 'er-list__item--active': selected === c }"
           @click="selected = c"
@@ -239,8 +342,10 @@ function formatValue(v) {
           </div>
         </div>
 
-        <!-- Decision actions -->
-        <div class="er-actions">
+        <!-- Decision actions — vocabulary depends on the queue. SAME_AS
+             pairs go merge/keep-as-related/reject; relationship claims
+             go accept/reject. -->
+        <div v-if="selected._mode === 'same_as'" class="er-actions">
           <button
             class="er-btn er-btn--merge"
             :disabled="resolving"
@@ -271,6 +376,29 @@ function formatValue(v) {
           </button>
           <span v-if="message" class="er-message">{{ message }}</span>
         </div>
+        <div v-else class="er-actions">
+          <button
+            class="er-btn er-btn--merge"
+            :disabled="resolving"
+            @click="decide('accept', selected.from_id, selected.to_id)"
+          >
+            <template v-if="selected._mode === 'represents'">
+              Accept — Lobbyist represents Company
+            </template>
+            <template v-else-if="selected._mode === 'sanctioned'">
+              Accept — Company is sanctioned
+            </template>
+            <template v-else>Accept relationship</template>
+          </button>
+          <button
+            class="er-btn er-btn--reject"
+            :disabled="resolving"
+            @click="decide('reject', selected.from_id, selected.to_id)"
+          >
+            Reject — relationship is wrong
+          </button>
+          <span v-if="message" class="er-message">{{ message }}</span>
+        </div>
       </main>
     </div>
   </div>
@@ -285,6 +413,31 @@ function formatValue(v) {
 .er-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
 .er-reviewer-line { font-size: 0.8rem; }
 .er-reviewer-input { font-size: 0.8rem; border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.3rem; background: var(--bg); color: var(--text); width: 9rem; }
+.er-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.er-tab {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.er-tab:hover { border-color: var(--accent); }
+.er-tab--active {
+  border-color: var(--border);
+  border-bottom: 1px solid var(--bg);
+  background: var(--bg);
+  color: var(--accent);
+}
 .er-msg { text-align: center; padding: 4rem 1rem; color: var(--muted); }
 .er-note { font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7; }
 
