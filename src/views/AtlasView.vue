@@ -17,7 +17,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { fetchDatasets, fetchSeries } from '../api/stats.js'
+import { fetchDatasets, fetchSeries } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 
 const route = useRoute()

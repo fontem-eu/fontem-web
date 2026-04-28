@@ -2,9 +2,9 @@
  * Tests for AtlasView — the Eurostat dataset explorer.
  *
  * Covers:
- * - Empty state when /stats/datasets returns []
+ * - Empty state when /atlas/datasets returns []
  * - Dataset selector renders grouped by theme
- * - Picking a dataset triggers /stats/series with nuts_level
+ * - Picking a dataset triggers /atlas/series with nuts_level
  * - NUTS level picker is constrained to the dataset's allowed levels
  * - Year slider is built from the data, defaults to most recent year
  * - Slice picker appears only when there are multiple dim combinations
@@ -87,10 +87,10 @@ const originalFetch = globalThis.fetch
 
 function makeFetch({ datasets = DATASETS, series = SERIES_GDP } = {}) {
   return vi.fn().mockImplementation((url) => {
-    if (url.includes('/stats/datasets')) {
+    if (url.includes('/atlas/datasets')) {
       return Promise.resolve({ ok: true, json: async () => datasets })
     }
-    if (url.includes('/stats/series')) {
+    if (url.includes('/atlas/series')) {
       return Promise.resolve({ ok: true, json: async () => series })
     }
     if (url.includes('/geo/nuts-boundaries')) {
@@ -123,7 +123,7 @@ async function mountAtlas(initialPath = '/atlas') {
 }
 
 describe('AtlasView — empty state', () => {
-  it('shows the empty banner when /stats/datasets returns []', async () => {
+  it('shows the empty banner when /atlas/datasets returns []', async () => {
     globalThis.fetch = makeFetch({ datasets: [] })
     const w = await mountAtlas()
     await flushPromises()
@@ -131,7 +131,7 @@ describe('AtlasView — empty state', () => {
     w.unmount()
   })
 
-  it('shows an error banner when /stats/datasets fails', async () => {
+  it('shows an error banner when /atlas/datasets fails', async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false, status: 503, text: async () => 'stats unavailable',
     })
@@ -167,13 +167,13 @@ describe('AtlasView — dataset picker', () => {
 })
 
 describe('AtlasView — series fetching', () => {
-  it('fetches /stats/series with nuts_level once a dataset is picked', async () => {
+  it('fetches /atlas/series with nuts_level once a dataset is picked', async () => {
     const w = await mountAtlas()
     await flushPromises()
     await w.find('[data-testid="atlas-dataset"]').setValue('nama_10r_2gdp')
     await flushPromises()
     const calls = globalThis.fetch.mock.calls.map((c) => c[0])
-    const seriesCall = calls.find((u) => u.includes('/stats/series'))
+    const seriesCall = calls.find((u) => u.includes('/atlas/series'))
     expect(seriesCall).toBeTruthy()
     expect(seriesCall).toContain('dataset=nama_10r_2gdp')
     expect(seriesCall).toContain('nuts_level=2')
