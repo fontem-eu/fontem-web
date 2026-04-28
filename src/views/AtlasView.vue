@@ -13,7 +13,7 @@
  * user pick. The default is the combo with the most rows — usually the
  * "headline" slice (sex=T, age=TOTAL, etc.).
  */
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -272,10 +272,20 @@ watch(selectedDataset, (d) => {
 })
 
 // ── Lifecycle ────────────────────────────────────────────────────────
-onMounted(async () => {
-  document.title = 'Atlas — Map European statistics on Fontem'
-  _readUrl()
-
+//
+// Order matters: fetch datasets first → set datasetsLoading=false →
+// nextTick → only THEN create the MapLibre instance. The map's
+// container `<div ref="container">` lives inside `v-else` (after the
+// loading/error/empty branches), so it doesn't exist in the DOM during
+// the initial loading state. Mounting the map before that resolves
+// throws "Invalid type: 'container' must be a String or HTMLElement"
+// synchronously, aborts onMounted, leaves datasetsLoading=true forever,
+// and the view sits permanently on the loading spinner. Confirmed in
+// prod browser-trace; the unit test missed it because vi.mock for
+// maplibre returns a fake instance regardless of args (see the
+// container-presence assertion in AtlasView.test.js).
+function _createMap() {
+  if (!container.value || map) return
   map = new maplibregl.Map({
     container: container.value,
     style: {
@@ -294,6 +304,11 @@ onMounted(async () => {
     zoom: 3,
   })
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
+}
+
+onMounted(async () => {
+  document.title = 'Atlas — Map European statistics on Fontem'
+  _readUrl()
 
   try {
     datasets.value = await fetchDatasets()
@@ -303,8 +318,26 @@ onMounted(async () => {
     datasetsLoading.value = false
   }
 
+  // Wait for Vue to render the body (which contains the map container)
+  // before instantiating MapLibre. nextTick is enough — Vue flushes
+  // pending DOM updates synchronously after a microtask.
+  await nextTick()
+  _createMap()
+
   if (selected.value) {
     _refreshSeries()
+  }
+})
+
+// If the body wasn't rendered on initial mount (empty / error state)
+// and then becomes available later — e.g. `register-seed` runs and
+// the catalog populates between page-load and a manual refresh of the
+// fetch — instantiate the map then. Cheap watcher; one-shot.
+watch(datasets, async (next) => {
+  if (next.length > 0 && !map) {
+    await nextTick()
+    _createMap()
+    if (selected.value) _refreshSeries()
   }
 })
 

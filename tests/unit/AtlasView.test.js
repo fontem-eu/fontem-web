@@ -30,9 +30,22 @@ const { mapInstance } = vi.hoisted(() => ({
   },
 }))
 
+// MapLibre rejects a null/undefined container synchronously in real
+// usage with "Invalid type: 'container' must be a String or HTMLElement",
+// which (because we call `new Map(...)` inside `onMounted`) aborts the
+// whole hook and leaves the view stuck on its loading state. Mirror
+// that behaviour here so the regression that hit prod can't sneak past
+// vitest again — any future ordering mistake fails this test loudly.
 vi.mock('maplibre-gl', () => ({
   default: {
-    Map: vi.fn(() => mapInstance),
+    Map: vi.fn((opts) => {
+      if (!opts || !opts.container) {
+        throw new Error(
+          "Invalid type: 'container' must be a String or HTMLElement",
+        )
+      }
+      return mapInstance
+    }),
     NavigationControl: vi.fn(),
   },
 }))
@@ -249,5 +262,48 @@ describe('AtlasView — map cleanup', () => {
     await flushPromises()
     w.unmount()
     expect(mapInstance.remove).toHaveBeenCalled()
+  })
+})
+
+describe('AtlasView — mount order (regression for stuck-loading bug)', () => {
+  it('does not instantiate the map before the body has rendered', async () => {
+    const { Map } = (await import('maplibre-gl')).default
+    const w = await mountAtlas()
+    // At this exact moment fetchDatasets is in-flight; the body
+    // (with the map container div) is NOT in the DOM yet.
+    expect(Map).not.toHaveBeenCalled()
+    await flushPromises()
+    // After datasets resolve and the body renders, the map mounts.
+    expect(Map).toHaveBeenCalledTimes(1)
+    // Container must be a real element — the mock asserts this too,
+    // but we double-check the explicit value here so failures are
+    // self-explanatory in the test output.
+    const container = Map.mock.calls[0][0].container
+    expect(container).toBeTruthy()
+    expect(container.tagName).toBe('DIV')
+    w.unmount()
+  })
+
+  it('still resolves loading state when the API succeeds', async () => {
+    // Direct repro of the stuck-loading bug: if the map setup throws,
+    // the old onMounted aborted before flipping datasetsLoading=false,
+    // leaving the loading spinner on screen forever.
+    const w = await mountAtlas()
+    expect(w.find('[data-testid="atlas-loading"]').exists()).toBe(true)
+    await flushPromises()
+    expect(w.find('[data-testid="atlas-loading"]').exists()).toBe(false)
+    expect(w.find('[data-testid="atlas-dataset"]').exists()).toBe(true)
+    w.unmount()
+  })
+
+  it('does not instantiate the map when datasets is empty', async () => {
+    const { Map } = (await import('maplibre-gl')).default
+    globalThis.fetch = makeFetch({ datasets: [] })
+    const w = await mountAtlas()
+    await flushPromises()
+    // Empty state shows the "register-seed" hint — no body, no map.
+    expect(w.find('[data-testid="atlas-empty"]').exists()).toBe(true)
+    expect(Map).not.toHaveBeenCalled()
+    w.unmount()
   })
 })
