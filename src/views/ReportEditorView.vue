@@ -114,6 +114,45 @@ function onAssistInsert(text) {
   }
 }
 
+/**
+ * Handle a successfully-applied AI proposal.
+ *
+ * Why this is its own handler (instead of the old @refresh→loadReport):
+ * loadReport destroys the editor and rebuilds it from the server's
+ * copy of the report. For a content edit, the server hasn't seen
+ * the new content yet — so the rebuild *erased the edit the user just
+ * applied*. That manifested as "I clicked Apply and nothing happened".
+ *
+ * Now:
+ *   - 'content'  → the editor already has the change; persist it.
+ *   - 'metadata' → updateReport() already ran in executeProposal;
+ *                  just mirror the params into local refs so the
+ *                  header reflects the new title/abstract immediately.
+ */
+async function onProposalApplied({ action, category, params }) {
+  if (category === 'metadata') {
+    if (action === 'update_title' && params?.title !== undefined) {
+      title.value = params.title
+    } else if (action === 'update_abstract' && params?.abstract !== undefined) {
+      abstract.value = params.abstract
+    }
+    return
+  }
+  if (category === 'content' && editor) {
+    saving.value = true
+    try {
+      await saveDocument(reportId, editor.getJSON())
+    } catch (err) {
+      // Don't unwind the editor change — the user can hit Save manually
+      // to retry. Surface the error so they see why the persistence
+      // didn't happen.
+      error.value = `Apply succeeded locally but save failed: ${err.message}`
+    } finally {
+      saving.value = false
+    }
+  }
+}
+
 const reportContext = computed(() => {
   if (!editor) return ''
   const text = editor.getText()
@@ -200,7 +239,7 @@ async function save() {
           :report-id="reportId"
           :editor-state="{ editor, title: title, abstract: abstract }"
           @insert="onAssistInsert"
-          @refresh="loadReport"
+          @applied="onProposalApplied"
         />
         <button class="save-btn" :disabled="saving" data-testid="save-report" @click="save">
           {{ saving ? 'Saving...' : 'Save' }}
