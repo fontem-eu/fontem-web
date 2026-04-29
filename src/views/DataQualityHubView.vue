@@ -7,6 +7,8 @@ onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
 const loading = ref(true)
 const stats = ref(null)
 const error = ref(null)
+const freshness = ref(null)
+const freshnessError = ref(null)
 
 const pipelines = [
   { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true },
@@ -37,7 +39,34 @@ async function loadOverview() {
   }
 }
 
+async function loadFreshness() {
+  try {
+    const resp = await fetch('/api/data-quality/source-freshness')
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+    const data = await resp.json()
+    freshness.value = data.sources || []
+  } catch (e) {
+    freshnessError.value = e.message
+  }
+}
+
 onMounted(loadOverview)
+onMounted(loadFreshness)
+
+function formatAge(hours) {
+  if (hours == null) return '—'
+  if (hours < 48) return `${hours.toFixed(1)}h ago`
+  if (hours < 24 * 60) return `${Math.round(hours / 24)}d ago`
+  return `${Math.round(hours / (24 * 7))}w ago`
+}
+
+function formatCoverage(src) {
+  const start = src.coverage_start
+  const end = src.coverage_end
+  if (start && end) return `${start} → ${end}`
+  if (end) return `through ${end}`
+  return '—'
+}
 
 function fmt(n) {
   if (n === '—' || n == null) return '—'
@@ -90,6 +119,46 @@ function pipelineStat(id) {
         </div>
       </div>
 
+      <!-- Source freshness panel -->
+      <section v-if="freshness && freshness.length" class="dqh-freshness" data-test="source-freshness">
+        <h2>Source freshness</h2>
+        <p class="dqh-freshness-sub">Per-source coverage and age — sources flagged STALE haven't loaded within their expected cadence.</p>
+        <table class="dqh-freshness-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Coverage</th>
+              <th class="num">Rows</th>
+              <th>Loaded</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="src in freshness"
+              :key="src.id"
+              :class="{ 'dqh-row-stale': src.stale }"
+              :data-source-id="src.id"
+            >
+              <td>
+                <strong>{{ src.label || src.id }}</strong>
+                <span class="dqh-freshness-id">{{ src.id }}</span>
+              </td>
+              <td>{{ formatCoverage(src) }}</td>
+              <td class="num">{{ fmt(src.record_count) }}</td>
+              <td>{{ formatAge(src.age_hours) }}</td>
+              <td>
+                <span v-if="src.stale" class="dqh-pill dqh-pill-stale">STALE</span>
+                <span v-else class="dqh-pill dqh-pill-fresh">fresh</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <div v-else-if="freshnessError" class="dqh-freshness-error">
+        Source freshness unavailable: {{ freshnessError }}
+      </div>
+
       <!-- Pipeline grid -->
       <div class="dqh-grid">
         <router-link
@@ -134,4 +203,19 @@ function pipelineStat(id) {
 .dqh-card-badge { font-size: 0.7rem; font-weight: 600; background: var(--accent); color: #fff; padding: 0.15rem 0.4rem; border-radius: 4px; }
 .dqh-card p { font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.4; }
 .dqh-card--featured { grid-column: 1 / -1; border-color: var(--accent); border-width: 2px; }
+
+.dqh-freshness { margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.dqh-freshness h2 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 0 0 0.25rem; }
+.dqh-freshness-sub { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.75rem; }
+.dqh-freshness-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.dqh-freshness-table th { text-align: left; padding: 0.4rem 0.5rem; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
+.dqh-freshness-table th.num, .dqh-freshness-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.dqh-freshness-table td { padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.dqh-freshness-table tr:last-child td { border-bottom: none; }
+.dqh-freshness-id { display: block; font-size: 0.7rem; color: var(--muted); }
+.dqh-row-stale td { background: rgba(220, 38, 38, 0.04); }
+.dqh-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; }
+.dqh-pill-fresh { background: rgba(34, 197, 94, 0.12); color: rgb(22, 101, 52); }
+.dqh-pill-stale { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+.dqh-freshness-error { margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }
 </style>
