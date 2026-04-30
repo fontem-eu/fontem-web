@@ -12,6 +12,8 @@ import {
   createMemoryHistory,
 } from 'vue-router'
 
+import { requiresAuth } from './router/authGate.js'
+
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
@@ -122,12 +124,8 @@ const ROUTES = [
   { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
 ]
 
-// Routes that require an authenticated session. The guard is no-op on
-// the server because `localStorage` doesn't exist there — the SPA
-// re-runs the guard on hydration and redirects if needed.
-const AUTH_REQUIRED = [
-  '/my-reports', '/reports', '/issues', '/activity', '/ai-usage', '/admin',
-]
+// Auth-gate predicate lives in src/router/authGate.js so unit tests
+// can exercise it without dragging the full Vue/component graph in.
 
 /**
  * Build a router.  On the server we use an in-memory history so we can
@@ -144,8 +142,7 @@ export function createFontemRouter(ssr = false) {
     // localStorage doesn't exist during SSR — skip the guard on the
     // server and let the client redirect after hydration if needed.
     if (typeof localStorage === 'undefined') return
-    const needsAuth = AUTH_REQUIRED.some((prefix) => to.path.startsWith(prefix))
-    if (needsAuth && !localStorage.getItem('gmr-token')) return '/login'
+    if (requiresAuth(to.path) && !localStorage.getItem('gmr-token')) return '/login'
   })
 
   return router
