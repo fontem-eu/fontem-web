@@ -15,7 +15,12 @@ function conversationKey() {
   return props.reportId ? `report:${props.reportId}` : ''
 }
 
-const emit = defineEmits(['insert', 'refresh'])
+// `applied` carries the executed proposal so the parent can decide
+// what to do next (re-pull metadata vs. persist editor content).
+// `refresh` is kept for legacy callers but is no longer emitted by
+// applyProposal — the old behaviour blew away unsaved local edits
+// because the parent re-fetched the entire report from the server.
+const emit = defineEmits(['insert', 'refresh', 'applied'])
 
 const open = ref(false)
 const input = ref('')
@@ -259,7 +264,14 @@ async function applyProposal(proposal, msgIndex) {
       const idx = msg.proposals.indexOf(proposal)
       if (idx >= 0) msg.proposals[idx] = { ...proposal, applied: true }
     }
-    emit('refresh')
+    // Hand the parent enough context to persist the change correctly:
+    // 'content' edits live only in the local editor until the parent
+    // saves; 'metadata' edits already round-tripped through the API.
+    emit('applied', {
+      action: result.action,
+      category: result.category,
+      params: result.params,
+    })
   } else {
     error.value = `Edit failed: ${result.error}`
   }
@@ -289,6 +301,11 @@ function clearChat() {
   error.value = null
   stopElapsedTimer()
 }
+
+// Test-only surface: integration tests need to drive the apply flow
+// without standing up the full SSE stream + jsdom timing. Only the
+// pieces that integration-test scenarios need are exposed.
+defineExpose({ applyProposal, messages })
 </script>
 
 <template>
@@ -317,6 +334,14 @@ function clearChat() {
           <button class="assist-clear" @click="clearChat" title="Clear chat">Clear</button>
           <button class="assist-close" data-testid="assist-close" @click="close" title="Close">&times;</button>
         </div>
+      </div>
+
+      <!-- Inline error banner (apply failures, stream errors). Without
+           this the panel used to set `error.value` and render nothing,
+           so users saw "Apply did nothing" with zero feedback. -->
+      <div v-if="error" class="assist-error-banner" data-testid="assist-error">
+        {{ error }}
+        <button class="assist-error-dismiss" aria-label="Dismiss" @click="error = null">&times;</button>
       </div>
 
       <!-- Messages -->
@@ -712,6 +737,26 @@ function clearChat() {
   color: #dc2626;
   font-size: 0.75rem;
   padding: 0.3rem 0;
+}
+
+.assist-error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(220, 38, 38, 0.08);
+  border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+.assist-error-dismiss {
+  background: transparent;
+  border: none;
+  color: #b91c1c;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
 }
 
 /* Animated streaming status with detail text */
