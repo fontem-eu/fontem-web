@@ -41,14 +41,6 @@ export async function fetchDatasets() {
 }
 
 /**
- * One dataset's full metadata + observed time range + dim-combo count.
- */
-export async function fetchDatasetDetail(code) {
-  if (!code) throw new Error('fetchDatasetDetail: code is required')
-  return _json(`${BASE}/datasets/${encodeURIComponent(code)}`)
-}
-
-/**
  * Time-series rows for one dataset.
  *
  * Supply either `geo` (one or more NUTS codes) or `nutsLevel` (0..3
@@ -73,30 +65,4 @@ export async function fetchSeries({
     params.set('dimensions', JSON.stringify(dimensions))
   }
   return _json(`${BASE}/series?${params.toString()}`)
-}
-
-/**
- * Choropleth-shaped query: one value per geo for (dataset, year,
- * nutsLevel). The response also lists every other dim combination
- * present at that slice so the UI can offer a slice picker without
- * a second round-trip.
- *
- * If `dimensions` is omitted and the dataset has multiple combos at
- * that (year, level), `cells` comes back empty and the caller should
- * read `available_dim_combos` and pick one.
- */
-export async function fetchSnapshot({
-  dataset, year, nutsLevel, dimensions,
-} = {}) {
-  if (!dataset) throw new Error('fetchSnapshot: dataset is required')
-  if (year == null) throw new Error('fetchSnapshot: year is required')
-  if (nutsLevel == null) throw new Error('fetchSnapshot: nutsLevel is required')
-  const params = new URLSearchParams()
-  params.set('dataset', dataset)
-  params.set('year', String(year))
-  params.set('nuts_level', String(nutsLevel))
-  if (dimensions && Object.keys(dimensions).length > 0) {
-    params.set('dimensions', JSON.stringify(dimensions))
-  }
-  return _json(`${BASE}/snapshot?${params.toString()}`)
 }
