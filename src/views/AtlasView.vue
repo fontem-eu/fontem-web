@@ -67,18 +67,22 @@ const allowedLevels = computed(() => {
   return [...d.nuts_levels].sort()
 })
 
-// All dim combos seen in the data, ranked by row count.
+// All dim combos seen in the data, ranked by row count. Each option's
+// label resolves codes against the dataset's `dim_labels` so the picker
+// shows "Intentional homicide × Number" instead of "iccs=ICCS0101,
+// unit=NR".
 const sliceOptions = computed(() => {
   const counts = new Map()
   for (const o of observations.value) {
     const k = JSON.stringify(o.dimensions || {})
     counts.set(k, (counts.get(k) || 0) + 1)
   }
+  const labels = selectedDataset.value?.dim_labels || {}
   return [...counts.entries()]
     .sort((a, b) => b[1] - a[1])
     .map(([key, count]) => ({
       key,
-      label: _formatSlice(key),
+      label: _formatSlice(key, labels),
       count,
     }))
 })
@@ -124,12 +128,22 @@ function _readUrl() {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────
-function _formatSlice(jsonKey) {
+function _formatSlice(jsonKey, dimLabels = {}) {
   try {
     const obj = JSON.parse(jsonKey)
     const keys = Object.keys(obj)
     if (keys.length === 0) return 'All data'
-    return keys.map((k) => `${k}=${obj[k]}`).join(', ')
+    return keys
+      .map((k) => {
+        const code = obj[k]
+        // Eurostat ships category labels as code → label maps per dim.
+        // Fall back to the raw code when a label isn't available
+        // (catalog hasn't been re-synced since the migration, or the
+        // dim is something Eurostat doesn't label).
+        const label = dimLabels?.[k]?.[code] || code
+        return label
+      })
+      .join(' × ')
   } catch {
     return jsonKey
   }
