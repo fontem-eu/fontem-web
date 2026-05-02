@@ -20,6 +20,13 @@ export const WidgetNode = Node.create({
       entityId: { default: null },
       schema_version: { default: 1 },
       depth: { default: undefined },
+      // Atlas widget attrs — chosen as flat fields rather than a nested
+      // `config` so the existing TipTap JSON serialisation round-trips
+      // them without changes elsewhere in the editor pipeline.
+      dataset: { default: undefined },
+      nuts_level: { default: undefined },
+      year: { default: undefined },
+      dimensions: { default: undefined },
     }
   },
 

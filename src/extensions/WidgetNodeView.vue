@@ -13,12 +13,22 @@ const props = defineProps({
   deleteNode: { type: Function, required: true },
 })
 
-const config = computed(() => ({
-  widget_type: props.node.attrs.widget_type,
-  entityId: props.node.attrs.entityId,
-  schema_version: props.node.attrs.schema_version,
-  ...(props.node.attrs.depth ? { depth: props.node.attrs.depth } : {}),
-}))
+const config = computed(() => {
+  const a = props.node.attrs
+  const out = {
+    widget_type: a.widget_type,
+    schema_version: a.schema_version,
+  }
+  // Only include attrs that were actually set, so widget components
+  // see clean configs rather than null-padded ones.
+  if (a.entityId)   out.entityId = a.entityId
+  if (a.depth)      out.depth = a.depth
+  if (a.dataset)    out.dataset = a.dataset
+  if (a.nuts_level !== undefined && a.nuts_level !== null) out.nuts_level = a.nuts_level
+  if (a.year !== undefined && a.year !== null) out.year = a.year
+  if (a.dimensions) out.dimensions = a.dimensions
+  return out
+})
 </script>
 
 <template>

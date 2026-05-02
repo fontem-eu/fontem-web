@@ -5,6 +5,7 @@ const registry = {
   contracts_table: () => import('./ContractsTableEmbed.vue'),
   entity_profile: () => import('./EntityProfileEmbed.vue'),
   entity_nuts_map: () => import('./EntityNutsMapEmbed.vue'),
+  atlas_map: () => import('./AtlasMapEmbed.vue'),
 }
 
 export function resolveWidget(type) {

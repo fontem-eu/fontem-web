@@ -19,6 +19,7 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchDatasets, fetchSeries } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
+import PocketButton from '../components/PocketButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,6 +59,27 @@ const groupedDatasets = computed(() => {
 const selectedDataset = computed(
   () => datasets.value.find((d) => d.code === selected.value) || null,
 )
+
+// Snapshot of the current view, ready to drop into a report or save
+// to the pocket. Mirrors the AtlasMapEmbed widget config shape.
+const pocketConfig = computed(() => {
+  let dimensions
+  if (sliceKey.value) {
+    try { dimensions = JSON.parse(sliceKey.value) } catch { dimensions = undefined }
+  }
+  return {
+    dataset: selected.value,
+    nuts_level: level.value,
+    year: year.value ?? undefined,
+    ...(dimensions && Object.keys(dimensions).length > 0 ? { dimensions } : {}),
+  }
+})
+const pocketName = computed(() => {
+  const d = selectedDataset.value
+  if (!d) return 'Atlas Map'
+  const yr = year.value != null ? ` (${year.value})` : ''
+  return `Atlas — ${d.label}${yr}`
+})
 
 const allowedLevels = computed(() => {
   const d = selectedDataset.value
@@ -472,6 +494,11 @@ onBeforeUnmount(() => {
               <strong>Notes</strong> {{ selectedDataset.notes }}
             </li>
           </ul>
+          <PocketButton
+            widget-type="atlas_map"
+            :config="pocketConfig"
+            :default-name="pocketName"
+          />
         </div>
       </aside>
 
