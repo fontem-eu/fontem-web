@@ -2,3 +2,7 @@ version: "vbf141f7"
 domain: localhost
 serviceType: ClusterIP
 replicas: 1
+
+# Default empty — environments without a value send no analytics
+# (useAnalytics() no-ops on falsy ID). Only prod overrides this.
+umamiWebsiteId: ""

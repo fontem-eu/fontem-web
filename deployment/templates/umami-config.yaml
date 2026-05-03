@@ -1,6 +1,6 @@
 ---
 # Runtime analytics configuration for Umami.
-# Website ID is for the "GMR Web" site at analytics.void42.internal.
+# Per-env website ID; empty in non-prod so useAnalytics() no-ops.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,4 +8,4 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   umami-config.js: |
-    window.UMAMI_WEBSITE_ID = "8d3c985e-6b8d-465b-9b1f-5a8115bccb06";
+    window.UMAMI_WEBSITE_ID = "{{ .Values.umamiWebsiteId }}";
