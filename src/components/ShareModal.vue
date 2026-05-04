@@ -99,7 +99,7 @@ function onBackdrop(e) {
     <div v-if="visible" class="share-backdrop" data-testid="share-modal-backdrop" @click="onBackdrop">
       <div class="share-modal" data-testid="share-modal">
         <div class="share-header">
-          <h2>Share Report</h2>
+          <h2>Share Story</h2>
           <button class="share-close" data-testid="share-close" @click="close">&times;</button>
         </div>
 

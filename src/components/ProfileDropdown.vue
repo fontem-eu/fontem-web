@@ -85,7 +85,7 @@ const deleteAccountStatus = ref(null)
 async function onDeleteAccountClick() {
   if (!window.confirm(
     'Permanently delete your account and ALL associated data?\n\n' +
-    'This includes your reports, comments, AI conversations, and profile. ' +
+    'This includes your data stories, comments, AI conversations, and profile. ' +
     'This action cannot be undone.'
   )) return
   deletingAccount.value = true

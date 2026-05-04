@@ -23,12 +23,12 @@ const TITLES = {
 
 const DESCRIPTIONS = {
   '/': 'Fontem is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
-  '/feed': 'Public reports from the Fontem community — investigations, cross-checks, and data stories grounded in primary sources.',
+  '/feed': 'Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.',
   '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
   '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
   '/atlas': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
-  '/login': 'Sign in to Fontem to publish reports, raise issues, and save your research.',
+  '/login': 'Sign in to Fontem to publish data stories, raise issues, and save your research.',
   '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
 }
 

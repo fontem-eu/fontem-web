@@ -348,7 +348,7 @@ defineExpose({ applyProposal, messages })
       <div ref="messagesEl" class="assist-messages" data-testid="assist-messages">
         <div v-if="!messages.length && !loading" class="assist-empty">
           Ask me about the data — I can search entities, find connections,
-          and suggest visualizations for your report.
+          and suggest visualizations for your data story.
         </div>
         <div
           v-for="(msg, i) in messages"
@@ -362,7 +362,7 @@ defineExpose({ applyProposal, messages })
             <div class="msg-text msg-markdown" v-html="renderMarkdown(msg.text)"></div>
             <div class="msg-actions">
               <button class="msg-action" @click="insertText(msg.text)">
-                Insert into report
+                Insert into story
               </button>
             </div>
             <!-- Edit proposals -->
