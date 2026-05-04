@@ -5,7 +5,7 @@ import { listReports, createReport } from '../api/community.js'
 
 const router = useRouter()
 
-const reports = ref([])
+const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
 const creating = ref(false)
@@ -13,7 +13,7 @@ const creating = ref(false)
 onMounted(async () => {
   try {
     const data = await listReports({ scope: 'mine' })
-    reports.value = data.reports || data || []
+    stories.value = data.stories || data.reports || data || []
   } catch (err) {
     error.value = err.message
   } finally {
@@ -21,13 +21,13 @@ onMounted(async () => {
   }
 })
 
-async function startNewReport() {
+async function startNewStory() {
   creating.value = true
   error.value = null
   try {
-    const report = await createReport('Untitled Analysis', '')
-    if (report?.id) {
-      router.push(`/reports/${report.id}/edit`)
+    const story = await createReport('Untitled Analysis', '')
+    if (story?.id) {
+      router.push(`/stories/${story.id}/edit`)
     }
   } catch (err) {
     error.value = err.message
@@ -56,59 +56,59 @@ function truncate(text, maxLen = 140) {
 </script>
 
 <template>
-  <div class="report-list" data-testid="my-reports">
+  <div class="report-list" data-testid="my-stories">
     <div class="list-header">
-      <h1 class="list-title">My Reports</h1>
+      <h1 class="list-title">My Stories</h1>
       <button
         class="new-report-btn"
         :disabled="creating"
-        data-testid="new-report-btn"
-        @click="startNewReport"
+        data-testid="new-story-btn"
+        @click="startNewStory"
       >
-        {{ creating ? 'Creating...' : 'Start a new analysis' }}
+        {{ creating ? 'Creating...' : 'Start a new story' }}
       </button>
     </div>
 
-    <div v-if="error" class="error-bar" data-testid="my-reports-error">{{ error }}</div>
+    <div v-if="error" class="error-bar" data-testid="my-stories-error">{{ error }}</div>
 
-    <div v-if="loading" class="loading-msg">Loading reports...</div>
+    <div v-if="loading" class="loading-msg">Loading stories...</div>
 
     <div
-      v-else-if="reports.length === 0"
+      v-else-if="stories.length === 0"
       class="empty-msg"
-      data-testid="my-reports-empty"
+      data-testid="my-stories-empty"
     >
-      <p class="empty-msg-text">No reports yet. Start your first analysis above.</p>
+      <p class="empty-msg-text">No stories yet. Start your first one above.</p>
       <router-link
         to="/feed"
         class="empty-cta-btn"
-        data-testid="my-reports-empty-cta"
+        data-testid="my-stories-empty-cta"
       >
-        Or read recent public reports →
+        Or read recent public stories →
       </router-link>
     </div>
 
     <div v-else class="report-cards">
       <div
-        v-for="r in reports"
-        :key="r.id"
+        v-for="s in stories"
+        :key="s.id"
         class="report-card"
-        :data-testid="`report-card-${r.id}`"
-        @click="router.push(`/reports/${r.id}`)"
+        :data-testid="`story-card-${s.id}`"
+        @click="router.push(`/stories/${s.id}`)"
       >
         <div class="card-top">
-          <h2 class="card-title">{{ r.title }}</h2>
+          <h2 class="card-title">{{ s.title }}</h2>
           <span
             class="visibility-badge"
-            :class="`badge-${r.visibility || 'private'}`"
+            :class="`badge-${s.visibility || 'private'}`"
           >
-            {{ r.visibility || 'private' }}
+            {{ s.visibility || 'private' }}
           </span>
         </div>
-        <p v-if="r.abstract" class="card-abstract">{{ truncate(r.abstract) }}</p>
+        <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>
         <div class="card-meta">
-          <span v-if="r.author">{{ r.author.name || r.author }}</span>
-          <span v-if="r.updated_at">&middot; {{ formatDate(r.updated_at) }}</span>
+          <span v-if="s.author">{{ s.author.name || s.author }}</span>
+          <span v-if="s.updated_at">&middot; {{ formatDate(s.updated_at) }}</span>
         </div>
       </div>
     </div>

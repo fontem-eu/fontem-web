@@ -1,5 +1,5 @@
 /**
- * Community API client — calls /capi/ endpoints for collaborative reports,
+ * Community API client — calls /capi/ endpoints for collaborative data stories,
  * issues, moderation, and user management.
  */
 
@@ -39,7 +39,7 @@ async function request(method, path, body, { retries = 0 } = {}) {
 
   // Auto-redirect only when a stale token triggered the 401. Anonymous
   // callers (no token) should surface the error so the calling view can
-  // render the right state (e.g. a 404 page for private reports they
+  // render the right state (e.g. a 404 page for private data stories they
   // tried to open via direct link).
   if (res.status === 401 && sentAuth) {
     localStorage.removeItem('gmr-token')
@@ -64,11 +64,11 @@ async function request(method, path, body, { retries = 0 } = {}) {
 
 // ── Reports ─────────────────────────────────────────────────────
 export function createReport(title, abstract) {
-  return request('POST', '/reports', { title, abstract })
+  return request('POST', '/data-stories', { title, abstract })
 }
 
 export function getReport(id) {
-  return request('GET', `/reports/${encodeURIComponent(id)}`)
+  return request('GET', `/data-stories/${encodeURIComponent(id)}`)
 }
 
 export function listReports({ scope, limit, offset } = {}) {
@@ -77,26 +77,26 @@ export function listReports({ scope, limit, offset } = {}) {
   if (limit !== undefined) params.set('limit', String(limit))
   if (offset !== undefined) params.set('offset', String(offset))
   const qs = params.toString()
-  return request('GET', qs ? `/reports?${qs}` : '/reports')
+  return request('GET', qs ? `/data-stories?${qs}` : '/data-stories')
 }
 
 export function updateReport(id, fields) {
-  return request('PUT', `/reports/${encodeURIComponent(id)}`, fields)
+  return request('PUT', `/data-stories/${encodeURIComponent(id)}`, fields)
 }
 
 export function deleteReport(id) {
-  return request('DELETE', `/reports/${encodeURIComponent(id)}`)
+  return request('DELETE', `/data-stories/${encodeURIComponent(id)}`)
 }
 
 // ── Sections ────────────────────────────────────────────────────
 export function addSection(reportId, content) {
-  return request('POST', `/reports/${encodeURIComponent(reportId)}/sections`, { content })
+  return request('POST', `/data-stories/${encodeURIComponent(reportId)}/sections`, { content })
 }
 
 export function editSection(reportId, sectionId, content) {
   return request(
     'PUT',
-    `/reports/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
+    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
     { content },
   )
 }
@@ -104,44 +104,44 @@ export function editSection(reportId, sectionId, content) {
 export function deleteSection(reportId, sectionId) {
   return request(
     'DELETE',
-    `/reports/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
+    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
   )
 }
 
 export function lockSection(reportId, sectionId) {
   return request(
     'POST',
-    `/reports/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
+    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
   )
 }
 
 export function unlockSection(reportId, sectionId) {
   return request(
     'DELETE',
-    `/reports/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
+    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
   )
 }
 
 export function getVersions(reportId, sectionId) {
   return request(
     'GET',
-    `/reports/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/versions`,
+    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/versions`,
   )
 }
 
 // ── Sharing ─────────────────────────────────────────────────────
 export function getAccess(reportId) {
-  return request('GET', `/reports/${encodeURIComponent(reportId)}/access`)
+  return request('GET', `/data-stories/${encodeURIComponent(reportId)}/access`)
 }
 
 export function grantAccess(reportId, data) {
-  return request('POST', `/reports/${encodeURIComponent(reportId)}/access`, data)
+  return request('POST', `/data-stories/${encodeURIComponent(reportId)}/access`, data)
 }
 
 export function revokeAccess(reportId, accessId) {
   return request(
     'DELETE',
-    `/reports/${encodeURIComponent(reportId)}/access/${encodeURIComponent(accessId)}`,
+    `/data-stories/${encodeURIComponent(reportId)}/access/${encodeURIComponent(accessId)}`,
   )
 }
 
@@ -208,7 +208,7 @@ export function getAssistUsageHistory(days = 30) {
 // ── v2 Document API ────────────────────────────────────────
 
 export function saveDocument(reportId, tiptapJson) {
-  return request('PUT', `/reports/${encodeURIComponent(reportId)}/content`, {
+  return request('PUT', `/data-stories/${encodeURIComponent(reportId)}/content`, {
     tiptap: tiptapJson,
     version: 2,
   })
@@ -217,7 +217,7 @@ export function saveDocument(reportId, tiptapJson) {
 export async function uploadImage(reportId, file) {
   const form = new FormData()
   form.append('file', file)
-  const res = await fetch(`/capi/reports/${encodeURIComponent(reportId)}/upload`, {
+  const res = await fetch(`/capi/data-stories/${encodeURIComponent(reportId)}/upload`, {
     method: 'POST',
     headers: authHeaders(),
     body: form,

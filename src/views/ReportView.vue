@@ -13,6 +13,7 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { WidgetNode } from '../extensions/WidgetNode.js'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
+import ChapterRail from '../components/ChapterRail.vue'
 import { getReport } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
 
@@ -27,12 +28,20 @@ const isV2 = ref(false)
 let readOnlyEditor = null
 const error = ref(null)
 
+// `bodyRef` points at the rendered story body — the ChapterRail uses
+// it to extract h2/h3 chapters and observe scroll position. `bodyVersion`
+// bumps each time we swap content (load → first paint, edit return)
+// so the rail re-extracts.
+const bodyRef = ref(null)
+const bodyVersion = ref(0)
+
 const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
 
 onMounted(async () => {
   try {
     report.value = await getReport(reportId)
-    // v2 reports use a read-only TipTap editor for rendering (supports widget nodes)
+    // v2 stories use a read-only TipTap editor for rendering
+    // (supports widget nodes).
     if (report.value.content_doc?.version === 2) {
       isV2.value = true
       readOnlyEditor = new Editor({
@@ -45,6 +54,10 @@ onMounted(async () => {
         content: report.value.content_doc.tiptap,
       })
     }
+    // Defer one tick so the body element exists in the DOM before
+    // ChapterRail's `onMounted` runs. The rail reads h2/h3 nodes
+    // synchronously; without the bump it would see an empty body.
+    requestAnimationFrame(() => { bodyVersion.value += 1 })
   } catch (err) {
     error.value = err.message
   } finally {
@@ -147,32 +160,32 @@ function parseSectionContent(content) {
 </script>
 
 <template>
-  <div class="report-view" data-testid="report-view">
+  <div class="report-view" data-testid="story-view">
     <!-- Loading -->
-    <div v-if="loading" class="loading-msg">Loading report...</div>
+    <div v-if="loading" class="loading-msg">Loading story...</div>
 
     <!-- Error -->
-    <div v-else-if="error" class="error-msg" data-testid="report-error">{{ error }}</div>
+    <div v-else-if="error" class="error-msg" data-testid="story-error">{{ error }}</div>
 
-    <!-- Report content -->
+    <!-- Story content -->
     <template v-else-if="report">
       <div class="report-header">
-        <router-link to="/reports" class="back-link" data-testid="back-to-reports">
-          &larr; Reports
+        <router-link to="/feed" class="back-link" data-testid="back-to-feed">
+          &larr; Feed
         </router-link>
         <router-link
           v-if="hasToken"
-          :to="`/reports/${reportId}/edit`"
+          :to="`/stories/${reportId}/edit`"
           class="edit-btn"
-          data-testid="edit-report-btn"
+          data-testid="edit-story-btn"
         >
           Edit
         </router-link>
       </div>
 
-      <h1 class="report-title" data-testid="report-title">{{ report.title }}</h1>
+      <h1 class="report-title" data-testid="story-title">{{ report.title }}</h1>
 
-      <div class="report-meta" data-testid="report-meta">
+      <div class="report-meta" data-testid="story-meta">
         <span v-if="report.author">{{ report.author.name || report.author }}</span>
         <span v-if="report.created_at">&middot; {{ formatDate(report.created_at) }}</span>
         <span
@@ -183,27 +196,35 @@ function parseSectionContent(content) {
         </span>
       </div>
 
-      <p v-if="report.abstract" class="report-abstract" data-testid="report-abstract">
+      <p v-if="report.abstract" class="report-abstract" data-testid="story-abstract">
         {{ report.abstract }}
       </p>
 
-      <!-- v2: TipTap JSON rendered via read-only editor (supports widget nodes) -->
-      <div v-if="isV2" class="report-body" data-testid="report-section-0">
-        <EditorContent v-if="readOnlyEditor" :editor="readOnlyEditor" class="report-tiptap" />
-      </div>
+      <!-- Two-column layout: chapter rail + story body. Rail
+           hides under 1024px (see ChapterRail.vue). -->
+      <div class="story-layout">
+        <div ref="bodyRef" class="story-body-col" data-testid="story-body">
+          <!-- v2: TipTap JSON rendered via read-only editor (supports widget nodes) -->
+          <div v-if="isV2" class="report-body" data-testid="report-section-0">
+            <EditorContent v-if="readOnlyEditor" :editor="readOnlyEditor" class="report-tiptap" />
+          </div>
 
-      <!-- v1: Legacy section-based rendering -->
-      <div
-        v-for="(sec, idx) in (report.sections || [])"
-        v-else
-        :key="sec.id || idx"
-        class="report-section"
-        :data-testid="`report-section-${idx}`"
-      >
-        <template v-for="(part, pi) in parseSectionContent(sec.content)" :key="pi">
-          <div v-if="part.type === 'html'" class="section-html" v-html="sanitizeHtml(part.content)" />
-          <WidgetRenderer v-else-if="part.type === 'widget'" :config="part.config" />
-        </template>
+          <!-- v1: Legacy section-based rendering -->
+          <div
+            v-for="(sec, idx) in (report.sections || [])"
+            v-else
+            :key="sec.id || idx"
+            class="report-section"
+            :data-testid="`report-section-${idx}`"
+          >
+            <template v-for="(part, pi) in parseSectionContent(sec.content)" :key="pi">
+              <div v-if="part.type === 'html'" class="section-html" v-html="sanitizeHtml(part.content)" />
+              <WidgetRenderer v-else-if="part.type === 'widget'" :config="part.config" />
+            </template>
+          </div>
+        </div>
+
+        <ChapterRail :body-ref="bodyRef" :version="bodyVersion" />
       </div>
     </template>
   </div>
@@ -211,9 +232,22 @@ function parseSectionContent(content) {
 
 <style scoped>
 .report-view {
-  max-width: 800px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 1.5rem 1rem;
+}
+
+/* Two-column layout: story body fills the remaining width, chapter
+   rail sits to the right (collapses under 1024px — see ChapterRail). */
+.story-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.story-body-col {
+  flex: 1;
+  min-width: 0; /* prevent flex item from blowing past max-width */
+  max-width: 800px;
 }
 
 .loading-msg,

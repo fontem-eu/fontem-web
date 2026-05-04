@@ -5,14 +5,18 @@ import { listReports } from '../api/community.js'
 
 const router = useRouter()
 
-const reports = ref([])
+const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
 
 onMounted(async () => {
   try {
     const data = await listReports({ scope: 'public', limit: 50 })
-    reports.value = data.reports || data || []
+    // The /data-stories list endpoint still returns `{ reports: [...] }`
+    // (see Phase A1 — backend internals stay named Report); accept the
+    // legacy `reports` key plus a future `stories` key, and the bare
+    // array shape some tests use.
+    stories.value = data.stories || data.reports || data || []
   } catch (err) {
     error.value = err.message
   } finally {
@@ -42,33 +46,33 @@ function truncate(text, maxLen = 180) {
 <template>
   <div class="feed" data-testid="feed">
     <h1 class="feed-title">Feed</h1>
-    <p class="feed-sub">Public reports from the community, newest first.</p>
+    <p class="feed-sub">Public data stories from the community, newest first.</p>
 
     <div v-if="error" class="error-bar" data-testid="feed-error">{{ error }}</div>
 
     <div v-if="loading" class="loading-msg">Loading feed...</div>
 
     <div
-      v-else-if="reports.length === 0"
+      v-else-if="stories.length === 0"
       class="empty-msg"
       data-testid="feed-empty"
     >
-      Nothing here yet. When people publish public reports, they'll show up here.
+      Nothing here yet. When people publish public data stories, they'll show up here.
     </div>
 
     <div v-else class="report-cards">
       <article
-        v-for="r in reports"
-        :key="r.id"
+        v-for="s in stories"
+        :key="s.id"
         class="report-card"
-        :data-testid="`feed-card-${r.id}`"
-        @click="router.push(`/reports/${r.id}`)"
+        :data-testid="`feed-card-${s.id}`"
+        @click="router.push(`/stories/${s.id}`)"
       >
-        <h2 class="card-title">{{ r.title }}</h2>
-        <p v-if="r.abstract" class="card-abstract">{{ truncate(r.abstract) }}</p>
+        <h2 class="card-title">{{ s.title }}</h2>
+        <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>
         <div class="card-meta">
-          <span v-if="r.author">{{ r.author.name || r.author }}</span>
-          <span v-if="r.updated_at">&middot; {{ formatDate(r.updated_at) }}</span>
+          <span v-if="s.author">{{ s.author.name || s.author }}</span>
+          <span v-if="s.updated_at">&middot; {{ formatDate(s.updated_at) }}</span>
         </div>
       </article>
     </div>

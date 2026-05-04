@@ -20,7 +20,7 @@ function makeRouter() {
       { path: '/login', component: { template: '<div />' } },
       { path: '/feed', component: { template: '<div />' } },
       { path: '/atlas', component: { template: '<div />' } },
-      { path: '/my-reports', component: { template: '<div />' } },
+      { path: '/my-stories', component: { template: '<div />' } },
       { path: '/reports', component: { template: '<div />' } },
       { path: '/issues', component: { template: '<div />' } },
       { path: '/activity', component: { template: '<div />' } },
@@ -84,7 +84,7 @@ describe('AppHeader', () => {
     expect(nav.text()).toContain('Home')
     expect(nav.text()).toContain('Feed')
     expect(nav.text()).toContain('Atlas')
-    expect(nav.text()).toContain('My Reports')
+    expect(nav.text()).toContain('My Stories')
   })
 
   it('shows Atlas tab to anonymous visitors too', async () => {
@@ -109,7 +109,7 @@ describe('AppHeader', () => {
     expect(nav.exists()).toBe(true)
     expect(nav.text()).toContain('Home')
     expect(nav.text()).toContain('Feed')
-    expect(nav.text()).not.toContain('My Reports')
+    expect(nav.text()).not.toContain('My Stories')
   })
 
   it('hides nav tabs on the login page regardless of auth state', async () => {
@@ -135,7 +135,7 @@ describe('AppHeader', () => {
 
   it('marks active nav tab', async () => {
     localStorage.setItem('gmr-token', 'test-token')
-    const { wrapper } = await mountAt('/my-reports')
+    const { wrapper } = await mountAt('/my-stories')
     const tab = wrapper.find('[data-testid="nav-my-reports"]')
     expect(tab.classes()).toContain('active')
   })

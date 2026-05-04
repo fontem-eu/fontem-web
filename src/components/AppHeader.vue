@@ -16,10 +16,14 @@ const hasToken = computed(
   () => typeof localStorage !== 'undefined' && !!localStorage.getItem('gmr-token'),
 )
 
-/* Top-level nav tabs.  Home + Feed are public (browsing public reports
- * does not require auth — transparency is the point); My Reports is
- * authed-only because it's the user's own workspace. Issues and
- * Activity live in the profile dropdown. */
+/* Top-level nav tabs.  Home + Feed are public (browsing public data
+ * stories does not require auth — transparency is the point); My
+ * Stories is authed-only because it's the user's own workspace.
+ * Issues and Activity live in the profile dropdown.
+ *
+ * Test-ids stay nav-my-reports/`my-reports` for one release so the
+ * existing smoke-test selectors keep matching while the smoke repo
+ * renames its IDs in lockstep. */
 const navTabs = computed(() => {
   const base = [
     { key: 'home', label: 'Home', path: '/' },
@@ -27,7 +31,7 @@ const navTabs = computed(() => {
     { key: 'atlas', label: 'Atlas', path: '/atlas' },
   ]
   if (hasToken.value) {
-    base.push({ key: 'my-reports', label: 'My Reports', path: '/my-reports' })
+    base.push({ key: 'my-reports', label: 'My Stories', path: '/my-stories' })
   }
   return base
 })
@@ -85,7 +89,7 @@ function onTickerSelect(symbol) {
     </div>
 
     <!-- Top-level nav tabs — visible to everyone on non-login pages.
-         Contents adapt to auth state (My Reports requires a token). -->
+         Contents adapt to auth state (My Stories requires a token). -->
     <nav v-if="route.path !== '/login'" class="header-nav" data-testid="app-nav">
       <router-link
         v-for="tab in navTabs"

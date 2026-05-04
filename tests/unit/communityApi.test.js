@@ -28,31 +28,31 @@ describe('Community API client', () => {
     })
   }
 
-  it('listReports calls GET /capi/reports', async () => {
+  it('listReports calls GET /capi/data-stories', async () => {
     mockOk({ reports: [] })
     await communityApi.listReports()
-    expect(fetchMock).toHaveBeenCalledWith('/capi/reports', expect.objectContaining({ method: 'GET' }))
+    expect(fetchMock).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({ method: 'GET' }))
   })
 
-  it('createReport calls POST /capi/reports with body', async () => {
+  it('createReport calls POST /capi/data-stories with body', async () => {
     mockOk({ id: '123', title: 'Test' })
     await communityApi.createReport('Test', 'Abstract')
-    expect(fetchMock).toHaveBeenCalledWith('/capi/reports', expect.objectContaining({
+    expect(fetchMock).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ title: 'Test', abstract: 'Abstract' }),
     }))
   })
 
-  it('getReport calls GET /capi/reports/:id', async () => {
+  it('getReport calls GET /capi/data-stories/:id', async () => {
     mockOk({ id: '123', title: 'Test' })
     await communityApi.getReport('123')
-    expect(fetchMock).toHaveBeenCalledWith('/capi/reports/123', expect.objectContaining({ method: 'GET' }))
+    expect(fetchMock).toHaveBeenCalledWith('/capi/data-stories/123', expect.objectContaining({ method: 'GET' }))
   })
 
-  it('deleteReport calls DELETE /capi/reports/:id', async () => {
+  it('deleteReport calls DELETE /capi/data-stories/:id', async () => {
     fetchMock.mockResolvedValueOnce({ ok: true, status: 204, json: () => Promise.resolve(null) })
     await communityApi.deleteReport('123')
-    expect(fetchMock).toHaveBeenCalledWith('/capi/reports/123', expect.objectContaining({ method: 'DELETE' }))
+    expect(fetchMock).toHaveBeenCalledWith('/capi/data-stories/123', expect.objectContaining({ method: 'DELETE' }))
   })
 
   it('listIssues calls GET /capi/issues', async () => {
@@ -106,6 +106,6 @@ describe('Community API client', () => {
   it('encodes URI components for IDs with special chars', async () => {
     mockOk({ id: '123' })
     await communityApi.getReport('a/b')
-    expect(fetchMock).toHaveBeenCalledWith('/capi/reports/a%2Fb', expect.any(Object))
+    expect(fetchMock).toHaveBeenCalledWith('/capi/data-stories/a%2Fb', expect.any(Object))
   })
 })

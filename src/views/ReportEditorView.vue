@@ -1,6 +1,6 @@
 <script setup>
 /**
- * Confluence-style report editor — single unified TipTap document.
+ * Confluence-style data-story editor — single unified TipTap document.
  *
  * No sections, no markdown/rich-text toggle. One WYSIWYG editor with:
  * - Bubble menu (formatting on text selection)
@@ -222,11 +222,11 @@ async function save() {
 </script>
 
 <template>
-  <div class="report-editor" data-testid="report-editor">
+  <div class="report-editor" data-testid="story-editor">
     <!-- Header -->
     <div class="editor-header">
-      <router-link to="/reports" class="back-link" data-testid="back-to-reports">
-        &larr; Reports
+      <router-link to="/my-stories" class="back-link" data-testid="back-to-my-stories">
+        &larr; My Stories
       </router-link>
       <div class="header-actions">
         <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
@@ -241,14 +241,14 @@ async function save() {
           @insert="onAssistInsert"
           @applied="onProposalApplied"
         />
-        <button class="save-btn" :disabled="saving" data-testid="save-report" @click="save">
+        <button class="save-btn" :disabled="saving" data-testid="save-story" @click="save">
           {{ saving ? 'Saving...' : 'Save' }}
         </button>
       </div>
     </div>
 
     <div v-if="error" class="error-bar" data-testid="editor-error">{{ error }}</div>
-    <div v-if="loading" class="loading-msg">Loading report...</div>
+    <div v-if="loading" class="loading-msg">Loading story...</div>
 
     <template v-else>
       <!-- Title -->
@@ -256,8 +256,8 @@ async function save() {
         v-model="title"
         type="text"
         class="title-input"
-        placeholder="Report title"
-        data-testid="report-title-input"
+        placeholder="Story title"
+        data-testid="story-title-input"
       />
 
       <!-- Abstract -->
@@ -266,7 +266,7 @@ async function save() {
         class="abstract-input"
         placeholder="Brief abstract..."
         rows="2"
-        data-testid="report-abstract-input"
+        data-testid="story-abstract-input"
       />
 
       <!-- Unified Editor with static toolbar -->

@@ -28,17 +28,20 @@ onMounted(async () => {
 
     const items = []
 
-    /* Reports the user authored */
+    /* Stories the user authored */
     if (reportsData.status === 'fulfilled') {
-      const reports = reportsData.value.reports || reportsData.value || []
-      for (const r of reports) {
+      const stories = reportsData.value.stories
+        || reportsData.value.reports
+        || reportsData.value
+        || []
+      for (const s of stories) {
         items.push({
-          type: 'report',
+          type: 'story',
           action: 'created',
-          title: r.title,
-          date: r.created_at || r.updated_at,
-          link: `/reports/${r.id}`,
-          id: `report-${r.id}`,
+          title: s.title,
+          date: s.created_at || s.updated_at,
+          link: `/stories/${s.id}`,
+          id: `story-${s.id}`,
         })
       }
     }
@@ -83,7 +86,7 @@ function formatDate(dateStr) {
 }
 
 function typeLabel(type) {
-  const map = { report: 'Report', issue: 'Issue' }
+  const map = { story: 'Story', report: 'Story', issue: 'Issue' }
   return map[type] || type
 }
 </script>
@@ -110,7 +113,7 @@ function typeLabel(type) {
       class="activity-empty"
       data-testid="activity-empty"
     >
-      No activity yet. Start by exploring the graph or creating a report.
+      No activity yet. Start by exploring the graph or creating a data story.
     </div>
 
     <!-- Activity feed -->
@@ -220,7 +223,8 @@ function typeLabel(type) {
   white-space: nowrap;
 }
 
-.badge-report { background: #dbeafe; color: #1d4ed8; }
+.badge-report,
+.badge-story { background: #dbeafe; color: #1d4ed8; }
 .badge-issue { background: #fef3c7; color: #92400e; }
 
 .activity-body {

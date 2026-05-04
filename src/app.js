@@ -103,17 +103,22 @@ const ROUTES = [
   { path: '/issues', component: IssuesView },
   { path: '/issues/:id', component: IssueDetailView },
 
-  // Feed (public reports)
+  // Feed (public data stories)
   { path: '/feed', component: FeedView },
 
   // Atlas — interactive map of the curated Eurostat datasets
   { path: '/atlas', component: AtlasView },
 
-  // Reports
-  { path: '/my-reports', component: MyReportsView },
-  { path: '/reports', redirect: '/my-reports' },
-  { path: '/reports/:id', component: ReportView },
-  { path: '/reports/:id/edit', component: ReportEditorView },
+  // Data stories — canonical paths. Legacy /reports* paths redirect
+  // for one release so external links and bookmarks keep working.
+  { path: '/my-stories', component: MyReportsView },
+  { path: '/stories', redirect: '/my-stories' },
+  { path: '/stories/:id', component: ReportView },
+  { path: '/stories/:id/edit', component: ReportEditorView },
+  { path: '/my-reports', redirect: '/my-stories' },
+  { path: '/reports', redirect: '/my-stories' },
+  { path: '/reports/:id', redirect: (to) => `/stories/${to.params.id}` },
+  { path: '/reports/:id/edit', redirect: (to) => `/stories/${to.params.id}/edit` },
 
   // Company views
   { path: '/company/:gmr_id', component: CompanyProfileView },

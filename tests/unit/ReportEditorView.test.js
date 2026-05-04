@@ -53,13 +53,13 @@ describe('ReportEditorView — unified editor', () => {
 
   it('mounts and shows title input', async () => {
     const { wrapper } = await mountEditor()
-    expect(wrapper.find('[data-testid="report-title-input"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="report-title-input"]').element.value).toBe('Test Report')
+    expect(wrapper.find('[data-testid="story-title-input"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="story-title-input"]').element.value).toBe('Test Report')
   })
 
   it('shows abstract input', async () => {
     const { wrapper } = await mountEditor()
-    expect(wrapper.find('[data-testid="report-abstract-input"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="story-abstract-input"]').exists()).toBe(true)
   })
 
   it('renders the TipTap editor body', async () => {
@@ -76,7 +76,7 @@ describe('ReportEditorView — unified editor', () => {
 
   it('save calls saveDocument with TipTap JSON', async () => {
     const { wrapper } = await mountEditor()
-    await wrapper.find('[data-testid="save-report"]').trigger('click')
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
     await flushPromises()
 
     expect(communityApi.updateReport).toHaveBeenCalledWith('r1', {

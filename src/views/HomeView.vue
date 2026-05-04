@@ -73,7 +73,7 @@ function onClose() {
   router.push('/')
 }
 
-// ── Landing-extra: explainer, example chips, how-it-works, recent reports ──
+// ── Landing-extra: explainer, example chips, how-it-works, recent stories ──
 
 // Each chip lands on a different platform feature, not just a search result —
 // so the very first click rewards the visitor with rich data. If any of these
@@ -91,9 +91,9 @@ const EXAMPLE_CHIPS = [
     to: '/c/f4259a89-88f7-5796-a22a-1c8c1999cc69/graph',
   },
   {
-    key: 'report',
-    label: 'Read a community report',
-    to: '/reports/d13f6e62-da50-4d4f-a401-8ab409e69ae4',
+    key: 'story',
+    label: 'Read a community data story',
+    to: '/stories/d13f6e62-da50-4d4f-a401-8ab409e69ae4',
   },
   {
     key: 'atlas',
@@ -125,20 +125,22 @@ const STEPS = [
   {
     key: 'publish',
     name: 'Publish',
-    desc: 'Write up what you find as a report and publish it — private, signed-in only, or fully public.',
+    desc: 'Write up what you find as a data story and publish it — private, signed-in only, or fully public.',
     svg: '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>',
     gif: null,
-    gifAlt: 'Publishing a report from the editor',
+    gifAlt: 'Publishing a data story from the editor',
   },
 ]
 
-const recentReports = ref([])
+const recentStories = ref([])
 const demoVideo = ref(null)
 
 onMounted(async () => {
   try {
     const data = await listReports({ scope: 'public', limit: 3 })
-    recentReports.value = Array.isArray(data) ? data : (data?.reports ?? [])
+    recentStories.value = Array.isArray(data)
+      ? data
+      : (data?.stories ?? data?.reports ?? [])
   } catch {
     // DonateView pattern: silent degrade — never a scary banner on the homepage.
   }
@@ -255,37 +257,37 @@ function truncate(text, maxLen = 160) {
                 loop
                 playsinline
                 preload="metadata"
-                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a report"
+                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a data story"
               />
             </div>
             <p class="demo-clip-caption">
-              A signed-in researcher walks from a search to a published report.
+              A signed-in researcher walks from a search to a published data story.
               Recorded against the live platform — no animation, no edits.
             </p>
           </section>
 
           <section
-            v-if="recentReports.length"
+            v-if="recentStories.length"
             class="recent-reports"
-            data-testid="recent-reports"
+            data-testid="recent-stories"
           >
             <h2 class="recent-reports-title">Recently published</h2>
             <div class="report-cards">
               <article
-                v-for="r in recentReports"
-                :key="r.id"
+                v-for="s in recentStories"
+                :key="s.id"
                 class="report-card"
-                :data-testid="`recent-report-${r.id}`"
-                @click="$router.push(`/reports/${r.id}`)"
+                :data-testid="`recent-story-${s.id}`"
+                @click="$router.push(`/stories/${s.id}`)"
               >
-                <h3 class="card-title">{{ r.title }}</h3>
-                <p v-if="r.abstract" class="card-abstract">{{ truncate(r.abstract) }}</p>
+                <h3 class="card-title">{{ s.title }}</h3>
+                <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>
                 <div class="card-meta">
-                  <span v-if="r.updated_at">{{ formatDate(r.updated_at) }}</span>
+                  <span v-if="s.updated_at">{{ formatDate(s.updated_at) }}</span>
                 </div>
               </article>
             </div>
-            <router-link to="/feed" class="recent-reports-more">See all public reports →</router-link>
+            <router-link to="/feed" class="recent-reports-more">See all public data stories →</router-link>
           </section>
         </section>
       </div>

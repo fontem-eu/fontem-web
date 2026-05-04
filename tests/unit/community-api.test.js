@@ -73,32 +73,32 @@ describe('community API client', () => {
 
   // ── Reports ──────────────────────────────────────────────────
 
-  it('createReport sends POST to /capi/reports', async () => {
+  it('createReport sends POST to /capi/data-stories', async () => {
     vi.stubGlobal('fetch', mockFetch(201, { id: 'r1' }))
 
     const result = await createReport('Title', 'Abstract')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ title: 'Title', abstract: 'Abstract' }),
     }))
     expect(result).toEqual({ id: 'r1' })
   })
 
-  it('getReport sends GET to /capi/reports/:id', async () => {
+  it('getReport sends GET to /capi/data-stories/:id', async () => {
     vi.stubGlobal('fetch', mockFetch(200, { id: 'r1', title: 'Test' }))
 
     await getReport('r1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1', expect.objectContaining({ method: 'GET' }))
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1', expect.objectContaining({ method: 'GET' }))
   })
 
-  it('listReports sends GET to /capi/reports', async () => {
+  it('listReports sends GET to /capi/data-stories', async () => {
     vi.stubGlobal('fetch', mockFetch(200, []))
 
     await listReports()
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports', expect.objectContaining({ method: 'GET' }))
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({ method: 'GET' }))
   })
 
   it('updateReport sends PUT with fields', async () => {
@@ -106,28 +106,28 @@ describe('community API client', () => {
 
     await updateReport('r1', { title: 'New Title' })
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1', expect.objectContaining({
       method: 'PUT',
       body: JSON.stringify({ title: 'New Title' }),
     }))
   })
 
-  it('deleteReport sends DELETE to /capi/reports/:id', async () => {
+  it('deleteReport sends DELETE to /capi/data-stories/:id', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 204, text: () => Promise.resolve('') }))
 
     await deleteReport('r1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1', expect.objectContaining({ method: 'DELETE' }))
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1', expect.objectContaining({ method: 'DELETE' }))
   })
 
   // ── Sections ─────────────────────────────────────────────────
 
-  it('addSection sends POST to /capi/reports/:id/sections', async () => {
+  it('addSection sends POST to /capi/data-stories/:id/sections', async () => {
     vi.stubGlobal('fetch', mockFetch(201, { id: 's1' }))
 
     await addSection('r1', 'Hello world')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections', expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ content: 'Hello world' }),
     }))
@@ -138,7 +138,7 @@ describe('community API client', () => {
 
     await editSection('r1', 's1', 'Updated')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections/s1', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1', expect.objectContaining({
       method: 'PUT',
     }))
   })
@@ -148,7 +148,7 @@ describe('community API client', () => {
 
     await lockSection('r1', 's1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections/s1/lock', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/lock', expect.objectContaining({
       method: 'POST',
     }))
   })
@@ -158,7 +158,7 @@ describe('community API client', () => {
 
     await unlockSection('r1', 's1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections/s1/lock', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/lock', expect.objectContaining({
       method: 'DELETE',
     }))
   })
@@ -168,7 +168,7 @@ describe('community API client', () => {
 
     await getVersions('r1', 's1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections/s1/versions', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/versions', expect.objectContaining({
       method: 'GET',
     }))
   })
@@ -221,19 +221,19 @@ describe('community API client', () => {
 
     await deleteSection('r1', 's1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/sections/s1', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1', expect.objectContaining({
       method: 'DELETE',
     }))
   })
 
   // ── Sharing ──────────────────────────────────────────────────
 
-  it('getAccess sends GET to /capi/reports/:id/access', async () => {
+  it('getAccess sends GET to /capi/data-stories/:id/access', async () => {
     vi.stubGlobal('fetch', mockFetch(200, []))
 
     await getAccess('r1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/access', expect.objectContaining({ method: 'GET' }))
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/access', expect.objectContaining({ method: 'GET' }))
   })
 
   it('grantAccess sends POST with data', async () => {
@@ -241,18 +241,18 @@ describe('community API client', () => {
 
     await grantAccess('r1', { user_id: 'u1', role: 'editor' })
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/access', expect.objectContaining({
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/access', expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ user_id: 'u1', role: 'editor' }),
     }))
   })
 
-  it('revokeAccess sends DELETE to /capi/reports/:id/access/:accessId', async () => {
+  it('revokeAccess sends DELETE to /capi/data-stories/:id/access/:accessId', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 204, text: () => Promise.resolve('') }))
 
     await revokeAccess('r1', 'a1')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/r1/access/a1', expect.objectContaining({ method: 'DELETE' }))
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/access/a1', expect.objectContaining({ method: 'DELETE' }))
   })
 
   // ── Issues (additional) ──────────────────────────────────────
@@ -312,6 +312,6 @@ describe('community API client', () => {
 
     await getReport('a/b')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/reports/a%2Fb', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/a%2Fb', expect.anything())
   })
 })

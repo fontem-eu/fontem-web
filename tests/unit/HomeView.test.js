@@ -45,7 +45,7 @@ function makeRouter() {
       // Stubbed for landing-extra <router-link>s — the chips deep-link to
       // these and we don't want "no route match" warns flooding the test log.
       { path: '/feed', component: { template: '<div />' } },
-      { path: '/reports/:id', component: { template: '<div />' } },
+      { path: '/stories/:id', component: { template: '<div />' } },
     ],
   })
 }
@@ -210,7 +210,7 @@ describe('HomeView', () => {
     }
     expect(wrapper.find('[data-testid="example-chip-company"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="example-chip-graph"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="example-chip-report"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="example-chip-story"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="example-chip-atlas"]').exists()).toBe(true)
   })
 
@@ -240,18 +240,18 @@ describe('HomeView', () => {
     ])
     const { wrapper } = await mountAt('/')
     expect(listReports).toHaveBeenCalledWith({ scope: 'public', limit: 3 })
-    const cards = wrapper.findAll('[data-testid="recent-reports"] .report-card')
+    const cards = wrapper.findAll('[data-testid="recent-stories"] .report-card')
     expect(cards).toHaveLength(3)
     expect(cards[0].text()).toContain('Report A')
   })
 
-  it('silently hides the recent-reports section when the API errors', async () => {
+  it('silently hides the recent-stories section when the API errors', async () => {
     listReports.mockRejectedValueOnce(new Error('500'))
     const { wrapper } = await mountAt('/')
     // Section is gated on recentReports.length, so an empty/failed fetch
     // means it never renders. No scary error banner — fundraising-page
     // pattern from DonateView.
-    expect(wrapper.find('[data-testid="recent-reports"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="recent-stories"]').exists()).toBe(false)
     expect(wrapper.text()).not.toMatch(/error|failed|sorry/i)
   })
 

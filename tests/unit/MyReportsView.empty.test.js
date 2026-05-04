@@ -1,5 +1,5 @@
 /**
- * Empty-state CTA on /my-reports.
+ * Empty-state CTA on /my-stories.
  *
  * The empty state is the first thing a freshly-registered user sees
  * after they sign in — the prior copy ("No reports yet. Start your
@@ -23,7 +23,7 @@ function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
     routes: [
-      { path: '/my-reports', component: MyReportsView },
+      { path: '/my-stories', component: MyReportsView },
       { path: '/feed', component: { template: '<div />' } },
     ],
   })
@@ -31,7 +31,7 @@ function makeRouter() {
 
 async function mountView() {
   const router = makeRouter()
-  await router.push('/my-reports')
+  await router.push('/my-stories')
   await router.isReady()
   const wrapper = mount(MyReportsView, {
     global: { plugins: [router] },
@@ -51,7 +51,7 @@ describe('MyReportsView empty state', () => {
 
   it('renders the empty-state CTA when the user has no reports', async () => {
     const wrapper = await mountView()
-    const cta = wrapper.find('[data-testid="my-reports-empty-cta"]')
+    const cta = wrapper.find('[data-testid="my-stories-empty-cta"]')
     expect(cta.exists()).toBe(true)
     expect(cta.attributes('href')).toBe('/feed')
   })
@@ -61,6 +61,6 @@ describe('MyReportsView empty state', () => {
       { id: 'r1', title: 'Existing report', visibility: 'private' },
     ])
     const wrapper = await mountView()
-    expect(wrapper.find('[data-testid="my-reports-empty-cta"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="my-stories-empty-cta"]').exists()).toBe(false)
   })
 })

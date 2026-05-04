@@ -175,7 +175,7 @@ describe('community.js API', () => {
     mockFetch.mockResolvedValue(mockOk({ id: 'r1', title: 'T' }))
     await communityApi.createReport('T', 'A')
     const call = mockFetch.mock.calls[0]
-    expect(call[0]).toBe('/capi/reports')
+    expect(call[0]).toBe('/capi/data-stories')
     const opts = call[1]
     expect(opts.method).toBe('POST')
     expect(opts.headers.Authorization).toBe('Bearer test-jwt')
@@ -184,7 +184,7 @@ describe('community.js API', () => {
   it('listReports sends GET', async () => {
     mockFetch.mockResolvedValue(mockOk([]))
     await communityApi.listReports()
-    expect(mockFetch).toHaveBeenCalledWith('/capi/reports', expect.objectContaining({ method: 'GET' }))
+    expect(mockFetch).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({ method: 'GET' }))
   })
 
   it('deleteReport sends DELETE and returns null for 204', async () => {

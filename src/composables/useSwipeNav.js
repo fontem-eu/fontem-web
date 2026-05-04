@@ -2,10 +2,10 @@ import { onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 // Horizontal swipe between the top-level views. Order mirrors the nav
-// tabs; My Reports is only included when the user has a token so that
+// tabs; My Stories is only included when the user has a token so that
 // anonymous users don't get punted into the auth wall mid-swipe.
 const PUBLIC_ORDER = ['/', '/feed']
-const AUTHED_ORDER = ['/', '/feed', '/my-reports']
+const AUTHED_ORDER = ['/', '/feed', '/my-stories']
 function currentOrder() {
   // Safe on the server (SSR) — no localStorage there, default to the
   // anonymous order; the client re-evaluates on hydration.

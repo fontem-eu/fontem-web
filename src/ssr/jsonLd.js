@@ -7,7 +7,7 @@
  *
  * Principle: derive from the SAME data the view rendered, never
  * duplicate.  For now the dataset we know without a fetch is the
- * static metadata about Fontem itself; dynamic pages (reports,
+ * static metadata about Fontem itself; dynamic pages (data stories,
  * companies) will hook their own per-request data into `context`
  * and use it here.
  */
@@ -104,21 +104,25 @@ const BUILDERS = {
 }
 
 function feedItemList(ctx) {
-  // `ctx.reports` is optionally populated by a server-side prefetch
+  // `ctx.stories` is optionally populated by a server-side prefetch
   // hook; when it's not available (e.g. static boot-up), we still
   // emit a valid ItemList describing the feed surface itself.
-  const reports = Array.isArray(ctx?.reports) ? ctx.reports.slice(0, 25) : []
+  // Falls back to `ctx.reports` for one release while the SSR
+  // prefetch is renamed in lockstep.
+  const stories = Array.isArray(ctx?.stories)
+    ? ctx.stories.slice(0, 25)
+    : Array.isArray(ctx?.reports) ? ctx.reports.slice(0, 25) : []
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Fontem public reports',
+    name: 'Fontem public data stories',
     url: `${CANONICAL}/feed`,
-    numberOfItems: reports.length,
-    itemListElement: reports.map((r, idx) => ({
+    numberOfItems: stories.length,
+    itemListElement: stories.map((s, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
-      url: `${CANONICAL}/reports/${r.id}`,
-      name: r.title,
+      url: `${CANONICAL}/stories/${s.id}`,
+      name: s.title,
     })),
   }
 }
