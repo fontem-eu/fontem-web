@@ -55,6 +55,10 @@ describe('validateProposal', () => {
   it.each([
     ['insert_content',  { content: '<p>hi</p>' }],
     ['insert_widget',   { widget_type: 'graph_explorer', entityId: 'abc' }],
+    ['insert_entity_mention', {
+      iri: 'http://data.fontem.eu/id/Company/ef69a162-e55c-5d6b-a497-f6436c4e050c',
+      label: 'Siemens AG',
+    }],
     ['update_title',    { title: 'New' }],
     ['update_abstract', { abstract: 'Summary' }],
     // Legacy aliases — accepted from old conversations.
@@ -106,6 +110,7 @@ describe('action metadata', () => {
     expect(ASSISTANT_ADVERTISED_ACTIONS).toEqual([
       'insert_content',
       'insert_widget',
+      'insert_entity_mention',
       'update_title',
       'update_abstract',
     ])
@@ -197,6 +202,39 @@ describe('executeProposal — happy paths', () => {
 
     expect(result.category).toBe('metadata')
     expect(updateReport).toHaveBeenCalledWith('r-7', { abstract: 'Brief summary.' })
+    expect(editor.calls).toEqual([])
+  })
+
+  it('insert_entity_mention builds a Tiptap mention node + trailing space', async () => {
+    const editor = makeEditor()
+    const iri = 'http://data.fontem.eu/id/Company/ef69a162-e55c-5d6b-a497-f6436c4e050c'
+    const result = await executeProposal('r-1', {
+      action: 'insert_entity_mention',
+      params: { iri, label: 'Siemens AG' },
+    }, { editor })
+
+    expect(result.ok).toBe(true)
+    expect(result.category).toBe('content')
+    // Two inserts: the mention node, then a trailing space so the
+    // cursor lands cleanly past the chip.
+    expect(editor.calls).toEqual([
+      {
+        type: 'entityMention',
+        attrs: { iri, label: 'Siemens AG', class: 'Company' },
+      },
+      ' ',
+    ])
+  })
+
+  it('insert_entity_mention rejects malformed IRIs', async () => {
+    const editor = makeEditor()
+    const result = await executeProposal('r-1', {
+      action: 'insert_entity_mention',
+      params: { iri: 'not-an-iri', label: 'X' },
+    }, { editor })
+
+    expect(result.ok).toBe(false)
+    expect(result.error).toContain('Invalid IRI')
     expect(editor.calls).toEqual([])
   })
 

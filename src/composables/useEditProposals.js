@@ -26,6 +26,7 @@ const EDIT_ACTIONS = {
   add_section:     { category: 'content',  requiredParams: ['content'], legacy: true },
   update_section:  { category: 'content',  requiredParams: ['content'], legacy: true },
   insert_widget:   { category: 'content',  requiredParams: ['widget_type', 'entityId'] },
+  insert_entity_mention: { category: 'content', requiredParams: ['iri', 'label'] },
   update_title:    { category: 'metadata', requiredParams: ['title'] },
   update_abstract: { category: 'metadata', requiredParams: ['abstract'] },
 }
@@ -59,9 +60,17 @@ export function actionSpec(action) {
 export const ASSISTANT_ADVERTISED_ACTIONS = [
   'insert_content',
   'insert_widget',
+  'insert_entity_mention',
   'update_title',
   'update_abstract',
 ]
+
+const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
+
+function parseClassFromIri(iri) {
+  const m = String(iri || '').match(_IRI_RE)
+  return m ? m[1] : null
+}
 
 /**
  * Apply a proposal against the local editor / metadata refs.
@@ -107,6 +116,27 @@ export async function executeProposal(reportId, proposal, editorState) {
             ...(params.depth ? { depth: params.depth } : {}),
           },
         }).run()
+        return { ok: true, action, category: 'content', params }
+      }
+      case 'insert_entity_mention': {
+        if (!editor) return { ok: false, action, error: 'No editor available' }
+        const cls = parseClassFromIri(params.iri)
+        if (!cls) {
+          return { ok: false, action, error: `Invalid IRI: ${params.iri}` }
+        }
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: 'entityMention',
+            attrs: {
+              iri: params.iri,
+              label: params.label,
+              class: cls,
+            },
+          })
+          .insertContent(' ')
+          .run()
         return { ok: true, action, category: 'content', params }
       }
       case 'update_title': {

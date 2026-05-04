@@ -22,9 +22,13 @@ import { TableRow } from '@tiptap/extension-table-row'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { WidgetNode } from '../extensions/WidgetNode.js'
+import { EntityMention } from '../extensions/EntityMention.js'
+import { MentionTrigger } from '../extensions/MentionTrigger.js'
 import BubbleToolbar from '../components/BubbleToolbar.vue'
 import FloatingToolbar from '../components/FloatingToolbar.vue'
 import AssistPanel from '../components/AssistPanel.vue'
+import EntitySidePanel from '../components/EntitySidePanel.vue'
+import MentionAutocomplete from '../components/MentionAutocomplete.vue'
 import { usePocket } from '../composables/usePocket.js'
 import {
   getReport,
@@ -88,6 +92,12 @@ async function onFileSelected(event) {
 // ── Editor ──────────────────────────────────────────────────
 let editor = null
 
+// `mentionState` is reactive — MentionTrigger writes to it on every
+// editor selection update; MentionAutocomplete reads it to render
+// the @-popover. Kept top-level so the popover lives outside the
+// editor's atomic tree (Tiptap NodeViews can't host floating UI).
+const mentionState = ref({ active: false })
+
 function createEditor(content = '') {
   return new Editor({
     extensions: [
@@ -102,6 +112,10 @@ function createEditor(content = '') {
       TableCell,
       TableHeader,
       WidgetNode,
+      EntityMention,
+      MentionTrigger.configure({
+        onState: (s) => { mentionState.value = s },
+      }),
     ],
     content,
   })
@@ -282,6 +296,12 @@ async function save() {
         </div>
         <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
       </div>
+
+      <!-- @-mention autocomplete + side panel. The autocomplete only
+           renders while MentionTrigger reports an active query; the
+           side panel listens for chip clicks and resolves on demand. -->
+      <MentionAutocomplete v-if="editor" :editor="editor" :state="mentionState" />
+      <EntitySidePanel />
 
       <!-- Hidden file input for image upload -->
       <input

@@ -12,8 +12,10 @@ import { TableRow } from '@tiptap/extension-table-row'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { WidgetNode } from '../extensions/WidgetNode.js'
+import { EntityMention } from '../extensions/EntityMention.js'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import ChapterRail from '../components/ChapterRail.vue'
+import EntitySidePanel from '../components/EntitySidePanel.vue'
 import { getReport } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
 
@@ -50,6 +52,10 @@ onMounted(async () => {
           StarterKit, Image, Link, Underline,
           Table, TableRow, TableCell, TableHeader,
           WidgetNode,
+          // EntityMention is editable: false-aware — chips render
+          // identically in read mode but the inline `×` button hides
+          // (see EntityMentionView).
+          EntityMention,
         ],
         content: report.value.content_doc.tiptap,
       })
@@ -226,6 +232,12 @@ function parseSectionContent(content) {
 
         <ChapterRail :body-ref="bodyRef" :version="bodyVersion" />
       </div>
+
+      <!-- Side panel listens for `entity-mention-click` from any chip
+           and resolves the IRI on demand. Mounted at the view level
+           so chips inside any inner component (editor, widget) can
+           open it. -->
+      <EntitySidePanel />
     </template>
   </div>
 </template>
