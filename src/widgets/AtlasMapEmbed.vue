@@ -16,6 +16,13 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchDatasets, fetchSeries } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
+import AtlasLegend from './atlas/AtlasLegend.vue'
+import {
+  buildColorExpression,
+  deriveBounds,
+  findSliceStats,
+  NULL_COLOR,
+} from './atlas/colorScale.js'
 
 const props = defineProps({
   config: { type: Object, default: () => ({}) },
@@ -83,32 +90,39 @@ const choroplethRows = computed(() => {
   return out
 })
 
-// ── Map render ─────────────────────────────────────────────────────
-const COLOR_STOPS = [
-  '#eff6ff', '#bfdbfe', '#60a5fa', '#fbbf24', '#f97316', '#dc2626',
-]
-
-function buildColorExpression(rows) {
-  const positives = rows.map((r) => r.value).filter((v) => v > 0).sort((a, b) => a - b)
-  if (positives.length === 0) return COLOR_STOPS[0]
-  const unique = [...new Set(positives)]
-  if (unique.length === 1) {
-    return ['step', ['get', 'value'], COLOR_STOPS[0],
-      unique[0], COLOR_STOPS[COLOR_STOPS.length - 1]]
+// Slice stats for the embedded slice — drives the legend + locked
+// colour scale. Embeds always lock to the dataset-wide range
+// (a saved snapshot that re-renders with a different scale on every
+// load would defeat the point of saving it). When the backend has
+// no stats yet, fall back to per-data bounds.
+const sliceStatsKey = computed(() => (
+  dimFilter.value ? JSON.stringify(dimFilter.value) : '{}'
+))
+const activeSliceStats = computed(
+  () => findSliceStats(meta.value?.slice_stats, sliceStatsKey.value),
+)
+const colorScaleProps = computed(() => {
+  if (activeSliceStats.value) {
+    return {
+      bounds: deriveBounds(activeSliceStats.value),
+      kind: activeSliceStats.value.value_kind || 'sequential',
+      log: false,
+    }
   }
-  const n = Math.min(unique.length, COLOR_STOPS.length - 1)
-  const stops = []
-  for (let i = 0; i < n; i++) {
-    const valueIdx = Math.floor((i * unique.length) / n)
-    const colorIdx = 1 + Math.round((i * (COLOR_STOPS.length - 2)) / (n - 1))
-    stops.push([unique[valueIdx], COLOR_STOPS[colorIdx]])
+  // Fallback: per-data bounds.
+  const positives = choroplethRows.value
+    .map((r) => r.value)
+    .filter((v) => v != null)
+    .sort((a, b) => a - b)
+  if (positives.length === 0) {
+    return { bounds: null, kind: 'sequential', log: false }
   }
-  return [
-    'step', ['get', 'value'],
-    COLOR_STOPS[0],
-    ...stops.flatMap(([v, c]) => [v, c]),
-  ]
-}
+  return {
+    bounds: [positives[0], positives[positives.length - 1]],
+    kind: 'sequential',
+    log: false,
+  }
+})
 
 async function renderMap() {
   if (!map) return
@@ -121,32 +135,48 @@ async function renderMap() {
   }
   const byCode = new Map(choroplethRows.value.map((r) => [r.nuts_code, r.value]))
   for (const f of geo.features) {
-    f.properties.value = byCode.get(f.properties.nuts_code) ?? null
+    const v = byCode.get(f.properties.nuts_code)
+    if (v == null) {
+      delete f.properties.value
+    } else {
+      f.properties.value = v
+    }
   }
-  const colorExpr = buildColorExpression(choroplethRows.value)
+  const colorExpr = buildColorExpression(colorScaleProps.value)
   const apply = () => {
     if (map.getSource('atlas-embed')) {
       map.getSource('atlas-embed').setData(geo)
       map.setPaintProperty('atlas-embed-fill', 'fill-color', colorExpr)
     } else {
       map.addSource('atlas-embed', { type: 'geojson', data: geo })
+      // null layer first so it sits beneath the data layer's borders.
+      map.addLayer({
+        id: 'atlas-embed-null', type: 'fill', source: 'atlas-embed',
+        filter: ['!', ['has', 'value']],
+        paint: { 'fill-color': NULL_COLOR, 'fill-opacity': 0.55 },
+      })
       map.addLayer({
         id: 'atlas-embed-fill', type: 'fill', source: 'atlas-embed',
-        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.7 },
+        filter: ['has', 'value'],
+        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.78 },
       })
       map.addLayer({
         id: 'atlas-embed-line', type: 'line', source: 'atlas-embed',
         paint: { 'line-color': '#334155', 'line-width': 0.5 },
       })
-      map.on('mousemove', 'atlas-embed-fill', (e) => {
+      const onMove = (e) => {
         if (!e.features?.length) return
         map.getCanvas().style.cursor = 'pointer'
         hovered.value = e.features[0].properties
-      })
-      map.on('mouseleave', 'atlas-embed-fill', () => {
+      }
+      const onLeave = () => {
         map.getCanvas().style.cursor = ''
         hovered.value = null
-      })
+      }
+      map.on('mousemove', 'atlas-embed-fill', onMove)
+      map.on('mousemove', 'atlas-embed-null', onMove)
+      map.on('mouseleave', 'atlas-embed-fill', onLeave)
+      map.on('mouseleave', 'atlas-embed-null', onLeave)
     }
   }
   if (map.isStyleLoaded()) apply()
@@ -222,10 +252,23 @@ onBeforeUnmount(() => {
 
     <div ref="container" class="atlas-embed-map" />
 
+    <AtlasLegend
+      v-if="colorScaleProps.bounds"
+      class="atlas-embed-legend"
+      :bounds="colorScaleProps.bounds"
+      :kind="colorScaleProps.kind"
+      :log="colorScaleProps.log"
+    />
+
     <div v-if="hovered && hovered.value != null" class="atlas-embed-hover">
       <strong>{{ hovered.name }}</strong>
       <span>{{ hovered.nuts_code }}</span>
       <span>{{ hovered.value.toLocaleString(undefined, { maximumFractionDigits: 2 }) }}</span>
+    </div>
+    <div v-else-if="hovered" class="atlas-embed-hover muted">
+      <strong>{{ hovered.name }}</strong>
+      <span>{{ hovered.nuts_code }}</span>
+      <span>no data</span>
     </div>
   </div>
 </template>
@@ -257,11 +300,19 @@ onBeforeUnmount(() => {
 .atlas-embed-error { color: #b91c1c; }
 .atlas-embed-map { height: 360px; width: 100%; }
 .atlas-embed-hover {
-  position: absolute; right: 0.5rem; bottom: 0.5rem;
+  position: absolute; left: 0.5rem; bottom: 0.5rem;
   background: rgba(255,255,255,0.92);
   border: 1px solid var(--border, #ddd);
   border-radius: 4px; padding: 0.4rem 0.6rem;
   display: flex; gap: 0.5rem; font-size: 0.8rem;
   pointer-events: none;
+}
+.atlas-embed-hover.muted {
+  color: var(--muted, #666);
+  font-style: italic;
+}
+.atlas-embed-legend {
+  position: absolute; right: 0.5rem; bottom: 0.5rem;
+  z-index: 5;
 }
 </style>

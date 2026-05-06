@@ -20,6 +20,13 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchDatasets, fetchSeries } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import PocketButton from '../components/PocketButton.vue'
+import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
+import {
+  buildColorExpression,
+  deriveBounds,
+  findSliceStats,
+  NULL_COLOR,
+} from '../widgets/atlas/colorScale.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -39,6 +46,23 @@ const seriesLoading = ref(false)
 const seriesError = ref(null)
 
 const hovered = ref(null)             // {nuts_code, name, value}
+
+// ── Colour-scale UX ─────────────────────────────────────────────────
+//
+// Default: lock the scale to dataset-wide robust bounds (p02..p98 from
+// the backend's slice_stats). This is what makes years comparable —
+// the same colour means the same value across 2008 and 2024.
+//
+// "Lock scale" off → fall back to per-year auto-scale (the previous
+// behaviour). Useful for analysts who want to zoom into a single
+// year's distribution without outliers from other years compressing
+// the ramp.
+//
+// "Log scale" → log-space the breakpoints. Helpful for highly skewed
+// datasets (population, GDP) where p98/p02 spans 3+ orders of
+// magnitude. The legend renders a `log` pill so users know.
+const lockScale = ref(true)
+const logScale = ref(false)
 
 // ── Derived ──────────────────────────────────────────────────────────
 const groupedDatasets = computed(() => {
@@ -115,6 +139,51 @@ const availableYears = computed(() => {
   return [...ys].sort((a, b) => a - b)
 })
 
+// Slice stats for the active dimension selection — feeds the legend
+// + the locked colour scale. `null` when the backend hasn't computed
+// stats yet (fresh dataset, or pre-migration cluster). Caller falls
+// back to per-year bounds in that case.
+const activeSliceStats = computed(() => findSliceStats(
+  selectedDataset.value?.slice_stats,
+  sliceKey.value,
+))
+
+// Bounds + kind in one place — both legend and map read from this so
+// they can never disagree. Falls through three sources in order:
+//   1. Locked dataset-wide bounds (preferred — comparable across years)
+//   2. Per-year auto-scale on positives only (legacy fallback)
+//   3. null → caller paints palette[0] uniformly (degenerate distribution)
+const colorScaleProps = computed(() => {
+  const stats = activeSliceStats.value
+  if (lockScale.value && stats) {
+    const bounds = deriveBounds(stats)
+    return {
+      bounds,
+      kind: stats.value_kind || 'sequential',
+      log: logScale.value,
+      // Skew hint surfaced in the lock toggle's hover label.
+      skewHint: (stats.skew_ratio || 0) > 5,
+    }
+  }
+  // Fallback: derive from this year's positives. Same shape, just
+  // computed live instead of from precomputed stats.
+  const positives = []
+  for (const o of observations.value) {
+    if (o.year !== year.value) continue
+    if (JSON.stringify(o.dimensions || {}) !== sliceKey.value) continue
+    if (o.value == null || o.value <= 0) continue
+    positives.push(o.value)
+  }
+  positives.sort((a, b) => a - b)
+  if (positives.length === 0) return { bounds: null, kind: 'sequential', log: false, skewHint: false }
+  return {
+    bounds: [positives[0], positives[positives.length - 1]],
+    kind: 'sequential',
+    log: logScale.value,
+    skewHint: false,
+  }
+})
+
 // One value per geo for the chosen slice + year.
 const choroplethRows = computed(() => {
   if (!sliceKey.value || year.value == null) return []
@@ -185,33 +254,15 @@ function _formatValue(v, dataset) {
 const container = ref(null)
 let map = null
 
-const COLOR_STOPS = [
-  '#eff6ff', '#bfdbfe', '#60a5fa', '#fbbf24', '#f97316', '#dc2626',
-]
-
-function _buildColorExpression(rows) {
-  const positives = rows.map((r) => r.value).filter((v) => v > 0).sort((a, b) => a - b)
-  if (positives.length === 0) return COLOR_STOPS[0]
-  const unique = [...new Set(positives)]
-  if (unique.length === 1) {
-    return [
-      'step', ['get', 'value'],
-      COLOR_STOPS[0], unique[0], COLOR_STOPS[COLOR_STOPS.length - 1],
-    ]
-  }
-  const n = Math.min(unique.length, COLOR_STOPS.length - 1)
-  const stops = []
-  for (let i = 0; i < n; i++) {
-    const valueIdx = Math.floor((i * unique.length) / n)
-    const colorIdx = 1 + Math.round((i * (COLOR_STOPS.length - 2)) / (n - 1))
-    stops.push([unique[valueIdx], COLOR_STOPS[colorIdx]])
-  }
-  return [
-    'step', ['get', 'value'],
-    COLOR_STOPS[0],
-    ...stops.flatMap(([v, c]) => [v, c]),
-  ]
-}
+// Painting is split into two MapLibre layers:
+//   atlas-fill-data   — features with a non-null value, painted via
+//                       the step expression from buildColorExpression
+//   atlas-fill-null   — features with value=null, painted with
+//                       NULL_COLOR. Two layers so "no data" never
+//                       reads as "low value" (the original bug —
+//                       the dark basemap showed through transparent
+//                       missing-data fills, looking like the worst
+//                       possible value).
 
 async function _renderChoropleth() {
   if (!map) return
@@ -226,33 +277,64 @@ async function _renderChoropleth() {
 
   const byCode = new Map(rows.map((r) => [r.nuts_code, r.value]))
   for (const f of geo.features) {
-    f.properties.value = byCode.get(f.properties.nuts_code) ?? null
+    const v = byCode.get(f.properties.nuts_code)
+    if (v == null) {
+      // Leave `value` absent so MapLibre's ['has', 'value'] filter
+      // correctly routes the feature to the no-data layer. Setting
+      // it to null would still match ['has'], blurring the layers.
+      delete f.properties.value
+    } else {
+      f.properties.value = v
+    }
   }
-  const colorExpr = _buildColorExpression(rows)
+  const colorExpr = buildColorExpression(colorScaleProps.value)
 
   const apply = () => {
     if (map.getSource('atlas')) {
       map.getSource('atlas').setData(geo)
-      map.setPaintProperty('atlas-fill', 'fill-color', colorExpr)
+      map.setPaintProperty('atlas-fill-data', 'fill-color', colorExpr)
+      // No-data layer is a constant fill; nothing to update unless
+      // the palette itself changes (which it doesn't at runtime).
     } else {
       map.addSource('atlas', { type: 'geojson', data: geo })
+      // Order matters: paint null first, then real data on top so
+      // overlapping borders don't get tinted by the wrong layer.
       map.addLayer({
-        id: 'atlas-fill', type: 'fill', source: 'atlas',
-        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.7 },
+        id: 'atlas-fill-null',
+        type: 'fill',
+        source: 'atlas',
+        // ['==', ['get', 'value'], null] doesn't work in MapLibre's
+        // expression dialect — use ['typeof'] + check against
+        // 'string'/'number' or just the negated has-value check.
+        filter: ['!', ['has', 'value']],
+        paint: { 'fill-color': NULL_COLOR, 'fill-opacity': 0.55 },
+      })
+      map.addLayer({
+        id: 'atlas-fill-data',
+        type: 'fill',
+        source: 'atlas',
+        filter: ['has', 'value'],
+        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.78 },
       })
       map.addLayer({
         id: 'atlas-line', type: 'line', source: 'atlas',
         paint: { 'line-color': '#334155', 'line-width': 0.5 },
       })
-      map.on('mousemove', 'atlas-fill', (e) => {
+      // Hover both layers so users can read the "—" tooltip on
+      // missing-data regions too. Same handler.
+      const onMove = (e) => {
         if (!e.features?.length) return
         map.getCanvas().style.cursor = 'pointer'
         hovered.value = e.features[0].properties
-      })
-      map.on('mouseleave', 'atlas-fill', () => {
+      }
+      const onLeave = () => {
         map.getCanvas().style.cursor = ''
         hovered.value = null
-      })
+      }
+      map.on('mousemove', 'atlas-fill-data', onMove)
+      map.on('mousemove', 'atlas-fill-null', onMove)
+      map.on('mouseleave', 'atlas-fill-data', onLeave)
+      map.on('mouseleave', 'atlas-fill-null', onLeave)
     }
   }
   if (map.isStyleLoaded()) apply()
@@ -297,6 +379,13 @@ watch([selected, level], () => {
 watch([year, sliceKey], () => {
   _renderChoropleth()
   _writeUrl()
+})
+
+// Re-paint when the colour-scale toggles flip — same data, new
+// palette/bounds. URL doesn't carry these (deliberately: they're
+// view preferences, not deep-link state).
+watch([lockScale, logScale], () => {
+  _renderChoropleth()
 })
 
 // Keep level inside the dataset's allowed set when the dataset changes.
@@ -480,6 +569,45 @@ onBeforeUnmount(() => {
           </p>
         </label>
 
+        <fieldset
+          v-if="selectedDataset && colorScaleProps.bounds"
+          class="atlas-control atlas-scale-controls"
+          data-testid="atlas-scale-controls"
+        >
+          <legend class="atlas-label">Colour scale</legend>
+          <label class="atlas-toggle">
+            <input
+              v-model="lockScale"
+              type="checkbox"
+              data-testid="atlas-lock-scale"
+            />
+            <span>
+              Lock to dataset range
+              <span
+                v-if="!activeSliceStats"
+                class="atlas-hint-inline"
+                title="Backend hasn't computed slice stats for this dataset yet — falls back to per-year auto-scale."
+              >(unavailable)</span>
+            </span>
+          </label>
+          <label class="atlas-toggle">
+            <input
+              v-model="logScale"
+              type="checkbox"
+              data-testid="atlas-log-scale"
+              :disabled="colorScaleProps.kind === 'diverging' || (colorScaleProps.bounds && colorScaleProps.bounds[0] <= 0)"
+            />
+            <span>
+              Log scale
+              <span
+                v-if="colorScaleProps.skewHint"
+                class="atlas-hint-inline"
+                title="Distribution is right-skewed — log scale recommended."
+              >(suggested)</span>
+            </span>
+          </label>
+        </fieldset>
+
         <div v-if="selectedDataset" class="atlas-meta">
           <p class="atlas-meta-label">Dataset metadata</p>
           <ul>
@@ -512,12 +640,26 @@ onBeforeUnmount(() => {
 
         <div ref="container" class="atlas-map" data-testid="atlas-map" />
 
+        <AtlasLegend
+          v-if="colorScaleProps.bounds"
+          class="atlas-legend-overlay"
+          :bounds="colorScaleProps.bounds"
+          :kind="colorScaleProps.kind"
+          :log="colorScaleProps.log"
+          title="Value scale"
+        />
+
         <div v-if="hovered && hovered.value != null" class="atlas-hover" data-testid="atlas-hover">
           <strong>{{ hovered.name }}</strong>
           <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
           <span class="atlas-hover-value">
             {{ _formatValue(hovered.value, selectedDataset) }}
           </span>
+        </div>
+        <div v-else-if="hovered" class="atlas-hover" data-testid="atlas-hover-null">
+          <strong>{{ hovered.name }}</strong>
+          <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
+          <span class="atlas-hover-value muted">no data</span>
         </div>
       </section>
     </div>
@@ -711,5 +853,64 @@ onBeforeUnmount(() => {
 .atlas-hover-value {
   font-size: 0.78rem;
   font-weight: 600;
+}
+.atlas-hover-value.muted {
+  color: var(--muted);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Colour-scale toggles (sidebar) — sit between the slice picker and
+   the dataset metadata block. Visually a fieldset for the screen-
+   reader contract; styled flat to match the surrounding controls. */
+.atlas-scale-controls {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0;
+}
+.atlas-scale-controls .atlas-label {
+  margin-bottom: 0.2rem;
+}
+.atlas-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text);
+  cursor: pointer;
+}
+.atlas-toggle input[type='checkbox']:disabled + span {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+.atlas-hint-inline {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-left: 0.25rem;
+}
+
+/* Legend overlay — bottom-right, above the hover tooltip. */
+.atlas-legend-overlay {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 11;
+  background: var(--bg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+@media (max-width: 720px) {
+  .atlas-legend-overlay {
+    /* Mobile: pin to the bottom and let it span the map width so the
+       gradient bar stays readable. The map already has its own
+       1-column layout below this breakpoint. */
+    left: 14px;
+    right: 14px;
+    bottom: 8px;
+    max-width: none;
+  }
 }
 </style>

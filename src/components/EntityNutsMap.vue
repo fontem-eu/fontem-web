@@ -4,6 +4,11 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchEntityAggregate, fetchBoundaries } from '../api/geo.js'
 import PocketButton from './PocketButton.vue'
+import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
+import {
+  buildColorExpression,
+  NULL_COLOR,
+} from '../widgets/atlas/colorScale.js'
 
 const props = defineProps({
   entityId: { type: String, required: true },
@@ -20,36 +25,26 @@ const error     = ref(null)
 const hovered   = ref(null)
 const scopeOptions = ref([])      // [{code, name}] for the scope dropdown
 
-// Blue → red sequential color scale (low = blue, high = red)
-const COLOR_STOPS = ['#eff6ff', '#bfdbfe', '#60a5fa', '#fbbf24', '#f97316', '#dc2626']
-
-function buildColorExpression(rows) {
-  const positives = rows.map((r) => r.value).filter((v) => v > 0).sort((a, b) => a - b)
-  // No data → everything stays the baseline tint
-  if (positives.length === 0) return COLOR_STOPS[0]
-  // MapLibre's step expression requires strictly-increasing stops; duplicate
-  // thresholds silently disable the fill.  Pick unique values, then spread
-  // colours across the full palette so low-cardinality data (e.g. contracts
-  // in only two countries) still renders as "cold" vs "hot" rather than a
-  // single tint.
-  const unique = [...new Set(positives)]
-  if (unique.length === 1) {
-    return ['step', ['get', 'value'], COLOR_STOPS[0], unique[0], COLOR_STOPS[COLOR_STOPS.length - 1]]
-  }
-  const n = Math.min(unique.length, COLOR_STOPS.length - 1)
-  const stops = []
-  for (let i = 0; i < n; i++) {
-    const valueIdx = Math.floor((i * unique.length) / n)
-    const colorIdx = 1 + Math.round((i * (COLOR_STOPS.length - 2)) / (n - 1))
-    stops.push([unique[valueIdx], COLOR_STOPS[colorIdx]])
-  }
-  return [
-    'step',
-    ['get', 'value'],
-    COLOR_STOPS[0],
-    ...stops.flatMap(([v, c]) => [v, c]),
-  ]
-}
+// Per-aggregate (data-driven) bounds; this map doesn't have a
+// pre-computed dataset_slice_stats source the way Atlas does. Falls
+// back to viridis/PuOr from the shared colour-scale module so the
+// palette + null colour are consistent across the platform.
+const choroplethBounds = computed(() => {
+  const positives = (lastRows.value || [])
+    .map((r) => r.value)
+    .filter((v) => v != null && v > 0)
+    .sort((a, b) => a - b)
+  if (positives.length === 0) return null
+  return [positives[0], positives[positives.length - 1]]
+})
+const colorScaleProps = computed(() => ({
+  bounds: choroplethBounds.value,
+  kind: 'sequential',
+  log: false,
+}))
+// Last applied rows — kept around so the bounds computed survives a
+// re-render between fetches.
+const lastRows = ref([])
 
 const SCOPE_LABELS = {
   1: 'Country (NUTS 0)',
@@ -103,13 +98,22 @@ async function refresh() {
 
 function applyChoropleth(geojson, rows) {
   if (!map) return
+  lastRows.value = rows
   const byCode = new Map(rows.map((r) => [r.nuts_code, r.value]))
 
   for (const f of geojson.features) {
-    f.properties.value = byCode.get(f.properties.nuts_code) ?? 0
+    const v = byCode.get(f.properties.nuts_code)
+    if (v == null || v === 0) {
+      // 0 is "this entity has no presence here" which is logically
+      // distinct from a value-zero observation — render as no-data
+      // so the palette ramp doesn't waste its bottom bucket on it.
+      delete f.properties.value
+    } else {
+      f.properties.value = v
+    }
   }
 
-  const colorExpr = buildColorExpression(rows)
+  const colorExpr = buildColorExpression(colorScaleProps.value)
 
   const addOrUpdate = () => {
     if (map.getSource('enu')) {
@@ -117,11 +121,20 @@ function applyChoropleth(geojson, rows) {
       map.setPaintProperty('enu-fill', 'fill-color', colorExpr)
     } else {
       map.addSource('enu', { type: 'geojson', data: geojson })
+      // No-data layer first so it sits beneath the data fill.
+      map.addLayer({
+        id: 'enu-null',
+        type: 'fill',
+        source: 'enu',
+        filter: ['!', ['has', 'value']],
+        paint: { 'fill-color': NULL_COLOR, 'fill-opacity': 0.55 },
+      })
       map.addLayer({
         id: 'enu-fill',
         type: 'fill',
         source: 'enu',
-        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.7 },
+        filter: ['has', 'value'],
+        paint: { 'fill-color': colorExpr, 'fill-opacity': 0.78 },
       })
       map.addLayer({
         id: 'enu-line',
@@ -129,15 +142,19 @@ function applyChoropleth(geojson, rows) {
         source: 'enu',
         paint: { 'line-color': '#334155', 'line-width': 0.5 },
       })
-      map.on('mousemove', 'enu-fill', (e) => {
+      const onMove = (e) => {
         if (!e.features?.length) return
         map.getCanvas().style.cursor = 'pointer'
         hovered.value = e.features[0].properties
-      })
-      map.on('mouseleave', 'enu-fill', () => {
+      }
+      const onLeave = () => {
         map.getCanvas().style.cursor = ''
         hovered.value = null
-      })
+      }
+      map.on('mousemove', 'enu-fill', onMove)
+      map.on('mousemove', 'enu-null', onMove)
+      map.on('mouseleave', 'enu-fill', onLeave)
+      map.on('mouseleave', 'enu-null', onLeave)
     }
   }
 
@@ -229,13 +246,22 @@ onBeforeUnmount(() => {
 
     <div ref="container" class="enu-map" data-testid="enu-map" />
 
+    <AtlasLegend
+      v-if="colorScaleProps.bounds"
+      class="enu-legend"
+      :bounds="colorScaleProps.bounds"
+      :kind="colorScaleProps.kind"
+      :unit="metric === 'contracts_eur' ? 'EUR' : 'contracts'"
+    />
+
     <div v-if="hovered" class="enu-hover" data-testid="enu-hover">
       <strong>{{ hovered.name }}</strong>
       <span class="enu-hover__code">{{ hovered.nuts_code }}</span>
-      <span class="enu-hover__value">
-        {{ metric === 'contracts_eur' ? `€${Number(hovered.value || 0).toLocaleString()}` : (hovered.value || 0).toLocaleString() }}
+      <span v-if="hovered.value != null" class="enu-hover__value">
+        {{ metric === 'contracts_eur' ? `€${Number(hovered.value).toLocaleString()}` : Number(hovered.value).toLocaleString() }}
         {{ metric === 'contracts' ? 'contracts' : '' }}
       </span>
+      <span v-else class="enu-hover__value muted">no data</span>
     </div>
   </div>
 </template>
@@ -330,5 +356,19 @@ onBeforeUnmount(() => {
 .enu-hover__value {
   font-size: 11px;
   font-weight: 600;
+}
+.enu-hover__value.muted {
+  color: var(--muted);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.enu-legend {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 11;
+  background: var(--bg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 </style>
