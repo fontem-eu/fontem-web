@@ -17,7 +17,7 @@ import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { fetchDatasets, fetchSeries } from '../api/atlas.js'
+import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import PocketButton from '../components/PocketButton.vue'
 import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
@@ -44,6 +44,10 @@ const sliceKey = ref('')              // JSON-stringified dim filter
 const observations = ref([])          // raw rows from /stats/series
 const seriesLoading = ref(false)
 const seriesError = ref(null)
+
+// Slice-stats cache per dataset code. Fetched lazily on dataset
+// selection — see _refreshSliceStats. Map<code, SliceStats[]>.
+const sliceStatsByDataset = ref(new Map())
 
 const hovered = ref(null)             // {nuts_code, name, value}
 
@@ -143,8 +147,13 @@ const availableYears = computed(() => {
 // + the locked colour scale. `null` when the backend hasn't computed
 // stats yet (fresh dataset, or pre-migration cluster). Caller falls
 // back to per-year bounds in that case.
+//
+// Reads from the lazy per-dataset cache populated by
+// _refreshSliceStats — keeps /atlas/datasets small (slice stats for
+// migration cubes can run to ~45k entries; we fetch one dataset
+// at a time on demand).
 const activeSliceStats = computed(() => findSliceStats(
-  selectedDataset.value?.slice_stats,
+  sliceStatsByDataset.value.get(selected.value) || [],
   sliceKey.value,
 ))
 
@@ -342,15 +351,40 @@ async function _renderChoropleth() {
 }
 
 // ── Data fetching ────────────────────────────────────────────────────
+async function _refreshSliceStats(code) {
+  if (!code) return
+  // Cache hit — slice stats are immutable per (sync, dataset),
+  // refetching wastes a round-trip and the legend would flicker.
+  if (sliceStatsByDataset.value.has(code)) return
+  try {
+    const slices = await fetchSliceStats(code)
+    // Mutate via a fresh Map ref so Vue reactivity picks it up;
+    // direct .set() on a non-shallow ref is ignored.
+    const next = new Map(sliceStatsByDataset.value)
+    next.set(code, Array.isArray(slices) ? slices : [])
+    sliceStatsByDataset.value = next
+  } catch {
+    // Don't fail the whole view — colorScale falls back to per-data
+    // bounds when slice stats are missing. Just log to the console.
+    // eslint-disable-next-line no-console
+    console.warn(`[atlas] slice stats unavailable for ${code}; falling back to per-year scale`)
+  }
+}
+
 async function _refreshSeries() {
   if (!selected.value || level.value == null) return
   seriesLoading.value = true
   seriesError.value = null
   try {
-    const resp = await fetchSeries({
-      dataset: selected.value,
-      nutsLevel: level.value,
-    })
+    // Series + slice stats fetched in parallel — both are needed
+    // before the choropleth can render in 'locked-scale' mode.
+    const [resp] = await Promise.all([
+      fetchSeries({
+        dataset: selected.value,
+        nutsLevel: level.value,
+      }),
+      _refreshSliceStats(selected.value),
+    ])
     observations.value = resp.data || []
     if (!sliceKey.value && sliceOptions.value.length > 0) {
       sliceKey.value = sliceOptions.value[0].key

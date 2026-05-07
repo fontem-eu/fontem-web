@@ -49,6 +49,23 @@ export async function fetchDatasetDetail(code) {
 }
 
 /**
+ * Slice-level value distribution stats for one dataset.
+ *
+ * Powers the locked colour scale + the legend bounds. Fetched
+ * lazily per-dataset because some datasets (migration cubes) have
+ * tens of thousands of dimension combinations — embedding them in
+ * /datasets pushed the catalog payload to 57 MB.
+ *
+ * Returns an empty array when the dataset has no slice stats
+ * (pre-backfill cluster or read-only role); callers should fall
+ * back to per-data bounds.
+ */
+export async function fetchSliceStats(code) {
+  if (!code) throw new Error('fetchSliceStats: code is required')
+  return _json(`${BASE}/datasets/${encodeURIComponent(code)}/slice-stats`)
+}
+
+/**
  * Time-series rows for one dataset.
  *
  * Supply either `geo` (one or more NUTS codes) or `nutsLevel` (0..3

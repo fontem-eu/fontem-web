@@ -14,7 +14,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { fetchDatasets, fetchSeries } from '../api/atlas.js'
+import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import AtlasLegend from './atlas/AtlasLegend.vue'
 import {
@@ -62,6 +62,7 @@ const atlasUrl = computed(() => {
 // ── State ──────────────────────────────────────────────────────────
 const meta = ref(null)              // dataset catalog row
 const observations = ref([])
+const sliceStats = ref([])          // slice stats for the embedded dataset
 const loading = ref(false)
 const error = ref(null)
 const hovered = ref(null)
@@ -99,7 +100,7 @@ const sliceStatsKey = computed(() => (
   dimFilter.value ? JSON.stringify(dimFilter.value) : '{}'
 ))
 const activeSliceStats = computed(
-  () => findSliceStats(meta.value?.slice_stats, sliceStatsKey.value),
+  () => findSliceStats(sliceStats.value, sliceStatsKey.value),
 )
 const colorScaleProps = computed(() => {
   if (activeSliceStats.value) {
@@ -192,16 +193,21 @@ async function loadAll() {
   loading.value = true
   error.value = null
   try {
-    // Catalog metadata for the label + dim_labels.
-    const cat = await fetchDatasets()
+    // Catalog metadata + series + slice stats fetched in parallel.
+    // Slice stats are pulled per-dataset (lazy) because the catalog
+    // would otherwise carry tens of thousands of slice rows for
+    // migration cubes — see /atlas/datasets/{code}/slice-stats.
+    const [cat, resp, slices] = await Promise.all([
+      fetchDatasets(),
+      fetchSeries({
+        dataset: dataset.value,
+        nutsLevel: nutsLevel.value,
+      }),
+      fetchSliceStats(dataset.value).catch(() => []),
+    ])
     meta.value = cat.find((d) => d.code === dataset.value) || null
-
-    // Series for the (dataset, nuts_level) — same shape AtlasView uses.
-    const resp = await fetchSeries({
-      dataset: dataset.value,
-      nutsLevel: nutsLevel.value,
-    })
     observations.value = resp.data || []
+    sliceStats.value = Array.isArray(slices) ? slices : []
     await renderMap()
   } catch (err) {
     error.value = err.message
