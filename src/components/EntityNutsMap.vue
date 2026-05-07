@@ -9,6 +9,9 @@ import {
   buildColorExpression,
   NULL_COLOR,
 } from '../widgets/atlas/colorScale.js'
+import { useAtlasPalette } from '../composables/useAtlasPalette.js'
+
+const { palette: atlasPalette } = useAtlasPalette()
 
 const props = defineProps({
   entityId: { type: String, required: true },
@@ -41,6 +44,7 @@ const colorScaleProps = computed(() => ({
   bounds: choroplethBounds.value,
   kind: 'sequential',
   log: false,
+  palette: atlasPalette.value,
 }))
 // Last applied rows — kept around so the bounds computed survives a
 // re-render between fetches.
@@ -169,6 +173,10 @@ watch(level, () => {
 })
 
 watch([metric, scope], () => refresh())
+// Re-paint when the user picks a different palette in preferences.
+// `refresh()` re-fetches data + geojson and re-renders; the
+// network round-trip is fine for a one-off palette change.
+watch(atlasPalette, () => { if (map) refresh() })
 
 onMounted(() => {
   map = new maplibregl.Map({
@@ -251,6 +259,7 @@ onBeforeUnmount(() => {
       class="enu-legend"
       :bounds="colorScaleProps.bounds"
       :kind="colorScaleProps.kind"
+      :palette="colorScaleProps.palette"
       :unit="metric === 'contracts_eur' ? 'EUR' : 'contracts'"
     />
 

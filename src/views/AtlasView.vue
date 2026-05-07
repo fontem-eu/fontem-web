@@ -27,6 +27,9 @@ import {
   findSliceStats,
   NULL_COLOR,
 } from '../widgets/atlas/colorScale.js'
+import { useAtlasPalette } from '../composables/useAtlasPalette.js'
+
+const { palette: atlasPalette } = useAtlasPalette()
 
 const route = useRoute()
 const router = useRouter()
@@ -67,6 +70,44 @@ const hovered = ref(null)             // {nuts_code, name, value}
 // magnitude. The legend renders a `log` pill so users know.
 const lockScale = ref(true)
 const logScale = ref(false)
+
+// ── Year scrubber ───────────────────────────────────────────────────
+//
+// "Play" advances the year on a timer; "Loop" wraps around when we
+// hit the end. State + timer scoped to this view (cleared on
+// dataset change so we don't run a stale animation).
+const playing = ref(false)
+const looping = ref(true)
+let _playTimer = null
+const PLAY_INTERVAL_MS = 750     // one frame per ~0.75s — feels like
+                                 // a slow pan, not a Powerpoint click
+
+function _stepYearForward() {
+  if (availableYears.value.length === 0) {
+    playing.value = false
+    return
+  }
+  const idx = availableYears.value.indexOf(year.value)
+  const next = idx + 1
+  if (next < availableYears.value.length) {
+    year.value = availableYears.value[next]
+  } else if (looping.value) {
+    year.value = availableYears.value[0]
+  } else {
+    playing.value = false
+  }
+}
+
+function _startPlay() {
+  if (_playTimer) clearInterval(_playTimer)
+  _playTimer = setInterval(_stepYearForward, PLAY_INTERVAL_MS)
+}
+function _stopPlay() {
+  if (_playTimer) { clearInterval(_playTimer); _playTimer = null }
+}
+function togglePlay() {
+  playing.value = !playing.value
+}
 
 // ── Derived ──────────────────────────────────────────────────────────
 const groupedDatasets = computed(() => {
@@ -170,6 +211,7 @@ const colorScaleProps = computed(() => {
       bounds,
       kind: stats.value_kind || 'sequential',
       log: logScale.value,
+      palette: atlasPalette.value,
       // Skew hint surfaced in the lock toggle's hover label.
       skewHint: (stats.skew_ratio || 0) > 5,
     }
@@ -184,11 +226,12 @@ const colorScaleProps = computed(() => {
     positives.push(o.value)
   }
   positives.sort((a, b) => a - b)
-  if (positives.length === 0) return { bounds: null, kind: 'sequential', log: false, skewHint: false }
+  if (positives.length === 0) return { bounds: null, kind: 'sequential', log: false, palette: atlasPalette.value, skewHint: false }
   return {
     bounds: [positives[0], positives[positives.length - 1]],
     kind: 'sequential',
     log: logScale.value,
+    palette: atlasPalette.value,
     skewHint: false,
   }
 })
@@ -418,8 +461,19 @@ watch([year, sliceKey], () => {
 // Re-paint when the colour-scale toggles flip — same data, new
 // palette/bounds. URL doesn't carry these (deliberately: they're
 // view preferences, not deep-link state).
-watch([lockScale, logScale], () => {
+watch([lockScale, logScale, atlasPalette], () => {
   _renderChoropleth()
+})
+
+// Play/loop animation lifecycle.
+watch(playing, (now) => {
+  if (now) _startPlay()
+  else _stopPlay()
+})
+// Stop the animation when the dataset changes (otherwise we'd be
+// scrubbing through years that no longer exist on the new dataset).
+watch([selected, level], () => {
+  playing.value = false
 })
 
 // Keep level inside the dataset's allowed set when the dataset changes.
@@ -501,6 +555,7 @@ watch(datasets, async (next) => {
 })
 
 onBeforeUnmount(() => {
+  _stopPlay()
   if (map) { map.remove(); map = null }
 })
 </script>
@@ -560,27 +615,6 @@ onBeforeUnmount(() => {
               NUTS {{ l }}
             </option>
           </select>
-        </label>
-
-        <label
-          v-if="selectedDataset && availableYears.length > 0"
-          class="atlas-control"
-        >
-          <span class="atlas-label">
-            Year — <strong>{{ year }}</strong>
-          </span>
-          <input
-            v-model.number="year"
-            type="range"
-            data-testid="atlas-year"
-            :min="availableYears[0]"
-            :max="availableYears[availableYears.length - 1]"
-            :step="1"
-          />
-          <div class="atlas-year-bounds">
-            <span>{{ availableYears[0] }}</span>
-            <span>{{ availableYears[availableYears.length - 1] }}</span>
-          </div>
         </label>
 
         <label
@@ -672,28 +706,95 @@ onBeforeUnmount(() => {
           {{ seriesError }}
         </div>
 
-        <div ref="container" class="atlas-map" data-testid="atlas-map" />
+        <div class="atlas-map-stack">
+          <div ref="container" class="atlas-map" data-testid="atlas-map" />
 
-        <AtlasLegend
-          v-if="colorScaleProps.bounds"
-          class="atlas-legend-overlay"
-          :bounds="colorScaleProps.bounds"
-          :kind="colorScaleProps.kind"
-          :log="colorScaleProps.log"
-          title="Value scale"
-        />
+          <!-- Year overlay — lives on the map itself so the user
+               can read the active year without taking their eyes
+               off the choropleth (especially during play). Big,
+               high-contrast, top-left. -->
+          <div
+            v-if="year != null"
+            class="atlas-year-overlay"
+            data-testid="atlas-year-overlay"
+            aria-live="polite"
+          >
+            {{ year }}
+          </div>
 
-        <div v-if="hovered && hovered.value != null" class="atlas-hover" data-testid="atlas-hover">
-          <strong>{{ hovered.name }}</strong>
-          <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
-          <span class="atlas-hover-value">
-            {{ _formatValue(hovered.value, selectedDataset) }}
-          </span>
+          <AtlasLegend
+            v-if="colorScaleProps.bounds"
+            class="atlas-legend-overlay"
+            :bounds="colorScaleProps.bounds"
+            :kind="colorScaleProps.kind"
+            :log="colorScaleProps.log"
+            :palette="colorScaleProps.palette"
+            title="Value scale"
+          />
+
+          <div v-if="hovered && hovered.value != null" class="atlas-hover" data-testid="atlas-hover">
+            <strong>{{ hovered.name }}</strong>
+            <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
+            <span class="atlas-hover-value">
+              {{ _formatValue(hovered.value, selectedDataset) }}
+            </span>
+          </div>
+          <div v-else-if="hovered" class="atlas-hover" data-testid="atlas-hover-null">
+            <strong>{{ hovered.name }}</strong>
+            <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
+            <span class="atlas-hover-value muted">no data</span>
+          </div>
         </div>
-        <div v-else-if="hovered" class="atlas-hover" data-testid="atlas-hover-null">
-          <strong>{{ hovered.name }}</strong>
-          <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
-          <span class="atlas-hover-value muted">no data</span>
+
+        <!-- Year scrubber — pulled out of the sidebar and parked
+             below the map where it belongs. Drag the slider to
+             scrub manually; ▶ animates through the years; loop
+             toggles wrap-around. -->
+        <div
+          v-if="selectedDataset && availableYears.length > 0"
+          class="atlas-scrubber"
+          data-testid="atlas-scrubber"
+        >
+          <button
+            type="button"
+            class="atlas-play-btn"
+            :class="{ playing }"
+            :aria-label="playing ? 'Pause year animation' : 'Play year animation'"
+            data-testid="atlas-play"
+            @click="togglePlay"
+          >
+            <svg v-if="!playing" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="6,4 20,12 6,20" fill="currentColor" />
+            </svg>
+            <svg v-else width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+              <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+            </svg>
+          </button>
+
+          <span class="atlas-year-low">{{ availableYears[0] }}</span>
+
+          <input
+            v-model.number="year"
+            type="range"
+            class="atlas-year-range"
+            data-testid="atlas-year"
+            :min="availableYears[0]"
+            :max="availableYears[availableYears.length - 1]"
+            :step="1"
+            :aria-label="`Year ${year}`"
+          />
+
+          <span class="atlas-year-high">{{ availableYears[availableYears.length - 1] }}</span>
+
+          <label class="atlas-loop-toggle" :title="looping ? 'Looping enabled' : 'Looping disabled — stops at the last year'">
+            <input
+              v-model="looping"
+              type="checkbox"
+              data-testid="atlas-loop"
+            />
+            <span>loop</span>
+          </label>
         </div>
       </section>
     </div>
@@ -935,6 +1036,96 @@ onBeforeUnmount(() => {
   z-index: 11;
   background: var(--bg);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Map + overlays wrapper — needed because the year overlay,
+   legend, and hover are all `position:absolute` against this. */
+.atlas-map-stack {
+  position: relative;
+}
+
+/* Big year readout pinned to the top-left of the map. Stays legible
+   over both light- and dark-themed basemap tiles via a translucent
+   surface fill (NOT pure transparency — the contrast against
+   light cream and dark forest is too uneven without a backdrop). */
+.atlas-year-overlay {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 11;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Scrubber sits directly below the map. Single line on desktop,
+   wraps to two on narrow screens. The play button + loop toggle
+   bookend the slider so they're always findable. */
+.atlas-scrubber {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.atlas-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.atlas-play-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.atlas-play-btn.playing {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.atlas-year-low,
+.atlas-year-high {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.atlas-year-range {
+  flex: 1;
+  min-width: 6rem;
+}
+.atlas-loop-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.atlas-loop-toggle input { cursor: pointer; }
+@media (max-width: 720px) {
+  .atlas-scrubber { flex-wrap: wrap; row-gap: 0.4rem; }
+  .atlas-year-range { flex-basis: 100%; order: 4; }
+  .atlas-year-low { order: 2; }
+  .atlas-year-high { order: 3; }
+  .atlas-loop-toggle { order: 5; }
 }
 @media (max-width: 720px) {
   .atlas-legend-overlay {

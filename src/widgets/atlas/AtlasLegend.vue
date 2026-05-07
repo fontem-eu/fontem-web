@@ -14,6 +14,9 @@ const props = defineProps({
   bounds:    { type: Array,  default: null },        // [lo, hi]
   kind:      { type: String, default: 'sequential' }, // sequential | diverging
   log:       { type: Boolean, default: false },
+  // Palette ID from the colour-scale catalog. 'auto' picks viridis
+  // for sequential / PuOr for diverging — the CVD-safe defaults.
+  palette:   { type: String, default: 'auto' },
   // Optional unit hint for the tick labels (e.g. "EUR", "%", "/100k").
   unit:      { type: String, default: '' },
   // Render label hidden when caller decides the legend itself is the
@@ -25,7 +28,7 @@ const props = defineProps({
 })
 
 const stops = computed(() => legendStops({
-  bounds: props.bounds, kind: props.kind, log: props.log,
+  bounds: props.bounds, kind: props.kind, log: props.log, palette: props.palette,
 }))
 
 // CSS linear-gradient ticks: each stop is positioned at (value-lo)/(hi-lo)

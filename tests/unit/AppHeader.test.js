@@ -55,25 +55,28 @@ describe('AppHeader', () => {
     expect(wrapper.find('h1').text()).toBe('Fontem')
   })
 
-  it('shows Sign in button when not authenticated', async () => {
+  it('preferences gear is always present', async () => {
+    // The gear is the single auth + theme + lang + palette entry
+    // point — visible signed-out and signed-in alike.
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="sign-in-btn"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="sign-out-btn"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="prefs-menu-trigger"]').exists()).toBe(true)
   })
 
-  it('shows profile menu trigger when authenticated', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+  it('exposes Sign in inside the preferences menu when not authenticated', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="profile-menu-trigger"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="sign-in-btn"]').exists()).toBe(false)
-  })
-
-  it('shows Sign out button in profile dropdown', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
-    const { wrapper } = await mountAt('/')
-    await wrapper.find('[data-testid="profile-menu-trigger"]').trigger('click')
+    await wrapper.find('[data-testid="prefs-menu-trigger"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid="sign-out-btn"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="prefs-sign-in"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="prefs-sign-out"]').exists()).toBe(false)
+  })
+
+  it('exposes Sign out inside the preferences menu when authenticated', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    const { wrapper } = await mountAt('/')
+    await wrapper.find('[data-testid="prefs-menu-trigger"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="prefs-sign-out"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="prefs-sign-in"]').exists()).toBe(false)
   })
 
   it('shows nav tabs when authenticated', async () => {
@@ -140,13 +143,13 @@ describe('AppHeader', () => {
     expect(tab.classes()).toContain('active')
   })
 
-  it('shows user name in profile dropdown', async () => {
+  it('shows user name inside the preferences menu when authenticated', async () => {
     localStorage.setItem('gmr-token', 'test-token')
     localStorage.setItem('gmr-user', JSON.stringify({ name: 'Alice', email: 'a@b.com' }))
     const { wrapper } = await mountAt('/')
-    await wrapper.find('[data-testid="profile-menu-trigger"]').trigger('click')
+    await wrapper.find('[data-testid="prefs-menu-trigger"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid="profile-menu"]').text()).toContain('Alice')
+    expect(wrapper.find('[data-testid="prefs-menu"]').text()).toContain('Alice')
   })
 
   it('preserves current view when selecting a ticker', async () => {

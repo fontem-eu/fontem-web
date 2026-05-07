@@ -9,6 +9,7 @@ import {
   findSliceStats,
   legendStops,
   NULL_COLOR,
+  PALETTE_CATALOG,
 } from '../../src/widgets/atlas/colorScale.js'
 
 // ── deriveBounds ───────────────────────────────────────────────────
@@ -169,5 +170,61 @@ describe('findSliceStats', () => {
 
   it('returns null when key is empty', () => {
     expect(findSliceStats(slices, '')).toBeNull()
+  })
+})
+
+// ── PALETTE_CATALOG + palette routing ─────────────────────────────
+
+describe('PALETTE_CATALOG', () => {
+  it('exposes auto + sequential + diverging entries with cvd flags', () => {
+    expect(PALETTE_CATALOG.auto.family).toBe('auto')
+    expect(PALETTE_CATALOG.viridis.family).toBe('sequential')
+    expect(PALETTE_CATALOG.viridis.cvd).toBe(true)
+    expect(PALETTE_CATALOG.puor.family).toBe('diverging')
+    expect(PALETTE_CATALOG.puor.cvd).toBe(true)
+    // The classic warm ramp must be flagged as NOT CVD-safe so the
+    // picker can warn users who pick it.
+    expect(PALETTE_CATALOG.ylorrd.cvd).toBe(false)
+    expect(PALETTE_CATALOG.rdbu.cvd).toBe(false)
+  })
+})
+
+describe('buildColorExpression — palette routing', () => {
+  it('palette=auto + sequential picks viridis', () => {
+    const expr = buildColorExpression({
+      bounds: [0, 100], kind: 'sequential', palette: 'auto',
+    })
+    expect(expr[2]).toMatch(/^#440154$/i)  // viridis[0]
+  })
+
+  it('palette=auto + diverging picks PuOr', () => {
+    const expr = buildColorExpression({
+      bounds: [-50, 50], kind: 'diverging', palette: 'auto',
+    })
+    expect(expr[2]).toMatch(/^#7f3b08$/i)  // puor[0]
+  })
+
+  it('palette=blues uses Blues regardless of kind', () => {
+    const expr = buildColorExpression({
+      bounds: [0, 100], kind: 'sequential', palette: 'blues',
+    })
+    expect(expr[2]).toMatch(/^#eff3ff$/i)  // blues[0]
+  })
+
+  it('family-mismatch falls back to auto-for-kind (no broken ramp)', () => {
+    // User picked a sequential palette ('blues'), but data is
+    // diverging — must fall back to the CVD-safe diverging default
+    // (PuOr), not paint a sequential ramp across negatives.
+    const expr = buildColorExpression({
+      bounds: [-10, 10], kind: 'diverging', palette: 'blues',
+    })
+    expect(expr[2]).toMatch(/^#7f3b08$/i)  // puor[0]
+  })
+
+  it('unknown palette IDs collapse to auto', () => {
+    const expr = buildColorExpression({
+      bounds: [0, 100], kind: 'sequential', palette: 'rainbow-unicorn',
+    })
+    expect(expr[2]).toMatch(/^#440154$/i)  // viridis[0]
   })
 })

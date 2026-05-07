@@ -37,28 +37,139 @@
 
 // ── Palettes ──────────────────────────────────────────────────────────
 //
-// Both ramps are 5-stop. Five gives enough detail for a choropleth
-// without flooding the legend; matches the scale humans easily count.
+// 5-stop ramps — enough detail for a choropleth, few enough that the
+// legend stays scannable. Two families: sequential (single-direction
+// data) and diverging (data straddles a midpoint, e.g. 0).
+//
+// Hex values pinned here so we don't pull a colormap library just
+// for ~50 swatches. matplotlib + ColorBrewer are the sources.
+//
+// `cvd` flag: ✓ if the palette is robust against red/green colour-
+// vision deficiencies. The picker shows a small "✓ CVD" badge so
+// users know which choices stay legible for everyone.
 
-// Sampled from matplotlib's `viridis` colormap at t = 0, 0.25, 0.5,
-// 0.75, 1.0. Hex values pinned here so we don't pull a colormap
-// library just for these five swatches.
-const VIRIDIS = ['#440154', '#3b528b', '#21918c', '#5ec962', '#fde725']
+const PALETTES = {
+  // Auto: caller's `kind` decides between viridis/PuOr. The default.
+  auto: { label: 'Auto (CVD-safe)', family: 'auto', cvd: true },
 
-// Sampled from ColorBrewer's `PuOr` (9-class), thinned to 5: 1, 3, 5,
-// 7, 9. Symmetric around the centre swatch — when the bounds straddle
-// zero, the centre lands on/near zero in the data scale.
-const PUOR = ['#7f3b08', '#e08214', '#f7f7f7', '#8073ac', '#2d004b']
+  // ── Sequential (single-direction) ─────────────────────────────
+  // matplotlib defaults — perceptually uniform, CVD-safe.
+  viridis: {
+    label: 'Viridis',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#440154', '#3b528b', '#21918c', '#5ec962', '#fde725'],
+  },
+  cividis: {
+    label: 'Cividis',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#00224e', '#3b496c', '#707173', '#a1a06a', '#fde737'],
+  },
+  magma: {
+    label: 'Magma',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#000004', '#51127c', '#b73779', '#fc8961', '#fcfdbf'],
+  },
+  plasma: {
+    label: 'Plasma',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#0d0887', '#7e03a8', '#cc4778', '#f89540', '#f0f921'],
+  },
+  // Single-hue ColorBrewer schemes — CVD-safe by construction
+  // (no red/green dichotomy).
+  blues: {
+    label: 'Blues',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],
+  },
+  greens: {
+    label: 'Greens',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'],
+  },
+  ylgnbu: {
+    label: 'Yellow-Green-Blue',
+    family: 'sequential',
+    cvd: true,
+    stops: ['#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'],
+  },
+  // The classic warm ramp — includes red. Provided because users
+  // who can see red expect it, but flagged as not CVD-safe.
+  ylorrd: {
+    label: 'Yellow-Orange-Red',
+    family: 'sequential',
+    cvd: false,
+    stops: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
+  },
 
-// Distinct null colour — sits outside both palettes intentionally so
+  // ── Diverging (around a midpoint, usually 0) ───────────────────
+  // ColorBrewer diverging schemes; PuOr / BrBG / PRGn are the
+  // standard CVD-safe choices.
+  puor: {
+    label: 'Purple-Orange',
+    family: 'diverging',
+    cvd: true,
+    stops: ['#7f3b08', '#e08214', '#f7f7f7', '#8073ac', '#2d004b'],
+  },
+  brbg: {
+    label: 'Brown-Blue-Green',
+    family: 'diverging',
+    cvd: true,
+    stops: ['#8c510a', '#dfc27d', '#f5f5f5', '#80cdc1', '#01665e'],
+  },
+  prgn: {
+    label: 'Purple-Green',
+    family: 'diverging',
+    cvd: true,
+    stops: ['#762a83', '#c2a5cf', '#f7f7f7', '#a6dba0', '#1b7837'],
+  },
+  rdbu: {
+    label: 'Red-Blue',
+    family: 'diverging',
+    cvd: false,
+    stops: ['#b2182b', '#ef8a62', '#f7f7f7', '#67a9cf', '#2166ac'],
+  },
+}
+
+export const PALETTE_CATALOG = PALETTES
+
+// Distinct null colour — sits outside every palette intentionally so
 // "no data" can never be confused for a data value. Light-medium gray
 // reads correctly on dark and light themes alike.
 export const NULL_COLOR = '#cccccc'
 
 // ── Helpers ───────────────────────────────────────────────────────────
 
-function _palette(kind) {
-  return kind === 'diverging' ? PUOR : VIRIDIS
+/**
+ * Resolve the user's palette preference + the dataset's data shape
+ * to a concrete colour array.
+ *
+ *   palette === 'auto' (default) → viridis for sequential, PuOr for diverging
+ *   palette === 'viridis'        → viridis (regardless of kind)
+ *   palette === 'puor'           → PuOr (regardless of kind)
+ *   palette family-mismatch      → fall back to auto for the kind, so a
+ *                                  user who picked 'blues' (sequential)
+ *                                  on diverging data still gets PuOr
+ *                                  rather than a broken-looking ramp
+ */
+function _palette(kind, palette = 'auto') {
+  const choice = PALETTES[palette]
+  if (!choice || choice.family === 'auto') {
+    // Default: pick by data kind.
+    return kind === 'diverging' ? PALETTES.puor.stops : PALETTES.viridis.stops
+  }
+  if (choice.family !== kind) {
+    // Family mismatch — caller picked sequential palette for
+    // diverging data (or vice versa). Quietly fall back to the
+    // CVD-safe default for the actual kind.
+    return kind === 'diverging' ? PALETTES.puor.stops : PALETTES.viridis.stops
+  }
+  return choice.stops
 }
 
 function _linearStops(min, max, palette) {
@@ -125,25 +236,26 @@ export function deriveBounds(sliceStats, { useFullRange = false } = {}) {
  * @param {string}  opts.kind              - 'sequential' | 'diverging'
  * @param {boolean} opts.log               - apply log-spaced breakpoints
  *                                           (sequential + min>0 only)
+ * @param {string}  opts.palette           - palette ID; 'auto' picks by kind
  * @returns MapLibre expression
  */
-export function buildColorExpression({ bounds, kind = 'sequential', log = false }) {
+export function buildColorExpression({ bounds, kind = 'sequential', log = false, palette = 'auto' }) {
   if (!bounds) return NULL_COLOR
   const [lo, hi] = bounds
-  const palette = _palette(kind)
+  const colours = _palette(kind, palette)
   const stops =
     log && kind === 'sequential' && lo > 0
-      ? _logStops(lo, hi, palette)
-      : _linearStops(lo, hi, palette)
+      ? _logStops(lo, hi, colours)
+      : _linearStops(lo, hi, colours)
 
-  // The "default" colour (before the first break) is palette[0]. Null
+  // The "default" colour (before the first break) is colours[0]. Null
   // values are NOT handled here — they're filtered to a separate layer
   // that paints NULL_COLOR. Mixing both into one step expression
   // produces the same number/null tie-break we're trying to avoid.
   return [
     'step',
     ['get', 'value'],
-    palette[0],
+    colours[0],
     ...stops.flatMap(([v, c]) => [v, c]),
   ]
 }
@@ -156,18 +268,18 @@ export function buildColorExpression({ bounds, kind = 'sequential', log = false 
  * length - 1); callers prepend palette[0] for the "below first break"
  * swatch and `bounds[1]` as the upper edge label.
  */
-export function legendStops({ bounds, kind = 'sequential', log = false }) {
+export function legendStops({ bounds, kind = 'sequential', log = false, palette = 'auto' }) {
   if (!bounds) return []
   const [lo, hi] = bounds
-  const palette = _palette(kind)
+  const colours = _palette(kind, palette)
   const stops =
     log && kind === 'sequential' && lo > 0
-      ? _logStops(lo, hi, palette)
-      : _linearStops(lo, hi, palette)
+      ? _logStops(lo, hi, colours)
+      : _linearStops(lo, hi, colours)
   return [
-    { value: lo, color: palette[0] },
+    { value: lo, color: colours[0] },
     ...stops.map(([v, c]) => ({ value: v, color: c })),
-    { value: hi, color: palette[palette.length - 1] },
+    { value: hi, color: colours[colours.length - 1] },
   ]
 }
 

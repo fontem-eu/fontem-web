@@ -2,9 +2,7 @@
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
-import ThemeToggle from './ThemeToggle.vue'
-import LangPicker from './LangPicker.vue'
-import ProfileDropdown from './ProfileDropdown.vue'
+import PreferencesMenu from './PreferencesMenu.vue'
 import Wordmark from './Wordmark.vue'
 
 const router = useRouter()
@@ -70,21 +68,13 @@ function onTickerSelect(symbol) {
         <TickerSearch :compact="true" @select="onTickerSelect" />
       </div>
 
-      <!-- Right side: theme toggle + auth. Pinned to the far right
-           via `margin-left: auto` below, even when the search bar is
+      <!-- Right side: single preferences gear that hosts theme,
+           language, atlas palette, and (auth-aware) sign-in /
+           account links. Pinned to the far right via
+           `margin-left: auto` below, even when the search bar is
            absent (landing / login pages). -->
       <div class="header-right">
-        <LangPicker />
-        <ThemeToggle />
-        <ProfileDropdown v-if="hasToken" />
-        <router-link
-          v-else
-          to="/login"
-          class="sign-in-btn"
-          data-testid="sign-in-btn"
-        >
-          Sign in
-        </router-link>
+        <PreferencesMenu />
       </div>
     </div>
 

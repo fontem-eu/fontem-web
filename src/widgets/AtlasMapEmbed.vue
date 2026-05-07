@@ -23,6 +23,9 @@ import {
   findSliceStats,
   NULL_COLOR,
 } from './atlas/colorScale.js'
+import { useAtlasPalette } from '../composables/useAtlasPalette.js'
+
+const { palette: atlasPalette } = useAtlasPalette()
 
 const props = defineProps({
   config: { type: Object, default: () => ({}) },
@@ -108,6 +111,7 @@ const colorScaleProps = computed(() => {
       bounds: deriveBounds(activeSliceStats.value),
       kind: activeSliceStats.value.value_kind || 'sequential',
       log: false,
+      palette: atlasPalette.value,
     }
   }
   // Fallback: per-data bounds.
@@ -116,12 +120,13 @@ const colorScaleProps = computed(() => {
     .filter((v) => v != null)
     .sort((a, b) => a - b)
   if (positives.length === 0) {
-    return { bounds: null, kind: 'sequential', log: false }
+    return { bounds: null, kind: 'sequential', log: false, palette: atlasPalette.value }
   }
   return {
     bounds: [positives[0], positives[positives.length - 1]],
     kind: 'sequential',
     log: false,
+    palette: atlasPalette.value,
   }
 })
 
@@ -218,6 +223,8 @@ async function loadAll() {
 
 watch(() => [dataset.value, nutsLevel.value, year.value], () => loadAll())
 watch(choroplethRows, () => renderMap())
+// Re-paint when the user picks a different palette in preferences.
+watch(atlasPalette, () => renderMap())
 
 onMounted(() => {
   if (!container.value) return
@@ -264,6 +271,7 @@ onBeforeUnmount(() => {
       :bounds="colorScaleProps.bounds"
       :kind="colorScaleProps.kind"
       :log="colorScaleProps.log"
+      :palette="colorScaleProps.palette"
     />
 
     <div v-if="hovered && hovered.value != null" class="atlas-embed-hover">
