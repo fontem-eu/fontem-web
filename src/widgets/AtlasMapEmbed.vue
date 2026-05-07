@@ -17,6 +17,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import AtlasLegend from './atlas/AtlasLegend.vue'
+import MapLoadingOverlay from './atlas/MapLoadingOverlay.vue'
 import {
   buildColorExpression,
   deriveBounds,
@@ -256,14 +257,21 @@ onBeforeUnmount(() => {
       </a>
     </header>
 
-    <div v-if="loading" class="atlas-embed-status" data-testid="widget-atlas-loading">
-      Loading…
-    </div>
     <div v-if="error" class="atlas-embed-error" data-testid="widget-atlas-error">
       {{ error }}
     </div>
 
-    <div ref="container" class="atlas-embed-map" />
+    <div class="atlas-embed-map-stack">
+      <div ref="container" class="atlas-embed-map" />
+      <!-- Loading overlay over the map (blocks pointer events
+           during fetch) — replaces the easy-to-miss inline
+           "Loading…" line above the map. -->
+      <MapLoadingOverlay
+        :loading="loading"
+        message="Loading map data…"
+        data-testid="widget-atlas-loading"
+      />
+    </div>
 
     <AtlasLegend
       v-if="colorScaleProps.bounds"
@@ -308,10 +316,10 @@ onBeforeUnmount(() => {
 .atlas-embed-slice { color: var(--muted, #666); font-size: 0.8rem; }
 .atlas-embed-year { color: var(--muted, #666); font-size: 0.8rem; }
 .atlas-embed-link { font-size: 0.78rem; white-space: nowrap; }
-.atlas-embed-status, .atlas-embed-error {
-  padding: 1rem; font-size: 0.85rem; color: var(--muted, #666);
+.atlas-embed-error {
+  padding: 1rem; font-size: 0.85rem; color: #b91c1c;
 }
-.atlas-embed-error { color: #b91c1c; }
+.atlas-embed-map-stack { position: relative; }
 .atlas-embed-map { height: 360px; width: 100%; }
 .atlas-embed-hover {
   position: absolute; left: 0.5rem; bottom: 0.5rem;

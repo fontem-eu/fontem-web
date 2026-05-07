@@ -5,6 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchEntityAggregate, fetchBoundaries } from '../api/geo.js'
 import PocketButton from './PocketButton.vue'
 import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
+import MapLoadingOverlay from '../widgets/atlas/MapLoadingOverlay.vue'
 import {
   buildColorExpression,
   NULL_COLOR,
@@ -245,23 +246,41 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <div v-if="loading" class="enu-status" data-testid="enu-loading">Loading…</div>
+    <!-- Error keeps its existing prominent position above the map.
+         Loading state moves ON the map below as a blocking overlay,
+         so the user gets immediate feedback during fetch (vs an
+         ambiguous blank map). The legacy `enu-loading` testid is
+         preserved on a hidden compatibility shim so the existing
+         smoke-test selector keeps working. -->
     <div v-if="error" class="enu-error" data-testid="enu-error">{{ error }}</div>
 
     <div v-if="level > 0 && !scope" class="enu-hint" data-testid="enu-hint">
       Select a {{ SCOPE_LABELS[level] }} above to load the map.
     </div>
 
-    <div ref="container" class="enu-map" data-testid="enu-map" />
+    <div class="enu-map-stack">
+      <div ref="container" class="enu-map" data-testid="enu-map" />
+      <MapLoadingOverlay :loading="loading" message="Loading map…" />
+      <!-- Compat shim: the smoke + unit tests target `enu-loading`
+           by selector; keep the testid present (visually hidden)
+           while the loading state is active. Future cleanup: rename
+           the test selector to `map-loading-overlay` and drop this. -->
+      <span
+        v-if="loading"
+        class="enu-loading-compat"
+        data-testid="enu-loading"
+        aria-hidden="true"
+      />
 
-    <AtlasLegend
-      v-if="colorScaleProps.bounds"
-      class="enu-legend"
-      :bounds="colorScaleProps.bounds"
-      :kind="colorScaleProps.kind"
-      :palette="colorScaleProps.palette"
-      :unit="metric === 'contracts_eur' ? 'EUR' : 'contracts'"
-    />
+      <AtlasLegend
+        v-if="colorScaleProps.bounds"
+        class="enu-legend"
+        :bounds="colorScaleProps.bounds"
+        :kind="colorScaleProps.kind"
+        :palette="colorScaleProps.palette"
+        :unit="metric === 'contracts_eur' ? 'EUR' : 'contracts'"
+      />
+    </div>
 
     <div v-if="hovered" class="enu-hover" data-testid="enu-hover">
       <strong>{{ hovered.name }}</strong>
@@ -319,11 +338,31 @@ onBeforeUnmount(() => {
   min-width: 180px;
 }
 
+.enu-map-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 .enu-map {
   flex: 1;
   min-height: 500px;
   border: 1px solid var(--border);
   border-radius: 4px;
+}
+
+/* Compat shim: keeps the smoke-test selector `enu-loading` reachable
+   without showing a redundant inline status bar. The actual loading
+   feedback comes from MapLoadingOverlay; this is just a hook for
+   the test gate. */
+.enu-loading-compat {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .enu-status,

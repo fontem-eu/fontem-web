@@ -21,6 +21,7 @@ import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import PocketButton from '../components/PocketButton.vue'
 import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
+import MapLoadingOverlay from '../widgets/atlas/MapLoadingOverlay.vue'
 import {
   buildColorExpression,
   deriveBounds,
@@ -699,15 +700,26 @@ onBeforeUnmount(() => {
       </aside>
 
       <section class="atlas-map-wrap">
-        <div v-if="seriesLoading" class="atlas-status" data-testid="atlas-series-loading">
-          Fetching observations…
-        </div>
+        <!-- Error banner above the map. Loading goes ON the map
+             (overlay below) so the user gets immediate feedback
+             that data is being fetched, but errors keep their
+             existing prominent position so they're impossible to
+             miss. -->
         <div v-if="seriesError" class="atlas-error" data-testid="atlas-series-error">
           {{ seriesError }}
         </div>
 
         <div class="atlas-map-stack">
           <div ref="container" class="atlas-map" data-testid="atlas-map" />
+
+          <!-- Loading overlay — sits over the map with a translucent
+               backdrop, blocks pointer events while fetching, and
+               replaces the previous easy-to-miss "Fetching observations"
+               text-above-the-map. -->
+          <MapLoadingOverlay
+            :loading="seriesLoading"
+            message="Fetching observations…"
+          />
 
           <!-- Year overlay — lives on the map itself so the user
                can read the active year without taking their eyes
