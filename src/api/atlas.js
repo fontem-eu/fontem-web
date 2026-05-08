@@ -66,6 +66,20 @@ export async function fetchSliceStats(code) {
 }
 
 /**
+ * Per-(nuts_level, slice, year) coverage for one dataset.
+ *
+ * Drives the "hide low-coverage years/datasets" toggles in the
+ * Atlas sidebar. Each row is `{nuts_level, dimensions, year,
+ * regions_with_value, regions_total, availability_pct}`.
+ *
+ * Returns [] on pre-backfill clusters — toggles silently no-op.
+ */
+export async function fetchAvailability(code) {
+  if (!code) throw new Error('fetchAvailability: code is required')
+  return _json(`${BASE}/datasets/${encodeURIComponent(code)}/availability`)
+}
+
+/**
  * Time-series rows for one dataset.
  *
  * Supply either `geo` (one or more NUTS codes) or `nutsLevel` (0..3

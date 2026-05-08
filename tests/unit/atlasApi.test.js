@@ -4,6 +4,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
   fetchHealth, fetchDatasets, fetchDatasetDetail, fetchSeries, fetchSnapshot,
+  fetchAvailability,
 } from '../../src/api/atlas.js'
 
 const originalFetch = globalThis.fetch
@@ -100,6 +101,26 @@ describe('fetchSeries', () => {
     globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({}) })
     await fetchSeries({ dataset: 'x', geo: ['DE'], dimensions: {} })
     expect(globalThis.fetch.mock.calls[0][0]).not.toContain('dimensions=')
+  })
+})
+
+describe('fetchAvailability', () => {
+  it('hits /api/atlas/datasets/{code}/availability', async () => {
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
+    await fetchAvailability('crim_off_cat')
+    expect(globalThis.fetch.mock.calls[0][0])
+      .toContain('/api/atlas/datasets/crim_off_cat/availability')
+  })
+
+  it('requires a code', async () => {
+    await expect(fetchAvailability()).rejects.toThrow(/code/)
+  })
+
+  it('encodes funky codes', async () => {
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
+    await fetchAvailability('a/b c')
+    expect(globalThis.fetch.mock.calls[0][0])
+      .toContain('/api/atlas/datasets/a%2Fb%20c/availability')
   })
 })
 

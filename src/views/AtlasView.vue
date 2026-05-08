@@ -17,7 +17,12 @@ import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
+import {
+  fetchAvailability,
+  fetchDatasets,
+  fetchSeries,
+  fetchSliceStats,
+} from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import PocketButton from '../components/PocketButton.vue'
 import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
@@ -52,6 +57,20 @@ const seriesError = ref(null)
 // Slice-stats cache per dataset code. Fetched lazily on dataset
 // selection — see _refreshSliceStats. Map<code, SliceStats[]>.
 const sliceStatsByDataset = ref(new Map())
+
+// Year-availability cache per dataset code. Fetched lazily on
+// dataset selection — see _refreshAvailability. Map<code,
+// YearAvailability[]>.
+const availabilityByDataset = ref(new Map())
+
+// Hide-low-coverage toggles. Default ON — opt-out as requested.
+// 0.20 threshold matches the user spec ("less than 20% data
+// availability"). Year filter applies to the active (level, slice);
+// dataset filter applies dataset-wide via `max_availability_pct`
+// from the catalog.
+const hideLowCoverageYears = ref(true)
+const hideLowCoverageDatasets = ref(true)
+const MIN_AVAILABILITY = 0.20
 
 const hovered = ref(null)             // {nuts_code, name, value}
 
@@ -111,10 +130,30 @@ function togglePlay() {
 }
 
 // ── Derived ──────────────────────────────────────────────────────────
+//
+// `_isLowCoverageDataset(d)` keys off the catalog's
+// `max_availability_pct` — backend-computed best (level, slice, year)
+// coverage. NULL means the availability sidecar isn't populated yet,
+// so we treat the dataset as "show everything" (the toggle no-ops
+// rather than hiding everything mid-rollout).
+function _isLowCoverageDataset(d) {
+  const m = d?.max_availability_pct
+  return m != null && m < MIN_AVAILABILITY
+}
+
 const groupedDatasets = computed(() => {
   const by = new Map()
   for (const d of datasets.value) {
     if (!d.enabled) continue
+    // Never hide the currently-selected dataset, even if the toggle
+    // would normally exclude it — the user explicitly picked it (or
+    // deep-linked to it), so removing it from the picker mid-render
+    // would feel like a bug.
+    if (hideLowCoverageDatasets.value
+        && _isLowCoverageDataset(d)
+        && d.code !== selected.value) {
+      continue
+    }
     if (!by.has(d.theme)) by.set(d.theme, [])
     by.get(d.theme).push(d)
   }
@@ -124,6 +163,16 @@ const groupedDatasets = computed(() => {
       theme,
       items: items.sort((a, b) => a.label.localeCompare(b.label)),
     }))
+})
+
+// Number of datasets the toggle is currently hiding — surfaced in
+// the toggle's hint text so the user knows whether flipping it
+// would reveal anything (and how much).
+const hiddenLowCoverageDatasetCount = computed(() => {
+  if (!datasets.value.length) return 0
+  return datasets.value.filter(
+    (d) => d.enabled && _isLowCoverageDataset(d),
+  ).length
 })
 
 const selectedDataset = computed(
@@ -179,11 +228,38 @@ const sliceOptions = computed(() => {
     }))
 })
 
+// Years whose (level, slice) coverage is below the threshold —
+// derived from the availability sidecar for the active dataset
+// + level + slice. Empty when the sidecar isn't populated yet
+// or the toggle is off.
+const lowCoverageYears = computed(() => {
+  if (!hideLowCoverageYears.value || !selected.value) return new Set()
+  const rows = availabilityByDataset.value.get(selected.value)
+  if (!rows || rows.length === 0) return new Set()
+  const lvl = level.value
+  const slice = sliceKey.value
+  const out = new Set()
+  for (const r of rows) {
+    if (r.nuts_level !== lvl) continue
+    if (slice && JSON.stringify(r.dimensions || {}) !== slice) continue
+    if (r.availability_pct == null) continue
+    if (r.availability_pct < MIN_AVAILABILITY) out.add(r.year)
+  }
+  return out
+})
+
 const availableYears = computed(() => {
   const ys = new Set()
   for (const o of observations.value) ys.add(o.year)
-  return [...ys].sort((a, b) => a - b)
+  const hide = lowCoverageYears.value
+  return [...ys]
+    .filter((y) => !hide.has(y))
+    .sort((a, b) => a - b)
 })
+
+// Surface "n hidden" hint next to the year toggle so the user
+// knows the slider is shorter than it could be.
+const hiddenLowCoverageYearCount = computed(() => lowCoverageYears.value.size)
 
 // Slice stats for the active dimension selection — feeds the legend
 // + the locked colour scale. `null` when the backend hasn't computed
@@ -410,8 +486,26 @@ async function _refreshSliceStats(code) {
   } catch {
     // Don't fail the whole view — colorScale falls back to per-data
     // bounds when slice stats are missing. Just log to the console.
-    // eslint-disable-next-line no-console
     console.warn(`[atlas] slice stats unavailable for ${code}; falling back to per-year scale`)
+  }
+}
+
+async function _refreshAvailability(code) {
+  if (!code) return
+  // Same caching pattern as slice stats — availability is
+  // recomputed only at sync time so within a session the result
+  // is stable. Re-fetching would cause the year-filter set to
+  // briefly flip empty and the slider to jump.
+  if (availabilityByDataset.value.has(code)) return
+  try {
+    const rows = await fetchAvailability(code)
+    const next = new Map(availabilityByDataset.value)
+    next.set(code, Array.isArray(rows) ? rows : [])
+    availabilityByDataset.value = next
+  } catch {
+    // Sidecar may be missing on a pre-backfill cluster — toggles
+    // silently no-op. Same fall-through pattern as slice stats.
+    console.warn(`[atlas] availability unavailable for ${code}; "hide low-coverage years" will no-op`)
   }
 }
 
@@ -420,14 +514,16 @@ async function _refreshSeries() {
   seriesLoading.value = true
   seriesError.value = null
   try {
-    // Series + slice stats fetched in parallel — both are needed
-    // before the choropleth can render in 'locked-scale' mode.
+    // Series + slice stats + availability fetched in parallel.
+    // Series feeds observations, slice stats feeds the locked
+    // colour scale, availability feeds the low-coverage filter.
     const [resp] = await Promise.all([
       fetchSeries({
         dataset: selected.value,
         nutsLevel: level.value,
       }),
       _refreshSliceStats(selected.value),
+      _refreshAvailability(selected.value),
     ])
     observations.value = resp.data || []
     if (!sliceKey.value && sliceOptions.value.length > 0) {
@@ -476,6 +572,20 @@ watch(playing, (now) => {
 watch([selected, level], () => {
   playing.value = false
 })
+
+// Snap `year` back into the filtered set when the toggle (or the
+// active level/slice — which changes the per-year availability)
+// flips and the current year falls outside availableYears.
+watch(
+  [hideLowCoverageYears, lowCoverageYears],
+  () => {
+    if (year.value == null) return
+    if (availableYears.value.length === 0) return
+    if (!availableYears.value.includes(year.value)) {
+      year.value = availableYears.value[availableYears.value.length - 1]
+    }
+  },
+)
 
 // Keep level inside the dataset's allowed set when the dataset changes.
 watch(selectedDataset, (d) => {
@@ -673,6 +783,44 @@ onBeforeUnmount(() => {
                 class="atlas-hint-inline"
                 title="Distribution is right-skewed — log scale recommended."
               >(suggested)</span>
+            </span>
+          </label>
+        </fieldset>
+
+        <fieldset
+          class="atlas-control atlas-coverage-controls"
+          data-testid="atlas-coverage-controls"
+        >
+          <legend class="atlas-label">Coverage</legend>
+          <label class="atlas-toggle">
+            <input
+              v-model="hideLowCoverageDatasets"
+              type="checkbox"
+              data-testid="atlas-hide-low-datasets"
+            />
+            <span>
+              Hide low-coverage datasets
+              <span
+                v-if="hiddenLowCoverageDatasetCount > 0"
+                class="atlas-hint-inline"
+                :title="`Datasets whose best (level, slice, year) covers fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions are hidden from the picker.`"
+              >({{ hiddenLowCoverageDatasetCount }} hidden)</span>
+            </span>
+          </label>
+          <label class="atlas-toggle">
+            <input
+              v-model="hideLowCoverageYears"
+              type="checkbox"
+              data-testid="atlas-hide-low-years"
+              :disabled="!selectedDataset"
+            />
+            <span>
+              Hide low-coverage years
+              <span
+                v-if="hiddenLowCoverageYearCount > 0"
+                class="atlas-hint-inline"
+                :title="`Years where fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions have data for this slice are hidden from the slider.`"
+              >({{ hiddenLowCoverageYearCount }} hidden)</span>
             </span>
           </label>
         </fieldset>
@@ -1010,7 +1158,8 @@ onBeforeUnmount(() => {
 /* Colour-scale toggles (sidebar) — sit between the slice picker and
    the dataset metadata block. Visually a fieldset for the screen-
    reader contract; styled flat to match the surrounding controls. */
-.atlas-scale-controls {
+.atlas-scale-controls,
+.atlas-coverage-controls {
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.5rem 0.7rem 0.6rem;
@@ -1019,7 +1168,8 @@ onBeforeUnmount(() => {
   gap: 0.3rem;
   margin: 0;
 }
-.atlas-scale-controls .atlas-label {
+.atlas-scale-controls .atlas-label,
+.atlas-coverage-controls .atlas-label {
   margin-bottom: 0.2rem;
 }
 .atlas-toggle {

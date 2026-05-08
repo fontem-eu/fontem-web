@@ -256,6 +256,119 @@ describe('AtlasView — slice picker', () => {
   })
 })
 
+describe('AtlasView — coverage filters', () => {
+  // Catalog rows with explicit max_availability_pct so the
+  // dataset-level filter has something to chew on.
+  const COV_DATASETS = [
+    {
+      code: 'rich', label: 'Rich coverage', theme: 'economy',
+      nuts_levels: [2], time_unit: 'year', enabled: true,
+      max_availability_pct: 0.95,
+    },
+    {
+      code: 'sparse', label: 'Sparse coverage', theme: 'economy',
+      nuts_levels: [2], time_unit: 'year', enabled: true,
+      max_availability_pct: 0.10,
+    },
+    {
+      code: 'unknown', label: 'Pre-backfill', theme: 'economy',
+      nuts_levels: [2], time_unit: 'year', enabled: true,
+      max_availability_pct: null,
+    },
+  ]
+
+  // Per-(level, slice, year) availability for the 'rich' dataset:
+  // 2020 covers 90%, 2021 covers 8% (low-coverage year).
+  const COV_AVAILABILITY = [
+    {
+      nuts_level: 2, dimensions: { unit: 'MIO_EUR' }, year: 2020,
+      regions_with_value: 252, regions_total: 281, availability_pct: 0.897,
+    },
+    {
+      nuts_level: 2, dimensions: { unit: 'MIO_EUR' }, year: 2021,
+      regions_with_value: 22, regions_total: 281, availability_pct: 0.078,
+    },
+  ]
+
+  function makeCovFetch() {
+    return vi.fn().mockImplementation((url) => {
+      // Path-prefix dispatch — `/atlas/datasets` matches the catalog
+      // AND the per-dataset endpoints, so check the suffix first to
+      // pick off slice-stats and availability before the catalog hit.
+      if (url.includes('/availability')) {
+        return Promise.resolve({ ok: true, json: async () => COV_AVAILABILITY })
+      }
+      if (url.includes('/slice-stats')) {
+        return Promise.resolve({ ok: true, json: async () => [] })
+      }
+      if (url.includes('/atlas/datasets')) {
+        return Promise.resolve({ ok: true, json: async () => COV_DATASETS })
+      }
+      if (url.includes('/atlas/series')) {
+        return Promise.resolve({ ok: true, json: async () => SERIES_GDP })
+      }
+      if (url.includes('/geo/nuts-boundaries')) {
+        return Promise.resolve({ ok: true, json: async () => BOUNDARIES_L2 })
+      }
+      return Promise.resolve({ ok: false, status: 404, text: async () => 'not found' })
+    })
+  }
+
+  it('hides datasets whose max_availability_pct is below the threshold by default', async () => {
+    globalThis.fetch = makeCovFetch()
+    const w = await mountAtlas()
+    await flushPromises()
+    const opts = w.find('[data-testid="atlas-dataset"]').findAll('option')
+    const codes = opts.map((o) => o.element.value)
+    // Sparse one is hidden; rich + unknown (null pct → show) remain.
+    expect(codes).toContain('rich')
+    expect(codes).toContain('unknown')
+    expect(codes).not.toContain('sparse')
+    // Hint reports the count of hidden datasets.
+    const datasetToggle = w.find('[data-testid="atlas-hide-low-datasets"]')
+    expect(datasetToggle.element.checked).toBe(true)
+    w.unmount()
+  })
+
+  it('reveals low-coverage datasets when the toggle is flipped off', async () => {
+    globalThis.fetch = makeCovFetch()
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-hide-low-datasets"]').setValue(false)
+    const codes = w.find('[data-testid="atlas-dataset"]').findAll('option')
+      .map((o) => o.element.value)
+    expect(codes).toContain('sparse')
+    w.unmount()
+  })
+
+  it('hides low-coverage years from the slider after a dataset is picked', async () => {
+    globalThis.fetch = makeCovFetch()
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('rich')
+    await flushPromises()
+    const slider = w.find('[data-testid="atlas-year"]')
+    // 2021 is the low-coverage year (≈8%) → slider clamps to 2020.
+    expect(slider.attributes('min')).toBe('2020')
+    expect(slider.attributes('max')).toBe('2020')
+    expect(Number(slider.element.value)).toBe(2020)
+    w.unmount()
+  })
+
+  it('keeps low-coverage years on the slider when the toggle is off', async () => {
+    globalThis.fetch = makeCovFetch()
+    const w = await mountAtlas()
+    await flushPromises()
+    await w.find('[data-testid="atlas-dataset"]').setValue('rich')
+    await flushPromises()
+    await w.find('[data-testid="atlas-hide-low-years"]').setValue(false)
+    await flushPromises()
+    const slider = w.find('[data-testid="atlas-year"]')
+    expect(slider.attributes('max')).toBe('2021')
+    w.unmount()
+  })
+})
+
 describe('AtlasView — map cleanup', () => {
   it('removes the map on unmount', async () => {
     const w = await mountAtlas()
