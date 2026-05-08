@@ -70,6 +70,9 @@ function truncate(text, maxLen = 180) {
       >
         <h2 class="card-title">{{ s.title }}</h2>
         <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>
+        <div v-if="s.tags && s.tags.length" class="card-tags" data-testid="feed-card-tags">
+          <span v-for="t in s.tags" :key="t" class="tag-pill">{{ t }}</span>
+        </div>
         <div class="card-meta">
           <span v-if="s.author">{{ s.author.name || s.author }}</span>
           <span v-if="s.updated_at">&middot; {{ formatDate(s.updated_at) }}</span>
@@ -122,5 +125,14 @@ function truncate(text, maxLen = 180) {
 .report-card:hover { border-color: var(--accent); }
 .card-title { font-size: 1rem; font-weight: 600; color: var(--text); margin: 0 0 0.35rem; }
 .card-abstract { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.5rem; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0 0 0.5rem; }
+.tag-pill {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-bg, rgba(10, 102, 194, 0.12));
+  color: var(--accent, #0a66c2);
+  font-weight: 500;
+}
 .card-meta { display: flex; gap: 0.3rem; font-size: 0.7rem; color: var(--muted); }
 </style>

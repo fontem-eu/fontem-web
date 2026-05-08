@@ -34,8 +34,10 @@ import {
   getReport,
   updateReport,
   saveDocument,
+  setStoryTags,
   uploadImage,
 } from '../api/community.js'
+import TagEditor from '../components/TagEditor.vue'
 
 const route = useRoute()
 const reportId = route.params.id
@@ -43,6 +45,7 @@ const reportId = route.params.id
 const title = ref('')
 const abstract = ref('')
 const visibility = ref('private')
+const tags = ref([])
 const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
@@ -184,6 +187,7 @@ async function loadReport() {
     title.value = report.title || ''
     abstract.value = report.abstract || ''
     visibility.value = report.visibility || 'private'
+    tags.value = Array.isArray(report.tags) ? report.tags : []
 
     if (editor) editor.destroy()
 
@@ -226,6 +230,11 @@ async function save() {
       abstract: abstract.value,
       visibility: visibility.value,
     })
+    // Tags persist via a separate endpoint (owner-only PUT). Server
+    // re-normalises on its side, so the response here is the
+    // canonical slug list — keep our `tags` ref in sync.
+    const tagResp = await setStoryTags(reportId, tags.value)
+    if (Array.isArray(tagResp?.tags)) tags.value = tagResp.tags
     await saveDocument(reportId, editor.getJSON())
   } catch (err) {
     error.value = err.message
@@ -282,6 +291,10 @@ async function save() {
         rows="2"
         data-testid="story-abstract-input"
       />
+
+      <!-- Tags — capped at 3 by TagEditor + the backend; suggestions
+           come from /tags (existing public-story tags). -->
+      <TagEditor v-model="tags" class="tag-editor-slot" />
 
       <!-- Unified Editor with static toolbar -->
       <div class="editor-body" data-testid="editor-body">
@@ -359,7 +372,8 @@ async function save() {
 .loading-msg { color: var(--muted); font-size: 0.85rem; text-align: center; padding: 2rem 0; }
 .title-input { display: block; width: 100%; padding: 0.5rem 0; border: none; border-bottom: 2px solid var(--border); background: transparent; color: var(--text); font-size: 1.5rem; font-weight: 700; outline: none; margin-bottom: 0.75rem; }
 .title-input:focus { border-color: var(--accent); }
-.abstract-input { display: block; width: 100%; padding: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.85rem; border-radius: 4px; resize: vertical; outline: none; margin-bottom: 1.5rem; }
+.abstract-input { display: block; width: 100%; padding: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.85rem; border-radius: 4px; resize: vertical; outline: none; margin-bottom: 0.9rem; }
+.tag-editor-slot { margin-bottom: 1.2rem; }
 .abstract-input:focus { border-color: var(--accent); }
 
 .editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; overflow: hidden; }

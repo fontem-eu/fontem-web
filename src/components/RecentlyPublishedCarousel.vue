@@ -171,6 +171,9 @@ function truncate(text, maxLen = 140) {
       >
         <h3 class="title">{{ s.title }}</h3>
         <p v-if="s.abstract" class="abstract">{{ truncate(s.abstract) }}</p>
+        <div v-if="s.tags && s.tags.length" class="tags">
+          <span v-for="t in s.tags" :key="t" class="tag-pill">{{ t }}</span>
+        </div>
         <div class="meta">
           <span v-if="s.updated_at">{{ formatDate(s.updated_at) }}</span>
         </div>
@@ -252,6 +255,15 @@ function truncate(text, maxLen = 140) {
   margin: 0 0 0.6rem;
   line-height: 1.4;
   flex: 1;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.4rem; }
+.tag-pill {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-bg, rgba(10, 102, 194, 0.12));
+  color: var(--accent, #0a66c2);
+  font-weight: 500;
 }
 .meta {
   font-size: 0.78rem;

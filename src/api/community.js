@@ -71,11 +71,12 @@ export function getReport(id) {
   return request('GET', `/data-stories/${encodeURIComponent(id)}`)
 }
 
-export function listReports({ scope, limit, offset } = {}) {
+export function listReports({ scope, limit, offset, tag } = {}) {
   const params = new URLSearchParams()
   if (scope) params.set('scope', scope)
   if (limit !== undefined) params.set('limit', String(limit))
   if (offset !== undefined) params.set('offset', String(offset))
+  if (tag) params.set('tag', tag)
   const qs = params.toString()
   return request('GET', qs ? `/data-stories?${qs}` : '/data-stories')
 }
@@ -86,6 +87,32 @@ export function updateReport(id, fields) {
 
 export function deleteReport(id) {
   return request('DELETE', `/data-stories/${encodeURIComponent(id)}`)
+}
+
+// ── Tags ────────────────────────────────────────────────────────
+//
+// Story tags (PUT) is owner-only. The server normalises whatever
+// free-text the client sends into slug form, dedupes, and rejects
+// >3. The returned `tags` are the canonical slugs the server stored.
+
+export function setStoryTags(id, tags) {
+  return request('PUT', `/data-stories/${encodeURIComponent(id)}/tags`, { tags })
+}
+
+export function listAllTags() {
+  return request('GET', '/tags')
+}
+
+export function listFollowedTags() {
+  return request('GET', '/me/followed-tags')
+}
+
+export function followTag(tag) {
+  return request('POST', '/me/followed-tags', { tag })
+}
+
+export function unfollowTag(tag) {
+  return request('DELETE', `/me/followed-tags/${encodeURIComponent(tag)}`)
 }
 
 // ── Sections ────────────────────────────────────────────────────

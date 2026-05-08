@@ -30,6 +30,8 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1' 
   })
   vi.spyOn(communityApi, 'updateReport').mockResolvedValue({})
   vi.spyOn(communityApi, 'saveDocument').mockResolvedValue({ ok: true })
+  vi.spyOn(communityApi, 'setStoryTags').mockResolvedValue({ tags: [] })
+  vi.spyOn(communityApi, 'listAllTags').mockResolvedValue({ tags: [] })
   vi.spyOn(communityApi, 'uploadImage').mockResolvedValue({ url: '/uploads/test.png' })
 
   const router = makeRouter(reportId)
