@@ -95,12 +95,15 @@ jobs:
           # Landing onboarding strip must be in the SSR'd HTML for `/`.
           # If it's missing, the homepage degraded to "search bar only" —
           # which is the regression this whole PR was meant to prevent.
+          # Probe via the chips testid (the explainer paragraph above
+          # them was retired; chips are the first onboarding element
+          # below the search card now).
           body=$(curl -fsS "http://localhost:8080/")
-          if ! grep -q 'data-testid="landing-explainer"' <<<"$body"; then
-            echo "FAIL /: landing-explainer missing from prerendered HTML"
+          if ! grep -q 'data-testid="example-chips"' <<<"$body"; then
+            echo "FAIL /: example-chips missing from prerendered HTML"
             exit 1
           fi
-          echo "OK   /  — landing-explainer present"
+          echo "OK   /  — example-chips present"
       - name: Probe critical static assets
         # og-card.png + robots.txt ship as real files in public/. If
         # they disappear (the og-card.png 404 that broke WhatsApp
