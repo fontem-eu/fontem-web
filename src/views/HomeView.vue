@@ -185,11 +185,22 @@ onMounted(async () => {
         </div>
 
         <!-- ── Landing-extra: onboarding ───────────────────── -->
-        <!-- Section order is deliberate: chips give an immediate
-             "what could I do here" affordance, How-it-works frames
-             the workflow, Recently-published shows it's alive, and
-             the 45-second tour rewards anyone still scrolling. -->
+        <!-- Section order is deliberate: Recently-published carousel
+             leads — the page should feel alive on every visit before
+             explaining itself. Chips ("Try:") give the next-click
+             affordance, How-it-works frames the workflow, and the
+             45-second tour rewards anyone still scrolling. -->
         <section class="landing-extra" data-testid="landing-extra">
+          <section
+            v-if="recentStories.length"
+            class="recent-reports"
+            data-testid="recent-stories"
+          >
+            <h2 class="recent-reports-title">Recently published</h2>
+            <RecentlyPublishedCarousel :stories="recentStories" />
+            <router-link to="/feed" class="recent-reports-more">See all public data stories →</router-link>
+          </section>
+
           <div class="example-chips" data-testid="example-chips">
             <span class="example-chips-label">Try:</span>
             <router-link
@@ -225,16 +236,6 @@ onMounted(async () => {
                 />
               </div>
             </div>
-          </section>
-
-          <section
-            v-if="recentStories.length"
-            class="recent-reports"
-            data-testid="recent-stories"
-          >
-            <h2 class="recent-reports-title">Recently published</h2>
-            <RecentlyPublishedCarousel :stories="recentStories" />
-            <router-link to="/feed" class="recent-reports-more">See all public data stories →</router-link>
           </section>
 
           <section class="demo-clip" data-testid="landing-demo">
