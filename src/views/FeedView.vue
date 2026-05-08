@@ -1,17 +1,38 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { listReports } from '../api/community.js'
+import { ref, onMounted, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { listReports, listAllTags } from '../api/community.js'
+import { useFollowedTags } from '../composables/useFollowedTags.js'
 
 const router = useRouter()
+const route = useRoute()
 
 const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
 
-onMounted(async () => {
+// All public-story tags + counts, for the chip strip.
+const allTags = ref([])
+
+// Active tag filter — read from + writes back to the URL so the
+// filter is shareable / bookmarkable.
+const activeTag = computed(() => {
+  const t = route.query.tag
+  return typeof t === 'string' && t ? t : null
+})
+
+// `tags` is read inside the template via the composable's
+// `isFollowing` helper; we don't need a ref here.
+const { toggle, isFollowing } = useFollowedTags()
+
+async function loadStories() {
+  loading.value = true
+  error.value = null
   try {
-    const data = await listReports({ scope: 'public', limit: 50 })
+    const data = await listReports({
+      scope: 'public', limit: 50,
+      tag: activeTag.value || undefined,
+    })
     // The /data-stories list endpoint still returns `{ reports: [...] }`
     // (see Phase A1 — backend internals stay named Report); accept the
     // legacy `reports` key plus a future `stories` key, and the bare
@@ -22,7 +43,31 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+}
+
+async function loadTags() {
+  try {
+    const r = await listAllTags()
+    allTags.value = Array.isArray(r?.tags) ? r.tags : []
+  } catch { /* chip strip is enrichment, not blocking */ }
+}
+
+onMounted(async () => {
+  await Promise.all([loadStories(), loadTags()])
 })
+
+// Re-fetch the story list whenever the URL's `?tag=` flips.
+watch(activeTag, () => { loadStories() })
+
+function setTag(tag) {
+  router.replace({ path: route.path, query: { ...route.query, tag } })
+}
+
+function clearTag() {
+  // eslint-disable-next-line no-unused-vars
+  const { tag, ...rest } = route.query
+  router.replace({ path: route.path, query: rest })
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return ''
@@ -47,6 +92,54 @@ function truncate(text, maxLen = 180) {
   <div class="feed" data-testid="feed">
     <h1 class="feed-title">Feed</h1>
     <p class="feed-sub">Public data stories from the community, newest first.</p>
+
+    <!-- Browse-by-tag chip strip. Each chip toggles the URL `?tag=`
+         filter; a star toggles follow/unfollow (localStorage when
+         logged out, server-side when logged in). The "All" pill
+         clears the filter. -->
+    <div v-if="allTags.length" class="tag-strip" data-testid="feed-tag-strip">
+      <button
+        type="button"
+        class="tag-chip all-chip"
+        :class="{ active: !activeTag }"
+        data-testid="tag-chip-all"
+        @click="clearTag"
+      >All</button>
+      <span
+        v-for="t in allTags"
+        :key="t.tag"
+        class="tag-chip-wrap"
+      >
+        <button
+          type="button"
+          class="tag-chip"
+          :class="{ active: activeTag === t.tag }"
+          :data-testid="`tag-chip-${t.tag}`"
+          @click="setTag(t.tag)"
+        >
+          {{ t.tag }}
+          <span class="chip-count">{{ t.story_count }}</span>
+        </button>
+        <button
+          type="button"
+          class="follow-btn"
+          :class="{ followed: isFollowing(t.tag) }"
+          :aria-label="isFollowing(t.tag) ? `Unfollow ${t.tag}` : `Follow ${t.tag}`"
+          :title="isFollowing(t.tag) ? 'Unfollow' : 'Follow'"
+          :data-testid="`tag-follow-${t.tag}`"
+          @click.stop="toggle(t.tag)"
+        >{{ isFollowing(t.tag) ? '★' : '☆' }}</button>
+      </span>
+    </div>
+
+    <p
+      v-if="activeTag"
+      class="feed-active-filter"
+      data-testid="feed-active-filter"
+    >
+      Filtering by <code>{{ activeTag }}</code>.
+      <button type="button" class="link-btn" @click="clearTag">Clear filter</button>
+    </p>
 
     <div v-if="error" class="error-bar" data-testid="feed-error">{{ error }}</div>
 
@@ -135,4 +228,63 @@ function truncate(text, maxLen = 180) {
   font-weight: 500;
 }
 .card-meta { display: flex; gap: 0.3rem; font-size: 0.7rem; color: var(--muted); }
+
+/* ── Tag chip strip ─────────────────────────────────────────── */
+.tag-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+}
+.tag-chip-wrap {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--accent-bg, rgba(10, 102, 194, 0.10));
+  overflow: hidden;
+}
+.tag-chip {
+  border: 0;
+  padding: 0.2rem 0.6rem;
+  background: transparent;
+  color: var(--accent, #0a66c2);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.tag-chip.active,
+.tag-chip.all-chip.active { background: var(--accent, #0a66c2); color: #fff; border-radius: 999px; }
+.all-chip { border-radius: 999px; background: var(--accent-bg, rgba(10, 102, 194, 0.10)); }
+.chip-count { font-size: 0.7rem; color: var(--muted); }
+.tag-chip.active .chip-count { color: rgba(255,255,255,0.85); }
+.follow-btn {
+  border: 0;
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.follow-btn.followed { color: #f0a000; }
+.feed-active-filter { font-size: 0.85rem; color: var(--muted); margin: 0 0 1rem; }
+.feed-active-filter code {
+  background: var(--accent-bg, rgba(10, 102, 194, 0.12));
+  color: var(--accent, #0a66c2);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+}
+.link-btn {
+  border: 0;
+  background: transparent;
+  color: var(--accent, #0a66c2);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  margin-left: 0.4rem;
+}
+.link-btn:hover { text-decoration: underline; }
 </style>
