@@ -219,15 +219,18 @@ describe('HomeView', () => {
     }
   })
 
-  it('fetches and renders up to 3 recent public reports', async () => {
+  it('fetches recent public reports and hands them to the carousel', async () => {
     listReports.mockResolvedValueOnce([
       { id: 'r1', title: 'Report A', abstract: 'short', updated_at: '2026-04-01' },
       { id: 'r2', title: 'Report B', abstract: 'short', updated_at: '2026-04-02' },
       { id: 'r3', title: 'Report C', abstract: 'short', updated_at: '2026-04-03' },
     ])
     const { wrapper } = await mountAt('/')
-    expect(listReports).toHaveBeenCalledWith({ scope: 'public', limit: 3 })
-    const cards = wrapper.findAll('[data-testid="recent-stories"] .report-card')
+    // Limit bumped from 3 → 8 to give the carousel rotation material.
+    expect(listReports).toHaveBeenCalledWith({ scope: 'public', limit: 8 })
+    const carousel = wrapper.find('[data-testid="recent-carousel"]')
+    expect(carousel.exists()).toBe(true)
+    const cards = wrapper.findAll('[data-testid="recent-carousel"] .card')
     expect(cards).toHaveLength(3)
     expect(cards[0].text()).toContain('Report A')
   })

@@ -5,6 +5,7 @@ import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
 import Wordmark from '../components/Wordmark.vue'
+import RecentlyPublishedCarousel from '../components/RecentlyPublishedCarousel.vue'
 import { useAnalytics } from '../composables/useAnalytics.js'
 import { listReports } from '../api/community.js'
 
@@ -137,7 +138,10 @@ const demoVideo = ref(null)
 
 onMounted(async () => {
   try {
-    const data = await listReports({ scope: 'public', limit: 3 })
+    // Fetch enough rows that the carousel has something to rotate
+    // through. 8 is a sweet spot: at AUTO_MS=5s that's a 40s loop,
+    // long enough to read each card without feeling stale.
+    const data = await listReports({ scope: 'public', limit: 8 })
     recentStories.value = Array.isArray(data)
       ? data
       : (data?.stories ?? data?.reports ?? [])
@@ -157,25 +161,6 @@ onMounted(async () => {
   }
 })
 
-// Helpers copied verbatim from FeedView.vue. Extracting to a shared util is
-// a follow-up — the duplication is too small to merit a module right now.
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  try {
-    return new Date(dateStr).toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  } catch {
-    return dateStr
-  }
-}
-
-function truncate(text, maxLen = 160) {
-  if (!text || text.length <= maxLen) return text || ''
-  return text.slice(0, maxLen) + '...'
-}
 </script>
 
 <template>
@@ -248,21 +233,7 @@ function truncate(text, maxLen = 160) {
             data-testid="recent-stories"
           >
             <h2 class="recent-reports-title">Recently published</h2>
-            <div class="report-cards">
-              <article
-                v-for="s in recentStories"
-                :key="s.id"
-                class="report-card"
-                :data-testid="`recent-story-${s.id}`"
-                @click="$router.push(`/stories/${s.id}`)"
-              >
-                <h3 class="card-title">{{ s.title }}</h3>
-                <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>
-                <div class="card-meta">
-                  <span v-if="s.updated_at">{{ formatDate(s.updated_at) }}</span>
-                </div>
-              </article>
-            </div>
+            <RecentlyPublishedCarousel :stories="recentStories" />
             <router-link to="/feed" class="recent-reports-more">See all public data stories →</router-link>
           </section>
 
@@ -496,19 +467,6 @@ function truncate(text, maxLen = 160) {
   display: flex;
   flex-direction: column;
 }
-.report-cards { display: flex; flex-direction: column; gap: 0.75rem; }
-.report-card {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 1rem;
-  background: var(--surface);
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.report-card:hover { border-color: var(--accent); }
-.card-title { font-size: 1rem; font-weight: 600; color: var(--text); margin: 0 0 0.35rem; }
-.card-abstract { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.5rem; }
-.card-meta { display: flex; gap: 0.3rem; font-size: 0.7rem; color: var(--muted); }
 .recent-reports-more {
   align-self: flex-end;
   margin-top: 0.65rem;
