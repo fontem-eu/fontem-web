@@ -186,19 +186,6 @@ describe('HomeView', () => {
 
   // ── Landing-extra: onboarding strip ─────────────────────────
 
-  it('renders the explainer paragraph naming the four data sources', async () => {
-    const { wrapper } = await mountAt('/')
-    const explainer = wrapper.find('[data-testid="landing-explainer"]')
-    expect(explainer.exists()).toBe(true)
-    const text = explainer.text()
-    // Each source is name-checked once. If anyone changes the explainer,
-    // they must keep the four primary upstreams visible by name.
-    expect(text).toContain('TED')
-    expect(text).toContain('GLEIF')
-    expect(text).toContain('Transparency Register')
-    expect(text).toContain('Cohesion')
-  })
-
   it('renders the example chips, each as a router-link with a / path', async () => {
     const { wrapper } = await mountAt('/')
     const chips = wrapper.findAll('[data-testid="example-chips"] a')
@@ -258,7 +245,6 @@ describe('HomeView', () => {
   it('hides the entire landing-extra section when a ticker is selected', async () => {
     const { wrapper } = await mountAt('/c/AAPL/fundamentals')
     expect(wrapper.find('[data-testid="landing-extra"]').exists()).toBe(false)
-    expect(wrapper.find('[data-testid="landing-explainer"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="example-chips"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="howitworks"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="landing-demo"]').exists()).toBe(false)

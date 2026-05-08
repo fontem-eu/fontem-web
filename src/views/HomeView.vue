@@ -117,7 +117,7 @@ const STEPS = [
   {
     key: 'crosscheck',
     name: 'Cross-check',
-    desc: 'Compare what TED, GLEIF, the Transparency Register and Cohesion say about the same entity, side by side.',
+    desc: 'Compare what TED, GLEIF, the Transparency Register, Cohesion and other sources say about the same entity, side by side.',
     svg: '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7H3v4"/><path d="M3 7l5 5"/><path d="M17 17h4v-4"/><path d="M21 17l-5-5"/></svg>',
     gif: null,
     gifAlt: 'Switching between procurement, financial and lobbying views',
@@ -200,14 +200,11 @@ function truncate(text, maxLen = 160) {
         </div>
 
         <!-- ── Landing-extra: onboarding ───────────────────── -->
+        <!-- Section order is deliberate: chips give an immediate
+             "what could I do here" affordance, How-it-works frames
+             the workflow, Recently-published shows it's alive, and
+             the 45-second tour rewards anyone still scrolling. -->
         <section class="landing-extra" data-testid="landing-extra">
-          <p class="landing-explainer" data-testid="landing-explainer">
-            An open knowledge graph linking EU companies, public
-            procurement, lobbyists and cohesion funding — built directly
-            on TED, GLEIF, the EU Transparency Register, and the Cohesion
-            Open Data Platform. Every figure verifiable at the source.
-          </p>
-
           <div class="example-chips" data-testid="example-chips">
             <span class="example-chips-label">Try:</span>
             <router-link
@@ -245,27 +242,6 @@ function truncate(text, maxLen = 160) {
             </div>
           </section>
 
-          <section class="demo-clip" data-testid="landing-demo">
-            <h2 class="demo-clip-title">A 45-second tour</h2>
-            <div class="demo-clip-frame">
-              <video
-                ref="demoVideo"
-                class="demo-clip-video"
-                src="/landing-demo.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a data story"
-              />
-            </div>
-            <p class="demo-clip-caption">
-              A signed-in researcher walks from a search to a published data story.
-              Recorded against the live platform — no animation, no edits.
-            </p>
-          </section>
-
           <section
             v-if="recentStories.length"
             class="recent-reports"
@@ -288,6 +264,27 @@ function truncate(text, maxLen = 160) {
               </article>
             </div>
             <router-link to="/feed" class="recent-reports-more">See all public data stories →</router-link>
+          </section>
+
+          <section class="demo-clip" data-testid="landing-demo">
+            <h2 class="demo-clip-title">A 45-second tour</h2>
+            <div class="demo-clip-frame">
+              <video
+                ref="demoVideo"
+                class="demo-clip-video"
+                src="/landing-demo.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a data story"
+              />
+            </div>
+            <p class="demo-clip-caption">
+              A signed-in researcher walks from a search to a published data story.
+              Recorded against the live platform — no animation, no edits.
+            </p>
           </section>
         </section>
       </div>
@@ -359,16 +356,6 @@ function truncate(text, maxLen = 160) {
   gap: 2rem;
   margin-top: 2.25rem;
 }
-.landing-explainer {
-  font-size: 0.95rem;
-  color: var(--text);
-  line-height: 1.55;
-  margin: 0;
-  text-align: center;
-  max-width: 42rem;
-  align-self: center;
-}
-
 /* Example chips: clickable pills that mirror the .sign-in-btn affordance
    from AppHeader, but rounded fully so they read as "tags you can click". */
 .example-chips {

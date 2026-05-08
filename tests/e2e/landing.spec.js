@@ -7,17 +7,6 @@ test.describe('Landing page', () => {
     await expect(page.locator('input[type="search"]').first()).toBeVisible()
   })
 
-  test('shows the explainer paragraph naming the four data sources', async ({ page }) => {
-    await page.goto('/')
-    const explainer = page.locator('[data-testid="landing-explainer"]')
-    await expect(explainer).toBeVisible()
-    const text = await explainer.innerText()
-    expect(text).toMatch(/TED/)
-    expect(text).toMatch(/GLEIF/)
-    expect(text).toMatch(/Transparency Register/)
-    expect(text).toMatch(/Cohesion/)
-  })
-
   test('renders three example chips, each linking to a / path', async ({ page }) => {
     await page.goto('/')
     const chips = page.locator('[data-testid="example-chips"] a')
