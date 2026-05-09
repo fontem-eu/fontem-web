@@ -19,6 +19,7 @@ import { useLang } from '../composables/useLang.js'
 import { useAtlasPalette } from '../composables/useAtlasPalette.js'
 import { EU_LANGUAGES } from '../composables/eu-languages.js'
 import { deleteAssistConversations, deleteCurrentUser } from '../api/community.js'
+import UserAvatar from './UserAvatar.vue'
 
 const router = useRouter()
 const { isDark, toggle: toggleTheme } = useTheme()
@@ -141,6 +142,21 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="rootRef" class="prefs">
+    <!-- Signed-in indicator. Sits to the LEFT of the gear so the
+         "I'm logged in as X" affordance is the leading thing the eye
+         lands on. Clicking it opens the same menu — the gear stays
+         too so the affordance is doubled (icon-led OR identity-led). -->
+    <button
+      v-if="hasToken"
+      type="button"
+      class="prefs-trigger prefs-avatar-trigger"
+      :aria-expanded="open"
+      aria-haspopup="menu"
+      data-testid="prefs-avatar-trigger"
+      @click.stop="toggleOpen"
+    >
+      <UserAvatar :user="user" :size="28" />
+    </button>
     <button
       type="button"
       class="prefs-trigger"
@@ -284,7 +300,14 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.prefs { position: relative; }
+.prefs {
+  position: relative;
+  /* Cluster the avatar + gear triggers without a gap inside; the
+     header itself supplies the gap from neighbouring controls. */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 .prefs-trigger {
   background: transparent;
   border: 1px solid var(--border);
@@ -297,6 +320,14 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 .prefs-trigger:hover { border-color: var(--accent); color: var(--accent); }
+/* Avatar trigger — strip the rectangular border so the circular
+   avatar reads cleanly. The hover state keeps the parity by tinting
+   the avatar's ring via box-shadow on the inner element instead. */
+.prefs-avatar-trigger {
+  border-color: transparent;
+  padding: 0;
+}
+.prefs-avatar-trigger:hover { border-color: transparent; }
 
 .prefs-menu {
   position: absolute;

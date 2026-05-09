@@ -79,6 +79,30 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="prefs-sign-in"]').exists()).toBe(false)
   })
 
+  it('hides the avatar trigger for anonymous visitors', async () => {
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="prefs-avatar-trigger"]').exists()).toBe(false)
+  })
+
+  it('renders the avatar trigger next to the gear when authenticated', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    localStorage.setItem('gmr-user', JSON.stringify({
+      name: 'Bernardo Marques', email: 'bernardo@example.com',
+    }))
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="prefs-avatar-trigger"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="user-avatar-initials"]').text()).toBe('BM')
+  })
+
+  it('clicking the avatar opens the same prefs menu as the gear', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    localStorage.setItem('gmr-user', JSON.stringify({ name: 'Bernardo' }))
+    const { wrapper } = await mountAt('/')
+    await wrapper.find('[data-testid="prefs-avatar-trigger"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="prefs-menu"]').exists()).toBe(true)
+  })
+
   it('shows nav tabs when authenticated', async () => {
     localStorage.setItem('gmr-token', 'test-token')
     const { wrapper } = await mountAt('/')
