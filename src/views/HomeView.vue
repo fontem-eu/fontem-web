@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import TickerSearch from '../components/TickerSearch.vue'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
 import Wordmark from '../components/Wordmark.vue'
@@ -56,13 +55,6 @@ function onCompanyResolved(info) {
 }
 
 const { track } = useAnalytics()
-
-function onTickerSelect(symbol) {
-  track('ticker-selected', { symbol })
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
-  const view = isUuid ? 'profile' : selectedView.value
-  router.push('/c/' + symbol + '/' + view)
-}
 
 function onViewChange(view) {
   track('view-changed', { symbol: selectedTicker.value, view })
@@ -166,21 +158,16 @@ onMounted(async () => {
 <template>
   <div class="mx-auto w-full px-4 sm:px-6" :class="selectedTicker ? 'max-w-6xl' : 'max-w-3xl'">
     <main>
-      <!-- ── Landing: centered search card ──────────────────── -->
+      <!-- ── Landing: hero (search lives on its own /public-spending
+           tab now — Home is the carousel + onboarding strip + tour). -->
       <div v-if="!selectedTicker" class="landing" data-testid="landing">
         <div class="landing-card">
           <div class="landing-logo">
             <Wordmark size="lg" />
           </div>
-          <TickerSearch
-            ref="graphSearchInput"
-            :selected-symbol="null"
-            :compact="true"
-            class="landing-search"
-            @select="onTickerSelect"
-          />
           <p class="landing-hint">
-            Search companies, public entities, lobbyists and more…
+            An open knowledge graph linking EU companies, public
+            procurement, lobbyists and cohesion funding.
           </p>
         </div>
 

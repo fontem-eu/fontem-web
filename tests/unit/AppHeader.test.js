@@ -122,6 +122,14 @@ describe('AppHeader', () => {
       .toBe('/atlas')
   })
 
+  it('shows Public Spending tab next to Atlas', async () => {
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="nav-public-spending"]').attributes('href'))
+      .toBe('/public-spending')
+    expect(wrapper.find('[data-testid="app-nav"]').text())
+      .toContain('Public Spending')
+  })
+
   it('moves Issues and Activity out of the top-level nav', async () => {
     localStorage.setItem('gmr-token', 'test-token')
     const { wrapper } = await mountAt('/')

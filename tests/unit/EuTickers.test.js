@@ -224,12 +224,9 @@ describe('HomeView — EU ticker routing', () => {
     expect(router.currentRoute.value.path).toBe('/c/ASML.AS/summary')
   })
 
-  it('onTickerSelect navigates to /ASML.AS/summary for EU tickers from landing', async () => {
-    const { wrapper, router } = await mountHomeAt('/')
-    const pushSpy = vi.spyOn(router, 'push')
-    await wrapper.findComponent(TickerSearchStub).vm.$emit('select', 'ASML.AS')
-    expect(pushSpy).toHaveBeenCalledWith('/c/ASML.AS/summary')
-  })
+  // The "select from the landing search" flow moved to PublicSpendingView
+  // — see tests/unit/PublicSpendingView.test.js. HomeView no longer
+  // hosts TickerSearch.
 
   it('shows fundamentals view for EU ticker navigating to /fundamentals', async () => {
     const { wrapper } = await mountHomeAt('/c/ASML.AS/fundamentals')

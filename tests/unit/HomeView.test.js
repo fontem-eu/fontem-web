@@ -89,10 +89,10 @@ describe('HomeView', () => {
     expect(wrapper.find('[data-testid="data-view-selector"]').exists()).toBe(false)
   })
 
-  it('renders TickerSearch inside the graph path card on root route', async () => {
+  it('does not render TickerSearch on Home (search moved to /public-spending)', async () => {
     const { wrapper } = await mountAt('/')
     const search = wrapper.findComponent({ name: 'TickerSearch' })
-    expect(search.exists()).toBe(true)
+    expect(search.exists()).toBe(false)
   })
 
   // ── Ticker + view route ──────────────────────────────────────
@@ -136,15 +136,8 @@ describe('HomeView', () => {
   })
 
   // ── Navigation ───────────────────────────────────────────────
-  it('navigates to /AAPL/summary when TickerSearch emits select("AAPL") from root', async () => {
-    const { wrapper, router } = await mountAt('/')
-    const pushSpy = vi.spyOn(router, 'push')
-
-    /* TickerSearch now lives inside the path card on the landing page */
-    await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'AAPL')
-
-    expect(pushSpy).toHaveBeenCalledWith('/c/AAPL/summary')
-  })
+  // Search moved to /public-spending — the corresponding select-handler
+  // tests live in the Public Spending suite.
 
   it('preserves current view when navigating to a new ticker via the route', async () => {
     const { router } = await mountAt('/c/AAPL/gmr-long')

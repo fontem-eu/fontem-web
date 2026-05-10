@@ -26,6 +26,10 @@ const navTabs = computed(() => {
   const base = [
     { key: 'home', label: 'Home', path: '/' },
     { key: 'feed', label: 'Feed', path: '/feed' },
+    // Public Spending — formerly the "search-as-the-product" home;
+    // promoted to a sibling of Atlas + Stories so the IA reads as
+    // three first-class features rather than search + extras.
+    { key: 'public-spending', label: 'Public Spending', path: '/public-spending' },
     { key: 'atlas', label: 'Atlas', path: '/atlas' },
   ]
   if (hasToken.value) {

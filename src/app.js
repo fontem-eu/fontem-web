@@ -50,6 +50,7 @@ import GeoView from './views/GeoView.vue'
 import SparqlView from './views/SparqlView.vue'
 import DonateView from './views/DonateView.vue'
 import AtlasView from './views/AtlasView.vue'
+import PublicSpendingView from './views/PublicSpendingView.vue'
 
 import './assets/main.css'
 
@@ -108,6 +109,11 @@ const ROUTES = [
 
   // Atlas — interactive map of the curated Eurostat datasets
   { path: '/atlas', component: AtlasView },
+
+  // Public Spending — search the procurement graph + country-scoped
+  // "of interest" lists (top companies + authorities). Sibling to
+  // Atlas + Data Stories.
+  { path: '/public-spending', component: PublicSpendingView },
 
   // Data stories — canonical paths. Legacy /reports* paths redirect
   // for one release so external links and bookmarks keep working.
