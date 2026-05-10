@@ -54,13 +54,13 @@ function storeState() {
 defineExpose({ storeState, widgetType: 'atlas_map' })
 
 const atlasUrl = computed(() => {
-  if (!dataset.value) return '/atlas'
+  if (!dataset.value) return '/map'
   const q = new URLSearchParams()
   q.set('dataset', dataset.value)
   q.set('level', String(nutsLevel.value))
   if (year.value != null) q.set('year', String(year.value))
   if (dimFilter.value) q.set('slice', JSON.stringify(dimFilter.value))
-  return `/atlas?${q.toString()}`
+  return `/map?${q.toString()}`
 })
 
 // ── State ──────────────────────────────────────────────────────────

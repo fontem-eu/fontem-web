@@ -86,24 +86,31 @@ jobs:
             echo "OK   $path — $expect"
           }
           probe /              "Fontem"
-          probe /feed          "Feed"
+          probe /about         "About"
           probe /privacy       "Privacy"
           probe /data-quality  "Data quality"
           probe /sparql        "SPARQL"
           probe /donate        "Support"
 
-          # Landing onboarding strip must be in the SSR'd HTML for `/`.
-          # If it's missing, the homepage degraded to "search bar only" —
-          # which is the regression this whole PR was meant to prevent.
-          # Probe via the chips testid (the explainer paragraph above
-          # them was retired; chips are the first onboarding element
-          # below the search card now).
-          body=$(curl -fsS "http://localhost:8080/")
+          # /about is the new home of the carousel + chips + how-it-
+          # works strip. If `data-testid="example-chips"` disappears
+          # there, the marketing page silently regressed.
+          body=$(curl -fsS "http://localhost:8080/about")
           if ! grep -q 'data-testid="example-chips"' <<<"$body"; then
-            echo "FAIL /: example-chips missing from prerendered HTML"
+            echo "FAIL /about: example-chips missing from prerendered HTML"
             exit 1
           fi
-          echo "OK   /  — example-chips present"
+          echo "OK   /about  — example-chips present"
+
+          # `/` is now the Feed listing — must SSR with the feed
+          # container. (Anonymous body still works because Feed reads
+          # public stories without auth.)
+          body=$(curl -fsS "http://localhost:8080/")
+          if ! grep -q 'data-testid="feed"' <<<"$body"; then
+            echo "FAIL /: feed container missing from prerendered HTML"
+            exit 1
+          fi
+          echo "OK   /  — feed container present"
       - name: Probe critical static assets
         # og-card.png + robots.txt ship as real files in public/. If
         # they disappear (the og-card.png 404 that broke WhatsApp

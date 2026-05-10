@@ -80,7 +80,7 @@ function truncate(text, maxLen = 140) {
     >
       <p class="empty-msg-text">No stories yet. Start your first one above.</p>
       <router-link
-        to="/feed"
+        to="/"
         class="empty-cta-btn"
         data-testid="my-stories-empty-cta"
       >

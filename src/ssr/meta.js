@@ -11,23 +11,26 @@
  */
 
 const TITLES = {
-  '/': 'Fontem — Follow the numbers, verify the claims',
-  '/feed': 'Feed — Fontem',
+  // Stories — public feed — is the new landing.
+  '/': 'Fontem — Public data stories',
+  '/about': 'About — Fontem',
   '/privacy': 'Privacy policy — Fontem',
   '/data-quality': 'Data quality — Fontem',
   '/sparql': 'SPARQL — Fontem',
-  '/atlas': 'Atlas — Map European statistics on Fontem',
+  '/map': 'Map — European statistics on Fontem',
+  '/spending': 'Spending — EU procurement on Fontem',
   '/login': 'Sign in — Fontem',
   '/donate': 'Support Fontem',
 }
 
 const DESCRIPTIONS = {
-  '/': 'Fontem is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
-  '/feed': 'Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.',
+  '/': 'Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.',
+  '/about': 'Fontem is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
   '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
   '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
-  '/atlas': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
+  '/map': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
+  '/spending': 'Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country.',
   '/login': 'Sign in to Fontem to publish data stories, raise issues, and save your research.',
   '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
 }

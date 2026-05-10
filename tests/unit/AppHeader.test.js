@@ -18,8 +18,8 @@ function makeRouter() {
     routes: [
       { path: '/', component: { template: '<div />' } },
       { path: '/login', component: { template: '<div />' } },
-      { path: '/feed', component: { template: '<div />' } },
-      { path: '/atlas', component: { template: '<div />' } },
+      { path: '/spending', component: { template: '<div />' } },
+      { path: '/map', component: { template: '<div />' } },
       { path: '/my-stories', component: { template: '<div />' } },
       { path: '/reports', component: { template: '<div />' } },
       { path: '/issues', component: { template: '<div />' } },
@@ -108,26 +108,26 @@ describe('AppHeader', () => {
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Home')
-    expect(nav.text()).toContain('Feed')
-    expect(nav.text()).toContain('Atlas')
+    expect(nav.text()).toContain('Stories')
+    expect(nav.text()).toContain('Spending')
+    expect(nav.text()).toContain('Map')
     expect(nav.text()).toContain('My Stories')
   })
 
-  it('shows Atlas tab to anonymous visitors too', async () => {
+  it('shows Map tab to anonymous visitors too', async () => {
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.text()).toContain('Atlas')
-    expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href'))
-      .toBe('/atlas')
+    expect(nav.text()).toContain('Map')
+    expect(wrapper.find('[data-testid="nav-map"]').attributes('href'))
+      .toBe('/map')
   })
 
-  it('shows Public Spending tab next to Atlas', async () => {
+  it('shows Spending tab next to Map', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="nav-public-spending"]').attributes('href'))
-      .toBe('/public-spending')
+    expect(wrapper.find('[data-testid="nav-spending"]').attributes('href'))
+      .toBe('/spending')
     expect(wrapper.find('[data-testid="app-nav"]').text())
-      .toContain('Public Spending')
+      .toContain('Spending')
   })
 
   it('moves Issues and Activity out of the top-level nav', async () => {
@@ -138,13 +138,16 @@ describe('AppHeader', () => {
     expect(nav.text()).not.toContain('Activity')
   })
 
-  it('shows Home + Feed nav tabs to anonymous visitors (My Reports is hidden)', async () => {
+  it('shows Stories + Spending + Map nav tabs to anonymous visitors (My Stories hidden)', async () => {
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Home')
-    expect(nav.text()).toContain('Feed')
-    expect(nav.text()).not.toContain('My Stories')
+    expect(nav.text()).toContain('Stories')
+    expect(nav.text()).toContain('Spending')
+    expect(nav.text()).toContain('Map')
+    // "My Stories" auth-only — substring "Stories" is in the public
+    // tab too, so check the testid instead of the label.
+    expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
   })
 
   it('hides nav tabs on the login page regardless of auth state', async () => {
@@ -152,20 +155,19 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
   })
 
-  it('hides search bar on the landing page (home has its own card)', async () => {
+  it('shows the header search on `/` (Stories landing — no embedded search)', async () => {
     const { wrapper } = await mountAt('/')
+    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(true)
+  })
+
+  it('hides the header search on /spending (page has its own search card)', async () => {
+    const { wrapper } = await mountAt('/spending')
     expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
   })
 
   it('hides search bar on login page', async () => {
     const { wrapper } = await mountAt('/login')
     expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
-  })
-
-  it('shows search bar on feed page', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
-    const { wrapper } = await mountAt('/feed')
-    expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(true)
   })
 
   it('marks active nav tab', async () => {

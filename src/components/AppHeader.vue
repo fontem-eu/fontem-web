@@ -23,14 +23,13 @@ const hasToken = computed(
  * existing smoke-test selectors keep matching while the smoke repo
  * renames its IDs in lockstep. */
 const navTabs = computed(() => {
+  // Three sibling tabs as the platform's primary IA. Stories
+  // (the public feed) lives at `/` — the marketing/About page is
+  // a footer link, not a top-level destination.
   const base = [
-    { key: 'home', label: 'Home', path: '/' },
-    { key: 'feed', label: 'Feed', path: '/feed' },
-    // Public Spending — formerly the "search-as-the-product" home;
-    // promoted to a sibling of Atlas + Stories so the IA reads as
-    // three first-class features rather than search + extras.
-    { key: 'public-spending', label: 'Public Spending', path: '/public-spending' },
-    { key: 'atlas', label: 'Atlas', path: '/atlas' },
+    { key: 'stories',  label: 'Stories',  path: '/' },
+    { key: 'spending', label: 'Spending', path: '/spending' },
+    { key: 'map',      label: 'Map',      path: '/map' },
   ]
   if (hasToken.value) {
     base.push({ key: 'my-reports', label: 'My Stories', path: '/my-stories' })
@@ -43,10 +42,10 @@ function isActive(path) {
   return route.path.startsWith(path)
 }
 
-/* The landing page has its own centered search card, and the login
- * page has no search.  Every other page shows the compact header
- * search so users can jump to any entity. */
-const showSearch = computed(() => route.path !== '/login' && route.path !== '/')
+/* Login has no search; the Spending tab has its own centered search
+ * card so the header search is redundant there. Every other page
+ * shows the compact header search so users can jump to any entity. */
+const showSearch = computed(() => route.path !== '/login' && route.path !== '/spending')
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)

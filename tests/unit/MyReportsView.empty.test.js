@@ -5,7 +5,8 @@
  * after they sign in — the prior copy ("No reports yet. Start your
  * first analysis above.") was technically correct but offered no
  * onward path for visitors who want to explore before creating.
- * The new CTA links to /feed so they can read what others published.
+ * The new CTA links to / (the Stories landing) so they can read
+ * what others published.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
@@ -24,7 +25,7 @@ function makeRouter() {
     history: createMemoryHistory(),
     routes: [
       { path: '/my-stories', component: MyReportsView },
-      { path: '/feed', component: { template: '<div />' } },
+      { path: '/', component: { template: '<div />' } },
     ],
   })
 }
@@ -53,7 +54,7 @@ describe('MyReportsView empty state', () => {
     const wrapper = await mountView()
     const cta = wrapper.find('[data-testid="my-stories-empty-cta"]')
     expect(cta.exists()).toBe(true)
-    expect(cta.attributes('href')).toBe('/feed')
+    expect(cta.attributes('href')).toBe('/')
   })
 
   it('does not render the CTA when the user already has reports', async () => {

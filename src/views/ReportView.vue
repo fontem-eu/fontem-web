@@ -176,8 +176,8 @@ function parseSectionContent(content) {
     <!-- Story content -->
     <template v-else-if="report">
       <div class="report-header">
-        <router-link to="/feed" class="back-link" data-testid="back-to-feed">
-          &larr; Feed
+        <router-link to="/" class="back-link" data-testid="back-to-feed">
+          &larr; Stories
         </router-link>
         <router-link
           v-if="hasToken"

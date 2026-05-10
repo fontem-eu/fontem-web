@@ -36,6 +36,8 @@ const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
       <span aria-hidden="true">&middot;</span>
       <router-link to="/sparql" data-testid="footer-sparql">SPARQL</router-link>
       <span aria-hidden="true">&middot;</span>
+      <router-link to="/about" data-testid="footer-about">About</router-link>
+      <span aria-hidden="true">&middot;</span>
       <router-link to="/donate" data-testid="footer-donate">Support</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>

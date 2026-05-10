@@ -16,6 +16,7 @@ import { requiresAuth } from './router/authGate.js'
 
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
+import AboutView from './views/AboutView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import AdminView from './views/AdminView.vue'
@@ -55,7 +56,18 @@ import PublicSpendingView from './views/PublicSpendingView.vue'
 import './assets/main.css'
 
 const ROUTES = [
-  { path: '/', component: HomeView },
+  // Landing — Feed (public data stories list). The previous "Home"
+  // (carousel + chips + how-it-works + 45s tour) moved to /about
+  // and is reachable from the footer link.
+  { path: '/', component: FeedView },
+
+  // About — the marketing/onboarding page that used to live at `/`.
+  { path: '/about', component: AboutView },
+
+  // Legacy aliases: existing bookmarks land on the right page.
+  { path: '/feed', redirect: '/' },
+  { path: '/atlas', redirect: '/map' },
+  { path: '/public-spending', redirect: '/spending' },
 
   // Admin area — auth-guarded (see AUTH_REQUIRED below).
   { path: '/admin', component: AdminView },
@@ -104,16 +116,13 @@ const ROUTES = [
   { path: '/issues', component: IssuesView },
   { path: '/issues/:id', component: IssueDetailView },
 
-  // Feed (public data stories)
-  { path: '/feed', component: FeedView },
+  // Map — interactive map of the curated Eurostat datasets
+  // (renamed from /atlas; old path redirects above).
+  { path: '/map', component: AtlasView },
 
-  // Atlas — interactive map of the curated Eurostat datasets
-  { path: '/atlas', component: AtlasView },
-
-  // Public Spending — search the procurement graph + country-scoped
-  // "of interest" lists (top companies + authorities). Sibling to
-  // Atlas + Data Stories.
-  { path: '/public-spending', component: PublicSpendingView },
+  // Spending — search the procurement graph + country-scoped
+  // "of interest" lists (renamed from /public-spending).
+  { path: '/spending', component: PublicSpendingView },
 
   // Data stories — canonical paths. Legacy /reports* paths redirect
   // for one release so external links and bookmarks keep working.

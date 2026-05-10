@@ -4,8 +4,11 @@ import { useRoute, useRouter } from 'vue-router'
 // Horizontal swipe between the top-level views. Order mirrors the nav
 // tabs; My Stories is only included when the user has a token so that
 // anonymous users don't get punted into the auth wall mid-swipe.
-const PUBLIC_ORDER = ['/', '/feed']
-const AUTHED_ORDER = ['/', '/feed', '/my-stories']
+// Mirrors the nav-tab order in AppHeader. `/` is the public Stories
+// landing; Spending + Map are the sibling features; My Stories is
+// auth-only so it gets dropped from the swipe ring for anon users.
+const PUBLIC_ORDER = ['/', '/spending', '/map']
+const AUTHED_ORDER = ['/', '/spending', '/map', '/my-stories']
 function currentOrder() {
   // Safe on the server (SSR) — no localStorage there, default to the
   // anonymous order; the client re-evaluates on hydration.

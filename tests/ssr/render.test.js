@@ -30,10 +30,10 @@ const { render } = await import('../../src/entry-server.js')
 describe('SSR render — landing (/)', () => {
   it('renders real content, not an empty shell', async () => {
     const { html, head } = await render('/')
-    // The landing card's search input + logo wordmark should be in
-    // the HTML even with JS off.
-    expect(html).toContain('data-testid="landing"')
-    expect(html).toMatch(/wordmark/i)
+    // `/` is now the public Stories list (FeedView). The feed
+    // container has to be in the SSR'd HTML — without JS, crawlers
+    // see at least the page shell + title/description/JSON-LD.
+    expect(html).toContain('data-testid="feed"')
     // Head: title + description + at least one JSON-LD doc
     expect(head.title).toBeTruthy()
     expect(head.description).toBeTruthy()

@@ -96,11 +96,13 @@ const DONATE_PAGE = {
 }
 
 const BUILDERS = {
-  '/': () => [ORGANIZATION, WEBSITE],
+  // `/` is now the Stories landing — emit both the org/website
+  // schema (so search engines anchor the site identity to the home
+  // URL) AND the feed ItemList in the same payload.
+  '/': (ctx) => [ORGANIZATION, WEBSITE, feedItemList(ctx)],
   '/privacy': () => [PRIVACY_PAGE],
   '/data-quality': () => [DATA_QUALITY_HUB],
   '/donate': () => [DONATE_PAGE],
-  '/feed': (ctx) => [feedItemList(ctx)],
 }
 
 function feedItemList(ctx) {
@@ -116,7 +118,7 @@ function feedItemList(ctx) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Fontem public data stories',
-    url: `${CANONICAL}/feed`,
+    url: `${CANONICAL}/`,
     numberOfItems: stories.length,
     itemListElement: stories.map((s, idx) => ({
       '@type': 'ListItem',
