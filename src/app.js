@@ -35,6 +35,7 @@ import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import OverviewDQView from './views/dq/OverviewDQView.vue'
 import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
+import TriplesDQView from './views/dq/TriplesDQView.vue'
 import FeedView from './views/FeedView.vue'
 import MyReportsView from './views/MyReportsView.vue'
 import ReportView from './views/ReportView.vue'
@@ -90,6 +91,7 @@ const ROUTES = [
   { path: '/data-quality/nuts', component: NutsDQView },
   { path: '/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
   { path: '/data-quality/connectedness', component: ConnectednessDQView },
+  { path: '/data-quality/triples', component: TriplesDQView },
   { path: '/admin/data-quality/:page*', redirect: (to) => `/data-quality/${to.params.page || ''}` },
 
   // Auth
