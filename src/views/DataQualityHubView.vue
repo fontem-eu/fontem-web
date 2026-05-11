@@ -13,6 +13,7 @@ const freshnessError = ref(null)
 const pipelines = [
   { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true },
   { id: 'connectedness', title: 'Graph Connectedness', desc: 'Degree distribution per entity type — how many nodes are stranded vs well-integrated. Reveals where entity resolution still has work to do.', icon: '🔗' },
+  { id: 'triples', title: 'Triple Store', desc: 'RDF inventory in Virtuoso — total triples, per-named-graph counts, and class/predicate breakdowns. Shows what is actually in the SPARQL store.', icon: '🧬' },
   { id: 'contracts', title: 'TED Contracts', desc: 'EU public procurement awards — daily volume, country coverage, field completeness, match quality.', icon: '📄' },
   { id: 'gleif', title: 'GLEIF Companies', desc: 'Global LEI entity data — active/inactive, country distribution, parent-child relationships.', icon: '🏢' },
   { id: 'edgar', title: 'US EDGAR', desc: 'SEC financial statements — filing coverage by year, XBRL field completeness, sparse companies.', icon: '📊' },
