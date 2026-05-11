@@ -17,7 +17,7 @@ test.describe('Authentication flow', () => {
   test('header shows Sign in when not authenticated', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('[data-testid="sign-in-btn"]')).toBeVisible()
-    await expect(page.locator('[data-testid="sign-out-btn"]')).not.toBeVisible()
+    await expect(page.locator('[data-testid="prefs-sign-out"]')).not.toBeVisible()
   })
 
   test('Sign in button navigates to /login', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Authentication flow', () => {
     await page.evaluate((t) => localStorage.setItem('gmr-token', t), token)
     await page.reload()
     await expect(page.locator('[data-testid="app-nav"]')).toBeVisible()
-    await expect(page.locator('[data-testid="sign-out-btn"]')).toBeVisible()
+    await expect(page.locator('[data-testid="prefs-sign-out"]')).toBeVisible()
     await expect(page.locator('[data-testid="sign-in-btn"]')).not.toBeVisible()
   })
 

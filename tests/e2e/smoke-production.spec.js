@@ -50,11 +50,11 @@ test.describe.serial('Production Smoke Tests', () => {
     await page.waitForURL('/', { timeout: 15000 })
 
     // Profile icon should be visible
-    await expect(page.locator('[data-testid="profile-menu-trigger"]')).toBeVisible()
+    await expect(page.locator('[data-testid="prefs-avatar-trigger"]')).toBeVisible()
 
     // Click to open menu, sign-out should appear
-    await page.click('[data-testid="profile-menu-trigger"]')
-    await expect(page.locator('[data-testid="sign-out-btn"]')).toBeVisible()
+    await page.click('[data-testid="prefs-avatar-trigger"]')
+    await expect(page.locator('[data-testid="prefs-sign-out"]')).toBeVisible()
     await expect(page.locator('[data-testid="menu-ai-usage"]')).toBeVisible()
   })
 

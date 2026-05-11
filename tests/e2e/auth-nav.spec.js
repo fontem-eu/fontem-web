@@ -60,7 +60,7 @@ test.describe('Authentication & Navigation', () => {
     await page.goto('/')
     await page.evaluate((t) => localStorage.setItem('gmr-token', t), token)
     await page.reload()
-    await expect(page.locator('[data-testid="sign-out-btn"]')).toBeVisible()
+    await expect(page.locator('[data-testid="prefs-sign-out"]')).toBeVisible()
     await expect(page.locator('[data-testid="sign-in-btn"]')).not.toBeVisible()
   })
 
