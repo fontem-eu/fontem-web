@@ -49,12 +49,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image
-        run: docker build --network host -t gmr-web:smoke .
+        run: docker build --network host -t fontem-web:smoke .
       - name: Run container
         # Bind host 8080 → container 80. If the image ever stops
         # listening on 80 (the SSR port-mismatch that broke staging),
         # the readiness probe below fails and the job errors out.
-        run: docker run -d --name gmr-web-smoke -p 8080:80 gmr-web:smoke
+        run: docker run -d --name fontem-web-smoke -p 8080:80 fontem-web:smoke
       - name: Wait for readiness
         run: |
           for i in $(seq 1 30); do
@@ -65,7 +65,7 @@ jobs:
             sleep 1
           done
           echo "container did not become ready"
-          docker logs gmr-web-smoke
+          docker logs fontem-web-smoke
           exit 1
       - name: Probe prerendered routes
         # Every route we advertise as prerendered must return 200 with
@@ -133,7 +133,7 @@ jobs:
           check /landing-demo.mp4  500000
       - name: Stop container
         if: always()
-        run: docker rm -f gmr-web-smoke
+        run: docker rm -f fontem-web-smoke
 
   analyze:
     needs: test
@@ -176,7 +176,7 @@ jobs:
         uses: ./.fontem-ci/actions/sbom-generate
         with:
           language: node
-          project-name: gmr-web
+          project-name: fontem-web
           project-version: ${{ github.sha }}
           dtrack-key: ${{ secrets.DTRACK_API_KEY }}
 
@@ -192,7 +192,7 @@ jobs:
           # .internal but dockerd 29.4's containerd-snapshotter image
           # path doesn't read /etc/docker/certs.d, so `docker login`
           # rejects the void42 private CA and the job dies on push.
-          image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/gmr-web
+          image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/fontem-web
           cosign-key: ${{ secrets.COSIGN_KEY }}
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
@@ -200,7 +200,7 @@ jobs:
 
       - uses: ./.fontem-ci/actions/gitops-bump
         with:
-          service: gmr-web
+          service: fontem-web
           tag: ${{ steps.image.outputs.tag }}
           env: testing
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}

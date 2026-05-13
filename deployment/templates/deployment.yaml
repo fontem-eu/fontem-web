@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: gmr-web
+  name: fontem-web
   labels:
-    app: gmr-web
+    app: fontem-web
 spec:
   replicas: {{ .Values.replicas | default 1 }}
   strategy:
@@ -14,17 +14,17 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: gmr-web
+      app: fontem-web
   template:
     metadata:
       labels:
-        app: gmr-web
+        app: fontem-web
     spec:
       imagePullSecrets:
         - name: regcred
       containers:
         - name: nginx
-          image: "contribute.void42.internal/fontem/gmr-web:{{ .Values.version }}"
+          image: "contribute.void42.internal/fontem/fontem-web:{{ .Values.version }}"
           imagePullPolicy: Always
           env:
             - name: POD_NAMESPACE
@@ -47,7 +47,7 @@ spec:
       volumes:
         - name: umami-config
           configMap:
-            name: gmr-web-umami-config
+            name: fontem-web-umami-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

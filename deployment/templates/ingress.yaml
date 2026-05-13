@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gmr-web
+  name: fontem-web
   namespace: {{ .Release.Namespace }}
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: {{ .Values.entrypoints | default "web" | quote }}
@@ -18,6 +18,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: gmr-web
+                name: fontem-web
                 port:
                   number: 80

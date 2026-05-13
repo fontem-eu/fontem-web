@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: gmr-web
+  name: fontem-web
   labels:
-    app: gmr-web
+    app: fontem-web
 spec:
   type: {{ .Values.serviceType }}
   selector:
-    app: gmr-web
+    app: fontem-web
   ports:
     - name: http
       port: 80

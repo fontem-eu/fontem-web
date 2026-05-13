@@ -9,7 +9,7 @@
     "total_unit_tests": 353,
     "total_backend_tests": 516,
     "repos": {
-      "gmr-web": { "unit": 353, "e2e": 82 },
+      "fontem-web": { "unit": 353, "e2e": 82 },
       "edgar-gmr-etl": { "unit": 459 },
       "gmr-community-api": { "unit": 57 }
     }

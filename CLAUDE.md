@@ -1,4 +1,4 @@
-# gmr-web conventions
+# fontem-web conventions
 
 See also: [/config/repos/CLAUDE.md](/config/repos/CLAUDE.md) for workspace-wide rules.
 
@@ -16,10 +16,10 @@ All three must pass. Fix failures before committing.
 ## Deploy
 ```
 npm run build
-docker build -t gmr-web:latest .
-docker tag gmr-web:latest contribute.void42.internal/fontem/gmr-web:latest
-docker push contribute.void42.internal/fontem/gmr-web:latest
-kubectl set image deployment/gmr-web -n gmr nginx=contribute.void42.internal/fontem/gmr-web:latest
-kubectl rollout status deployment/gmr-web -n gmr --timeout=60s
+docker build -t fontem-web:latest .
+docker tag fontem-web:latest contribute.void42.internal/fontem/fontem-web:latest
+docker push contribute.void42.internal/fontem/fontem-web:latest
+kubectl set image deployment/fontem-web -n gmr nginx=contribute.void42.internal/fontem/fontem-web:latest
+kubectl rollout status deployment/fontem-web -n gmr --timeout=60s
 ```
 Production: https://gmr.void42.net
