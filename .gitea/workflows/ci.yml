@@ -21,7 +21,7 @@ jobs:
   # gets built or signed. Uses the shared gmr-ci action so the threshold
   # and scanner version are controlled in one place across all repos.
   #
-  # We check out gmr-ci into `.gmr-ci/` and invoke the action via a
+  # We check out gmr-ci into `.fontem-ci/` and invoke the action via a
   # local path — act_runner v0.3.1 doesn't resolve URL-prefixed `uses:`
   # against the cluster-internal Gitea, but `./path` resolves locally.
   security:
@@ -30,13 +30,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: void42/gmr-ci
-          path: .gmr-ci
+          repository: void42/fontem-ci
+          path: .fontem-ci
           token: ${{ secrets.GMR_CI_READ_TOKEN }}
       - name: OSV-Scanner lockfile gate
-        uses: ./.gmr-ci/actions/osv-scan
+        uses: ./.fontem-ci/actions/osv-scan
       - name: Secret scan (gitleaks)
-        uses: ./.gmr-ci/actions/secret-scan
+        uses: ./.fontem-ci/actions/secret-scan
 
   # Build the shipped image and probe it on every PR. Catches the class
   # of bugs that slipped past unit tests in the SSR era: port/plumbing
@@ -143,12 +143,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: void42/gmr-ci
-          path: .gmr-ci
+          repository: void42/fontem-ci
+          path: .fontem-ci
           token: ${{ secrets.GMR_CI_READ_TOKEN }}
       - name: Install dependencies and generate coverage
         run: npm ci && npx vitest run --dangerouslyIgnoreUnhandledErrors --coverage
-      - uses: ./.gmr-ci/actions/sonar-scan
+      - uses: ./.fontem-ci/actions/sonar-scan
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
 
@@ -164,8 +164,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: void42/gmr-ci
-          path: .gmr-ci
+          repository: void42/fontem-ci
+          path: .fontem-ci
           token: ${{ secrets.GMR_CI_READ_TOKEN }}
 
       - name: Install deps (for cyclonedx-npm)
@@ -173,7 +173,7 @@ jobs:
 
       - id: sbom
         name: Generate + upload SBOM
-        uses: ./.gmr-ci/actions/sbom-generate
+        uses: ./.fontem-ci/actions/sbom-generate
         with:
           language: node
           project-name: gmr-web
@@ -182,7 +182,7 @@ jobs:
 
       - id: image
         name: Build, push, sign, attest
-        uses: ./.gmr-ci/actions/docker-build-sign
+        uses: ./.fontem-ci/actions/docker-build-sign
         with:
           # Push via the cluster-internal Gitea URL over plaintext HTTP —
           # the same backend that contribute.void42.internal fronts.
@@ -192,13 +192,13 @@ jobs:
           # .internal but dockerd 29.4's containerd-snapshotter image
           # path doesn't read /etc/docker/certs.d, so `docker login`
           # rejects the void42 private CA and the job dies on push.
-          image: gitea-http.dev-tools.svc.cluster.local:3000/golden/gmr-web
+          image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/gmr-web
           cosign-key: ${{ secrets.COSIGN_KEY }}
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           sbom-path: ${{ steps.sbom.outputs.sbom-path }}
 
-      - uses: ./.gmr-ci/actions/gitops-bump
+      - uses: ./.fontem-ci/actions/gitops-bump
         with:
           service: gmr-web
           tag: ${{ steps.image.outputs.tag }}

@@ -17,9 +17,9 @@ All three must pass. Fix failures before committing.
 ```
 npm run build
 docker build -t gmr-web:latest .
-docker tag gmr-web:latest contribute.void42.internal/golden/gmr-web:latest
-docker push contribute.void42.internal/golden/gmr-web:latest
-kubectl set image deployment/gmr-web -n gmr nginx=contribute.void42.internal/golden/gmr-web:latest
+docker tag gmr-web:latest contribute.void42.internal/fontem/gmr-web:latest
+docker push contribute.void42.internal/fontem/gmr-web:latest
+kubectl set image deployment/gmr-web -n gmr nginx=contribute.void42.internal/fontem/gmr-web:latest
 kubectl rollout status deployment/gmr-web -n gmr --timeout=60s
 ```
 Production: https://gmr.void42.net
