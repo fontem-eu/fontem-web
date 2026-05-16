@@ -30,4 +30,10 @@ FROM nginx:1.29
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY rate-limit.conf /etc/nginx/conf.d/00-rate-limit.conf
 COPY nginx.conf /etc/nginx/templates/default.conf.template
-ENV POD_NAMESPACE=gmr
+# nginx's image envsubst-templates only substitute vars listed in
+# NGINX_ENVSUBST_FILTER; explicit defaults below double as the
+# allowlist (nginx will only replace these — anything else like
+# ${remote_addr} in nginx variables is left alone).
+ENV POD_NAMESPACE=fontem-prod \
+    MINIO_NAMESPACE=fontem-prod \
+    MINIO_BUCKET=fontem-uploads

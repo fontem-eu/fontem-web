@@ -31,6 +31,16 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            # MinIO upstream + bucket are env-specific:
+            # - non-prod (staging/testing/dast): shared instance in
+            #   fontem-shared, per-env bucket (fontem-{env})
+            # - prod: own instance in fontem-prod, bucket fontem-uploads
+            # Both default to fontem-prod (the prod posture) in the image;
+            # non-prod values files override via gitops.
+            - name: MINIO_NAMESPACE
+              value: {{ .Values.minioNamespace | default "fontem-prod" | quote }}
+            - name: MINIO_BUCKET
+              value: {{ .Values.minioBucket | default "fontem-uploads" | quote }}
           ports:
             - containerPort: 80
           resources:
