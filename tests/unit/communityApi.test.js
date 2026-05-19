@@ -95,11 +95,17 @@ describe('Community API client', () => {
       text: () => Promise.resolve('Internal error'),
     })
     const p = communityApi.listReports()
+    // Attach the rejection handler synchronously, before the timer
+    // advance lets the retry chain settle. Without this the promise
+    // rejects in a microtask before `await expect(p).rejects` is
+    // wired up, and vitest flags it as an unhandled rejection that
+    // fails the suite — even though the assertion itself passes.
+    const assertion = expect(p).rejects.toThrow('HTTP 500')
     // Advance past retry delays (1s + 2s)
     for (let i = 0; i < 3; i++) {
       await vi.advanceTimersByTimeAsync(3000)
     }
-    await expect(p).rejects.toThrow('HTTP 500')
+    await assertion
     vi.useRealTimers()
   })
 

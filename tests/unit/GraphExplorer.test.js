@@ -2,23 +2,24 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import GraphExplorer from '../../src/components/GraphExplorer.vue'
 
-// Mock cytoscape — jsdom has no canvas
-const mockCy = {
-  destroy: vi.fn(),
-  on: vi.fn(),
-  nodes: vi.fn(() => ({
-    forEach: vi.fn(),
-  })),
-  edges: vi.fn(() => ({
-    forEach: vi.fn(),
-  })),
-  svg: vi.fn(() => '<svg></svg>'),
-  png: vi.fn(() => 'data:image/png;base64,fake'),
-  json: vi.fn(() => ({ elements: [] })),
-}
-vi.mock('cytoscape', () => ({
-  default: vi.fn(() => mockCy),
-}))
+// GraphExplorer instantiates `new Sigma(graph, container, ...)` for the
+// WebGL renderer. jsdom containers have zero dimensions so Sigma throws
+// "Container has no width" at construction time — and the failure
+// surfaces as an "unhandled error" that fails the whole suite even
+// though the assertions themselves pass. Mock matches the shape used
+// by the sibling GraphExplorer test files (controls / fullscreen /
+// tooltip-offset).
+vi.mock('sigma', () => {
+  class MockSigma {
+    on() {}
+    graphToViewport() { return { x: 0, y: 0 } }
+    kill() {}
+    setSetting() {}
+    refresh() {}
+    getCanvases() { return {} }
+  }
+  return { default: MockSigma, Sigma: MockSigma }
+})
 
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
