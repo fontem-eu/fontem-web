@@ -107,6 +107,34 @@ export async function fetchSeries({
 }
 
 /**
+ * Recent ETL CronJob runs, newest first.
+ *
+ * One row per invocation (see fontem-events `events.etl_run`):
+ *   { run_id, cronjob_name, image_tag, started_at, finished_at,
+ *     status, summary, error_message }
+ *
+ * `status` is `running` | `success` | `failed`. A `running` row
+ * older than the cronjob's deadline is a crashed pod (SIGKILL,
+ * OOM, activeDeadlineSeconds) — the UI flags it client-side.
+ *
+ * Optional filters: `cronjobName` (e.g. `etl-gleif`), `status`,
+ * `limit` (capped 1..500 at the API).
+ *
+ * Returns [] on pre-bootstrap clusters where `events.etl_run` is
+ * still missing — the dashboard renders "no runs recorded yet".
+ */
+export async function fetchEtlRuns({
+  cronjobName, status, limit,
+} = {}) {
+  const params = new URLSearchParams()
+  if (cronjobName) params.set('cronjob_name', cronjobName)
+  if (status) params.set('status', status)
+  if (limit != null) params.set('limit', String(limit))
+  const qs = params.toString()
+  return _json(`${BASE}/etl-runs${qs ? `?${qs}` : ''}`)
+}
+
+/**
  * Choropleth-shaped query: one value per geo for (dataset, year,
  * nutsLevel). The response also lists every other dim combination
  * present at that slice so the UI can offer a slice picker without

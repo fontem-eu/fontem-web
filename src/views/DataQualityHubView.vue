@@ -26,6 +26,7 @@ const pipelines = [
   { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍' },
   { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺' },
   { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺' },
+  { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱' },
 ]
 
 async function loadOverview() {

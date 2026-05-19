@@ -4,7 +4,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
   fetchHealth, fetchDatasets, fetchDatasetDetail, fetchSeries, fetchSnapshot,
-  fetchAvailability,
+  fetchAvailability, fetchEtlRuns,
 } from '../../src/api/atlas.js'
 
 const originalFetch = globalThis.fetch
@@ -149,5 +149,40 @@ describe('fetchSnapshot', () => {
     globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({ cells: [] }) })
     await fetchSnapshot({ dataset: 'x', year: 2023, nutsLevel: 2 })
     expect(globalThis.fetch.mock.calls[0][0]).not.toContain('dimensions=')
+  })
+})
+
+describe('fetchEtlRuns', () => {
+  it('hits /api/atlas/etl-runs without query params when called with no args', async () => {
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
+    await fetchEtlRuns()
+    const url = globalThis.fetch.mock.calls[0][0]
+    expect(url.startsWith('/api/atlas/etl-runs')).toBe(true)
+    expect(url).not.toContain('?')
+  })
+
+  it('appends filter query params when provided', async () => {
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
+    await fetchEtlRuns({ cronjobName: 'etl-gleif', status: 'failed', limit: 25 })
+    const url = globalThis.fetch.mock.calls[0][0]
+    expect(decodeURIComponent(url)).toContain('cronjob_name=etl-gleif')
+    expect(url).toContain('status=failed')
+    expect(url).toContain('limit=25')
+  })
+
+  it('omits absent filters', async () => {
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
+    await fetchEtlRuns({ status: 'success' })
+    const url = globalThis.fetch.mock.calls[0][0]
+    expect(url).toContain('status=success')
+    expect(url).not.toContain('cronjob_name')
+    expect(url).not.toContain('limit=')
+  })
+
+  it('throws on non-OK response (mirrors other helpers)', async () => {
+    globalThis.fetch.mockResolvedValue({
+      ok: false, status: 503, text: async () => 'events DB unconfigured',
+    })
+    await expect(fetchEtlRuns()).rejects.toThrow(/HTTP 503/)
   })
 })
