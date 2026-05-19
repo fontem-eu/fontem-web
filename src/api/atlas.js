@@ -131,7 +131,8 @@ export async function fetchEtlRuns({
   if (status) params.set('status', status)
   if (limit != null) params.set('limit', String(limit))
   const qs = params.toString()
-  return _json(`${BASE}/etl-runs${qs ? `?${qs}` : ''}`)
+  const suffix = qs ? `?${qs}` : ''
+  return _json(`${BASE}/etl-runs${suffix}`)
 }
 
 /**
