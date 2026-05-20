@@ -67,7 +67,6 @@
     "vitest": "^3.0.8"
   },
   "overrides": {
-    "brace-expansion": "^5.0.6",
     "fast-uri": "^3.1.2",
     "tmp": "^0.2.4"
   }
