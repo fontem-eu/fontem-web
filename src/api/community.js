@@ -18,7 +18,7 @@ function authHeaders() {
     if (payload.exp && payload.exp * 1000 < Date.now()) {
       localStorage.removeItem('gmr-token')
       localStorage.removeItem('gmr-user')
-      window.location.href = '/login'
+      globalThis.location.href = '/login'
       return {}
     }
   } catch { /* malformed token — let the server reject it */ }
@@ -44,7 +44,7 @@ async function request(method, path, body, { retries = 0 } = {}) {
   if (res.status === 401 && sentAuth) {
     localStorage.removeItem('gmr-token')
     localStorage.removeItem('gmr-user')
-    window.location.href = '/login'
+    globalThis.location.href = '/login'
     throw new Error('Session expired')
   }
 

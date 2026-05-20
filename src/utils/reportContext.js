@@ -36,14 +36,14 @@ function stripHtml(html) {
   out = out.replace(/<[^>]+>/g, '')
   // Decode the handful of entities tiptap emits
   out = out
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replaceAll('&nbsp;', ' ')
+    .replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'")
   // Collapse excessive whitespace
-  return out.replace(/\n{3,}/g, '\n\n').trim()
+  return out.replaceAll(/\n{3,}/g, '\n\n').trim()
 }
 
 function sectionToText(section) {

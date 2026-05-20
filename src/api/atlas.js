@@ -89,12 +89,12 @@ export async function fetchSeries({
   dataset, geo, nutsLevel, start, end, dimensions,
 } = {}) {
   if (!dataset) throw new Error('fetchSeries: dataset is required')
-  if ((!geo || !geo.length) && nutsLevel == null) {
+  if (!geo?.length && nutsLevel == null) {
     throw new Error('fetchSeries: supply either geo or nutsLevel')
   }
   const params = new URLSearchParams()
   params.set('dataset', dataset)
-  if (geo && geo.length) {
+  if (geo?.length) {
     for (const code of geo) params.append('geo', code)
   }
   if (nutsLevel != null) params.set('nuts_level', String(nutsLevel))

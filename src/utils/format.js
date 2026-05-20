@@ -26,7 +26,8 @@ const SYMBOL_OVERRIDES = {
  * Always uses en-US locale for consistency on charts.
  */
 export function fmtCompact(n, currency = 'EUR', decimals = 1) {
-  if (n == null || isNaN(n)) return '—'
+  if (n == null || Number.isNaN(Number(n))) return '—'
+  n = Number(n)
   const sym = SYMBOL_OVERRIDES[currency] || `${currency}\u00A0`
   const neg = n < 0
   const abs = Math.abs(n)
@@ -54,7 +55,7 @@ export function fmtCompact(n, currency = 'EUR', decimals = 1) {
  * @param {string|object} arg3  - opts object or (legacy) currency code
  */
 export function fmtMoney(n, arg2 = 'USD', arg3 = {}) {
-  if (n == null || isNaN(n)) return '—'
+  if (n == null || Number.isNaN(Number(n))) return '—'
 
   // Legacy positional: fmtMoney(n, decimals, currency)
   if (typeof arg2 === 'number') {
@@ -93,7 +94,7 @@ export function fmtEur(n, decimalsOrOpts = 1) {
 
 /** Format a stock price (always 2 decimals). */
 export function fmtPrice(n, currency = 'USD') {
-  if (n == null || isNaN(n)) return '—'
+  if (n == null || Number.isNaN(Number(n))) return '—'
   const sym = SYMBOL_OVERRIDES[currency] || `${currency}\u00A0`
   return `${sym}${Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 }

@@ -35,7 +35,7 @@ export function usePocket() {
     const id = crypto.randomUUID()
     const item = {
       id,
-      name: name || `${config.entityId || 'unknown'} — ${widgetType.replace(/_/g, ' ')}`,
+      name: name || `${config.entityId || 'unknown'} — ${widgetType.replaceAll('_', ' ')}`,
       widget_type: widgetType,
       config: { ...config, schema_version: 1 },
       savedAt: new Date().toISOString(),

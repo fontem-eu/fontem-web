@@ -23,7 +23,7 @@ const emit = defineEmits(['close', 'company-resolved'])
 const linkCopied = ref(false)
 let _copyTimer = null
 function copyLink() {
-  navigator.clipboard?.writeText(window.location.href).then(() => {
+  navigator.clipboard?.writeText(globalThis.location.href).then(() => {
     linkCopied.value = true
     clearTimeout(_copyTimer)
     _copyTimer = setTimeout(() => { linkCopied.value = false }, 1800)
@@ -49,6 +49,90 @@ const YEAR_OPTIONS = [
 
 let _loadId = 0
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-/i
+
+async function _tryFetchJson(url) {
+  try {
+    const res = await fetch(url)
+    return res.ok ? await res.json() : null
+  } catch {
+    return null
+  }
+}
+
+async function _resolveUuidEntity(sym, { profile = false } = {}) {
+  if (!UUID_RE.test(sym)) return null
+  const companyInfo = await _tryFetchJson(`/api/companies/${encodeURIComponent(sym)}`)
+  if (companyInfo) {
+    return profile
+      ? { gmr_id: sym, company_name: companyInfo.company_name, ticker: sym }
+      : companyInfo
+  }
+  const authorityInfo = await _tryFetchJson(`/api/authorities/${encodeURIComponent(sym)}`)
+  if (!authorityInfo) return null
+  const base = {
+    gmr_id: sym,
+    company_name: authorityInfo.authority_name,
+    _entityType: 'authority',
+  }
+  if (!profile) return base
+  return {
+    ...base,
+    ticker: sym,
+    country: authorityInfo.country,
+    contract_count: authorityInfo.contract_count,
+    total_spend_eur: authorityInfo.total_spend_eur,
+  }
+}
+
+async function _fetchProfileResult(sym) {
+  try {
+    return await fetchFundamentals(sym)
+  } catch {
+    const fallback = await _resolveUuidEntity(sym, { profile: true })
+    return fallback ?? { ticker: sym }
+  }
+}
+
+async function _fetchPanelResult(sym) {
+  try {
+    return await fetchFundamentals(sym, 1)
+  } catch {
+    return await _resolveUuidEntity(sym, { profile: false })
+  }
+}
+
+async function _resolveResult(sym) {
+  if (props.view === 'gmr-long') return fetchGmrData(sym)
+  if (props.view === 'valuation') return fetchValuation(sym)
+  if (props.view === 'profile') return _fetchProfileResult(sym)
+  if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
+    return fetchFundamentals(sym)
+  }
+  return null
+}
+
+function _emitResolved(sym, result) {
+  if (!result?.gmr_id && !result?.company_name) return
+  emit('company-resolved', {
+    id: sym,
+    name: result.company_name || sym,
+    gmr_id: result.gmr_id,
+  })
+}
+
+async function _loadPanelOnlyView(sym, id) {
+  const result = await _fetchPanelResult(sym)
+  if (_loadId !== id) return
+  if (result) {
+    companyGmrId.value = result.gmr_id ?? null
+    companyName.value = result.company_name ?? null
+    _emitResolved(sym, result)
+  }
+  data.value = null
+  state.value = 'done'
+}
+
 async function loadData(sym) {
   const id = ++_loadId
   data.value = null
@@ -60,104 +144,17 @@ async function loadData(sym) {
   }, 15000)
 
   try {
-    let result
-    if (props.view === 'gmr-long') {
-      result = await fetchGmrData(sym)
-    } else if (props.view === 'valuation') {
-      result = await fetchValuation(sym)
-    } else if (props.view === 'profile') {
-      // Profile: try fundamentals for financial snapshot; fall back to company/authority API
-      try {
-        result = await fetchFundamentals(sym)
-      } catch {
-        const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
-        if (uuid) {
-          // Try company profile first
-          try {
-            const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
-            if (res.ok) {
-              const info = await res.json()
-              result = { gmr_id: uuid, company_name: info.company_name, ticker: sym }
-            }
-          } catch { /* ignore */ }
-          // If not a company, try authority
-          if (!result) {
-            try {
-              const res = await fetch(`/api/authorities/${encodeURIComponent(uuid)}`)
-              if (res.ok) {
-                const info = await res.json()
-                result = {
-                  gmr_id: uuid,
-                  company_name: info.authority_name,
-                  ticker: sym,
-                  _entityType: 'authority',
-                  country: info.country,
-                  contract_count: info.contract_count,
-                  total_spend_eur: info.total_spend_eur,
-                }
-              }
-            } catch { /* ignore */ }
-          }
-        }
-        if (!result) result = { ticker: sym }
-      }
-    } else if (['fundamentals', 'income', 'cashflow', 'balance'].includes(props.view)) {
-      result = await fetchFundamentals(sym)
-    } else if (props.view === 'contracts' || props.view === 'graph') {
-      // Panel handles its own data loading.
-      // We need the entity name for the header/title.
-      try {
-        result = await fetchFundamentals(sym, 1)
-      } catch {
-        const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sym) ? sym : null
-        if (uuid) {
-          // Try company
-          try {
-            const res = await fetch(`/api/companies/${encodeURIComponent(uuid)}`)
-            if (res.ok) result = await res.json()
-          } catch { /* ignore */ }
-          // Try authority
-          if (!result) {
-            try {
-              const res = await fetch(`/api/authorities/${encodeURIComponent(uuid)}`)
-              if (res.ok) {
-                const info = await res.json()
-                result = {
-                  gmr_id: uuid,
-                  company_name: info.authority_name,
-                  _entityType: 'authority',
-                }
-              }
-            } catch { /* ignore */ }
-          }
-        }
-      }
-      if (result) {
-        companyGmrId.value = result.gmr_id ?? null
-        companyName.value = result.company_name ?? result.company_name ?? null
-        if (result.gmr_id || result.company_name) {
-          emit('company-resolved', {
-            id: sym, name: result.company_name || sym, gmr_id: result.gmr_id,
-          })
-        }
-      }
-      data.value = null
-      state.value = 'done'
+    if (props.view === 'contracts' || props.view === 'graph') {
+      await _loadPanelOnlyView(sym, id)
       return
     }
+    const result = await _resolveResult(sym)
     if (_loadId !== id) return // stale response
     data.value = result ?? null
     companyGmrId.value = result?.gmr_id ?? null
     companyName.value = result?.company_name ?? null
     state.value = 'done'
-    // Tell parent the resolved company info (for recent history, page title)
-    if (result?.gmr_id || result?.company_name) {
-      emit('company-resolved', {
-        id: props.symbol,
-        name: result.company_name || props.symbol,
-        gmr_id: result.gmr_id,
-      })
-    }
+    _emitResolved(props.symbol, result)
   } catch {
     if (_loadId !== id) return
     state.value = 'error'
@@ -220,7 +217,7 @@ function fmtPct(n) {
 }
 
 function fmtRatio(n, decimals = 2) {
-  return n != null ? Number(n).toFixed(decimals) : '—'
+  return n == null ? '—' : Number(n).toFixed(decimals)
 }
 
 // ── GMR Long: snapshot & annual ─────────────────────────────
@@ -341,7 +338,7 @@ const fundRows = [
   { key: 'avg_price',    label: 'Avg Price',    fmt: fmtPrice },
   { key: 'revenue',      label: 'Revenue',       fmt: fmtMoney },
   { key: 'net_income',   label: 'Net Income',    fmt: fmtMoney },
-  { key: 'eps',          label: 'EPS',           fmt: (n) => (n != null ? `$${Number(n).toFixed(2)}` : '—') },
+  { key: 'eps',          label: 'EPS',           fmt: (n) => (n == null ? '—' : `$${Number(n).toFixed(2)}`) },
   { key: 'free_cashflow',label: 'Free Cashflow', fmt: fmtMoney },
   { key: 'total_assets', label: 'Total Assets',  fmt: fmtMoney },
   { key: 'equity',       label: 'Equity',        fmt: fmtMoney },

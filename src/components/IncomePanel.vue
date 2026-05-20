@@ -14,7 +14,7 @@ function fmtPct(n) {
 }
 
 function fmtRatio(n, decimals = 1) {
-  return n != null ? Number(n).toFixed(decimals) : '—'
+  return n == null ? '—' : Number(n).toFixed(decimals)
 }
 
 // ── Averages strip ────────────────────────────────────────────
@@ -39,7 +39,7 @@ const tableRows = [
   { key: 'gross_profit',     label: 'Gross Profit',     fmt: fmtMoney },
   { key: 'operating_income', label: 'Op. Income',       fmt: fmtMoney },
   { key: 'net_income',       label: 'Net Income',       fmt: fmtMoney },
-  { key: 'eps',              label: 'EPS',              fmt: (n) => n != null ? `$${Number(n).toFixed(2)}` : '—' },
+  { key: 'eps',              label: 'EPS',              fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'gross_margin',     label: 'Gross Margin',     fmt: fmtPct },
   { key: 'operating_margin', label: 'Op. Margin',       fmt: fmtPct },
   { key: 'npm',              label: 'Net Margin',       fmt: fmtPct },

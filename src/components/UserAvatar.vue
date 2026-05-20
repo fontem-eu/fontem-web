@@ -60,8 +60,8 @@ function deriveInitials(name, email) {
 // Iterator-based char picks so a multi-byte grapheme (e.g. "É") counts
 // as one character — `string[0]` would split the surrogate pair.
 function firstChar(s) {
-  for (const ch of s) return ch
-  return ''
+  const iter = s[Symbol.iterator]().next()
+  return iter.done ? '' : iter.value
 }
 function twoChars(s) {
   let out = ''

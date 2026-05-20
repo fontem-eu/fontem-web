@@ -8,7 +8,7 @@ const props = defineProps({
 })
 
 function setLink() {
-  const url = window.prompt('Enter URL')
+  const url = globalThis.prompt('Enter URL')
   if (url) {
     props.editor.chain().focus().setLink({ href: url }).run()
   }

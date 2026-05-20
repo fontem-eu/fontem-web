@@ -73,9 +73,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="open" class="side-panel-backdrop" @click="close">
-    <aside
+    <dialog
       class="side-panel"
-      role="dialog"
+      open
       aria-label="Entity details"
       data-testid="entity-side-panel"
       @click.stop
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
           >Open full profile →</router-link>
         </div>
       </template>
-    </aside>
+    </dialog>
   </div>
 </template>
 
@@ -123,8 +123,13 @@ onBeforeUnmount(() => {
 .side-panel {
   position: fixed;
   top: 0; right: 0; bottom: 0;
+  left: auto;
+  margin: 0;
+  max-width: none;
+  max-height: none;
   width: min(380px, 92vw);
   background: var(--surface);
+  border: none;
   border-left: 1px solid var(--border);
   box-shadow: -4px 0 18px rgba(0, 0, 0, 0.08);
   padding: 1rem 1.25rem 1.5rem;

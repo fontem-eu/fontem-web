@@ -224,6 +224,7 @@ function parseSectionContent(content) {
             :data-testid="`report-section-${idx}`"
           >
             <template v-for="(part, pi) in parseSectionContent(sec.content)" :key="pi">
+              <!-- eslint-disable-next-line vue/no-v-html -- content sanitized via DOMPurify in sanitizeHtml (src/utils/sanitize.js) -->
               <div v-if="part.type === 'html'" class="section-html" v-html="sanitizeHtml(part.content)" />
               <WidgetRenderer v-else-if="part.type === 'widget'" :config="part.config" />
             </template>

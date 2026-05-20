@@ -51,8 +51,9 @@ function cancel() {
     <!-- Name prompt overlay -->
     <div v-if="showPrompt" class="pocket-prompt" data-testid="pocket-prompt">
       <div class="pocket-prompt-card" @click.stop>
-        <label class="pocket-prompt-label">Save to pocket</label>
+        <label for="pocket-name-input" class="pocket-prompt-label">Save to pocket</label>
         <input
+          id="pocket-name-input"
           v-model="nameInput"
           type="text"
           class="pocket-prompt-input"

@@ -38,7 +38,7 @@ async function mountWithResults() {
   await flushPromises()
 
   // Sanity check — dropdown should be visible before we interact
-  expect(wrapper.find('[role="list"]').exists()).toBe(true)
+  expect(wrapper.find('ul.gmr-results').exists()).toBe(true)
   return wrapper
 }
 
@@ -56,14 +56,14 @@ describe('TickerSearch — dropdown closes on selection (TS-REG-01)', () => {
     const wrapper = await mountWithResults()
 
     // Click the first result
-    await wrapper.find('[role="listitem"]').trigger('click')
+    await wrapper.find('li.gmr-card').trigger('click')
     await nextTick()
 
     // The select event must have been emitted
     expect(wrapper.emitted('select')).toBeTruthy()
 
     // The dropdown must be gone
-    expect(wrapper.find('[role="list"]').exists()).toBe(false)
+    expect(wrapper.find('ul.gmr-results').exists()).toBe(false)
 
     // The query input must be cleared
     expect(wrapper.find('input').element.value).toBe('')
@@ -86,7 +86,7 @@ describe('TickerSearch — dropdown closes on selection (TS-REG-01)', () => {
     expect(wrapper.emitted('select')[0]).toEqual(['MSFT'])
 
     // The dropdown must be gone
-    expect(wrapper.find('[role="list"]').exists()).toBe(false)
+    expect(wrapper.find('ul.gmr-results').exists()).toBe(false)
 
     // The query input must be cleared
     expect(wrapper.find('input').element.value).toBe('')

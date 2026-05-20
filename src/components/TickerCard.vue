@@ -33,7 +33,7 @@ const meta = computed(() =>
   [
     props.ticker.exchange && props.ticker.exchange !== 'US' ? props.ticker.exchange : null,
     props.ticker.country,
-    props.ticker.sector !== 'Unknown' ? props.ticker.sector : null,
+    props.ticker.sector === 'Unknown' ? null : props.ticker.sector,
   ]
     .filter(Boolean)
     .join(' · ')
@@ -41,12 +41,12 @@ const meta = computed(() =>
 </script>
 
 <template>
-  <div
+  <li
     class="gmr-card"
     :class="{ 'gmr-card--active': selected }"
-    role="listitem"
+    role="button"
     tabindex="0"
-    style="cursor: pointer"
+    style="cursor: pointer; list-style: none;"
     @click="emit('select', selectValue)"
     @keydown.enter="emit('select', selectValue)"
     @keydown.space.prevent="emit('select', selectValue)"
@@ -94,5 +94,5 @@ const meta = computed(() =>
     <span v-else class="badge badge-tag">
       Company
     </span>
-  </div>
+  </li>
 </template>

@@ -114,8 +114,8 @@ function pipelineStat(id) {
 
     <template v-else>
       <!-- Overview stats bar -->
-      <div class="dqh-overview" v-if="stats?.graph">
-        <div class="dqh-stat" v-for="[label, count] in Object.entries(stats.graph.nodes)" :key="label">
+      <div v-if="stats?.graph" class="dqh-overview">
+        <div v-for="[label, count] in Object.entries(stats.graph.nodes)" :key="label" class="dqh-stat">
           <span class="dqh-stat-num">{{ fmt(count) }}</span>
           <span class="dqh-stat-label">{{ label }}</span>
         </div>

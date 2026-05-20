@@ -19,7 +19,8 @@ const exchange     = ref(null)
 const currentPrice = ref(null)
 const priceChange  = ref(null)
 const pctChange    = ref(null)
-const tooltip      = ref(null)   // { date, open, high, low, close, volume, svgX, isUp }
+// tooltip shape: date, open, high, low, close, volume, svgX, isUp
+const tooltip      = ref(null)
 
 const PERIODS = [
   { key: '1m',  label: '1M'  },
@@ -54,9 +55,9 @@ const statsBar = computed(() => {
   if (!s) return []
   return [
     { label: 'Mkt Cap',  value: fmtMoney(s.marketCap) },
-    { label: 'Avg P/E',  value: s.pe       != null ? Number(s.pe).toFixed(1)       : '—' },
-    { label: 'Beta',     value: s.beta     != null ? Number(s.beta).toFixed(2)     : '—' },
-    { label: 'Div Yld',  value: s.divYield != null ? `${Number(s.divYield).toFixed(1)}%` : '—' },
+    { label: 'Avg P/E',  value: s.pe       == null ? '—' : Number(s.pe).toFixed(1) },
+    { label: 'Beta',     value: s.beta     == null ? '—' : Number(s.beta).toFixed(2) },
+    { label: 'Div Yld',  value: s.divYield == null ? '—' : `${Number(s.divYield).toFixed(1)}%` },
     { label: '52w High', value: fmtPrice(s.high52) },
     { label: '52w Low',  value: fmtPrice(s.low52) },
   ]
@@ -194,9 +195,14 @@ function drawChart() {
     )
 
   // ── X axis ──────────────────────────────────────────────────
-  const xTickFmt = data.length <= 35  ? d3.timeFormat('%b %d')
-    : data.length <= 200              ? d3.timeFormat('%b %y')
-    :                                    d3.timeFormat('%Y')
+  let xTickFmt
+  if (data.length <= 35) {
+    xTickFmt = d3.timeFormat('%b %d')
+  } else if (data.length <= 200) {
+    xTickFmt = d3.timeFormat('%b %y')
+  } else {
+    xTickFmt = d3.timeFormat('%Y')
+  }
   svg.append('g')
     .attr('transform', `translate(0,${M.top + MAIN_H + 4})`)
     .call(
@@ -273,9 +279,12 @@ function onChartMouseMove(event) {
   const i       = bisect(_chartData, x0, 1)
   const d0      = _chartData[i - 1]
   const d1      = _chartData[i]
-  const hovered = (d0 && d1)
-    ? (Math.abs(x0 - d0.ts) <= Math.abs(x0 - d1.ts) ? d0 : d1)
-    : (d0 ?? d1)
+  let hovered
+  if (d0 && d1) {
+    hovered = Math.abs(x0 - d0.ts) <= Math.abs(x0 - d1.ts) ? d0 : d1
+  } else {
+    hovered = d0 ?? d1
+  }
   if (!hovered) return
 
   const svgX = _xScale(hovered.ts)
@@ -356,7 +365,7 @@ function fmtDate(s) {
   if (!s) return ''
   const [y, m, d] = s.split('-')
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  return `${months[parseInt(m, 10) - 1]} ${parseInt(d, 10)}, ${y}`
+  return `${months[Number.parseInt(m, 10) - 1]} ${Number.parseInt(d, 10)}, ${y}`
 }
 </script>
 

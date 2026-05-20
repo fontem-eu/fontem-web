@@ -100,7 +100,7 @@ const statusText = computed(() => {
   if (state.value === 'error') return 'Error fetching results.'
   if (state.value === 'done' && results.value.length > 0) {
     const n = results.value.length
-    return `${n} result${n !== 1 ? 's' : ''}`
+    return `${n} result${n === 1 ? '' : 's'}`
   }
   return ''
 })
@@ -199,9 +199,8 @@ onUnmounted(() => {
       />
 
       <!-- Results dropdown — floats over page content, never displaces it -->
-      <div
+      <ul
         v-if="results.length > 0"
-        role="list"
         aria-live="polite"
         aria-label="Search results"
         class="gmr-results"
@@ -215,7 +214,7 @@ onUnmounted(() => {
           :selected="i === activeIndex"
           @select="emit('select', $event); results = []; state = 'idle'; query = ''; activeIndex = -1"
         />
-      </div>
+      </ul>
     </div>
 
     <!-- Status line -->

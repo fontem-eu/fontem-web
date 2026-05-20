@@ -111,9 +111,14 @@ function feedItemList(ctx) {
   // emit a valid ItemList describing the feed surface itself.
   // Falls back to `ctx.reports` for one release while the SSR
   // prefetch is renamed in lockstep.
-  const stories = Array.isArray(ctx?.stories)
-    ? ctx.stories.slice(0, 25)
-    : Array.isArray(ctx?.reports) ? ctx.reports.slice(0, 25) : []
+  let stories
+  if (Array.isArray(ctx?.stories)) {
+    stories = ctx.stories.slice(0, 25)
+  } else if (Array.isArray(ctx?.reports)) {
+    stories = ctx.reports.slice(0, 25)
+  } else {
+    stories = []
+  }
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',

@@ -123,7 +123,7 @@ function render() {
     ctx.fillRect(x, y, barW, h)
     barRects.push({ x, y, w: barW, h, data: d })
   }
-  ctx.globalAlpha = 1.0
+  ctx.globalAlpha = 1
 
   // Y-axis ticks
   ctx.fillStyle = getComputedStyle(container).getPropertyValue('--muted')?.trim() || '#999'

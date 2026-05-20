@@ -14,7 +14,7 @@ function fmtPct(n) {
 }
 
 function fmtRatio(n, decimals = 2) {
-  return n != null ? Number(n).toFixed(decimals) : '—'
+  return n == null ? '—' : Number(n).toFixed(decimals)
 }
 
 // ── Averages strip ────────────────────────────────────────────
@@ -36,8 +36,8 @@ const tableRows = [
   { key: 'total_assets',         label: 'Total Assets',    fmt: fmtMoney },
   { key: 'total_liabilities',    label: 'Total Liabilities', fmt: fmtMoney },
   { key: 'equity',               label: 'Equity',           fmt: fmtMoney },
-  { key: 'book_value_per_share', label: 'Book Value/Share', fmt: (n) => n != null ? `$${Number(n).toFixed(2)}` : '—' },
-  { key: 'revenue_per_share',    label: 'Revenue/Share',    fmt: (n) => n != null ? `$${Number(n).toFixed(2)}` : '—' },
+  { key: 'book_value_per_share', label: 'Book Value/Share', fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'revenue_per_share',    label: 'Revenue/Share',    fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'current_ratio',        label: 'Current Ratio',    fmt: (n) => fmtRatio(n) },
   { key: 'quick_ratio',          label: 'Quick Ratio',      fmt: (n) => fmtRatio(n) },
   { key: 'debt_to_equity',       label: 'D/E',              fmt: (n) => fmtRatio(n) },

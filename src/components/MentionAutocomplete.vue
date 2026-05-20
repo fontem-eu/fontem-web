@@ -138,7 +138,6 @@ const popoverStyle = computed(() => {
   <div
     v-if="visible"
     class="mention-popover"
-    role="listbox"
     aria-label="Entity mentions"
     data-testid="mention-popover"
     :style="popoverStyle"

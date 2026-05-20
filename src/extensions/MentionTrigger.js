@@ -72,7 +72,7 @@ export const MentionTrigger = Extension.create({
                 undefined,
                 '￼',
               )
-              const m = textBefore.match(QUERY_RE)
+              const m = QUERY_RE.exec(textBefore)
               if (!m) {
                 onState({ active: false })
                 return

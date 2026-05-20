@@ -102,7 +102,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error('prerender failed:', err)
   process.exit(1)
 })

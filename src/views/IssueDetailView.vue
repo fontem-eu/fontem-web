@@ -140,11 +140,14 @@ function renderMarkdown(text) {
       </div>
 
       <!-- Body -->
+      <!-- content sanitized via DOMPurify in renderMarkdown -> sanitizeMarkdown (src/utils/sanitize.js) -->
+      <!-- eslint-disable vue/no-v-html -->
       <div
         class="issue-body"
         data-testid="issue-detail-body"
         v-html="renderMarkdown(issue.body)"
       />
+      <!-- eslint-enable vue/no-v-html -->
 
       <!-- Votes -->
       <div class="issue-votes" data-testid="issue-detail-votes">
@@ -186,6 +189,7 @@ function renderMarkdown(text) {
             <span class="comment-author">{{ comment.author || 'Anonymous' }}</span>
             <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
           </div>
+          <!-- eslint-disable-next-line vue/no-v-html -- content sanitized via DOMPurify in renderMarkdown -> sanitizeMarkdown (src/utils/sanitize.js) -->
           <div class="comment-body" v-html="renderMarkdown(comment.body)" />
         </div>
 

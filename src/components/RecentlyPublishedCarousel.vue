@@ -107,7 +107,7 @@ function onScroll() {
 let prefersReduced = false
 
 onMounted(() => {
-  prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+  prefersReduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
   if (!prefersReduced && props.stories.length > 1) startAuto()
 })
 
@@ -141,9 +141,8 @@ function truncate(text, maxLen = 140) {
 </script>
 
 <template>
-  <div
+  <section
     class="carousel"
-    role="region"
     aria-roledescription="carousel"
     aria-label="Recently published data stories"
     data-testid="recent-carousel"
@@ -164,6 +163,7 @@ function truncate(text, maxLen = 140) {
         :class="{ active: i === currentIndex }"
         :data-testid="`recent-story-${s.id}`"
         :aria-current="i === currentIndex ? 'true' : null"
+        role="button"
         :tabindex="0"
         @click="onCardClick(s)"
         @keydown.enter="onCardClick(s)"
@@ -203,7 +203,7 @@ function truncate(text, maxLen = 140) {
     <span class="visually-hidden" aria-live="polite">
       Story {{ currentIndex + 1 }} of {{ stories.length }}
     </span>
-  </div>
+  </section>
 </template>
 
 <style scoped>

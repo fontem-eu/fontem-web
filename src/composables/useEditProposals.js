@@ -68,7 +68,7 @@ export const ASSISTANT_ADVERTISED_ACTIONS = [
 const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
 function parseClassFromIri(iri) {
-  const m = String(iri || '').match(_IRI_RE)
+  const m = _IRI_RE.exec(String(iri || ''))
   return m ? m[1] : null
 }
 
@@ -95,7 +95,7 @@ export async function executeProposal(reportId, proposal, editorState) {
       case 'update_section': {
         if (!editor) return { ok: false, action, error: 'No editor available' }
         const clean = sanitizeHtml(params.content)
-        if (!clean || !clean.trim()) {
+        if (!clean?.trim()) {
           // Sanitize stripped everything (e.g. content was raw markdown
           // or a script-only payload). Fail loudly so the user sees
           // *why* nothing happened, instead of an Apply that silently

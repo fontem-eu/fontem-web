@@ -13,7 +13,7 @@ function fmtPct(n) {
 }
 
 function fmtRatio(n, decimals = 2) {
-  return n != null ? `${Number(n).toFixed(decimals)}x` : '—'
+  return n == null ? '—' : `${Number(n).toFixed(decimals)}x`
 }
 
 // ── Valuation snapshot items ──────────────────────────────────

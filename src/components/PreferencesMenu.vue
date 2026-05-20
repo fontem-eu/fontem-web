@@ -75,14 +75,14 @@ function onSignInClick() {
 function onSignOutClick() {
   localStorage.removeItem('gmr-token')
   localStorage.removeItem('gmr-user')
-  window.location.href = '/'
+  globalThis.location.href = '/'
 }
 
 const clearingAiData = ref(false)
 const clearAiStatus = ref(null)
 
 async function onClearAiDataClick() {
-  if (!window.confirm('Delete all AI conversation history?')) return
+  if (!globalThis.confirm('Delete all AI conversation history?')) return
   clearingAiData.value = true
   clearAiStatus.value = null
   try {
@@ -101,7 +101,7 @@ const deletingAccount = ref(false)
 const deleteAccountStatus = ref(null)
 
 async function onDeleteAccountClick() {
-  if (!window.confirm(
+  if (!globalThis.confirm(
     'Permanently delete your account and ALL associated data?\n\n' +
     'This includes your data stories, comments, AI conversations, and profile. ' +
     'This action cannot be undone.',
@@ -113,7 +113,7 @@ async function onDeleteAccountClick() {
     localStorage.removeItem('gmr-token')
     localStorage.removeItem('gmr-user')
     localStorage.removeItem('gmr-cookie-consent')
-    window.location.href = '/'
+    globalThis.location.href = '/'
   } catch {
     deleteAccountStatus.value = 'error'
     setTimeout(() => { deleteAccountStatus.value = null }, 3000)

@@ -331,8 +331,8 @@ defineExpose({ applyProposal, messages })
       <div class="assist-header">
         <span class="assist-title">AI Assistant</span>
         <div class="assist-header-actions">
-          <button class="assist-clear" @click="clearChat" title="Clear chat">Clear</button>
-          <button class="assist-close" data-testid="assist-close" @click="close" title="Close">&times;</button>
+          <button class="assist-clear" title="Clear chat" @click="clearChat">Clear</button>
+          <button class="assist-close" data-testid="assist-close" title="Close" @click="close">&times;</button>
         </div>
       </div>
 

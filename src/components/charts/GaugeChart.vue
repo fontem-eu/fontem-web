@@ -40,7 +40,8 @@ const gaugeColor = computed(() => {
         :transform="`rotate(-90 ${size / 2} ${size / 2})`"
         style="transition: stroke-dashoffset 0.6s ease"
       />
-      <text :x="size / 2" :y="size / 2 + 2" text-anchor="middle" dominant-baseline="middle"
+      <text
+:x="size / 2" :y="size / 2 + 2" text-anchor="middle" dominant-baseline="middle"
         :fill="gaugeColor" font-weight="700" :font-size="size * 0.22">
         {{ displayValue }}%
       </text>

@@ -39,9 +39,9 @@ let observer = null
 function slugify(text) {
   return (text || 'section')
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
+    .replaceAll(/[^a-z0-9\s-]/g, '')
     .trim()
-    .replace(/\s+/g, '-')
+    .replaceAll(/\s+/g, '-')
     .slice(0, 80) || 'section'
 }
 

@@ -37,38 +37,38 @@ export function currentLang() {
   return lang.value
 }
 
+function setLang(code) {
+  const normalised = normaliseLang(code)
+  if (normalised) applyLang(normalised)
+}
+
+/**
+ * Detection order on first load (when nothing is stored):
+ *   1. localStorage['gmr-lang']  (user's explicit pick on a prior visit)
+ *   2. navigator.language first segment  (browser preference)
+ *   3. DEFAULT_LANG ('en')
+ *
+ * Invalid stored values (a code outside EU-24, or garbage) are normalised
+ * or dropped silently.
+ */
+function init() {
+  if (typeof localStorage !== 'undefined') {
+    const saved = normaliseLang(localStorage.getItem('gmr-lang'))
+    if (saved) {
+      applyLang(saved)
+      return
+    }
+  }
+  if (typeof navigator !== 'undefined' && navigator.language) {
+    const detected = normaliseLang(navigator.language)
+    if (detected) {
+      applyLang(detected)
+      return
+    }
+  }
+  applyLang(DEFAULT_LANG)
+}
+
 export function useLang() {
-  function setLang(code) {
-    const normalised = normaliseLang(code)
-    if (normalised) applyLang(normalised)
-  }
-
-  /**
-   * Detection order on first load (when nothing is stored):
-   *   1. localStorage['gmr-lang']  (user's explicit pick on a prior visit)
-   *   2. navigator.language first segment  (browser preference)
-   *   3. DEFAULT_LANG ('en')
-   *
-   * Invalid stored values (a code outside EU-24, or garbage) are normalised
-   * or dropped silently.
-   */
-  function init() {
-    if (typeof localStorage !== 'undefined') {
-      const saved = normaliseLang(localStorage.getItem('gmr-lang'))
-      if (saved) {
-        applyLang(saved)
-        return
-      }
-    }
-    if (typeof navigator !== 'undefined' && navigator.language) {
-      const detected = normaliseLang(navigator.language)
-      if (detected) {
-        applyLang(detected)
-        return
-      }
-    }
-    applyLang(DEFAULT_LANG)
-  }
-
   return { lang, setLang, init }
 }

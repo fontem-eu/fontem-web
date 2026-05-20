@@ -29,32 +29,32 @@ function normalizeSaved(raw) {
   return null // unknown → fall back to OS preference
 }
 
+function setTheme(name) {
+  if (THEMES.includes(name)) applyTheme(name)
+}
+
+function toggle() {
+  applyTheme(theme.value === 'dark' ? 'light' : 'dark')
+}
+
+/**
+ * Read persisted preference (or fall back to OS preference) and apply
+ * it.  The anti-FOUC script in index.html has already set the class
+ * synchronously; this mainly syncs the reactive ref and migrates any
+ * legacy 'autumn' value to 'light'.
+ */
+function init() {
+  const saved = normalizeSaved(localStorage.getItem('gmr-theme'))
+  if (saved !== null) {
+    applyTheme(saved)
+    return
+  }
+  const prefersDark =
+    typeof globalThis.window !== 'undefined' &&
+    globalThis.window.matchMedia?.('(prefers-color-scheme: dark)').matches
+  applyTheme(prefersDark ? 'dark' : 'light')
+}
+
 export function useTheme() {
-  function setTheme(name) {
-    if (THEMES.includes(name)) applyTheme(name)
-  }
-
-  function toggle() {
-    applyTheme(theme.value === 'dark' ? 'light' : 'dark')
-  }
-
-  /**
-   * Read persisted preference (or fall back to OS preference) and apply
-   * it.  The anti-FOUC script in index.html has already set the class
-   * synchronously; this mainly syncs the reactive ref and migrates any
-   * legacy 'autumn' value to 'light'.
-   */
-  function init() {
-    const saved = normalizeSaved(localStorage.getItem('gmr-theme'))
-    if (saved !== null) {
-      applyTheme(saved)
-      return
-    }
-    const prefersDark =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    applyTheme(prefersDark ? 'dark' : 'light')
-  }
-
   return { theme, isDark, setTheme, toggle, init }
 }

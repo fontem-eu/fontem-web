@@ -29,8 +29,8 @@ const tableRows = [
   { key: 'operating_cashflow', label: 'Op. Cashflow',  fmt: fmtMoney },
   { key: 'capex',              label: 'CapEx',          fmt: fmtMoney },
   { key: 'free_cashflow',      label: 'Free Cashflow',  fmt: fmtMoney },
-  { key: 'fcf_per_share',      label: 'FCF/Share',      fmt: (n) => n != null ? `$${Number(n).toFixed(2)}` : '—' },
-  { key: 'dividend_per_share', label: 'Div./Share',     fmt: (n) => n != null ? `$${Number(n).toFixed(2)}` : '—' },
+  { key: 'fcf_per_share',      label: 'FCF/Share',      fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'dividend_per_share', label: 'Div./Share',     fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'fcf_yield',          label: 'FCF Yield',      fmt: fmtPct },
   { key: 'dividend_yield',     label: 'Div. Yield',     fmt: fmtPct },
 ]

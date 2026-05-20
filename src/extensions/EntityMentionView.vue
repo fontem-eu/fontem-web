@@ -22,7 +22,7 @@ const editable = computed(() => props.editor?.isEditable ?? false)
 
 function onActivate(e) {
   e.stopPropagation()
-  if (typeof window === 'undefined') return
+  if (typeof globalThis.window === 'undefined') return
   // Bubble through `document` rather than emit on the node — Tiptap
   // doesn't pipe component emits to the parent anyway, and the side
   // panel lives outside the editor tree.

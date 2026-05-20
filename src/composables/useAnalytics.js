@@ -16,16 +16,16 @@
 const ENDPOINT = '/umami/api/send'
 
 function _websiteId() {
-  return typeof window !== 'undefined' ? window.UMAMI_WEBSITE_ID : null
+  return typeof globalThis.window === 'undefined' ? null : globalThis.UMAMI_WEBSITE_ID
 }
 
 function _basePayload() {
   return {
     website:  _websiteId(),
-    url:      typeof window !== 'undefined' ? window.location.pathname : '/',
-    hostname: typeof window !== 'undefined' ? window.location.hostname : '',
-    language: typeof navigator !== 'undefined' ? navigator.language : '',
-    screen:   typeof screen !== 'undefined' ? `${screen.width}x${screen.height}` : '',
+    url:      typeof globalThis.window === 'undefined' ? '/' : globalThis.location.pathname,
+    hostname: typeof globalThis.window === 'undefined' ? ''  : globalThis.location.hostname,
+    language: typeof navigator === 'undefined' ? '' : navigator.language,
+    screen:   typeof screen === 'undefined' ? '' : `${screen.width}x${screen.height}`,
   }
 }
 
@@ -47,16 +47,16 @@ function _send(payload) {
   }).catch(() => {})
 }
 
+/** Track a page view for the current URL. */
+function page(url) {
+  _send({ ..._basePayload(), url: url ?? _basePayload().url })
+}
+
+/** Track a named custom event with optional properties. */
+function track(name, data) {
+  _send({ ..._basePayload(), name, data })
+}
+
 export function useAnalytics() {
-  /** Track a page view for the current URL. */
-  function page(url) {
-    _send({ ..._basePayload(), url: url ?? _basePayload().url })
-  }
-
-  /** Track a named custom event with optional properties. */
-  function track(name, data) {
-    _send({ ..._basePayload(), name, data })
-  }
-
   return { track, page }
 }
