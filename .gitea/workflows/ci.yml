@@ -142,7 +142,10 @@ jobs:
 
   analyze:
     needs: test
-    if: github.ref == 'refs/heads/main'
+    # Runs on PRs too so the Sonar Quality Gate blocks merge when
+    # the gate is ERROR. `sonar.qualitygate.wait=true` inside the
+    # composite action makes the scanner exit non-zero on gate
+    # failure, which CI surfaces as a required-status failure.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
