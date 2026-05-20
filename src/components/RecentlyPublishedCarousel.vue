@@ -156,15 +156,14 @@ function truncate(text, maxLen = 140) {
     @focusout="scheduleResume"
   >
     <div ref="trackRef" class="track" @scroll.passive="onScroll">
-      <article
+      <button
         v-for="(s, i) in stories"
         :key="s.id"
+        type="button"
         class="card"
         :class="{ active: i === currentIndex }"
         :data-testid="`recent-story-${s.id}`"
         :aria-current="i === currentIndex ? 'true' : null"
-        role="button"
-        :tabindex="0"
         @click="onCardClick(s)"
         @keydown.enter="onCardClick(s)"
         @keydown.space.prevent="onCardClick(s)"
@@ -177,7 +176,7 @@ function truncate(text, maxLen = 140) {
         <div class="meta">
           <span v-if="s.updated_at">{{ formatDate(s.updated_at) }}</span>
         </div>
-      </article>
+      </button>
     </div>
 
     <div

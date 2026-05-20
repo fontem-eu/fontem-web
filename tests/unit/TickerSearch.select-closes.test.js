@@ -56,7 +56,7 @@ describe('TickerSearch — dropdown closes on selection (TS-REG-01)', () => {
     const wrapper = await mountWithResults()
 
     // Click the first result
-    await wrapper.find('li.gmr-card').trigger('click')
+    await wrapper.find('button.gmr-card').trigger('click')
     await nextTick()
 
     // The select event must have been emitted

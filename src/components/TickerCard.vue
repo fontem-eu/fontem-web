@@ -41,16 +41,16 @@ const meta = computed(() =>
 </script>
 
 <template>
-  <li
-    class="gmr-card"
-    :class="{ 'gmr-card--active': selected }"
-    role="button"
-    tabindex="0"
-    style="cursor: pointer; list-style: none;"
-    @click="emit('select', selectValue)"
-    @keydown.enter="emit('select', selectValue)"
-    @keydown.space.prevent="emit('select', selectValue)"
-  >
+  <li class="gmr-card-item" style="list-style: none;">
+    <button
+      type="button"
+      class="gmr-card"
+      :class="{ 'gmr-card--active': selected }"
+      style="width: 100%; text-align: left; background: transparent; border: 0; padding: 0; cursor: pointer;"
+      @click="emit('select', selectValue)"
+      @keydown.enter="emit('select', selectValue)"
+      @keydown.space.prevent="emit('select', selectValue)"
+    >
     <!-- Symbol — show ticker for listed companies, nothing for procurement-only -->
     <span
       v-if="displaySymbol"
@@ -94,5 +94,6 @@ const meta = computed(() =>
     <span v-else class="badge badge-tag">
       Company
     </span>
+    </button>
   </li>
 </template>

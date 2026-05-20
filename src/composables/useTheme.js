@@ -50,8 +50,7 @@ function init() {
     return
   }
   const prefersDark =
-    typeof globalThis.window !== 'undefined' &&
-    globalThis.window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    globalThis.window?.matchMedia?.('(prefers-color-scheme: dark)').matches
   applyTheme(prefersDark ? 'dark' : 'light')
 }
 

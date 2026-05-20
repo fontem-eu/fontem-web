@@ -16,14 +16,14 @@
 const ENDPOINT = '/umami/api/send'
 
 function _websiteId() {
-  return typeof globalThis.window === 'undefined' ? null : globalThis.UMAMI_WEBSITE_ID
+  return globalThis.window === undefined ? null : globalThis.UMAMI_WEBSITE_ID
 }
 
 function _basePayload() {
   return {
     website:  _websiteId(),
-    url:      typeof globalThis.window === 'undefined' ? '/' : globalThis.location.pathname,
-    hostname: typeof globalThis.window === 'undefined' ? ''  : globalThis.location.hostname,
+    url:      globalThis.window === undefined ? '/' : globalThis.location.pathname,
+    hostname: globalThis.window === undefined ? ''  : globalThis.location.hostname,
     language: typeof navigator === 'undefined' ? '' : navigator.language,
     screen:   typeof screen === 'undefined' ? '' : `${screen.width}x${screen.height}`,
   }

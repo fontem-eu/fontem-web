@@ -66,7 +66,7 @@ const ESEF_FUNDAMENTALS = {
 describe('TickerCard — EU tickers', () => {
   it('emits the full ticker (ASML.AS) when an ESEF entry is clicked', async () => {
     const wrapper = mount(TickerCard, { props: { ticker: makeEsefTicker() } })
-    await wrapper.find('li.gmr-card').trigger('click')
+    await wrapper.find('button.gmr-card').trigger('click')
     expect(wrapper.emitted('select')[0]).toEqual(['ASML.AS'])
   })
 
@@ -82,7 +82,7 @@ describe('TickerCard — EU tickers', () => {
 
   it('emits symbol (AAPL) for NA entries without a ticker field', async () => {
     const wrapper = mount(TickerCard, { props: { ticker: makeEdgarTicker() } })
-    await wrapper.find('li.gmr-card').trigger('click')
+    await wrapper.find('button.gmr-card').trigger('click')
     expect(wrapper.emitted('select')[0]).toEqual(['AAPL'])
   })
 
@@ -137,7 +137,7 @@ describe('TickerSearch — EU ticker keyboard nav', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    await wrapper.find('li.gmr-card').trigger('click')
+    await wrapper.find('button.gmr-card').trigger('click')
     expect(wrapper.emitted('select')[0]).toEqual(['ASML.AS'])
   })
 })

@@ -45,7 +45,7 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300) // past the 280 ms debounce
     await flushPromises() // resolve the fetch
 
-    expect(wrapper.find('li.gmr-card').exists()).toBe(true)
+    expect(wrapper.find('button.gmr-card').exists()).toBe(true)
     expect(wrapper.text()).toContain('AAPL')
     expect(wrapper.text()).toContain('Apple Inc.')
   })
@@ -111,14 +111,14 @@ describe('TickerSearch component', () => {
     await nextTick()
     vi.advanceTimersByTime(300)
     await flushPromises()
-    expect(wrapper.findAll('li.gmr-card')).toHaveLength(1)
+    expect(wrapper.findAll('button.gmr-card')).toHaveLength(1)
 
     // Clear the input
     await wrapper.find('input').setValue('')
     await nextTick()
     await flushPromises()
 
-    expect(wrapper.findAll('li.gmr-card')).toHaveLength(0)
+    expect(wrapper.findAll('button.gmr-card')).toHaveLength(0)
     expect(wrapper.find('.gmr-empty').exists()).toBe(false)
   })
 
@@ -164,7 +164,7 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    await wrapper.find('li.gmr-card').trigger('click')
+    await wrapper.find('button.gmr-card').trigger('click')
 
     expect(wrapper.emitted('select')).toBeTruthy()
     expect(wrapper.emitted('select')[0]).toEqual(['AAPL'])
@@ -225,7 +225,7 @@ describe('TickerSearch component', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
 
-    expect(wrapper.findAll('li.gmr-card')).toHaveLength(1)
+    expect(wrapper.findAll('button.gmr-card')).toHaveLength(1)
 
     // Simulate a click on an element outside the component
     const outside = document.createElement('button')
@@ -233,7 +233,7 @@ describe('TickerSearch component', () => {
     outside.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     await nextTick()
 
-    expect(wrapper.findAll('li.gmr-card')).toHaveLength(0)
+    expect(wrapper.findAll('button.gmr-card')).toHaveLength(0)
 
     document.body.removeChild(outside)
     wrapper.unmount()
@@ -257,7 +257,7 @@ describe('TickerSearch component', () => {
   it('ArrowDown highlights the first result', async () => {
     const wrapper = await mountWithResults()
     await wrapper.find('input').trigger('keydown', { key: 'ArrowDown' })
-    const cards = wrapper.findAll('li.gmr-card')
+    const cards = wrapper.findAll('button.gmr-card')
     expect(cards[0].classes()).toContain('gmr-card--active')
     expect(cards[1].classes()).not.toContain('gmr-card--active')
     wrapper.unmount()
@@ -268,7 +268,7 @@ describe('TickerSearch component', () => {
     const input = wrapper.find('input')
     await input.trigger('keydown', { key: 'ArrowDown' })
     await input.trigger('keydown', { key: 'ArrowDown' })
-    const cards = wrapper.findAll('li.gmr-card')
+    const cards = wrapper.findAll('button.gmr-card')
     expect(cards[1].classes()).toContain('gmr-card--active')
     wrapper.unmount()
   })
@@ -279,7 +279,7 @@ describe('TickerSearch component', () => {
     await input.trigger('keydown', { key: 'ArrowDown' })
     await input.trigger('keydown', { key: 'ArrowUp' })
     // index should still be 0 (can't go negative)
-    const cards = wrapper.findAll('li.gmr-card')
+    const cards = wrapper.findAll('button.gmr-card')
     expect(cards[0].classes()).toContain('gmr-card--active')
     wrapper.unmount()
   })
@@ -299,7 +299,7 @@ describe('TickerSearch component', () => {
     const wrapper = await mountWithResults()
     await wrapper.find('input').trigger('keydown', { key: 'Escape' })
     await nextTick()
-    expect(wrapper.findAll('li.gmr-card')).toHaveLength(0)
+    expect(wrapper.findAll('button.gmr-card')).toHaveLength(0)
     expect(wrapper.find('input').element.value).toBe('')
     wrapper.unmount()
   })

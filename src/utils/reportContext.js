@@ -30,10 +30,10 @@ function stripHtml(html) {
   if (!html || typeof html !== 'string') return ''
   // Turn <br> and block closes into newlines so paragraphs survive
   let out = html
-    .replace(/<\s*br\s*\/?\s*>/gi, '\n')
-    .replace(/<\/(p|div|h[1-6]|li)>/gi, '\n')
+    .replaceAll(/<\s*br\s*\/?\s*>/gi, '\n')
+    .replaceAll(/<\/(p|div|h[1-6]|li)>/gi, '\n')
   // Drop everything else tag-ish
-  out = out.replace(/<[^>]+>/g, '')
+  out = out.replaceAll(/<[^>]+>/g, '')
   // Decode the handful of entities tiptap emits
   out = out
     .replaceAll('&nbsp;', ' ')
