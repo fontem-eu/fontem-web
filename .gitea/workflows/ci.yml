@@ -146,6 +146,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Must match the `test` job above — system Node 18 on the
+          # ubuntu-latest image is too old for rolldown/vitest 3
+          # (`util.styleText`), so the coverage run silently failed
+          # before this step was added, which then blocked the
+          # Sonar scan.
+          node-version: '22'
       - uses: actions/checkout@v4
         with:
           repository: void42/fontem-ci
