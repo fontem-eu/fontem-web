@@ -12,6 +12,15 @@ const loginPassword = ref('')
 const regName = ref('')
 const regEmail = ref('')
 const regPassword = ref('')
+const regPasswordConfirm = ref('')
+
+// Live mismatch indicator — only "true" once both fields have been
+// touched, so an empty confirm field on first render doesn't flash a
+// red error.
+const passwordMismatch = computed(
+  () => regPasswordConfirm.value.length > 0
+        && regPassword.value !== regPasswordConfirm.value,
+)
 
 // Fontem Google OAuth client (fontem.eu brand-holder account, ID-token
 // flow only — no client secret touches the browser or the backend).
@@ -119,6 +128,13 @@ async function handleLocalLogin() {
 
 async function handleRegister() {
   error.value = null
+  // Reject mismatched passwords before hitting the network. The
+  // backend can't tell — it only receives `password` — so this is
+  // the only place the second field's contract is enforced.
+  if (regPassword.value !== regPasswordConfirm.value) {
+    error.value = "Passwords don't match"
+    return
+  }
   loading.value = true
   try {
     const res = await fetch('/capi/auth/register', {
@@ -191,7 +207,18 @@ function handleSignOut() {
           <input v-model="regName" type="text" class="login-input" placeholder="Full name" required data-testid="reg-name" />
           <input v-model="regEmail" type="email" class="login-input" placeholder="Email" required data-testid="reg-email" />
           <input v-model="regPassword" type="password" class="login-input" placeholder="Password (min 8 chars)" required minlength="8" data-testid="reg-password" />
-          <button type="submit" class="btn-primary" :disabled="loading" data-testid="reg-submit">
+          <input v-model="regPasswordConfirm" type="password" class="login-input" placeholder="Confirm password" required minlength="8" data-testid="reg-password-confirm" />
+          <p
+            v-if="passwordMismatch"
+            class="login-error"
+            data-testid="reg-password-mismatch"
+          >Passwords don't match</p>
+          <button
+            type="submit"
+            class="btn-primary"
+            :disabled="loading || passwordMismatch"
+            data-testid="reg-submit"
+          >
             {{ loading ? 'Creating account...' : 'Create account' }}
           </button>
         </form>
