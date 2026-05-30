@@ -122,6 +122,13 @@ export async function fetchSeries({
  *
  * Returns [] on pre-bootstrap clusters where `events.etl_run` is
  * still missing — the dashboard renders "no runs recorded yet".
+ *
+ * Note: this endpoint moved from /api/atlas/etl-runs to
+ * /api/data-quality/etl-runs. It never belonged under /atlas — the
+ * Atlas feature reads from fontem-stats-postgres; etl-runs reads from
+ * events-postgres and is a data-quality concern. Stays exported from
+ * this file so existing callers (DataQualityHubView, EtlRunsDQView)
+ * don't have to chase the import.
  */
 export async function fetchEtlRuns({
   cronjobName, status, limit,
@@ -132,7 +139,7 @@ export async function fetchEtlRuns({
   if (limit != null) params.set('limit', String(limit))
   const qs = params.toString()
   const suffix = qs ? `?${qs}` : ''
-  return _json(`${BASE}/etl-runs${suffix}`)
+  return _json(`/api/data-quality/etl-runs${suffix}`)
 }
 
 /**

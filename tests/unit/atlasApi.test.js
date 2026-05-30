@@ -153,11 +153,13 @@ describe('fetchSnapshot', () => {
 })
 
 describe('fetchEtlRuns', () => {
-  it('hits /api/atlas/etl-runs without query params when called with no args', async () => {
+  // Endpoint moved from /api/atlas/etl-runs → /api/data-quality/etl-runs
+  // when atlas-health got decoupled from the events DB connection.
+  it('hits /api/data-quality/etl-runs without query params when called with no args', async () => {
     globalThis.fetch.mockResolvedValue({ ok: true, json: async () => [] })
     await fetchEtlRuns()
     const url = globalThis.fetch.mock.calls[0][0]
-    expect(url.startsWith('/api/atlas/etl-runs')).toBe(true)
+    expect(url.startsWith('/api/data-quality/etl-runs')).toBe(true)
     expect(url).not.toContain('?')
   })
 
