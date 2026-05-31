@@ -88,3 +88,59 @@ describe('AssistPanel', () => {
     expect(msgs.length).toBe(2)
   })
 })
+
+describe('AssistPanel — accept-all / bypass-permissions toggle', () => {
+  const BYPASS_KEY = 'fontem-assist-bypass-permissions'
+
+  beforeEach(() => {
+    localStorage.removeItem(BYPASS_KEY)
+  })
+
+  function open(wrapper) {
+    return wrapper.find('[data-testid="assist-toggle"]').trigger('click')
+  }
+
+  it('toggle is off by default and the checkbox is unchecked', async () => {
+    const w = mount(AssistPanel, {
+      props: { reportContext: 'r', reportId: 'r1' },
+    })
+    await flushPromises()
+    await open(w)
+    const cb = w.find('[data-testid="assist-bypass-toggle"]')
+    expect(cb.exists()).toBe(true)
+    expect(cb.element.checked).toBe(false)
+  })
+
+  it('toggling on persists "1" to localStorage', async () => {
+    const w = mount(AssistPanel, {
+      props: { reportContext: 'r', reportId: 'r1' },
+    })
+    await flushPromises()
+    await open(w)
+    await w.find('[data-testid="assist-bypass-toggle"]').setValue(true)
+    expect(localStorage.getItem(BYPASS_KEY)).toBe('1')
+  })
+
+  it('toggling off clears the localStorage entry', async () => {
+    localStorage.setItem(BYPASS_KEY, '1')
+    const w = mount(AssistPanel, {
+      props: { reportContext: 'r', reportId: 'r1' },
+    })
+    await flushPromises()
+    await open(w)
+    const cb = w.find('[data-testid="assist-bypass-toggle"]')
+    expect(cb.element.checked).toBe(true)
+    await cb.setValue(false)
+    expect(localStorage.getItem(BYPASS_KEY)).toBeNull()
+  })
+
+  it('mounts with toggle on when localStorage already set', async () => {
+    localStorage.setItem(BYPASS_KEY, '1')
+    const w = mount(AssistPanel, {
+      props: { reportContext: 'r', reportId: 'r1' },
+    })
+    await flushPromises()
+    await open(w)
+    expect(w.find('[data-testid="assist-bypass-toggle"]').element.checked).toBe(true)
+  })
+})
