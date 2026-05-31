@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
@@ -28,6 +28,23 @@ const loading = ref(false)
 const messages = ref([])
 const error = ref(null)
 const messagesEl = ref(null)
+
+// "Bypass permissions" / accept-all mode. When on, every propose_edit
+// proposal that comes back from a tool call is applied as soon as it
+// lands — no Apply/Dismiss prompt. Stored in localStorage so power
+// users don't toggle it every session. Off by default: applying
+// destructive edits without explicit consent is a strong signal we
+// only want behind an opt-in.
+const BYPASS_KEY = 'fontem-assist-bypass-permissions'
+const bypassPermissions = ref(
+  typeof localStorage !== 'undefined'
+    && localStorage.getItem(BYPASS_KEY) === '1',
+)
+watch(bypassPermissions, (on) => {
+  if (typeof localStorage === 'undefined') return
+  if (on) localStorage.setItem(BYPASS_KEY, '1')
+  else localStorage.removeItem(BYPASS_KEY)
+})
 
 // Streaming status — now shows real tool activity
 const streamPhase = ref(null)
@@ -197,6 +214,17 @@ async function send() {
       }))
       assistMsg.proposals = [...toolProposals, ...textProposals]
       delete assistMsg._toolProposals
+      // Accept-all mode: fire each proposal serially through the same
+      // applyProposal path users would click, so the "Applied" badge
+      // and the parent's `applied` emit fire the same way. Awaiting
+      // here keeps the order deterministic if the same prompt
+      // produces multiple edits (e.g. set_title + insert_content).
+      if (bypassPermissions.value && assistMsg.proposals.length > 0) {
+        const msgIndex = messages.value.indexOf(assistMsg)
+        for (const proposal of [...assistMsg.proposals]) {
+          await applyProposal(proposal, msgIndex, true)
+        }
+      }
     }
   } catch (err) {
     error.value = err.message
@@ -256,13 +284,13 @@ function parseProposals(text) {
   return proposals
 }
 
-async function applyProposal(proposal, msgIndex) {
+async function applyProposal(proposal, msgIndex, auto = false) {
   const result = await executeProposal(props.reportId, proposal, props.editorState)
   if (result.ok) {
     const msg = messages.value[msgIndex]
     if (msg?.proposals) {
       const idx = msg.proposals.indexOf(proposal)
-      if (idx >= 0) msg.proposals[idx] = { ...proposal, applied: true }
+      if (idx >= 0) msg.proposals[idx] = { ...proposal, applied: true, autoApplied: auto }
     }
     // Hand the parent enough context to persist the change correctly:
     // 'content' edits live only in the local editor until the parent
@@ -331,6 +359,20 @@ defineExpose({ applyProposal, messages })
       <div class="assist-header">
         <span class="assist-title">AI Assistant</span>
         <div class="assist-header-actions">
+          <label
+            class="assist-bypass"
+            :class="{ 'assist-bypass--on': bypassPermissions }"
+            :title="bypassPermissions
+              ? 'Accept-all is ON — proposed edits apply automatically'
+              : 'Accept-all is OFF — proposed edits require Apply'"
+          >
+            <input
+              v-model="bypassPermissions"
+              type="checkbox"
+              data-testid="assist-bypass-toggle"
+            />
+            <span>Accept all</span>
+          </label>
           <button class="assist-clear" title="Clear chat" @click="clearChat">Clear</button>
           <button class="assist-close" data-testid="assist-close" title="Close" @click="close">&times;</button>
         </div>
@@ -376,7 +418,14 @@ defineExpose({ applyProposal, messages })
               >
                 <div class="proposal-header">
                   <span class="proposal-action" data-testid="proposal-action">{{ p.action.replace(/_/g, ' ') }}</span>
-                  <span v-if="p.applied" class="proposal-status" data-testid="proposal-applied">Applied</span>
+                  <span
+                    v-if="p.applied"
+                    class="proposal-status"
+                    :class="{ 'proposal-status--auto': p.autoApplied }"
+                    data-testid="proposal-applied"
+                  >
+                    {{ p.autoApplied ? 'Applied automatically' : 'Applied' }}
+                  </span>
                 </div>
                 <div class="proposal-desc" data-testid="proposal-desc">{{ p.description }}</div>
                 <div v-if="!p.applied" class="proposal-buttons">
@@ -537,6 +586,24 @@ defineExpose({ applyProposal, messages })
 }
 
 .assist-clear:hover { color: var(--text); }
+
+.assist-bypass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+.assist-bypass input {
+  margin: 0;
+  cursor: pointer;
+}
+.assist-bypass--on {
+  color: var(--accent);
+  font-weight: 600;
+}
 
 .assist-close {
   font-size: 1.2rem;
@@ -700,6 +767,10 @@ defineExpose({ applyProposal, messages })
   font-size: 0.6rem;
   color: #15803d;
   font-weight: 600;
+}
+
+.proposal-status--auto {
+  color: var(--accent);
 }
 
 .proposal-desc {
