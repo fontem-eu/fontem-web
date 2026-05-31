@@ -125,6 +125,72 @@ describe('ContractsPanel', () => {
     expect(link.attributes('target')).toBe('_blank')
   })
 
+  it('renders an explicit "View ↗" TED column link per row even when ted_url is missing', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          makeContract({ ted_notice_id: '123-2024', ted_url: null }),
+          makeContract({ ted_notice_id: '456-2024', ted_url: '' }),
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    const cell123 = wrapper.find('[data-testid="contract-ted-link-123-2024"]')
+    const cell456 = wrapper.find('[data-testid="contract-ted-link-456-2024"]')
+    expect(cell123.exists()).toBe(true)
+    expect(cell456.exists()).toBe(true)
+    expect(cell123.attributes('href')).toContain('ted.europa.eu')
+    expect(cell123.attributes('href')).toContain('123-2024')
+    expect(cell123.attributes('target')).toBe('_blank')
+    expect(cell123.attributes('rel')).toContain('noopener')
+    expect(cell123.text()).toContain('View')
+  })
+
+  it('uses the explicit ted_url when the API returns one', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          makeContract({
+            ted_notice_id: '999-2024',
+            ted_url: 'https://ted.europa.eu/en/notice/-/detail/explicit-override',
+          }),
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    const link = wrapper.find('[data-testid="contract-ted-link-999-2024"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href'))
+      .toBe('https://ted.europa.eu/en/notice/-/detail/explicit-override')
+  })
+
+  it('does not render a TED link when the row has neither ted_url nor ted_notice_id', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          { ...makeContract(), ted_notice_id: '', ted_url: null },
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid^="contract-ted-link-"]').exists()).toBe(false)
+  })
+
   it('sorts by value descending by default', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
