@@ -131,4 +131,34 @@ describe('HomeView (ticker-detail host)', () => {
 
     expect(pushSpy).toHaveBeenCalledWith('/')
   })
+
+  // ── VIEW_GROUPS contract ─────────────────────────────────────
+  // The "Analysis" group (Long-Term Value via /api/:ticker/gmr_data)
+  // was removed from the profile tab strip on 2026-05-31. The
+  // underlying API + fetchGmrData() client stayed in tree (external
+  // embeds still consume it), but the UI must not surface it as a
+  // user-clickable tab anymore.
+  it('does NOT pass an "analysis" group to DataViewSelector', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    const groupKeys = sel.props('groups').map((g) => g.key)
+    expect(groupKeys).not.toContain('analysis')
+  })
+
+  it('does NOT include the gmr-long sub-view in any DataViewSelector group', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/fundamentals')
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    const subKeys = sel.props('groups').flatMap((g) => g.views.map((v) => v.key))
+    expect(subKeys).not.toContain('gmr-long')
+  })
+
+  // Direct navigation to /c/<ticker>/gmr-long still mounts the
+  // TickerFinancials host with view="gmr-long" — the URL is a stable
+  // external contract for the embed link even though the tab is gone.
+  it('still renders TickerFinancials when navigating directly to gmr-long', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/gmr-long')
+    expect(wrapper.find('[data-testid="ticker-financials"]').exists()).toBe(true)
+    const fin = wrapper.findComponent({ name: 'TickerFinancials' })
+    expect(fin.props('view')).toBe('gmr-long')
+  })
 })

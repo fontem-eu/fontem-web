@@ -42,10 +42,11 @@ const VIEW_GROUPS = [
       { key: 'entity-nuts-map', label: 'Business Map' },
     ],
   },
-  {
-    key: 'analysis', label: 'Analysis',
-    views: [{ key: 'gmr-long', label: 'Long-Term Value' }],
-  },
+  // The "Analysis" group (formerly: Long-Term Value via /api/:ticker/gmr_data)
+  // was removed from the profile UI on 2026-05-31 — the panel wasn't
+  // pulling its weight against the Financials surfaces. The underlying
+  // /api/:ticker/gmr_data endpoint and the `fetchGmrData()` client stay
+  // in tree because at least one external embed consumes them.
 ]
 
 const selectedTicker = computed(() => route.params.ticker || null)
