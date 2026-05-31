@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fmtEur } from '../utils/format.js'
+import { tedNoticeUrl } from '../utils/tedUrl.js'
 import PocketButton from './PocketButton.vue'
 
 const props = defineProps({
@@ -176,19 +177,39 @@ const topCpv = computed(() => {
               <th class="sortable" @click="sortBy('authority')">Authority{{ indicator('authority') }}</th>
               <th>CPV</th>
               <th>Type</th>
+              <th>TED</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="c in sortedContracts" :key="c.ted_notice_id">
+            <tr v-for="c in sortedContracts" :key="c.ted_notice_id" :data-testid="`contract-row-${c.ted_notice_id}`">
               <td class="nowrap">{{ c.award_date?.substring(0, 10) || '—' }}</td>
               <td>
-                <a v-if="c.ted_url" :href="c.ted_url" target="_blank" rel="noopener noreferrer">{{ c.title }}</a>
+                <a
+                  v-if="tedNoticeUrl(c)"
+                  :href="tedNoticeUrl(c)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :data-testid="`contract-title-link-${c.ted_notice_id}`"
+                >{{ c.title }}</a>
                 <span v-else>{{ c.title }}</span>
               </td>
               <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}</td>
               <td>{{ c.authority }} <span class="ctag">{{ c.authority_country }}</span></td>
               <td class="nowrap">{{ c.cpv || '—' }}</td>
               <td class="nowrap">{{ c.procedure_type || '—' }}</td>
+              <td class="nowrap">
+                <a
+                  v-if="tedNoticeUrl(c)"
+                  :href="tedNoticeUrl(c)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="ted-link"
+                  :data-testid="`contract-ted-link-${c.ted_notice_id}`"
+                  :title="`Open TED notice ${c.ted_notice_id}`"
+                  :aria-label="`Open TED notice ${c.ted_notice_id} in a new tab`"
+                >View ↗</a>
+                <span v-else>—</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -196,14 +217,20 @@ const topCpv = computed(() => {
 
       <!-- Mobile: card list -->
       <div class="contracts-cards">
-        <div v-for="c in sortedContracts" :key="c.ted_notice_id" class="contract-card">
+        <div
+          v-for="c in sortedContracts"
+          :key="c.ted_notice_id"
+          class="contract-card"
+          :data-testid="`contract-card-${c.ted_notice_id}`"
+        >
           <div class="cc-header">
             <a
-              v-if="c.ted_url"
-              :href="c.ted_url"
+              v-if="tedNoticeUrl(c)"
+              :href="tedNoticeUrl(c)"
               target="_blank"
               rel="noopener noreferrer"
               class="cc-title"
+              :data-testid="`contract-card-title-link-${c.ted_notice_id}`"
             >{{ c.title }}</a>
             <span v-else class="cc-title">{{ c.title }}</span>
           </div>
@@ -217,6 +244,15 @@ const topCpv = computed(() => {
             <span class="ctag">{{ c.authority_country }}</span>
             <span v-if="c.cpv" class="cc-cpv">{{ c.cpv }}</span>
           </div>
+          <a
+            v-if="tedNoticeUrl(c)"
+            :href="tedNoticeUrl(c)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cc-ted-link"
+            :data-testid="`contract-card-ted-link-${c.ted_notice_id}`"
+            :aria-label="`Open TED notice ${c.ted_notice_id} in a new tab`"
+          >View on TED ↗</a>
         </div>
       </div>
     </div>
@@ -270,6 +306,11 @@ const topCpv = computed(() => {
 }
 .contracts-table a { color: var(--accent, #0969da); text-decoration: none; }
 .contracts-table a:hover { text-decoration: underline; }
+.ted-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 .nowrap { white-space: nowrap; }
 
@@ -289,6 +330,15 @@ const topCpv = computed(() => {
 .cc-date { font-size: 0.8rem; color: var(--muted, #888); }
 .cc-meta { font-size: 0.8rem; color: var(--muted, #888); display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
 .cc-cpv { font-size: 0.75rem; opacity: 0.7; }
+.cc-ted-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent, #0969da);
+  text-decoration: none;
+}
+.cc-ted-link:hover { text-decoration: underline; }
 
 .ctag {
   display: inline-block; font-size: 0.7rem;
