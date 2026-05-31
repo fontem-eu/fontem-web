@@ -8,6 +8,9 @@ const props = defineProps({
   symbol: { type: String, required: true },
 })
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const isUuid = computed(() => UUID_RE.test(props.symbol || ''))
+
 // ── State ──────────────────────────────────────────────────────
 const containerRef = ref(null)
 const bars         = ref([])
@@ -16,6 +19,12 @@ const loading      = ref(false)
 const hasError     = ref(false)
 const companyName  = ref(null)
 const exchange     = ref(null)
+// What to call this entity in inline copy ("Could not load price for X").
+// Prefer the resolved company name; fall back to the bare symbol only
+// when it's a human-readable ticker, never when it's a raw UUID.
+const displayLabel = computed(
+  () => companyName.value || (isUuid.value ? 'this entity' : props.symbol),
+)
 const currentPrice = ref(null)
 const priceChange  = ref(null)
 const pctChange    = ref(null)
@@ -375,7 +384,17 @@ function fmtDate(s) {
     <!-- ── Header ────────────────────────────────────────────── -->
     <div class="summary-header">
       <div class="summary-identity">
-        <span class="summary-ticker" data-testid="summary-ticker">{{ symbol }}</span>
+        <!-- The ticker pill is meant for human-readable tickers like
+             AAPL. When the route lands here with the bare gmr_id UUID
+             (e.g. from a search-result click on a company that has no
+             exchange listing), rendering the UUID is noise — the
+             company name a few pixels to the right tells the user
+             everything they need. -->
+        <span
+          v-if="!isUuid"
+          class="summary-ticker"
+          data-testid="summary-ticker"
+        >{{ symbol }}</span>
         <span
           v-if="companyName || exchange"
           class="summary-company"
@@ -426,12 +445,12 @@ function fmtDate(s) {
 
     <!-- ── Error ─────────────────────────────────────────────── -->
     <div v-else-if="hasError" class="summary-state" data-testid="summary-error">
-      <span style="color: var(--negative)">Could not load price data for {{ symbol }}.</span>
+      <span style="color: var(--negative)">Could not load price data for {{ displayLabel }}.</span>
     </div>
 
     <!-- ── No data ───────────────────────────────────────────── -->
     <div v-else-if="!loading && bars.length === 0" class="summary-state" data-testid="summary-no-data">
-      <span style="color: var(--muted)">No price data available for {{ symbol }} in the selected period.</span>
+      <span style="color: var(--muted)">No price data available for {{ displayLabel }} in the selected period.</span>
     </div>
 
     <!-- ── Chart ─────────────────────────────────────────────── -->

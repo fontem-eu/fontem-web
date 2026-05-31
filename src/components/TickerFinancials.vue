@@ -50,6 +50,10 @@ const YEAR_OPTIONS = [
 let _loadId = 0
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-/i
+// True when the route handed us a bare gmr_id UUID instead of a ticker.
+// The header pill and inline copy use this to avoid spelling the UUID
+// out at the user — it's noise, not signal.
+const isUuidSymbol = computed(() => UUID_RE.test(props.symbol || ''))
 
 async function _tryFetchJson(url) {
   try {
@@ -363,7 +367,7 @@ function isFundNegative(year, key) {
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
         <span class="gmr-fin__title">{{ companyName || symbol }}</span>
-        <span v-if="companyName && symbol !== companyName && !/^[0-9a-f]{8}-/.test(symbol)" class="gmr-fin__ticker-tag">{{ symbol }}</span>
+        <span v-if="companyName && symbol !== companyName && !isUuidSymbol" class="gmr-fin__ticker-tag">{{ symbol }}</span>
         <span
           class="badge"
           :class="isEu ? 'badge-esef' : 'badge-edgar'"
@@ -488,7 +492,7 @@ function isFundNegative(year, key) {
     <!-- ── Error ───────────────────────────────────────── -->
     <div v-else-if="state === 'error'" class="gmr-fin__body gmr-fin__state" data-testid="fin-error">
       <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
-        <span style="color: var(--negative)">Could not load data for {{ symbol }}.</span>
+        <span style="color: var(--negative)">Could not load data for {{ companyName || (isUuidSymbol ? 'this entity' : symbol) }}.</span>
         <button
           class="year-btn"
           style="padding:0.4rem 1rem"
