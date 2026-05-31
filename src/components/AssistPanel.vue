@@ -837,6 +837,14 @@ defineExpose({ applyProposal, messages })
   display: flex;
   gap: 0.4rem;
   padding: 0.75rem;
+  /* Lift the input above the fixed cookie consent banner when it's
+     visible — the banner sits at viewport-bottom with z-index 1000
+     and the assist panel ends at viewport-bottom too, so without this
+     pad the textarea gets occluded (desktop) or fully hidden under
+     the banner (mobile, where the panel is full-width). The variable
+     defaults to 0px and is set by CookieConsentBanner.vue while the
+     banner is rendered. */
+  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px));
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }

@@ -72,4 +72,34 @@ describe('CookieConsentBanner', () => {
     expect(localStorage.getItem(STORAGE_KEY)).toBe('declined')
     expect(document.querySelector('[data-testid="cookie-consent-banner"]')).toBeNull()
   })
+
+  // The banner sits at z-index 1000 above everything, including the AssistPanel
+  // input row. Other components (chiefly AssistPanel.vue) read the
+  // `--cookie-banner-h` CSS custom property on <html> to pad themselves
+  // above the banner while it's visible. The two tests below pin that
+  // contract: the var is non-zero while the banner is up, and goes back
+  // to zero once the user dismisses it.
+  it('sets --cookie-banner-h on <html> while the banner is visible', async () => {
+    await mountBanner()
+    const offset = document.documentElement.style.getPropertyValue('--cookie-banner-h')
+    expect(offset).toBe('6rem')
+  })
+
+  it('clears --cookie-banner-h after the user dismisses the banner', async () => {
+    await mountBanner()
+    document.querySelector('[data-testid="cookie-consent-accept"]').click()
+    await flushPromises()
+    const offset = document.documentElement.style.getPropertyValue('--cookie-banner-h')
+    expect(offset).toBe('0px')
+  })
+
+  it('does not set --cookie-banner-h when consent was already given before mount', async () => {
+    localStorage.setItem(STORAGE_KEY, 'accepted')
+    await mountBanner()
+    // The watcher fires with `visible=false` on first run so the offset
+    // is explicitly zeroed (not just left at its previous value, which
+    // could survive a hot-module-reload).
+    const offset = document.documentElement.style.getPropertyValue('--cookie-banner-h')
+    expect(offset).toBe('0px')
+  })
 })

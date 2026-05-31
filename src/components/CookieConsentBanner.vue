@@ -4,11 +4,31 @@
  *
  * Persists choice in localStorage as 'gmr-cookie-consent' = 'accepted' | 'declined'.
  * Until 'accepted' is set, useAnalytics() is a no-op (see composables/useAnalytics.js).
+ *
+ * While the banner is visible, the height it occupies at the viewport
+ * bottom is exposed as the CSS custom property `--cookie-banner-h` on
+ * `<html>`. Any fixed-positioned UI element that would otherwise be
+ * hidden behind the banner (chiefly the AssistPanel's input row) reads
+ * this var to pad itself above the banner. When the banner is hidden,
+ * the var goes back to `0px` so layouts collapse cleanly.
  */
-import { ref, onMounted } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const visible = ref(false)
 const STORAGE_KEY = 'gmr-cookie-consent'
+// Approximation of the banner's rendered height (text + actions + padding).
+// Measured ~52 px at full viewport, ~96 px at a narrow mobile viewport
+// where the actions wrap below the text. The "safer" value is the larger
+// one — that just leaves a little extra space on desktop, which is fine.
+const BANNER_HEIGHT = '6rem'
+
+function applyOffset(shown) {
+  if (typeof document === 'undefined') return
+  document.documentElement.style.setProperty(
+    '--cookie-banner-h',
+    shown ? BANNER_HEIGHT : '0px',
+  )
+}
 
 onMounted(() => {
   if (typeof localStorage === 'undefined') return
@@ -17,6 +37,10 @@ onMounted(() => {
     visible.value = true
   }
 })
+
+onBeforeUnmount(() => applyOffset(false))
+
+watch(visible, applyOffset, { immediate: true })
 
 function accept() {
   localStorage.setItem(STORAGE_KEY, 'accepted')
