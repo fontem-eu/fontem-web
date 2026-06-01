@@ -54,6 +54,13 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-/i
 // The header pill and inline copy use this to avoid spelling the UUID
 // out at the user — it's noise, not signal.
 const isUuidSymbol = computed(() => UUID_RE.test(props.symbol || ''))
+// Header title: the resolved company name when we have it; otherwise
+// the human-readable symbol; otherwise a generic label. The previous
+// `companyName || symbol` fallback rendered the raw UUID during the
+// summary view's no-load path (state == 'done' immediately so
+// companyName never resolves) — exactly the noise the user reported.
+const headerLabel = computed(() => companyName.value
+  || (isUuidSymbol.value ? 'Entity profile' : props.symbol))
 
 async function _tryFetchJson(url) {
   try {
@@ -172,9 +179,19 @@ watch(
   ([sym]) => {
     if (!sym) return
     // Summary view manages its own data/state internally via SummaryPanel.
+    // We still resolve the entity name here so the header title shows
+    // the company / authority name instead of the raw UUID — otherwise
+    // companyName stays null forever on this view path.
     if (props.view === 'summary') {
       state.value = 'done'
       data.value = null
+      _resolveUuidEntity(sym, { profile: true }).then((info) => {
+        if (info?.company_name) {
+          companyName.value = info.company_name
+          companyGmrId.value = info.gmr_id ?? null
+          _emitResolved(sym, info)
+        }
+      })
       return
     }
     loadData(sym)
@@ -366,7 +383,7 @@ function isFundNegative(year, key) {
     <!-- ── Header ───────────────────────────────────────── -->
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
-        <span class="gmr-fin__title">{{ companyName || symbol }}</span>
+        <span class="gmr-fin__title" data-testid="financials-title">{{ headerLabel }}</span>
         <span v-if="companyName && symbol !== companyName && !isUuidSymbol" class="gmr-fin__ticker-tag">{{ symbol }}</span>
         <span
           class="badge"
