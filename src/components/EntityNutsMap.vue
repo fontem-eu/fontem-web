@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
         {{ metric === 'contracts_eur' ? `€${Number(hovered.value).toLocaleString()}` : Number(hovered.value).toLocaleString() }}
         {{ metric === 'contracts' ? 'contracts' : '' }}
       </span>
-      <span v-else class="enu-hover__value muted">no data</span>
+      <span v-else class="enu-hover__value muted" data-testid="enu-hover-empty">no known contracts</span>
     </div>
   </div>
 </template>

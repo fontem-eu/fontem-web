@@ -359,3 +359,115 @@ describe('EntityNutsMap — error states', () => {
     w.unmount()
   })
 })
+
+// ── Tooltip text + colorize regression ────────────────────────────────────────
+//
+// Two bugs reported together: tooltip on a no-data country said
+// "no data" (should read "no known contracts"), AND countries that
+// did have contracts were rendered gray + had no tooltip. The latter
+// reproduces specifically when every region shares the same value
+// (e.g. one country with contracts) — `choroplethBounds` collapses
+// to [N, N] and _linearStops produces an invalid step expression, so
+// MapLibre silently drops the enu-fill layer.
+
+describe('EntityNutsMap — tooltip & colorize regressions', () => {
+  it('tooltip reads "no known contracts" (not "no data") when hovering an empty region', async () => {
+    const { default: EntityNutsMap } = await import('../../src/components/EntityNutsMap.vue')
+    const w = mount(EntityNutsMap, {
+      props: { entityId: 'test-entity-id' },
+      attachTo: document.body,
+    })
+    await flushPromises()
+
+    // Pull the mousemove handler that was attached to the enu-null
+    // layer (this is the no-data fill) and fire it with a feature
+    // that has nuts_code+name but no `value` property.
+    const onCalls = mapInstance.on.mock.calls
+    const onMoveCall = onCalls.find(
+      (c) => c[0] === 'mousemove' && c[1] === 'enu-null',
+    )
+    expect(onMoveCall, 'enu-null mousemove handler should be registered').toBeTruthy()
+    const onMove = onMoveCall[2]
+    onMove({
+      features: [{ properties: { nuts_code: 'XK', name: 'Kosovo' } }],
+    })
+    await flushPromises()
+
+    const hover = w.find('[data-testid="enu-hover"]')
+    expect(hover.exists()).toBe(true)
+    expect(hover.text()).toContain('Kosovo')
+    expect(hover.text()).toContain('no known contracts')
+    expect(hover.text()).not.toContain('no data')
+    expect(w.find('[data-testid="enu-hover-empty"]').exists()).toBe(true)
+    w.unmount()
+  })
+
+  it('renders an enu-fill layer even when every region shares the same value', async () => {
+    // Degenerate case: one country with value 1, rest unset.
+    const ROWS_SINGLE = [
+      { nuts_code: 'DK', label: 'Danmark', level: 0, value: 1 },
+    ]
+    globalThis.fetch = makeFetch(ROWS_SINGLE)
+    const { default: EntityNutsMap } = await import('../../src/components/EntityNutsMap.vue')
+    const w = mount(EntityNutsMap, {
+      props: { entityId: 'test-entity-id' },
+      attachTo: document.body,
+    })
+    await flushPromises()
+    const fillCall = mapInstance.addLayer.mock.calls.find((c) => c[0].id === 'enu-fill')
+    expect(fillCall).toBeTruthy()
+    const fillColor = fillCall[0].paint['fill-color']
+    // Pre-fix this was a `step` expression with 4 identical stops
+    // → invalid → layer drops. The fix makes it a solid colour
+    // string (a single hex). Both are acceptable as long as the
+    // expression is well-formed (and visibly distinct from the
+    // no-data gray).
+    if (Array.isArray(fillColor) && fillColor[0] === 'step') {
+      // Must have strictly-increasing stop values.
+      const stopValues = []
+      for (let i = 3; i < fillColor.length; i += 2) stopValues.push(fillColor[i])
+      for (let i = 1; i < stopValues.length; i++) {
+        expect(stopValues[i]).toBeGreaterThan(stopValues[i - 1])
+      }
+    } else {
+      expect(typeof fillColor).toBe('string')
+      expect(fillColor).toMatch(/^#/)
+    }
+    w.unmount()
+  })
+
+  it('countries with contracts get their value injected into properties', async () => {
+    // Same degenerate input — check the join still flows through.
+    const ROWS_SINGLE = [
+      { nuts_code: 'DK', label: 'Danmark', level: 0, value: 1 },
+    ]
+    const BOUNDS_WITH_DK = {
+      type: 'FeatureCollection',
+      features: [
+        { type: 'Feature', properties: { nuts_code: 'DK', name: 'Danmark' }, geometry: { type: 'Polygon', coordinates: [[[8,55],[12,55],[12,57],[8,57],[8,55]]] } },
+        { type: 'Feature', properties: { nuts_code: 'DE', name: 'Deutschland' }, geometry: { type: 'Polygon', coordinates: [[[5,47],[15,47],[15,55],[5,55],[5,47]]] } },
+      ],
+    }
+    globalThis.fetch = vi.fn().mockImplementation((url) => {
+      if (url.includes('/geo/entity/')) {
+        return Promise.resolve({ ok: true, json: async () => ({ entity_id: 'x', level: 0, metric: 'contracts', regions: ROWS_SINGLE }) })
+      }
+      return Promise.resolve({ ok: true, json: async () => BOUNDS_WITH_DK })
+    })
+    const { default: EntityNutsMap } = await import('../../src/components/EntityNutsMap.vue')
+    const w = mount(EntityNutsMap, {
+      props: { entityId: 'test-entity-id' },
+      attachTo: document.body,
+    })
+    await flushPromises()
+    const srcCall = mapInstance.addSource.mock.calls.find((c) => c[0] === 'enu')
+    const geojson = srcCall[1].data
+    const dk = geojson.features.find((f) => f.properties.nuts_code === 'DK')
+    const de = geojson.features.find((f) => f.properties.nuts_code === 'DE')
+    expect(dk.properties.value).toBe(1)
+    // DE had no contracts in the row set → value must be cleared so
+    // it falls through to the no-data layer.
+    expect(de.properties.value).toBeUndefined()
+    w.unmount()
+  })
+})
