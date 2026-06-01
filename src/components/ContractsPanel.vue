@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import { fmtEur } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
 import PocketButton from './PocketButton.vue'
@@ -96,6 +97,38 @@ function indicator(key) {
   return sortAsc.value ? ' \u25B2' : ' \u25BC'
 }
 
+// The "counterparty" column shows the awarding authority when we're
+// rendering a company profile's contracts, and the receiving contractor
+// when we're rendering an authority profile's contracts. We detect mode
+// by which entity-id field the rows carry: company-view rows have
+// `authority_id`, authority-view rows have `contractor_gmr_id`.
+const isAuthorityView = computed(
+  () => (data.value?.contracts || []).some((c) => 'contractor_gmr_id' in c),
+)
+const counterpartyHeader = computed(
+  () => isAuthorityView.value ? 'Contractor' : 'Authority',
+)
+const counterpartySortKey = computed(
+  () => isAuthorityView.value ? 'contractor' : 'authority',
+)
+// One representation per row that the cell renderer can consume blindly,
+// so the template doesn't have to fork on view mode. `profileId` being
+// non-null is the signal to render a clickable link.
+function counterpartyFor(c) {
+  if (c.contractor_gmr_id || c.contractor) {
+    return {
+      label: c.contractor,
+      country: c.contractor_country,
+      profileId: c.contractor_gmr_id,
+    }
+  }
+  return {
+    label: c.authority,
+    country: c.authority_country,
+    profileId: c.authority_id,
+  }
+}
+
 const topAuthority = computed(() => {
   if (!data.value?.contracts?.length) return null
   const counts = {}
@@ -174,7 +207,10 @@ const topCpv = computed(() => {
               <th class="sortable" @click="sortBy('award_date')">Date{{ indicator('award_date') }}</th>
               <th class="sortable" @click="sortBy('title')">Title{{ indicator('title') }}</th>
               <th class="sortable" @click="sortBy('value_eur')">Value{{ indicator('value_eur') }}</th>
-              <th class="sortable" @click="sortBy('authority')">Authority{{ indicator('authority') }}</th>
+              <th
+                class="sortable"
+                @click="sortBy(counterpartySortKey)"
+              >{{ counterpartyHeader }}{{ indicator(counterpartySortKey) }}</th>
               <th>CPV</th>
               <th>Type</th>
               <th>TED</th>
@@ -194,7 +230,17 @@ const topCpv = computed(() => {
                 <span v-else>{{ c.title }}</span>
               </td>
               <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}</td>
-              <td>{{ c.authority }} <span class="ctag">{{ c.authority_country }}</span></td>
+              <td>
+                <template v-if="counterpartyFor(c).profileId">
+                  <RouterLink
+                    :to="`/c/${counterpartyFor(c).profileId}/profile`"
+                    class="counterparty-link"
+                    :data-testid="`contract-counterparty-link-${c.ted_notice_id}`"
+                  >{{ counterpartyFor(c).label || '—' }}</RouterLink>
+                </template>
+                <template v-else>{{ counterpartyFor(c).label || '—' }}</template>
+                <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
+              </td>
               <td class="nowrap">{{ c.cpv || '—' }}</td>
               <td class="nowrap">{{ c.procedure_type || '—' }}</td>
               <td class="nowrap">
@@ -240,8 +286,17 @@ const topCpv = computed(() => {
             <span v-if="c.procedure_type" class="ctag">{{ c.procedure_type }}</span>
           </div>
           <div class="cc-meta">
-            <span>{{ c.authority }}</span>
-            <span class="ctag">{{ c.authority_country }}</span>
+            <template v-if="counterpartyFor(c).profileId">
+              <RouterLink
+                :to="`/c/${counterpartyFor(c).profileId}/profile`"
+                class="counterparty-link"
+                :data-testid="`contract-card-counterparty-link-${c.ted_notice_id}`"
+              >{{ counterpartyFor(c).label || '—' }}</RouterLink>
+            </template>
+            <template v-else>
+              <span>{{ counterpartyFor(c).label || '—' }}</span>
+            </template>
+            <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
             <span v-if="c.cpv" class="cc-cpv">{{ c.cpv }}</span>
           </div>
           <a
@@ -306,6 +361,12 @@ const topCpv = computed(() => {
 }
 .contracts-table a { color: var(--accent, #0969da); text-decoration: none; }
 .contracts-table a:hover { text-decoration: underline; }
+.counterparty-link {
+  color: var(--accent, #0969da);
+  text-decoration: none;
+  font-weight: 500;
+}
+.counterparty-link:hover { text-decoration: underline; }
 .ted-link {
   font-size: 0.75rem;
   font-weight: 500;
