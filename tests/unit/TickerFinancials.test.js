@@ -817,3 +817,63 @@ describe('TickerFinancials — balance view', () => {
     expect(wrapper.find('[data-testid="fin-error"]').exists()).toBe(true)
   })
 })
+
+// ── Header title — UUID hiding (regression for hotfix) ──────────
+//
+// When the route hands us a bare UUID and the company-name resolution
+// hasn't completed (or fails), the financials header used to render
+// `companyName || symbol` — which fell back to the UUID. Hide it.
+
+describe('TickerFinancials — header title hides raw UUIDs', () => {
+  const UUID = '867f66f4-4aa4-5737-9bed-d51e2746a729'
+  const originalFetch = globalThis.fetch
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    globalThis.fetch = originalFetch
+  })
+
+  it('summary view: shows "Entity profile" when symbol is a UUID and the resolve call fails', async () => {
+    // Both /api/companies and /api/authorities 404.
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false, status: 404, text: async () => 'not found',
+    })
+    const wrapper = mount(TickerFinancials, { props: { symbol: UUID, view: 'summary' } })
+    await flushPromises()
+    const title = wrapper.find('[data-testid="financials-title"]')
+    expect(title.exists()).toBe(true)
+    expect(title.text()).toBe('Entity profile')
+    expect(title.text()).not.toContain(UUID)
+  })
+
+  it('summary view: resolves and shows the company name when the API returns one', async () => {
+    globalThis.fetch = vi.fn().mockImplementation(async (url) => {
+      if (url.includes('/api/companies/')) {
+        return {
+          ok: true,
+          json: async () => ({
+            gmr_id: UUID,
+            company_name: 'Siemens Energy AG/ADR',
+            country: 'USA',
+          }),
+        }
+      }
+      return { ok: false, status: 404, text: async () => 'not found' }
+    })
+    const wrapper = mount(TickerFinancials, { props: { symbol: UUID, view: 'summary' } })
+    await flushPromises()
+    const title = wrapper.find('[data-testid="financials-title"]')
+    expect(title.text()).toBe('Siemens Energy AG/ADR')
+    expect(title.text()).not.toContain(UUID)
+  })
+
+  it('non-UUID symbol: still renders the symbol when no companyName resolved', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false, status: 404, text: async () => 'not found',
+    })
+    const wrapper = mount(TickerFinancials, { props: { symbol: 'AAPL', view: 'summary' } })
+    await flushPromises()
+    const title = wrapper.find('[data-testid="financials-title"]')
+    expect(title.text()).toBe('AAPL')
+  })
+})
