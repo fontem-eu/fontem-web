@@ -11,23 +11,52 @@
  * hidden behind the banner (chiefly the AssistPanel's input row) reads
  * this var to pad itself above the banner. When the banner is hidden,
  * the var goes back to `0px` so layouts collapse cleanly.
+ *
+ * The height is *measured*, not hardcoded — the previous 6rem constant
+ * was correct for desktop but too short for mobile, where the banner
+ * goes column-layout and the actions wrap below the text. A
+ * ResizeObserver on the banner element re-publishes the var whenever
+ * the rendered size changes (viewport resize, text reflow, font scale,
+ * etc), so the AssistPanel input always sits at exactly the right
+ * height above the banner.
  */
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
 
 const visible = ref(false)
 const STORAGE_KEY = 'gmr-cookie-consent'
-// Approximation of the banner's rendered height (text + actions + padding).
-// Measured ~52 px at full viewport, ~96 px at a narrow mobile viewport
-// where the actions wrap below the text. The "safer" value is the larger
-// one — that just leaves a little extra space on desktop, which is fine.
-const BANNER_HEIGHT = '6rem'
+// Safe fallback while the banner mounts but before the first
+// ResizeObserver callback fires — large enough that nothing is
+// occluded even on the narrowest column-layout viewport. The real
+// per-render value lands within one frame anyway.
+const FALLBACK_HEIGHT = '10rem'
 
-function applyOffset(shown) {
+const bannerEl = useTemplateRef('bannerEl')
+let _ro = null
+
+function setVar(value) {
   if (typeof document === 'undefined') return
-  document.documentElement.style.setProperty(
-    '--cookie-banner-h',
-    shown ? BANNER_HEIGHT : '0px',
-  )
+  document.documentElement.style.setProperty('--cookie-banner-h', value)
+}
+
+function startMeasuring() {
+  // Safety net so the first paint isn't occluded — overwritten by the
+  // first ResizeObserver callback the same frame.
+  setVar(FALLBACK_HEIGHT)
+  if (typeof ResizeObserver === 'undefined' || !bannerEl.value) return
+  _ro = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const h = entry.contentRect?.height
+        ?? entry.target?.getBoundingClientRect?.().height
+      if (typeof h !== 'number') continue
+      setVar(`${Math.ceil(h)}px`)
+    }
+  })
+  _ro.observe(bannerEl.value)
+}
+
+function stopMeasuring() {
+  if (_ro) { _ro.disconnect(); _ro = null }
+  setVar('0px')
 }
 
 onMounted(() => {
@@ -35,27 +64,29 @@ onMounted(() => {
   const choice = localStorage.getItem(STORAGE_KEY)
   if (choice !== 'accepted' && choice !== 'declined') {
     visible.value = true
+    // Wait one tick so the <dialog> is in the DOM before we observe it.
+    queueMicrotask(startMeasuring)
   }
 })
 
-onBeforeUnmount(() => applyOffset(false))
-
-watch(visible, applyOffset, { immediate: true })
+onBeforeUnmount(stopMeasuring)
 
 function accept() {
   localStorage.setItem(STORAGE_KEY, 'accepted')
   visible.value = false
+  stopMeasuring()
 }
 
 function decline() {
   localStorage.setItem(STORAGE_KEY, 'declined')
   visible.value = false
+  stopMeasuring()
 }
 </script>
 
 <template>
   <Teleport to="body">
-    <dialog v-if="visible" open class="ccb" aria-label="Cookie consent" data-testid="cookie-consent-banner">
+    <dialog v-if="visible" ref="bannerEl" open class="ccb" aria-label="Cookie consent" data-testid="cookie-consent-banner">
       <div class="ccb-text">
         We use a self-hosted analytics cookie to understand which pages are useful.
         No tracking, no third parties.
