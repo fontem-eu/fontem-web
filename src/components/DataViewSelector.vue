@@ -56,9 +56,15 @@ const currentLabel = computed(() => {
           :key="g.key"
           type="button"
           class="dvs-cat"
-          :class="{ 'dvs-cat--active': activeGroup === g.key }"
+          :class="{
+            'dvs-cat--active': activeGroup === g.key,
+            'dvs-cat--disabled': g.disabled,
+          }"
           :data-testid="`view-cat-${g.key}`"
-          @click="$emit('update:modelValue', g.views[0].key)"
+          :disabled="g.disabled"
+          :aria-disabled="g.disabled || undefined"
+          :title="g.disabled && g.disabledReason ? g.disabledReason : undefined"
+          @click="g.disabled ? null : $emit('update:modelValue', g.views[0].key)"
         >
           {{ g.label }}
         </button>
@@ -100,15 +106,23 @@ const currentLabel = computed(() => {
       </button>
       <div v-if="mobileOpen" class="dvs-dropdown" data-testid="view-dropdown">
         <template v-for="g in groups" :key="g.key">
-          <div class="dvs-dropdown-group">{{ g.label }}</div>
+          <div
+            class="dvs-dropdown-group"
+            :class="{ 'dvs-dropdown-group--disabled': g.disabled }"
+          >{{ g.label }}{{ g.disabled ? ' (no data)' : '' }}</div>
           <button
             v-for="v in g.views"
             :key="v.key"
             type="button"
             class="dvs-dropdown-item"
-            :class="{ 'dvs-dropdown-item--active': modelValue === v.key }"
+            :class="{
+              'dvs-dropdown-item--active': modelValue === v.key,
+              'dvs-dropdown-item--disabled': g.disabled,
+            }"
             :data-testid="`view-opt-${v.key}`"
-            @click="$emit('update:modelValue', v.key); mobileOpen = false"
+            :disabled="g.disabled"
+            :aria-disabled="g.disabled || undefined"
+            @click="g.disabled ? null : ($emit('update:modelValue', v.key), mobileOpen = false)"
           >
             {{ v.label }}
           </button>
@@ -133,6 +147,14 @@ const currentLabel = computed(() => {
 }
 .dvs-cat:hover { color: var(--text); background: var(--surface); }
 .dvs-cat--active { color: var(--accent); }
+.dvs-cat--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.dvs-cat--disabled:hover {
+  color: var(--muted);
+  background: none;
+}
 
 .dvs-views { display: flex; flex-direction: column; gap: 1px; padding: 4px 0; }
 .dvs-view {
@@ -170,4 +192,10 @@ const currentLabel = computed(() => {
 }
 .dvs-dropdown-item:hover { background: var(--surface); }
 .dvs-dropdown-item--active { color: var(--accent); font-weight: 600; }
+.dvs-dropdown-item--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.dvs-dropdown-item--disabled:hover { background: none; }
+.dvs-dropdown-group--disabled { opacity: 0.55; }
 </style>

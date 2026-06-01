@@ -7,14 +7,45 @@
  * Deliberately kept as `HomeView` to avoid renaming churn; the
  * file is the financials/profile shell for a single ticker.
  */
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerFinancials from '../components/TickerFinancials.vue'
 import DataViewSelector from '../components/DataViewSelector.vue'
+import { fetchFundamentals } from '../api/gmr.js'
 import { useAnalytics } from '../composables/useAnalytics.js'
 
 const route = useRoute()
 const router = useRouter()
+
+// Whether this entity has any financial data to surface in the tab
+// strip. `null` while we probe; `true|false` after.
+// Probed via a one-shot fetchFundamentals call against the current
+// ticker/UUID. Authorities and unlisted companies return empty here,
+// so we grey out the Financials category until the user picks
+// another entity. Probe failures are treated as "no data" — better
+// to grey a tab the user can't use than to show it and have them
+// click into an error state.
+const hasFinancials = ref(null)
+
+let _probeId = 0
+async function probeFinancials(sym) {
+  if (!sym) return
+  const id = ++_probeId
+  hasFinancials.value = null
+  try {
+    const fund = await fetchFundamentals(sym, 1)
+    if (_probeId !== id) return
+    const annual = fund?.annual_data || fund?.per_year || []
+    const hasNumbers = annual.some(
+      (r) => r?.revenue != null || r?.net_income != null || r?.earnings != null,
+    )
+    hasFinancials.value = Boolean(
+      hasNumbers || fund?.market_snapshot?.market_cap != null,
+    )
+  } catch {
+    if (_probeId === id) hasFinancials.value = false
+  }
+}
 
 const VIEW_GROUPS = [
   {
@@ -52,6 +83,24 @@ const VIEW_GROUPS = [
 const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView   = computed(() => route.params.view   || 'summary')
 
+// Re-probe when the ticker changes (route param) — every new entity
+// might have different data coverage.
+watch(selectedTicker, (sym) => probeFinancials(sym), { immediate: true })
+
+// Render-time view list with the disabled flag attached to the
+// financials group. Other categories are always enabled — overview
+// and procurement both gracefully handle "nothing found".
+const computedViewGroups = computed(() => VIEW_GROUPS.map((g) => {
+  if (g.key === 'financials' && hasFinancials.value === false) {
+    return {
+      ...g,
+      disabled: true,
+      disabledReason: 'No financial data available for this entity.',
+    }
+  }
+  return g
+}))
+
 function onCompanyResolved(info) {
   if (info?.name) {
     const view = selectedView.value || 'summary'
@@ -83,7 +132,7 @@ function onClose() {
       >
         <DataViewSelector
           :model-value="selectedView"
-          :groups="VIEW_GROUPS"
+          :groups="computedViewGroups"
           @update:model-value="onViewChange"
         />
         <TickerFinancials

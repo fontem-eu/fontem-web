@@ -107,3 +107,67 @@ describe('DataViewSelector — grouped navigation', () => {
     expect(wrapper.find('[data-testid="view-dropdown"]').exists()).toBe(false)
   })
 })
+
+// ── Disabled groups (item 4: financials tab off when no data) ────
+describe('DataViewSelector — disabled groups', () => {
+  const DISABLED_GROUPS = [
+    { key: 'overview', label: 'Overview', views: [{ key: 'profile', label: 'Profile' }] },
+    {
+      key: 'financials', label: 'Financials',
+      disabled: true,
+      disabledReason: 'No financial data available for this entity.',
+      views: [
+        { key: 'fundamentals', label: 'Fundamentals' },
+        { key: 'income',       label: 'Income' },
+      ],
+    },
+  ]
+
+  function mountDisabled(modelValue = 'profile') {
+    return mount(DataViewSelector, {
+      props: { modelValue, groups: DISABLED_GROUPS },
+    })
+  }
+
+  it('greys out a category button when the group is disabled', () => {
+    const wrapper = mountDisabled()
+    const cat = wrapper.find('[data-testid="view-cat-financials"]')
+    expect(cat.classes()).toContain('dvs-cat--disabled')
+    expect(cat.attributes('disabled')).toBeDefined()
+    expect(cat.attributes('aria-disabled')).toBe('true')
+  })
+
+  it('shows the disabledReason as the button tooltip', () => {
+    const wrapper = mountDisabled()
+    const cat = wrapper.find('[data-testid="view-cat-financials"]')
+    expect(cat.attributes('title')).toBe('No financial data available for this entity.')
+  })
+
+  it('does NOT emit update:modelValue when a disabled category is clicked', async () => {
+    const wrapper = mountDisabled()
+    await wrapper.find('[data-testid="view-cat-financials"]').trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+
+  it('still renders the disabled category (it is not removed)', () => {
+    // Regression: an earlier draft hid the category entirely; the
+    // user specifically asked for it to be shown but greyed out.
+    const wrapper = mountDisabled()
+    expect(wrapper.find('[data-testid="view-cat-financials"]').exists()).toBe(true)
+  })
+
+  it('greys out the matching items in the mobile dropdown', async () => {
+    const wrapper = mountDisabled()
+    await wrapper.find('[data-testid="view-dropdown-btn"]').trigger('click')
+    const item = wrapper.find('[data-testid="view-opt-fundamentals"]')
+    expect(item.classes()).toContain('dvs-dropdown-item--disabled')
+    expect(item.attributes('disabled')).toBeDefined()
+  })
+
+  it('does NOT emit when a disabled mobile dropdown item is clicked', async () => {
+    const wrapper = mountDisabled()
+    await wrapper.find('[data-testid="view-dropdown-btn"]').trigger('click')
+    await wrapper.find('[data-testid="view-opt-fundamentals"]').trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+})
