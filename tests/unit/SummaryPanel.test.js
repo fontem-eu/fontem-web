@@ -436,4 +436,49 @@ describe('SummaryPanel', () => {
     await flushPromises()
     expect(fetchFundamentals).toHaveBeenCalledWith('MSFT')
   })
+
+  // ── UUID-as-symbol: don't render the bare UUID at the user ──
+  // Regression: the financials Summary view was rendering the route's
+  // raw gmr_id when navigating from a search result without a ticker.
+  // UUIDs are noise — the resolved company name (or a generic
+  // placeholder while it loads) is what the user actually wants.
+
+  const UUID = 'd97605fa-1234-5678-9abc-def012345678'
+
+  it('does not render the summary-ticker pill when the symbol is a bare UUID', async () => {
+    const w = mountPanel(UUID)
+    await flushPromises()
+    expect(w.find('[data-testid="summary-ticker"]').exists()).toBe(false)
+  })
+
+  it('still renders the summary-ticker pill when the symbol is a normal ticker', async () => {
+    const w = mountPanel('AAPL')
+    await flushPromises()
+    expect(w.find('[data-testid="summary-ticker"]').text()).toBe('AAPL')
+  })
+
+  it('uses the generic placeholder in error copy when symbol is a UUID', async () => {
+    // The error path means we never resolved a company name (the same
+    // fetch was supposed to deliver it), so the displayLabel falls
+    // back to 'this entity' — never the raw UUID.
+    fetchPriceHistory.mockRejectedValueOnce(new Error('boom'))
+    const w = mountPanel(UUID)
+    await flushPromises()
+    const err = w.find('[data-testid="summary-error"]')
+    expect(err.exists()).toBe(true)
+    expect(err.text()).toContain('this entity')
+    expect(err.text()).not.toContain(UUID)
+  })
+
+  it('falls back to "this entity" in no-data copy when the UUID is unresolved', async () => {
+    // Empty bars + no company name → no resolved label, so we should
+    // show the generic placeholder rather than the UUID.
+    fetchPriceHistory.mockResolvedValueOnce({ bars: [], name: null, exchange: null })
+    const w = mountPanel(UUID)
+    await flushPromises()
+    const empty = w.find('[data-testid="summary-no-data"]')
+    expect(empty.exists()).toBe(true)
+    expect(empty.text()).toContain('this entity')
+    expect(empty.text()).not.toContain(UUID)
+  })
 })
