@@ -1,10 +1,37 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount as vueMount, flushPromises } from '@vue/test-utils'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import ContractsPanel from '../../src/components/ContractsPanel.vue'
 
 // Mock fetch globally
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
+
+// The counterparty cell now renders a <RouterLink> when the row carries
+// the linkable id (`authority_id` for company-view contracts,
+// `contractor_gmr_id` for authority-view contracts). Install a memory
+// router on every mount so those links resolve without a real DOM
+// router.
+function makeRouter() {
+  return createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/', component: { template: '<div />' } },
+      { path: '/c/:id/profile', component: { template: '<div data-testid="profile-stub" />' } },
+    ],
+  })
+}
+
+function mount(Component, opts = {}) {
+  const router = makeRouter()
+  return vueMount(Component, {
+    ...opts,
+    global: {
+      ...(opts.global || {}),
+      plugins: [...((opts.global && opts.global.plugins) || []), router],
+    },
+  })
+}
 
 function makeContract(overrides = {}) {
   return {
@@ -16,6 +43,7 @@ function makeContract(overrides = {}) {
     procedure_type: 'open',
     ted_url: 'https://ted.europa.eu/en/notice/123-2024',
     authority: 'Ministry of Defence',
+    authority_id: 'auth-min-def',
     authority_country: 'DE',
     ...overrides,
   }
@@ -33,6 +61,33 @@ function makeContractsResponse(overrides = {}) {
       makeContract({ ted_notice_id: '456-2024', title: 'Consulting', value_eur: 500000 }),
     ],
     ...overrides,
+  }
+}
+
+function makeAuthorityResponse() {
+  // Authority endpoint: `authority_name` at top-level; per-row contractor
+  // fields instead of authority fields. ContractsPanel normalises the
+  // top-level keys but leaves the row shape untouched.
+  return {
+    authority_id: 'auth-X',
+    authority_name: 'Ministry of X',
+    country: 'DE',
+    contract_count: 1,
+    total_spend_eur: 100000,
+    contracts: [
+      {
+        ted_notice_id: '789-2024',
+        title: 'Bus purchase',
+        value_eur: 100000,
+        award_date: '2024-04-21',
+        cpv: '34000000',
+        procedure_type: null,
+        ted_url: null,
+        contractor: 'BusCo Ltd.',
+        contractor_country: 'DE',
+        contractor_gmr_id: 'company-busco',
+      },
+    ],
   }
 }
 
@@ -242,5 +297,95 @@ describe('ContractsPanel', () => {
     expect(wrapper.find('[data-testid="contracts-empty"]').exists()).toBe(false)
     expect(wrapper.text()).toContain('Bus purchase')
     expect(wrapper.text()).toContain('3') // contract count
+  })
+
+  // ── Counterparty cell: profile links ──────────────────────────
+  // Inside a company profile, each contract row's awarding authority
+  // should link to that authority's profile page. Inside an authority
+  // profile, each row's contractor should link to that company's
+  // profile page. Without these the user has no way to dig into the
+  // other side of any contract.
+
+  it('links each authority cell to /c/<authority_id>/profile in company view', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          makeContract({ ted_notice_id: 'r1', authority: 'Ministry of X', authority_id: 'auth-x' }),
+          makeContract({ ted_notice_id: 'r2', authority: 'City of Y',     authority_id: 'auth-y' }),
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    const linkX = wrapper.find('[data-testid="contract-counterparty-link-r1"]')
+    const linkY = wrapper.find('[data-testid="contract-counterparty-link-r2"]')
+    expect(linkX.exists()).toBe(true)
+    expect(linkX.attributes('href')).toBe('/c/auth-x/profile')
+    expect(linkX.text()).toContain('Ministry of X')
+    expect(linkY.attributes('href')).toBe('/c/auth-y/profile')
+  })
+
+  it('links each contractor cell to /c/<contractor_gmr_id>/profile in authority view', async () => {
+    // Company endpoint returns 0 → falls back to authority endpoint.
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeAuthorityResponse(),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    const link = wrapper.find('[data-testid="contract-counterparty-link-789-2024"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe('/c/company-busco/profile')
+    expect(link.text()).toContain('BusCo Ltd.')
+  })
+
+  it('relabels the counterparty column from "Authority" to "Contractor" when rendering an authority profile', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeAuthorityResponse(),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    const headers = wrapper.findAll('thead th').map((th) => th.text())
+    expect(headers.some((h) => h.startsWith('Contractor'))).toBe(true)
+    expect(headers.some((h) => h.startsWith('Authority'))).toBe(false)
+  })
+
+  it('falls back to plain text when the row carries no linkable id', async () => {
+    // Pre-rename rows (no authority_id, no contractor_gmr_id) must
+    // still render — without a link, but without breaking the column.
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          { ...makeContract({ ted_notice_id: 'r1' }), authority_id: null },
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+
+    expect(wrapper.find('[data-testid="contract-counterparty-link-r1"]').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Ministry of Defence')
   })
 })
