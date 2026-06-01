@@ -243,6 +243,16 @@ export function buildColorExpression({ bounds, kind = 'sequential', log = false,
   if (!bounds) return NULL_COLOR
   const [lo, hi] = bounds
   const colours = _palette(kind, palette)
+  // Degenerate bounds — every data point shares the same value (e.g.
+  // a company with contracts in exactly one country, or many countries
+  // but all of count 1). _linearStops would otherwise produce 4 stops
+  // all at the same value, and MapLibre rejects a step expression
+  // whose stop values aren't strictly increasing — silently failing
+  // to render the layer, so the country reads as "no data" both
+  // visually (no fill) and interactively (no mousemove on the layer
+  // that never painted). Render a single solid colour from the top
+  // of the palette instead so the country actually gets filled.
+  if (lo === hi) return colours[colours.length - 1]
   const stops =
     log && kind === 'sequential' && lo > 0
       ? _logStops(lo, hi, colours)
@@ -272,6 +282,11 @@ export function legendStops({ bounds, kind = 'sequential', log = false, palette 
   if (!bounds) return []
   const [lo, hi] = bounds
   const colours = _palette(kind, palette)
+  // Degenerate: same min/max → a single solid swatch matching the
+  // single-colour map expression. Returning multi-stops here would
+  // render duplicate breakpoints on the legend and disagree with
+  // the map paint.
+  if (lo === hi) return [{ value: lo, color: colours[colours.length - 1] }]
   const stops =
     log && kind === 'sequential' && lo > 0
       ? _logStops(lo, hi, colours)

@@ -111,6 +111,35 @@ describe('buildColorExpression', () => {
     // All diffs equal ⇒ linear.
     diffs.forEach((d) => expect(d).toBeCloseTo(diffs[0], 5))
   })
+
+  // Regression: a company with contracts in exactly one country (or
+  // many countries but all of count=1) collapses bounds to [N, N].
+  // _linearStops would otherwise produce four stops all at value=N,
+  // which is an invalid MapLibre step expression — the layer fails
+  // to render and the country reads as gray + no tooltip. The fix
+  // is to return a single solid colour (top of palette) instead.
+  it('returns a single solid colour when bounds are degenerate (lo === hi)', () => {
+    const expr = buildColorExpression({ bounds: [5, 5], kind: 'sequential' })
+    expect(typeof expr).toBe('string')
+    expect(expr).toMatch(/^#/)
+    // Must NOT be the no-data NULL_COLOR — countries with data should
+    // be distinguishable from countries without.
+    expect(expr).not.toBe(NULL_COLOR)
+  })
+
+  it('does not produce a step expression with non-monotonic stops on degenerate bounds', () => {
+    // Belt-and-braces: even if a future refactor regresses, the stop
+    // values must remain strictly increasing for MapLibre to accept
+    // the expression.
+    const expr = buildColorExpression({ bounds: [42, 42], kind: 'sequential' })
+    if (Array.isArray(expr) && expr[0] === 'step') {
+      const stopValues = []
+      for (let i = 3; i < expr.length; i += 2) stopValues.push(expr[i])
+      for (let i = 1; i < stopValues.length; i++) {
+        expect(stopValues[i]).toBeGreaterThan(stopValues[i - 1])
+      }
+    }
+  })
 })
 
 // ── legendStops ────────────────────────────────────────────────────
@@ -133,6 +162,14 @@ describe('legendStops', () => {
     const stops = legendStops({ bounds, kind: 'diverging' })
     expect(stops[0].value).toBe(-25)
     expect(stops[stops.length - 1].value).toBe(75)
+  })
+
+  it('returns a single swatch for degenerate bounds (lo === hi)', () => {
+    // Matches the buildColorExpression fallback so the legend stays
+    // consistent with the painted map.
+    const stops = legendStops({ bounds: [12, 12], kind: 'sequential' })
+    expect(stops).toHaveLength(1)
+    expect(stops[0].value).toBe(12)
   })
 })
 
