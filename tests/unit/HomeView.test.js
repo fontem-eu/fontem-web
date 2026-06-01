@@ -6,7 +6,15 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 // The landing/marketing copy (carousel + chips + how-it-works + tour)
 // moved to AboutView — see tests/unit/AboutView.test.js.
 
+vi.mock('../../src/api/gmr.js', () => ({
+  fetchFundamentals: vi.fn().mockResolvedValue({
+    annual_data: [{ year: 2023, revenue: 1e6 }],
+    market_snapshot: { market_cap: 1e9 },
+  }),
+}))
+
 import HomeView from '../../src/views/HomeView.vue'
+import { fetchFundamentals } from '../../src/api/gmr.js'
 
 const TickerFinancialsStub = {
   name: 'TickerFinancials',
@@ -51,7 +59,14 @@ async function mountAt(path = '/') {
 }
 
 describe('HomeView (ticker-detail host)', () => {
-  beforeEach(() => { localStorage.clear() })
+  beforeEach(() => {
+    localStorage.clear()
+    fetchFundamentals.mockReset()
+    fetchFundamentals.mockResolvedValue({
+      annual_data: [{ year: 2023, revenue: 1e6 }],
+      market_snapshot: { market_cap: 1e9 },
+    })
+  })
   afterEach(() => { vi.restoreAllMocks() })
 
   // ── Root route — HomeView is no longer mounted there ─────
@@ -133,11 +148,8 @@ describe('HomeView (ticker-detail host)', () => {
   })
 
   // ── VIEW_GROUPS contract ─────────────────────────────────────
-  // The "Analysis" group (Long-Term Value via /api/:ticker/gmr_data)
-  // was removed from the profile tab strip on 2026-05-31. The
-  // underlying API + fetchGmrData() client stayed in tree (external
-  // embeds still consume it), but the UI must not surface it as a
-  // user-clickable tab anymore.
+  // The "Analysis" group was removed from the profile tab strip
+  // (see #137); these tests pin that contract.
   it('does NOT pass an "analysis" group to DataViewSelector', async () => {
     const { wrapper } = await mountAt('/c/AAPL/fundamentals')
     const sel = wrapper.findComponent({ name: 'DataViewSelector' })
@@ -152,13 +164,54 @@ describe('HomeView (ticker-detail host)', () => {
     expect(subKeys).not.toContain('gmr-long')
   })
 
-  // Direct navigation to /c/<ticker>/gmr-long still mounts the
-  // TickerFinancials host with view="gmr-long" — the URL is a stable
-  // external contract for the embed link even though the tab is gone.
   it('still renders TickerFinancials when navigating directly to gmr-long', async () => {
     const { wrapper } = await mountAt('/c/AAPL/gmr-long')
     expect(wrapper.find('[data-testid="ticker-financials"]').exists()).toBe(true)
     const fin = wrapper.findComponent({ name: 'TickerFinancials' })
     expect(fin.props('view')).toBe('gmr-long')
+  })
+
+  // ── Financials availability probe (item 4) ────────────────────
+  // The Financials tab should grey itself out when the entity has
+  // no financial data (authorities, unlisted companies, 404s).
+  // HomeView probes via a single fetchFundamentals call on mount +
+  // on every ticker change.
+  it('passes financials group with disabled=false after a successful fundamentals probe', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/profile')
+    await flushPromises()
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    const groups = sel.props('groups')
+    const financials = groups.find((g) => g.key === 'financials')
+    expect(financials).toBeTruthy()
+    expect(financials.disabled).toBeFalsy()
+  })
+
+  it('marks the financials group disabled when the fundamentals probe returns empty', async () => {
+    fetchFundamentals.mockResolvedValueOnce({})
+    const { wrapper } = await mountAt('/c/UNLISTED/profile')
+    await flushPromises()
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    const financials = sel.props('groups').find((g) => g.key === 'financials')
+    expect(financials.disabled).toBe(true)
+    expect(financials.disabledReason).toMatch(/no financial data/i)
+  })
+
+  it('marks the financials group disabled when the fundamentals probe errors', async () => {
+    fetchFundamentals.mockRejectedValueOnce(new Error('HTTP 404'))
+    const { wrapper } = await mountAt('/c/97cebd5c-0b1a-527b-b8fb-8053ee35f2a8/profile')
+    await flushPromises()
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    const financials = sel.props('groups').find((g) => g.key === 'financials')
+    expect(financials.disabled).toBe(true)
+  })
+
+  it('re-probes when the ticker route param changes', async () => {
+    const { router } = await mountAt('/c/AAPL/profile')
+    await flushPromises()
+    expect(fetchFundamentals).toHaveBeenCalledWith('AAPL', 1)
+    fetchFundamentals.mockClear()
+    await router.push('/c/MSFT/profile')
+    await flushPromises()
+    expect(fetchFundamentals).toHaveBeenCalledWith('MSFT', 1)
   })
 })
