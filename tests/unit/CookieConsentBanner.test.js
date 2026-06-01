@@ -91,12 +91,15 @@ describe('CookieConsentBanner', () => {
     expect(offset).not.toBe('0px')
   })
 
-  it('publishes the measured banner height to --cookie-banner-h via ResizeObserver', async () => {
+  it('publishes the measured banner BORDER-BOX height to --cookie-banner-h via ResizeObserver', async () => {
     // jsdom ships no ResizeObserver. Stub it so we can verify the
     // CookieConsentBanner observes the dialog and writes the rendered
-    // size to the CSS var. Without this the AssistPanel input ends up
-    // occluded on viewports where the banner is taller than the
-    // previous 6 rem hardcode.
+    // size to the CSS var. The first ResizeObserver iteration here
+    // used `entry.contentRect.height` (content box, no padding/border)
+    // — short by ~33 px on mobile because the banner has 1 rem of
+    // padding on each side, which let the bottom of the banner peek
+    // above the AssistPanel's reserved padding-bottom. Switch to the
+    // border-box dimensions so the var reflects the on-screen footprint.
     let observerCb
     const observe = vi.fn()
     const disconnect = vi.fn()
@@ -111,15 +114,31 @@ describe('CookieConsentBanner', () => {
     expect(observe).toHaveBeenCalledTimes(1)
     expect(typeof observerCb).toBe('function')
 
-    // Simulate the browser firing the observer with the *measured*
-    // rendered height (the mobile column-layout case: ~128px is what
-    // we'd see on iPhone-narrow). The CSS var must update to that
-    // px value, NOT stay at the 6rem hardcode.
-    observerCb([{ contentRect: { height: 128 } }])
-    const offset = document.documentElement.style.getPropertyValue('--cookie-banner-h')
-    expect(offset).toBe('128px')
+    // Banner at iPhone-13 mobile width: 110 px content + 32 px vertical
+    // padding + 1 px top border = 143 px border-box. The CSS var must
+    // match the BORDER-BOX value (143), not the content-rect value (110).
+    observerCb([
+      {
+        borderBoxSize: [{ blockSize: 143 }],
+        contentRect: { height: 110 },
+        target: { offsetHeight: 143 },
+      },
+    ])
+    expect(document.documentElement.style.getPropertyValue('--cookie-banner-h'))
+      .toBe('143px')
 
-    // Cleanup after this test so the observe spy doesn't leak.
+    // Fallback path: some browsers (older Safari) don't report
+    // borderBoxSize. The observer should fall back to offsetHeight,
+    // which also includes padding + border.
+    observerCb([
+      {
+        contentRect: { height: 99 },
+        target: { offsetHeight: 132 },
+      },
+    ])
+    expect(document.documentElement.style.getPropertyValue('--cookie-banner-h'))
+      .toBe('132px')
+
     delete globalThis.ResizeObserver
   })
 

@@ -45,10 +45,19 @@ function startMeasuring() {
   if (typeof ResizeObserver === 'undefined' || !bannerEl.value) return
   _ro = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      const h = entry.contentRect?.height
-        ?? entry.target?.getBoundingClientRect?.().height
-      if (typeof h !== 'number') continue
-      setVar(`${Math.ceil(h)}px`)
+      // The banner sits at viewport-bottom with `padding: 1rem` on
+      // mobile + a 1 px top border. Other components reserve space
+      // for the *full* on-screen footprint (border-box), so use
+      // borderBoxSize when the browser provides it and fall back to
+      // offsetHeight — both include padding + border. `contentRect`
+      // is the content box only, which leaves ~33 px of banner edge
+      // peeking above the reservation on mobile and re-introduces
+      // the overlap the previous patch was supposed to fix.
+      const bbox = entry.borderBoxSize?.[0]?.blockSize
+        ?? entry.target?.offsetHeight
+        ?? entry.contentRect?.height
+      if (typeof bbox !== 'number') continue
+      setVar(`${Math.ceil(bbox)}px`)
     }
   })
   _ro.observe(bannerEl.value)
