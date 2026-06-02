@@ -29,6 +29,7 @@ import AssistPanel from '../components/AssistPanel.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import MentionAutocomplete from '../components/MentionAutocomplete.vue'
 import ChapterRail from '../components/ChapterRail.vue'
+import TableControlsOverlay from '../components/TableControlsOverlay.vue'
 import { usePocket } from '../composables/usePocket.js'
 import {
   getReport,
@@ -326,10 +327,13 @@ async function save() {
         <!-- Two-column layout: editor + chapter-rail (TOC). Rail
              hides at <1024 px via its own media query. The ref is
              on the inner div so ChapterRail can walk h2/h3 nodes
-             rendered into the TipTap EditorContent. -->
+             rendered into the TipTap EditorContent. The table
+             controls overlay sits inside the same scroll container
+             so it can position itself relative to .editor-body-col. -->
         <div class="editor-layout">
           <div ref="editorBodyRef" class="editor-body-col">
             <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
+            <TableControlsOverlay v-if="editor" :editor="editor" />
           </div>
           <ChapterRail
             v-if="editor"
@@ -410,9 +414,11 @@ async function save() {
 /* Two-column layout under the toolbar: editor on the left, chapter
    rail on the right. Rail collapses below 1024 px (its own media
    query). `min-width: 0` keeps the editor from blowing past the
-   wrapper when long lines wrap. */
+   wrapper when long lines wrap. `position: relative` is what lets
+   TableControlsOverlay position itself relative to this scroll
+   container instead of the document. */
 .editor-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
-.editor-body-col { flex: 1; min-width: 0; }
+.editor-body-col { flex: 1; min-width: 0; position: relative; }
 .tiptap-editor { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text); }
 .tiptap-editor :deep(.tiptap) { outline: none; min-height: 350px; }
 .tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: var(--muted); pointer-events: none; float: left; height: 0; }
