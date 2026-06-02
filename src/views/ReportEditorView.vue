@@ -24,8 +24,7 @@ import { TableHeader } from '@tiptap/extension-table-header'
 import { WidgetNode } from '../extensions/WidgetNode.js'
 import { EntityMention } from '../extensions/EntityMention.js'
 import { MentionTrigger } from '../extensions/MentionTrigger.js'
-import BubbleToolbar from '../components/BubbleToolbar.vue'
-import FloatingToolbar from '../components/FloatingToolbar.vue'
+import StoryEditorToolbar from '../components/StoryEditorToolbar.vue'
 import AssistPanel from '../components/AssistPanel.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import MentionAutocomplete from '../components/MentionAutocomplete.vue'
@@ -298,15 +297,13 @@ async function save() {
 
       <!-- Unified Editor with static toolbar -->
       <div class="editor-body" data-testid="editor-body">
-        <div v-if="editor" class="editor-toolbar" data-testid="editor-toolbar">
-          <BubbleToolbar :editor="editor" />
-          <span class="toolbar-sep" />
-          <FloatingToolbar
-            :editor="editor"
-            @upload-image="handleImageUpload"
-            @insert-widget="openPocketModal"
-          />
-        </div>
+        <StoryEditorToolbar
+          v-if="editor"
+          :editor="editor"
+          data-testid="editor-toolbar"
+          @upload-image="handleImageUpload"
+          @insert-widget="openPocketModal"
+        />
         <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
       </div>
 
@@ -377,8 +374,6 @@ async function save() {
 .abstract-input:focus { border-color: var(--accent); }
 
 .editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; overflow: hidden; }
-.editor-toolbar { display: flex; align-items: center; gap: 4px; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); background: var(--bg); flex-wrap: wrap; }
-.toolbar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
 .tiptap-editor { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text); }
 .tiptap-editor :deep(.tiptap) { outline: none; min-height: 350px; }
 .tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: var(--muted); pointer-events: none; float: left; height: 0; }
