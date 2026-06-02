@@ -28,6 +28,7 @@ import StoryEditorToolbar from '../components/StoryEditorToolbar.vue'
 import AssistPanel from '../components/AssistPanel.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import MentionAutocomplete from '../components/MentionAutocomplete.vue'
+import ChapterRail from '../components/ChapterRail.vue'
 import { usePocket } from '../composables/usePocket.js'
 import {
   getReport,
@@ -48,6 +49,15 @@ const tags = ref([])
 const saving = ref(false)
 const error = ref(null)
 const loading = ref(true)
+
+// ── ChapterRail (TOC) ───────────────────────────────────────
+// Same wire-up shape as ReportView.vue: the rail walks the rendered
+// DOM for h2/h3 headings, slugifies + stamps stable ids on them,
+// and intersects-observes the elements for scroll-position. Editor
+// content mutates a lot (every keystroke is a transaction), so we
+// bump `bodyVersion` on TipTap's `update` hook and the rail re-extracts.
+const editorBodyRef = ref(null)
+const bodyVersion = ref(0)
 
 // ── Pocket ──────────────────────────────────────────────────
 const { items: pocketItems, remove: removePocketItem, refresh: refreshPocket } = usePocket()
@@ -120,6 +130,15 @@ function createEditor(content = '') {
       }),
     ],
     content,
+    onUpdate() {
+      // Keystrokes mutate the heading set; ChapterRail re-reads
+      // bodyVersion as a change signal. requestAnimationFrame
+      // batches together flurries of edits into one rail refresh.
+      requestAnimationFrame(() => { bodyVersion.value += 1 })
+    },
+    onCreate() {
+      bodyVersion.value += 1
+    },
   })
 }
 
@@ -304,7 +323,21 @@ async function save() {
           @upload-image="handleImageUpload"
           @insert-widget="openPocketModal"
         />
-        <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
+        <!-- Two-column layout: editor + chapter-rail (TOC). Rail
+             hides at <1024 px via its own media query. The ref is
+             on the inner div so ChapterRail can walk h2/h3 nodes
+             rendered into the TipTap EditorContent. -->
+        <div class="editor-layout">
+          <div ref="editorBodyRef" class="editor-body-col">
+            <EditorContent v-if="editor" :editor="editor" class="tiptap-editor" />
+          </div>
+          <ChapterRail
+            v-if="editor"
+            :body-ref="editorBodyRef"
+            :version="bodyVersion"
+            data-testid="editor-chapter-rail"
+          />
+        </div>
       </div>
 
       <!-- @-mention autocomplete + side panel. The autocomplete only
@@ -374,6 +407,12 @@ async function save() {
 .abstract-input:focus { border-color: var(--accent); }
 
 .editor-body { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-height: 400px; overflow: hidden; }
+/* Two-column layout under the toolbar: editor on the left, chapter
+   rail on the right. Rail collapses below 1024 px (its own media
+   query). `min-width: 0` keeps the editor from blowing past the
+   wrapper when long lines wrap. */
+.editor-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+.editor-body-col { flex: 1; min-width: 0; }
 .tiptap-editor { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text); }
 .tiptap-editor :deep(.tiptap) { outline: none; min-height: 350px; }
 .tiptap-editor :deep(.tiptap p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: var(--muted); pointer-events: none; float: left; height: 0; }

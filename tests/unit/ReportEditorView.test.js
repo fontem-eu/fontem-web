@@ -108,4 +108,40 @@ describe('ReportEditorView — unified editor', () => {
     })
     expect(wrapper.find('[data-testid="editor-body"]').exists()).toBe(true)
   })
+
+  // ── ChapterRail (item 4) ─────────────────────────────────────
+  // The TOC shipped on the read-view; the user asked for the same
+  // affordance while editing. Same component, fed by a DOM ref to
+  // the EditorContent host element + a `bodyVersion` counter that
+  // bumps on every TipTap `update` event. Same wire-up shape as
+  // ReportView.vue line 234.
+  it('mounts ChapterRail alongside the editor body', async () => {
+    const { wrapper } = await mountEditor()
+    const rail = wrapper.findComponent({ name: 'ChapterRail' })
+    expect(rail.exists()).toBe(true)
+  })
+
+  it('passes a numeric version + a body-ref prop to ChapterRail', async () => {
+    const { wrapper } = await mountEditor()
+    const rail = wrapper.findComponent({ name: 'ChapterRail' })
+    expect(typeof rail.props('version')).toBe('number')
+    // bodyRef arrives as the resolved DOM element (template-ref
+    // unwrap) after onMounted runs; before that the rail won't have
+    // chapters to extract — that's fine, the version counter will
+    // bump on the editor's `onCreate`/`onUpdate` hook and trigger
+    // a fresh DOM walk.
+    expect(rail.props('bodyRef') !== undefined).toBe(true)
+  })
+
+  it('renders the editor body inside the editor-body-col wrapper', async () => {
+    // The two-column layout (editor + rail) wraps the EditorContent
+    // in a `.editor-body-col` div that ChapterRail walks for h2/h3.
+    // Pin the structural contract so a future refactor can't move
+    // the rail out into a global sidebar without also touching this
+    // test.
+    const { wrapper } = await mountEditor()
+    const col = wrapper.find('.editor-body-col')
+    expect(col.exists()).toBe(true)
+    expect(col.find('.tiptap-editor').exists()).toBe(true)
+  })
 })
