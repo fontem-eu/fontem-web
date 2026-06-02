@@ -10,12 +10,17 @@
  *   • a `+` / `trash` widget at every column boundary along the top of
  *     the active table (including before the first and after the last
  *     column);
+ *   • a `trash` widget to the LEFT of every row;
  *   • a full-width `+ Row` button below the table.
  *
- * The widget under each boundary controls the two adjacent columns:
+ * The widget under each column boundary controls the two adjacent cols:
  *   - `+` inserts a new column to the LEFT of the right-hand column
  *     (equivalent to `addColumnBefore` from the right cell);
  *   - `trash` deletes the LEFT-hand column (no-op when there is none).
+ *
+ * Deleting the LAST column (or the LAST row) deletes the whole table:
+ * a table with zero columns/rows is invalid in the TipTap schema and
+ * would otherwise leave an orphan node — easier to just drop it.
  *
  * The overlay watches the editor's selection so it only mounts when
  * the cursor is inside a table — outside a table, nothing is rendered.
@@ -31,6 +36,9 @@ const props = defineProps({
 const tableEl = ref(null)
 const tableRect = ref(null)
 const colEdges = ref([])
+// Per-row geometry: { top, height } relative to the table's top edge.
+// Drives the row-trash buttons that sit to the LEFT of each row.
+const rowRects = ref([])
 let _ro = null
 
 function findActiveTable() {
@@ -49,6 +57,7 @@ function refreshGeometry() {
   if (!tableEl.value) {
     tableRect.value = null
     colEdges.value = []
+    rowRects.value = []
     return
   }
   const editorRoot = props.editor.view.dom.closest('.editor-body-col') || props.editor.view.dom
@@ -65,13 +74,15 @@ function refreshGeometry() {
   }
   // Column edges: relative to the table's left edge. Use the first
   // row's cells — works for both header-row and headerless tables.
-  const firstRow = tableEl.value.querySelector('tr')
+  const allRows = Array.from(tableEl.value.querySelectorAll('tr'))
+  const firstRow = allRows[0]
   const cells = firstRow ? Array.from(firstRow.children) : []
-  const edges = []
   if (cells.length === 0) {
     colEdges.value = []
+    rowRects.value = []
     return
   }
+  const edges = []
   // Edge 0 = before the first column.
   edges.push(cells[0].getBoundingClientRect().left - tRect.left)
   // Edges 1..n = after each column.
@@ -79,6 +90,13 @@ function refreshGeometry() {
     edges.push(cell.getBoundingClientRect().right - tRect.left)
   })
   colEdges.value = edges
+
+  // Row rects: relative to the table's top edge. One entry per <tr>
+  // (header rows included). Drives the per-row trash buttons.
+  rowRects.value = allRows.map((row) => {
+    const r = row.getBoundingClientRect()
+    return { top: r.top - tRect.top, height: r.height }
+  })
 }
 
 function watchSelection() {
@@ -150,8 +168,33 @@ function removeColumnLeftOf(i) {
   const ed = props.editor
   const cells = tableEl.value?.querySelector('tr')?.children
   if (!cells?.[i - 1]) return
+  // Last column? The TipTap schema doesn't allow a zero-column table,
+  // and dropping back through `deleteColumn` produces an orphan node.
+  // Per user request: deleting the last column deletes the whole table.
+  if (cells.length === 1) {
+    ed.chain().focus().deleteTable().run()
+    return
+  }
   const pos = ed.view.posAtDOM(cells[i - 1], 0)
   if (pos != null) ed.chain().focus().setTextSelection(pos).deleteColumn().run()
+}
+
+function removeRow(rowIndex) {
+  const ed = props.editor
+  const rows = tableEl.value?.querySelectorAll('tr')
+  if (!rows?.[rowIndex]) return
+  // Symmetric with removeColumnLeftOf: deleting the LAST row drops the
+  // whole table rather than leaving an empty container behind.
+  if (rows.length === 1) {
+    ed.chain().focus().deleteTable().run()
+    return
+  }
+  // Anchor the selection inside the first cell of the row we want gone,
+  // then `deleteRow` operates on the row containing the selection.
+  const cell = rows[rowIndex].children[0]
+  if (!cell) return
+  const pos = ed.view.posAtDOM(cell, 0)
+  if (pos != null) ed.chain().focus().setTextSelection(pos).deleteRow().run()
 }
 
 function addRow() {
@@ -207,6 +250,18 @@ const visible = computed(() => tableEl.value && tableRect.value && colEdges.valu
         @click="removeColumnLeftOf(i)"
       >🗑</button>
     </div>
+
+    <!-- Per-row trash widgets, sat to the LEFT of each row -->
+    <button
+      v-for="(row, i) in rowRects"
+      :key="`row-${i}`"
+      type="button"
+      class="t-btn t-btn--del row-del"
+      :title="rowRects.length === 1 ? 'Delete the table' : 'Delete this row'"
+      :data-testid="`table-row-del-${i}`"
+      :style="{ top: (row.top + row.height / 2 - 9) + 'px' }"
+      @click="removeRow(i)"
+    >🗑</button>
 
     <!-- + Row affordance below the table -->
     <button
@@ -265,4 +320,13 @@ const visible = computed(() => tableEl.value && tableRect.value && colEdges.valu
   cursor: pointer;
 }
 .add-row-btn:hover { background: var(--bg, #f5f5f5); color: var(--text); }
+
+/* Row trash widget — anchored to the LEFT edge of the table.  The
+   overlay's `left` already aligns with the table's left edge, so a
+   negative `left` puts the button outside the table cell border. */
+.row-del {
+  position: absolute;
+  left: -22px;
+  pointer-events: auto;
+}
 </style>
