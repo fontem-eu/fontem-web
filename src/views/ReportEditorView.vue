@@ -31,6 +31,7 @@ import MentionAutocomplete from '../components/MentionAutocomplete.vue'
 import ChapterRail from '../components/ChapterRail.vue'
 import TableControlsOverlay from '../components/TableControlsOverlay.vue'
 import { usePocket } from '../composables/usePocket.js'
+import { useToast } from '../composables/useToast.js'
 import {
   getReport,
   updateReport,
@@ -59,6 +60,8 @@ const loading = ref(true)
 // bump `bodyVersion` on TipTap's `update` hook and the rail re-extracts.
 const editorBodyRef = ref(null)
 const bodyVersion = ref(0)
+
+const toast = useToast()
 
 // ── Pocket ──────────────────────────────────────────────────
 const { items: pocketItems, remove: removePocketItem, refresh: refreshPocket } = usePocket()
@@ -255,8 +258,13 @@ async function save() {
     const tagResp = await setStoryTags(reportId, tags.value)
     if (Array.isArray(tagResp?.tags)) tags.value = tagResp.tags
     await saveDocument(reportId, editor.getJSON())
+    toast.success('Story saved')
   } catch (err) {
     error.value = err.message
+    // Sticky error toast: the inline `.error-bar` still renders the
+    // same message, but the toast is hard to miss even when the user
+    // has scrolled down through a long story.
+    toast.error(`Save failed: ${err.message}`, { durationMs: 0 })
   } finally {
     saving.value = false
   }
