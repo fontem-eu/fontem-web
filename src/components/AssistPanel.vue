@@ -4,6 +4,15 @@ import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
 import { sanitizeMarkdown } from '../utils/sanitize.js'
+import { useVisibleViewportHeight } from '../composables/useVisibleViewportHeight.js'
+
+// Keeps `--visible-vh` on <html> in sync with the actual visible
+// viewport height. The CSS for `.assist-panel` reads this var so the
+// input row at the bottom of the flex column stays above the address
+// bar on mobile browsers where `100vh` resolves to the *layout*
+// viewport (the largest possible, chrome bars hidden). Belt + braces
+// alongside the `dvh` fallback in the stylesheet.
+useVisibleViewportHeight()
 
 const props = defineProps({
   reportContext: { type: String, default: '' },
@@ -535,7 +544,31 @@ defineExpose({ applyProposal, messages })
   top: 0;
   right: 0;
   width: 380px;
+  /* Three-layer cascade for the panel's visible height — older
+     browsers fall through to the simpler rule above.
+       1. `100vh`               legacy fallback (large-viewport sized
+                                — fine on desktop, broken on mobile
+                                Chrome where it includes the address
+                                bar area)
+       2. `100dvh`              modern viewport-relative unit that
+                                tracks the *visible* viewport as the
+                                mobile chrome bar slides in/out
+                                (Chrome 108+, Safari 15.4+, FF 101+)
+       3. `var(--visible-vh)`   px value published by the visual-
+                                Viewport API listener in
+                                useVisibleViewportHeight().  Wins on
+                                any browser that ships visualViewport
+                                (essentially every mobile browser)
+                                including older Chromium builds where
+                                `dvh` isn't recognised.
+     The input row sits at the bottom of the flex column; if the panel
+     is sized to the *largest possible* viewport instead of the visible
+     one, the row scrolls off the bottom edge on Android Chrome /
+     Ecosia / etc.  Symptom reported by the user: "the input field is
+     not even rendered." */
   height: 100vh;
+  height: 100dvh;
+  height: var(--visible-vh, 100dvh);
   background: var(--bg);
   border-left: 1px solid var(--border);
   display: flex;
@@ -550,6 +583,8 @@ defineExpose({ applyProposal, messages })
     width: 100%;
     top: 3rem;
     height: calc(100vh - 3rem);
+    height: calc(100dvh - 3rem);
+    height: calc(var(--visible-vh, 100dvh) - 3rem);
     border-left: none;
     border-top: 1px solid var(--border);
     border-radius: 12px 12px 0 0;
