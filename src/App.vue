@@ -7,6 +7,7 @@ import { useSwipeNav } from './composables/useSwipeNav.js'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
+import ToastStack from './components/ToastStack.vue'
 
 const { init: initTheme } = useTheme()
 const { init: initLang } = useLang()
@@ -40,6 +41,7 @@ const showFooter = computed(() => route.path !== '/login')
     </main>
     <AppFooter v-if="showFooter" />
     <CookieConsentBanner />
+    <ToastStack />
   </div>
 </template>
 
