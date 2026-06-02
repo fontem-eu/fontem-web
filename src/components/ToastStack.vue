@@ -14,12 +14,10 @@ const toasts = toast._toasts
 
 <template>
   <Teleport to="body">
-    <div
+    <output
       v-if="toasts.length"
       class="toast-stack"
       data-testid="toast-stack"
-      role="status"
-      aria-live="polite"
     >
       <button
         v-for="t in toasts"
@@ -38,7 +36,7 @@ const toasts = toast._toasts
         </span>
         <span class="toast-text">{{ t.text }}</span>
       </button>
-    </div>
+    </output>
   </Teleport>
 </template>
 
