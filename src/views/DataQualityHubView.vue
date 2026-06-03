@@ -42,11 +42,22 @@ async function loadOverview() {
 }
 
 async function loadFreshness() {
+  // Hit the live freshness endpoint. The original
+  // `/api/data-quality/source-freshness` URL was a 404 — no such
+  // endpoint ever existed; the typo + a shape mismatch (the view
+  // expected per-source rows with stale/age fields) left a
+  // permanent "Source freshness unavailable: HTTP 404" banner on
+  // the dashboard. The actual endpoint returns the latest contract
+  // load + a per-source-system count for financial filings.
   try {
-    const resp = await fetch('/api/data-quality/source-freshness')
+    const resp = await fetch('/api/data-quality/freshness')
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
     const data = await resp.json()
-    freshness.value = data.sources || []
+    freshness.value = {
+      latest_contract_load: data.latest_contract_load,
+      contract_date_range: data.contract_date_range || null,
+      financial_sources: data.financial_sources || [],
+    }
   } catch (e) {
     freshnessError.value = e.message
   }
@@ -55,19 +66,16 @@ async function loadFreshness() {
 onMounted(loadOverview)
 onMounted(loadFreshness)
 
-function formatAge(hours) {
-  if (hours == null) return '—'
-  if (hours < 48) return `${hours.toFixed(1)}h ago`
-  if (hours < 24 * 60) return `${Math.round(hours / 24)}d ago`
-  return `${Math.round(hours / (24 * 7))}w ago`
-}
-
-function formatCoverage(src) {
-  const start = src.coverage_start
-  const end = src.coverage_end
-  if (start && end) return `${start} → ${end}`
-  if (end) return `through ${end}`
-  return '—'
+function formatTimestamp(ts) {
+  if (!ts) return '—'
+  try {
+    const d = new Date(ts)
+    if (Number.isNaN(d.getTime())) return ts
+    return d.toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    })
+  } catch { return ts }
 }
 
 function fmt(n) {
@@ -121,44 +129,41 @@ function pipelineStat(id) {
         </div>
       </div>
 
-      <!-- Source freshness panel -->
-      <section v-if="freshness && freshness.length" class="dqh-freshness" data-test="source-freshness">
-        <h2>Source freshness</h2>
-        <p class="dqh-freshness-sub">Per-source coverage and age — sources flagged STALE haven't loaded within their expected cadence.</p>
-        <table class="dqh-freshness-table">
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th>Coverage</th>
-              <th class="num">Rows</th>
-              <th>Loaded</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="src in freshness"
-              :key="src.id"
-              :class="{ 'dqh-row-stale': src.stale }"
-              :data-source-id="src.id"
-            >
-              <td>
-                <strong>{{ src.label || src.id }}</strong>
-                <span class="dqh-freshness-id">{{ src.id }}</span>
-              </td>
-              <td>{{ formatCoverage(src) }}</td>
-              <td class="num">{{ fmt(src.record_count) }}</td>
-              <td>{{ formatAge(src.age_hours) }}</td>
-              <td>
-                <span v-if="src.stale" class="dqh-pill dqh-pill-stale">STALE</span>
-                <span v-else class="dqh-pill dqh-pill-fresh">fresh</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Data freshness panel — driven by /api/data-quality/freshness.
+           Three sub-blocks rendered conditionally based on whatever the
+           backend returned: latest contract load timestamp, contract
+           publication-date range, financial-filing counts per source. -->
+      <section
+        v-if="freshness && (freshness.latest_contract_load || freshness.contract_date_range || freshness.financial_sources?.length)"
+        class="dqh-freshness"
+        data-testid="source-freshness"
+      >
+        <h2>Data freshness</h2>
+        <dl class="dqh-freshness-list" data-testid="dqh-freshness-list">
+          <template v-if="freshness.latest_contract_load">
+            <dt>Latest contract load</dt>
+            <dd data-testid="freshness-latest-contract-load">{{ formatTimestamp(freshness.latest_contract_load) }}</dd>
+          </template>
+          <template v-if="freshness.contract_date_range?.earliest || freshness.contract_date_range?.latest">
+            <dt>Contract publication range</dt>
+            <dd data-testid="freshness-contract-range">
+              {{ freshness.contract_date_range.earliest || '—' }} → {{ freshness.contract_date_range.latest || '—' }}
+            </dd>
+          </template>
+          <template v-if="freshness.financial_sources?.length">
+            <dt>Financial sources</dt>
+            <dd data-testid="freshness-financial-sources">
+              <span
+                v-for="src in freshness.financial_sources"
+                :key="src.source"
+                class="dqh-source-chip"
+              >{{ src.source }} <span class="dqh-source-count">{{ fmt(src.n) }}</span></span>
+            </dd>
+          </template>
+        </dl>
       </section>
-      <div v-else-if="freshnessError" class="dqh-freshness-error">
-        Source freshness unavailable: {{ freshnessError }}
+      <div v-else-if="freshnessError" class="dqh-freshness-error" data-testid="dqh-freshness-error">
+        Data freshness unavailable: {{ freshnessError }}
       </div>
 
       <!-- Pipeline grid -->
@@ -207,17 +212,11 @@ function pipelineStat(id) {
 .dqh-card--featured { grid-column: 1 / -1; border-color: var(--accent); border-width: 2px; }
 
 .dqh-freshness { margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-.dqh-freshness h2 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 0 0 0.25rem; }
-.dqh-freshness-sub { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.75rem; }
-.dqh-freshness-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-.dqh-freshness-table th { text-align: left; padding: 0.4rem 0.5rem; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
-.dqh-freshness-table th.num, .dqh-freshness-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-.dqh-freshness-table td { padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-.dqh-freshness-table tr:last-child td { border-bottom: none; }
-.dqh-freshness-id { display: block; font-size: 0.7rem; color: var(--muted); }
-.dqh-row-stale td { background: rgba(220, 38, 38, 0.04); }
-.dqh-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; }
-.dqh-pill-fresh { background: rgba(34, 197, 94, 0.12); color: rgb(22, 101, 52); }
-.dqh-pill-stale { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+.dqh-freshness h2 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 0 0 0.5rem; }
+.dqh-freshness-list { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1rem; font-size: 0.85rem; margin: 0; }
+.dqh-freshness-list dt { color: var(--muted); font-weight: 500; }
+.dqh-freshness-list dd { margin: 0; color: var(--text); font-variant-numeric: tabular-nums; }
+.dqh-source-chip { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.55rem; margin-right: 0.4rem; border-radius: 999px; background: var(--accent-bg, rgba(10, 102, 194, 0.10)); color: var(--accent); font-size: 0.78rem; font-weight: 500; }
+.dqh-source-count { color: var(--muted); font-weight: 600; }
 .dqh-freshness-error { margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }
 </style>

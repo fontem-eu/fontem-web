@@ -1,10 +1,12 @@
 /**
- * Source-freshness panel on the Data Quality hub view.
+ * Data-freshness panel on the Data Quality hub view.
  *
- * The panel renders one row per :DataSource marker fed back by the
- * /api/data-quality/source-freshness endpoint. Stale sources get
- * a STALE pill so an operator scanning the dashboard spots a
- * missed cron run without having to read each row.
+ * The original `/api/data-quality/source-freshness` URL was a 404 — no
+ * such endpoint ever existed; the view greeted every operator with a
+ * permanent "Source freshness unavailable: HTTP 404" banner. Repointed
+ * at the real `/api/data-quality/freshness` endpoint, the panel now
+ * surfaces the latest contract-load timestamp, the publication date
+ * range, and per-system filing counts.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
@@ -31,7 +33,7 @@ async function mountView() {
     global: { plugins: [router] },
   })
   await flushPromises()
-  await flushPromises()  // one for /data-quality, one for /source-freshness
+  await flushPromises()
   return wrapper
 }
 
@@ -43,39 +45,22 @@ function jsonResponse(body, status = 200) {
   })
 }
 
-describe('DataQualityHubView source-freshness panel', () => {
+describe('DataQualityHubView freshness panel', () => {
   beforeEach(() => {
     global.fetch = vi.fn((url) => {
       if (url.endsWith('/api/data-quality')) {
         return jsonResponse({ graph: { nodes: { Company: 100 }, relationships: 0 } })
       }
-      if (url.endsWith('/api/data-quality/source-freshness')) {
+      // Production-shaped response from the LIVE backend endpoint:
+      // `latest_contract_load`, `contract_date_range`, `financial_sources`.
+      if (url.endsWith('/api/data-quality/freshness')) {
         return jsonResponse({
-          sources: [
-            {
-              id: 'sanctions',
-              label: 'EU consolidated sanctions',
-              coverage_start: '2026-01-01',
-              coverage_end: '2026-04-29',
-              record_count: 3015,
-              expected_cadence_hours: 25,
-              last_loaded: '2026-04-29T07:00:00+00:00',
-              age_hours: 2.0,
-              stale: false,
-            },
-            {
-              id: 'openfigi',
-              label: 'OpenFIGI tickers',
-              coverage_start: null,
-              coverage_end: null,
-              record_count: 12345,
-              expected_cadence_hours: 200,
-              last_loaded: '2026-03-01T08:00:00+00:00',
-              age_hours: 600.0,
-              stale: true,
-            },
+          latest_contract_load: '2026-05-29T07:00:00+00:00',
+          contract_date_range: { earliest: '2024-03-13', latest: '2026-04-29' },
+          financial_sources: [
+            { source: 'edgar', n: 44392 },
+            { source: 'esef', n: 11167 },
           ],
-          generated_at: '2026-04-29T09:30:00+00:00',
         })
       }
       return jsonResponse({}, 404)
@@ -86,26 +71,48 @@ describe('DataQualityHubView source-freshness panel', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders one row per source with coverage range and rows count', async () => {
-    const wrapper = await mountView()
-    const panel = wrapper.find('[data-test="source-freshness"]')
-    expect(panel.exists()).toBe(true)
-    const rows = panel.findAll('tbody tr')
-    expect(rows).toHaveLength(2)
-    expect(panel.text()).toContain('EU consolidated sanctions')
-    expect(panel.text()).toContain('2026-01-01 → 2026-04-29')
-    expect(panel.text()).toContain('3,015')
+  it('calls the LIVE `/api/data-quality/freshness` endpoint (not the legacy `/source-freshness` 404)', async () => {
+    await mountView()
+    const calls = global.fetch.mock.calls.map(([url]) => url)
+    expect(calls).toContain('/api/data-quality/freshness')
+    expect(calls).not.toContain('/api/data-quality/source-freshness')
   })
 
-  it('flags stale sources with a STALE pill so they are visible at a glance', async () => {
+  it('renders the freshness section with the live shape', async () => {
     const wrapper = await mountView()
-    const stale = wrapper.find('[data-source-id="openfigi"]')
-    expect(stale.classes()).toContain('dqh-row-stale')
-    expect(stale.find('.dqh-pill-stale').exists()).toBe(true)
-    expect(stale.text()).toContain('STALE')
+    expect(wrapper.find('[data-testid="source-freshness"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Data freshness')
   })
 
-  it('does not render the panel when the endpoint fails', async () => {
+  it('shows the latest contract-load timestamp', async () => {
+    const wrapper = await mountView()
+    const cell = wrapper.find('[data-testid="freshness-latest-contract-load"]')
+    expect(cell.exists()).toBe(true)
+    // jsdom uses an en-US locale by default → matches the Intl output.
+    expect(cell.text()).toMatch(/2026/)
+    expect(cell.text()).not.toBe('—')
+  })
+
+  it('shows the contract publication range', async () => {
+    const wrapper = await mountView()
+    const cell = wrapper.find('[data-testid="freshness-contract-range"]')
+    expect(cell.exists()).toBe(true)
+    expect(cell.text()).toContain('2024-03-13')
+    expect(cell.text()).toContain('2026-04-29')
+    expect(cell.text()).toContain('→')
+  })
+
+  it('renders one chip per financial source with its row count', async () => {
+    const wrapper = await mountView()
+    const sources = wrapper.find('[data-testid="freshness-financial-sources"]')
+    expect(sources.exists()).toBe(true)
+    expect(sources.text()).toContain('edgar')
+    expect(sources.text()).toContain('44,392')
+    expect(sources.text()).toContain('esef')
+    expect(sources.text()).toContain('11,167')
+  })
+
+  it('shows the error banner (not the panel) when the endpoint 500s', async () => {
     global.fetch = vi.fn((url) => {
       if (url.endsWith('/api/data-quality')) {
         return jsonResponse({ graph: { nodes: { Company: 1 }, relationships: 0 } })
@@ -113,7 +120,27 @@ describe('DataQualityHubView source-freshness panel', () => {
       return jsonResponse({}, 500)
     })
     const wrapper = await mountView()
-    expect(wrapper.find('[data-test="source-freshness"]').exists()).toBe(false)
-    expect(wrapper.text()).toContain('Source freshness unavailable')
+    expect(wrapper.find('[data-testid="source-freshness"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="dqh-freshness-error"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Data freshness unavailable')
+  })
+
+  it('hides the panel entirely when every freshness field is missing (no zero-content section)', async () => {
+    global.fetch = vi.fn((url) => {
+      if (url.endsWith('/api/data-quality')) {
+        return jsonResponse({ graph: { nodes: { Company: 1 }, relationships: 0 } })
+      }
+      if (url.endsWith('/api/data-quality/freshness')) {
+        return jsonResponse({
+          latest_contract_load: null,
+          contract_date_range: null,
+          financial_sources: [],
+        })
+      }
+      return jsonResponse({}, 404)
+    })
+    const wrapper = await mountView()
+    expect(wrapper.find('[data-testid="source-freshness"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="dqh-freshness-error"]').exists()).toBe(false)
   })
 })
