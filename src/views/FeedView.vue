@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
+import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
 
 const router = useRouter()
 const route = useRoute()
@@ -24,6 +25,13 @@ const activeTag = computed(() => {
 // `tags` is read inside the template via the composable's
 // `isFollowing` helper; we don't need a ref here.
 const { toggle, isFollowing } = useFollowedTags()
+
+// Persist the last-selected filter tag in localStorage so the next
+// time the user lands on `/` with no `?tag=` in the URL, the saved
+// tag is restored — matches the user expectation that entering a
+// story and coming back keeps the filter. `setTag` / `clearTag`
+// below mirror the URL write into the storage on every change.
+const { getStoredTag, saveTag, clearStoredTag } = useStoriesTagFilter()
 
 async function loadStories() {
   loading.value = true
@@ -53,6 +61,16 @@ async function loadTags() {
 }
 
 onMounted(async () => {
+  // If the URL doesn't carry an explicit `?tag=`, try to restore the
+  // last filter the user had selected. The router.replace happens
+  // before the first listStories fetch so the URL + active filter
+  // stay in sync and the network call already carries `tag=`.
+  if (!activeTag.value) {
+    const saved = getStoredTag()
+    if (saved) {
+      router.replace({ path: route.path, query: { ...route.query, tag: saved } })
+    }
+  }
   await Promise.all([loadStories(), loadTags()])
 })
 
@@ -61,12 +79,14 @@ watch(activeTag, () => { loadStories() })
 
 function setTag(tag) {
   router.replace({ path: route.path, query: { ...route.query, tag } })
+  saveTag(tag)
 }
 
 function clearTag() {
   // eslint-disable-next-line no-unused-vars
   const { tag, ...rest } = route.query
   router.replace({ path: route.path, query: rest })
+  clearStoredTag()
 }
 
 function formatDate(dateStr) {

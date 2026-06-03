@@ -116,4 +116,50 @@ describe('FeedView', () => {
     expect(wrapper.findAll('[data-testid="feed-card-tags"]').length).toBe(2)
     wrapper.unmount()
   })
+
+  // ── Tag-filter persistence (batch-5 item 1) ────────────────
+  it('persists the active tag to localStorage when a chip is clicked', async () => {
+    const { wrapper } = await mountFeed()
+    await wrapper.find('[data-testid="tag-chip-procurement"]').trigger('click')
+    await flushPromises()
+    expect(localStorage.getItem('gmr-stories-tag')).toBe('procurement')
+    wrapper.unmount()
+  })
+
+  it('drops the persisted tag when the All chip is clicked', async () => {
+    localStorage.setItem('gmr-stories-tag', 'procurement')
+    const { wrapper } = await mountFeed('/feed?tag=procurement')
+    await wrapper.find('[data-testid="tag-chip-all"]').trigger('click')
+    await flushPromises()
+    expect(localStorage.getItem('gmr-stories-tag')).toBeNull()
+    wrapper.unmount()
+  })
+
+  it('restores a persisted tag when remounted without a ?tag= query', async () => {
+    // The user filtered by `procurement`, then clicked a story card
+    // (FeedView unmounted), then came back to `/` — no query in URL.
+    localStorage.setItem('gmr-stories-tag', 'procurement')
+    api.listReports.mockResolvedValueOnce(STORIES_PROC)
+
+    const { wrapper, router } = await mountFeed('/feed')
+
+    // The router rewrote the URL to carry the saved tag…
+    expect(router.currentRoute.value.query.tag).toBe('procurement')
+    // …and the listReports call carried tag=procurement, not undefined.
+    const lastCall = api.listReports.mock.calls[api.listReports.mock.calls.length - 1][0]
+    expect(lastCall).toMatchObject({ tag: 'procurement' })
+    // The active-filter banner is visible.
+    expect(wrapper.find('[data-testid="feed-active-filter"]').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('an explicit ?tag= in the URL wins over a stale localStorage value', async () => {
+    localStorage.setItem('gmr-stories-tag', 'lobbying')
+    api.listReports.mockResolvedValueOnce(STORIES_PROC)
+    const { wrapper, router } = await mountFeed('/feed?tag=procurement')
+    expect(router.currentRoute.value.query.tag).toBe('procurement')
+    const lastCall = api.listReports.mock.calls[api.listReports.mock.calls.length - 1][0]
+    expect(lastCall).toMatchObject({ tag: 'procurement' })
+    wrapper.unmount()
+  })
 })
