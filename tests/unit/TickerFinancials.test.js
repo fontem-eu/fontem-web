@@ -877,3 +877,94 @@ describe('TickerFinancials — header title hides raw UUIDs', () => {
     expect(title.text()).toBe('AAPL')
   })
 })
+
+// ── Authority UUID resolution (batch-5 items 3 + 4) ────────────
+// The bug: /api/companies/<UUID> returns 200 with `company_name: null`
+// for an authority UUID — it's a stub, not a 404. The pre-fix code
+// short-circuited on the truthy stub object and never reached the
+// authority endpoint, so the header rendered the UUID and ContractsPanel
+// never learned the entity was an authority.
+
+describe('TickerFinancials — authority UUID resolves via the authority endpoint', () => {
+  const AUTHORITY_UUID = 'cdd444b5-3717-523b-a1e2-401d36872307'
+  const originalFetch = globalThis.fetch
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    globalThis.fetch = originalFetch
+  })
+
+  function installAuthorityFetch() {
+    globalThis.fetch = vi.fn().mockImplementation(async (url) => {
+      if (url.includes('/api/companies/')) {
+        return {
+          ok: true,
+          json: async () => ({
+            gmr_id: AUTHORITY_UUID,
+            company_name: null,
+            country: null,
+            contract_count: 0,
+            total_contract_value_eur: 0,
+          }),
+        }
+      }
+      if (url.includes('/api/authorities/')) {
+        return {
+          ok: true,
+          json: async () => ({
+            authority_id: AUTHORITY_UUID,
+            authority_name: 'Ministry of Foreign Affairs',
+            country: 'ESP',
+            contract_count: 3,
+            total_spend_eur: 750000,
+          }),
+        }
+      }
+      return { ok: false, status: 404, text: async () => 'not found' }
+    })
+  }
+
+  it('summary view: resolves the authority name (not the UUID) when /api/companies returns a name-less stub', async () => {
+    installAuthorityFetch()
+    const wrapper = mount(TickerFinancials, { props: { symbol: AUTHORITY_UUID, view: 'summary' } })
+    await flushPromises()
+    const title = wrapper.find('[data-testid="financials-title"]')
+    expect(title.text()).toBe('Ministry of Foreign Affairs')
+    expect(title.text()).not.toContain(AUTHORITY_UUID)
+  })
+
+  it('emits company-resolved with kind: "authority" so parents can hide the Financials tab', async () => {
+    installAuthorityFetch()
+    const wrapper = mount(TickerFinancials, { props: { symbol: AUTHORITY_UUID, view: 'summary' } })
+    await flushPromises()
+    const events = wrapper.emitted('company-resolved') || []
+    expect(events.length).toBeGreaterThan(0)
+    const last = events[events.length - 1][0]
+    expect(last.kind).toBe('authority')
+    expect(last.name).toBe('Ministry of Foreign Affairs')
+  })
+
+  it('emits company-resolved with kind: "company" for a real company endpoint response', async () => {
+    globalThis.fetch = vi.fn().mockImplementation(async (url) => {
+      if (url.includes('/api/companies/')) {
+        return {
+          ok: true,
+          json: async () => ({
+            gmr_id: '867f66f4-4aa4-5737-9bed-d51e2746a729',
+            company_name: 'Siemens Energy AG',
+            country: 'DEU',
+          }),
+        }
+      }
+      return { ok: false, status: 404, text: async () => '' }
+    })
+    const wrapper = mount(TickerFinancials, {
+      props: { symbol: '867f66f4-4aa4-5737-9bed-d51e2746a729', view: 'summary' },
+    })
+    await flushPromises()
+    const events = wrapper.emitted('company-resolved') || []
+    const last = events[events.length - 1][0]
+    expect(last.kind).toBe('company')
+    expect(last.name).toBe('Siemens Energy AG')
+  })
+})

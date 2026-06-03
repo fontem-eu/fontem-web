@@ -369,6 +369,64 @@ describe('ContractsPanel', () => {
     expect(headers.some((h) => h.startsWith('Authority'))).toBe(false)
   })
 
+  // ── entityKind prop (batch-5 item 4) ──────────────────────────
+  // When the parent already knows the entity is an authority, the
+  // counterparty header should say "Contractor" even before contracts
+  // load (or in races where row-shape detection hasn't kicked in yet).
+  // Symmetrically, an explicit 'company' prop pins the header to
+  // "Authority" even if some row happens to carry contractor_gmr_id.
+
+  it('renders Contractor header immediately when entityKind="authority" is passed', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeAuthorityResponse(),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'authority' },
+    })
+    await flushPromises()
+    const headers = wrapper.findAll('thead th').map((th) => th.text())
+    expect(headers.some((h) => h.startsWith('Contractor'))).toBe(true)
+    expect(headers.some((h) => h.startsWith('Authority'))).toBe(false)
+  })
+
+  it('renders Authority header when entityKind="company" pins it, even if a row has contractor_gmr_id', async () => {
+    // Synthetic row that mixes shapes — should never happen in
+    // production but proves the prop wins over the row-shape sniff.
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          { ...makeContract({ ted_notice_id: 'r1' }), contractor_gmr_id: 'co-x' },
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'company' },
+    })
+    await flushPromises()
+    const headers = wrapper.findAll('thead th').map((th) => th.text())
+    expect(headers.some((h) => h.startsWith('Authority'))).toBe(true)
+    expect(headers.some((h) => h.startsWith('Contractor'))).toBe(false)
+  })
+
+  it('without an entityKind prop, falls back to row-shape detection (unchanged)', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeAuthorityResponse(),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },  // no entityKind
+    })
+    await flushPromises()
+    const headers = wrapper.findAll('thead th').map((th) => th.text())
+    expect(headers.some((h) => h.startsWith('Contractor'))).toBe(true)
+  })
+
   it('falls back to plain text when the row carries no linkable id', async () => {
     // Pre-rename rows (no authority_id, no contractor_gmr_id) must
     // still render — without a link, but without breaking the column.

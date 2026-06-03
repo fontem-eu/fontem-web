@@ -20,7 +20,7 @@ const TickerFinancialsStub = {
   name: 'TickerFinancials',
   template: '<div data-testid="ticker-financials" />',
   props: ['symbol', 'view'],
-  emits: ['close'],
+  emits: ['close', 'company-resolved'],
 }
 
 const DataViewSelectorStub = {
@@ -213,5 +213,69 @@ describe('HomeView (ticker-detail host)', () => {
     await router.push('/c/MSFT/profile')
     await flushPromises()
     expect(fetchFundamentals).toHaveBeenCalledWith('MSFT', 1)
+  })
+
+  // ── Authority profile: drop Financials group (batch-5 item 2) ──
+  // The user reported that the Financials tab on an authority profile
+  // is dead UI. Instead of greying it out (which we do for companies
+  // with no data), drop the whole group when TickerFinancials emits
+  // `company-resolved` with `kind: 'authority'`.
+
+  it('drops the Financials group entirely when the child emits kind="authority"', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/profile')
+    await flushPromises()
+    // Before the emit, the group is still there (greyed if probe was empty).
+    let sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    expect(sel.props('groups').some((g) => g.key === 'financials')).toBe(true)
+
+    await wrapper
+      .findComponent({ name: 'TickerFinancials' })
+      .vm.$emit('company-resolved', { kind: 'authority', name: 'X', id: 'X' })
+    await flushPromises()
+
+    sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    expect(sel.props('groups').some((g) => g.key === 'financials')).toBe(false)
+  })
+
+  it('keeps the Financials group when the child emits kind="company"', async () => {
+    const { wrapper } = await mountAt('/c/AAPL/profile')
+    await flushPromises()
+    await wrapper
+      .findComponent({ name: 'TickerFinancials' })
+      .vm.$emit('company-resolved', { kind: 'company', name: 'Apple', id: 'AAPL' })
+    await flushPromises()
+    const sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    expect(sel.props('groups').some((g) => g.key === 'financials')).toBe(true)
+  })
+
+  it('resets the authority classification when the ticker changes', async () => {
+    const { wrapper, router } = await mountAt('/c/AUTH/profile')
+    await flushPromises()
+    await wrapper
+      .findComponent({ name: 'TickerFinancials' })
+      .vm.$emit('company-resolved', { kind: 'authority', name: 'X', id: 'X' })
+    await flushPromises()
+
+    let sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    expect(sel.props('groups').some((g) => g.key === 'financials')).toBe(false)
+
+    // Navigate to a company-shaped ticker. Until the new emit lands,
+    // the group should be back (we no longer carry the previous
+    // entity's classification).
+    await router.push('/c/AAPL/profile')
+    await flushPromises()
+    sel = wrapper.findComponent({ name: 'DataViewSelector' })
+    expect(sel.props('groups').some((g) => g.key === 'financials')).toBe(true)
+  })
+
+  it('redirects to /c/:ticker/profile when an authority is resolved on a financials view', async () => {
+    const { wrapper, router } = await mountAt('/c/AUTH/summary')
+    await flushPromises()
+    const pushSpy = vi.spyOn(router, 'replace')
+    await wrapper
+      .findComponent({ name: 'TickerFinancials' })
+      .vm.$emit('company-resolved', { kind: 'authority', name: 'X', id: 'AUTH' })
+    await flushPromises()
+    expect(pushSpy).toHaveBeenCalledWith('/c/AUTH/profile')
   })
 })

@@ -26,6 +26,7 @@ const router = useRouter()
 // to grey a tab the user can't use than to show it and have them
 // click into an error state.
 const hasFinancials = ref(null)
+const entityKind = ref(null)
 
 let _probeId = 0
 async function probeFinancials(sym) {
@@ -84,24 +85,51 @@ const selectedTicker = computed(() => route.params.ticker || null)
 const selectedView   = computed(() => route.params.view   || 'summary')
 
 // Re-probe when the ticker changes (route param) — every new entity
-// might have different data coverage.
-watch(selectedTicker, (sym) => probeFinancials(sym), { immediate: true })
+// might have different data coverage. Also wipe entityKind so we
+// don't carry the previous entity's classification into the new
+// resolver round-trip; TickerFinancials will re-emit `company-resolved`
+// with the fresh value as soon as the new entity resolves.
+watch(selectedTicker, (sym) => {
+  entityKind.value = null
+  probeFinancials(sym)
+}, { immediate: true })
 
-// Render-time view list with the disabled flag attached to the
-// financials group. Other categories are always enabled — overview
-// and procurement both gracefully handle "nothing found".
-const computedViewGroups = computed(() => VIEW_GROUPS.map((g) => {
+// If the user landed on an authority profile while the URL pointed at
+// a Financials view (e.g. summary), bounce to Profile — the Financials
+// group is hidden so the selected view would otherwise be orphaned.
+const FINANCIAL_VIEW_KEYS = new Set(['summary', 'fundamentals', 'income', 'cashflow', 'balance', 'valuation'])
+watch(entityKind, (kind) => {
+  if (kind === 'authority' && FINANCIAL_VIEW_KEYS.has(selectedView.value)) {
+    router.replace(`/c/${selectedTicker.value}/profile`)
+  }
+})
+
+// Render-time view list. Two layers of filtering:
+//   1. For authorities, drop the Financials group entirely — the
+//      user reported it's just dead UI on an authority profile.
+//      Equivalent to a hard-coded "no financials" decision; we don't
+//      need to probe the API for these entities.
+//   2. For companies whose probe returned no data, keep the group
+//      visible but grey it out with a tooltip — different signal
+//      ("nothing yet" vs "doesn't apply").
+const computedViewGroups = computed(() => VIEW_GROUPS.flatMap((g) => {
+  if (g.key === 'financials' && entityKind.value === 'authority') {
+    return []
+  }
   if (g.key === 'financials' && hasFinancials.value === false) {
-    return {
+    return [{
       ...g,
       disabled: true,
       disabledReason: 'No financial data available for this entity.',
-    }
+    }]
   }
-  return g
+  return [g]
 }))
 
 function onCompanyResolved(info) {
+  if (info?.kind === 'company' || info?.kind === 'authority') {
+    entityKind.value = info.kind
+  }
   if (info?.name) {
     const view = selectedView.value || 'summary'
     const label = view.charAt(0).toUpperCase() + view.slice(1)

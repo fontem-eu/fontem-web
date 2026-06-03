@@ -7,6 +7,11 @@ import PocketButton from './PocketButton.vue'
 
 const props = defineProps({
   symbol: { type: String, required: true },
+  // When the parent has already resolved the entity type, pass it in
+  // so the counterparty column header doesn't depend on data shape.
+  // 'authority' → header is "Contractor", 'company' → "Authority",
+  // null (default) → fall back to row-shape sniffing.
+  entityKind: { type: String, default: null },
 })
 
 const pocketConfig = computed(() => ({ entityId: props.symbol }))
@@ -102,9 +107,14 @@ function indicator(key) {
 // when we're rendering an authority profile's contracts. We detect mode
 // by which entity-id field the rows carry: company-view rows have
 // `authority_id`, authority-view rows have `contractor_gmr_id`.
-const isAuthorityView = computed(
-  () => (data.value?.contracts || []).some((c) => 'contractor_gmr_id' in c),
-)
+// Prefer the parent-supplied kind (the entity resolver knows
+// authoritatively); fall back to row-shape sniffing so callers
+// that don't pass the prop still work as before.
+const isAuthorityView = computed(() => {
+  if (props.entityKind === 'authority') return true
+  if (props.entityKind === 'company') return false
+  return (data.value?.contracts || []).some((c) => 'contractor_gmr_id' in c)
+})
 const counterpartyHeader = computed(
   () => isAuthorityView.value ? 'Contractor' : 'Authority',
 )

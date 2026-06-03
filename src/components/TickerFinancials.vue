@@ -37,6 +37,11 @@ const dataSource = computed(() => isEu.value ? 'esef' : 'edgar')
 const data = ref(null)
 const companyGmrId = ref(null)
 const companyName = ref(null)
+// 'company' | 'authority' | null while unresolved. Drives the
+// ContractsPanel counterparty header (Authority vs Contractor) and
+// is also surfaced to the parent via `company-resolved` so HomeView
+// can hide the Financials tab on authorities.
+const entityKind = ref(null)
 const state = ref('loading') // 'loading' | 'done' | 'error' | 'timeout'
 const displayYears = ref(10)
 
@@ -73,11 +78,17 @@ async function _tryFetchJson(url) {
 
 async function _resolveUuidEntity(sym, { profile = false } = {}) {
   if (!UUID_RE.test(sym)) return null
+  // `/api/companies/<UUID>` returns 200 with `company_name: null` for
+  // authority UUIDs — it's a stub, not a 404. Treating the bare object
+  // as truthy was the original bug: the resolver short-circuited on the
+  // stub and never reached the authorities endpoint, so the header fell
+  // back to rendering the UUID. Require a real `company_name` to keep
+  // going down the company path.
   const companyInfo = await _tryFetchJson(`/api/companies/${encodeURIComponent(sym)}`)
-  if (companyInfo) {
+  if (companyInfo?.company_name) {
     return profile
-      ? { gmr_id: sym, company_name: companyInfo.company_name, ticker: sym }
-      : companyInfo
+      ? { gmr_id: sym, company_name: companyInfo.company_name, ticker: sym, _entityType: 'company' }
+      : { ...companyInfo, _entityType: 'company' }
   }
   const authorityInfo = await _tryFetchJson(`/api/authorities/${encodeURIComponent(sym)}`)
   if (!authorityInfo) return null
@@ -129,6 +140,11 @@ function _emitResolved(sym, result) {
     id: sym,
     name: result.company_name || sym,
     gmr_id: result.gmr_id,
+    // 'company' | 'authority' — drives parent-side tab visibility
+    // (Financials only makes sense for companies). Falls back to
+    // 'company' when the resolver couldn't decide so existing flows
+    // keep working unchanged.
+    kind: result._entityType || 'company',
   })
 }
 
@@ -138,6 +154,7 @@ async function _loadPanelOnlyView(sym, id) {
   if (result) {
     companyGmrId.value = result.gmr_id ?? null
     companyName.value = result.company_name ?? null
+    entityKind.value = result._entityType ?? null
     _emitResolved(sym, result)
   }
   data.value = null
@@ -164,6 +181,7 @@ async function loadData(sym) {
     data.value = result ?? null
     companyGmrId.value = result?.gmr_id ?? null
     companyName.value = result?.company_name ?? null
+    entityKind.value = result?._entityType ?? null
     state.value = 'done'
     _emitResolved(props.symbol, result)
   } catch {
@@ -189,6 +207,7 @@ watch(
         if (info?.company_name) {
           companyName.value = info.company_name
           companyGmrId.value = info.gmr_id ?? null
+          entityKind.value = info._entityType ?? null
           _emitResolved(sym, info)
         }
       })
@@ -605,7 +624,10 @@ function isFundNegative(year, key) {
     <!-- ── Contracts ─────────────────────────────────────── -->
     <template v-else-if="state === 'done' && view === 'contracts'">
       <div data-testid="contracts-panel-wrap">
-        <ContractsPanel :symbol="companyGmrId || symbol" />
+        <ContractsPanel
+          :symbol="companyGmrId || symbol"
+          :entity-kind="entityKind"
+        />
       </div>
     </template>
 
