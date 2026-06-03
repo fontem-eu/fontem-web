@@ -23,13 +23,16 @@ const hasToken = computed(
  * existing smoke-test selectors keep matching while the smoke repo
  * renames its IDs in lockstep. */
 const navTabs = computed(() => {
-  // Three sibling tabs as the platform's primary IA. Stories
-  // (the public feed) lives at `/` — the marketing/About page is
-  // a footer link, not a top-level destination.
+  // Four sibling tabs as the platform's primary IA, plus the authed
+  // workspace. Stories (the public feed) lives at `/`. "Explore" is
+  // a hub that hosts the data-quality dashboards and other browse-
+  // by-source affordances; it replaces the previous direct link to
+  // the data-quality entry point.
   const base = [
     { key: 'stories',  label: 'Stories',  path: '/' },
     { key: 'spending', label: 'Spending', path: '/spending' },
     { key: 'map',      label: 'Map',      path: '/map' },
+    { key: 'explore',  label: 'Explore',  path: '/explore' },
   ]
   if (hasToken.value) {
     base.push({ key: 'my-reports', label: 'My Stories', path: '/my-stories' })

@@ -54,6 +54,7 @@ import SparqlView from './views/SparqlView.vue'
 import DonateView from './views/DonateView.vue'
 import AtlasView from './views/AtlasView.vue'
 import PublicSpendingView from './views/PublicSpendingView.vue'
+import ExploreView from './views/ExploreView.vue'
 
 import './assets/main.css'
 
@@ -76,7 +77,14 @@ const ROUTES = [
   { path: '/admin/entity-resolution', component: EntityResolutionView },
   { path: '/admin/moderation', component: ModerationView },
 
-  // Data quality — public.
+  // Explore — top-level hub that groups the data-quality, SPARQL,
+  // and geo destinations under a single nav entry. Replaces direct
+  // nav-bar access to /data-quality.
+  { path: '/explore', component: ExploreView },
+
+  // Data quality — public. Reachable from the Explore hub above
+  // and from existing in-app links / external bookmarks; the
+  // route paths stay where they are so nothing breaks.
   { path: '/data-quality', component: DataQualityHubView },
   { path: '/data-quality/overview', component: OverviewDQView },
   { path: '/data-quality/contracts', component: ContractsDQView },

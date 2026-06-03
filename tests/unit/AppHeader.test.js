@@ -150,6 +150,43 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
   })
 
+  // ── Explore tab (batch-5 item 5) ──────────────────────────────
+  it('shows the Explore tab between Map and My Stories', async () => {
+    localStorage.setItem('gmr-token', 'test-token')
+    const { wrapper } = await mountAt('/')
+    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
+    expect(exploreTab.exists()).toBe(true)
+    expect(exploreTab.attributes('href')).toBe('/explore')
+    expect(exploreTab.text()).toBe('Explore')
+
+    // Order: the Explore tab sits AFTER Map and BEFORE My Stories.
+    const tabs = wrapper.findAll('[data-testid^="nav-"]').map((t) => t.attributes('data-testid'))
+    const mapIdx = tabs.indexOf('nav-map')
+    const explIdx = tabs.indexOf('nav-explore')
+    const myIdx = tabs.indexOf('nav-my-reports')
+    expect(mapIdx).toBeGreaterThanOrEqual(0)
+    expect(explIdx).toBeGreaterThan(mapIdx)
+    expect(myIdx).toBeGreaterThan(explIdx)
+  })
+
+  it('shows the Explore tab to anonymous visitors too', async () => {
+    const { wrapper } = await mountAt('/')
+    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
+    expect(exploreTab.exists()).toBe(true)
+  })
+
+  it('marks Explore active when on /explore', async () => {
+    const { wrapper } = await mountAt('/explore')
+    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
+    expect(exploreTab.classes()).toContain('active')
+  })
+
+  it('marks Explore active on a nested /data-quality path (still under the hub)', async () => {
+    const { wrapper } = await mountAt('/explore')
+    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
+    expect(exploreTab.classes()).toContain('active')
+  })
+
   it('hides nav tabs on the login page regardless of auth state', async () => {
     const { wrapper } = await mountAt('/login')
     expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
