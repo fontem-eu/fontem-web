@@ -199,8 +199,13 @@ describe('ContractsPanel', () => {
     const cell456 = wrapper.find('[data-testid="contract-ted-link-456-2024"]')
     expect(cell123.exists()).toBe(true)
     expect(cell456.exists()).toBe(true)
-    expect(cell123.attributes('href')).toContain('ted.europa.eu')
-    expect(cell123.attributes('href')).toContain('123-2024')
+    // The link goes through fontem-api's /api/contracts/<id>/ted-link
+    // redirect (which translates the eForms UUID we store as
+    // ted_notice_id into TED's publication-number before 302-ing to
+    // the canonical detail URL) — pin the redirect-URL shape rather
+    // than the final ted.europa.eu host. See src/utils/tedUrl.js for
+    // the full rationale.
+    expect(cell123.attributes('href')).toBe('/api/contracts/123-2024/ted-link')
     expect(cell123.attributes('target')).toBe('_blank')
     expect(cell123.attributes('rel')).toContain('noopener')
     expect(cell123.text()).toContain('View')
