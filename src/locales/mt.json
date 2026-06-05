@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Metriċi tal-użu tal-IA",
+    "last_24_h": "L-aħħar 24 s",
+    "last_7_days": "L-aħħar 7 ijiem",
+    "last_hour": "L-aħħar siegħa"
+  },
+  "about": {
+    "a_45_second_tour": "Tour ta' 45 sekonda",
+    "how_it_works": "Kif jaħdem",
+    "recently_published": "Ippubblikat reċentement",
+    "see_all_public_data_stories": "Ara l-istejjer tad-data pubbliċi kollha →",
+    "try": "Ipprova:",
+    "walkthrough_searching_a_company_explorin": "Gwida: tfittxija ta' kumpanija, esplorazzjoni tal-akkwist pubbliku u pubblikazzjoni ta' storja tad-data"
+  },
+  "activity": {
+    "loading_activity": "Qed jitgħabba l-attività...",
+    "sign_in": "Idħol",
+    "sign_in_to_see_your_activity": "Idħol biex tara l-attività tiegħek."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Għodod operazzjonali, dokumenti tal-arkitettura u s-saħħa tal-pjattaforma"
+  },
+  "app": {
+    "activity": "Attività",
+    "admin": "Amministrazzjoni",
+    "all": "Kollha",
+    "cancel": "Ikkanċella",
+    "clear": "Naddaf",
+    "close": "Agħlaq",
+    "companies_count": "ebda kumpaniji | 1 kumpanija | {count} kumpaniji",
+    "contracts": "Kuntratti",
+    "contracts_count": "ebda kuntratti | 1 kuntratt | {count} kuntratti",
+    "contracts_eur": "Kuntratti (EUR)",
+    "description": "Deskrizzjoni",
+    "dismiss": "Warrab",
+    "entity_resolution": "Riżoluzzjoni tal-entitajiet",
+    "entity_type": "Tip ta' entità",
+    "esef": "ESEF",
+    "eu_public_procurement": "Akkwist pubbliku tal-UE",
+    "filings_by_year": "Sottomissjonijiet skont is-sena",
+    "gleif": "GLEIF",
+    "image": "Stampa",
+    "issues": "Problemi",
+    "language": "Lingwa",
+    "loading": "Qed jitgħabba…",
+    "loading_2": "Qed jitgħabba...",
+    "loading_story": "Qed titgħabba l-istorja...",
+    "metric": "Metrika",
+    "no_data_available": "Ebda data disponibbli",
+    "no_entity_configured": "Ebda entità mhix ikkonfigurata.",
+    "nuts_level": "Livell NUTS",
+    "per_year": "Fis-sena",
+    "privacy": "Privatezza",
+    "raise_an_issue": "Issolleva problema",
+    "remove": "Neħħi",
+    "retry": "Erġa' pprova",
+    "sanctions": "Sanzjonijiet",
+    "sign_out": "Oħroġ",
+    "skip_to_main_content": "Aqbeż għall-kontenut prinċipali",
+    "ted": "TED",
+    "theme": "Tema",
+    "total_value_eur": "Valur totali (EUR)",
+    "xbrl_field_coverage": "Kopertura tal-kampi XBRL (%)"
+  },
+  "app_footer": {
+    "about": "Dwar",
+    "data_quality": "Kwalità tad-data",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Data minn SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Akkwist pubbliku tal-UE)",
+    "footer": "Footer",
+    "sparql": "SPARQL",
+    "support": "Appoġġja"
+  },
+  "assist": {
+    "accept_all": "Aċċetta kollox",
+    "ai_assist": "Assistenza IA",
+    "ai_assistant": "Assistent IA",
+    "apply": "Applika",
+    "ask_about_the_data": "Staqsi dwar id-data...",
+    "clear_chat": "Naddaf il-chat",
+    "conversations_are_processed_by_an_eu_bas": "Il-konversazzjonijiet huma proċessati minn fornitur IA bbażat fl-UE.",
+    "embed": "Daħħal",
+    "insert_into_story": "Daħħal fl-istorja",
+    "see_our_privacy_policy": "Ara l-politika tal-privatezza tagħna.",
+    "send": "Ibgħat"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kodiċi",
+    "colour_scale": "Skala tal-kuluri",
+    "coverage": "Kopertura",
+    "data_slice": "Slice tad-data",
+    "dataset": "Sett tad-data",
+    "dataset_metadata": "Metadata tas-sett tad-data",
+    "distribution_is_right_skewed_log_scale_r": "Id-distribuzzjoni hija mxaqlba lejn il-lemin — skala logaritmika rrakkomandata.",
+    "hide_low_coverage_datasets": "Aħbi settijiet tad-data b'kopertura baxxa",
+    "hide_low_coverage_years": "Aħbi snin b'kopertura baxxa",
+    "loading_datasets": "Qed jitgħabbu s-settijiet tad-data…",
+    "lock_to_dataset_range": "Issakkar mar-rangu tas-sett",
+    "log_scale": "Skala log.",
+    "notes": "Noti",
+    "time_unit": "Unità taż-żmien",
+    "updated": "Aġġornat",
+    "value_scale": "Skala tal-valuri"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Iftaħ f'Atlas →"
+  },
+  "balance": {
+    "capital_structure": "Struttura tal-kapital"
+  },
+  "cashflow": {
+    "cash_flow": "Fluss tal-kontanti"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Skont is-sena tar-rappurtar",
+    "cdp_climate_disclosure": "Iżvelar klimatiku CDP",
+    "cdp_scores_and_climate_reporting_score_d": "Punteġġi CDP u rappurtar klimatiku — distribuzzjoni tal-punteġġi u snin tar-rappurtar",
+    "score_distribution": "Distribuzzjoni tal-punteġġi"
+  },
+  "chapter_rail": {
+    "chapters": "Kapitli",
+    "story_chapters": "Kapitli tal-istorja"
+  },
+  "company_profile": {
+    "company_not_found": "Il-kumpanija ma nstabitx.",
+    "company_profile": "Profil tal-kumpanija",
+    "loading_company_profile": "Qed jitgħabba l-profil tal-kumpanija..."
+  },
+  "connectedness_d_q": {
+    "count": "Għadd",
+    "degree_distribution_per_type": "Distribuzzjoni tal-grad skont it-tip",
+    "graph_connectedness": "Konnettività tal-graf",
+    "isolated": "Iżolat",
+    "isolated_2": "Iżolat %",
+    "max": "Mass",
+    "mean": "Medja",
+    "median": "Medjan",
+    "min": "Min",
+    "per_type_summary": "Sommarju skont it-tip"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Falla t-tagħbija tad-data tal-akkwist.",
+    "loading_procurement_data": "Qed titgħabba d-data tal-akkwist...",
+    "no_eu_public_procurement_data_found_for_": "Ma nstabet ebda data tal-akkwist pubbliku tal-UE għal din il-kumpanija.",
+    "top_authority": "Awtorità prinċipali",
+    "top_sector_cpv": "Settur prinċipali (CPV)",
+    "type": "Tip"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Valur tal-kuntratt maż-żmien (EUR)",
+    "contract_volume_over_time": "Volum tal-kuntratt maż-żmien",
+    "contracts_by_country": "Kuntratti skont il-pajjiż",
+    "contracts_by_currency": "Kuntratti skont il-munita",
+    "currency_quality": "Kwalità tal-munita",
+    "eu_public_procurement_awards_volume_cove": "Għotjiet tal-akkwist pubbliku tal-UE — volum, kopertura, kwalità tal-munita",
+    "loading_contract_data": "Qed titgħabba d-data tal-kuntratt...",
+    "missing_fields_of_contracts": "Kampi neqsin (% tal-kuntratti)",
+    "ted_contracts": "Kuntratti TED",
+    "total_eur_by_country_top_15": "Total EUR skont il-pajjiż (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Aċċetta",
+    "cookie_consent": "Kunsens tal-cookies",
+    "decline": "Irrifjuta",
+    "learn_more": "Itgħallem aktar"
+  },
+  "data_quality": {
+    "about_this_data": "Dwar din id-data",
+    "all_procurement_data_is_sourced_from": "Id-data kollha tal-akkwist tinġabar minn",
+    "companies_with_lei": "Kumpaniji b'LEI",
+    "companies_with_vat": "Kumpaniji bil-VAT",
+    "contract_date_range": "Rangu tad-dati tal-kuntratt",
+    "country": "Pajjiż",
+    "cpv_code": "Kodiċi CPV",
+    "data_freshness": "Friskezza tad-data",
+    "data_quality_dashboard": "Dashboard tal-kwalità tad-data",
+    "failed_to_load_data_quality_metrics": "Falla t-tagħbija tal-metriċi tal-kwalità tad-data.",
+    "knowledge_graph": "Graf tal-għarfien",
+    "last_data_load": "L-aħħar tagħbija tad-data",
+    "loading_metrics": "Qed jitgħabbu l-metriċi...",
+    "pending_review_same_as_rarr": "Pendenti reviżjoni (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Saħħa tal-pjattaforma, kopertura tad-data u metriċi tat-trasparenza",
+    "procurement_coverage_by_country": "Kopertura tal-akkwist skont il-pajjiż",
+    "procurement_only": "Akkwist biss",
+    "relationships": "Relazzjonijiet",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Setturi ewlenin tal-akkwist (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Friskezza tad-data",
+    "data_quality": "Kwalità tad-data",
+    "latest_contract_load": "L-aħħar tagħbija ta' kuntratti",
+    "loading_overview": "Qed jitgħabba l-ħarsa ġenerali..."
+  },
+  "data_view_selector": {
+    "data_view": "Veduta tad-data",
+    "gmr_long_tooltip": "Long-Term Value jevalwa azzjoni għall-investiment ta' valur fit-tul billi juża medji ta' 5 snin: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, marġini nett ≥ 15 %, D/E ≤ 1,5, rendiment tad-dividendi ≥ 3,5 %. Żviluppat minn Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Deduplikazzjoni",
+    "same_as_queue_duplicate_entity_resolutio": "Kju SAME_AS — stat tar-riżoluzzjoni ta' entitajiet duplikati",
+    "use_the": "Uża"
+  },
+  "donate": {
+    "backers": "Sostenituri",
+    "contribute_rarr": "Ikkontribwixxi &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Id-donazzjonijiet jgħaddu minn host fiskali bla skop ta' qligħ fuq",
+    "open_collective": "Open Collective",
+    "support_fontem": "Appoġġja Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Grazzi lil kulħadd li qed iżommu Fontem ħaj.",
+    "where_the_money_goes": "Fejn jmorr il-flus"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "Rapporti finanzjarji SEC — kopertura tal-kampi XBRL u tendenzi tas-sottomissjonijiet",
+    "us_edgar_financials": "Dejta finanzjarja US EDGAR"
+  },
+  "entity_mention": {
+    "remove_mention": "Neħħi l-imsemmi"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Kuntratti (għadd)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Il-pari kollha mmarkati ġew solvuti.",
+    "different_entities_reject": "Entitajiet differenti — irrifjuta",
+    "entity_a": "Entità A",
+    "entity_b": "Entità B",
+    "failed_to_load_candidates": "Falla t-tagħbija tal-kandidati.",
+    "keep_as_related": "Żomm bħala relatat",
+    "loading_candidates": "Qed jitgħabbu l-kandidati...",
+    "merge_keep_a_b_is_removed": "Għaqqad — żomm A (B titneħħa)",
+    "merge_keep_b_a_is_removed": "Għaqqad — żomm B (A titneħħa)",
+    "no_pairs_pending_review": "Ebda pari ma jistennew reviżjoni.",
+    "review_and_decide_on_flagged_candidates": "Irrevedi u iddeċiedi dwar kandidati mmarkati",
+    "why_flagged": "Għala mmarkat"
+  },
+  "entity_side": {
+    "entity_details": "Dettalji tal-entità"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "Dejta finanzjarja EU ESEF",
+    "european_financial_statements_xbrl_cover": "Rapporti finanzjarji Ewropej — kopertura XBRL u distribuzzjoni skont il-pajjiż",
+    "filings_by_country": "Sottomissjonijiet skont il-pajjiż"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Tul",
+    "etl_runs": "Eżekuzzjonijiet ETL",
+    "failed": "Falla",
+    "recent_cronjob_invocations_from": "Invokazzjonijiet riċenti ta' CronJob minn",
+    "recent_runs": "Eżekuzzjonijiet riċenti",
+    "refresh": "Aġġorna",
+    "running": "Qed jaħdem",
+    "started": "Beda",
+    "status": "Status:",
+    "status_2": "Status",
+    "success": "Suċċess",
+    "summary": "Sommarju"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Proġetti tal-politika ta' koeżjoni tal-UE — finanzjament, benefiċjarji u distribuzzjoni ġeografika",
+    "eu_knowledge_graph": "Graf tal-għarfien tal-UE",
+    "projects_by_country_top_15": "Proġetti skont il-pajjiż (Top 15)",
+    "projects_by_fund_top_10": "Proġetti skont il-fond (Top 10)"
+  },
+  "explore": {
+    "explore": "Esplora"
+  },
+  "feed": {
+    "clear_filter": "Naddaf il-filtru",
+    "feed": "Feed",
+    "filtering_by": "Qed jiffiltra skont",
+    "loading_feed": "Qed jitgħabba l-feed...",
+    "public_data_stories_from_the_community_n": "Stejjer pubbliċi tad-data mill-komunità, l-aħħar l-ewwel."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Skont it-tip ta' strument",
+    "esma_financial_instruments_reference_dat": "Dejta ta' referenza għal strumenti finanzjarji ESMA — kopertura ISIN, tipi ta' strumenti, postijiet ta' negozjar",
+    "firds_instruments": "Strumenti FIRDS",
+    "top_trading_venues_mic": "Postijiet ewlenin tan-negozjar (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Esploratur ġeografiku"
+  },
+  "geo_choropleth": {
+    "companies": "Kumpaniji",
+    "connected_to_3": "Konness ma' (α-3)",
+    "parent_nuts_1": "NUTS 1 ġenituri"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Kumpaniji skont il-pajjiż (Top 30)",
+    "gleif_companies": "Kumpaniji GLEIF",
+    "global_lei_directory_entity_identificati": "Direttorju globali LEI — identifikazzjoni tal-entitajiet u struttura korporattiva"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Ma setax jitgħabba l-graf",
+    "depth": "Fond",
+    "exit_fullscreen": "Oħroġ mill-iskrin sħiħ",
+    "expanding_node": "Qed jiġi espanduż in-node...",
+    "export": "Esporta",
+    "filter": "Filtru…",
+    "find_path_to": "Sib ir-rotta sa",
+    "finding_paths": "Qed jinstabu r-rotot...",
+    "fullscreen": "Skrin sħiħ",
+    "go_to_profile": "Mur fuq il-profil",
+    "json": "JSON",
+    "loading_graph": "Qed jitgħabba l-graf...",
+    "more_options": "Aktar għażliet",
+    "no_connections_found_for_this_entity": "Ma nstabu ebda konnessjonijiet għal din l-entità.",
+    "no_paths_found_between_these_entities": "Ma nstabu ebda rotot bejn dawn l-entitajiet.",
+    "path_to": "Rotta sa",
+    "period": "Perjodu",
+    "png": "PNG",
+    "save_view": "Issejvja l-veduta",
+    "search_entity_name": "Fittex isem l-entità...",
+    "set_as_center": "Issettja bħala ċentru",
+    "summary_edges": "Truf ta' sommarju",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Dħul &amp; dħul nett"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Sommarju qasir tal-problema",
+    "describe_the_issue_in_detail_markdown_su": "Iddeskrivi l-problema fid-dettall (Markdown appoġġjat)",
+    "entity_id": "ID tal-entità",
+    "issue_type": "Tip tal-problema",
+    "title": "Titlu"
+  },
+  "issue_detail": {
+    "add_a_comment": "Żid kumment...",
+    "loading_issue": "Qed titgħabba l-problema...",
+    "no_comments_yet": "L-ebda kummenti s'issa.",
+    "reject": "Irrifjuta",
+    "resolve": "Solvi"
+  },
+  "issues": {
+    "loading_issues": "Qed jitgħabbu l-problemi...",
+    "no_issues_found": "Ma nstabet ebda problema."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Reġistru tal-lobbying tal-UE",
+    "lobbying_cost_distribution": "Distribuzzjoni tal-ispiża tal-lobbying",
+    "registrations_over_time": "Reġistrazzjonijiet maż-żmien",
+    "top_countries": "Pajjiżi ewlenin",
+    "transparency_register_lobbyist_registrat": "Reġistru tat-trasparenza — reġistrazzjonijiet ta' lobbyists, aċċess PE, nefqa"
+  },
+  "login": {
+    "go_to_home": "Mur lejn id-dar",
+    "you_already_have_an_active_session": "Diġà għandek sessjoni attiva.",
+    "youre_signed_in": "Inti dħolt"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Imsemmijiet ta' entitajiet",
+    "searching": "Qed jiġi mfittex…"
+  },
+  "moderation": {
+    "flagged_content": "Kontenut immarkat",
+    "moderation": "Moderazzjoni",
+    "moderation_log": "Reġistru tal-moderazzjoni",
+    "no_flagged_content": "Ebda kontenut immarkat.",
+    "no_moderation_actions_yet": "L-ebda azzjonijiet ta' moderazzjoni s'issa.",
+    "review_flagged_content_and_moderation_hi": "Irrevedi kontenut immarkat u storja tal-moderazzjoni"
+  },
+  "multi_select": {
+    "none": "L-ebda waħda"
+  },
+  "my_reports": {
+    "loading_stories": "Qed jitgħabbu l-istejjer...",
+    "my_stories": "L-istejjer tiegħi",
+    "no_stories_yet_start_your_first_one_abov": "L-ebda stejjer s'issa. Ibda l-ewwel waħda fuq.",
+    "or_read_recent_public_stories": "Jew aqra stejjer pubbliċi reċenti →"
+  },
+  "not_found": {
+    "back_to_home": "Lura lejn id-dar",
+    "page_not_found": "Il-paġna ma nstabitx",
+    "the_page_youre_looking_for_doesnt_exist_": "Il-paġna li qed tfittex ma teżistix jew ġiet mċaqilqa."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Klassifikazzjoni NUTS tal-Eurostat — kopertura ġeografika tal-kumpaniji u awtoritajiet",
+    "nuts_regions": "Reġjuni NUTS",
+    "regions_by_level": "Reġjuni skont il-livell",
+    "top_nuts_0_regions_by_company_count": "Reġjuni NUTS 0 ewlenin skont l-għadd ta' kumpaniji"
+  },
+  "overview_d_q": {
+    "cohesion": "Koeżjoni",
+    "country_code_consistency": "Konsistenza tal-kodiċi tal-pajjiż",
+    "cross_source_overlap": "Sovrappożizzjoni bejn is-sorsi",
+    "cross_source_overlap_country_code_consis": "Sovrappożizzjoni bejn is-sorsi, konsistenza tal-kodiċi tal-pajjiż u kompletezza tal-kampi fis-sorsi kollha",
+    "data_quality_overview": "Ħarsa ġenerali tal-kwalità tad-data",
+    "listings": "Listi",
+    "lobby": "Lobbying",
+    "top_alpha_2_codes": "Kodiċi Alpha-2 ewlenin"
+  },
+  "pocket_button": {
+    "save": "Issejvja",
+    "save_to_pocket": "Issejvja f'Pocket"
+  },
+  "preferences_menu": {
+    "account": "Kont",
+    "ai_usage": "Użu tal-IA",
+    "atlas_palette": "Palette Atlas",
+    "display": "Wiri",
+    "preferences": "Preferenzi"
+  },
+  "privacy": {
+    "access": "Aċċess",
+    "all_data_in_the_fontem_knowledge_graph_r": "Id-data kollha fil-graf tal-għarfien Fontem tirreferi għal",
+    "conversation_processing_is_performed_by_": "L-ipproċessar tal-konversazzjonijiet isir minn fornituri IA bbażati fl-UE.",
+    "conversations_are_automatically_deleted_": "Il-konversazzjonijiet jiġu mħassra awtomatikament wara 90 jum.",
+    "erase": "Tħassir",
+    "eu_consolidated_sanctions_list": "Lista konsolidata tas-sanzjonijiet tal-UE",
+    "eu_transparency_register": "Reġistru tat-trasparenza tal-UE",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "L-aħħar aġġornament: April 2026",
+    "legal_basis": "Bażi legali:",
+    "no_personal_data_of_individuals_is_store": "L-ebda data personali ta' individwi ma tinżamm fil-graf tal-għarfien.",
+    "port": "Portabbiltà",
+    "privacy_policy": "Politika tal-privatezza",
+    "rectify": "Rettifika",
+    "to_exercise_any_of_these_rights_contact_": "Biex teżerċita kwalunkwe minn dawn id-drittijiet, ikkuntattjana fuq",
+    "under_the_gdpr_you_have_the_right_to": "Skont il-GDPR għandek id-dritt:",
+    "when_you_sign_in_we_collect_and_store": "Meta tidħol, niġbru u naħżnu:",
+    "your": "Tiegħek"
+  },
+  "profile": {
+    "avg_net_margin": "Marġini nett medju",
+    "avg_roe": "ROE medju",
+    "corporate_group": "Grupp korporattiv",
+    "current_price": "Prezz attwali",
+    "directors_amp_officers": "Diretturi &amp; uffiċjali",
+    "financial_overview": "Ħarsa ġenerali finanzjarja",
+    "market_cap": "Kapitalizzazzjoni tas-suq",
+    "part_of": "Parti minn"
+  },
+  "public_spending": {
+    "public_spending": "Nefqa pubblika"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pożizzjoni fil-carousel",
+    "recently_published_data_stories": "Stejjer tad-data ippubblikati reċentement"
+  },
+  "report": {
+    "edit": "Editja"
+  },
+  "report_editor": {
+    "brief_abstract": "Estratt qasir...",
+    "private_only_me": "Privat — jien biss",
+    "public_anyone": "Pubbliku — kulħadd",
+    "signed_in_users": "Utenti dħoula",
+    "story_title": "Titlu tal-istorja"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Entitajiet sanzjonati — persuni, organizzazzjonijiet, kopertura tar-reġim u qbil tal-kumpaniji",
+    "top_sanction_regimes": "Reġimi ewlenin tas-sanzjonijiet"
+  },
+  "share": {
+    "add": "Żid",
+    "add_group": "Żid grupp",
+    "add_person": "Żid persuna",
+    "collaborators": "Kollaboraturi",
+    "email_address": "Indirizz tal-email",
+    "group_name": "Isem tal-grupp",
+    "no_collaborators_yet": "L-ebda kollaboraturi s'issa.",
+    "share_story": "Ikkondividi l-istorja",
+    "visibility": "Viżibilità"
+  },
+  "sparql": {
+    "endpoint": "Endpoint",
+    "endpoint_url": "URL tal-endpoint",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Limiti",
+    "method": "Metodu",
+    "post": "POST",
+    "query_failed": "Il-mistoqsija fallit:",
+    "response": "Rispons",
+    "sparql_11_json_results_envelope": "Envelope tar-riżultati SPARQL 1.1 JSON:",
+    "sparql_endpoint": "Endpoint SPARQL",
+    "try_a_query": "Ipprova mistoqsija"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Kwotazzjoni",
+    "bold_b": "Grassi (⌘B)",
+    "bullet_list": "Lista bil-pont",
+    "code_block": "Blokk tal-kodiċi",
+    "divider": "Diviżorju",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Titlu 1",
+    "heading_2": "Titlu 2",
+    "heading_3": "Titlu 3",
+    "inline_code": "Kodiċi inline",
+    "italic_i": "Korsiv (⌘I)",
+    "link": "Link",
+    "numbered_list": "Lista innumrata",
+    "strikethrough": "Maqtugħ",
+    "table": "Tabella",
+    "underline_u": "Sottolinjat (⌘U)",
+    "widget_from_pocket": "Widget minn Pocket"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Neħħi l-kolonna tax-xellug"
+  },
+  "tag_editor": {
+    "tags": "Tags"
+  },
+  "ticker_card": {
+    "authority": "Awtorità",
+    "company": "Kumpanija",
+    "person": "Persuna"
+  },
+  "ticker_financials": {
+    "close_financials": "Agħlaq il-finanzi",
+    "history": "Storja",
+    "taking_longer_than_expected": "Qed jieħu aktar milli mistenni…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Ma nstabu ebda tickers għal &ldquo;",
+    "search_companies_public_entities_lobbyis": "Fittex kumpaniji, entitajiet pubbliċi, lobbyists…",
+    "search_results": "Riżultati tat-tfittxija",
+    "search_the_knowledge_graph": "Fittex fil-graf tal-għarfien"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Relazzjonijiet kummerċjali awtorità-kumpanija materjalizzati minn kuntratti",
+    "trade_edges": "Truf kummerċjali",
+    "trade_edges_are_materialized_from_contra": "It-truf kummerċjali huma materjalizzati minn dejta tal-kuntratti. Ħaddem"
+  },
+  "triples_d_q": {
+    "chart_view": "Veduta tal-graff",
+    "click_a_graph_to_inspect_its_class_and_p": "Ikklikkja graf biex tispezzjona d-distribuzzjoni tal-klassi u predikat tiegħu.",
+    "no": "Le",
+    "no_triples_in_this_graph": "Ma fihx tripletti dan il-graf.",
+    "top_classes": "Klassijiet ewlenin",
+    "top_predicates": "Predikati ewlenin",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Tripletti għal kull graf imsemmi",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso mhux ikkonfigurat f'dan l-ambjent",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Medji"
+  },
+  "widget_node": {
+    "remove_widget": "Neħħi l-widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Tip ta' widget mhux magħruf:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
