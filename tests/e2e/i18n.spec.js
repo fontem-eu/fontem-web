@@ -28,19 +28,21 @@ test.describe('Language switching', () => {
     //    immediately (anti-FOUC + screen-reader correctness).
     await expect(page.locator('html')).toHaveAttribute('lang', 'fr')
 
-    // 4) The lazy import for the locale fires; once it resolves the
-    //    aria-label re-evaluates. In PR 1 the message bag for `fr`
-    //    is empty so vue-i18n falls back to `en` -- this asserts
-    //    the bridge itself works without depending on a translation
-    //    landing yet. PR 2 onward will assert the value differs.
-    const frHeader = await page.locator('[data-testid="prefs-menu-trigger"]')
+    // 4) The lazy import for the locale fires; the aria-label
+    //    re-evaluates against fr.json. In PR 2 fr is still a
+    //    stub (filled in PR 3), so the fallback to en keeps the
+    //    text identical -- we hop to a locale we did translate.
+    await page.locator('[data-testid="prefs-menu-trigger"]').first().click()
+    await page.locator('[data-testid="lang-picker"]').selectOption('de')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de')
+    const deHeader = await page.locator('[data-testid="prefs-menu-trigger"]')
       .first().getAttribute('aria-label')
-    expect(typeof frHeader).toBe('string')
-    expect(frHeader.length).toBeGreaterThan(0)
+    expect(deHeader).toBe('Einstellungen')
+    expect(deHeader).not.toBe(englishHeader)
 
     // 5) Sanity: the persisted preference survives a reload.
     await page.reload()
-    await expect(page.locator('html')).toHaveAttribute('lang', 'fr')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de')
   })
 
   test('plural keys render different numerals in the same locale', async ({ page }) => {
@@ -55,5 +57,17 @@ test.describe('Language switching', () => {
       .toContainText('1 contract')
     await expect(page.locator('[data-testid="i18n-plural-many"]'))
       .toContainText('5 contracts')
+
+    // Switch to German and re-read all three plural forms.
+    // German uses 2 CLDR forms (one | other); count=0 picks the
+    // 'no contracts' form, 1 the singular, 5 the plural.
+    await page.locator('[data-testid="prefs-menu-trigger"]').first().click()
+    await page.locator('[data-testid="lang-picker"]').selectOption('de')
+    await expect(page.locator('[data-testid="i18n-plural-zero"]'))
+      .toContainText('keine Aufträge')
+    await expect(page.locator('[data-testid="i18n-plural-one"]'))
+      .toContainText('1 Auftrag')
+    await expect(page.locator('[data-testid="i18n-plural-many"]'))
+      .toContainText('5 Aufträge')
   })
 })

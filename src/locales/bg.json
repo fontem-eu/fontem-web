@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Метрики за използване на ИИ",
+    "last_24_h": "Последните 24 ч",
+    "last_7_days": "Последните 7 дни",
+    "last_hour": "Последният час"
+  },
+  "about": {
+    "a_45_second_tour": "Обиколка от 45 секунди",
+    "how_it_works": "Как работи",
+    "recently_published": "Наскоро публикувано",
+    "see_all_public_data_stories": "Вижте всички публични данни истории →",
+    "try": "Опитайте:",
+    "walkthrough_searching_a_company_explorin": "Стъпки: търсене на компания, проучване на обществени поръчки и публикуване на история с данни"
+  },
+  "activity": {
+    "loading_activity": "Зареждане на активност...",
+    "sign_in": "Вход",
+    "sign_in_to_see_your_activity": "Влезте, за да видите вашата активност."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Оперативни инструменти, документация на архитектурата и състояние на платформата"
+  },
+  "app": {
+    "activity": "Активност",
+    "admin": "Администрация",
+    "all": "Всички",
+    "cancel": "Отказ",
+    "clear": "Изчисти",
+    "close": "Затвори",
+    "companies_count": "няма компании | 1 компания | {count} компании",
+    "contracts": "Договори",
+    "contracts_count": "няма договори | 1 договор | {count} договора",
+    "contracts_eur": "Договори (EUR)",
+    "description": "Описание",
+    "dismiss": "Затвори",
+    "entity_resolution": "Разрешаване на обекти",
+    "entity_type": "Тип на обекта",
+    "esef": "ESEF",
+    "eu_public_procurement": "Обществени поръчки на ЕС",
+    "filings_by_year": "Подавания по година",
+    "gleif": "GLEIF",
+    "image": "Изображение",
+    "issues": "Проблеми",
+    "language": "Език",
+    "loading": "Зареждане…",
+    "loading_2": "Зареждане...",
+    "loading_story": "Зареждане на история...",
+    "metric": "Метрика",
+    "no_data_available": "Няма налични данни",
+    "no_entity_configured": "Не е конфигуриран обект.",
+    "nuts_level": "Ниво NUTS",
+    "per_year": "Годишно",
+    "privacy": "Поверителност",
+    "raise_an_issue": "Подаване на проблем",
+    "remove": "Премахни",
+    "retry": "Опитай отново",
+    "sanctions": "Санкции",
+    "sign_out": "Изход",
+    "skip_to_main_content": "Преход към основното съдържание",
+    "ted": "TED",
+    "theme": "Тема",
+    "total_value_eur": "Обща стойност (EUR)",
+    "xbrl_field_coverage": "Покритие на XBRL полета (%)"
+  },
+  "app_footer": {
+    "about": "За нас",
+    "data_quality": "Качество на данните",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Източници на данни: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (обществени поръчки на ЕС)",
+    "footer": "Долен колонтитул",
+    "sparql": "SPARQL",
+    "support": "Подкрепа"
+  },
+  "assist": {
+    "accept_all": "Приеми всички",
+    "ai_assist": "ИИ помощник",
+    "ai_assistant": "ИИ асистент",
+    "apply": "Приложи",
+    "ask_about_the_data": "Попитайте за данните...",
+    "clear_chat": "Изчисти чата",
+    "conversations_are_processed_by_an_eu_bas": "Разговорите се обработват от ИИ доставчик, базиран в ЕС.",
+    "embed": "Вграждане",
+    "insert_into_story": "Вмъкни в история",
+    "see_our_privacy_policy": "Вижте нашата политика за поверителност.",
+    "send": "Изпрати"
+  },
+  "atlas": {
+    "atlas": "Атлас",
+    "code": "Код",
+    "colour_scale": "Цветова скала",
+    "coverage": "Покритие",
+    "data_slice": "Срез на данни",
+    "dataset": "Набор от данни",
+    "dataset_metadata": "Метаданни на набора",
+    "distribution_is_right_skewed_log_scale_r": "Разпределението е изместено надясно — препоръчва се логаритмична скала.",
+    "hide_low_coverage_datasets": "Скрий наборите с ниско покритие",
+    "hide_low_coverage_years": "Скрий годините с ниско покритие",
+    "loading_datasets": "Зареждане на набори…",
+    "lock_to_dataset_range": "Заключи към диапазона на набора",
+    "log_scale": "Логаритмична скала",
+    "notes": "Бележки",
+    "time_unit": "Времева единица",
+    "updated": "Актуализирано",
+    "value_scale": "Скала на стойностите"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Отвори в Атлас →"
+  },
+  "balance": {
+    "capital_structure": "Капиталова структура"
+  },
+  "cashflow": {
+    "cash_flow": "Паричен поток"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "По година на отчитане",
+    "cdp_climate_disclosure": "CDP климатично оповестяване",
+    "cdp_scores_and_climate_reporting_score_d": "CDP резултати и климатично отчитане — разпределение и години на отчитане",
+    "score_distribution": "Разпределение на резултати"
+  },
+  "chapter_rail": {
+    "chapters": "Глави",
+    "story_chapters": "Глави на история"
+  },
+  "company_profile": {
+    "company_not_found": "Компанията не е намерена.",
+    "company_profile": "Профил на компания",
+    "loading_company_profile": "Зареждане на профил на компания..."
+  },
+  "connectedness_d_q": {
+    "count": "Брой",
+    "degree_distribution_per_type": "Разпределение на степените по тип",
+    "graph_connectedness": "Свързаност на граф",
+    "isolated": "Изолиран",
+    "isolated_2": "Изолиран %",
+    "max": "Макс.",
+    "mean": "Средна",
+    "median": "Медиана",
+    "min": "Мин.",
+    "per_type_summary": "Резюме по тип"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Неуспешно зареждане на данни за поръчки.",
+    "loading_procurement_data": "Зареждане на данни за поръчки...",
+    "no_eu_public_procurement_data_found_for_": "Няма намерени данни за обществени поръчки на ЕС за тази компания.",
+    "top_authority": "Основен възложител",
+    "top_sector_cpv": "Основен сектор (CPV)",
+    "type": "Тип"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Стойност на договорите във времето (EUR)",
+    "contract_volume_over_time": "Обем на договорите във времето",
+    "contracts_by_country": "Договори по държава",
+    "contracts_by_currency": "Договори по валута",
+    "currency_quality": "Качество на валутата",
+    "eu_public_procurement_awards_volume_cove": "Възлагане на обществени поръчки на ЕС — обем, покритие, качество на валутата",
+    "loading_contract_data": "Зареждане на данни за договори...",
+    "missing_fields_of_contracts": "Липсващи полета (% от договорите)",
+    "ted_contracts": "Договори TED",
+    "total_eur_by_country_top_15": "Общо EUR по държава (Топ 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Приеми",
+    "cookie_consent": "Съгласие за бисквитки",
+    "decline": "Откажи",
+    "learn_more": "Научи повече"
+  },
+  "data_quality": {
+    "about_this_data": "За тези данни",
+    "all_procurement_data_is_sourced_from": "Всички данни за поръчки идват от",
+    "companies_with_lei": "Компании с LEI",
+    "companies_with_vat": "Компании с ДДС",
+    "contract_date_range": "Времеви обхват на договорите",
+    "country": "Държава",
+    "cpv_code": "CPV код",
+    "data_freshness": "Свежест на данните",
+    "data_quality_dashboard": "Табло за качество на данните",
+    "failed_to_load_data_quality_metrics": "Неуспешно зареждане на метрики за качество на данните.",
+    "knowledge_graph": "Граф на знанията",
+    "last_data_load": "Последно зареждане на данни",
+    "loading_metrics": "Зареждане на метрики...",
+    "pending_review_same_as_rarr": "Чака преглед (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Състояние на платформата, покритие на данни и метрики на прозрачност",
+    "procurement_coverage_by_country": "Покритие на поръчки по държава",
+    "procurement_only": "Само поръчки",
+    "relationships": "Връзки",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Топ сектори на поръчки (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Свежест на данните",
+    "data_quality": "Качество на данните",
+    "latest_contract_load": "Последно зареждане на договори",
+    "loading_overview": "Зареждане на преглед..."
+  },
+  "data_view_selector": {
+    "data_view": "Изглед на данни",
+    "gmr_long_tooltip": "Long-Term Value оценява акция за дългосрочно стойностно инвестиране, използвайки 5-годишни средни стойности: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, нетен марж ≥ 15 %, D/E ≤ 1,5, див. доходност ≥ 3,5 %. Разработено от Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Дедупликация",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS опашка — състояние на разрешаване на дублирани обекти",
+    "use_the": "Използвайте"
+  },
+  "donate": {
+    "backers": "Поддръжници",
+    "contribute_rarr": "Дарете &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Даренията преминават през нестопанска fiscal-host организация в",
+    "open_collective": "Open Collective",
+    "support_fontem": "Подкрепете Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Благодаря на всички, които поддържат Fontem жив.",
+    "where_the_money_goes": "Къде отиват парите"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "Финансови отчети на SEC — покритие на XBRL полета и тенденции при подаване",
+    "us_edgar_financials": "Финансови данни US EDGAR"
+  },
+  "entity_mention": {
+    "remove_mention": "Премахни споменаване"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Договори (брой)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Всички маркирани двойки са разрешени.",
+    "different_entities_reject": "Различни обекти — отхвърли",
+    "entity_a": "Обект А",
+    "entity_b": "Обект Б",
+    "failed_to_load_candidates": "Неуспешно зареждане на кандидати.",
+    "keep_as_related": "Запази като свързан",
+    "loading_candidates": "Зареждане на кандидати...",
+    "merge_keep_a_b_is_removed": "Сливане — запази А (Б се премахва)",
+    "merge_keep_b_a_is_removed": "Сливане — запази Б (А се премахва)",
+    "no_pairs_pending_review": "Няма двойки за преглед.",
+    "review_and_decide_on_flagged_candidates": "Преглед и решение по маркирани кандидати",
+    "why_flagged": "Защо е маркиран"
+  },
+  "entity_side": {
+    "entity_details": "Детайли за обекта"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "Финансови данни EU ESEF",
+    "european_financial_statements_xbrl_cover": "Европейски финансови отчети — покритие на XBRL и разпределение по държави",
+    "filings_by_country": "Подавания по държава"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "Cronjob",
+    "duration": "Продължителност",
+    "etl_runs": "ETL изпълнения",
+    "failed": "Неуспех",
+    "recent_cronjob_invocations_from": "Скорошни извиквания на CronJob от",
+    "recent_runs": "Скорошни изпълнения",
+    "refresh": "Обнови",
+    "running": "Изпълнява се",
+    "started": "Започнато",
+    "status": "Състояние:",
+    "status_2": "Състояние",
+    "success": "Успех",
+    "summary": "Резюме"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Проекти на политиката на сближаване на ЕС — финансиране, бенефициенти и географско разпределение",
+    "eu_knowledge_graph": "Граф на знанията на ЕС",
+    "projects_by_country_top_15": "Проекти по държава (Топ 15)",
+    "projects_by_fund_top_10": "Проекти по фонд (Топ 10)"
+  },
+  "explore": {
+    "explore": "Разгледай"
+  },
+  "feed": {
+    "clear_filter": "Изчисти филтър",
+    "feed": "Поток",
+    "filtering_by": "Филтриране по",
+    "loading_feed": "Зареждане на поток...",
+    "public_data_stories_from_the_community_n": "Публични истории с данни от общността, най-новите първи."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "По тип инструмент",
+    "esma_financial_instruments_reference_dat": "Референтни данни за финансови инструменти на ESMA — покритие на ISIN, типове инструменти, места за търговия",
+    "firds_instruments": "Инструменти FIRDS",
+    "top_trading_venues_mic": "Топ места за търговия (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Геоизследовател"
+  },
+  "geo_choropleth": {
+    "companies": "Компании",
+    "connected_to_3": "Свързан с (α-3)",
+    "parent_nuts_1": "Родителски NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Компании по държава (Топ 30)",
+    "gleif_companies": "Компании GLEIF",
+    "global_lei_directory_entity_identificati": "Глобален LEI указател — идентификация на обекти и корпоративна структура"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Графът не може да бъде зареден",
+    "depth": "Дълбочина",
+    "exit_fullscreen": "Изход от цял екран",
+    "expanding_node": "Разширяване на възел...",
+    "export": "Експорт",
+    "filter": "Филтър…",
+    "find_path_to": "Намери път до",
+    "finding_paths": "Търсене на пътища...",
+    "fullscreen": "Цял екран",
+    "go_to_profile": "Към профила",
+    "json": "JSON",
+    "loading_graph": "Зареждане на граф...",
+    "more_options": "Още опции",
+    "no_connections_found_for_this_entity": "Не са намерени връзки за този обект.",
+    "no_paths_found_between_these_entities": "Не са намерени пътища между тези обекти.",
+    "path_to": "Път до",
+    "period": "Период",
+    "png": "PNG",
+    "save_view": "Запази изглед",
+    "search_entity_name": "Търсене на име на обект...",
+    "set_as_center": "Задади като център",
+    "summary_edges": "Обобщени ръбове",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Приходи &amp; нетен доход"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Кратко резюме на проблема",
+    "describe_the_issue_in_detail_markdown_su": "Опишете проблема подробно (Markdown поддържан)",
+    "entity_id": "ID на обект",
+    "issue_type": "Тип проблем",
+    "title": "Заглавие"
+  },
+  "issue_detail": {
+    "add_a_comment": "Добавете коментар...",
+    "loading_issue": "Зареждане на проблем...",
+    "no_comments_yet": "Все още няма коментари.",
+    "reject": "Отхвърли",
+    "resolve": "Реши"
+  },
+  "issues": {
+    "loading_issues": "Зареждане на проблеми...",
+    "no_issues_found": "Не са намерени проблеми."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Регистър на лобирането на ЕС",
+    "lobbying_cost_distribution": "Разпределение на разходите за лобиране",
+    "registrations_over_time": "Регистрации във времето",
+    "top_countries": "Топ държави",
+    "transparency_register_lobbyist_registrat": "Регистър за прозрачност — регистрации на лобисти, достъп до ЕП, разходи"
+  },
+  "login": {
+    "go_to_home": "Към началната",
+    "you_already_have_an_active_session": "Вече имате активна сесия.",
+    "youre_signed_in": "Вие сте влезли"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Споменавания на обекти",
+    "searching": "Търсене…"
+  },
+  "moderation": {
+    "flagged_content": "Маркирано съдържание",
+    "moderation": "Модерация",
+    "moderation_log": "Лог на модерация",
+    "no_flagged_content": "Няма маркирано съдържание.",
+    "no_moderation_actions_yet": "Все още няма действия по модерация.",
+    "review_flagged_content_and_moderation_hi": "Преглед на маркирано съдържание и история на модерация"
+  },
+  "multi_select": {
+    "none": "Няма"
+  },
+  "my_reports": {
+    "loading_stories": "Зареждане на истории...",
+    "my_stories": "Моите истории",
+    "no_stories_yet_start_your_first_one_abov": "Все още няма истории. Започнете първата отгоре.",
+    "or_read_recent_public_stories": "Или прочетете последни публични истории →"
+  },
+  "not_found": {
+    "back_to_home": "Към началната страница",
+    "page_not_found": "Страницата не е намерена",
+    "the_page_youre_looking_for_doesnt_exist_": "Страницата, която търсите, не съществува или е преместена."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Класификация NUTS на Евростат — географско покритие на компании и органи",
+    "nuts_regions": "NUTS региони",
+    "regions_by_level": "Региони по ниво",
+    "top_nuts_0_regions_by_company_count": "Топ NUTS 0 региони по брой компании"
+  },
+  "overview_d_q": {
+    "cohesion": "Сближаване",
+    "country_code_consistency": "Съгласуваност на кодовете на държавите",
+    "cross_source_overlap": "Припокриване между източници",
+    "cross_source_overlap_country_code_consis": "Припокриване между източници, съгласуваност на кодовете и пълнота на полета във всички източници",
+    "data_quality_overview": "Преглед на качеството на данните",
+    "listings": "Котировки",
+    "lobby": "Лоби",
+    "top_alpha_2_codes": "Топ Alpha-2 кодове"
+  },
+  "pocket_button": {
+    "save": "Запази",
+    "save_to_pocket": "Запази в Pocket"
+  },
+  "preferences_menu": {
+    "account": "Профил",
+    "ai_usage": "Използване на ИИ",
+    "atlas_palette": "Палитра на Атлас",
+    "display": "Показване",
+    "preferences": "Настройки"
+  },
+  "privacy": {
+    "access": "Достъп",
+    "all_data_in_the_fontem_knowledge_graph_r": "Всички данни в графа на знанията на Fontem се отнасят до",
+    "conversation_processing_is_performed_by_": "Обработката на разговорите се извършва от доставчици на ИИ, базирани в ЕС.",
+    "conversations_are_automatically_deleted_": "Разговорите се изтриват автоматично след 90 дни.",
+    "erase": "Изтриване",
+    "eu_consolidated_sanctions_list": "Консолидиран санкционен списък на ЕС",
+    "eu_transparency_register": "Регистър за прозрачност на ЕС",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Последна актуализация: април 2026",
+    "legal_basis": "Правно основание:",
+    "no_personal_data_of_individuals_is_store": "В графа на знанията не се съхраняват лични данни на физически лица.",
+    "port": "Преносимост",
+    "privacy_policy": "Политика за поверителност",
+    "rectify": "Корекция",
+    "to_exercise_any_of_these_rights_contact_": "За упражняване на тези права се свържете с нас на",
+    "under_the_gdpr_you_have_the_right_to": "Съгласно GDPR имате право:",
+    "when_you_sign_in_we_collect_and_store": "При вход събираме и съхраняваме:",
+    "your": "Вашите"
+  },
+  "profile": {
+    "avg_net_margin": "Средна нетна марж",
+    "avg_roe": "Средна ROE",
+    "corporate_group": "Корпоративна група",
+    "current_price": "Текуща цена",
+    "directors_amp_officers": "Директори &amp; ръководители",
+    "financial_overview": "Финансов преглед",
+    "market_cap": "Пазарна капитализация",
+    "part_of": "Част от"
+  },
+  "public_spending": {
+    "public_spending": "Публични разходи"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Позиция в карусел",
+    "recently_published_data_stories": "Наскоро публикувани истории с данни"
+  },
+  "report": {
+    "edit": "Редактирай"
+  },
+  "report_editor": {
+    "brief_abstract": "Кратко резюме...",
+    "private_only_me": "Частно — само аз",
+    "public_anyone": "Публично — всеки",
+    "signed_in_users": "Влезли потребители",
+    "story_title": "Заглавие на история"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Санкционирани обекти — лица, организации, покритие на режима и съответствие на компании",
+    "top_sanction_regimes": "Топ санкционни режими"
+  },
+  "share": {
+    "add": "Добави",
+    "add_group": "Добави група",
+    "add_person": "Добави лице",
+    "collaborators": "Сътрудници",
+    "email_address": "Имейл адрес",
+    "group_name": "Име на групата",
+    "no_collaborators_yet": "Все още няма сътрудници.",
+    "share_story": "Сподели история",
+    "visibility": "Видимост"
+  },
+  "sparql": {
+    "endpoint": "Крайна точка",
+    "endpoint_url": "URL на крайната точка",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Лимити",
+    "method": "Метод",
+    "post": "POST",
+    "query_failed": "Заявката не успя:",
+    "response": "Отговор",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON обвивка на резултатите:",
+    "sparql_endpoint": "SPARQL крайна точка",
+    "try_a_query": "Опитай заявка"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Блок цитат",
+    "bold_b": "Удебелено (⌘B)",
+    "bullet_list": "Списък с водещи знаци",
+    "code_block": "Блок код",
+    "divider": "Разделител",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Заглавие 1",
+    "heading_2": "Заглавие 2",
+    "heading_3": "Заглавие 3",
+    "inline_code": "Вграден код",
+    "italic_i": "Курсив (⌘I)",
+    "link": "Връзка",
+    "numbered_list": "Номериран списък",
+    "strikethrough": "Зачертано",
+    "table": "Таблица",
+    "underline_u": "Подчертано (⌘U)",
+    "widget_from_pocket": "Уиджет от Pocket"
+  },
+  "summary": {
+    "vol": "Об."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Премахни лявата колона"
+  },
+  "tag_editor": {
+    "tags": "Етикети"
+  },
+  "ticker_card": {
+    "authority": "Власт",
+    "company": "Компания",
+    "person": "Лице"
+  },
+  "ticker_financials": {
+    "close_financials": "Затвори финансовите данни",
+    "history": "История",
+    "taking_longer_than_expected": "Отнема повече време от очакваното…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Не са намерени тикери за &ldquo;",
+    "search_companies_public_entities_lobbyis": "Търсене на компании, публични субекти, лобисти…",
+    "search_results": "Резултати от търсенето",
+    "search_the_knowledge_graph": "Търсене в графа на знанията"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Материализирани търговски отношения власт-компания от договори",
+    "trade_edges": "Търговски ребра",
+    "trade_edges_are_materialized_from_contra": "Търговските ребра се материализират от данните на договорите. Стартирай"
+  },
+  "triples_d_q": {
+    "chart_view": "Изглед на графика",
+    "click_a_graph_to_inspect_its_class_and_p": "Кликнете на граф, за да видите разпределението по класове и предикати.",
+    "no": "Не",
+    "no_triples_in_this_graph": "Няма тройки в този граф.",
+    "top_classes": "Топ класове",
+    "top_predicates": "Топ предикати",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Тройки на именуван граф",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso не е конфигуриран в тази среда",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Средни стойности"
+  },
+  "widget_node": {
+    "remove_widget": "Премахни уиджет"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Неизвестен тип уиджет:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}

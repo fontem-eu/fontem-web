@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Μετρικές χρήσης AI",
+    "last_24_h": "Τελευταίες 24 ώ",
+    "last_7_days": "Τελευταίες 7 ημέρες",
+    "last_hour": "Τελευταία ώρα"
+  },
+  "about": {
+    "a_45_second_tour": "Μια ξενάγηση 45 δευτερολέπτων",
+    "how_it_works": "Πώς λειτουργεί",
+    "recently_published": "Πρόσφατα δημοσιευμένα",
+    "see_all_public_data_stories": "Δείτε όλες τις δημόσιες ιστορίες δεδομένων →",
+    "try": "Δοκιμάστε:",
+    "walkthrough_searching_a_company_explorin": "Οδηγός: αναζήτηση εταιρείας, εξερεύνηση συμβάσεων και δημοσίευση ιστορίας δεδομένων"
+  },
+  "activity": {
+    "loading_activity": "Φόρτωση δραστηριότητας...",
+    "sign_in": "Σύνδεση",
+    "sign_in_to_see_your_activity": "Συνδεθείτε για να δείτε τη δραστηριότητά σας."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Λειτουργικά εργαλεία, τεκμηρίωση αρχιτεκτονικής και κατάσταση πλατφόρμας"
+  },
+  "app": {
+    "activity": "Δραστηριότητα",
+    "admin": "Διαχείριση",
+    "all": "Όλα",
+    "cancel": "Ακύρωση",
+    "clear": "Καθαρισμός",
+    "close": "Κλείσιμο",
+    "companies_count": "καμία εταιρεία | 1 εταιρεία | {count} εταιρείες",
+    "contracts": "Συμβάσεις",
+    "contracts_count": "καμία σύμβαση | 1 σύμβαση | {count} συμβάσεις",
+    "contracts_eur": "Συμβάσεις (EUR)",
+    "description": "Περιγραφή",
+    "dismiss": "Απόρριψη",
+    "entity_resolution": "Επίλυση οντοτήτων",
+    "entity_type": "Τύπος οντότητας",
+    "esef": "ESEF",
+    "eu_public_procurement": "Δημόσιες συμβάσεις ΕΕ",
+    "filings_by_year": "Υποβολές ανά έτος",
+    "gleif": "GLEIF",
+    "image": "Εικόνα",
+    "issues": "Θέματα",
+    "language": "Γλώσσα",
+    "loading": "Φόρτωση…",
+    "loading_2": "Φόρτωση...",
+    "loading_story": "Φόρτωση ιστορίας...",
+    "metric": "Μετρική",
+    "no_data_available": "Δεν υπάρχουν διαθέσιμα δεδομένα",
+    "no_entity_configured": "Δεν έχει διαμορφωθεί οντότητα.",
+    "nuts_level": "Επίπεδο NUTS",
+    "per_year": "Ανά έτος",
+    "privacy": "Απόρρητο",
+    "raise_an_issue": "Αναφορά προβλήματος",
+    "remove": "Αφαίρεση",
+    "retry": "Επανάληψη",
+    "sanctions": "Κυρώσεις",
+    "sign_out": "Αποσύνδεση",
+    "skip_to_main_content": "Μετάβαση στο κύριο περιεχόμενο",
+    "ted": "TED",
+    "theme": "Θέμα",
+    "total_value_eur": "Συνολική αξία (EUR)",
+    "xbrl_field_coverage": "Κάλυψη πεδίων XBRL (%)"
+  },
+  "app_footer": {
+    "about": "Σχετικά",
+    "data_quality": "Ποιότητα δεδομένων",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Πηγές δεδομένων: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (δημόσιες συμβάσεις ΕΕ)",
+    "footer": "Υποσέλιδο",
+    "sparql": "SPARQL",
+    "support": "Υποστήριξη"
+  },
+  "assist": {
+    "accept_all": "Αποδοχή όλων",
+    "ai_assist": "Βοηθός AI",
+    "ai_assistant": "Βοηθός AI",
+    "apply": "Εφαρμογή",
+    "ask_about_the_data": "Ρωτήστε για τα δεδομένα...",
+    "clear_chat": "Καθαρισμός συνομιλίας",
+    "conversations_are_processed_by_an_eu_bas": "Οι συνομιλίες επεξεργάζονται από πάροχο AI εδρεύοντα στην ΕΕ.",
+    "embed": "Ενσωμάτωση",
+    "insert_into_story": "Εισαγωγή στην ιστορία",
+    "see_our_privacy_policy": "Δείτε την πολιτική απορρήτου μας.",
+    "send": "Αποστολή"
+  },
+  "atlas": {
+    "atlas": "Άτλας",
+    "code": "Κωδικός",
+    "colour_scale": "Χρωματική κλίμακα",
+    "coverage": "Κάλυψη",
+    "data_slice": "Τμήμα δεδομένων",
+    "dataset": "Σύνολο δεδομένων",
+    "dataset_metadata": "Μεταδεδομένα συνόλου",
+    "distribution_is_right_skewed_log_scale_r": "Η κατανομή είναι δεξιόστροφη — συνιστάται λογαριθμική κλίμακα.",
+    "hide_low_coverage_datasets": "Απόκρυψη συνόλων με χαμηλή κάλυψη",
+    "hide_low_coverage_years": "Απόκρυψη ετών με χαμηλή κάλυψη",
+    "loading_datasets": "Φόρτωση συνόλων δεδομένων…",
+    "lock_to_dataset_range": "Κλείδωμα στο εύρος του συνόλου",
+    "log_scale": "Λογαριθμική κλίμακα",
+    "notes": "Σημειώσεις",
+    "time_unit": "Μονάδα χρόνου",
+    "updated": "Ενημερώθηκε",
+    "value_scale": "Κλίμακα αξίας"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Άνοιγμα στον Άτλαντα →"
+  },
+  "balance": {
+    "capital_structure": "Κεφαλαιακή διάρθρωση"
+  },
+  "cashflow": {
+    "cash_flow": "Ταμειακή ροή"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Ανά έτος αναφοράς",
+    "cdp_climate_disclosure": "Κλιματική κοινοποίηση CDP",
+    "cdp_scores_and_climate_reporting_score_d": "Βαθμολογίες CDP και κλιματική αναφορά — κατανομή βαθμολογίας και έτη αναφοράς",
+    "score_distribution": "Κατανομή βαθμολογίας"
+  },
+  "chapter_rail": {
+    "chapters": "Κεφάλαια",
+    "story_chapters": "Κεφάλαια ιστορίας"
+  },
+  "company_profile": {
+    "company_not_found": "Η εταιρεία δεν βρέθηκε.",
+    "company_profile": "Προφίλ εταιρείας",
+    "loading_company_profile": "Φόρτωση προφίλ εταιρείας..."
+  },
+  "connectedness_d_q": {
+    "count": "Αριθμός",
+    "degree_distribution_per_type": "Κατανομή βαθμών ανά τύπο",
+    "graph_connectedness": "Συνδεσιμότητα γράφου",
+    "isolated": "Απομονωμένο",
+    "isolated_2": "Απομονωμένο %",
+    "max": "Μέγ.",
+    "mean": "Μ.Ο.",
+    "median": "Διάμεσος",
+    "min": "Ελάχ.",
+    "per_type_summary": "Σύνοψη ανά τύπο"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Αποτυχία φόρτωσης δεδομένων συμβάσεων.",
+    "loading_procurement_data": "Φόρτωση δεδομένων συμβάσεων...",
+    "no_eu_public_procurement_data_found_for_": "Δεν βρέθηκαν δεδομένα δημόσιων συμβάσεων ΕΕ για αυτή την εταιρεία.",
+    "top_authority": "Κύρια αναθέτουσα αρχή",
+    "top_sector_cpv": "Κύριος τομέας (CPV)",
+    "type": "Τύπος"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Αξία σύμβασης στο χρόνο (EUR)",
+    "contract_volume_over_time": "Όγκος συμβάσεων στο χρόνο",
+    "contracts_by_country": "Συμβάσεις ανά χώρα",
+    "contracts_by_currency": "Συμβάσεις ανά νόμισμα",
+    "currency_quality": "Ποιότητα νομίσματος",
+    "eu_public_procurement_awards_volume_cove": "Αναθέσεις δημόσιων συμβάσεων ΕΕ — όγκος, κάλυψη, ποιότητα νομίσματος",
+    "loading_contract_data": "Φόρτωση δεδομένων σύμβασης...",
+    "missing_fields_of_contracts": "Πεδία που λείπουν (% συμβάσεων)",
+    "ted_contracts": "Συμβάσεις TED",
+    "total_eur_by_country_top_15": "Σύνολο EUR ανά χώρα (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Αποδοχή",
+    "cookie_consent": "Συγκατάθεση cookies",
+    "decline": "Απόρριψη",
+    "learn_more": "Μάθετε περισσότερα"
+  },
+  "data_quality": {
+    "about_this_data": "Σχετικά με αυτά τα δεδομένα",
+    "all_procurement_data_is_sourced_from": "Όλα τα δεδομένα συμβάσεων προέρχονται από",
+    "companies_with_lei": "Εταιρείες με LEI",
+    "companies_with_vat": "Εταιρείες με ΑΦΜ",
+    "contract_date_range": "Εύρος ημερομηνιών συμβάσεων",
+    "country": "Χώρα",
+    "cpv_code": "Κωδικός CPV",
+    "data_freshness": "Φρεσκάδα δεδομένων",
+    "data_quality_dashboard": "Πίνακας ποιότητας δεδομένων",
+    "failed_to_load_data_quality_metrics": "Αποτυχία φόρτωσης μετρικών ποιότητας δεδομένων.",
+    "knowledge_graph": "Γράφος γνώσης",
+    "last_data_load": "Τελευταία φόρτωση δεδομένων",
+    "loading_metrics": "Φόρτωση μετρικών...",
+    "pending_review_same_as_rarr": "Εκκρεμεί έλεγχος (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Κατάσταση πλατφόρμας, κάλυψη δεδομένων και μετρικές διαφάνειας",
+    "procurement_coverage_by_country": "Κάλυψη συμβάσεων ανά χώρα",
+    "procurement_only": "Μόνο συμβάσεις",
+    "relationships": "Σχέσεις",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Κορυφαίοι τομείς συμβάσεων (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Φρεσκάδα δεδομένων",
+    "data_quality": "Ποιότητα δεδομένων",
+    "latest_contract_load": "Τελευταία φόρτωση συμβάσεων",
+    "loading_overview": "Φόρτωση επισκόπησης..."
+  },
+  "data_view_selector": {
+    "data_view": "Προβολή δεδομένων",
+    "gmr_long_tooltip": "Το Long-Term Value αξιολογεί μια μετοχή για μακροπρόθεσμη value-επένδυση χρησιμοποιώντας μέσους όρους 5ετίας: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, καθαρό περιθώριο ≥ 15 %, D/E ≤ 1,5, μερισματική απόδοση ≥ 3,5 %. Αναπτύχθηκε από τον Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Απαλοιφή διπλοτύπων",
+    "same_as_queue_duplicate_entity_resolutio": "Ουρά SAME_AS — κατάσταση επίλυσης διπλών οντοτήτων",
+    "use_the": "Χρησιμοποιήστε το"
+  },
+  "donate": {
+    "backers": "Υποστηρικτές",
+    "contribute_rarr": "Συνεισφορά &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Οι δωρεές διέρχονται από fiscal-host μη κερδοσκοπικό φορέα στο",
+    "open_collective": "Open Collective",
+    "support_fontem": "Υποστηρίξτε το Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Ευχαριστούμε όλους όσοι κρατούν ζωντανό το Fontem.",
+    "where_the_money_goes": "Πού πηγαίνουν τα χρήματα"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "Οικονομικές καταστάσεις SEC — κάλυψη πεδίων XBRL και τάσεις υποβολών",
+    "us_edgar_financials": "Οικονομικά US EDGAR"
+  },
+  "entity_mention": {
+    "remove_mention": "Αφαίρεση αναφοράς"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Συμβάσεις (πλήθος)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Όλα τα επισημασμένα ζεύγη έχουν επιλυθεί.",
+    "different_entities_reject": "Διαφορετικές οντότητες — απόρριψη",
+    "entity_a": "Οντότητα Α",
+    "entity_b": "Οντότητα Β",
+    "failed_to_load_candidates": "Αποτυχία φόρτωσης υποψηφίων.",
+    "keep_as_related": "Διατήρηση ως σχετικού",
+    "loading_candidates": "Φόρτωση υποψηφίων...",
+    "merge_keep_a_b_is_removed": "Συγχώνευση — κρατήστε Α (το Β αφαιρείται)",
+    "merge_keep_b_a_is_removed": "Συγχώνευση — κρατήστε Β (το Α αφαιρείται)",
+    "no_pairs_pending_review": "Δεν εκκρεμούν ζεύγη προς έλεγχο.",
+    "review_and_decide_on_flagged_candidates": "Έλεγχος και απόφαση για επισημασμένους υποψηφίους",
+    "why_flagged": "Γιατί επισημάνθηκε"
+  },
+  "entity_side": {
+    "entity_details": "Λεπτομέρειες οντότητας"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "Οικονομικά EU ESEF",
+    "european_financial_statements_xbrl_cover": "Ευρωπαϊκές οικονομικές καταστάσεις — κάλυψη XBRL και κατανομή ανά χώρα",
+    "filings_by_country": "Υποβολές ανά χώρα"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "Cronjob",
+    "duration": "Διάρκεια",
+    "etl_runs": "Εκτελέσεις ETL",
+    "failed": "Απέτυχε",
+    "recent_cronjob_invocations_from": "Πρόσφατες κλήσεις CronJob από",
+    "recent_runs": "Πρόσφατες εκτελέσεις",
+    "refresh": "Ανανέωση",
+    "running": "Εκτελείται",
+    "started": "Ξεκίνησε",
+    "status": "Κατάσταση:",
+    "status_2": "Κατάσταση",
+    "success": "Επιτυχία",
+    "summary": "Σύνοψη"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Έργα πολιτικής συνοχής ΕΕ — χρηματοδότηση, δικαιούχοι και γεωγραφική κατανομή",
+    "eu_knowledge_graph": "Γράφος γνώσης ΕΕ",
+    "projects_by_country_top_15": "Έργα ανά χώρα (Top 15)",
+    "projects_by_fund_top_10": "Έργα ανά ταμείο (Top 10)"
+  },
+  "explore": {
+    "explore": "Εξερεύνηση"
+  },
+  "feed": {
+    "clear_filter": "Καθαρισμός φίλτρου",
+    "feed": "Ροή",
+    "filtering_by": "Φιλτράρισμα κατά",
+    "loading_feed": "Φόρτωση ροής...",
+    "public_data_stories_from_the_community_n": "Δημόσιες ιστορίες δεδομένων από την κοινότητα, νεότερες πρώτα."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Ανά τύπο μέσου",
+    "esma_financial_instruments_reference_dat": "Δεδομένα αναφοράς χρηματοπιστωτικών μέσων ESMA — κάλυψη ISIN, τύποι μέσων, τόποι διαπραγμάτευσης",
+    "firds_instruments": "Μέσα FIRDS",
+    "top_trading_venues_mic": "Κορυφαίοι τόποι διαπραγμάτευσης (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Γεωγραφικός εξερευνητής"
+  },
+  "geo_choropleth": {
+    "companies": "Εταιρείες",
+    "connected_to_3": "Συνδεδεμένο με (α-3)",
+    "parent_nuts_1": "Γονικό NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Εταιρείες ανά χώρα (Top 30)",
+    "gleif_companies": "Εταιρείες GLEIF",
+    "global_lei_directory_entity_identificati": "Παγκόσμιος κατάλογος LEI — αναγνώριση οντοτήτων και εταιρική δομή"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Δεν ήταν δυνατή η φόρτωση του γράφου",
+    "depth": "Βάθος",
+    "exit_fullscreen": "Έξοδος πλήρους οθόνης",
+    "expanding_node": "Επέκταση κόμβου...",
+    "export": "Εξαγωγή",
+    "filter": "Φίλτρο…",
+    "find_path_to": "Εύρεση διαδρομής προς",
+    "finding_paths": "Εύρεση διαδρομών...",
+    "fullscreen": "Πλήρης οθόνη",
+    "go_to_profile": "Μετάβαση στο προφίλ",
+    "json": "JSON",
+    "loading_graph": "Φόρτωση γράφου...",
+    "more_options": "Περισσότερες επιλογές",
+    "no_connections_found_for_this_entity": "Δεν βρέθηκαν συνδέσεις για αυτή την οντότητα.",
+    "no_paths_found_between_these_entities": "Δεν βρέθηκαν διαδρομές μεταξύ αυτών των οντοτήτων.",
+    "path_to": "Διαδρομή προς",
+    "period": "Περίοδος",
+    "png": "PNG",
+    "save_view": "Αποθήκευση προβολής",
+    "search_entity_name": "Αναζήτηση ονόματος οντότητας...",
+    "set_as_center": "Ορισμός ως κέντρου",
+    "summary_edges": "Συνοπτικές ακμές",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Έσοδα &amp; καθαρό εισόδημα"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Σύντομη περίληψη του προβλήματος",
+    "describe_the_issue_in_detail_markdown_su": "Περιγράψτε το πρόβλημα αναλυτικά (Markdown υποστηρίζεται)",
+    "entity_id": "ID οντότητας",
+    "issue_type": "Τύπος προβλήματος",
+    "title": "Τίτλος"
+  },
+  "issue_detail": {
+    "add_a_comment": "Προσθέστε σχόλιο...",
+    "loading_issue": "Φόρτωση προβλήματος...",
+    "no_comments_yet": "Δεν υπάρχουν σχόλια ακόμα.",
+    "reject": "Απόρριψη",
+    "resolve": "Επίλυση"
+  },
+  "issues": {
+    "loading_issues": "Φόρτωση προβλημάτων...",
+    "no_issues_found": "Δεν βρέθηκαν προβλήματα."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Μητρώο λόμπι ΕΕ",
+    "lobbying_cost_distribution": "Κατανομή κόστους λόμπι",
+    "registrations_over_time": "Εγγραφές στο χρόνο",
+    "top_countries": "Κορυφαίες χώρες",
+    "transparency_register_lobbyist_registrat": "Μητρώο διαφάνειας — εγγραφές λομπίστες, πρόσβαση στο ΕΚ, δαπάνες"
+  },
+  "login": {
+    "go_to_home": "Στην αρχική",
+    "you_already_have_an_active_session": "Έχετε ήδη ενεργή συνεδρία.",
+    "youre_signed_in": "Έχετε συνδεθεί"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Αναφορές οντοτήτων",
+    "searching": "Αναζήτηση…"
+  },
+  "moderation": {
+    "flagged_content": "Επισημασμένο περιεχόμενο",
+    "moderation": "Συντονισμός",
+    "moderation_log": "Αρχείο συντονισμού",
+    "no_flagged_content": "Δεν υπάρχει επισημασμένο περιεχόμενο.",
+    "no_moderation_actions_yet": "Δεν υπάρχουν ενέργειες συντονισμού ακόμα.",
+    "review_flagged_content_and_moderation_hi": "Έλεγχος επισημασμένου περιεχομένου και ιστορικού συντονισμού"
+  },
+  "multi_select": {
+    "none": "Κανένα"
+  },
+  "my_reports": {
+    "loading_stories": "Φόρτωση ιστοριών...",
+    "my_stories": "Οι ιστορίες μου",
+    "no_stories_yet_start_your_first_one_abov": "Δεν υπάρχουν ιστορίες ακόμα. Ξεκινήστε την πρώτη παραπάνω.",
+    "or_read_recent_public_stories": "Ή διαβάστε πρόσφατες δημόσιες ιστορίες →"
+  },
+  "not_found": {
+    "back_to_home": "Επιστροφή στην αρχική",
+    "page_not_found": "Η σελίδα δεν βρέθηκε",
+    "the_page_youre_looking_for_doesnt_exist_": "Η σελίδα που ψάχνετε δεν υπάρχει ή έχει μετακινηθεί."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Ταξινόμηση Eurostat NUTS — γεωγραφική κάλυψη εταιρειών και αρχών",
+    "nuts_regions": "Περιφέρειες NUTS",
+    "regions_by_level": "Περιφέρειες ανά επίπεδο",
+    "top_nuts_0_regions_by_company_count": "Κορυφαίες περιφέρειες NUTS 0 ανά αριθμό εταιρειών"
+  },
+  "overview_d_q": {
+    "cohesion": "Συνοχή",
+    "country_code_consistency": "Συνέπεια κωδικών χωρών",
+    "cross_source_overlap": "Επικάλυψη μεταξύ πηγών",
+    "cross_source_overlap_country_code_consis": "Επικάλυψη μεταξύ πηγών, συνέπεια κωδικών χωρών και πληρότητα πεδίων σε όλες τις πηγές",
+    "data_quality_overview": "Επισκόπηση ποιότητας δεδομένων",
+    "listings": "Εισαγωγές",
+    "lobby": "Λόμπι",
+    "top_alpha_2_codes": "Κορυφαίοι κωδικοί Alpha-2"
+  },
+  "pocket_button": {
+    "save": "Αποθήκευση",
+    "save_to_pocket": "Αποθήκευση στο Pocket"
+  },
+  "preferences_menu": {
+    "account": "Λογαριασμός",
+    "ai_usage": "Χρήση AI",
+    "atlas_palette": "Παλέτα Άτλαντα",
+    "display": "Εμφάνιση",
+    "preferences": "Προτιμήσεις"
+  },
+  "privacy": {
+    "access": "Πρόσβαση",
+    "all_data_in_the_fontem_knowledge_graph_r": "Όλα τα δεδομένα στον γράφο γνώσης του Fontem αφορούν",
+    "conversation_processing_is_performed_by_": "Η επεξεργασία συνομιλιών εκτελείται από παρόχους AI εδρεύοντες στην ΕΕ.",
+    "conversations_are_automatically_deleted_": "Οι συνομιλίες διαγράφονται αυτόματα μετά από 90 ημέρες.",
+    "erase": "Διαγραφή",
+    "eu_consolidated_sanctions_list": "Ενοποιημένη λίστα κυρώσεων ΕΕ",
+    "eu_transparency_register": "Μητρώο διαφάνειας ΕΕ",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Τελευταία ενημέρωση: Απρίλιος 2026",
+    "legal_basis": "Νομική βάση:",
+    "no_personal_data_of_individuals_is_store": "Δεν αποθηκεύονται προσωπικά δεδομένα φυσικών προσώπων στον γράφο γνώσης.",
+    "port": "Φορητότητα",
+    "privacy_policy": "Πολιτική απορρήτου",
+    "rectify": "Διόρθωση",
+    "to_exercise_any_of_these_rights_contact_": "Για την άσκηση αυτών των δικαιωμάτων επικοινωνήστε μαζί μας στο",
+    "under_the_gdpr_you_have_the_right_to": "Υπό το GDPR έχετε δικαίωμα:",
+    "when_you_sign_in_we_collect_and_store": "Όταν συνδέεστε, συλλέγουμε και αποθηκεύουμε:",
+    "your": "Σας"
+  },
+  "profile": {
+    "avg_net_margin": "Μ.Ο. καθαρού περιθωρίου",
+    "avg_roe": "Μ.Ο. ROE",
+    "corporate_group": "Εταιρικός όμιλος",
+    "current_price": "Τρέχουσα τιμή",
+    "directors_amp_officers": "Διευθυντές &amp; στελέχη",
+    "financial_overview": "Οικονομική επισκόπηση",
+    "market_cap": "Χρηματιστηριακή αξία",
+    "part_of": "Μέρος του"
+  },
+  "public_spending": {
+    "public_spending": "Δημόσιες δαπάνες"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Θέση στο carousel",
+    "recently_published_data_stories": "Πρόσφατα δημοσιευμένες ιστορίες δεδομένων"
+  },
+  "report": {
+    "edit": "Επεξεργασία"
+  },
+  "report_editor": {
+    "brief_abstract": "Σύντομη περίληψη...",
+    "private_only_me": "Ιδιωτικό — μόνο εγώ",
+    "public_anyone": "Δημόσιο — οποιοσδήποτε",
+    "signed_in_users": "Συνδεδεμένοι χρήστες",
+    "story_title": "Τίτλος ιστορίας"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Οντότητες υπό κυρώσεις — πρόσωπα, οργανισμοί, κάλυψη καθεστώτος και αντιστοίχιση εταιρειών",
+    "top_sanction_regimes": "Κορυφαία καθεστώτα κυρώσεων"
+  },
+  "share": {
+    "add": "Προσθήκη",
+    "add_group": "Προσθήκη ομάδας",
+    "add_person": "Προσθήκη ατόμου",
+    "collaborators": "Συνεργάτες",
+    "email_address": "Διεύθυνση email",
+    "group_name": "Όνομα ομάδας",
+    "no_collaborators_yet": "Δεν υπάρχουν συνεργάτες ακόμα.",
+    "share_story": "Κοινοποίηση ιστορίας",
+    "visibility": "Ορατότητα"
+  },
+  "sparql": {
+    "endpoint": "Endpoint",
+    "endpoint_url": "URL endpoint",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Όρια",
+    "method": "Μέθοδος",
+    "post": "POST",
+    "query_failed": "Το ερώτημα απέτυχε:",
+    "response": "Απόκριση",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON envelope αποτελεσμάτων:",
+    "sparql_endpoint": "SPARQL endpoint",
+    "try_a_query": "Δοκιμάστε ένα ερώτημα"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Παράθεμα",
+    "bold_b": "Έντονα (⌘B)",
+    "bullet_list": "Λίστα με κουκκίδες",
+    "code_block": "Μπλοκ κώδικα",
+    "divider": "Διαχωριστικό",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Επικεφαλίδα 1",
+    "heading_2": "Επικεφαλίδα 2",
+    "heading_3": "Επικεφαλίδα 3",
+    "inline_code": "Inline κώδικας",
+    "italic_i": "Πλάγια (⌘I)",
+    "link": "Σύνδεσμος",
+    "numbered_list": "Αριθμημένη λίστα",
+    "strikethrough": "Διαγραμμένα",
+    "table": "Πίνακας",
+    "underline_u": "Υπογραμμισμένα (⌘U)",
+    "widget_from_pocket": "Widget από Pocket"
+  },
+  "summary": {
+    "vol": "Όγκ."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Αφαίρεση αριστερής στήλης"
+  },
+  "tag_editor": {
+    "tags": "Ετικέτες"
+  },
+  "ticker_card": {
+    "authority": "Αρχή",
+    "company": "Εταιρεία",
+    "person": "Άτομο"
+  },
+  "ticker_financials": {
+    "close_financials": "Κλείσιμο οικονομικών",
+    "history": "Ιστορικό",
+    "taking_longer_than_expected": "Διαρκεί περισσότερο από το αναμενόμενο…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Δεν βρέθηκαν tickers για &ldquo;",
+    "search_companies_public_entities_lobbyis": "Αναζήτηση εταιρειών, δημόσιων φορέων, λομπιστών…",
+    "search_results": "Αποτελέσματα αναζήτησης",
+    "search_the_knowledge_graph": "Αναζήτηση στον γράφο γνώσης"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Υλοποιημένες εμπορικές σχέσεις αρχής-εταιρείας από συμβάσεις",
+    "trade_edges": "Εμπορικές ακμές",
+    "trade_edges_are_materialized_from_contra": "Οι εμπορικές ακμές υλοποιούνται από δεδομένα συμβάσεων. Εκτέλεση"
+  },
+  "triples_d_q": {
+    "chart_view": "Προβολή γραφήματος",
+    "click_a_graph_to_inspect_its_class_and_p": "Κάντε κλικ σε γράφο για να δείτε την ανάλυση κλάσεων και κατηγορημάτων.",
+    "no": "Όχι",
+    "no_triples_in_this_graph": "Δεν υπάρχουν τριάδες σε αυτό τον γράφο.",
+    "top_classes": "Κορυφαίες κλάσεις",
+    "top_predicates": "Κορυφαία κατηγορήματα",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Τριάδες ανά ονομασμένο γράφο",
+    "virtuoso_not_configured_in_this_environm": "Το Virtuoso δεν έχει διαμορφωθεί σε αυτό το περιβάλλον",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Μέσοι όροι"
+  },
+  "widget_node": {
+    "remove_widget": "Αφαίρεση widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Άγνωστος τύπος widget:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}

@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "AI-brugsmetrikker",
+    "last_24_h": "Sidste 24 t",
+    "last_7_days": "Sidste 7 dage",
+    "last_hour": "Sidste time"
+  },
+  "about": {
+    "a_45_second_tour": "En 45-sekunders rundtur",
+    "how_it_works": "Sådan virker det",
+    "recently_published": "Senest udgivet",
+    "see_all_public_data_stories": "Se alle offentlige datafortællinger →",
+    "try": "Prøv:",
+    "walkthrough_searching_a_company_explorin": "Gennemgang: søg et selskab, udforsk udbud og udgiv en datafortælling"
+  },
+  "activity": {
+    "loading_activity": "Indlæser aktivitet...",
+    "sign_in": "Log ind",
+    "sign_in_to_see_your_activity": "Log ind for at se din aktivitet."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Driftsværktøjer, arkitekturdokumenter og platformsstatus"
+  },
+  "app": {
+    "activity": "Aktivitet",
+    "admin": "Admin",
+    "all": "Alle",
+    "cancel": "Annullér",
+    "clear": "Ryd",
+    "close": "Luk",
+    "companies_count": "ingen selskaber | 1 selskab | {count} selskaber",
+    "contracts": "Kontrakter",
+    "contracts_count": "ingen kontrakter | 1 kontrakt | {count} kontrakter",
+    "contracts_eur": "Kontrakter (EUR)",
+    "description": "Beskrivelse",
+    "dismiss": "Afvis",
+    "entity_resolution": "Entitetsopløsning",
+    "entity_type": "Entitetstype",
+    "esef": "ESEF",
+    "eu_public_procurement": "EU offentligt udbud",
+    "filings_by_year": "Indberetninger pr. år",
+    "gleif": "GLEIF",
+    "image": "Billede",
+    "issues": "Sager",
+    "language": "Sprog",
+    "loading": "Indlæser…",
+    "loading_2": "Indlæser...",
+    "loading_story": "Indlæser fortælling...",
+    "metric": "Metrik",
+    "no_data_available": "Ingen data tilgængelige",
+    "no_entity_configured": "Ingen entitet konfigureret.",
+    "nuts_level": "NUTS-niveau",
+    "per_year": "Pr. år",
+    "privacy": "Privatliv",
+    "raise_an_issue": "Opret en sag",
+    "remove": "Fjern",
+    "retry": "Prøv igen",
+    "sanctions": "Sanktioner",
+    "sign_out": "Log ud",
+    "skip_to_main_content": "Spring til hovedindhold",
+    "ted": "TED",
+    "theme": "Tema",
+    "total_value_eur": "Samlet værdi (EUR)",
+    "xbrl_field_coverage": "XBRL-feltdækning (%)"
+  },
+  "app_footer": {
+    "about": "Om",
+    "data_quality": "Datakvalitet",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Data fra SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU offentligt udbud)",
+    "footer": "Sidefod",
+    "sparql": "SPARQL",
+    "support": "Support"
+  },
+  "assist": {
+    "accept_all": "Accepter alle",
+    "ai_assist": "AI-assistent",
+    "ai_assistant": "AI-assistent",
+    "apply": "Anvend",
+    "ask_about_the_data": "Spørg om data...",
+    "clear_chat": "Ryd chat",
+    "conversations_are_processed_by_an_eu_bas": "Samtaler behandles af en EU-baseret AI-leverandør.",
+    "embed": "Indlejr",
+    "insert_into_story": "Indsæt i fortælling",
+    "see_our_privacy_policy": "Se vores privatlivspolitik.",
+    "send": "Send"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kode",
+    "colour_scale": "Farveskala",
+    "coverage": "Dækning",
+    "data_slice": "Datasnit",
+    "dataset": "Datasæt",
+    "dataset_metadata": "Datasæt-metadata",
+    "distribution_is_right_skewed_log_scale_r": "Fordelingen er højreskæv — logaritmisk skala anbefales.",
+    "hide_low_coverage_datasets": "Skjul datasæt med lav dækning",
+    "hide_low_coverage_years": "Skjul år med lav dækning",
+    "loading_datasets": "Indlæser datasæt…",
+    "lock_to_dataset_range": "Lås til datasæt-interval",
+    "log_scale": "Log-skala",
+    "notes": "Noter",
+    "time_unit": "Tidsenhed",
+    "updated": "Opdateret",
+    "value_scale": "Værdiskala"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Åbn i Atlas →"
+  },
+  "balance": {
+    "capital_structure": "Kapitalstruktur"
+  },
+  "cashflow": {
+    "cash_flow": "Pengestrøm"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Efter rapporteringsår",
+    "cdp_climate_disclosure": "CDP-klimaoplysninger",
+    "cdp_scores_and_climate_reporting_score_d": "CDP-score og klimarapportering — scorefordeling og rapporteringsår",
+    "score_distribution": "Scorefordeling"
+  },
+  "chapter_rail": {
+    "chapters": "Kapitler",
+    "story_chapters": "Kapitler i fortællingen"
+  },
+  "company_profile": {
+    "company_not_found": "Selskab ikke fundet.",
+    "company_profile": "Selskabsprofil",
+    "loading_company_profile": "Indlæser selskabsprofil..."
+  },
+  "connectedness_d_q": {
+    "count": "Antal",
+    "degree_distribution_per_type": "Gradfordeling pr. type",
+    "graph_connectedness": "Grafsammenhæng",
+    "isolated": "Isoleret",
+    "isolated_2": "Isoleret %",
+    "max": "Maks",
+    "mean": "Gennemsnit",
+    "median": "Median",
+    "min": "Min",
+    "per_type_summary": "Sammenfatning pr. type"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Kunne ikke indlæse udbudsdata.",
+    "loading_procurement_data": "Indlæser udbudsdata...",
+    "no_eu_public_procurement_data_found_for_": "Ingen EU-udbudsdata fundet for dette selskab.",
+    "top_authority": "Øverste myndighed",
+    "top_sector_cpv": "Top-sektor (CPV)",
+    "type": "Type"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Kontraktværdi over tid (EUR)",
+    "contract_volume_over_time": "Kontraktvolumen over tid",
+    "contracts_by_country": "Kontrakter pr. land",
+    "contracts_by_currency": "Kontrakter pr. valuta",
+    "currency_quality": "Valutakvalitet",
+    "eu_public_procurement_awards_volume_cove": "EU-udbudstildelinger — volumen, dækning, valutakvalitet",
+    "loading_contract_data": "Indlæser kontraktdata...",
+    "missing_fields_of_contracts": "Manglende felter (% af kontrakter)",
+    "ted_contracts": "TED-kontrakter",
+    "total_eur_by_country_top_15": "Samlet EUR pr. land (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Accepter",
+    "cookie_consent": "Cookie-samtykke",
+    "decline": "Afvis",
+    "learn_more": "Læs mere"
+  },
+  "data_quality": {
+    "about_this_data": "Om disse data",
+    "all_procurement_data_is_sourced_from": "Alle udbudsdata stammer fra",
+    "companies_with_lei": "Selskaber med LEI",
+    "companies_with_vat": "Selskaber med moms",
+    "contract_date_range": "Kontraktdatointerval",
+    "country": "Land",
+    "cpv_code": "CPV-kode",
+    "data_freshness": "Datafriskhed",
+    "data_quality_dashboard": "Datakvalitets-dashboard",
+    "failed_to_load_data_quality_metrics": "Kunne ikke indlæse datakvalitetsmetrikker.",
+    "knowledge_graph": "Vidensgraf",
+    "last_data_load": "Seneste dataindlæsning",
+    "loading_metrics": "Indlæser metrikker...",
+    "pending_review_same_as_rarr": "Afventer gennemgang (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Platformsstatus, datadækning og transparensmetrikker",
+    "procurement_coverage_by_country": "Udbudsdækning pr. land",
+    "procurement_only": "Kun udbud",
+    "relationships": "Relationer",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Top udbudssektorer (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Datafriskhed",
+    "data_quality": "Datakvalitet",
+    "latest_contract_load": "Seneste kontraktindlæsning",
+    "loading_overview": "Indlæser oversigt..."
+  },
+  "data_view_selector": {
+    "data_view": "Datavisning",
+    "gmr_long_tooltip": "Long-Term Value vurderer en aktie til langsigtet value-investering med 5-års gennemsnit: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, nettomargin ≥ 15 %, D/E ≤ 1,5, udbytteafkast ≥ 3,5 %. Udviklet af Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Deduplikering",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS-kø — status for opløsning af dubletter",
+    "use_the": "Brug"
+  },
+  "donate": {
+    "backers": "Støtter",
+    "contribute_rarr": "Bidrag &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Donationer går gennem en fiscal host-nonprofit på",
+    "open_collective": "Open Collective",
+    "support_fontem": "Støt Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Tak til alle der holder Fontem i live.",
+    "where_the_money_goes": "Hvor pengene går hen"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC-årsregnskaber — XBRL-feltdækning og indberetningstendenser",
+    "us_edgar_financials": "US EDGAR-finansdata"
+  },
+  "entity_mention": {
+    "remove_mention": "Fjern omtale"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Kontrakter (antal)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Alle markerede par er afgjort.",
+    "different_entities_reject": "Forskellige entiteter — afvis",
+    "entity_a": "Entitet A",
+    "entity_b": "Entitet B",
+    "failed_to_load_candidates": "Kunne ikke indlæse kandidater.",
+    "keep_as_related": "Behold som relateret",
+    "loading_candidates": "Indlæser kandidater...",
+    "merge_keep_a_b_is_removed": "Flet — behold A (B fjernes)",
+    "merge_keep_b_a_is_removed": "Flet — behold B (A fjernes)",
+    "no_pairs_pending_review": "Ingen par afventer gennemgang.",
+    "review_and_decide_on_flagged_candidates": "Gennemgå og træf afgørelse om markerede kandidater",
+    "why_flagged": "Hvorfor markeret"
+  },
+  "entity_side": {
+    "entity_details": "Entitetsdetaljer"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF-finansdata",
+    "european_financial_statements_xbrl_cover": "Europæiske årsregnskaber — XBRL-dækning og landefordeling",
+    "filings_by_country": "Indberetninger pr. land"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "Cronjob",
+    "duration": "Varighed",
+    "etl_runs": "ETL-kørsler",
+    "failed": "Mislykket",
+    "recent_cronjob_invocations_from": "Seneste CronJob-kørsler fra",
+    "recent_runs": "Seneste kørsler",
+    "refresh": "Opdater",
+    "running": "Kører",
+    "started": "Startet",
+    "status": "Status:",
+    "status_2": "Status",
+    "success": "Lykkedes",
+    "summary": "Resumé"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "EU-samhørighedspolitikprojekter — finansiering, modtagere og geografisk fordeling",
+    "eu_knowledge_graph": "EU-vidensgraf",
+    "projects_by_country_top_15": "Projekter pr. land (Top 15)",
+    "projects_by_fund_top_10": "Projekter pr. fond (Top 10)"
+  },
+  "explore": {
+    "explore": "Udforsk"
+  },
+  "feed": {
+    "clear_filter": "Ryd filter",
+    "feed": "Feed",
+    "filtering_by": "Filtrerer efter",
+    "loading_feed": "Indlæser feed...",
+    "public_data_stories_from_the_community_n": "Offentlige datafortællinger fra fællesskabet, nyeste først."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Efter instrumenttype",
+    "esma_financial_instruments_reference_dat": "ESMA-finansinstrument-referencedata — ISIN-dækning, instrumenttyper, handelspladser",
+    "firds_instruments": "FIRDS-instrumenter",
+    "top_trading_venues_mic": "Top handelspladser (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo-udforsker"
+  },
+  "geo_choropleth": {
+    "companies": "Selskaber",
+    "connected_to_3": "Forbundet til (α-3)",
+    "parent_nuts_1": "Forælder NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Selskaber pr. land (Top 30)",
+    "gleif_companies": "GLEIF-selskaber",
+    "global_lei_directory_entity_identificati": "Globalt LEI-register — entitetsidentifikation og koncernstruktur"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Kunne ikke indlæse grafen",
+    "depth": "Dybde",
+    "exit_fullscreen": "Forlad fuldskærm",
+    "expanding_node": "Udvider knude...",
+    "export": "Eksporter",
+    "filter": "Filter…",
+    "find_path_to": "Find sti til",
+    "finding_paths": "Finder stier...",
+    "fullscreen": "Fuldskærm",
+    "go_to_profile": "Gå til profil",
+    "json": "JSON",
+    "loading_graph": "Indlæser graf...",
+    "more_options": "Flere muligheder",
+    "no_connections_found_for_this_entity": "Ingen forbindelser fundet for denne entitet.",
+    "no_paths_found_between_these_entities": "Ingen stier fundet mellem disse entiteter.",
+    "path_to": "Sti til",
+    "period": "Periode",
+    "png": "PNG",
+    "save_view": "Gem visning",
+    "search_entity_name": "Søg entitetsnavn...",
+    "set_as_center": "Indstil som center",
+    "summary_edges": "Sammenfatningskanter",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Omsætning &amp; nettoresultat"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Kort resumé af sagen",
+    "describe_the_issue_in_detail_markdown_su": "Beskriv sagen i detaljer (markdown understøttes)",
+    "entity_id": "Entitets-ID",
+    "issue_type": "Sagstype",
+    "title": "Titel"
+  },
+  "issue_detail": {
+    "add_a_comment": "Tilføj en kommentar...",
+    "loading_issue": "Indlæser sag...",
+    "no_comments_yet": "Ingen kommentarer endnu.",
+    "reject": "Afvis",
+    "resolve": "Løs"
+  },
+  "issues": {
+    "loading_issues": "Indlæser sager...",
+    "no_issues_found": "Ingen sager fundet."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "EU-lobbyregister",
+    "lobbying_cost_distribution": "Fordeling af lobbyomkostninger",
+    "registrations_over_time": "Registreringer over tid",
+    "top_countries": "Top-lande",
+    "transparency_register_lobbyist_registrat": "Åbenhedsregister — lobbyistregistreringer, EP-adgang, udgifter"
+  },
+  "login": {
+    "go_to_home": "Gå til forsiden",
+    "you_already_have_an_active_session": "Du har allerede en aktiv session.",
+    "youre_signed_in": "Du er logget ind"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Entitetsomtaler",
+    "searching": "Søger…"
+  },
+  "moderation": {
+    "flagged_content": "Markeret indhold",
+    "moderation": "Moderation",
+    "moderation_log": "Moderationslog",
+    "no_flagged_content": "Intet markeret indhold.",
+    "no_moderation_actions_yet": "Ingen moderationshandlinger endnu.",
+    "review_flagged_content_and_moderation_hi": "Gennemgå markeret indhold og moderationshistorik"
+  },
+  "multi_select": {
+    "none": "Ingen"
+  },
+  "my_reports": {
+    "loading_stories": "Indlæser fortællinger...",
+    "my_stories": "Mine fortællinger",
+    "no_stories_yet_start_your_first_one_abov": "Ingen fortællinger endnu. Start din første ovenfor.",
+    "or_read_recent_public_stories": "Eller læs aktuelle offentlige fortællinger →"
+  },
+  "not_found": {
+    "back_to_home": "Tilbage til forsiden",
+    "page_not_found": "Side ikke fundet",
+    "the_page_youre_looking_for_doesnt_exist_": "Den side du leder efter findes ikke eller er flyttet."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostat NUTS-klassifikation — geografisk dækning af selskaber og myndigheder",
+    "nuts_regions": "NUTS-regioner",
+    "regions_by_level": "Regioner pr. niveau",
+    "top_nuts_0_regions_by_company_count": "Top NUTS-0-regioner efter selskabsantal"
+  },
+  "overview_d_q": {
+    "cohesion": "Samhørighed",
+    "country_code_consistency": "Konsistens i landekoder",
+    "cross_source_overlap": "Overlap på tværs af kilder",
+    "cross_source_overlap_country_code_consis": "Overlap på tværs af kilder, konsistens i landekoder og feltkomplethed på tværs af alle datakilder",
+    "data_quality_overview": "Datakvalitets-oversigt",
+    "listings": "Notater",
+    "lobby": "Lobby",
+    "top_alpha_2_codes": "Top alpha-2-koder"
+  },
+  "pocket_button": {
+    "save": "Gem",
+    "save_to_pocket": "Gem til pocket"
+  },
+  "preferences_menu": {
+    "account": "Konto",
+    "ai_usage": "AI-brug",
+    "atlas_palette": "Atlas-palette",
+    "display": "Visning",
+    "preferences": "Indstillinger"
+  },
+  "privacy": {
+    "access": "Adgang",
+    "all_data_in_the_fontem_knowledge_graph_r": "Alle data i Fontem-vidensgrafen vedrører",
+    "conversation_processing_is_performed_by_": "Samtalebehandling udføres af EU-baserede AI-leverandører.",
+    "conversations_are_automatically_deleted_": "Samtaler slettes automatisk efter 90 dage.",
+    "erase": "Slet",
+    "eu_consolidated_sanctions_list": "EU's konsoliderede sanktionsliste",
+    "eu_transparency_register": "EU-åbenhedsregister",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Senest opdateret: april 2026",
+    "legal_basis": "Retsgrundlag:",
+    "no_personal_data_of_individuals_is_store": "Ingen personoplysninger om enkeltpersoner opbevares i vidensgrafen.",
+    "port": "Portabilitet",
+    "privacy_policy": "Privatlivspolitik",
+    "rectify": "Korriger",
+    "to_exercise_any_of_these_rights_contact_": "For at udøve disse rettigheder kan du kontakte os på",
+    "under_the_gdpr_you_have_the_right_to": "Under GDPR har du ret til at:",
+    "when_you_sign_in_we_collect_and_store": "Når du logger ind, indsamler og opbevarer vi:",
+    "your": "Din"
+  },
+  "profile": {
+    "avg_net_margin": "Gns. nettomargin",
+    "avg_roe": "Gns. ROE",
+    "corporate_group": "Koncern",
+    "current_price": "Aktuel kurs",
+    "directors_amp_officers": "Direktører &amp; ledere",
+    "financial_overview": "Finansiel oversigt",
+    "market_cap": "Markedsværdi",
+    "part_of": "Del af"
+  },
+  "public_spending": {
+    "public_spending": "Offentlige udgifter"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Karruselposition",
+    "recently_published_data_stories": "Senest udgivne datafortællinger"
+  },
+  "report": {
+    "edit": "Rediger"
+  },
+  "report_editor": {
+    "brief_abstract": "Kort sammenfatning...",
+    "private_only_me": "Privat — kun mig",
+    "public_anyone": "Offentlig — alle",
+    "signed_in_users": "Loggede ind-brugere",
+    "story_title": "Fortællingens titel"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sanktionerede entiteter — personer, organisationer, regimedækning og selskabsmatchning",
+    "top_sanction_regimes": "Top sanktionsregimer"
+  },
+  "share": {
+    "add": "Tilføj",
+    "add_group": "Tilføj gruppe",
+    "add_person": "Tilføj person",
+    "collaborators": "Samarbejdspartnere",
+    "email_address": "E-mailadresse",
+    "group_name": "Gruppenavn",
+    "no_collaborators_yet": "Ingen samarbejdspartnere endnu.",
+    "share_story": "Del fortælling",
+    "visibility": "Synlighed"
+  },
+  "sparql": {
+    "endpoint": "Endpoint",
+    "endpoint_url": "Endpoint-URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Grænser",
+    "method": "Metode",
+    "post": "POST",
+    "query_failed": "Forespørgsel mislykkedes:",
+    "response": "Svar",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkonvolut:",
+    "sparql_endpoint": "SPARQL-endpoint",
+    "try_a_query": "Prøv en forespørgsel"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Blokcitat",
+    "bold_b": "Fed (⌘B)",
+    "bullet_list": "Punktliste",
+    "code_block": "Kodeblok",
+    "divider": "Adskiller",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Overskrift 1",
+    "heading_2": "Overskrift 2",
+    "heading_3": "Overskrift 3",
+    "inline_code": "Inline-kode",
+    "italic_i": "Kursiv (⌘I)",
+    "link": "Link",
+    "numbered_list": "Nummereret liste",
+    "strikethrough": "Gennemstreget",
+    "table": "Tabel",
+    "underline_u": "Understreget (⌘U)",
+    "widget_from_pocket": "Widget fra pocket"
+  },
+  "summary": {
+    "vol": "Vol"
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Fjern kolonnen til venstre"
+  },
+  "tag_editor": {
+    "tags": "Tags"
+  },
+  "ticker_card": {
+    "authority": "Myndighed",
+    "company": "Selskab",
+    "person": "Person"
+  },
+  "ticker_financials": {
+    "close_financials": "Luk finansdata",
+    "history": "Historik",
+    "taking_longer_than_expected": "Tager længere end forventet…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Ingen tickers fundet for &ldquo;",
+    "search_companies_public_entities_lobbyis": "Søg selskaber, offentlige enheder, lobbyister…",
+    "search_results": "Søgeresultater",
+    "search_the_knowledge_graph": "Søg i vidensgrafen"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Materialiserede myndighed-selskab-handelsrelationer fra kontrakter",
+    "trade_edges": "Handelskanter",
+    "trade_edges_are_materialized_from_contra": "Handelskanter materialiseres fra kontraktdata. Kør"
+  },
+  "triples_d_q": {
+    "chart_view": "Diagramvisning",
+    "click_a_graph_to_inspect_its_class_and_p": "Klik på en graf for at se klasse- og prædikatfordeling.",
+    "no": "Nej",
+    "no_triples_in_this_graph": "Ingen tripler i denne graf.",
+    "top_classes": "Top-klasser",
+    "top_predicates": "Top-prædikater",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Tripler pr. navngivet graf",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso ikke konfigureret i dette miljø",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Gennemsnit"
+  },
+  "widget_node": {
+    "remove_widget": "Fjern widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Ukendt widget-type:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
