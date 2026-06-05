@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Mjerni podaci o korištenju UI",
+    "last_24_h": "Posljednja 24 h",
+    "last_7_days": "Posljednjih 7 dana",
+    "last_hour": "Posljednji sat"
+  },
+  "about": {
+    "a_45_second_tour": "Obilazak od 45 sekundi",
+    "how_it_works": "Kako radi",
+    "recently_published": "Nedavno objavljeno",
+    "see_all_public_data_stories": "Pogledaj sve javne podatkovne priče →",
+    "try": "Pokušaj:",
+    "walkthrough_searching_a_company_explorin": "Vodič: pretraživanje tvrtke, istraživanje javne nabave i objava podatkovne priče"
+  },
+  "activity": {
+    "loading_activity": "Učitavanje aktivnosti...",
+    "sign_in": "Prijavi se",
+    "sign_in_to_see_your_activity": "Prijavi se da bi vidio/vidjela svoju aktivnost."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Operativni alati, arhitekturalni dokumenti i stanje platforme"
+  },
+  "app": {
+    "activity": "Aktivnost",
+    "admin": "Administracija",
+    "all": "Sve",
+    "cancel": "Odustani",
+    "clear": "Očisti",
+    "close": "Zatvori",
+    "companies_count": "nema tvrtki | 1 tvrtka | {count} tvrtki",
+    "contracts": "Ugovori",
+    "contracts_count": "nema ugovora | 1 ugovor | {count} ugovora",
+    "contracts_eur": "Ugovori (EUR)",
+    "description": "Opis",
+    "dismiss": "Zatvori",
+    "entity_resolution": "Razrješavanje entiteta",
+    "entity_type": "Vrsta entiteta",
+    "esef": "ESEF",
+    "eu_public_procurement": "Javna nabava EU",
+    "filings_by_year": "Podnesci po godinama",
+    "gleif": "GLEIF",
+    "image": "Slika",
+    "issues": "Problemi",
+    "language": "Jezik",
+    "loading": "Učitavanje…",
+    "loading_2": "Učitavanje...",
+    "loading_story": "Učitavanje priče...",
+    "metric": "Mjera",
+    "no_data_available": "Nema dostupnih podataka",
+    "no_entity_configured": "Nijedan entitet nije konfiguriran.",
+    "nuts_level": "NUTS razina",
+    "per_year": "Godišnje",
+    "privacy": "Privatnost",
+    "raise_an_issue": "Prijavi problem",
+    "remove": "Ukloni",
+    "retry": "Pokušaj ponovno",
+    "sanctions": "Sankcije",
+    "sign_out": "Odjavi se",
+    "skip_to_main_content": "Preskoči na glavni sadržaj",
+    "ted": "TED",
+    "theme": "Tema",
+    "total_value_eur": "Ukupna vrijednost (EUR)",
+    "xbrl_field_coverage": "Pokrivenost XBRL polja (%)"
+  },
+  "app_footer": {
+    "about": "O nama",
+    "data_quality": "Kvaliteta podataka",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Izvori podataka SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Javna nabava EU)",
+    "footer": "Podnožje",
+    "sparql": "SPARQL",
+    "support": "Podrška"
+  },
+  "assist": {
+    "accept_all": "Prihvati sve",
+    "ai_assist": "UI pomoć",
+    "ai_assistant": "UI asistent",
+    "apply": "Primijeni",
+    "ask_about_the_data": "Pitaj o podacima...",
+    "clear_chat": "Očisti razgovor",
+    "conversations_are_processed_by_an_eu_bas": "Razgovore obrađuje UI pružatelj usluga sa sjedištem u EU.",
+    "embed": "Ugradi",
+    "insert_into_story": "Umetni u priču",
+    "see_our_privacy_policy": "Pogledaj naša pravila privatnosti.",
+    "send": "Pošalji"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Šifra",
+    "colour_scale": "Skala boja",
+    "coverage": "Pokrivenost",
+    "data_slice": "Isjecak podataka",
+    "dataset": "Skup podataka",
+    "dataset_metadata": "Metapodaci skupa",
+    "distribution_is_right_skewed_log_scale_r": "Raspodjela je desno asimetrična — preporučuje se logaritamska skala.",
+    "hide_low_coverage_datasets": "Sakrij skupove s niskom pokrivenošću",
+    "hide_low_coverage_years": "Sakrij godine s niskom pokrivenošću",
+    "loading_datasets": "Učitavanje skupova podataka…",
+    "lock_to_dataset_range": "Zaključaj na raspon skupa",
+    "log_scale": "Log. skala",
+    "notes": "Bilješke",
+    "time_unit": "Vremenska jedinica",
+    "updated": "Ažurirano",
+    "value_scale": "Skala vrijednosti"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Otvori u Atlasu →"
+  },
+  "balance": {
+    "capital_structure": "Struktura kapitala"
+  },
+  "cashflow": {
+    "cash_flow": "Novčani tok"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Po godini izvještavanja",
+    "cdp_climate_disclosure": "CDP klimatsko izvještavanje",
+    "cdp_scores_and_climate_reporting_score_d": "CDP ocjene i klimatsko izvještavanje — raspodjela ocjena i godine izvještavanja",
+    "score_distribution": "Raspodjela ocjena"
+  },
+  "chapter_rail": {
+    "chapters": "Poglavlja",
+    "story_chapters": "Poglavlja priče"
+  },
+  "company_profile": {
+    "company_not_found": "Tvrtka nije pronađena.",
+    "company_profile": "Profil tvrtke",
+    "loading_company_profile": "Učitavanje profila tvrtke..."
+  },
+  "connectedness_d_q": {
+    "count": "Broj",
+    "degree_distribution_per_type": "Raspodjela stupnja po vrsti",
+    "graph_connectedness": "Povezanost grafa",
+    "isolated": "Izolirano",
+    "isolated_2": "Izolirano %",
+    "max": "Maks",
+    "mean": "Srednja vrijednost",
+    "median": "Medijan",
+    "min": "Min",
+    "per_type_summary": "Sažetak po vrsti"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Učitavanje podataka o nabavi nije uspjelo.",
+    "loading_procurement_data": "Učitavanje podataka o nabavi...",
+    "no_eu_public_procurement_data_found_for_": "Nisu pronađeni podaci o javnoj nabavi EU za ovu tvrtku.",
+    "top_authority": "Glavna ugovorna ustanova",
+    "top_sector_cpv": "Glavni sektor (CPV)",
+    "type": "Vrsta"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Vrijednost ugovora tijekom vremena (EUR)",
+    "contract_volume_over_time": "Volumen ugovora tijekom vremena",
+    "contracts_by_country": "Ugovori po zemljama",
+    "contracts_by_currency": "Ugovori po valutama",
+    "currency_quality": "Kvaliteta valute",
+    "eu_public_procurement_awards_volume_cove": "Dodjele javne nabave EU — volumen, pokrivenost, kvaliteta valute",
+    "loading_contract_data": "Učitavanje podataka o ugovorima...",
+    "missing_fields_of_contracts": "Polja koja nedostaju (% ugovora)",
+    "ted_contracts": "TED ugovori",
+    "total_eur_by_country_top_15": "Ukupno EUR po zemlji (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Prihvati",
+    "cookie_consent": "Pristanak na kolačiće",
+    "decline": "Odbij",
+    "learn_more": "Saznaj više"
+  },
+  "data_quality": {
+    "about_this_data": "O ovim podacima",
+    "all_procurement_data_is_sourced_from": "Svi podaci o nabavi dolaze iz",
+    "companies_with_lei": "Tvrtke s LEI",
+    "companies_with_vat": "Tvrtke s OIB-om",
+    "contract_date_range": "Raspon datuma ugovora",
+    "country": "Zemlja",
+    "cpv_code": "CPV šifra",
+    "data_freshness": "Svježina podataka",
+    "data_quality_dashboard": "Nadzorna ploča kvalitete podataka",
+    "failed_to_load_data_quality_metrics": "Učitavanje mjernih podataka kvalitete nije uspjelo.",
+    "knowledge_graph": "Graf znanja",
+    "last_data_load": "Posljednje učitavanje podataka",
+    "loading_metrics": "Učitavanje mjernih podataka...",
+    "pending_review_same_as_rarr": "Čeka pregled (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Stanje platforme, pokrivenost podataka i mjere transparentnosti",
+    "procurement_coverage_by_country": "Pokrivenost nabave po zemlji",
+    "procurement_only": "Samo nabava",
+    "relationships": "Odnosi",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Glavni sektori nabave (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Svježina podataka",
+    "data_quality": "Kvaliteta podataka",
+    "latest_contract_load": "Posljednje učitavanje ugovora",
+    "loading_overview": "Učitavanje pregleda..."
+  },
+  "data_view_selector": {
+    "data_view": "Prikaz podataka",
+    "gmr_long_tooltip": "Long-Term Value ocjenjuje dionicu za dugoročno vrijednosno ulaganje koristeći 5-godišnje prosjeke: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, neto marža ≥ 15 %, D/E ≤ 1,5, dividendni prinos ≥ 3,5 %. Razvio Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Uklanjanje duplikata",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS red — stanje razrješavanja duplikatnih entiteta",
+    "use_the": "Koristi"
+  },
+  "donate": {
+    "backers": "Donatori",
+    "contribute_rarr": "Doniraj &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Donacije teku kroz neprofitnog fiskalnog hosta na",
+    "open_collective": "Open Collective",
+    "support_fontem": "Podrži Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Hvala svima koji održavaju Fontem na životu.",
+    "where_the_money_goes": "Gdje novac odlazi"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC financijska izvješća — pokrivenost XBRL polja i trendovi podnesaka",
+    "us_edgar_financials": "US EDGAR financijski podaci"
+  },
+  "entity_mention": {
+    "remove_mention": "Ukloni spominjanje"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Ugovori (broj)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Svi označeni parovi su razriješeni.",
+    "different_entities_reject": "Različiti entiteti — odbij",
+    "entity_a": "Entitet A",
+    "entity_b": "Entitet B",
+    "failed_to_load_candidates": "Učitavanje kandidata nije uspjelo.",
+    "keep_as_related": "Zadrži kao povezano",
+    "loading_candidates": "Učitavanje kandidata...",
+    "merge_keep_a_b_is_removed": "Spoji — zadrži A (B se uklanja)",
+    "merge_keep_b_a_is_removed": "Spoji — zadrži B (A se uklanja)",
+    "no_pairs_pending_review": "Nema parova koji čekaju pregled.",
+    "review_and_decide_on_flagged_candidates": "Pregledaj i odluči o označenim kandidatima",
+    "why_flagged": "Zašto označeno"
+  },
+  "entity_side": {
+    "entity_details": "Pojedinosti o entitetu"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF financijski podaci",
+    "european_financial_statements_xbrl_cover": "Europska financijska izvješća — XBRL pokrivenost i raspodjela po zemljama",
+    "filings_by_country": "Podnesci po zemljama"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Trajanje",
+    "etl_runs": "ETL izvršavanja",
+    "failed": "Neuspješno",
+    "recent_cronjob_invocations_from": "Nedavni CronJob pozivi iz",
+    "recent_runs": "Nedavna izvršavanja",
+    "refresh": "Osvježi",
+    "running": "U tijeku",
+    "started": "Započeto",
+    "status": "Stanje:",
+    "status_2": "Stanje",
+    "success": "Uspjeh",
+    "summary": "Sažetak"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Projekti kohezijske politike EU — financiranje, korisnici i geografska raspodjela",
+    "eu_knowledge_graph": "Graf znanja EU",
+    "projects_by_country_top_15": "Projekti po zemljama (Top 15)",
+    "projects_by_fund_top_10": "Projekti po fondovima (Top 10)"
+  },
+  "explore": {
+    "explore": "Istraži"
+  },
+  "feed": {
+    "clear_filter": "Očisti filtar",
+    "feed": "Feed",
+    "filtering_by": "Filtriranje po",
+    "loading_feed": "Učitavanje feeda...",
+    "public_data_stories_from_the_community_n": "Javne podatkovne priče iz zajednice, najnovije prvo."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Po vrsti instrumenta",
+    "esma_financial_instruments_reference_dat": "ESMA referentni podaci o financijskim instrumentima — pokrivenost ISIN-a, vrste instrumenata, mjesta trgovanja",
+    "firds_instruments": "FIRDS instrumenti",
+    "top_trading_venues_mic": "Glavna mjesta trgovanja (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo istraživač"
+  },
+  "geo_choropleth": {
+    "companies": "Tvrtke",
+    "connected_to_3": "Povezano s (α-3)",
+    "parent_nuts_1": "Roditeljski NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Tvrtke po zemljama (Top 30)",
+    "gleif_companies": "GLEIF tvrtke",
+    "global_lei_directory_entity_identificati": "Globalni LEI imenik — identifikacija entiteta i korporativna struktura"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Nije bilo moguće učitati graf",
+    "depth": "Dubina",
+    "exit_fullscreen": "Izađi iz cijelog zaslona",
+    "expanding_node": "Proširivanje čvora...",
+    "export": "Izvezi",
+    "filter": "Filtar…",
+    "find_path_to": "Nađi put do",
+    "finding_paths": "Traženje putova...",
+    "fullscreen": "Cijeli zaslon",
+    "go_to_profile": "Idi na profil",
+    "json": "JSON",
+    "loading_graph": "Učitavanje grafa...",
+    "more_options": "Više opcija",
+    "no_connections_found_for_this_entity": "Nisu pronađene veze za ovaj entitet.",
+    "no_paths_found_between_these_entities": "Nisu pronađeni putovi između ovih entiteta.",
+    "path_to": "Put do",
+    "period": "Razdoblje",
+    "png": "PNG",
+    "save_view": "Spremi prikaz",
+    "search_entity_name": "Pretraži ime entiteta...",
+    "set_as_center": "Postavi kao središte",
+    "summary_edges": "Sažeti bridovi",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Prihod &amp; neto dobit"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Kratak sažetak problema",
+    "describe_the_issue_in_detail_markdown_su": "Detaljno opiši problem (Markdown podržan)",
+    "entity_id": "ID entiteta",
+    "issue_type": "Vrsta problema",
+    "title": "Naslov"
+  },
+  "issue_detail": {
+    "add_a_comment": "Dodaj komentar...",
+    "loading_issue": "Učitavanje problema...",
+    "no_comments_yet": "Još nema komentara.",
+    "reject": "Odbij",
+    "resolve": "Riješi"
+  },
+  "issues": {
+    "loading_issues": "Učitavanje problema...",
+    "no_issues_found": "Nisu pronađeni problemi."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Registar lobiranja EU",
+    "lobbying_cost_distribution": "Raspodjela troškova lobiranja",
+    "registrations_over_time": "Registracije tijekom vremena",
+    "top_countries": "Glavne zemlje",
+    "transparency_register_lobbyist_registrat": "Registar transparentnosti — registracije lobista, pristup EP-u, izdaci"
+  },
+  "login": {
+    "go_to_home": "Idi na početnu",
+    "you_already_have_an_active_session": "Već imaš aktivnu sesiju.",
+    "youre_signed_in": "Prijavljen/a si"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Spominjanja entiteta",
+    "searching": "Pretraživanje…"
+  },
+  "moderation": {
+    "flagged_content": "Označeni sadržaj",
+    "moderation": "Moderiranje",
+    "moderation_log": "Zapis moderiranja",
+    "no_flagged_content": "Nema označenog sadržaja.",
+    "no_moderation_actions_yet": "Još nema akcija moderiranja.",
+    "review_flagged_content_and_moderation_hi": "Pregledaj označeni sadržaj i povijest moderiranja"
+  },
+  "multi_select": {
+    "none": "Ništa"
+  },
+  "my_reports": {
+    "loading_stories": "Učitavanje priča...",
+    "my_stories": "Moje priče",
+    "no_stories_yet_start_your_first_one_abov": "Još nema priča. Započni prvu iznad.",
+    "or_read_recent_public_stories": "Ili pročitaj nedavne javne priče →"
+  },
+  "not_found": {
+    "back_to_home": "Natrag na početnu",
+    "page_not_found": "Stranica nije pronađena",
+    "the_page_youre_looking_for_doesnt_exist_": "Stranica koju tražiš ne postoji ili je premještena."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostatova NUTS klasifikacija — geografska pokrivenost tvrtki i ustanova",
+    "nuts_regions": "NUTS regije",
+    "regions_by_level": "Regije po razinama",
+    "top_nuts_0_regions_by_company_count": "Glavne NUTS 0 regije po broju tvrtki"
+  },
+  "overview_d_q": {
+    "cohesion": "Kohezija",
+    "country_code_consistency": "Dosljednost šifri zemalja",
+    "cross_source_overlap": "Preklapanje izvora",
+    "cross_source_overlap_country_code_consis": "Preklapanje izvora, dosljednost šifri zemalja i potpunost polja u svim izvorima",
+    "data_quality_overview": "Pregled kvalitete podataka",
+    "listings": "Listinzi",
+    "lobby": "Lobiranje",
+    "top_alpha_2_codes": "Glavne Alpha-2 šifre"
+  },
+  "pocket_button": {
+    "save": "Spremi",
+    "save_to_pocket": "Spremi u Pocket"
+  },
+  "preferences_menu": {
+    "account": "Račun",
+    "ai_usage": "Korištenje UI",
+    "atlas_palette": "Atlas paleta",
+    "display": "Prikaz",
+    "preferences": "Postavke"
+  },
+  "privacy": {
+    "access": "Pristup",
+    "all_data_in_the_fontem_knowledge_graph_r": "Svi podaci u grafu znanja Fontem odnose se na",
+    "conversation_processing_is_performed_by_": "Obradu razgovora obavljaju UI pružatelji usluga sa sjedištem u EU.",
+    "conversations_are_automatically_deleted_": "Razgovori se automatski brišu nakon 90 dana.",
+    "erase": "Brisanje",
+    "eu_consolidated_sanctions_list": "Konsolidirani popis sankcija EU",
+    "eu_transparency_register": "Registar transparentnosti EU",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Posljednje ažuriranje: travanj 2026.",
+    "legal_basis": "Pravna osnova:",
+    "no_personal_data_of_individuals_is_store": "Osobni podaci pojedinaca ne pohranjuju se u grafu znanja.",
+    "port": "Prenosivost",
+    "privacy_policy": "Pravila privatnosti",
+    "rectify": "Ispravak",
+    "to_exercise_any_of_these_rights_contact_": "Za ostvarivanje bilo kojeg od ovih prava kontaktiraj nas na",
+    "under_the_gdpr_you_have_the_right_to": "Prema GDPR-u imaš pravo:",
+    "when_you_sign_in_we_collect_and_store": "Kada se prijaviš, prikupljamo i pohranjujemo:",
+    "your": "Tvoje"
+  },
+  "profile": {
+    "avg_net_margin": "Prosječna neto marža",
+    "avg_roe": "Prosječni ROE",
+    "corporate_group": "Korporativna grupa",
+    "current_price": "Trenutna cijena",
+    "directors_amp_officers": "Direktori &amp; rukovodstvo",
+    "financial_overview": "Financijski pregled",
+    "market_cap": "Tržišna kapitalizacija",
+    "part_of": "Dio od"
+  },
+  "public_spending": {
+    "public_spending": "Javna potrošnja"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pozicija u karuselu",
+    "recently_published_data_stories": "Nedavno objavljene podatkovne priče"
+  },
+  "report": {
+    "edit": "Uredi"
+  },
+  "report_editor": {
+    "brief_abstract": "Kratki sažetak...",
+    "private_only_me": "Privatno — samo ja",
+    "public_anyone": "Javno — bilo tko",
+    "signed_in_users": "Prijavljeni korisnici",
+    "story_title": "Naslov priče"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sankcionirani entiteti — osobe, organizacije, pokrivenost režima i podudaranje tvrtki",
+    "top_sanction_regimes": "Glavni režimi sankcija"
+  },
+  "share": {
+    "add": "Dodaj",
+    "add_group": "Dodaj grupu",
+    "add_person": "Dodaj osobu",
+    "collaborators": "Suradnici",
+    "email_address": "Adresa e-pošte",
+    "group_name": "Ime grupe",
+    "no_collaborators_yet": "Još nema suradnika.",
+    "share_story": "Podijeli priču",
+    "visibility": "Vidljivost"
+  },
+  "sparql": {
+    "endpoint": "Krajnja točka",
+    "endpoint_url": "URL krajnje točke",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Ograničenja",
+    "method": "Metoda",
+    "post": "POST",
+    "query_failed": "Upit nije uspio:",
+    "response": "Odgovor",
+    "sparql_11_json_results_envelope": "Omotač SPARQL 1.1 JSON rezultata:",
+    "sparql_endpoint": "SPARQL krajnja točka",
+    "try_a_query": "Pokušaj upit"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Blok citat",
+    "bold_b": "Podebljano (⌘B)",
+    "bullet_list": "Označeni popis",
+    "code_block": "Blok koda",
+    "divider": "Razdjelnik",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Naslov 1",
+    "heading_2": "Naslov 2",
+    "heading_3": "Naslov 3",
+    "inline_code": "Inline kod",
+    "italic_i": "Kurziv (⌘I)",
+    "link": "Poveznica",
+    "numbered_list": "Numerirani popis",
+    "strikethrough": "Precrtano",
+    "table": "Tablica",
+    "underline_u": "Podcrtano (⌘U)",
+    "widget_from_pocket": "Widget iz Pocketa"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Ukloni stupac slijeva"
+  },
+  "tag_editor": {
+    "tags": "Oznake"
+  },
+  "ticker_card": {
+    "authority": "Ustanova",
+    "company": "Tvrtka",
+    "person": "Osoba"
+  },
+  "ticker_financials": {
+    "close_financials": "Zatvori financije",
+    "history": "Povijest",
+    "taking_longer_than_expected": "Traje duže od očekivanog…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Nisu pronađeni tikeri za &ldquo;",
+    "search_companies_public_entities_lobbyis": "Pretraži tvrtke, javne entitete, lobiste…",
+    "search_results": "Rezultati pretrage",
+    "search_the_knowledge_graph": "Pretraži graf znanja"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Trgovinski odnosi ustanove-tvrtke materijalizirani iz ugovora",
+    "trade_edges": "Trgovinski bridovi",
+    "trade_edges_are_materialized_from_contra": "Trgovinski bridovi materijaliziraju se iz podataka o ugovorima. Pokreni"
+  },
+  "triples_d_q": {
+    "chart_view": "Prikaz grafikona",
+    "click_a_graph_to_inspect_its_class_and_p": "Klikni na graf za pregled njegove raspodjele klasa i predikata.",
+    "no": "Ne",
+    "no_triples_in_this_graph": "Nema trojki u ovom grafu.",
+    "top_classes": "Glavne klase",
+    "top_predicates": "Glavni predikati",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Trojke po imenovanom grafu",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso nije konfiguriran u ovom okruženju",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Prosjeci"
+  },
+  "widget_node": {
+    "remove_widget": "Ukloni widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Nepoznata vrsta widgeta:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
