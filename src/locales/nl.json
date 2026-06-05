@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "AI-gebruikstatistieken",
+    "last_24_h": "Laatste 24 u",
+    "last_7_days": "Laatste 7 dagen",
+    "last_hour": "Laatste uur"
+  },
+  "about": {
+    "a_45_second_tour": "Een rondleiding van 45 seconden",
+    "how_it_works": "Hoe het werkt",
+    "recently_published": "Onlangs gepubliceerd",
+    "see_all_public_data_stories": "Bekijk alle openbare dataverhalen →",
+    "try": "Probeer:",
+    "walkthrough_searching_a_company_explorin": "Stappenplan: een bedrijf zoeken, aanbestedingen verkennen en een dataverhaal publiceren"
+  },
+  "activity": {
+    "loading_activity": "Activiteit laden...",
+    "sign_in": "Inloggen",
+    "sign_in_to_see_your_activity": "Log in om uw activiteit te zien."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Operationele tools, architectuurdocumentatie en platformstatus"
+  },
+  "app": {
+    "activity": "Activiteit",
+    "admin": "Beheer",
+    "all": "Alle",
+    "cancel": "Annuleren",
+    "clear": "Wissen",
+    "close": "Sluiten",
+    "companies_count": "geen bedrijven | 1 bedrijf | {count} bedrijven",
+    "contracts": "Contracten",
+    "contracts_count": "geen contracten | 1 contract | {count} contracten",
+    "contracts_eur": "Contracten (EUR)",
+    "description": "Beschrijving",
+    "dismiss": "Sluiten",
+    "entity_resolution": "Entiteitsoplossing",
+    "entity_type": "Entiteitstype",
+    "esef": "ESEF",
+    "eu_public_procurement": "EU-aanbestedingen",
+    "filings_by_year": "Indieningen per jaar",
+    "gleif": "GLEIF",
+    "image": "Afbeelding",
+    "issues": "Issues",
+    "language": "Taal",
+    "loading": "Laden…",
+    "loading_2": "Laden...",
+    "loading_story": "Verhaal laden...",
+    "metric": "Metriek",
+    "no_data_available": "Geen gegevens beschikbaar",
+    "no_entity_configured": "Geen entiteit geconfigureerd.",
+    "nuts_level": "NUTS-niveau",
+    "per_year": "Per jaar",
+    "privacy": "Privacy",
+    "raise_an_issue": "Issue indienen",
+    "remove": "Verwijderen",
+    "retry": "Opnieuw proberen",
+    "sanctions": "Sancties",
+    "sign_out": "Uitloggen",
+    "skip_to_main_content": "Ga naar hoofdinhoud",
+    "ted": "TED",
+    "theme": "Thema",
+    "total_value_eur": "Totale waarde (EUR)",
+    "xbrl_field_coverage": "XBRL-velddekking (%)"
+  },
+  "app_footer": {
+    "about": "Over",
+    "data_quality": "Datakwaliteit",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Gegevens uit SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU-aanbestedingen)",
+    "footer": "Voettekst",
+    "sparql": "SPARQL",
+    "support": "Ondersteunen"
+  },
+  "assist": {
+    "accept_all": "Alles accepteren",
+    "ai_assist": "AI-assistent",
+    "ai_assistant": "AI-assistent",
+    "apply": "Toepassen",
+    "ask_about_the_data": "Stel een vraag over de gegevens...",
+    "clear_chat": "Chat wissen",
+    "conversations_are_processed_by_an_eu_bas": "Gesprekken worden verwerkt door een in de EU gevestigde AI-aanbieder.",
+    "embed": "Insluiten",
+    "insert_into_story": "Invoegen in verhaal",
+    "see_our_privacy_policy": "Zie ons privacybeleid.",
+    "send": "Verzenden"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Code",
+    "colour_scale": "Kleurschaal",
+    "coverage": "Dekking",
+    "data_slice": "Gegevensslice",
+    "dataset": "Gegevensset",
+    "dataset_metadata": "Metagegevens van gegevensset",
+    "distribution_is_right_skewed_log_scale_r": "De verdeling is rechtsscheef — logaritmische schaal aanbevolen.",
+    "hide_low_coverage_datasets": "Gegevenssets met lage dekking verbergen",
+    "hide_low_coverage_years": "Jaren met lage dekking verbergen",
+    "loading_datasets": "Gegevenssets laden…",
+    "lock_to_dataset_range": "Vergrendel op bereik van gegevensset",
+    "log_scale": "Logaritmische schaal",
+    "notes": "Opmerkingen",
+    "time_unit": "Tijdseenheid",
+    "updated": "Bijgewerkt",
+    "value_scale": "Waardeschaal"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Open in Atlas →"
+  },
+  "balance": {
+    "capital_structure": "Kapitaalstructuur"
+  },
+  "cashflow": {
+    "cash_flow": "Kasstroom"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Per rapportagejaar",
+    "cdp_climate_disclosure": "CDP-klimaatrapportage",
+    "cdp_scores_and_climate_reporting_score_d": "CDP-scores en klimaatrapportage — scoreverdeling en rapportagejaren",
+    "score_distribution": "Scoreverdeling"
+  },
+  "chapter_rail": {
+    "chapters": "Hoofdstukken",
+    "story_chapters": "Hoofdstukken van het verhaal"
+  },
+  "company_profile": {
+    "company_not_found": "Bedrijf niet gevonden.",
+    "company_profile": "Bedrijfsprofiel",
+    "loading_company_profile": "Bedrijfsprofiel laden..."
+  },
+  "connectedness_d_q": {
+    "count": "Aantal",
+    "degree_distribution_per_type": "Graadverdeling per type",
+    "graph_connectedness": "Grafische verbondenheid",
+    "isolated": "Geïsoleerd",
+    "isolated_2": "Geïsoleerd %",
+    "max": "Max",
+    "mean": "Gemiddelde",
+    "median": "Mediaan",
+    "min": "Min",
+    "per_type_summary": "Samenvatting per type"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Aanbestedingsgegevens kunnen niet worden geladen.",
+    "loading_procurement_data": "Aanbestedingsgegevens laden...",
+    "no_eu_public_procurement_data_found_for_": "Geen EU-aanbestedingsgegevens gevonden voor dit bedrijf.",
+    "top_authority": "Belangrijkste aanbestedende dienst",
+    "top_sector_cpv": "Belangrijkste sector (CPV)",
+    "type": "Type"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Contractwaarde in de tijd (EUR)",
+    "contract_volume_over_time": "Contractvolume in de tijd",
+    "contracts_by_country": "Contracten per land",
+    "contracts_by_currency": "Contracten per valuta",
+    "currency_quality": "Valutakwaliteit",
+    "eu_public_procurement_awards_volume_cove": "EU-aanbestedingsgunningen — volume, dekking, valutakwaliteit",
+    "loading_contract_data": "Contractgegevens laden...",
+    "missing_fields_of_contracts": "Ontbrekende velden (% van contracten)",
+    "ted_contracts": "TED-contracten",
+    "total_eur_by_country_top_15": "Totaal EUR per land (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Accepteren",
+    "cookie_consent": "Cookietoestemming",
+    "decline": "Weigeren",
+    "learn_more": "Meer informatie"
+  },
+  "data_quality": {
+    "about_this_data": "Over deze gegevens",
+    "all_procurement_data_is_sourced_from": "Alle aanbestedingsgegevens komen uit",
+    "companies_with_lei": "Bedrijven met LEI",
+    "companies_with_vat": "Bedrijven met btw",
+    "contract_date_range": "Contractdatumbereik",
+    "country": "Land",
+    "cpv_code": "CPV-code",
+    "data_freshness": "Versheid van gegevens",
+    "data_quality_dashboard": "Dashboard datakwaliteit",
+    "failed_to_load_data_quality_metrics": "Metrieken van datakwaliteit kunnen niet worden geladen.",
+    "knowledge_graph": "Kennisgraf",
+    "last_data_load": "Laatste gegevenslading",
+    "loading_metrics": "Metrieken laden...",
+    "pending_review_same_as_rarr": "In afwachting van controle (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Platformstatus, datadekking en transparantiemetrieken",
+    "procurement_coverage_by_country": "Aanbestedingsdekking per land",
+    "procurement_only": "Alleen aanbestedingen",
+    "relationships": "Relaties",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Belangrijkste aanbestedingssectoren (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Versheid van gegevens",
+    "data_quality": "Datakwaliteit",
+    "latest_contract_load": "Laatste contractlading",
+    "loading_overview": "Overzicht laden..."
+  },
+  "data_view_selector": {
+    "data_view": "Gegevensweergave",
+    "gmr_long_tooltip": "Long-Term Value beoordeelt een aandeel voor langetermijn-value-beleggen met behulp van 5-jaars gemiddelden: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, nettomarge ≥ 15 %, D/E ≤ 1,5, dividendrendement ≥ 3,5 %. Ontwikkeld door Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Deduplicatie",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS-wachtrij — status van het oplossen van dubbele entiteiten",
+    "use_the": "Gebruik de"
+  },
+  "donate": {
+    "backers": "Ondersteuners",
+    "contribute_rarr": "Bijdragen &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Donaties lopen via een fiscal-host non-profit op",
+    "open_collective": "Open Collective",
+    "support_fontem": "Steun Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Dank aan iedereen die Fontem in leven houdt.",
+    "where_the_money_goes": "Waar het geld naartoe gaat"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC-financiële overzichten — XBRL-velddekking en indieningstrends",
+    "us_edgar_financials": "US EDGAR-financiële gegevens"
+  },
+  "entity_mention": {
+    "remove_mention": "Vermelding verwijderen"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Contracten (aantal)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Alle gemarkeerde paren zijn opgelost.",
+    "different_entities_reject": "Verschillende entiteiten — weigeren",
+    "entity_a": "Entiteit A",
+    "entity_b": "Entiteit B",
+    "failed_to_load_candidates": "Kandidaten kunnen niet worden geladen.",
+    "keep_as_related": "Behouden als gerelateerd",
+    "loading_candidates": "Kandidaten laden...",
+    "merge_keep_a_b_is_removed": "Samenvoegen — behoud A (B wordt verwijderd)",
+    "merge_keep_b_a_is_removed": "Samenvoegen — behoud B (A wordt verwijderd)",
+    "no_pairs_pending_review": "Geen paren in afwachting van controle.",
+    "review_and_decide_on_flagged_candidates": "Beoordeel en beslis over gemarkeerde kandidaten",
+    "why_flagged": "Reden voor markering"
+  },
+  "entity_side": {
+    "entity_details": "Entiteitsdetails"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF-financiële gegevens",
+    "european_financial_statements_xbrl_cover": "Europese financiële overzichten — XBRL-dekking en verdeling per land",
+    "filings_by_country": "Indieningen per land"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "Cronjob",
+    "duration": "Duur",
+    "etl_runs": "ETL-uitvoeringen",
+    "failed": "Mislukt",
+    "recent_cronjob_invocations_from": "Recente CronJob-aanroepen van",
+    "recent_runs": "Recente uitvoeringen",
+    "refresh": "Vernieuwen",
+    "running": "Bezig",
+    "started": "Gestart",
+    "status": "Status:",
+    "status_2": "Status",
+    "success": "Geslaagd",
+    "summary": "Samenvatting"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "EU-cohesiebeleidsprojecten — financiering, begunstigden en geografische spreiding",
+    "eu_knowledge_graph": "EU-kennisgraf",
+    "projects_by_country_top_15": "Projecten per land (Top 15)",
+    "projects_by_fund_top_10": "Projecten per fonds (Top 10)"
+  },
+  "explore": {
+    "explore": "Verkennen"
+  },
+  "feed": {
+    "clear_filter": "Filter wissen",
+    "feed": "Feed",
+    "filtering_by": "Filteren op",
+    "loading_feed": "Feed laden...",
+    "public_data_stories_from_the_community_n": "Openbare dataverhalen uit de community, nieuwste eerst."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Per instrumenttype",
+    "esma_financial_instruments_reference_dat": "ESMA-referentiegegevens van financiële instrumenten — ISIN-dekking, instrumenttypes, handelsplaatsen",
+    "firds_instruments": "FIRDS-instrumenten",
+    "top_trading_venues_mic": "Belangrijkste handelsplaatsen (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geografische verkenner"
+  },
+  "geo_choropleth": {
+    "companies": "Bedrijven",
+    "connected_to_3": "Verbonden met (α-3)",
+    "parent_nuts_1": "Bovenliggende NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Bedrijven per land (Top 30)",
+    "gleif_companies": "GLEIF-bedrijven",
+    "global_lei_directory_entity_identificati": "Wereldwijde LEI-directory — entiteitsidentificatie en concernstructuur"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Kan de graaf niet laden",
+    "depth": "Diepte",
+    "exit_fullscreen": "Volledig scherm verlaten",
+    "expanding_node": "Knooppunt uitbreiden...",
+    "export": "Exporteren",
+    "filter": "Filter…",
+    "find_path_to": "Pad zoeken naar",
+    "finding_paths": "Paden zoeken...",
+    "fullscreen": "Volledig scherm",
+    "go_to_profile": "Naar profiel",
+    "json": "JSON",
+    "loading_graph": "Graaf laden...",
+    "more_options": "Meer opties",
+    "no_connections_found_for_this_entity": "Geen verbindingen gevonden voor deze entiteit.",
+    "no_paths_found_between_these_entities": "Geen paden gevonden tussen deze entiteiten.",
+    "path_to": "Pad naar",
+    "period": "Periode",
+    "png": "PNG",
+    "save_view": "Weergave opslaan",
+    "search_entity_name": "Entiteitsnaam zoeken...",
+    "set_as_center": "Instellen als centrum",
+    "summary_edges": "Samenvattingsranden",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Omzet &amp; nettowinst"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Korte samenvatting van het probleem",
+    "describe_the_issue_in_detail_markdown_su": "Beschrijf het probleem uitgebreid (Markdown ondersteund)",
+    "entity_id": "Entiteits-ID",
+    "issue_type": "Issue-type",
+    "title": "Titel"
+  },
+  "issue_detail": {
+    "add_a_comment": "Voeg een reactie toe...",
+    "loading_issue": "Issue laden...",
+    "no_comments_yet": "Nog geen reacties.",
+    "reject": "Weigeren",
+    "resolve": "Oplossen"
+  },
+  "issues": {
+    "loading_issues": "Issues laden...",
+    "no_issues_found": "Geen issues gevonden."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "EU-lobbyregister",
+    "lobbying_cost_distribution": "Verdeling van lobbykosten",
+    "registrations_over_time": "Inschrijvingen in de tijd",
+    "top_countries": "Belangrijkste landen",
+    "transparency_register_lobbyist_registrat": "Transparantieregister — lobbyisten-inschrijvingen, EP-toegang, uitgaven"
+  },
+  "login": {
+    "go_to_home": "Naar startpagina",
+    "you_already_have_an_active_session": "U hebt al een actieve sessie.",
+    "youre_signed_in": "U bent ingelogd"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Entiteitsvermeldingen",
+    "searching": "Zoeken…"
+  },
+  "moderation": {
+    "flagged_content": "Gemarkeerde inhoud",
+    "moderation": "Moderatie",
+    "moderation_log": "Moderatielogboek",
+    "no_flagged_content": "Geen gemarkeerde inhoud.",
+    "no_moderation_actions_yet": "Nog geen moderatieacties.",
+    "review_flagged_content_and_moderation_hi": "Bekijk gemarkeerde inhoud en moderatiegeschiedenis"
+  },
+  "multi_select": {
+    "none": "Geen"
+  },
+  "my_reports": {
+    "loading_stories": "Verhalen laden...",
+    "my_stories": "Mijn verhalen",
+    "no_stories_yet_start_your_first_one_abov": "Nog geen verhalen. Begin uw eerste hierboven.",
+    "or_read_recent_public_stories": "Of lees recente openbare verhalen →"
+  },
+  "not_found": {
+    "back_to_home": "Terug naar startpagina",
+    "page_not_found": "Pagina niet gevonden",
+    "the_page_youre_looking_for_doesnt_exist_": "De pagina die u zoekt bestaat niet of is verplaatst."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostat NUTS-classificatie — geografische dekking van bedrijven en autoriteiten",
+    "nuts_regions": "NUTS-regio's",
+    "regions_by_level": "Regio's per niveau",
+    "top_nuts_0_regions_by_company_count": "Top NUTS 0-regio's per aantal bedrijven"
+  },
+  "overview_d_q": {
+    "cohesion": "Cohesie",
+    "country_code_consistency": "Consistentie van landcodes",
+    "cross_source_overlap": "Overlap tussen bronnen",
+    "cross_source_overlap_country_code_consis": "Overlap tussen bronnen, consistentie van landcodes en veldvolledigheid over alle gegevensbronnen",
+    "data_quality_overview": "Overzicht datakwaliteit",
+    "listings": "Noteringen",
+    "lobby": "Lobby",
+    "top_alpha_2_codes": "Belangrijkste Alpha-2-codes"
+  },
+  "pocket_button": {
+    "save": "Opslaan",
+    "save_to_pocket": "Opslaan in Pocket"
+  },
+  "preferences_menu": {
+    "account": "Account",
+    "ai_usage": "AI-gebruik",
+    "atlas_palette": "Atlas-palet",
+    "display": "Weergave",
+    "preferences": "Voorkeuren"
+  },
+  "privacy": {
+    "access": "Toegang",
+    "all_data_in_the_fontem_knowledge_graph_r": "Alle gegevens in de Fontem-kennisgraf hebben betrekking op",
+    "conversation_processing_is_performed_by_": "Gespreksverwerking wordt uitgevoerd door in de EU gevestigde AI-aanbieders.",
+    "conversations_are_automatically_deleted_": "Gesprekken worden na 90 dagen automatisch verwijderd.",
+    "erase": "Wissen",
+    "eu_consolidated_sanctions_list": "Geconsolideerde EU-sanctielijst",
+    "eu_transparency_register": "EU-transparantieregister",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Laatst bijgewerkt: april 2026",
+    "legal_basis": "Rechtsgrondslag:",
+    "no_personal_data_of_individuals_is_store": "Er worden geen persoonsgegevens van individuen in de kennisgraf opgeslagen.",
+    "port": "Overdraagbaarheid",
+    "privacy_policy": "Privacybeleid",
+    "rectify": "Rectificeren",
+    "to_exercise_any_of_these_rights_contact_": "Om deze rechten uit te oefenen kunt u contact met ons opnemen via",
+    "under_the_gdpr_you_have_the_right_to": "Onder de AVG hebt u het recht om:",
+    "when_you_sign_in_we_collect_and_store": "Wanneer u inlogt, verzamelen en bewaren wij:",
+    "your": "Uw"
+  },
+  "profile": {
+    "avg_net_margin": "Gem. nettomarge",
+    "avg_roe": "Gem. ROE",
+    "corporate_group": "Concern",
+    "current_price": "Huidige koers",
+    "directors_amp_officers": "Bestuurders &amp; leidinggevenden",
+    "financial_overview": "Financieel overzicht",
+    "market_cap": "Marktkapitalisatie",
+    "part_of": "Onderdeel van"
+  },
+  "public_spending": {
+    "public_spending": "Overheidsuitgaven"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Carrouselpositie",
+    "recently_published_data_stories": "Onlangs gepubliceerde dataverhalen"
+  },
+  "report": {
+    "edit": "Bewerken"
+  },
+  "report_editor": {
+    "brief_abstract": "Korte samenvatting...",
+    "private_only_me": "Privé — alleen ik",
+    "public_anyone": "Openbaar — iedereen",
+    "signed_in_users": "Ingelogde gebruikers",
+    "story_title": "Titel van het verhaal"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Gesanctioneerde entiteiten — personen, organisaties, dekking van regimes en bedrijfsmatching",
+    "top_sanction_regimes": "Belangrijkste sanctieregimes"
+  },
+  "share": {
+    "add": "Toevoegen",
+    "add_group": "Groep toevoegen",
+    "add_person": "Persoon toevoegen",
+    "collaborators": "Medewerkers",
+    "email_address": "E-mailadres",
+    "group_name": "Groepsnaam",
+    "no_collaborators_yet": "Nog geen medewerkers.",
+    "share_story": "Verhaal delen",
+    "visibility": "Zichtbaarheid"
+  },
+  "sparql": {
+    "endpoint": "Endpoint",
+    "endpoint_url": "Endpoint-URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Limieten",
+    "method": "Methode",
+    "post": "POST",
+    "query_failed": "Query mislukt:",
+    "response": "Antwoord",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultaten-envelop:",
+    "sparql_endpoint": "SPARQL-endpoint",
+    "try_a_query": "Probeer een query"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Citaat",
+    "bold_b": "Vet (⌘B)",
+    "bullet_list": "Opsommingslijst",
+    "code_block": "Codeblok",
+    "divider": "Scheidingslijn",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Kop 1",
+    "heading_2": "Kop 2",
+    "heading_3": "Kop 3",
+    "inline_code": "Inline-code",
+    "italic_i": "Cursief (⌘I)",
+    "link": "Link",
+    "numbered_list": "Genummerde lijst",
+    "strikethrough": "Doorstreept",
+    "table": "Tabel",
+    "underline_u": "Onderstreept (⌘U)",
+    "widget_from_pocket": "Widget uit Pocket"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Verwijder de kolom links"
+  },
+  "tag_editor": {
+    "tags": "Labels"
+  },
+  "ticker_card": {
+    "authority": "Autoriteit",
+    "company": "Bedrijf",
+    "person": "Persoon"
+  },
+  "ticker_financials": {
+    "close_financials": "Financiële gegevens sluiten",
+    "history": "Geschiedenis",
+    "taking_longer_than_expected": "Duurt langer dan verwacht…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Geen tickers gevonden voor &ldquo;",
+    "search_companies_public_entities_lobbyis": "Zoek bedrijven, publieke entiteiten, lobbyisten…",
+    "search_results": "Zoekresultaten",
+    "search_the_knowledge_graph": "Zoek in de kennisgraf"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Gematerialiseerde autoriteit-bedrijf-handelsrelaties uit contracten",
+    "trade_edges": "Handelskanten",
+    "trade_edges_are_materialized_from_contra": "Handelskanten worden gematerialiseerd uit contractgegevens. Voer uit"
+  },
+  "triples_d_q": {
+    "chart_view": "Grafiekweergave",
+    "click_a_graph_to_inspect_its_class_and_p": "Klik op een graaf om de verdeling per klasse en predicaat te bekijken.",
+    "no": "Nee",
+    "no_triples_in_this_graph": "Geen triples in deze graaf.",
+    "top_classes": "Belangrijkste klassen",
+    "top_predicates": "Belangrijkste predicaten",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Triples per benoemde graaf",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso is niet geconfigureerd in deze omgeving",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Gemiddelden"
+  },
+  "widget_node": {
+    "remove_widget": "Widget verwijderen"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Onbekend widget-type:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
