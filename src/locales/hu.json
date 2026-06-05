@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "MI-használati mutatók",
+    "last_24_h": "Utolsó 24 óra",
+    "last_7_days": "Utolsó 7 nap",
+    "last_hour": "Utolsó óra"
+  },
+  "about": {
+    "a_45_second_tour": "45 másodperces bemutató",
+    "how_it_works": "Hogyan működik",
+    "recently_published": "Nemrég közzétéve",
+    "see_all_public_data_stories": "Az összes nyilvános adat-történet megtekintése →",
+    "try": "Próbáld ki:",
+    "walkthrough_searching_a_company_explorin": "Útmutató: vállalat keresése, közbeszerzések böngészése és adat-történet közzététele"
+  },
+  "activity": {
+    "loading_activity": "Tevékenység betöltése...",
+    "sign_in": "Bejelentkezés",
+    "sign_in_to_see_your_activity": "Jelentkezz be, hogy lásd a tevékenységed."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Üzemeltetési eszközök, architektúra-dokumentumok és a platform állapota"
+  },
+  "app": {
+    "activity": "Tevékenység",
+    "admin": "Adminisztráció",
+    "all": "Mind",
+    "cancel": "Mégse",
+    "clear": "Törlés",
+    "close": "Bezárás",
+    "companies_count": "nincs vállalat | 1 vállalat | {count} vállalat",
+    "contracts": "Szerződések",
+    "contracts_count": "nincs szerződés | 1 szerződés | {count} szerződés",
+    "contracts_eur": "Szerződések (EUR)",
+    "description": "Leírás",
+    "dismiss": "Bezárás",
+    "entity_resolution": "Entitás-feloldás",
+    "entity_type": "Entitás típusa",
+    "esef": "ESEF",
+    "eu_public_procurement": "EU közbeszerzések",
+    "filings_by_year": "Beadványok évek szerint",
+    "gleif": "GLEIF",
+    "image": "Kép",
+    "issues": "Problémák",
+    "language": "Nyelv",
+    "loading": "Betöltés…",
+    "loading_2": "Betöltés...",
+    "loading_story": "Történet betöltése...",
+    "metric": "Mutató",
+    "no_data_available": "Nincs elérhető adat",
+    "no_entity_configured": "Nincs konfigurálva entitás.",
+    "nuts_level": "NUTS-szint",
+    "per_year": "Évente",
+    "privacy": "Adatvédelem",
+    "raise_an_issue": "Probléma bejelentése",
+    "remove": "Eltávolítás",
+    "retry": "Újrapróbálkozás",
+    "sanctions": "Szankciók",
+    "sign_out": "Kijelentkezés",
+    "skip_to_main_content": "Ugrás a fő tartalomhoz",
+    "ted": "TED",
+    "theme": "Téma",
+    "total_value_eur": "Teljes érték (EUR)",
+    "xbrl_field_coverage": "XBRL-mezők lefedettsége (%)"
+  },
+  "app_footer": {
+    "about": "Rólunk",
+    "data_quality": "Adatminőség",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Adatok forrása: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU közbeszerzések)",
+    "footer": "Lábléc",
+    "sparql": "SPARQL",
+    "support": "Támogasd"
+  },
+  "assist": {
+    "accept_all": "Mindet elfogadom",
+    "ai_assist": "MI-segéd",
+    "ai_assistant": "MI-asszisztens",
+    "apply": "Alkalmaz",
+    "ask_about_the_data": "Kérdezz az adatokról...",
+    "clear_chat": "Beszélgetés törlése",
+    "conversations_are_processed_by_an_eu_bas": "A beszélgetéseket EU-ban székelő MI-szolgáltató dolgozza fel.",
+    "embed": "Beágyazás",
+    "insert_into_story": "Beszúrás a történetbe",
+    "see_our_privacy_policy": "Lásd az adatvédelmi szabályzatunkat.",
+    "send": "Küldés"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kód",
+    "colour_scale": "Színskála",
+    "coverage": "Lefedettség",
+    "data_slice": "Adatszelet",
+    "dataset": "Adatkészlet",
+    "dataset_metadata": "Adatkészlet metaadatai",
+    "distribution_is_right_skewed_log_scale_r": "Az eloszlás jobbra ferdül — logaritmikus skála javasolt.",
+    "hide_low_coverage_datasets": "Alacsony lefedettségű adatkészletek elrejtése",
+    "hide_low_coverage_years": "Alacsony lefedettségű évek elrejtése",
+    "loading_datasets": "Adatkészletek betöltése…",
+    "lock_to_dataset_range": "Rögzítés az adatkészlet tartományához",
+    "log_scale": "Log. skála",
+    "notes": "Megjegyzések",
+    "time_unit": "Időegység",
+    "updated": "Frissítve",
+    "value_scale": "Értékskála"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Megnyitás Atlasban →"
+  },
+  "balance": {
+    "capital_structure": "Tőkeszerkezet"
+  },
+  "cashflow": {
+    "cash_flow": "Pénzáramlás"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Jelentési év szerint",
+    "cdp_climate_disclosure": "CDP klímajelentés",
+    "cdp_scores_and_climate_reporting_score_d": "CDP-pontszámok és klímajelentések — pontszámok eloszlása és jelentési évek",
+    "score_distribution": "Pontszámok eloszlása"
+  },
+  "chapter_rail": {
+    "chapters": "Fejezetek",
+    "story_chapters": "Történet fejezetei"
+  },
+  "company_profile": {
+    "company_not_found": "A vállalat nem található.",
+    "company_profile": "Vállalati profil",
+    "loading_company_profile": "Vállalati profil betöltése..."
+  },
+  "connectedness_d_q": {
+    "count": "Darab",
+    "degree_distribution_per_type": "Fokszámeloszlás típusonként",
+    "graph_connectedness": "Gráf összefüggősége",
+    "isolated": "Izolált",
+    "isolated_2": "Izolált %",
+    "max": "Max",
+    "mean": "Átlag",
+    "median": "Medián",
+    "min": "Min",
+    "per_type_summary": "Összegzés típusonként"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Nem sikerült betölteni a közbeszerzési adatokat.",
+    "loading_procurement_data": "Közbeszerzési adatok betöltése...",
+    "no_eu_public_procurement_data_found_for_": "Nem található EU közbeszerzési adat ehhez a vállalathoz.",
+    "top_authority": "Fő ajánlatkérő",
+    "top_sector_cpv": "Fő ágazat (CPV)",
+    "type": "Típus"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Szerződésérték az idő függvényében (EUR)",
+    "contract_volume_over_time": "Szerződésvolumen az idő függvényében",
+    "contracts_by_country": "Szerződések ország szerint",
+    "contracts_by_currency": "Szerződések pénznem szerint",
+    "currency_quality": "Pénznem minősége",
+    "eu_public_procurement_awards_volume_cove": "EU közbeszerzési odaítélések — volumen, lefedettség, pénznem minősége",
+    "loading_contract_data": "Szerződésadatok betöltése...",
+    "missing_fields_of_contracts": "Hiányzó mezők (a szerződések %-a)",
+    "ted_contracts": "TED-szerződések",
+    "total_eur_by_country_top_15": "Összes EUR ország szerint (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Elfogadás",
+    "cookie_consent": "Süti hozzájárulás",
+    "decline": "Elutasítás",
+    "learn_more": "Tudj meg többet"
+  },
+  "data_quality": {
+    "about_this_data": "Ezekről az adatokról",
+    "all_procurement_data_is_sourced_from": "Az összes közbeszerzési adat forrása",
+    "companies_with_lei": "LEI-azonosítóval rendelkező vállalatok",
+    "companies_with_vat": "Adószámmal rendelkező vállalatok",
+    "contract_date_range": "Szerződések dátumtartománya",
+    "country": "Ország",
+    "cpv_code": "CPV-kód",
+    "data_freshness": "Adatfrissesség",
+    "data_quality_dashboard": "Adatminőség-vezérlőpult",
+    "failed_to_load_data_quality_metrics": "Nem sikerült betölteni az adatminőségi mutatókat.",
+    "knowledge_graph": "Tudásgráf",
+    "last_data_load": "Utolsó adatbetöltés",
+    "loading_metrics": "Mutatók betöltése...",
+    "pending_review_same_as_rarr": "Felülvizsgálatra vár (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "A platform állapota, adatlefedettség és átláthatósági mutatók",
+    "procurement_coverage_by_country": "Közbeszerzések lefedettsége ország szerint",
+    "procurement_only": "Csak közbeszerzés",
+    "relationships": "Kapcsolatok",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Fő közbeszerzési ágazatok (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Adatfrissesség",
+    "data_quality": "Adatminőség",
+    "latest_contract_load": "Utolsó szerződés-betöltés",
+    "loading_overview": "Áttekintés betöltése..."
+  },
+  "data_view_selector": {
+    "data_view": "Adatnézet",
+    "gmr_long_tooltip": "Long-Term Value egy részvényt értékel hosszú távú értékbefektetéshez 5 éves átlagok alapján: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, nettó haszonkulcs ≥ 15 %, D/E ≤ 1,5, osztalékhozam ≥ 3,5 %. Fejlesztette Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Deduplikálás",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS sor — duplikált entitás-feloldás állapota",
+    "use_the": "Használd"
+  },
+  "donate": {
+    "backers": "Támogatók",
+    "contribute_rarr": "Hozzájárulok &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Az adományok nonprofit fiskális gazdán keresztül érkeznek",
+    "open_collective": "Open Collective",
+    "support_fontem": "Támogasd a Fontemet",
+    "thanks_to_everyone_keeping_fontem_alive": "Köszönet mindenkinek, aki életben tartja a Fontemet.",
+    "where_the_money_goes": "Hová megy a pénz"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC pénzügyi kimutatások — XBRL-mezők lefedettsége és beadvány-trendek",
+    "us_edgar_financials": "US EDGAR pénzügyi adatok"
+  },
+  "entity_mention": {
+    "remove_mention": "Említés eltávolítása"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Szerződések (darab)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Az összes megjelölt párt feloldottuk.",
+    "different_entities_reject": "Különböző entitások — elutasítás",
+    "entity_a": "A entitás",
+    "entity_b": "B entitás",
+    "failed_to_load_candidates": "Nem sikerült betölteni a jelölteket.",
+    "keep_as_related": "Megtartás kapcsolódóként",
+    "loading_candidates": "Jelöltek betöltése...",
+    "merge_keep_a_b_is_removed": "Összevonás — A megtartása (B eltávolítása)",
+    "merge_keep_b_a_is_removed": "Összevonás — B megtartása (A eltávolítása)",
+    "no_pairs_pending_review": "Nincs felülvizsgálatra váró pár.",
+    "review_and_decide_on_flagged_candidates": "Megjelölt jelöltek áttekintése és döntés",
+    "why_flagged": "Miért megjelölt"
+  },
+  "entity_side": {
+    "entity_details": "Entitás részletei"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF pénzügyi adatok",
+    "european_financial_statements_xbrl_cover": "Európai pénzügyi kimutatások — XBRL-lefedettség és országonkénti eloszlás",
+    "filings_by_country": "Beadványok ország szerint"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Időtartam",
+    "etl_runs": "ETL-futtatások",
+    "failed": "Sikertelen",
+    "recent_cronjob_invocations_from": "Friss CronJob-hívások innen:",
+    "recent_runs": "Friss futtatások",
+    "refresh": "Frissítés",
+    "running": "Fut",
+    "started": "Elindult",
+    "status": "Állapot:",
+    "status_2": "Állapot",
+    "success": "Sikeres",
+    "summary": "Összegzés"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "EU kohéziós politikai projektek — finanszírozás, kedvezményezettek és földrajzi eloszlás",
+    "eu_knowledge_graph": "EU tudásgráf",
+    "projects_by_country_top_15": "Projektek ország szerint (Top 15)",
+    "projects_by_fund_top_10": "Projektek alap szerint (Top 10)"
+  },
+  "explore": {
+    "explore": "Felfedezés"
+  },
+  "feed": {
+    "clear_filter": "Szűrő törlése",
+    "feed": "Hírfolyam",
+    "filtering_by": "Szűrés erre:",
+    "loading_feed": "Hírfolyam betöltése...",
+    "public_data_stories_from_the_community_n": "Nyilvános közösségi adat-történetek, legújabbak elöl."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Eszköztípus szerint",
+    "esma_financial_instruments_reference_dat": "ESMA pénzügyi eszközök referenciaadatai — ISIN-lefedettség, eszköztípusok, kereskedési helyek",
+    "firds_instruments": "FIRDS-eszközök",
+    "top_trading_venues_mic": "Fő kereskedési helyek (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo-böngésző"
+  },
+  "geo_choropleth": {
+    "companies": "Vállalatok",
+    "connected_to_3": "Csatlakozva (α-3)",
+    "parent_nuts_1": "Szülő NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Vállalatok ország szerint (Top 30)",
+    "gleif_companies": "GLEIF-vállalatok",
+    "global_lei_directory_entity_identificati": "Globális LEI-jegyzék — entitás-azonosítás és vállalati struktúra"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Nem sikerült betölteni a gráfot",
+    "depth": "Mélység",
+    "exit_fullscreen": "Kilépés a teljes képernyőből",
+    "expanding_node": "Csomópont kibontása...",
+    "export": "Exportálás",
+    "filter": "Szűrő…",
+    "find_path_to": "Útvonal keresése ide:",
+    "finding_paths": "Útvonalak keresése...",
+    "fullscreen": "Teljes képernyő",
+    "go_to_profile": "Ugrás a profilra",
+    "json": "JSON",
+    "loading_graph": "Gráf betöltése...",
+    "more_options": "További beállítások",
+    "no_connections_found_for_this_entity": "Nem található kapcsolat ehhez az entitáshoz.",
+    "no_paths_found_between_these_entities": "Nem található útvonal ezen entitások között.",
+    "path_to": "Útvonal ide:",
+    "period": "Időszak",
+    "png": "PNG",
+    "save_view": "Nézet mentése",
+    "search_entity_name": "Entitás nevének keresése...",
+    "set_as_center": "Beállítás középpontnak",
+    "summary_edges": "Összegző élek",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Árbevétel &amp; nettó jövedelem"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "A probléma rövid összegzése",
+    "describe_the_issue_in_detail_markdown_su": "Írd le részletesen a problémát (Markdown támogatott)",
+    "entity_id": "Entitás-azonosító",
+    "issue_type": "Probléma típusa",
+    "title": "Cím"
+  },
+  "issue_detail": {
+    "add_a_comment": "Hozzászólás...",
+    "loading_issue": "Probléma betöltése...",
+    "no_comments_yet": "Még nincs hozzászólás.",
+    "reject": "Elutasítás",
+    "resolve": "Megoldás"
+  },
+  "issues": {
+    "loading_issues": "Problémák betöltése...",
+    "no_issues_found": "Nem található probléma."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "EU lobbinyilvántartás",
+    "lobbying_cost_distribution": "Lobbiköltségek eloszlása",
+    "registrations_over_time": "Regisztrációk az idő függvényében",
+    "top_countries": "Fő országok",
+    "transparency_register_lobbyist_registrat": "Átláthatósági nyilvántartás — lobbisták regisztrációi, EP-hozzáférés, kiadások"
+  },
+  "login": {
+    "go_to_home": "Ugrás a kezdőlapra",
+    "you_already_have_an_active_session": "Már van aktív munkameneted.",
+    "youre_signed_in": "Be vagy jelentkezve"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Entitás-említések",
+    "searching": "Keresés…"
+  },
+  "moderation": {
+    "flagged_content": "Megjelölt tartalom",
+    "moderation": "Moderálás",
+    "moderation_log": "Moderálási napló",
+    "no_flagged_content": "Nincs megjelölt tartalom.",
+    "no_moderation_actions_yet": "Még nincs moderálási művelet.",
+    "review_flagged_content_and_moderation_hi": "Megjelölt tartalom és moderálási előzmények áttekintése"
+  },
+  "multi_select": {
+    "none": "Egyik sem"
+  },
+  "my_reports": {
+    "loading_stories": "Történetek betöltése...",
+    "my_stories": "Saját történeteim",
+    "no_stories_yet_start_your_first_one_abov": "Még nincs történet. Kezdd el az elsőt fent.",
+    "or_read_recent_public_stories": "Vagy olvasd a friss nyilvános történeteket →"
+  },
+  "not_found": {
+    "back_to_home": "Vissza a kezdőlapra",
+    "page_not_found": "Az oldal nem található",
+    "the_page_youre_looking_for_doesnt_exist_": "A keresett oldal nem létezik vagy áthelyezték."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostat NUTS-osztályozás — vállalatok és hatóságok földrajzi lefedettsége",
+    "nuts_regions": "NUTS-régiók",
+    "regions_by_level": "Régiók szint szerint",
+    "top_nuts_0_regions_by_company_count": "Fő NUTS 0 régiók vállalatok száma szerint"
+  },
+  "overview_d_q": {
+    "cohesion": "Kohézió",
+    "country_code_consistency": "Országkódok konzisztenciája",
+    "cross_source_overlap": "Forrás-átfedés",
+    "cross_source_overlap_country_code_consis": "Forrás-átfedés, országkód-konzisztencia és mezők teljessége az összes forrásban",
+    "data_quality_overview": "Adatminőség áttekintése",
+    "listings": "Tőzsdei jegyzések",
+    "lobby": "Lobbi",
+    "top_alpha_2_codes": "Fő Alpha-2 kódok"
+  },
+  "pocket_button": {
+    "save": "Mentés",
+    "save_to_pocket": "Mentés Pocketbe"
+  },
+  "preferences_menu": {
+    "account": "Fiók",
+    "ai_usage": "MI-használat",
+    "atlas_palette": "Atlas-paletta",
+    "display": "Megjelenítés",
+    "preferences": "Beállítások"
+  },
+  "privacy": {
+    "access": "Hozzáférés",
+    "all_data_in_the_fontem_knowledge_graph_r": "A Fontem tudásgráfjának minden adata erre vonatkozik:",
+    "conversation_processing_is_performed_by_": "A beszélgetések feldolgozását EU-ban székelő MI-szolgáltatók végzik.",
+    "conversations_are_automatically_deleted_": "A beszélgetések 90 nap után automatikusan törlődnek.",
+    "erase": "Törlés",
+    "eu_consolidated_sanctions_list": "EU konszolidált szankciós lista",
+    "eu_transparency_register": "EU átláthatósági nyilvántartás",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Utoljára frissítve: 2026. április",
+    "legal_basis": "Jogalap:",
+    "no_personal_data_of_individuals_is_store": "Természetes személyek személyes adatait nem tárolunk a tudásgráfban.",
+    "port": "Hordozhatóság",
+    "privacy_policy": "Adatvédelmi szabályzat",
+    "rectify": "Helyesbítés",
+    "to_exercise_any_of_these_rights_contact_": "E jogok bármelyikének gyakorlásához lépj kapcsolatba velünk itt:",
+    "under_the_gdpr_you_have_the_right_to": "A GDPR alapján jogod van:",
+    "when_you_sign_in_we_collect_and_store": "Amikor bejelentkezel, az alábbiakat gyűjtjük és tároljuk:",
+    "your": "Saját"
+  },
+  "profile": {
+    "avg_net_margin": "Átlagos nettó haszonkulcs",
+    "avg_roe": "Átlagos ROE",
+    "corporate_group": "Vállalatcsoport",
+    "current_price": "Aktuális ár",
+    "directors_amp_officers": "Igazgatók &amp; tisztségviselők",
+    "financial_overview": "Pénzügyi áttekintés",
+    "market_cap": "Piaci kapitalizáció",
+    "part_of": "Része ennek:"
+  },
+  "public_spending": {
+    "public_spending": "Közkiadás"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pozíció a karusszelben",
+    "recently_published_data_stories": "Nemrég közzétett adat-történetek"
+  },
+  "report": {
+    "edit": "Szerkesztés"
+  },
+  "report_editor": {
+    "brief_abstract": "Rövid kivonat...",
+    "private_only_me": "Privát — csak én",
+    "public_anyone": "Nyilvános — bárki",
+    "signed_in_users": "Bejelentkezett felhasználók",
+    "story_title": "Történet címe"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Szankcionált entitások — személyek, szervezetek, rezsim-lefedettség és vállalati egyezések",
+    "top_sanction_regimes": "Fő szankcionálási rezsimek"
+  },
+  "share": {
+    "add": "Hozzáadás",
+    "add_group": "Csoport hozzáadása",
+    "add_person": "Személy hozzáadása",
+    "collaborators": "Együttműködők",
+    "email_address": "E-mail cím",
+    "group_name": "Csoport neve",
+    "no_collaborators_yet": "Még nincs együttműködő.",
+    "share_story": "Történet megosztása",
+    "visibility": "Láthatóság"
+  },
+  "sparql": {
+    "endpoint": "Végpont",
+    "endpoint_url": "Végpont URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Korlátok",
+    "method": "Módszer",
+    "post": "POST",
+    "query_failed": "A lekérdezés nem sikerült:",
+    "response": "Válasz",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-eredmények borítéka:",
+    "sparql_endpoint": "SPARQL-végpont",
+    "try_a_query": "Próbálj ki egy lekérdezést"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Blokk-idézet",
+    "bold_b": "Félkövér (⌘B)",
+    "bullet_list": "Felsorolás",
+    "code_block": "Kódblokk",
+    "divider": "Elválasztó",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "1. szintű cím",
+    "heading_2": "2. szintű cím",
+    "heading_3": "3. szintű cím",
+    "inline_code": "Soron belüli kód",
+    "italic_i": "Dőlt (⌘I)",
+    "link": "Hivatkozás",
+    "numbered_list": "Számozott lista",
+    "strikethrough": "Áthúzott",
+    "table": "Táblázat",
+    "underline_u": "Aláhúzott (⌘U)",
+    "widget_from_pocket": "Widget Pocketből"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Bal oldali oszlop eltávolítása"
+  },
+  "tag_editor": {
+    "tags": "Címkék"
+  },
+  "ticker_card": {
+    "authority": "Hatóság",
+    "company": "Vállalat",
+    "person": "Személy"
+  },
+  "ticker_financials": {
+    "close_financials": "Pénzügyek bezárása",
+    "history": "Előzmények",
+    "taking_longer_than_expected": "Tovább tart, mint vártuk…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Nem található ticker erre: &ldquo;",
+    "search_companies_public_entities_lobbyis": "Keress vállalatokat, állami entitásokat, lobbistákat…",
+    "search_results": "Keresési eredmények",
+    "search_the_knowledge_graph": "Keresés a tudásgráfban"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Szerződésekből materializált hatóság-vállalat kereskedelmi kapcsolatok",
+    "trade_edges": "Kereskedelmi élek",
+    "trade_edges_are_materialized_from_contra": "A kereskedelmi éleket szerződésadatokból materializáljuk. Futtasd:"
+  },
+  "triples_d_q": {
+    "chart_view": "Diagram-nézet",
+    "click_a_graph_to_inspect_its_class_and_p": "Kattints egy gráfra az osztály- és predikátum-eloszlás megtekintéséhez.",
+    "no": "Nem",
+    "no_triples_in_this_graph": "Nincsenek hármasok ebben a gráfban.",
+    "top_classes": "Fő osztályok",
+    "top_predicates": "Fő predikátumok",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Hármasok elnevezett gráfonként",
+    "virtuoso_not_configured_in_this_environm": "A Virtuoso nincs konfigurálva ebben a környezetben",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Átlagok"
+  },
+  "widget_node": {
+    "remove_widget": "Widget eltávolítása"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Ismeretlen widget-típus:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
