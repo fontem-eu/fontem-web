@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "AI kasutusmõõdikud",
+    "last_24_h": "Viimased 24 t",
+    "last_7_days": "Viimased 7 päeva",
+    "last_hour": "Viimane tund"
+  },
+  "about": {
+    "a_45_second_tour": "45-sekundiline tutvustus",
+    "how_it_works": "Kuidas see töötab",
+    "recently_published": "Hiljuti avaldatud",
+    "see_all_public_data_stories": "Vaata kõiki avalikke andmelugusid →",
+    "try": "Proovi:",
+    "walkthrough_searching_a_company_explorin": "Juhend: ettevõtte otsimine, riigihangete uurimine ja andmeloo avaldamine"
+  },
+  "activity": {
+    "loading_activity": "Tegevust laaditakse...",
+    "sign_in": "Logi sisse",
+    "sign_in_to_see_your_activity": "Logi sisse, et näha oma tegevust."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Töövahendid, arhitektuuridokumendid ja platvormi tervis"
+  },
+  "app": {
+    "activity": "Tegevus",
+    "admin": "Haldus",
+    "all": "Kõik",
+    "cancel": "Tühista",
+    "clear": "Tühjenda",
+    "close": "Sulge",
+    "companies_count": "ettevõtteid pole | 1 ettevõte | {count} ettevõtet",
+    "contracts": "Lepingud",
+    "contracts_count": "lepinguid pole | 1 leping | {count} lepingut",
+    "contracts_eur": "Lepingud (EUR)",
+    "description": "Kirjeldus",
+    "dismiss": "Sulge",
+    "entity_resolution": "Olemite ühildamine",
+    "entity_type": "Olemi tüüp",
+    "esef": "ESEF",
+    "eu_public_procurement": "EL riigihanked",
+    "filings_by_year": "Esitused aastate kaupa",
+    "gleif": "GLEIF",
+    "image": "Pilt",
+    "issues": "Probleemid",
+    "language": "Keel",
+    "loading": "Laadimine…",
+    "loading_2": "Laadimine...",
+    "loading_story": "Lugu laaditakse...",
+    "metric": "Mõõdik",
+    "no_data_available": "Andmeid pole saadaval",
+    "no_entity_configured": "Olemit pole seadistatud.",
+    "nuts_level": "NUTS-i tase",
+    "per_year": "Aastas",
+    "privacy": "Privaatsus",
+    "raise_an_issue": "Esita probleem",
+    "remove": "Eemalda",
+    "retry": "Proovi uuesti",
+    "sanctions": "Sanktsioonid",
+    "sign_out": "Logi välja",
+    "skip_to_main_content": "Mine põhisisu juurde",
+    "ted": "TED",
+    "theme": "Teema",
+    "total_value_eur": "Koguväärtus (EUR)",
+    "xbrl_field_coverage": "XBRL-väljade kaetus (%)"
+  },
+  "app_footer": {
+    "about": "Info",
+    "data_quality": "Andmekvaliteet",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Andmed pärinevad SEC EDGAR-ist, ESMA ESEF-ist, GLEIF-ist &amp; TED-ist (EL riigihanked)",
+    "footer": "Jalus",
+    "sparql": "SPARQL",
+    "support": "Toeta"
+  },
+  "assist": {
+    "accept_all": "Aktsepteeri kõik",
+    "ai_assist": "AI abi",
+    "ai_assistant": "AI-assistent",
+    "apply": "Rakenda",
+    "ask_about_the_data": "Küsi andmete kohta...",
+    "clear_chat": "Kustuta vestlus",
+    "conversations_are_processed_by_an_eu_bas": "Vestlusi töötleb ELis asuv AI-teenusepakkuja.",
+    "embed": "Manusta",
+    "insert_into_story": "Lisa loosse",
+    "see_our_privacy_policy": "Vaata meie privaatsuspoliitikat.",
+    "send": "Saada"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kood",
+    "colour_scale": "Värviskaala",
+    "coverage": "Kaetus",
+    "data_slice": "Andmelõik",
+    "dataset": "Andmestik",
+    "dataset_metadata": "Andmestiku metaandmed",
+    "distribution_is_right_skewed_log_scale_r": "Jaotus on paremale kallutatud — soovitatav on logaritmskaala.",
+    "hide_low_coverage_datasets": "Peida vähese kaetusega andmestikud",
+    "hide_low_coverage_years": "Peida vähese kaetusega aastad",
+    "loading_datasets": "Andmestikke laaditakse…",
+    "lock_to_dataset_range": "Lukusta andmestiku vahemikku",
+    "log_scale": "Logaritmskaala",
+    "notes": "Märkused",
+    "time_unit": "Ajaühik",
+    "updated": "Uuendatud",
+    "value_scale": "Väärtuste skaala"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Ava Atlases →"
+  },
+  "balance": {
+    "capital_structure": "Kapitali struktuur"
+  },
+  "cashflow": {
+    "cash_flow": "Rahavoog"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Aruandeaasta järgi",
+    "cdp_climate_disclosure": "CDP kliimaandmete avalikustamine",
+    "cdp_scores_and_climate_reporting_score_d": "CDP hinded ja kliimaaruandlus — hinnete jaotus ja aruandeaastad",
+    "score_distribution": "Hinnete jaotus"
+  },
+  "chapter_rail": {
+    "chapters": "Peatükid",
+    "story_chapters": "Loo peatükid"
+  },
+  "company_profile": {
+    "company_not_found": "Ettevõtet ei leitud.",
+    "company_profile": "Ettevõtte profiil",
+    "loading_company_profile": "Ettevõtte profiili laaditakse..."
+  },
+  "connectedness_d_q": {
+    "count": "Arv",
+    "degree_distribution_per_type": "Astme jaotus tüüpide kaupa",
+    "graph_connectedness": "Graafi seotus",
+    "isolated": "Isoleeritud",
+    "isolated_2": "Isoleeritud %",
+    "max": "Maks",
+    "mean": "Keskmine",
+    "median": "Mediaan",
+    "min": "Min",
+    "per_type_summary": "Kokkuvõte tüüpide kaupa"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Hankeandmete laadimine ebaõnnestus.",
+    "loading_procurement_data": "Hankeandmeid laaditakse...",
+    "no_eu_public_procurement_data_found_for_": "Selle ettevõtte kohta ei leitud EL riigihangete andmeid.",
+    "top_authority": "Põhihankija",
+    "top_sector_cpv": "Põhisektor (CPV)",
+    "type": "Tüüp"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Lepingu väärtus aja jooksul (EUR)",
+    "contract_volume_over_time": "Lepingute maht aja jooksul",
+    "contracts_by_country": "Lepingud riigi järgi",
+    "contracts_by_currency": "Lepingud valuuta järgi",
+    "currency_quality": "Valuuta kvaliteet",
+    "eu_public_procurement_awards_volume_cove": "EL riigihangete sõlmimised — maht, kaetus, valuuta kvaliteet",
+    "loading_contract_data": "Lepinguandmeid laaditakse...",
+    "missing_fields_of_contracts": "Puuduvad väljad (% lepingutest)",
+    "ted_contracts": "TED-lepingud",
+    "total_eur_by_country_top_15": "EUR kokku riigi järgi (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Aktsepteeri",
+    "cookie_consent": "Küpsiste nõusolek",
+    "decline": "Keeldu",
+    "learn_more": "Loe rohkem"
+  },
+  "data_quality": {
+    "about_this_data": "Nende andmete kohta",
+    "all_procurement_data_is_sourced_from": "Kõik hankeandmed pärinevad allikast",
+    "companies_with_lei": "LEI-ga ettevõtted",
+    "companies_with_vat": "Käibemaksukohustuslased",
+    "contract_date_range": "Lepingute kuupäevavahemik",
+    "country": "Riik",
+    "cpv_code": "CPV-kood",
+    "data_freshness": "Andmete värskus",
+    "data_quality_dashboard": "Andmekvaliteedi tahvel",
+    "failed_to_load_data_quality_metrics": "Andmekvaliteedi mõõdikute laadimine ebaõnnestus.",
+    "knowledge_graph": "Teadmusgraaf",
+    "last_data_load": "Viimane andmete laadimine",
+    "loading_metrics": "Mõõdikuid laaditakse...",
+    "pending_review_same_as_rarr": "Ootab läbivaatamist (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Platvormi tervis, andmete kaetus ja läbipaistvuse mõõdikud",
+    "procurement_coverage_by_country": "Hangete kaetus riigi järgi",
+    "procurement_only": "Ainult hanked",
+    "relationships": "Seosed",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Põhihangesektorid (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Andmete värskus",
+    "data_quality": "Andmekvaliteet",
+    "latest_contract_load": "Viimane lepingute laadimine",
+    "loading_overview": "Ülevaadet laaditakse..."
+  },
+  "data_view_selector": {
+    "data_view": "Andmevaade",
+    "gmr_long_tooltip": "Long-Term Value hindab aktsiat pikaajaliste väärtusinvesteeringute jaoks 5-aasta keskmiste abil: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, netomarginaal ≥ 15 %, D/E ≤ 1,5, dividenditootlus ≥ 3,5 %. Välja töötanud Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Duplikaatide eemaldamine",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS järjekord — duplikaatolemite lahendamise olek",
+    "use_the": "Kasuta"
+  },
+  "donate": {
+    "backers": "Toetajad",
+    "contribute_rarr": "Panusta &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Annetused liiguvad mittetulundusliku eelarvevõõrustaja kaudu platvormil",
+    "open_collective": "Open Collective",
+    "support_fontem": "Toeta Fontemit",
+    "thanks_to_everyone_keeping_fontem_alive": "Aitäh kõigile, kes hoiavad Fontemit elus.",
+    "where_the_money_goes": "Kuhu raha läheb"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC finantsaruanded — XBRL-väljade kaetus ja esituste trendid",
+    "us_edgar_financials": "USA EDGAR finantsandmed"
+  },
+  "entity_mention": {
+    "remove_mention": "Eemalda mainimine"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Lepingud (arv)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Kõik märgitud paarid on lahendatud.",
+    "different_entities_reject": "Eri olemid — lükka tagasi",
+    "entity_a": "Olem A",
+    "entity_b": "Olem B",
+    "failed_to_load_candidates": "Kandidaatide laadimine ebaõnnestus.",
+    "keep_as_related": "Säilita seotuna",
+    "loading_candidates": "Kandidaate laaditakse...",
+    "merge_keep_a_b_is_removed": "Liida — säilita A (B eemaldatakse)",
+    "merge_keep_b_a_is_removed": "Liida — säilita B (A eemaldatakse)",
+    "no_pairs_pending_review": "Ühtegi paari ei oota läbivaatamist.",
+    "review_and_decide_on_flagged_candidates": "Vaata märgitud kandidaadid üle ja otsusta",
+    "why_flagged": "Miks märgistatud"
+  },
+  "entity_side": {
+    "entity_details": "Olemi üksikasjad"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EL ESEF finantsandmed",
+    "european_financial_statements_xbrl_cover": "Euroopa finantsaruanded — XBRL-kaetus ja riikide jaotus",
+    "filings_by_country": "Esitused riigi järgi"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Kestus",
+    "etl_runs": "ETL-i käivitused",
+    "failed": "Ebaõnnestus",
+    "recent_cronjob_invocations_from": "Viimased CronJob käivitused allikast",
+    "recent_runs": "Viimased käivitused",
+    "refresh": "Värskenda",
+    "running": "Käivitub",
+    "started": "Algas",
+    "status": "Olek:",
+    "status_2": "Olek",
+    "success": "Õnnestus",
+    "summary": "Kokkuvõte"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "EL ühtekuuluvuspoliitika projektid — rahastamine, soodustatud isikud ja geograafiline jaotus",
+    "eu_knowledge_graph": "EL teadmusgraaf",
+    "projects_by_country_top_15": "Projektid riigi järgi (Top 15)",
+    "projects_by_fund_top_10": "Projektid fondi järgi (Top 10)"
+  },
+  "explore": {
+    "explore": "Uuri"
+  },
+  "feed": {
+    "clear_filter": "Tühjenda filter",
+    "feed": "Voog",
+    "filtering_by": "Filtreeritakse",
+    "loading_feed": "Voogu laaditakse...",
+    "public_data_stories_from_the_community_n": "Avalikud andmelood kogukonnalt, uuemad eespool."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Instrumendi tüübi järgi",
+    "esma_financial_instruments_reference_dat": "ESMA finantsinstrumentide võrdlusandmed — ISIN-i kaetus, instrumenditüübid, kauplemiskohad",
+    "firds_instruments": "FIRDS-i instrumendid",
+    "top_trading_venues_mic": "Tähtsamad kauplemiskohad (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo-uurija"
+  },
+  "geo_choropleth": {
+    "companies": "Ettevõtted",
+    "connected_to_3": "Ühendatud (α-3)",
+    "parent_nuts_1": "Vanem NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Ettevõtted riigi järgi (Top 30)",
+    "gleif_companies": "GLEIF-ettevõtted",
+    "global_lei_directory_entity_identificati": "Ülemaailmne LEI-register — olemite tuvastamine ja ettevõttestruktuur"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Graafi laadimine ebaõnnestus",
+    "depth": "Sügavus",
+    "exit_fullscreen": "Välju täisekraanist",
+    "expanding_node": "Tippu laiendatakse...",
+    "export": "Ekspordi",
+    "filter": "Filter…",
+    "find_path_to": "Leia tee",
+    "finding_paths": "Teid otsitakse...",
+    "fullscreen": "Täisekraan",
+    "go_to_profile": "Mine profiilile",
+    "json": "JSON",
+    "loading_graph": "Graafi laaditakse...",
+    "more_options": "Rohkem valikuid",
+    "no_connections_found_for_this_entity": "Selle olemi jaoks ei leitud ühendusi.",
+    "no_paths_found_between_these_entities": "Nende olemite vahel ei leitud teid.",
+    "path_to": "Tee kuni",
+    "period": "Periood",
+    "png": "PNG",
+    "save_view": "Salvesta vaade",
+    "search_entity_name": "Otsi olemi nime...",
+    "set_as_center": "Sea keskmeks",
+    "summary_edges": "Kokkuvõtteservad",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Tulu &amp; puhaskasum"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Probleemi lühikokkuvõte",
+    "describe_the_issue_in_detail_markdown_su": "Kirjelda probleemi üksikasjalikult (Markdown toetatud)",
+    "entity_id": "Olemi ID",
+    "issue_type": "Probleemi tüüp",
+    "title": "Pealkiri"
+  },
+  "issue_detail": {
+    "add_a_comment": "Lisa kommentaar...",
+    "loading_issue": "Probleemi laaditakse...",
+    "no_comments_yet": "Kommentaare veel pole.",
+    "reject": "Lükka tagasi",
+    "resolve": "Lahenda"
+  },
+  "issues": {
+    "loading_issues": "Probleeme laaditakse...",
+    "no_issues_found": "Probleeme ei leitud."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "EL lobitööregister",
+    "lobbying_cost_distribution": "Lobikulude jaotus",
+    "registrations_over_time": "Registreeringud aja jooksul",
+    "top_countries": "Põhiriigid",
+    "transparency_register_lobbyist_registrat": "Läbipaistvusregister — lobistide registreerimised, EP-i juurdepääs, kulutused"
+  },
+  "login": {
+    "go_to_home": "Mine avalehele",
+    "you_already_have_an_active_session": "Sul on juba aktiivne sessioon.",
+    "youre_signed_in": "Oled sisse logitud"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Olemi mainimised",
+    "searching": "Otsitakse…"
+  },
+  "moderation": {
+    "flagged_content": "Märgitud sisu",
+    "moderation": "Modereerimine",
+    "moderation_log": "Modereerimispäevik",
+    "no_flagged_content": "Märgitud sisu pole.",
+    "no_moderation_actions_yet": "Modereerimistoiminguid pole veel.",
+    "review_flagged_content_and_moderation_hi": "Vaata märgitud sisu ja modereerimisajalugu"
+  },
+  "multi_select": {
+    "none": "Mitte ühtegi"
+  },
+  "my_reports": {
+    "loading_stories": "Lugusid laaditakse...",
+    "my_stories": "Minu lood",
+    "no_stories_yet_start_your_first_one_abov": "Lugusid veel pole. Alusta esimesega ülal.",
+    "or_read_recent_public_stories": "Või loe viimaseid avalikke lugusid →"
+  },
+  "not_found": {
+    "back_to_home": "Tagasi avalehele",
+    "page_not_found": "Lehte ei leitud",
+    "the_page_youre_looking_for_doesnt_exist_": "Otsitud lehte pole olemas või on see liigutatud."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostati NUTS-klassifikatsioon — ettevõtete ja asutuste geograafiline kaetus",
+    "nuts_regions": "NUTS-piirkonnad",
+    "regions_by_level": "Piirkonnad tasemete järgi",
+    "top_nuts_0_regions_by_company_count": "Põhilised NUTS 0 piirkonnad ettevõtete arvu järgi"
+  },
+  "overview_d_q": {
+    "cohesion": "Ühtekuuluvus",
+    "country_code_consistency": "Riigikoodide ühtsus",
+    "cross_source_overlap": "Allikate vaheline kattuvus",
+    "cross_source_overlap_country_code_consis": "Allikate vaheline kattuvus, riigikoodide ühtsus ja väljade täielikkus kõikides allikates",
+    "data_quality_overview": "Andmekvaliteedi ülevaade",
+    "listings": "Noteeringud",
+    "lobby": "Lobi",
+    "top_alpha_2_codes": "Põhilised Alpha-2 koodid"
+  },
+  "pocket_button": {
+    "save": "Salvesta",
+    "save_to_pocket": "Salvesta Pocketisse"
+  },
+  "preferences_menu": {
+    "account": "Konto",
+    "ai_usage": "AI kasutus",
+    "atlas_palette": "Atlase palett",
+    "display": "Kuva",
+    "preferences": "Eelistused"
+  },
+  "privacy": {
+    "access": "Juurdepääs",
+    "all_data_in_the_fontem_knowledge_graph_r": "Kõik andmed Fontemi teadmusgraafis puudutavad",
+    "conversation_processing_is_performed_by_": "Vestluste töötlemist teevad ELis asuvad AI-teenusepakkujad.",
+    "conversations_are_automatically_deleted_": "Vestlused kustutatakse automaatselt 90 päeva pärast.",
+    "erase": "Kustutamine",
+    "eu_consolidated_sanctions_list": "EL konsolideeritud sanktsioonide loetelu",
+    "eu_transparency_register": "EL läbipaistvusregister",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Viimati uuendatud: aprill 2026",
+    "legal_basis": "Õiguslik alus:",
+    "no_personal_data_of_individuals_is_store": "Eraisikute isikuandmeid teadmusgraafis ei säilitata.",
+    "port": "Ülekantavus",
+    "privacy_policy": "Privaatsuspoliitika",
+    "rectify": "Parandamine",
+    "to_exercise_any_of_these_rights_contact_": "Nende õiguste kasutamiseks võta meiega ühendust aadressil",
+    "under_the_gdpr_you_have_the_right_to": "GDPR-i alusel on sul õigus:",
+    "when_you_sign_in_we_collect_and_store": "Sisselogimisel kogume ja salvestame:",
+    "your": "Sinu"
+  },
+  "profile": {
+    "avg_net_margin": "Keskmine netomarginaal",
+    "avg_roe": "Keskmine ROE",
+    "corporate_group": "Kontsern",
+    "current_price": "Praegune hind",
+    "directors_amp_officers": "Juhatus &amp; juhid",
+    "financial_overview": "Finantsülevaade",
+    "market_cap": "Turukapitalisatsioon",
+    "part_of": "Kuulub"
+  },
+  "public_spending": {
+    "public_spending": "Avalikud kulutused"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Karusselli asukoht",
+    "recently_published_data_stories": "Hiljuti avaldatud andmelood"
+  },
+  "report": {
+    "edit": "Muuda"
+  },
+  "report_editor": {
+    "brief_abstract": "Lühikokkuvõte...",
+    "private_only_me": "Privaatne — ainult mina",
+    "public_anyone": "Avalik — igaüks",
+    "signed_in_users": "Sisselogitud kasutajad",
+    "story_title": "Loo pealkiri"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sanktsioneeritud olemid — isikud, organisatsioonid, režiimi kaetus ja ettevõtete sobitamine",
+    "top_sanction_regimes": "Põhilised sanktsioonirežiimid"
+  },
+  "share": {
+    "add": "Lisa",
+    "add_group": "Lisa grupp",
+    "add_person": "Lisa isik",
+    "collaborators": "Kaastöölised",
+    "email_address": "E-posti aadress",
+    "group_name": "Grupi nimi",
+    "no_collaborators_yet": "Kaastöölisi veel pole.",
+    "share_story": "Jaga lugu",
+    "visibility": "Nähtavus"
+  },
+  "sparql": {
+    "endpoint": "Lõpp-punkt",
+    "endpoint_url": "Lõpp-punkti URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Piirangud",
+    "method": "Meetod",
+    "post": "POST",
+    "query_failed": "Päring ebaõnnestus:",
+    "response": "Vastus",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulemuste ümbrik:",
+    "sparql_endpoint": "SPARQL-lõpp-punkt",
+    "try_a_query": "Proovi päringut"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Plokktsitaat",
+    "bold_b": "Paks (⌘B)",
+    "bullet_list": "Punktloend",
+    "code_block": "Koodiplokk",
+    "divider": "Eraldaja",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Pealkiri 1",
+    "heading_2": "Pealkiri 2",
+    "heading_3": "Pealkiri 3",
+    "inline_code": "Reasisene kood",
+    "italic_i": "Kursiiv (⌘I)",
+    "link": "Link",
+    "numbered_list": "Nummerdatud loend",
+    "strikethrough": "Läbikriipsutus",
+    "table": "Tabel",
+    "underline_u": "Allakriipsutus (⌘U)",
+    "widget_from_pocket": "Vidin Pocketist"
+  },
+  "summary": {
+    "vol": "Maht"
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Eemalda vasakpoolne veerg"
+  },
+  "tag_editor": {
+    "tags": "Sildid"
+  },
+  "ticker_card": {
+    "authority": "Asutus",
+    "company": "Ettevõte",
+    "person": "Isik"
+  },
+  "ticker_financials": {
+    "close_financials": "Sulge finantsandmed",
+    "history": "Ajalugu",
+    "taking_longer_than_expected": "Võtab oodatust kauem aega…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Tikkereid ei leitud otsingule &ldquo;",
+    "search_companies_public_entities_lobbyis": "Otsi ettevõtteid, avalikke olemeid, lobiste…",
+    "search_results": "Otsingutulemused",
+    "search_the_knowledge_graph": "Otsi teadmusgraafist"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Lepingutest materialiseeritud asutuse-ettevõtte kaubandussuhted",
+    "trade_edges": "Kaubandusservad",
+    "trade_edges_are_materialized_from_contra": "Kaubandusservad materialiseeritakse lepinguandmetest. Käivita"
+  },
+  "triples_d_q": {
+    "chart_view": "Diagrammi vaade",
+    "click_a_graph_to_inspect_its_class_and_p": "Klõpsa graafi, et näha selle klassi- ja predikaatjaotust.",
+    "no": "Ei",
+    "no_triples_in_this_graph": "Selles graafis triplite pole.",
+    "top_classes": "Põhiklassid",
+    "top_predicates": "Põhipredikaadid",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Triplid nimetatud graafi kohta",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso pole selles keskkonnas seadistatud",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Keskmised"
+  },
+  "widget_node": {
+    "remove_widget": "Eemalda vidin"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Tundmatu vidina tüüp:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
