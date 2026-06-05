@@ -59,7 +59,7 @@ onMounted(async () => {
   <div class="donate">
     <header class="donate-hdr">
       <div>
-        <h1>Support Fontem</h1>
+        <h1>{{ $t('donate.support_fontem') }}</h1>
         <p class="donate-sub">
           Fontem is free to use and always will be. Donations keep the
           data pipelines running, the graph growing, and the team able to
@@ -83,15 +83,13 @@ onMounted(async () => {
         <div class="donate-tier-name">{{ t.name }}</div>
         <div class="donate-tier-amount">{{ t.amount }}</div>
         <p class="donate-tier-desc">{{ t.desc }}</p>
-        <span class="donate-tier-cta">Contribute &rarr;</span>
+        <span class="donate-tier-cta">{{ $t('donate.contribute_rarr') }}</span>
       </a>
     </section>
 
     <section class="donate-transparency">
-      <h2>Where the money goes</h2>
-      <p>
-        Donations flow through a fiscal-host nonprofit on
-        <a :href="OC_URL" target="_blank" rel="noopener noreferrer">Open Collective</a>.
+      <h2>{{ $t('donate.where_the_money_goes') }}</h2>
+      <p>{{ $t('donate.donations_flow_through_a_fiscal_host_non') }}<a :href="OC_URL" target="_blank" rel="noopener noreferrer">{{ $t('donate.open_collective') }}</a>.
         Every contribution and every expense is public on the ledger —
         the same transparency standard the platform asks of the
         institutions it covers.
@@ -103,10 +101,8 @@ onMounted(async () => {
     </section>
 
     <section v-if="backers.length" class="donate-backers">
-      <h2>Backers</h2>
-      <p class="donate-backers-intro">
-        Thanks to everyone keeping Fontem alive.
-      </p>
+      <h2>{{ $t('donate.backers') }}</h2>
+      <p class="donate-backers-intro">{{ $t('donate.thanks_to_everyone_keeping_fontem_alive') }}</p>
       <ul class="donate-backers-list">
         <li v-for="b in backers" :key="b.MemberId">
           <a

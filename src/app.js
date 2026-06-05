@@ -13,6 +13,7 @@ import {
 } from 'vue-router'
 
 import { requiresAuth } from './router/authGate.js'
+import { createFontemI18n } from './i18n.js'
 
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
@@ -187,6 +188,8 @@ export function createFontemRouter(ssr = false) {
 export function createFontemApp(ssr = false) {
   const app = ssr ? createSSRApp(App) : createCSRApp(App)
   const router = createFontemRouter(ssr)
+  const i18n = createFontemI18n()
   app.use(router)
-  return { app, router }
+  app.use(i18n)
+  return { app, router, i18n }
 }

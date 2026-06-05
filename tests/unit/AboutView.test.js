@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 vi.mock('../../src/api/community.js', () => ({
   listReports: vi.fn(() => Promise.resolve([])),
@@ -28,7 +29,7 @@ async function mountAt(path = '/about') {
   await router.push(path)
   await router.isReady()
   const wrapper = mount(AboutView, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
   })
   await flushPromises()
   return { wrapper, router }

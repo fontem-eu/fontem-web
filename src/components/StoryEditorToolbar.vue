@@ -39,7 +39,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('bold') }"
-        title="Bold (⌘B)"
+        :title="$t('story_editor_toolbar.bold_b')"
         data-testid="tb-bold"
         @click="editor.chain().focus().toggleBold().run()"
       ><b>B</b></button>
@@ -47,7 +47,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('italic') }"
-        title="Italic (⌘I)"
+        :title="$t('story_editor_toolbar.italic_i')"
         data-testid="tb-italic"
         @click="editor.chain().focus().toggleItalic().run()"
       ><i>I</i></button>
@@ -55,7 +55,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('underline') }"
-        title="Underline (⌘U)"
+        :title="$t('story_editor_toolbar.underline_u')"
         data-testid="tb-underline"
         @click="editor.chain().focus().toggleUnderline().run()"
       ><u>U</u></button>
@@ -63,7 +63,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('strike') }"
-        title="Strikethrough"
+        :title="$t('story_editor_toolbar.strikethrough')"
         data-testid="tb-strike"
         @click="editor.chain().focus().toggleStrike().run()"
       ><s>S</s></button>
@@ -71,7 +71,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('code') }"
-        title="Inline code"
+        :title="$t('story_editor_toolbar.inline_code')"
         data-testid="tb-code-inline"
         @click="editor.chain().focus().toggleCode().run()"
       >&lt;/&gt;</button>
@@ -85,26 +85,26 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('heading', { level: 1 }) }"
-        title="Heading 1"
+        :title="$t('story_editor_toolbar.heading_1')"
         data-testid="tb-h1"
         @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-      >H1</button>
+      >{{ $t('story_editor_toolbar.h1') }}</button>
       <button
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('heading', { level: 2 }) }"
-        title="Heading 2"
+        :title="$t('story_editor_toolbar.heading_2')"
         data-testid="tb-h2"
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-      >H2</button>
+      >{{ $t('story_editor_toolbar.h2') }}</button>
       <button
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('heading', { level: 3 }) }"
-        title="Heading 3"
+        :title="$t('story_editor_toolbar.heading_3')"
         data-testid="tb-h3"
         @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-      >H3</button>
+      >{{ $t('story_editor_toolbar.h3') }}</button>
     </div>
 
     <span class="separator" aria-hidden="true" />
@@ -115,7 +115,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('bulletList') }"
-        title="Bullet list"
+        :title="$t('story_editor_toolbar.bullet_list')"
         data-testid="tb-bullet-list"
         @click="editor.chain().focus().toggleBulletList().run()"
       >•</button>
@@ -123,7 +123,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('orderedList') }"
-        title="Numbered list"
+        :title="$t('story_editor_toolbar.numbered_list')"
         data-testid="tb-ordered-list"
         @click="editor.chain().focus().toggleOrderedList().run()"
       >1.</button>
@@ -137,7 +137,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('codeBlock') }"
-        title="Code block"
+        :title="$t('story_editor_toolbar.code_block')"
         data-testid="tb-code-block"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >{ }</button>
@@ -145,14 +145,14 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('blockquote') }"
-        title="Blockquote"
+        :title="$t('story_editor_toolbar.blockquote')"
         data-testid="tb-blockquote"
         @click="editor.chain().focus().toggleBlockquote().run()"
       >"</button>
       <button
         type="button"
         class="tb-btn"
-        title="Divider"
+        :title="$t('story_editor_toolbar.divider')"
         data-testid="tb-divider"
         @click="editor.chain().focus().setHorizontalRule().run()"
       >─</button>
@@ -160,7 +160,7 @@ function setLink() {
         type="button"
         class="tb-btn"
         :class="{ active: editor.isActive('link') }"
-        title="Link"
+        :title="$t('story_editor_toolbar.link')"
         data-testid="tb-link"
         @click="setLink"
       >🔗</button>
@@ -173,21 +173,21 @@ function setLink() {
       <button
         type="button"
         class="tb-btn"
-        title="Image"
+        :title="$t('app.image')"
         data-testid="tb-image"
         @click="emit('upload-image')"
       >🖼</button>
       <button
         type="button"
         class="tb-btn"
-        title="Table"
+        :title="$t('story_editor_toolbar.table')"
         data-testid="tb-table"
         @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
       >☰</button>
       <button
         type="button"
         class="tb-btn"
-        title="Widget from pocket"
+        :title="$t('story_editor_toolbar.widget_from_pocket')"
         data-testid="tb-widget"
         @click="emit('insert-widget')"
       >📊</button>

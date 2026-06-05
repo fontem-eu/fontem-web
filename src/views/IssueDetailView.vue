@@ -116,7 +116,7 @@ function renderMarkdown(text) {
     <router-link to="/issues" class="issue-back">&larr; Back to Issues</router-link>
 
     <p v-if="error" class="issue-error" data-testid="issue-detail-error">{{ error }}</p>
-    <p v-if="loading" class="issue-loading">Loading issue...</p>
+    <p v-if="loading" class="issue-loading">{{ $t('issue_detail.loading_issue') }}</p>
 
     <template v-if="issue">
       <!-- Header -->
@@ -168,16 +168,16 @@ function renderMarkdown(text) {
 
       <!-- Moderator actions -->
       <div v-if="hasToken" class="issue-mod-actions" data-testid="issue-mod-actions">
-        <button class="mod-btn mod-resolve" data-testid="issue-resolve" @click="moderateAction('resolved')">Resolve</button>
-        <button class="mod-btn mod-reject" data-testid="issue-reject" @click="moderateAction('rejected')">Reject</button>
-        <button class="mod-btn mod-close" data-testid="issue-close" @click="moderateAction('closed')">Close</button>
+        <button class="mod-btn mod-resolve" data-testid="issue-resolve" @click="moderateAction('resolved')">{{ $t('issue_detail.resolve') }}</button>
+        <button class="mod-btn mod-reject" data-testid="issue-reject" @click="moderateAction('rejected')">{{ $t('issue_detail.reject') }}</button>
+        <button class="mod-btn mod-close" data-testid="issue-close" @click="moderateAction('closed')">{{ $t('app.close') }}</button>
       </div>
 
       <!-- Comments -->
       <div class="issue-comments" data-testid="issue-comments">
         <h2>Comments ({{ (issue.comments || []).length }})</h2>
 
-        <div v-if="!(issue.comments || []).length" class="issue-no-comments">No comments yet.</div>
+        <div v-if="!(issue.comments || []).length" class="issue-no-comments">{{ $t('issue_detail.no_comments_yet') }}</div>
 
         <div
           v-for="comment in (issue.comments || [])"
@@ -200,7 +200,7 @@ function renderMarkdown(text) {
             class="comment-textarea"
             data-testid="issue-comment-input"
             rows="3"
-            placeholder="Add a comment..."
+            :placeholder="$t('issue_detail.add_a_comment')"
           />
           <button
             class="comment-submit"

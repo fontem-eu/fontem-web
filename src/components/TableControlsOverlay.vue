@@ -245,7 +245,7 @@ const visible = computed(() => tableEl.value && tableRect.value && colEdges.valu
         v-if="i > 0"
         type="button"
         class="t-btn t-btn--del"
-        title="Remove column to the left"
+        :title="$t('table_controls_overlay.remove_column_to_the_left')"
         :data-testid="`table-col-del-${i}`"
         @click="removeColumnLeftOf(i)"
       >🗑</button>

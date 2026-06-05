@@ -39,7 +39,7 @@ const config = computed(() => {
   >
     <div class="widget-node-header">
       <span class="widget-node-badge">{{ config.widget_type?.replace(/_/g, ' ') }}</span>
-      <button class="widget-node-delete" title="Remove widget" @click="deleteNode">×</button>
+      <button class="widget-node-delete" :title="$t('widget_node.remove_widget')" @click="deleteNode">×</button>
     </div>
     <WidgetRenderer :config="config" />
   </NodeViewWrapper>

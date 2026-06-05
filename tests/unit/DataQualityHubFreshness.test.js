@@ -11,6 +11,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 import DataQualityHubView from '../../src/views/DataQualityHubView.vue'
 
@@ -30,7 +31,7 @@ async function mountView() {
   await router.push('/data-quality')
   await router.isReady()
   const wrapper = mount(DataQualityHubView, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
   })
   await flushPromises()
   await flushPromises()

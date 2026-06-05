@@ -14,6 +14,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 const { mapInstance } = vi.hoisted(() => ({
   mapInstance: {
@@ -130,7 +131,7 @@ async function mountAtlas(initialPath = '/atlas') {
   await router.push(initialPath)
   await router.isReady()
   return mount(AtlasView, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
     attachTo: document.body,
   })
 }

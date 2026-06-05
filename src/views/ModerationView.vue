@@ -70,8 +70,8 @@ function formatDate(dateStr) {
     <header class="mod-header">
       <div>
         <router-link to="/admin" class="mod-back">&larr; Admin</router-link>
-        <h1>Moderation</h1>
-        <p class="mod-sub">Review flagged content and moderation history</p>
+        <h1>{{ $t('moderation.moderation') }}</h1>
+        <p class="mod-sub">{{ $t('moderation.review_flagged_content_and_moderation_hi') }}</p>
       </div>
     </header>
 
@@ -81,21 +81,21 @@ function formatDate(dateStr) {
         :class="{ active: activeTab === 'flagged' }"
         data-testid="moderation-tab-flagged"
         @click="activeTab = 'flagged'"
-      >Flagged Content</button>
+      >{{ $t('moderation.flagged_content') }}</button>
       <button
         class="mod-tab"
         :class="{ active: activeTab === 'log' }"
         data-testid="moderation-tab-log"
         @click="activeTab = 'log'"
-      >Moderation Log</button>
+      >{{ $t('moderation.moderation_log') }}</button>
     </nav>
 
     <p v-if="error" class="mod-error" data-testid="moderation-error">{{ error }}</p>
-    <p v-if="loading" class="mod-loading">Loading...</p>
+    <p v-if="loading" class="mod-loading">{{ $t('app.loading_2') }}</p>
 
     <!-- Flagged Content -->
     <div v-if="activeTab === 'flagged' && !loading" data-testid="moderation-flagged">
-      <div v-if="!flaggedItems.length" class="mod-empty">No flagged content.</div>
+      <div v-if="!flaggedItems.length" class="mod-empty">{{ $t('moderation.no_flagged_content') }}</div>
       <div
         v-for="item in flaggedItems"
         :key="item.id"
@@ -112,19 +112,19 @@ function formatDate(dateStr) {
             class="mod-action-btn mod-dismiss"
             data-testid="moderation-dismiss"
             @click="reviewFlag(item.id, 'dismiss')"
-          >Dismiss</button>
+          >{{ $t('app.dismiss') }}</button>
           <button
             class="mod-action-btn mod-remove"
             data-testid="moderation-remove"
             @click="reviewFlag(item.id, 'remove')"
-          >Remove</button>
+          >{{ $t('app.remove') }}</button>
         </div>
       </div>
     </div>
 
     <!-- Moderation Log -->
     <div v-if="activeTab === 'log' && !loading" data-testid="moderation-log">
-      <div v-if="!moderationLog.length" class="mod-empty">No moderation actions yet.</div>
+      <div v-if="!moderationLog.length" class="mod-empty">{{ $t('moderation.no_moderation_actions_yet') }}</div>
       <div
         v-for="entry in moderationLog"
         :key="entry.id"

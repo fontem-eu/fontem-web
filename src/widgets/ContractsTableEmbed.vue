@@ -21,7 +21,7 @@ defineExpose({ storeState, widgetType: 'contracts_table' })
 <template>
   <div class="widget-contracts-table" data-testid="widget-contracts-table">
     <ContractsPanel v-if="symbol" :symbol="symbol" />
-    <p v-else style="color: var(--muted); font-size: 0.75rem">No entity configured.</p>
+    <p v-else style="color: var(--muted); font-size: 0.75rem">{{ $t('app.no_entity_configured') }}</p>
   </div>
 </template>
 

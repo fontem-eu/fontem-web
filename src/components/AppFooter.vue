@@ -26,22 +26,20 @@ const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
 
 <template>
   <footer class="app-footer" data-testid="app-footer">
-    <p class="app-footer-sources">
-      Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)
-    </p>
-    <nav class="app-footer-links" aria-label="Footer">
-      <router-link to="/privacy" data-testid="footer-privacy">Privacy</router-link>
+    <p class="app-footer-sources">{{ $t('app_footer.data_sourced_from_sec_edgar_esma_esef_gl') }}</p>
+    <nav class="app-footer-links" :aria-label="$t('app_footer.footer')">
+      <router-link to="/privacy" data-testid="footer-privacy">{{ $t('app.privacy') }}</router-link>
       <span aria-hidden="true">&middot;</span>
-      <router-link to="/data-quality" data-testid="footer-data-quality">Data quality</router-link>
+      <router-link to="/data-quality" data-testid="footer-data-quality">{{ $t('app_footer.data_quality') }}</router-link>
       <span aria-hidden="true">&middot;</span>
-      <router-link to="/sparql" data-testid="footer-sparql">SPARQL</router-link>
+      <router-link to="/sparql" data-testid="footer-sparql">{{ $t('app_footer.sparql') }}</router-link>
       <span aria-hidden="true">&middot;</span>
-      <router-link to="/about" data-testid="footer-about">About</router-link>
+      <router-link to="/about" data-testid="footer-about">{{ $t('app_footer.about') }}</router-link>
       <span aria-hidden="true">&middot;</span>
-      <router-link to="/donate" data-testid="footer-donate">Support</router-link>
+      <router-link to="/donate" data-testid="footer-donate">{{ $t('app_footer.support') }}</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>
-        <router-link to="/admin" data-testid="footer-admin">Admin</router-link>
+        <router-link to="/admin" data-testid="footer-admin">{{ $t('app.admin') }}</router-link>
       </template>
     </nav>
   </footer>

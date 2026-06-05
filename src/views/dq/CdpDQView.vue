@@ -15,12 +15,12 @@ const scoreBars = computed(() => (data.value?.score_distribution || []).map(s =>
 const yearBars = computed(() => (data.value?.by_reporting_year || []).map(y => ({ label: y.year, value: y.count })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>CDP Climate Disclosure</h1><p class="dq-sub">CDP scores and climate reporting — score distribution and reporting years</p></div><ThemeToggle /></header>
-    <div v-if="loading" class="dq-loading">Loading...</div>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('cdp_d_q.cdp_climate_disclosure') }}</h1><p class="dq-sub">{{ $t('cdp_d_q.cdp_scores_and_climate_reporting_score_d') }}</p></div><ThemeToggle /></header>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.companies_with_score.toLocaleString()" label="Companies with CDP Score" /></div>
-      <section class="dq-section"><h2>Score Distribution</h2><HorizontalBarChart :data="scoreBars" :max-bars="10" /></section>
-      <section class="dq-section"><h2>By Reporting Year</h2><HorizontalBarChart :data="yearBars" :max-bars="10" /></section>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.score_distribution') }}</h2><HorizontalBarChart :data="scoreBars" :max-bars="10" /></section>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.by_reporting_year') }}</h2><HorizontalBarChart :data="yearBars" :max-bars="10" /></section>
     </template>
   </div>
 </template>

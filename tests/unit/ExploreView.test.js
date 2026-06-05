@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import ExploreView from '../../src/views/ExploreView.vue'
 
 function makeRouter() {
@@ -19,7 +20,7 @@ async function mountExplore() {
   const router = makeRouter()
   await router.push('/explore')
   await router.isReady()
-  const wrapper = mount(ExploreView, { global: { plugins: [router] } })
+  const wrapper = mount(ExploreView, { global: { plugins: [router, makeTestI18n()] } })
   return { wrapper, router }
 }
 

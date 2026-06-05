@@ -17,13 +17,13 @@ const typeBars = computed(() => (data.value?.by_instrument_type || []).map(t => 
 const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label: v.venue, value: v.count })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>FIRDS Instruments</h1><p class="dq-sub">ESMA Financial Instruments Reference Data — ISIN coverage, instrument types, trading venues</p></div><ThemeToggle /></header>
-    <div v-if="loading" class="dq-loading">Loading...</div>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('firds_d_q.firds_instruments') }}</h1><p class="dq-sub">{{ $t('firds_d_q.esma_financial_instruments_reference_dat') }}</p></div><ThemeToggle /></header>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Instruments (with ISIN)" /><StatCard :value="data.with_ticker.toLocaleString()" label="With Ticker" /><StatCard :value="data.without_ticker.toLocaleString()" label="Without Ticker" /></div>
       <div class="dq-gauges"><GaugeChart :value="tickerPct" label="Ticker Coverage" /></div>
-      <section class="dq-section"><h2>By Instrument Type</h2><HorizontalBarChart :data="typeBars" :max-bars="15" /></section>
-      <section class="dq-section"><h2>Top Trading Venues (MIC)</h2><HorizontalBarChart :data="venueBars" :max-bars="10" /></section>
+      <section class="dq-section"><h2>{{ $t('firds_d_q.by_instrument_type') }}</h2><HorizontalBarChart :data="typeBars" :max-bars="15" /></section>
+      <section class="dq-section"><h2>{{ $t('firds_d_q.top_trading_venues_mic') }}</h2><HorizontalBarChart :data="venueBars" :max-bars="10" /></section>
     </template>
   </div>
 </template>

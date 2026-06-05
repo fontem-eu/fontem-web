@@ -95,3 +95,12 @@ HTMLCanvasElement.prototype.getContext = function (type, ...args) {
   }
   return originalGetContext.call(this, type, ...args)
 }
+
+
+// Install vue-i18n globally so any component that uses $t in its
+// template doesn't have to be passed the plugin explicitly. Tests
+// that need a non-English locale can still mount with their own
+// `global: { plugins: [makeTestI18n('fr')] }`.
+import { config } from '@vue/test-utils'
+import { makeTestI18n } from './unit/helpers/i18n.js'
+config.global.plugins = [...(config.global.plugins || []), makeTestI18n()]

@@ -51,7 +51,7 @@ function onActivate(e) {
         v-if="editable"
         type="button"
         class="chip-delete"
-        aria-label="Remove mention"
+        :aria-label="$t('entity_mention.remove_mention')"
         @click.stop="deleteNode"
       >×</button>
     </button>

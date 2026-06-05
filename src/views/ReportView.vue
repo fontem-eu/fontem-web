@@ -168,7 +168,7 @@ function parseSectionContent(content) {
 <template>
   <div class="report-view" data-testid="story-view">
     <!-- Loading -->
-    <div v-if="loading" class="loading-msg">Loading story...</div>
+    <div v-if="loading" class="loading-msg">{{ $t('app.loading_story') }}</div>
 
     <!-- Error -->
     <div v-else-if="error" class="error-msg" data-testid="story-error">{{ error }}</div>
@@ -184,9 +184,7 @@ function parseSectionContent(content) {
           :to="`/stories/${reportId}/edit`"
           class="edit-btn"
           data-testid="edit-story-btn"
-        >
-          Edit
-        </router-link>
+        >{{ $t('report.edit') }}</router-link>
       </div>
 
       <h1 class="report-title" data-testid="story-title">{{ report.title }}</h1>

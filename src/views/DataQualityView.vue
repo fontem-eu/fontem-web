@@ -28,19 +28,19 @@ function fmtNum(n) {
     <header class="dq-header">
       <div>
         <router-link to="/admin" class="dq-back">&larr; Home</router-link>
-        <h1>Data Quality Dashboard</h1>
-        <p class="dq-subtitle">Platform health, data coverage, and transparency metrics</p>
+        <h1>{{ $t('data_quality.data_quality_dashboard') }}</h1>
+        <p class="dq-subtitle">{{ $t('data_quality.platform_health_data_coverage_and_transp') }}</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="state === 'loading'" class="dq-msg">Loading metrics...</div>
-    <div v-else-if="state === 'error'" class="dq-msg">Failed to load data quality metrics.</div>
+    <div v-if="state === 'loading'" class="dq-msg">{{ $t('data_quality.loading_metrics') }}</div>
+    <div v-else-if="state === 'error'" class="dq-msg">{{ $t('data_quality.failed_to_load_data_quality_metrics') }}</div>
 
     <div v-else-if="data" class="dq-grid">
       <!-- ── Graph Stats ── -->
       <section class="dq-section">
-        <h2>Knowledge Graph</h2>
+        <h2>{{ $t('data_quality.knowledge_graph') }}</h2>
         <div class="dq-stats">
           <div v-for="(count, label) in data.graph.nodes" :key="label" class="dq-stat">
             <span class="dq-stat__num">{{ fmtNum(count) }}</span>
@@ -48,21 +48,21 @@ function fmtNum(n) {
           </div>
           <div class="dq-stat">
             <span class="dq-stat__num">{{ fmtNum(data.graph.relationships) }}</span>
-            <span class="dq-stat__label">Relationships</span>
+            <span class="dq-stat__label">{{ $t('data_quality.relationships') }}</span>
           </div>
         </div>
       </section>
 
       <!-- ── Data Freshness ── -->
       <section class="dq-section">
-        <h2>Data Freshness</h2>
+        <h2>{{ $t('data_quality.data_freshness') }}</h2>
         <div class="dq-kv">
           <div class="dq-kv__row">
-            <span>Contract date range</span>
+            <span>{{ $t('data_quality.contract_date_range') }}</span>
             <span>{{ data.freshness.contract_date_range?.earliest || '—' }} to {{ data.freshness.contract_date_range?.latest || '—' }}</span>
           </div>
           <div class="dq-kv__row">
-            <span>Last data load</span>
+            <span>{{ $t('data_quality.last_data_load') }}</span>
             <span>{{ data.freshness.latest_contract_load?.substring(0, 19) || '—' }}</span>
           </div>
           <div v-for="src in data.freshness.financial_sources" :key="src.source" class="dq-kv__row">
@@ -74,24 +74,24 @@ function fmtNum(n) {
 
       <!-- ── Entity Resolution ── -->
       <section class="dq-section">
-        <h2>Entity Resolution</h2>
+        <h2>{{ $t('app.entity_resolution') }}</h2>
         <div class="dq-stats">
           <div class="dq-stat">
             <span class="dq-stat__num">{{ fmtNum(data.matching.companies_with_lei) }}</span>
-            <span class="dq-stat__label">Companies with LEI</span>
+            <span class="dq-stat__label">{{ $t('data_quality.companies_with_lei') }}</span>
           </div>
           <div class="dq-stat">
             <span class="dq-stat__num">{{ fmtNum(data.matching.companies_with_vat) }}</span>
-            <span class="dq-stat__label">Companies with VAT</span>
+            <span class="dq-stat__label">{{ $t('data_quality.companies_with_vat') }}</span>
           </div>
           <div class="dq-stat">
             <span class="dq-stat__num">{{ fmtNum(data.matching.procurement_only_companies) }}</span>
-            <span class="dq-stat__label">Procurement-only</span>
+            <span class="dq-stat__label">{{ $t('data_quality.procurement_only') }}</span>
           </div>
           <div class="dq-stat" :class="{'dq-stat--warn': data.matching.same_as_pending > 0}">
             <router-link to="/admin/entity-resolution" style="text-decoration: none; color: inherit">
               <span class="dq-stat__num">{{ fmtNum(data.matching.same_as_pending) }}</span>
-              <span class="dq-stat__label">Pending review (SAME_AS) &rarr;</span>
+              <span class="dq-stat__label">{{ $t('data_quality.pending_review_same_as_rarr') }}</span>
             </router-link>
           </div>
         </div>
@@ -99,14 +99,14 @@ function fmtNum(n) {
 
       <!-- ── Coverage by Country ── -->
       <section class="dq-section dq-section--wide">
-        <h2>Procurement Coverage by Country</h2>
+        <h2>{{ $t('data_quality.procurement_coverage_by_country') }}</h2>
         <div class="dq-table-wrap">
           <table class="dq-table">
             <thead>
               <tr>
-                <th>Country</th>
-                <th>Contracts</th>
-                <th>Total Value (EUR)</th>
+                <th>{{ $t('data_quality.country') }}</th>
+                <th>{{ $t('app.contracts') }}</th>
+                <th>{{ $t('app.total_value_eur') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -122,15 +122,15 @@ function fmtNum(n) {
 
       <!-- ── Top Sectors ── -->
       <section class="dq-section dq-section--wide">
-        <h2>Top Procurement Sectors (CPV)</h2>
+        <h2>{{ $t('data_quality.top_procurement_sectors_cpv') }}</h2>
         <div class="dq-table-wrap">
           <table class="dq-table">
             <thead>
               <tr>
-                <th>CPV Code</th>
-                <th>Description</th>
-                <th>Contracts</th>
-                <th>Total Value (EUR)</th>
+                <th>{{ $t('data_quality.cpv_code') }}</th>
+                <th>{{ $t('app.description') }}</th>
+                <th>{{ $t('app.contracts') }}</th>
+                <th>{{ $t('app.total_value_eur') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -147,8 +147,8 @@ function fmtNum(n) {
 
       <!-- ── Transparency note ── -->
       <section class="dq-section dq-section--wide dq-note">
-        <h2>About this data</h2>
-        <p>All procurement data is sourced from <a href="https://ted.europa.eu" target="_blank" rel="noopener">TED (Tenders Electronic Daily)</a>, the EU's official public procurement database. Financial data comes from <a href="https://www.gleif.org" target="_blank" rel="noopener">GLEIF</a> (company identifiers) and <a href="https://www.sec.gov/edgar" target="_blank" rel="noopener">SEC EDGAR</a> / <a href="https://filings.xbrl.org" target="_blank" rel="noopener">ESEF</a> (financial statements).</p>
+        <h2>{{ $t('data_quality.about_this_data') }}</h2>
+        <p>{{ $t('data_quality.all_procurement_data_is_sourced_from') }}<a href="https://ted.europa.eu" target="_blank" rel="noopener">{{ $t('data_quality.ted_tenders_electronic_daily') }}</a>, the EU's official public procurement database. Financial data comes from <a href="https://www.gleif.org" target="_blank" rel="noopener">{{ $t('app.gleif') }}</a> (company identifiers) and <a href="https://www.sec.gov/edgar" target="_blank" rel="noopener">{{ $t('data_quality.sec_edgar') }}</a> / <a href="https://filings.xbrl.org" target="_blank" rel="noopener">{{ $t('app.esef') }}</a> (financial statements).</p>
         <p>This dashboard shows the current state of the knowledge graph. Data is loaded daily from TED and refreshed periodically from GLEIF. All records are traceable to their source via TED notice IDs and LEI numbers.</p>
       </section>
     </div>

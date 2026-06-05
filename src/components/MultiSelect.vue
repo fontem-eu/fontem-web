@@ -67,8 +67,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 
     <div v-if="open" class="ms__dropdown" data-testid="ms-dropdown">
       <div class="ms__actions">
-        <button class="ms__action" data-testid="ms-all" @click="selectAll">All</button>
-        <button class="ms__action" data-testid="ms-none" @click="selectNone">None</button>
+        <button class="ms__action" data-testid="ms-all" @click="selectAll">{{ $t('app.all') }}</button>
+        <button class="ms__action" data-testid="ms-none" @click="selectNone">{{ $t('multi_select.none') }}</button>
       </div>
       <label
         v-for="(checked, key) in modelValue"

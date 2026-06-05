@@ -7,11 +7,9 @@ onMounted(() => { document.title = 'Page not found — Fontem' })
 <template>
   <div class="notfound">
     <h1 class="notfound-code">404</h1>
-    <h2 class="notfound-title">Page not found</h2>
-    <p class="notfound-desc">
-      The page you're looking for doesn't exist or has been moved.
-    </p>
-    <router-link to="/" class="notfound-link">Back to home</router-link>
+    <h2 class="notfound-title">{{ $t('not_found.page_not_found') }}</h2>
+    <p class="notfound-desc">{{ $t('not_found.the_page_youre_looking_for_doesnt_exist_') }}</p>
+    <router-link to="/" class="notfound-link">{{ $t('not_found.back_to_home') }}</router-link>
   </div>
 </template>
 

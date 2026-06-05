@@ -4,6 +4,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 vi.mock('../../src/api/euroTracker.js', () => ({
   fetchMyCountry: vi.fn(),
@@ -36,7 +37,7 @@ async function mountAt(path = '/public-spending') {
   await router.isReady()
   const wrapper = mount(PublicSpendingView, {
     global: {
-      plugins: [router],
+      plugins: [router, makeTestI18n()],
       stubs: { TickerSearch: TickerSearchStub, Wordmark: WordmarkStub },
     },
   })

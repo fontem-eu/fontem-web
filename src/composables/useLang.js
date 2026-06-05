@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { DEFAULT_LANG, normaliseLang } from './eu-languages.js'
+import { activateLocale } from '../i18n.js'
 
 /**
  * Language singleton. One of the 24 EU ISO-639-1 codes. Persisted in
@@ -19,6 +20,7 @@ import { DEFAULT_LANG, normaliseLang } from './eu-languages.js'
  * ref settles on a concrete code.
  */
 const lang = ref('')
+let i18nInstance = null
 
 function applyLang(code) {
   const next = normaliseLang(code) || DEFAULT_LANG
@@ -28,6 +30,13 @@ function applyLang(code) {
   }
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('gmr-lang', next)
+  }
+  // Kick the locale swap (async; we don't await — applyLang has
+  // synchronous callers and a one-tick gap on locale text is
+  // imperceptible). The first switch to a non-default locale
+  // triggers the lazy-load via i18n.js.
+  if (i18nInstance) {
+    activateLocale(i18nInstance, next)
   }
 }
 
@@ -51,7 +60,8 @@ function setLang(code) {
  * Invalid stored values (a code outside EU-24, or garbage) are normalised
  * or dropped silently.
  */
-function init() {
+function init(i18n = null) {
+  if (i18n) i18nInstance = i18n
   if (typeof localStorage !== 'undefined') {
     const saved = normaliseLang(localStorage.getItem('gmr-lang'))
     if (saved) {

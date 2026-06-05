@@ -95,9 +95,7 @@ watch(() => props.modelValue, () => {
 
 <template>
   <div class="tag-editor" data-testid="tag-editor">
-    <label class="label" for="tag-editor-input">
-      Tags
-      <span class="hint">{{ modelValue.length }}/{{ maxTags }}</span>
+    <label class="label" for="tag-editor-input">{{ $t('tag_editor.tags') }}<span class="hint">{{ modelValue.length }}/{{ maxTags }}</span>
     </label>
     <div class="pills">
       <span

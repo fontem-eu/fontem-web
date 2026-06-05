@@ -21,7 +21,7 @@ defineExpose({ storeState, widgetType: 'entity_profile' })
 <template>
   <div class="widget-entity-profile" data-testid="widget-entity-profile">
     <ProfilePanel v-if="entityId" :symbol="entityId" />
-    <p v-else style="color: var(--muted); font-size: 0.75rem">No entity configured.</p>
+    <p v-else style="color: var(--muted); font-size: 0.75rem">{{ $t('app.no_entity_configured') }}</p>
   </div>
 </template>
 

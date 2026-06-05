@@ -136,10 +136,10 @@ onBeforeUnmount(() => {
   <aside
     v-if="hasContent"
     class="chapter-rail"
-    aria-label="Story chapters"
+    :aria-label="$t('chapter_rail.story_chapters')"
     data-testid="chapter-rail"
   >
-    <h2 class="rail-title">Chapters</h2>
+    <h2 class="rail-title">{{ $t('chapter_rail.chapters') }}</h2>
     <nav class="rail-nav">
       <a
         v-for="ch in chapters"

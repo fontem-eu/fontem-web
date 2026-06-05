@@ -91,7 +91,7 @@ const generatedAt = computed(() => {
     <header class="dq-hdr">
       <div>
         <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
-        <h1>Triple store</h1>
+        <h1>{{ $t('triples_d_q.triple_store') }}</h1>
         <p class="dq-sub">
           RDF inventory in the Virtuoso store —
           totals, per-named-graph counts, and the class/predicate
@@ -102,7 +102,7 @@ const generatedAt = computed(() => {
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dq-loading">Loading…</div>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading') }}</div>
 
     <div
       v-else-if="error"
@@ -117,11 +117,11 @@ const generatedAt = computed(() => {
       class="dq-empty"
       data-testid="triples-dq-unconfigured"
     >
-      <h2>Virtuoso not configured in this environment</h2>
+      <h2>{{ $t('triples_d_q.virtuoso_not_configured_in_this_environm') }}</h2>
       <p>
         This environment has no RDF store wired up — the sanctions,
         filings, and other Phase&nbsp;2 RDF graphs only exist where
-        <code>VIRTUOSO_SPARQL_URL</code> is set on the gmr-api
+        <code>{{ $t('triples_d_q.virtuoso_sparql_url') }}</code> is set on the gmr-api
         deployment. Check the staging or prod dashboard for live numbers.
       </p>
     </div>
@@ -146,10 +146,8 @@ const generatedAt = computed(() => {
       </div>
 
       <section class="dq-section" data-testid="triples-per-graph">
-        <h2>Triples per named graph</h2>
-        <p class="dq-hint">
-          Click a graph to inspect its class and predicate breakdown.
-        </p>
+        <h2>{{ $t('triples_d_q.triples_per_named_graph') }}</h2>
+        <p class="dq-hint">{{ $t('triples_d_q.click_a_graph_to_inspect_its_class_and_p') }}</p>
         <ul class="graph-list">
           <li
             v-for="g in data.graphs"
@@ -167,7 +165,7 @@ const generatedAt = computed(() => {
           </li>
         </ul>
         <details class="dq-collapsible">
-          <summary>Chart view</summary>
+          <summary>{{ $t('triples_d_q.chart_view') }}</summary>
           <HorizontalBarChart :data="graphBars" :max-bars="20" />
         </details>
       </section>
@@ -185,26 +183,23 @@ const generatedAt = computed(() => {
 
         <div class="dq-twocol">
           <div>
-            <h3>Top classes <span class="dq-count">({{ selected.classes.length }})</span></h3>
+            <h3>{{ $t('triples_d_q.top_classes') }}<span class="dq-count">({{ selected.classes.length }})</span></h3>
             <HorizontalBarChart
               v-if="classBars.length"
               :data="classBars"
               :max-bars="15"
             />
-            <p v-else class="dq-empty-inline">
-              No <code>rdf:type</code> assertions in this graph.
+            <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no') }}<code>rdf:type</code> assertions in this graph.
             </p>
           </div>
           <div>
-            <h3>Top predicates <span class="dq-count">({{ selected.top_predicates.length }})</span></h3>
+            <h3>{{ $t('triples_d_q.top_predicates') }}<span class="dq-count">({{ selected.top_predicates.length }})</span></h3>
             <HorizontalBarChart
               v-if="predicateBars.length"
               :data="predicateBars"
               :max-bars="15"
             />
-            <p v-else class="dq-empty-inline">
-              No triples in this graph.
-            </p>
+            <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no_triples_in_this_graph') }}</p>
           </div>
         </div>
       </section>

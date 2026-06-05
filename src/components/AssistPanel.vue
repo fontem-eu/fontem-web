@@ -357,7 +357,7 @@ defineExpose({ applyProposal, messages })
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       </svg>
-      <span>AI Assist</span>
+      <span>{{ $t('assist.ai_assist') }}</span>
     </button>
 
     <!-- Panel overlay (click outside to close on mobile) -->
@@ -366,7 +366,7 @@ defineExpose({ applyProposal, messages })
     <!-- Panel -->
     <div v-if="open" class="assist-panel" data-testid="assist-panel">
       <div class="assist-header">
-        <span class="assist-title">AI Assistant</span>
+        <span class="assist-title">{{ $t('assist.ai_assistant') }}</span>
         <div class="assist-header-actions">
           <label
             class="assist-bypass"
@@ -380,10 +380,10 @@ defineExpose({ applyProposal, messages })
               type="checkbox"
               data-testid="assist-bypass-toggle"
             />
-            <span>Accept all</span>
+            <span>{{ $t('assist.accept_all') }}</span>
           </label>
-          <button class="assist-clear" title="Clear chat" @click="clearChat">Clear</button>
-          <button class="assist-close" data-testid="assist-close" title="Close" @click="close">&times;</button>
+          <button class="assist-clear" :title="$t('assist.clear_chat')" @click="clearChat">{{ $t('app.clear') }}</button>
+          <button class="assist-close" data-testid="assist-close" :title="$t('app.close')" @click="close">&times;</button>
         </div>
       </div>
 
@@ -392,7 +392,7 @@ defineExpose({ applyProposal, messages })
            so users saw "Apply did nothing" with zero feedback. -->
       <div v-if="error" class="assist-error-banner" data-testid="assist-error">
         {{ error }}
-        <button class="assist-error-dismiss" aria-label="Dismiss" @click="error = null">&times;</button>
+        <button class="assist-error-dismiss" :aria-label="$t('app.dismiss')" @click="error = null">&times;</button>
       </div>
 
       <!-- Messages -->
@@ -412,9 +412,7 @@ defineExpose({ applyProposal, messages })
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div class="msg-text msg-markdown" v-html="renderMarkdown(msg.text)"></div>
             <div class="msg-actions">
-              <button class="msg-action" @click="insertText(msg.text)">
-                Insert into story
-              </button>
+              <button class="msg-action" @click="insertText(msg.text)">{{ $t('assist.insert_into_story') }}</button>
             </div>
             <!-- Edit proposals -->
             <div v-if="msg.proposals?.length" class="msg-proposals" data-testid="assist-proposals">
@@ -438,8 +436,8 @@ defineExpose({ applyProposal, messages })
                 </div>
                 <div class="proposal-desc" data-testid="proposal-desc">{{ p.description }}</div>
                 <div v-if="!p.applied" class="proposal-buttons">
-                  <button class="proposal-apply" data-testid="proposal-apply" @click="applyProposal(p, i)">Apply</button>
-                  <button class="proposal-dismiss" data-testid="proposal-dismiss" @click="dismissProposal(p, i)">Dismiss</button>
+                  <button class="proposal-apply" data-testid="proposal-apply" @click="applyProposal(p, i)">{{ $t('assist.apply') }}</button>
+                  <button class="proposal-dismiss" data-testid="proposal-dismiss" @click="dismissProposal(p, i)">{{ $t('app.dismiss') }}</button>
                 </div>
               </div>
             </div>
@@ -452,9 +450,7 @@ defineExpose({ applyProposal, messages })
               >
                 <span class="suggestion-type">{{ s.widget_type.replace(/_/g, ' ') }}</span>
                 <span class="suggestion-caption">{{ s.caption }}</span>
-                <button class="msg-action" @click="insertSuggestion(s)">
-                  Embed
-                </button>
+                <button class="msg-action" @click="insertSuggestion(s)">{{ $t('assist.embed') }}</button>
               </div>
             </div>
           </div>
@@ -475,9 +471,7 @@ defineExpose({ applyProposal, messages })
         </div>
       </div>
 
-      <p class="assist-disclosure">
-        Conversations are processed by an EU-based AI provider.
-        <router-link to="/privacy">See our privacy policy.</router-link>
+      <p class="assist-disclosure">{{ $t('assist.conversations_are_processed_by_an_eu_bas') }}<router-link to="/privacy">{{ $t('assist.see_our_privacy_policy') }}</router-link>
       </p>
 
       <!-- Input -->
@@ -485,14 +479,12 @@ defineExpose({ applyProposal, messages })
         <input
           v-model="input"
           type="text"
-          placeholder="Ask about the data..."
+          :placeholder="$t('assist.ask_about_the_data')"
           :disabled="loading"
           data-testid="assist-input"
           @keydown.enter.prevent="send"
         />
-        <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">
-          Send
-        </button>
+        <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
       </form>
     </div>
   </div>

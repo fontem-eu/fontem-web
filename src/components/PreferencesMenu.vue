@@ -162,7 +162,7 @@ onBeforeUnmount(() => {
       class="prefs-trigger"
       :aria-expanded="open"
       aria-haspopup="menu"
-      aria-label="Preferences"
+      :aria-label="$t('preferences_menu.preferences')"
       data-testid="prefs-menu-trigger"
       @click.stop="toggleOpen"
     >
@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
 
       <!-- ── Display preferences (everyone) ─────────────────────── -->
       <div class="prefs-section">
-        <div class="prefs-section-title">Display</div>
+        <div class="prefs-section-title">{{ $t('preferences_menu.display') }}</div>
 
         <button
           type="button"
@@ -195,12 +195,12 @@ onBeforeUnmount(() => {
           data-testid="prefs-theme-toggle"
           @click="onThemeClick"
         >
-          <span>Theme</span>
+          <span>{{ $t('app.theme') }}</span>
           <span class="prefs-row-value">{{ isDark ? 'Dark' : 'Light' }}</span>
         </button>
 
         <label class="prefs-row" :class="{ 'prefs-row-button': false }">
-          <span>Language</span>
+          <span>{{ $t('app.language') }}</span>
           <select
             class="prefs-select"
             :value="lang"
@@ -214,7 +214,7 @@ onBeforeUnmount(() => {
         </label>
 
         <label class="prefs-row">
-          <span>Atlas palette</span>
+          <span>{{ $t('preferences_menu.atlas_palette') }}</span>
           <select
             class="prefs-select"
             :value="palette"
@@ -237,18 +237,18 @@ onBeforeUnmount(() => {
       <!-- ── Auth (signed in: account links; signed out: CTA) ────── -->
       <div class="prefs-section">
         <template v-if="hasToken">
-          <div class="prefs-section-title">Account</div>
+          <div class="prefs-section-title">{{ $t('preferences_menu.account') }}</div>
           <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-issues" @click="nav('/issues')">
-            <span>Issues</span><span class="prefs-row-chevron">›</span>
+            <span>{{ $t('app.issues') }}</span><span class="prefs-row-chevron">›</span>
           </button>
           <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-activity" @click="nav('/activity')">
-            <span>Activity</span><span class="prefs-row-chevron">›</span>
+            <span>{{ $t('app.activity') }}</span><span class="prefs-row-chevron">›</span>
           </button>
           <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-ai-usage" @click="nav('/ai-usage')">
-            <span>AI usage</span><span class="prefs-row-chevron">›</span>
+            <span>{{ $t('preferences_menu.ai_usage') }}</span><span class="prefs-row-chevron">›</span>
           </button>
           <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-privacy" @click="nav('/privacy')">
-            <span>Privacy</span><span class="prefs-row-chevron">›</span>
+            <span>{{ $t('app.privacy') }}</span><span class="prefs-row-chevron">›</span>
           </button>
 
           <button
@@ -280,7 +280,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-sign-out"
             @click="onSignOutClick"
           >
-            <span>Sign out</span>
+            <span>{{ $t('app.sign_out') }}</span>
           </button>
         </template>
         <template v-else>

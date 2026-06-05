@@ -169,11 +169,11 @@ function handleSignOut() {
     <div class="login-card">
       <!-- Already signed in -->
       <template v-if="hasToken">
-        <h1 class="login-title">You're signed in</h1>
-        <p class="login-desc">You already have an active session.</p>
+        <h1 class="login-title">{{ $t('login.youre_signed_in') }}</h1>
+        <p class="login-desc">{{ $t('login.you_already_have_an_active_session') }}</p>
         <div class="login-actions">
-          <button class="btn-primary" @click="router.push('/')">Go to Home</button>
-          <button class="btn-secondary" @click="handleSignOut">Sign out</button>
+          <button class="btn-primary" @click="router.push('/')">{{ $t('login.go_to_home') }}</button>
+          <button class="btn-secondary" @click="handleSignOut">{{ $t('app.sign_out') }}</button>
         </div>
       </template>
 

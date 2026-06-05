@@ -280,9 +280,9 @@ async function save() {
       </router-link>
       <div class="header-actions">
         <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
-          <option value="private">Private — only me</option>
-          <option value="public_auth">Signed-in users</option>
-          <option value="public_open">Public — anyone</option>
+          <option value="private">{{ $t('report_editor.private_only_me') }}</option>
+          <option value="public_auth">{{ $t('report_editor.signed_in_users') }}</option>
+          <option value="public_open">{{ $t('report_editor.public_anyone') }}</option>
         </select>
         <AssistPanel
           :report-context="reportContext"
@@ -298,7 +298,7 @@ async function save() {
     </div>
 
     <div v-if="error" class="error-bar" data-testid="editor-error">{{ error }}</div>
-    <div v-if="loading" class="loading-msg">Loading story...</div>
+    <div v-if="loading" class="loading-msg">{{ $t('app.loading_story') }}</div>
 
     <template v-else>
       <!-- Title -->
@@ -306,7 +306,7 @@ async function save() {
         v-model="title"
         type="text"
         class="title-input"
-        placeholder="Story title"
+        :placeholder="$t('report_editor.story_title')"
         data-testid="story-title-input"
       />
 
@@ -314,7 +314,7 @@ async function save() {
       <textarea
         v-model="abstract"
         class="abstract-input"
-        placeholder="Brief abstract..."
+        :placeholder="$t('report_editor.brief_abstract')"
         rows="2"
         data-testid="story-abstract-input"
       />

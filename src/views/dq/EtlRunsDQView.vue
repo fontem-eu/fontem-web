@@ -87,13 +87,13 @@ function rowStatus(run) {
     <header class="dq-hdr">
       <div>
         <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
-        <h1>ETL Runs</h1>
-        <p class="dq-sub">Recent CronJob invocations from <code>events.etl_run</code>. Replaces the legacy Uptime-Kuma pings; one row per loader run.</p>
+        <h1>{{ $t('etl_runs_d_q.etl_runs') }}</h1>
+        <p class="dq-sub">{{ $t('etl_runs_d_q.recent_cronjob_invocations_from') }}<code>events.etl_run</code>. Replaces the legacy Uptime-Kuma pings; one row per loader run.</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dq-loading">Loading...</div>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <div v-else-if="error" class="dq-error">Failed to load: {{ error }}</div>
     <template v-else>
       <div class="dq-stats">
@@ -105,20 +105,18 @@ function rowStatus(run) {
       </div>
 
       <div class="dq-filters">
-        <label>
-          Status:
-          <select v-model="statusFilter" @change="load">
-            <option value="">All</option>
-            <option value="success">Success</option>
-            <option value="failed">Failed</option>
-            <option value="running">Running</option>
+        <label>{{ $t('etl_runs_d_q.status') }}<select v-model="statusFilter" @change="load">
+            <option value="">{{ $t('app.all') }}</option>
+            <option value="success">{{ $t('etl_runs_d_q.success') }}</option>
+            <option value="failed">{{ $t('etl_runs_d_q.failed') }}</option>
+            <option value="running">{{ $t('etl_runs_d_q.running') }}</option>
           </select>
         </label>
-        <button class="dq-refresh" @click="load">Refresh</button>
+        <button class="dq-refresh" @click="load">{{ $t('etl_runs_d_q.refresh') }}</button>
       </div>
 
       <section class="dq-section">
-        <h2>Recent runs</h2>
+        <h2>{{ $t('etl_runs_d_q.recent_runs') }}</h2>
         <div v-if="runs.length === 0" class="dq-empty">
           No runs recorded yet. ETL CronJobs are still suspended, or the
           events.etl_run table hasn't been bootstrapped — check the
@@ -127,12 +125,12 @@ function rowStatus(run) {
         <table v-else class="dq-table">
           <thead>
             <tr>
-              <th>Cronjob</th>
-              <th>Started</th>
-              <th>Duration</th>
-              <th>Status</th>
-              <th>Image</th>
-              <th>Summary</th>
+              <th>{{ $t('etl_runs_d_q.cronjob') }}</th>
+              <th>{{ $t('etl_runs_d_q.started') }}</th>
+              <th>{{ $t('etl_runs_d_q.duration') }}</th>
+              <th>{{ $t('etl_runs_d_q.status_2') }}</th>
+              <th>{{ $t('app.image') }}</th>
+              <th>{{ $t('etl_runs_d_q.summary') }}</th>
             </tr>
           </thead>
           <tbody>

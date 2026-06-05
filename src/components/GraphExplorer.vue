@@ -940,7 +940,7 @@ async function retryFetch() {
       v-if="fullscreen"
       class="ge-fs-close"
       data-testid="ge-fs-close"
-      title="Exit fullscreen"
+      :title="$t('graph_explorer.exit_fullscreen')"
       @click="exitFullscreen"
     >
       <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
@@ -951,7 +951,7 @@ async function retryFetch() {
     <div class="ge-controls" data-testid="ge-controls">
       <!-- Depth stepper -->
       <div class="ge-stepper" data-testid="ge-depth">
-        <span class="ge-control__label">Depth</span>
+        <span class="ge-control__label">{{ $t('graph_explorer.depth') }}</span>
         <button
           class="ge-stepper__btn"
           data-testid="ge-depth-dec"
@@ -969,12 +969,12 @@ async function retryFetch() {
 
       <!-- Period -->
       <div class="ge-control" data-testid="ge-time-range">
-        <span class="ge-control__label">Period</span>
+        <span class="ge-control__label">{{ $t('graph_explorer.period') }}</span>
         <select v-model="timeRange" class="ge-select" data-testid="ge-time-select">
           <option value="12m">12 mo</option>
           <option value="3y">3 yr</option>
           <option value="5y">5 yr</option>
-          <option value="all">All</option>
+          <option value="all">{{ $t('app.all') }}</option>
         </select>
       </div>
 
@@ -998,7 +998,7 @@ async function retryFetch() {
       <input
         v-model="keyword"
         type="text"
-        placeholder="Filter…"
+        :placeholder="$t('graph_explorer.filter')"
         class="ge-keyword"
         data-testid="ge-keyword"
       />
@@ -1008,7 +1008,7 @@ async function retryFetch() {
         v-if="!fullscreen"
         class="ge-fs-btn"
         data-testid="ge-fullscreen-btn"
-        title="Fullscreen"
+        :title="$t('graph_explorer.fullscreen')"
         @click="enterFullscreen"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1021,7 +1021,7 @@ async function retryFetch() {
         <button
           class="ge-options__trigger"
           data-testid="ge-options-btn"
-          title="More options"
+          :title="$t('graph_explorer.more_options')"
           :class="{ 'ge-options__trigger--active': optionsOpen }"
           @click.stop="optionsOpen = !optionsOpen"
         >
@@ -1031,9 +1031,7 @@ async function retryFetch() {
         </button>
         <div v-if="optionsOpen" class="ge-options__menu" data-testid="ge-options-menu">
           <label class="ge-options__item" data-testid="ge-summary-toggle">
-            <input v-model="summaryEdges" type="checkbox" />
-            Summary edges
-          </label>
+            <input v-model="summaryEdges" type="checkbox" />{{ $t('graph_explorer.summary_edges') }}</label>
           <button
             class="ge-options__item"
             data-testid="ge-path-toggle"
@@ -1050,11 +1048,11 @@ async function retryFetch() {
           </button>
           <div class="ge-options__divider"></div>
           <div class="ge-options__group">
-            <span class="ge-options__group-label">Export</span>
+            <span class="ge-options__group-label">{{ $t('graph_explorer.export') }}</span>
             <div class="ge-options__export">
-              <button class="ge-export-btn" data-testid="ge-export-svg" @click="exportSvg">SVG</button>
-              <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">PNG</button>
-              <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">JSON</button>
+              <button class="ge-export-btn" data-testid="ge-export-svg" @click="exportSvg">{{ $t('graph_explorer.svg') }}</button>
+              <button class="ge-export-btn" data-testid="ge-export-png" @click="exportPng">{{ $t('graph_explorer.png') }}</button>
+              <button class="ge-export-btn" data-testid="ge-export-json" @click="exportJson">{{ $t('graph_explorer.json') }}</button>
             </div>
           </div>
           <div class="ge-options__divider"></div>
@@ -1062,9 +1060,7 @@ async function retryFetch() {
             class="ge-options__item"
             data-testid="ge-save-view"
             @click="saveView(); optionsOpen = false"
-          >
-            Save view
-          </button>
+          >{{ $t('graph_explorer.save_view') }}</button>
           <button
             v-if="savedViews.length > 0"
             class="ge-options__item"
@@ -1115,11 +1111,11 @@ async function retryFetch() {
     <!-- Path search bar (visible when path mode is active) -->
     <div v-if="pathMode" class="ge-path-bar" data-testid="ge-path-bar">
       <div class="ge-path-search">
-        <span class="ge-control__label">Path to</span>
+        <span class="ge-control__label">{{ $t('graph_explorer.path_to') }}</span>
         <input
           v-model="pathQuery"
           type="text"
-          placeholder="Search entity name..."
+          :placeholder="$t('graph_explorer.search_entity_name')"
           class="ge-path-input"
           data-testid="ge-path-input"
           @input="onPathQueryInput"
@@ -1148,9 +1144,7 @@ async function retryFetch() {
       </div>
 
       <!-- Path loading -->
-      <span v-if="pathLoading" class="ge-path-loading" data-testid="ge-path-loading">
-        Finding paths...
-      </span>
+      <span v-if="pathLoading" class="ge-path-loading" data-testid="ge-path-loading">{{ $t('graph_explorer.finding_paths') }}</span>
     </div>
 
     <!-- Path legend (visible when paths found) -->
@@ -1185,9 +1179,7 @@ async function retryFetch() {
       v-if="pathData && pathData.paths.length === 0"
       class="ge-path-none"
       data-testid="ge-path-none"
-    >
-      No paths found between these entities.
-    </div>
+    >{{ $t('graph_explorer.no_paths_found_between_these_entities') }}</div>
 
     <!-- Timeline -->
     <div v-if="timelineEnabled && timelineMin" class="ge-timeline" data-testid="ge-timeline">
@@ -1234,19 +1226,15 @@ async function retryFetch() {
     </div>
 
     <!-- Loading -->
-    <div v-if="loading" class="ge-loading" data-testid="ge-loading">
-      Loading graph...
-    </div>
-    <div v-if="expandLoading" class="ge-expand-loading" data-testid="ge-expand-loading">
-      Expanding node...
-    </div>
+    <div v-if="loading" class="ge-loading" data-testid="ge-loading">{{ $t('graph_explorer.loading_graph') }}</div>
+    <div v-if="expandLoading" class="ge-expand-loading" data-testid="ge-expand-loading">{{ $t('graph_explorer.expanding_node') }}</div>
 
     <!-- Error — prominent card with retry. Hides the canvas below so
          the user sees the error, not a 400px empty square. -->
     <div v-if="error" class="ge-error" data-testid="ge-error" role="alert">
       <div class="ge-error__icon" aria-hidden="true">!</div>
       <div class="ge-error__body">
-        <div class="ge-error__title">Couldn't load the graph</div>
+        <div class="ge-error__title">{{ $t('graph_explorer.couldnt_load_the_graph') }}</div>
         <div class="ge-error__message">{{ error }}</div>
       </div>
       <button
@@ -1254,9 +1242,7 @@ async function retryFetch() {
         class="ge-error__retry"
         data-testid="ge-error-retry"
         @click="retryFetch"
-      >
-        Retry
-      </button>
+      >{{ $t('app.retry') }}</button>
     </div>
 
     <!-- Empty state -->
@@ -1264,9 +1250,7 @@ async function retryFetch() {
       v-if="!loading && !error && graphData && graphData.nodes.length === 0"
       class="ge-empty"
       data-testid="ge-empty"
-    >
-      No connections found for this entity.
-    </div>
+    >{{ $t('graph_explorer.no_connections_found_for_this_entity') }}</div>
 
     <!-- Canvas — hidden on error via v-show so the sigma ref stays
          mounted and renderGraph() can pick up where it left off after
@@ -1312,24 +1296,18 @@ async function retryFetch() {
           class="ge-tooltip__btn"
           data-testid="ge-go-profile"
           @click="goToProfile(tooltip.id, tooltip.type)"
-        >
-          Go to profile
-        </button>
+        >{{ $t('graph_explorer.go_to_profile') }}</button>
         <button
           class="ge-tooltip__btn"
           data-testid="ge-set-center"
           @click="setAsCenter(tooltip.id)"
-        >
-          Set as center
-        </button>
+        >{{ $t('graph_explorer.set_as_center') }}</button>
         <button
           v-if="pathMode && tooltip.id !== entityId"
           class="ge-tooltip__btn"
           data-testid="ge-find-path-to"
           @click="selectPathTarget({ id: tooltip.id, label: tooltip.label, type: tooltip.type })"
-        >
-          Find path to
-        </button>
+        >{{ $t('graph_explorer.find_path_to') }}</button>
       </div>
     </div>
   </div>

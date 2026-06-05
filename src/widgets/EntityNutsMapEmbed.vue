@@ -23,7 +23,7 @@ defineExpose({ storeState, widgetType: 'entity_nuts_map' })
 <template>
   <div class="widget-entity-nuts-map" data-testid="widget-entity-nuts-map">
     <EntityNutsMap v-if="entityId" :entity-id="entityId" />
-    <p v-else style="color: var(--muted); font-size: 0.75rem">No entity configured.</p>
+    <p v-else style="color: var(--muted); font-size: 0.75rem">{{ $t('app.no_entity_configured') }}</p>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 // HomeView is the ticker-detail host now (mounted at `/c/:ticker/:view`).
 // The landing/marketing copy (carousel + chips + how-it-works + tour)
@@ -47,7 +48,7 @@ async function mountAt(path = '/') {
   await router.isReady()
   const wrapper = mount(HomeView, {
     global: {
-      plugins: [router],
+      plugins: [router, makeTestI18n()],
       stubs: {
         TickerFinancials: TickerFinancialsStub,
         DataViewSelector: DataViewSelectorStub,

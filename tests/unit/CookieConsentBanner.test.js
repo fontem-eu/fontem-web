@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import CookieConsentBanner from '../../src/components/CookieConsentBanner.vue'
 
 const STORAGE_KEY = 'gmr-cookie-consent'
@@ -20,7 +21,7 @@ async function mountBanner() {
   await router.push('/')
   await router.isReady()
   const wrapper = mount(CookieConsentBanner, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
     attachTo: document.body,
   })
   await flushPromises()

@@ -67,11 +67,9 @@ function formatDate(dateStr) {
   <div class="issues-page" data-testid="issues-view">
     <header class="issues-header">
       <div>
-        <h1>Issues</h1>
+        <h1>{{ $t('app.issues') }}</h1>
       </div>
-      <button class="issues-raise-btn" data-testid="issues-raise-btn" @click="showCreate = true">
-        Raise an Issue
-      </button>
+      <button class="issues-raise-btn" data-testid="issues-raise-btn" @click="showCreate = true">{{ $t('app.raise_an_issue') }}</button>
     </header>
 
     <nav class="issues-tabs" data-testid="issues-tabs">
@@ -88,11 +86,9 @@ function formatDate(dateStr) {
     </nav>
 
     <p v-if="error" class="issues-error" data-testid="issues-error">{{ error }}</p>
-    <p v-if="loading" class="issues-loading">Loading issues...</p>
+    <p v-if="loading" class="issues-loading">{{ $t('issues.loading_issues') }}</p>
 
-    <div v-if="!loading && !filteredIssues.length" class="issues-empty" data-testid="issues-empty">
-      No issues found.
-    </div>
+    <div v-if="!loading && !filteredIssues.length" class="issues-empty" data-testid="issues-empty">{{ $t('issues.no_issues_found') }}</div>
 
     <ul v-if="!loading && filteredIssues.length" class="issues-list" data-testid="issues-list">
       <li

@@ -252,9 +252,7 @@ onBeforeUnmount(() => {
         <span v-if="sliceLabel" class="atlas-embed-slice">{{ sliceLabel }}</span>
         <span v-if="year != null" class="atlas-embed-year">— {{ year }}</span>
       </div>
-      <a class="atlas-embed-link" :href="atlasUrl" target="_blank" rel="noopener">
-        Open in Atlas →
-      </a>
+      <a class="atlas-embed-link" :href="atlasUrl" target="_blank" rel="noopener">{{ $t('atlas_map_embed.open_in_atlas') }}</a>
     </header>
 
     <div v-if="error" class="atlas-embed-error" data-testid="widget-atlas-error">

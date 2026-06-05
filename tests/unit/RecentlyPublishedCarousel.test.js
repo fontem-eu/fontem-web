@@ -10,6 +10,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import RecentlyPublishedCarousel from '../../src/components/RecentlyPublishedCarousel.vue'
 
 function makeRouter() {
@@ -46,7 +47,7 @@ async function mountCarousel(stories, { reducedMotion = false } = {}) {
   await router.isReady()
   const wrapper = mount(RecentlyPublishedCarousel, {
     props: { stories },
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
     attachTo: document.body,
   })
   await flushPromises()

@@ -138,11 +138,11 @@ const popoverStyle = computed(() => {
   <div
     v-if="visible"
     class="mention-popover"
-    aria-label="Entity mentions"
+    :aria-label="$t('mention_autocomplete.entity_mentions')"
     data-testid="mention-popover"
     :style="popoverStyle"
   >
-    <div v-if="loading" class="popover-status">Searching…</div>
+    <div v-if="loading" class="popover-status">{{ $t('mention_autocomplete.searching') }}</div>
     <div v-else-if="error" class="popover-status error">{{ error }}</div>
     <ul v-else class="popover-list">
       <li

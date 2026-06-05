@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import AppHeader from '../../src/components/AppHeader.vue'
 
 const TickerSearchStub = {
@@ -35,7 +36,7 @@ async function mountAt(path = '/') {
   await router.isReady()
   const wrapper = mount(AppHeader, {
     global: {
-      plugins: [router],
+      plugins: [router, makeTestI18n()],
       stubs: {
         TickerSearch: TickerSearchStub,
         ThemeToggle: ThemeToggleStub,

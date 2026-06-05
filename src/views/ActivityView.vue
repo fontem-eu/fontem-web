@@ -94,18 +94,18 @@ function typeLabel(type) {
 <template>
   <div class="activity-page" data-testid="activity-view">
     <header class="activity-header">
-      <h1>Activity</h1>
+      <h1>{{ $t('app.activity') }}</h1>
       <p v-if="user" class="activity-user">{{ user.name || user.email }}</p>
     </header>
 
     <!-- Not signed in -->
     <div v-if="!hasToken" class="activity-empty" data-testid="activity-no-auth">
-      <p>Sign in to see your activity.</p>
-      <router-link to="/login" class="activity-sign-in">Sign in</router-link>
+      <p>{{ $t('activity.sign_in_to_see_your_activity') }}</p>
+      <router-link to="/login" class="activity-sign-in">{{ $t('activity.sign_in') }}</router-link>
     </div>
 
     <p v-if="error" class="activity-error">{{ error }}</p>
-    <p v-if="loading" class="activity-loading">Loading activity...</p>
+    <p v-if="loading" class="activity-loading">{{ $t('activity.loading_activity') }}</p>
 
     <!-- Empty -->
     <div

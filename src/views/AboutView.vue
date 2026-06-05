@@ -117,13 +117,13 @@ onMounted(async () => {
             class="recent-reports"
             data-testid="recent-stories"
           >
-            <h2 class="recent-reports-title">Recently published</h2>
+            <h2 class="recent-reports-title">{{ $t('about.recently_published') }}</h2>
             <RecentlyPublishedCarousel :stories="recentStories" />
-            <router-link to="/" class="recent-reports-more">See all public data stories →</router-link>
+            <router-link to="/" class="recent-reports-more">{{ $t('about.see_all_public_data_stories') }}</router-link>
           </section>
 
           <div class="example-chips" data-testid="example-chips">
-            <span class="example-chips-label">Try:</span>
+            <span class="example-chips-label">{{ $t('about.try') }}</span>
             <router-link
               v-for="c in EXAMPLE_CHIPS"
               :key="c.key"
@@ -134,7 +134,7 @@ onMounted(async () => {
           </div>
 
           <section class="howitworks" data-testid="howitworks">
-            <h2 class="howitworks-title">How it works</h2>
+            <h2 class="howitworks-title">{{ $t('about.how_it_works') }}</h2>
             <div class="howitworks-grid">
               <div
                 v-for="s in STEPS"
@@ -160,7 +160,7 @@ onMounted(async () => {
           </section>
 
           <section class="demo-clip" data-testid="landing-demo">
-            <h2 class="demo-clip-title">A 45-second tour</h2>
+            <h2 class="demo-clip-title">{{ $t('about.a_45_second_tour') }}</h2>
             <div class="demo-clip-frame">
               <video
                 ref="demoVideo"
@@ -171,7 +171,7 @@ onMounted(async () => {
                 loop
                 playsinline
                 preload="metadata"
-                aria-label="Walkthrough: searching a company, exploring procurement, and publishing a data story"
+                :aria-label="$t('about.walkthrough_searching_a_company_explorin')"
               />
             </div>
             <p class="demo-clip-caption">

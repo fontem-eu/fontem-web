@@ -440,7 +440,7 @@ function fmtDate(s) {
 
     <!-- ── Loading ───────────────────────────────────────────── -->
     <div v-if="loading" class="summary-state" data-testid="summary-loading">
-      <span class="animate-pulse" style="color: var(--muted)">Loading…</span>
+      <span class="animate-pulse" style="color: var(--muted)">{{ $t('app.loading') }}</span>
     </div>
 
     <!-- ── Error ─────────────────────────────────────────────── -->
@@ -491,7 +491,7 @@ function fmtDate(s) {
           >{{ fmtPrice(tooltip.close) }}</span>
         </div>
         <div class="tt-row">
-          <span class="tt-label">Vol</span>
+          <span class="tt-label">{{ $t('summary.vol') }}</span>
           <span class="tt-val" data-testid="tt-volume">{{ fmtVol(tooltip.volume) }}</span>
         </div>
       </div>

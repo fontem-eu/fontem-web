@@ -111,13 +111,13 @@ function pipelineStat(id) {
     <header class="dqh-header">
       <div>
         <router-link to="/admin" class="dqh-back">&larr; Admin</router-link>
-        <h1>Data Quality</h1>
+        <h1>{{ $t('data_quality_hub.data_quality') }}</h1>
         <p class="dqh-sub">Per-pipeline dashboards — drill into each ETL to spot gaps, trends, and anomalies.</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dqh-loading">Loading overview...</div>
+    <div v-if="loading" class="dqh-loading">{{ $t('data_quality_hub.loading_overview') }}</div>
     <div v-else-if="error" class="dqh-error">{{ error }}</div>
 
     <template v-else>
@@ -138,10 +138,10 @@ function pipelineStat(id) {
         class="dqh-freshness"
         data-testid="source-freshness"
       >
-        <h2>Data freshness</h2>
+        <h2>{{ $t('data_quality_hub.data_freshness') }}</h2>
         <dl class="dqh-freshness-list" data-testid="dqh-freshness-list">
           <template v-if="freshness.latest_contract_load">
-            <dt>Latest contract load</dt>
+            <dt>{{ $t('data_quality_hub.latest_contract_load') }}</dt>
             <dd data-testid="freshness-latest-contract-load">{{ formatTimestamp(freshness.latest_contract_load) }}</dd>
           </template>
           <template v-if="freshness.contract_date_range?.earliest || freshness.contract_date_range?.latest">

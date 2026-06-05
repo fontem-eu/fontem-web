@@ -71,18 +71,18 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
     <header class="dq-hdr">
       <div>
         <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
-        <h1>Data Quality Overview</h1>
-        <p class="dq-sub">Cross-source overlap, country code consistency, and field completeness across all data sources</p>
+        <h1>{{ $t('overview_d_q.data_quality_overview') }}</h1>
+        <p class="dq-sub">{{ $t('overview_d_q.cross_source_overlap_country_code_consis') }}</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dq-loading">Loading...</div>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
 
     <template v-else>
       <!-- Cross-source overlap -->
       <section v-if="overlap" class="dq-section">
-        <h2>Cross-Source Overlap</h2>
+        <h2>{{ $t('overview_d_q.cross_source_overlap') }}</h2>
         <p class="dq-hint">How many entities appear in multiple data sources — a measure of graph connectivity.</p>
         <div class="dq-stats">
           <StatCard :value="fmt(overlap.contracts_and_cohesion)" label="Contracts + Cohesion" />
@@ -92,21 +92,21 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
         </div>
         <table class="overlap-matrix">
           <thead>
-            <tr><th></th><th>Contracts</th><th>Cohesion</th><th>Lobby</th><th>Listings</th><th>Sanctions</th></tr>
+            <tr><th></th><th>{{ $t('app.contracts') }}</th><th>{{ $t('overview_d_q.cohesion') }}</th><th>{{ $t('overview_d_q.lobby') }}</th><th>{{ $t('overview_d_q.listings') }}</th><th>{{ $t('app.sanctions') }}</th></tr>
           </thead>
           <tbody>
-            <tr><th>Contracts</th><td class="self">-</td><td>{{ fmt(overlap.contracts_and_cohesion) }}</td><td>{{ fmt(overlap.contracts_and_lobby) }}</td><td>{{ fmt(overlap.listed_and_contracts) }}</td><td>{{ fmt(overlap.sanctions_matched) }}</td></tr>
-            <tr><th>Cohesion</th><td>{{ fmt(overlap.contracts_and_cohesion) }}</td><td class="self">-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><th>Lobby</th><td>{{ fmt(overlap.contracts_and_lobby) }}</td><td>-</td><td class="self">-</td><td>-</td><td>-</td></tr>
-            <tr><th>Listings</th><td>{{ fmt(overlap.listed_and_contracts) }}</td><td>-</td><td>-</td><td class="self">-</td><td>-</td></tr>
-            <tr><th>Sanctions</th><td>{{ fmt(overlap.sanctions_matched) }}</td><td>-</td><td>-</td><td>-</td><td class="self">-</td></tr>
+            <tr><th>{{ $t('app.contracts') }}</th><td class="self">-</td><td>{{ fmt(overlap.contracts_and_cohesion) }}</td><td>{{ fmt(overlap.contracts_and_lobby) }}</td><td>{{ fmt(overlap.listed_and_contracts) }}</td><td>{{ fmt(overlap.sanctions_matched) }}</td></tr>
+            <tr><th>{{ $t('overview_d_q.cohesion') }}</th><td>{{ fmt(overlap.contracts_and_cohesion) }}</td><td class="self">-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><th>{{ $t('overview_d_q.lobby') }}</th><td>{{ fmt(overlap.contracts_and_lobby) }}</td><td>-</td><td class="self">-</td><td>-</td><td>-</td></tr>
+            <tr><th>{{ $t('overview_d_q.listings') }}</th><td>{{ fmt(overlap.listed_and_contracts) }}</td><td>-</td><td>-</td><td class="self">-</td><td>-</td></tr>
+            <tr><th>{{ $t('app.sanctions') }}</th><td>{{ fmt(overlap.sanctions_matched) }}</td><td>-</td><td>-</td><td>-</td><td class="self">-</td></tr>
           </tbody>
         </table>
       </section>
 
       <!-- Country code consistency -->
       <section v-if="countryCodes" class="dq-section">
-        <h2>Country Code Consistency</h2>
+        <h2>{{ $t('overview_d_q.country_code_consistency') }}</h2>
         <div v-if="countryCodes.alpha2_count > 0" class="dq-warn">
           {{ fmt(countryCodes.alpha2_count) }} companies still use alpha-2 country codes instead of ISO 3166-1 alpha-2/alpha-3.
         </div>
@@ -121,7 +121,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
           <GaugeChart :value="alpha2Pct" label="Alpha-2 %" />
         </div>
         <template v-if="alpha2Bars.length">
-          <h3>Top Alpha-2 Codes</h3>
+          <h3>{{ $t('overview_d_q.top_alpha_2_codes') }}</h3>
           <HorizontalBarChart :data="alpha2Bars" :max-bars="10" />
         </template>
       </section>

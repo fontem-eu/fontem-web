@@ -51,7 +51,7 @@ function cancel() {
     <!-- Name prompt overlay -->
     <div v-if="showPrompt" class="pocket-prompt" data-testid="pocket-prompt">
       <div class="pocket-prompt-card" @click.stop>
-        <label for="pocket-name-input" class="pocket-prompt-label">Save to pocket</label>
+        <label for="pocket-name-input" class="pocket-prompt-label">{{ $t('pocket_button.save_to_pocket') }}</label>
         <input
           id="pocket-name-input"
           v-model="nameInput"
@@ -63,8 +63,8 @@ function cancel() {
           @keydown.escape="cancel"
         />
         <div class="pocket-prompt-actions">
-          <button class="pocket-cancel" @click="cancel">Cancel</button>
-          <button class="pocket-confirm" data-testid="pocket-confirm" @click="confirm">Save</button>
+          <button class="pocket-cancel" @click="cancel">{{ $t('app.cancel') }}</button>
+          <button class="pocket-confirm" data-testid="pocket-confirm" @click="confirm">{{ $t('pocket_button.save') }}</button>
         </div>
       </div>
     </div>

@@ -126,7 +126,7 @@ function cellIsIri(row, varName) {
 <template>
   <div class="sparql-page" data-testid="sparql">
     <header class="sparql-hdr">
-      <h1>SPARQL endpoint</h1>
+      <h1>{{ $t('sparql.sparql_endpoint') }}</h1>
       <p class="sparql-sub">
         Query the Fontem knowledge graph directly from the browser, or
         plug the endpoint into OpenRefine / a notebook / your own
@@ -137,15 +137,15 @@ function cellIsIri(row, varName) {
 
     <!-- Live endpoint details — documentation users can copy into
          curl / Python / OpenRefine. -->
-    <section class="sparql-meta" aria-label="Endpoint" data-testid="sparql-meta">
+    <section class="sparql-meta" :aria-label="$t('sparql.endpoint')" data-testid="sparql-meta">
       <dl>
-        <dt>Endpoint URL</dt>
+        <dt>{{ $t('sparql.endpoint_url') }}</dt>
         <dd><code data-testid="sparql-endpoint-url">https://www.fontem.eu/api/sparql</code></dd>
-        <dt>Method</dt>
-        <dd><code>POST</code> with <code>application/json</code> body <code>{"query": "…"}</code>. <code>GET /api/sparql</code> returns this same documentation as JSON.</dd>
-        <dt>Response</dt>
-        <dd>SPARQL 1.1 JSON results envelope: <code>{head, results: {bindings}}</code>.</dd>
-        <dt>Limits</dt>
+        <dt>{{ $t('sparql.method') }}</dt>
+        <dd><code>{{ $t('sparql.post') }}</code> with <code>application/json</code> body <code>{"query": "…"}</code>. <code>{{ $t('sparql.get_apisparql') }}</code> returns this same documentation as JSON.</dd>
+        <dt>{{ $t('sparql.response') }}</dt>
+        <dd>{{ $t('sparql.sparql_11_json_results_envelope') }}<code>{head, results: {bindings}}</code>.</dd>
+        <dt>{{ $t('sparql.limits') }}</dt>
         <dd>4 KB query cap; read-only (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE keywords are rejected.</dd>
       </dl>
     </section>
@@ -153,7 +153,7 @@ function cellIsIri(row, varName) {
     <!-- ── Live query editor ─────────────────────────────────── -->
     <section class="sparql-editor-section" data-testid="sparql-editor-section">
       <div class="sparql-editor-header">
-        <h2>Try a query</h2>
+        <h2>{{ $t('sparql.try_a_query') }}</h2>
         <span class="sparql-shortcut" aria-hidden="true">⌘/Ctrl + Enter to run</span>
       </div>
       <textarea
@@ -179,7 +179,7 @@ function cellIsIri(row, varName) {
           data-testid="sparql-clear"
           :disabled="running"
           @click="clearEditor"
-        >Clear</button>
+        >{{ $t('app.clear') }}</button>
         <span v-if="elapsedMs != null && !running" class="sparql-elapsed" data-testid="sparql-elapsed">
           {{ resultRows.length }} row{{ resultRows.length === 1 ? '' : 's' }} in {{ elapsedMs }} ms
         </span>
@@ -187,7 +187,7 @@ function cellIsIri(row, varName) {
 
       <!-- ── Output ─────────────────────────────────────────── -->
       <div v-if="error" class="sparql-error" data-testid="sparql-error">
-        <strong>Query failed:</strong> {{ error }}
+        <strong>{{ $t('sparql.query_failed') }}</strong> {{ error }}
       </div>
 
       <div

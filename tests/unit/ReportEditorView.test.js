@@ -4,6 +4,7 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import ReportEditorView from '../../src/views/ReportEditorView.vue'
 import * as communityApi from '../../src/api/community.js'
 
@@ -37,7 +38,7 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1' 
   const router = makeRouter(reportId)
   await router.isReady()
   const wrapper = mount(ReportEditorView, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
   })
   await flushPromises()
   return { wrapper, router }

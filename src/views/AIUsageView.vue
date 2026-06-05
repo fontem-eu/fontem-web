@@ -71,9 +71,9 @@ onMounted(load)
 
 <template>
   <main class="usage-page">
-    <h2 class="usage-title">AI usage metrics</h2>
+    <h2 class="usage-title">{{ $t('a_i_usage.ai_usage_metrics') }}</h2>
 
-    <div v-if="loading" class="usage-loading">Loading...</div>
+    <div v-if="loading" class="usage-loading">{{ $t('app.loading_2') }}</div>
 
     <div v-else-if="error" class="usage-error">{{ error }}</div>
 
@@ -81,17 +81,17 @@ onMounted(load)
       <!-- Rolling-window summary cards -->
       <div v-if="snapshot" class="usage-cards">
         <div class="usage-card">
-          <div class="usage-card-label">Last hour</div>
+          <div class="usage-card-label">{{ $t('a_i_usage.last_hour') }}</div>
           <div class="usage-card-value">{{ fmt(snapshot.tokens_1h) }}</div>
           <div class="usage-card-unit">tokens</div>
         </div>
         <div class="usage-card">
-          <div class="usage-card-label">Last 24 h</div>
+          <div class="usage-card-label">{{ $t('a_i_usage.last_24_h') }}</div>
           <div class="usage-card-value">{{ fmt(snapshot.tokens_24h) }}</div>
           <div class="usage-card-unit">tokens</div>
         </div>
         <div class="usage-card">
-          <div class="usage-card-label">Last 7 days</div>
+          <div class="usage-card-label">{{ $t('a_i_usage.last_7_days') }}</div>
           <div class="usage-card-value">{{ fmt(snapshot.tokens_7d) }}</div>
           <div class="usage-card-unit">tokens</div>
         </div>

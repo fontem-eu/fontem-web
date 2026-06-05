@@ -11,6 +11,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 vi.mock('../../src/api/community.js', () => ({
   listReports: vi.fn(() => Promise.resolve([])),
@@ -35,7 +36,7 @@ async function mountView() {
   await router.push('/my-stories')
   await router.isReady()
   const wrapper = mount(MyReportsView, {
-    global: { plugins: [router] },
+    global: { plugins: [router, makeTestI18n()] },
   })
   await flushPromises()
   return wrapper

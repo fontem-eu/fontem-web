@@ -51,7 +51,7 @@ const generatedAt = computed(() => {
     <header class="dq-hdr">
       <div>
         <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
-        <h1>Graph Connectedness</h1>
+        <h1>{{ $t('connectedness_d_q.graph_connectedness') }}</h1>
         <p class="dq-sub">
           How well each entity type is wired into the rest of the graph.
           Isolated = nodes with zero relationships. High isolation on a
@@ -62,7 +62,7 @@ const generatedAt = computed(() => {
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dq-loading">Loading...</div>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <div v-else-if="error" class="dq-error" role="alert">
       Couldn't load connectedness: {{ error }}
     </div>
@@ -79,20 +79,20 @@ const generatedAt = computed(() => {
       </p>
 
       <section class="dq-section">
-        <h2>Per-type summary</h2>
+        <h2>{{ $t('connectedness_d_q.per_type_summary') }}</h2>
         <div class="dq-table-wrap">
           <table class="dq-table">
             <thead>
               <tr>
-                <th>Entity type</th>
-                <th class="num">Count</th>
-                <th class="num">Isolated</th>
-                <th class="num">Isolated %</th>
-                <th class="num">Min</th>
-                <th class="num">Median</th>
-                <th class="num">Mean</th>
+                <th>{{ $t('app.entity_type') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.count') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.isolated') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.isolated_2') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.min') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.median') }}</th>
+                <th class="num">{{ $t('connectedness_d_q.mean') }}</th>
                 <th class="num">p95</th>
-                <th class="num">Max</th>
+                <th class="num">{{ $t('connectedness_d_q.max') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -115,7 +115,7 @@ const generatedAt = computed(() => {
       </section>
 
       <section class="dq-section">
-        <h2>Degree distribution per type</h2>
+        <h2>{{ $t('connectedness_d_q.degree_distribution_per_type') }}</h2>
         <p class="dq-help">
           How many nodes fall in each connection-count bucket. A pile
           stuck on "0" means many orphans for that type; a long right

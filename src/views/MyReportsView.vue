@@ -58,7 +58,7 @@ function truncate(text, maxLen = 140) {
 <template>
   <div class="report-list" data-testid="my-stories">
     <div class="list-header">
-      <h1 class="list-title">My Stories</h1>
+      <h1 class="list-title">{{ $t('my_reports.my_stories') }}</h1>
       <button
         class="new-report-btn"
         :disabled="creating"
@@ -71,21 +71,19 @@ function truncate(text, maxLen = 140) {
 
     <div v-if="error" class="error-bar" data-testid="my-stories-error">{{ error }}</div>
 
-    <div v-if="loading" class="loading-msg">Loading stories...</div>
+    <div v-if="loading" class="loading-msg">{{ $t('my_reports.loading_stories') }}</div>
 
     <div
       v-else-if="stories.length === 0"
       class="empty-msg"
       data-testid="my-stories-empty"
     >
-      <p class="empty-msg-text">No stories yet. Start your first one above.</p>
+      <p class="empty-msg-text">{{ $t('my_reports.no_stories_yet_start_your_first_one_abov') }}</p>
       <router-link
         to="/"
         class="empty-cta-btn"
         data-testid="my-stories-empty-cta"
-      >
-        Or read recent public stories →
-      </router-link>
+      >{{ $t('my_reports.or_read_recent_public_stories') }}</router-link>
     </div>
 
     <div v-else class="report-cards">

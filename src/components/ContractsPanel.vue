@@ -163,18 +163,14 @@ const topCpv = computed(() => {
 <template>
   <div data-testid="contracts-panel" class="contracts-panel">
     <!-- Loading -->
-    <div v-if="state === 'loading'" class="contracts-msg">
-      Loading procurement data...
-    </div>
+    <div v-if="state === 'loading'" class="contracts-msg">{{ $t('contracts.loading_procurement_data') }}</div>
 
     <!-- Error -->
-    <div v-else-if="state === 'error'" class="contracts-msg" data-testid="contracts-error">
-      Failed to load procurement data.
-    </div>
+    <div v-else-if="state === 'error'" class="contracts-msg" data-testid="contracts-error">{{ $t('contracts.failed_to_load_procurement_data') }}</div>
 
     <!-- Empty -->
     <div v-else-if="state === 'empty'" class="contracts-msg" data-testid="contracts-empty">
-      <p>No EU public procurement data found for this company.</p>
+      <p>{{ $t('contracts.no_eu_public_procurement_data_found_for_') }}</p>
       <p class="contracts-note">
         TED covers contracts above &euro;140K (services) / &euro;5.4M (works) across 27 EU member states.
       </p>
@@ -193,19 +189,19 @@ const topCpv = computed(() => {
       <div class="contracts-summary" data-testid="contracts-summary">
         <div class="cs-card">
           <span class="cs-num">{{ data.contract_count.toLocaleString() }}</span>
-          <span class="cs-label">Contracts</span>
+          <span class="cs-label">{{ $t('app.contracts') }}</span>
         </div>
         <div class="cs-card">
           <span class="cs-num">{{ fmtEur(data.total_contract_value_eur) }}</span>
-          <span class="cs-label">Total Value (EUR)</span>
+          <span class="cs-label">{{ $t('app.total_value_eur') }}</span>
         </div>
         <div v-if="topAuthority" class="cs-card cs-card--wide">
           <span class="cs-num cs-num--sm">{{ topAuthority }}</span>
-          <span class="cs-label">Top Authority</span>
+          <span class="cs-label">{{ $t('contracts.top_authority') }}</span>
         </div>
         <div v-if="topCpv" class="cs-card cs-card--wide">
           <span class="cs-num cs-num--sm">{{ topCpv }}</span>
-          <span class="cs-label">Top Sector (CPV)</span>
+          <span class="cs-label">{{ $t('contracts.top_sector_cpv') }}</span>
         </div>
       </div>
 
@@ -221,9 +217,9 @@ const topCpv = computed(() => {
                 class="sortable"
                 @click="sortBy(counterpartySortKey)"
               >{{ counterpartyHeader }}{{ indicator(counterpartySortKey) }}</th>
-              <th>CPV</th>
-              <th>Type</th>
-              <th>TED</th>
+              <th>{{ $t('contracts.cpv') }}</th>
+              <th>{{ $t('contracts.type') }}</th>
+              <th>{{ $t('app.ted') }}</th>
             </tr>
           </thead>
           <tbody>

@@ -30,7 +30,7 @@ onMounted(async () => {
       <div>
         <router-link to="/" class="cp-back">&larr; Home</router-link>
         <h1 v-if="profile">{{ profile.company_name || gmrId }}</h1>
-        <h1 v-else>Company Profile</h1>
+        <h1 v-else>{{ $t('company_profile.company_profile') }}</h1>
         <div v-if="profile" class="cp-meta">
           <span v-if="profile.country" class="cp-tag">{{ profile.country }}</span>
           <span v-if="profile.contract_count" class="cp-tag">
@@ -44,12 +44,12 @@ onMounted(async () => {
       <ThemeToggle />
     </header>
 
-    <div v-if="state === 'loading'" class="cp-msg">Loading company profile...</div>
-    <div v-else-if="state === 'error'" class="cp-msg">Company not found.</div>
+    <div v-if="state === 'loading'" class="cp-msg">{{ $t('company_profile.loading_company_profile') }}</div>
+    <div v-else-if="state === 'error'" class="cp-msg">{{ $t('company_profile.company_not_found') }}</div>
 
     <div v-else-if="profile">
       <!-- Contracts panel (reuses the existing component) -->
-      <h2 class="cp-section">EU Public Procurement</h2>
+      <h2 class="cp-section">{{ $t('app.eu_public_procurement') }}</h2>
       <ContractsPanel :symbol="gmrId" />
     </div>
   </div>

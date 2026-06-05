@@ -13,8 +13,8 @@ onMounted(async () => {
 const pendingPct = computed(() => data.value && data.value.total > 0 ? Math.round(data.value.pending / data.value.total * 100) : 0)
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>Deduplication</h1><p class="dq-sub">SAME_AS queue — duplicate entity resolution status</p></div><ThemeToggle /></header>
-    <div v-if="loading" class="dq-loading">Loading...</div>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('dedup_d_q.deduplication') }}</h1><p class="dq-sub">{{ $t('dedup_d_q.same_as_queue_duplicate_entity_resolutio') }}</p></div><ThemeToggle /></header>
+    <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.pending" label="Pending Review" color="#d97706" /><StatCard :value="data.reviewed" label="Reviewed" color="#16a34a" /><StatCard :value="data.total" label="Total SAME_AS" /></div>
       <div class="dq-bar-wrap">
@@ -24,7 +24,7 @@ const pendingPct = computed(() => data.value && data.value.total > 0 ? Math.roun
         </div>
         <div class="dq-bar-legend"><span class="dq-legend-dot" style="background:#16a34a"></span> Reviewed ({{ 100 - pendingPct }}%) <span class="dq-legend-dot" style="background:#d97706;margin-left:1rem"></span> Pending ({{ pendingPct }}%)</div>
       </div>
-      <p class="dq-note">Use the <router-link to="/admin/entity-resolution">Entity Resolution</router-link> tool to review pending duplicates.</p>
+      <p class="dq-note">{{ $t('dedup_d_q.use_the') }}<router-link to="/admin/entity-resolution">{{ $t('app.entity_resolution') }}</router-link> tool to review pending duplicates.</p>
     </template>
   </div>
 </template>

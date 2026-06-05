@@ -674,16 +674,14 @@ onBeforeUnmount(() => {
 <template>
   <div class="atlas" data-testid="atlas">
     <header class="atlas-header">
-      <h1>Atlas</h1>
+      <h1>{{ $t('atlas.atlas') }}</h1>
       <p class="atlas-sub">
         Map view of the curated Eurostat datasets.
         Pick a metric, a NUTS level, and a year.
       </p>
     </header>
 
-    <div v-if="datasetsLoading" class="atlas-status" data-testid="atlas-loading">
-      Loading datasets…
-    </div>
+    <div v-if="datasetsLoading" class="atlas-status" data-testid="atlas-loading">{{ $t('atlas.loading_datasets') }}</div>
     <div v-else-if="datasetsError" class="atlas-error" data-testid="atlas-error">
       {{ datasetsError }}
     </div>
@@ -700,7 +698,7 @@ onBeforeUnmount(() => {
     <div v-else class="atlas-body">
       <aside class="atlas-controls">
         <label class="atlas-control">
-          <span class="atlas-label">Dataset</span>
+          <span class="atlas-label">{{ $t('atlas.dataset') }}</span>
           <select v-model="selected" data-testid="atlas-dataset">
             <option value="">— pick a dataset —</option>
             <optgroup
@@ -720,7 +718,7 @@ onBeforeUnmount(() => {
         </label>
 
         <label v-if="selectedDataset" class="atlas-control">
-          <span class="atlas-label">NUTS level</span>
+          <span class="atlas-label">{{ $t('app.nuts_level') }}</span>
           <select v-model.number="level" data-testid="atlas-level">
             <option v-for="l in allowedLevels" :key="l" :value="l">
               NUTS {{ l }}
@@ -732,7 +730,7 @@ onBeforeUnmount(() => {
           v-if="selectedDataset && sliceOptions.length > 1"
           class="atlas-control"
         >
-          <span class="atlas-label">Data slice</span>
+          <span class="atlas-label">{{ $t('atlas.data_slice') }}</span>
           <select v-model="sliceKey" data-testid="atlas-slice">
             <option
               v-for="s in sliceOptions"
@@ -753,16 +751,14 @@ onBeforeUnmount(() => {
           class="atlas-control atlas-scale-controls"
           data-testid="atlas-scale-controls"
         >
-          <legend class="atlas-label">Colour scale</legend>
+          <legend class="atlas-label">{{ $t('atlas.colour_scale') }}</legend>
           <label class="atlas-toggle">
             <input
               v-model="lockScale"
               type="checkbox"
               data-testid="atlas-lock-scale"
             />
-            <span>
-              Lock to dataset range
-              <span
+            <span>{{ $t('atlas.lock_to_dataset_range') }}<span
                 v-if="!activeSliceStats"
                 class="atlas-hint-inline"
                 title="Backend hasn't computed slice stats for this dataset yet — falls back to per-year auto-scale."
@@ -776,12 +772,10 @@ onBeforeUnmount(() => {
               data-testid="atlas-log-scale"
               :disabled="colorScaleProps.kind === 'diverging' || (colorScaleProps.bounds && colorScaleProps.bounds[0] <= 0)"
             />
-            <span>
-              Log scale
-              <span
+            <span>{{ $t('atlas.log_scale') }}<span
                 v-if="colorScaleProps.skewHint"
                 class="atlas-hint-inline"
-                title="Distribution is right-skewed — log scale recommended."
+                :title="$t('atlas.distribution_is_right_skewed_log_scale_r')"
               >(suggested)</span>
             </span>
           </label>
@@ -791,16 +785,14 @@ onBeforeUnmount(() => {
           class="atlas-control atlas-coverage-controls"
           data-testid="atlas-coverage-controls"
         >
-          <legend class="atlas-label">Coverage</legend>
+          <legend class="atlas-label">{{ $t('atlas.coverage') }}</legend>
           <label class="atlas-toggle">
             <input
               v-model="hideLowCoverageDatasets"
               type="checkbox"
               data-testid="atlas-hide-low-datasets"
             />
-            <span>
-              Hide low-coverage datasets
-              <span
+            <span>{{ $t('atlas.hide_low_coverage_datasets') }}<span
                 v-if="hiddenLowCoverageDatasetCount > 0"
                 class="atlas-hint-inline"
                 :title="`Datasets whose best (level, slice, year) covers fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions are hidden from the picker.`"
@@ -814,9 +806,7 @@ onBeforeUnmount(() => {
               data-testid="atlas-hide-low-years"
               :disabled="!selectedDataset"
             />
-            <span>
-              Hide low-coverage years
-              <span
+            <span>{{ $t('atlas.hide_low_coverage_years') }}<span
                 v-if="hiddenLowCoverageYearCount > 0"
                 class="atlas-hint-inline"
                 :title="`Years where fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions have data for this slice are hidden from the slider.`"
@@ -826,17 +816,17 @@ onBeforeUnmount(() => {
         </fieldset>
 
         <div v-if="selectedDataset" class="atlas-meta">
-          <p class="atlas-meta-label">Dataset metadata</p>
+          <p class="atlas-meta-label">{{ $t('atlas.dataset_metadata') }}</p>
           <ul>
-            <li><strong>Code</strong> {{ selectedDataset.code }}</li>
-            <li><strong>Theme</strong> {{ selectedDataset.theme }}</li>
-            <li><strong>Time unit</strong> {{ selectedDataset.time_unit }}</li>
+            <li><strong>{{ $t('atlas.code') }}</strong> {{ selectedDataset.code }}</li>
+            <li><strong>{{ $t('app.theme') }}</strong> {{ selectedDataset.theme }}</li>
+            <li><strong>{{ $t('atlas.time_unit') }}</strong> {{ selectedDataset.time_unit }}</li>
             <li>
-              <strong>Updated</strong>
+              <strong>{{ $t('atlas.updated') }}</strong>
               {{ selectedDataset.last_upstream_modified || '—' }}
             </li>
             <li v-if="selectedDataset.notes">
-              <strong>Notes</strong> {{ selectedDataset.notes }}
+              <strong>{{ $t('atlas.notes') }}</strong> {{ selectedDataset.notes }}
             </li>
           </ul>
           <PocketButton
@@ -889,7 +879,7 @@ onBeforeUnmount(() => {
             :kind="colorScaleProps.kind"
             :log="colorScaleProps.log"
             :palette="colorScaleProps.palette"
-            title="Value scale"
+            :title="$t('atlas.value_scale')"
           />
 
           <div v-if="hovered && hovered.value != null" class="atlas-hover" data-testid="atlas-hover">

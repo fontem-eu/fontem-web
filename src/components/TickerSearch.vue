@@ -189,10 +189,10 @@ onUnmounted(() => {
         v-model="query"
         type="search"
         class="gmr-input"
-        placeholder="Search companies, public entities, lobbyists…"
+        :placeholder="$t('ticker_search.search_companies_public_entities_lobbyis')"
         autocomplete="off"
         spellcheck="false"
-        aria-label="Search the knowledge graph"
+        :aria-label="$t('ticker_search.search_the_knowledge_graph')"
         :aria-activedescendant="activeIndex >= 0 ? `result-${activeIndex}` : undefined"
         aria-autocomplete="list"
         @keydown="onKeyDown"
@@ -202,7 +202,7 @@ onUnmounted(() => {
       <ul
         v-if="results.length > 0"
         aria-live="polite"
-        aria-label="Search results"
+        :aria-label="$t('ticker_search.search_results')"
         class="gmr-results"
         :style="dropdownStyle"
       >
@@ -235,8 +235,7 @@ onUnmounted(() => {
           d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.156a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"
         />
       </svg>
-      <p class="text-sm">
-        No tickers found for &ldquo;<strong>{{ query }}</strong
+      <p class="text-sm">{{ $t('ticker_search.no_tickers_found_for_ldquo') }}<strong>{{ query }}</strong
         >&rdquo;
       </p>
     </div>

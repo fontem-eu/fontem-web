@@ -99,16 +99,16 @@ function onBackdrop(e) {
     <div v-if="visible" class="share-backdrop" data-testid="share-modal-backdrop" @click="onBackdrop">
       <div class="share-modal" data-testid="share-modal">
         <div class="share-header">
-          <h2>Share Story</h2>
+          <h2>{{ $t('share.share_story') }}</h2>
           <button class="share-close" data-testid="share-close" @click="close">&times;</button>
         </div>
 
         <p v-if="error" class="share-error" data-testid="share-error">{{ error }}</p>
-        <p v-if="loading" class="share-loading">Loading...</p>
+        <p v-if="loading" class="share-loading">{{ $t('app.loading_2') }}</p>
 
         <!-- Visibility -->
         <div class="share-section">
-          <label class="share-label">Visibility</label>
+          <label class="share-label">{{ $t('share.visibility') }}</label>
           <select
             v-model="visibility"
             class="share-select"
@@ -121,44 +121,44 @@ function onBackdrop(e) {
 
         <!-- Add person -->
         <div class="share-section">
-          <label class="share-label">Add person</label>
+          <label class="share-label">{{ $t('share.add_person') }}</label>
           <div class="share-add-row">
             <input
               v-model="newEmail"
               type="email"
-              placeholder="Email address"
+              :placeholder="$t('share.email_address')"
               class="share-input"
               data-testid="share-email-input"
             />
             <select v-model="newEmailLevel" class="share-select" data-testid="share-email-level">
               <option v-for="l in levelOptions" :key="l" :value="l">{{ l }}</option>
             </select>
-            <button class="share-btn" data-testid="share-add-person" @click="addPerson">Add</button>
+            <button class="share-btn" data-testid="share-add-person" @click="addPerson">{{ $t('share.add') }}</button>
           </div>
         </div>
 
         <!-- Add group -->
         <div class="share-section">
-          <label class="share-label">Add group</label>
+          <label class="share-label">{{ $t('share.add_group') }}</label>
           <div class="share-add-row">
             <input
               v-model="newGroup"
               type="text"
-              placeholder="Group name"
+              :placeholder="$t('share.group_name')"
               class="share-input"
               data-testid="share-group-input"
             />
             <select v-model="newGroupLevel" class="share-select" data-testid="share-group-level">
               <option v-for="l in levelOptions" :key="l" :value="l">{{ l }}</option>
             </select>
-            <button class="share-btn" data-testid="share-add-group" @click="addGroup">Add</button>
+            <button class="share-btn" data-testid="share-add-group" @click="addGroup">{{ $t('share.add') }}</button>
           </div>
         </div>
 
         <!-- Collaborators list -->
         <div class="share-section">
-          <label class="share-label">Collaborators</label>
-          <div v-if="!collaborators.length && !loading" class="share-empty">No collaborators yet.</div>
+          <label class="share-label">{{ $t('share.collaborators') }}</label>
+          <div v-if="!collaborators.length && !loading" class="share-empty">{{ $t('share.no_collaborators_yet') }}</div>
           <div
             v-for="c in collaborators"
             :key="c.id"
@@ -171,7 +171,7 @@ function onBackdrop(e) {
               class="share-remove-btn"
               data-testid="share-remove"
               @click="removeCollaborator(c.id)"
-            >Remove</button>
+            >{{ $t('app.remove') }}</button>
           </div>
         </div>
       </div>

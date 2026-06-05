@@ -11,6 +11,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 import TickerCard from '../../src/components/TickerCard.vue'
 import TickerSearch from '../../src/components/TickerSearch.vue'
@@ -182,7 +183,7 @@ async function mountHomeAt(path) {
   await router.isReady()
   const wrapper = mount(HomeView, {
     global: {
-      plugins: [router],
+      plugins: [router, makeTestI18n()],
       stubs: {
         TickerSearch: TickerSearchStub,
         TickerFinancials: TickerFinancialsStub,

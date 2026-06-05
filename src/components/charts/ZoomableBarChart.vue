@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
       <div class="tbc-tt-label">{{ tooltip.label }}</div>
       <div class="tbc-tt-value">{{ tooltip.value }}</div>
     </div>
-    <div v-if="!data || data.length === 0" class="tbc-empty">No data available</div>
+    <div v-if="!data || data.length === 0" class="tbc-empty">{{ $t('app.no_data_available') }}</div>
   </div>
 </template>
 

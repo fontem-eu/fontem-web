@@ -75,26 +75,26 @@ function onBackdrop(e) {
     <div v-if="visible" class="icm-backdrop" data-testid="issue-create-backdrop" @click="onBackdrop">
       <div class="icm-modal" data-testid="issue-create-modal">
         <div class="icm-header">
-          <h2>Raise an Issue</h2>
+          <h2>{{ $t('app.raise_an_issue') }}</h2>
           <button class="icm-close" data-testid="issue-create-close" @click="close">&times;</button>
         </div>
 
         <p v-if="error" class="icm-error" data-testid="issue-create-error">{{ error }}</p>
 
         <div class="icm-field">
-          <label class="icm-label" for="icm-title">Title</label>
+          <label class="icm-label" for="icm-title">{{ $t('issue_create.title') }}</label>
           <input
             id="icm-title"
             v-model="title"
             type="text"
             class="icm-input"
             data-testid="issue-create-title"
-            placeholder="Brief summary of the issue"
+            :placeholder="$t('issue_create.brief_summary_of_the_issue')"
           />
         </div>
 
         <div class="icm-field">
-          <label class="icm-label" for="icm-type">Issue type</label>
+          <label class="icm-label" for="icm-type">{{ $t('issue_create.issue_type') }}</label>
           <select id="icm-type" v-model="issueType" class="icm-select" data-testid="issue-create-type">
             <option v-for="t in issueTypes" :key="t" :value="t">{{ t.replace(/_/g, ' ') }}</option>
           </select>
@@ -102,7 +102,7 @@ function onBackdrop(e) {
 
         <div class="icm-row">
           <div class="icm-field icm-half">
-            <label class="icm-label" for="icm-entity-type">Entity type</label>
+            <label class="icm-label" for="icm-entity-type">{{ $t('app.entity_type') }}</label>
             <input
               id="icm-entity-type"
               v-model="formEntityType"
@@ -113,7 +113,7 @@ function onBackdrop(e) {
             />
           </div>
           <div class="icm-field icm-half">
-            <label class="icm-label" for="icm-entity-id">Entity ID</label>
+            <label class="icm-label" for="icm-entity-id">{{ $t('issue_create.entity_id') }}</label>
             <input
               id="icm-entity-id"
               v-model="formEntityId"
@@ -126,19 +126,19 @@ function onBackdrop(e) {
         </div>
 
         <div class="icm-field">
-          <label class="icm-label" for="icm-body">Description</label>
+          <label class="icm-label" for="icm-body">{{ $t('app.description') }}</label>
           <textarea
             id="icm-body"
             v-model="body"
             class="icm-textarea"
             data-testid="issue-create-body"
             rows="5"
-            placeholder="Describe the issue in detail (markdown supported)"
+            :placeholder="$t('issue_create.describe_the_issue_in_detail_markdown_su')"
           />
         </div>
 
         <div class="icm-actions">
-          <button class="icm-cancel" @click="close">Cancel</button>
+          <button class="icm-cancel" @click="close">{{ $t('app.cancel') }}</button>
           <button
             class="icm-submit"
             data-testid="issue-create-submit"

@@ -78,13 +78,13 @@ const currencyBars = computed(() => {
     <header class="dq-hdr">
       <div>
         <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
-        <h1>TED Contracts</h1>
-        <p class="dq-sub">EU public procurement awards — volume, coverage, currency quality</p>
+        <h1>{{ $t('contracts_d_q.ted_contracts') }}</h1>
+        <p class="dq-sub">{{ $t('contracts_d_q.eu_public_procurement_awards_volume_cove') }}</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dq-loading">Loading contract data...</div>
+    <div v-if="loading" class="dq-loading">{{ $t('contracts_d_q.loading_contract_data') }}</div>
 
     <template v-else>
       <div class="dq-stats">
@@ -101,7 +101,7 @@ const currencyBars = computed(() => {
 
       <!-- Currency quality gauges -->
       <section v-if="currencyQuality" class="dq-section">
-        <h2>Currency Quality</h2>
+        <h2>{{ $t('contracts_d_q.currency_quality') }}</h2>
         <div class="dq-gauges">
           <GaugeChart :value="conversionRate" label="EUR Conversion Success" />
           <GaugeChart :value="100 - undisclosedPct" label="Value Disclosed" />
@@ -110,34 +110,34 @@ const currencyBars = computed(() => {
       </section>
 
       <section class="dq-section">
-        <h2>Contract Volume Over Time</h2>
+        <h2>{{ $t('contracts_d_q.contract_volume_over_time') }}</h2>
         <p class="dq-hint">Scroll to zoom in/out. Bars aggregate: daily → weekly → monthly → yearly.</p>
         <ZoomableBarChart :data="timeline" value-label="Contracts" :height="350" />
       </section>
 
       <section class="dq-section">
-        <h2>Contract Value Over Time (EUR)</h2>
+        <h2>{{ $t('contracts_d_q.contract_value_over_time_eur') }}</h2>
         <ZoomableBarChart :data="valueTimeline" value-label="EUR" :height="300" :format-value="fmtEur" color="#16a34a" />
       </section>
 
       <section class="dq-section">
-        <h2>Contracts by Country</h2>
+        <h2>{{ $t('contracts_d_q.contracts_by_country') }}</h2>
         <HorizontalBarChart :data="countryBars" :max-bars="25" />
       </section>
 
       <section class="dq-section">
-        <h2>Total EUR by Country (Top 15)</h2>
+        <h2>{{ $t('contracts_d_q.total_eur_by_country_top_15') }}</h2>
         <HorizontalBarChart :data="countryEurBars" :max-bars="15" :format-value="fmtEur" color="#16a34a" />
       </section>
 
       <section v-if="currencyBars.length" class="dq-section">
-        <h2>Contracts by Currency</h2>
+        <h2>{{ $t('contracts_d_q.contracts_by_currency') }}</h2>
         <p class="dq-hint">Distribution of original currencies. EUR dominates but many EU member contracts use local currency.</p>
         <HorizontalBarChart :data="currencyBars" :max-bars="20" />
       </section>
 
       <section v-if="nullBars.length" class="dq-section">
-        <h2>Missing Fields (% of contracts)</h2>
+        <h2>{{ $t('contracts_d_q.missing_fields_of_contracts') }}</h2>
         <HorizontalBarChart :data="nullBars" :format-value="v => v + '%'" color="#dc2626" />
       </section>
     </template>

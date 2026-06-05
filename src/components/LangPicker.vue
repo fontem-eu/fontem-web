@@ -11,11 +11,11 @@ function onChange(event) {
 
 <template>
   <label class="gmr-lang-picker">
-    <span class="visually-hidden">Language</span>
+    <span class="visually-hidden">{{ $t('app.language') }}</span>
     <select
       class="gmr-lang-picker__select"
       :value="lang"
-      aria-label="Language"
+      :aria-label="$t('app.language')"
       data-testid="lang-picker"
       @change="onChange"
     >

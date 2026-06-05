@@ -230,10 +230,8 @@ function formatValue(v) {
     <header class="er-header">
       <div>
         <router-link to="/admin" class="er-back">&larr; Admin</router-link>
-        <h1>Entity Resolution</h1>
-        <p class="er-subtitle">
-          Review and decide on flagged candidates
-          <span class="er-reviewer-line">
+        <h1>{{ $t('app.entity_resolution') }}</h1>
+        <p class="er-subtitle">{{ $t('entity_resolution.review_and_decide_on_flagged_candidates') }}<span class="er-reviewer-line">
             &middot; reviewer: <input
               v-model="reviewerName"
               class="er-reviewer-input"
@@ -260,14 +258,14 @@ function formatValue(v) {
       </button>
     </nav>
 
-    <div v-if="state === 'loading'" class="er-msg">Loading candidates...</div>
+    <div v-if="state === 'loading'" class="er-msg">{{ $t('entity_resolution.loading_candidates') }}</div>
     <div v-else-if="state === 'error'" class="er-msg">
-      <p>Failed to load candidates.</p>
+      <p>{{ $t('entity_resolution.failed_to_load_candidates') }}</p>
       <p class="er-note">{{ message }}</p>
     </div>
     <div v-else-if="state === 'empty'" class="er-msg">
-      <p>No pairs pending review.</p>
-      <p class="er-note">All flagged pairs have been resolved.</p>
+      <p>{{ $t('entity_resolution.no_pairs_pending_review') }}</p>
+      <p class="er-note">{{ $t('entity_resolution.all_flagged_pairs_have_been_resolved') }}</p>
     </div>
 
     <div v-else class="er-layout">
@@ -300,7 +298,7 @@ function formatValue(v) {
       <main v-if="selected" class="er-merge">
         <!-- Detection chips: every rule that flagged this pair -->
         <div class="er-detections">
-          <h3>Why flagged</h3>
+          <h3>{{ $t('entity_resolution.why_flagged') }}</h3>
           <div class="er-chips">
             <span
               v-for="d in (selected.detections && selected.detections.length
@@ -323,8 +321,7 @@ function formatValue(v) {
         <!-- Side-by-side entity panels -->
         <div class="er-panels">
           <div class="er-panel er-panel--left">
-            <h3>Entity A
-              <span class="er-panel__id">{{ selected.from_id.slice(0, 12) }}…</span>
+            <h3>{{ $t('entity_resolution.entity_a') }}<span class="er-panel__id">{{ selected.from_id.slice(0, 12) }}…</span>
             </h3>
             <div v-for="[k, v] in entityRows(selected.source_entity)" :key="k" class="er-field">
               <span class="er-field__label">{{ k }}</span>
@@ -332,8 +329,7 @@ function formatValue(v) {
             </div>
           </div>
           <div class="er-panel er-panel--right">
-            <h3>Entity B
-              <span class="er-panel__id">{{ selected.to_id.slice(0, 12) }}…</span>
+            <h3>{{ $t('entity_resolution.entity_b') }}<span class="er-panel__id">{{ selected.to_id.slice(0, 12) }}…</span>
             </h3>
             <div v-for="[k, v] in entityRows(selected.target_entity)" :key="k" class="er-field">
               <span class="er-field__label">{{ k }}</span>
@@ -350,30 +346,22 @@ function formatValue(v) {
             class="er-btn er-btn--merge"
             :disabled="resolving"
             @click="decide('merge', selected.from_id, selected.to_id)"
-          >
-            Merge — keep A (B is removed)
-          </button>
+          >{{ $t('entity_resolution.merge_keep_a_b_is_removed') }}</button>
           <button
             class="er-btn er-btn--merge"
             :disabled="resolving"
             @click="decide('merge', selected.to_id, selected.from_id)"
-          >
-            Merge — keep B (A is removed)
-          </button>
+          >{{ $t('entity_resolution.merge_keep_b_a_is_removed') }}</button>
           <button
             class="er-btn er-btn--related"
             :disabled="resolving"
             @click="decide('keep_as_related', selected.from_id, selected.to_id)"
-          >
-            Keep as related
-          </button>
+          >{{ $t('entity_resolution.keep_as_related') }}</button>
           <button
             class="er-btn er-btn--reject"
             :disabled="resolving"
             @click="decide('reject', selected.from_id, selected.to_id)"
-          >
-            Different entities — reject
-          </button>
+          >{{ $t('entity_resolution.different_entities_reject') }}</button>
           <span v-if="message" class="er-message">{{ message }}</span>
         </div>
         <div v-else class="er-actions">

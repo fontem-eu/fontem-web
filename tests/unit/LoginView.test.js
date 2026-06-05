@@ -12,6 +12,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 import LoginView from '../../src/views/LoginView.vue'
 
@@ -29,7 +30,7 @@ async function mountAt(path = '/login') {
   const router = makeRouter()
   await router.push(path)
   await router.isReady()
-  const wrapper = mount(LoginView, { global: { plugins: [router] } })
+  const wrapper = mount(LoginView, { global: { plugins: [router, makeTestI18n()] } })
   await flushPromises()
   return { wrapper, router }
 }

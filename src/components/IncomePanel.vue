@@ -264,16 +264,16 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Chart -->
-    <div class="gmr-fin__section-label">Revenue &amp; Net Income</div>
+    <div class="gmr-fin__section-label">{{ $t('income.revenue_amp_net_income') }}</div>
     <div ref="containerRef" class="income-chart-wrap" data-testid="income-chart"></div>
 
     <!-- Per year table -->
-    <div class="gmr-fin__section-label">Per Year</div>
+    <div class="gmr-fin__section-label">{{ $t('app.per_year') }}</div>
     <div class="gmr-ann-wrap" data-testid="income-table">
       <table class="gmr-ann">
         <thead>
           <tr>
-            <th>Metric</th>
+            <th>{{ $t('app.metric') }}</th>
             <th v-for="year in sortedYears" :key="year">{{ year }}</th>
           </tr>
         </thead>

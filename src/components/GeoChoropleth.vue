@@ -158,7 +158,7 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
   <div class="geo-choropleth" data-testid="geo-choropleth">
     <div class="geo-controls" data-testid="geo-controls">
       <label class="geo-control">
-        <span class="geo-label">NUTS level</span>
+        <span class="geo-label">{{ $t('app.nuts_level') }}</span>
         <select v-model.number="level" data-testid="geo-level">
           <option :value="0">0 — Country</option>
           <option :value="1" disabled>1 — Macro region (coming soon)</option>
@@ -168,16 +168,16 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
       </label>
 
       <label class="geo-control">
-        <span class="geo-label">Metric</span>
+        <span class="geo-label">{{ $t('app.metric') }}</span>
         <select v-model="metric" data-testid="geo-metric">
-          <option value="companies">Companies</option>
-          <option value="contracts">Contracts</option>
-          <option value="contracts_eur">Contracts (EUR)</option>
+          <option value="companies">{{ $t('geo_choropleth.companies') }}</option>
+          <option value="contracts">{{ $t('app.contracts') }}</option>
+          <option value="contracts_eur">{{ $t('app.contracts_eur') }}</option>
         </select>
       </label>
 
       <label class="geo-control">
-        <span class="geo-label">Connected to (α-3)</span>
+        <span class="geo-label">{{ $t('geo_choropleth.connected_to_3') }}</span>
         <input
           v-model="connectedTo"
           type="text"
@@ -189,7 +189,7 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
       </label>
 
       <label v-if="level === 3" class="geo-control">
-        <span class="geo-label">Parent NUTS 1</span>
+        <span class="geo-label">{{ $t('geo_choropleth.parent_nuts_1') }}</span>
         <input
           v-model="scopeNuts"
           type="text"
@@ -201,7 +201,7 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
       </label>
     </div>
 
-    <div v-if="loading" class="geo-status" data-testid="geo-loading">Loading…</div>
+    <div v-if="loading" class="geo-status" data-testid="geo-loading">{{ $t('app.loading') }}</div>
     <div v-if="error" class="geo-error" data-testid="geo-error">{{ error }}</div>
 
     <div ref="container" class="geo-map" data-testid="geo-map"></div>

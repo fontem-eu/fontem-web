@@ -79,21 +79,13 @@ const meta = computed(() =>
     </span>
 
     <!-- Entity type badges -->
-    <span v-if="isPerson" class="badge badge-auth" data-testid="badge-person">
-      Person
-    </span>
-    <span v-else-if="isAuthority" class="badge badge-auth" data-testid="badge-auth">
-      Authority
-    </span>
-    <span v-else-if="isEsef" class="badge badge-esef" data-testid="badge-esef">
-      ESEF
-    </span>
+    <span v-if="isPerson" class="badge badge-auth" data-testid="badge-person">{{ $t('ticker_card.person') }}</span>
+    <span v-else-if="isAuthority" class="badge badge-auth" data-testid="badge-auth">{{ $t('ticker_card.authority') }}</span>
+    <span v-else-if="isEsef" class="badge badge-esef" data-testid="badge-esef">{{ $t('app.esef') }}</span>
     <span v-else-if="realTicker" class="badge" :class="ticker.is_active ? 'badge-ok' : 'badge-ko'">
       {{ ticker.is_active ? 'Active' : 'Inactive' }}
     </span>
-    <span v-else class="badge badge-tag">
-      Company
-    </span>
+    <span v-else class="badge badge-tag">{{ $t('ticker_card.company') }}</span>
     </button>
   </li>
 </template>

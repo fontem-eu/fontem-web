@@ -10,6 +10,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 
 import TriplesDQView from '../../src/views/dq/TriplesDQView.vue'
 
@@ -27,7 +28,7 @@ async function mountView() {
   const router = makeRouter()
   await router.push('/data-quality/triples')
   await router.isReady()
-  const wrapper = mount(TriplesDQView, { global: { plugins: [router] } })
+  const wrapper = mount(TriplesDQView, { global: { plugins: [router, makeTestI18n()] } })
   await flushPromises()
   return wrapper
 }

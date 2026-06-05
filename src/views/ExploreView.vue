@@ -41,7 +41,7 @@ const SECTIONS = [
 <template>
   <div class="explore" data-testid="explore-view">
     <header class="explore-header">
-      <h1>Explore</h1>
+      <h1>{{ $t('explore.explore') }}</h1>
       <p>
         Browse the platform's source-of-truth dashboards and direct-query
         surfaces. Pick a card to dig into the data behind the stories.

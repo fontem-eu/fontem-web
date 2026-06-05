@@ -212,7 +212,7 @@ onBeforeUnmount(() => {
     <!-- Controls bar -->
     <div class="enu-controls" data-testid="enu-controls">
       <label class="enu-control">
-        <span class="enu-label">NUTS level</span>
+        <span class="enu-label">{{ $t('app.nuts_level') }}</span>
         <select v-model.number="level" data-testid="enu-level">
           <option :value="0">0 — Country</option>
           <option :value="1">1 — Macro-region</option>
@@ -232,10 +232,10 @@ onBeforeUnmount(() => {
       </label>
 
       <label class="enu-control">
-        <span class="enu-label">Metric</span>
+        <span class="enu-label">{{ $t('app.metric') }}</span>
         <select v-model="metric" data-testid="enu-metric">
-          <option value="contracts">Contracts (count)</option>
-          <option value="contracts_eur">Contracts (EUR)</option>
+          <option value="contracts">{{ $t('entity_nuts_map.contracts_count') }}</option>
+          <option value="contracts_eur">{{ $t('app.contracts_eur') }}</option>
         </select>
       </label>
 

@@ -14,8 +14,8 @@ defineProps({
 </script>
 
 <template>
-  <span class="wordmark" :class="`wordmark--${size}`" aria-label="Fontem">
-    <span class="wordmark-a" aria-hidden="true">Fon</span><span
+  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.fontem')">
+    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.fon') }}</span><span
       class="wordmark-b"
       aria-hidden="true"
     >tem</span>

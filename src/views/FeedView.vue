@@ -110,8 +110,8 @@ function truncate(text, maxLen = 180) {
 
 <template>
   <div class="feed" data-testid="feed">
-    <h1 class="feed-title">Feed</h1>
-    <p class="feed-sub">Public data stories from the community, newest first.</p>
+    <h1 class="feed-title">{{ $t('feed.feed') }}</h1>
+    <p class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
 
     <!-- Browse-by-tag chip strip. Each chip toggles the URL `?tag=`
          filter; a star toggles follow/unfollow (localStorage when
@@ -124,7 +124,7 @@ function truncate(text, maxLen = 180) {
         :class="{ active: !activeTag }"
         data-testid="tag-chip-all"
         @click="clearTag"
-      >All</button>
+      >{{ $t('app.all') }}</button>
       <span
         v-for="t in allTags"
         :key="t.tag"
@@ -156,14 +156,13 @@ function truncate(text, maxLen = 180) {
       v-if="activeTag"
       class="feed-active-filter"
       data-testid="feed-active-filter"
-    >
-      Filtering by <code>{{ activeTag }}</code>.
-      <button type="button" class="link-btn" @click="clearTag">Clear filter</button>
+    >{{ $t('feed.filtering_by') }}<code>{{ activeTag }}</code>.
+      <button type="button" class="link-btn" @click="clearTag">{{ $t('feed.clear_filter') }}</button>
     </p>
 
     <div v-if="error" class="error-bar" data-testid="feed-error">{{ error }}</div>
 
-    <div v-if="loading" class="loading-msg">Loading feed...</div>
+    <div v-if="loading" class="loading-msg">{{ $t('feed.loading_feed') }}</div>
 
     <div
       v-else-if="stories.length === 0"

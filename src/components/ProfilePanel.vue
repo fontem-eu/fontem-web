@@ -67,32 +67,31 @@ watch(() => props.symbol, (sym) => {
 
     <!-- Financial snapshot (if available from parent data) -->
     <div v-if="data?.ratios_summary" class="pp-section">
-      <h3>Financial Overview</h3>
+      <h3>{{ $t('profile.financial_overview') }}</h3>
       <div class="pp-stats">
         <div v-if="data.market_snapshot?.current_price" class="pp-stat">
           <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.current_price) }}</span>
-          <span class="pp-stat__label">Current Price</span>
+          <span class="pp-stat__label">{{ $t('profile.current_price') }}</span>
         </div>
         <div v-if="data.market_snapshot?.market_cap" class="pp-stat">
           <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.market_cap) }}</span>
-          <span class="pp-stat__label">Market Cap</span>
+          <span class="pp-stat__label">{{ $t('profile.market_cap') }}</span>
         </div>
         <div v-if="data.ratios_summary?.avg_roe" class="pp-stat">
           <span class="pp-stat__num">{{ data.ratios_summary.avg_roe.toFixed(1) }}%</span>
-          <span class="pp-stat__label">Avg ROE</span>
+          <span class="pp-stat__label">{{ $t('profile.avg_roe') }}</span>
         </div>
         <div v-if="data.ratios_summary?.avg_npm" class="pp-stat">
           <span class="pp-stat__num">{{ data.ratios_summary.avg_npm.toFixed(1) }}%</span>
-          <span class="pp-stat__label">Avg Net Margin</span>
+          <span class="pp-stat__label">{{ $t('profile.avg_net_margin') }}</span>
         </div>
       </div>
     </div>
 
     <!-- Corporate Group -->
     <div v-if="profile?.group" class="pp-section">
-      <h3>Corporate Group</h3>
-      <p class="pp-group-header">
-        Part of <strong>{{ profile.group.root_name }}</strong>
+      <h3>{{ $t('profile.corporate_group') }}</h3>
+      <p class="pp-group-header">{{ $t('profile.part_of') }}<strong>{{ profile.group.root_name }}</strong>
         ({{ profile.group.entity_count }} entities)
       </p>
       <div class="pp-group-tree">
@@ -120,7 +119,7 @@ watch(() => props.symbol, (sym) => {
 
     <!-- Directors (from Neo4j Person nodes) -->
     <div v-if="profile?.directors?.length" class="pp-section">
-      <h3>Directors &amp; Officers</h3>
+      <h3>{{ $t('profile.directors_amp_officers') }}</h3>
       <div class="pp-directors">
         <div v-for="d in profile.directors" :key="d.person_id" class="pp-director">
           <span class="pp-director__name">{{ d.first_name }} {{ d.name }}</span>
@@ -132,7 +131,7 @@ watch(() => props.symbol, (sym) => {
 
     <!-- Procurement data (always shown) -->
     <div class="pp-section">
-      <h3>EU Public Procurement</h3>
+      <h3>{{ $t('app.eu_public_procurement') }}</h3>
       <div v-if="profile && profile.contract_count > 0" class="pp-procurement-summary">
         <span class="pp-stat__num">{{ profile.contract_count.toLocaleString() }} contracts</span>
         <span> &middot; </span>

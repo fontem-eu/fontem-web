@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount as vueMount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { makeTestI18n } from './helpers/i18n.js'
 import ContractsPanel from '../../src/components/ContractsPanel.vue'
 
 // Mock fetch globally
@@ -28,7 +29,7 @@ function mount(Component, opts = {}) {
     ...opts,
     global: {
       ...(opts.global || {}),
-      plugins: [...((opts.global && opts.global.plugins) || []), router],
+      plugins: [...((opts.global && opts.global.plugins) || [makeTestI18n()]), router],
     },
   })
 }

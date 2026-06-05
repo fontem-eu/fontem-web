@@ -456,7 +456,7 @@ function isFundNegative(year, key) {
         <button
           type="button"
           class="gmr-fin__close"
-          aria-label="Close financials"
+          :aria-label="$t('ticker_financials.close_financials')"
           @click="emit('close')"
         >
         <svg
@@ -481,7 +481,7 @@ function isFundNegative(year, key) {
       class="year-selector"
       data-testid="year-selector"
     >
-      <span class="year-selector__label">History</span>
+      <span class="year-selector__label">{{ $t('ticker_financials.history') }}</span>
       <button
         v-for="opt in YEAR_OPTIONS"
         :key="opt.testid"
@@ -515,13 +515,13 @@ function isFundNegative(year, key) {
     <!-- ── Timeout ──────────────────────────────────────── -->
     <div v-else-if="state === 'timeout'" class="gmr-fin__body gmr-fin__state" data-testid="fin-timeout">
       <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
-        <span style="color: var(--muted)">Taking longer than expected…</span>
+        <span style="color: var(--muted)">{{ $t('ticker_financials.taking_longer_than_expected') }}</span>
         <button
           class="year-btn"
           style="padding:0.4rem 1rem"
           data-testid="fin-retry"
           @click="loadData(symbol)"
-        >Retry</button>
+        >{{ $t('app.retry') }}</button>
       </div>
     </div>
 
@@ -534,7 +534,7 @@ function isFundNegative(year, key) {
           style="padding:0.4rem 1rem"
           data-testid="fin-retry-error"
           @click="loadData(symbol)"
-        >Retry</button>
+        >{{ $t('app.retry') }}</button>
       </div>
     </div>
 

@@ -9,10 +9,6 @@ const props = defineProps({
 
 defineEmits(['update:modelValue'])
 
-const GMR_LONG_TOOLTIP =
-  'Long-Term Value scores a stock for long-term value investing using 5-year averages: ' +
-  'P/E ≤ 15, P/B ≤ 1.5, ROE ≥ 15%, Net Margin ≥ 15%, D/E ≤ 1.5, Div. Yield ≥ 3.5%. ' +
-  'Developed by Gonçalo Martins Rato.'
 
 // Find which group the current view belongs to
 const activeGroup = computed(() => {
@@ -48,7 +44,7 @@ const currentLabel = computed(() => {
 <template>
   <div class="dvs" data-testid="view-selector">
     <!-- Desktop: two-level nav -->
-    <nav class="dvs-desktop" aria-label="Data view">
+    <nav class="dvs-desktop" :aria-label="$t('data_view_selector.data_view')">
       <!-- Category row -->
       <div class="dvs-categories">
         <button
@@ -85,7 +81,7 @@ const currentLabel = computed(() => {
           <span
             v-if="v.key === 'gmr-long'"
             class="dvs-info"
-            :title="GMR_LONG_TOOLTIP"
+            :title="$t('data_view_selector.gmr_long_tooltip')"
             data-testid="gmr-long-info"
             @click.stop
           >ⓘ</span>

@@ -76,7 +76,7 @@ onBeforeUnmount(() => {
     <dialog
       class="side-panel"
       open
-      aria-label="Entity details"
+      :aria-label="$t('entity_side.entity_details')"
       data-testid="entity-side-panel"
       @click.stop
     >
@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
         <button type="button" class="close-btn" data-testid="entity-side-panel-close" @click="close">×</button>
       </div>
 
-      <div v-if="loading" class="side-panel-loading">Loading…</div>
+      <div v-if="loading" class="side-panel-loading">{{ $t('app.loading') }}</div>
       <div v-else-if="error" class="side-panel-error">{{ error }}</div>
       <template v-else-if="detail">
         <h2 class="side-panel-title" data-testid="entity-side-panel-label">

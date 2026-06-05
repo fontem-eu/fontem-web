@@ -133,7 +133,7 @@ function formatEur(n) {
   <div class="public-spending" data-testid="public-spending">
     <header class="hero">
       <div class="hero-logo"><Wordmark size="lg" /></div>
-      <h1 class="hero-title">Public Spending</h1>
+      <h1 class="hero-title">{{ $t('public_spending.public_spending') }}</h1>
       <p class="hero-sub">
         Search EU companies, contracting authorities, lobbyists and EU-funded projects.
         Or browse what's big in your country first.

@@ -277,7 +277,7 @@ const legendItems = computed(() =>
       <div class="tlc-tt-label">{{ tooltip.label }}</div>
       <div class="tlc-tt-value">{{ tooltip.value }}</div>
     </div>
-    <div v-if="!hasAnyPoints" class="tlc-empty">No data available</div>
+    <div v-if="!hasAnyPoints" class="tlc-empty">{{ $t('app.no_data_available') }}</div>
   </div>
 </template>
 

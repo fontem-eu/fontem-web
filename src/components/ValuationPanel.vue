@@ -99,7 +99,7 @@ function isNeg(year, key) {
     </div>
 
     <!-- ── Summary averages ─────────────────────────────── -->
-    <div class="gmr-fin__section-label">Averages</div>
+    <div class="gmr-fin__section-label">{{ $t('valuation.averages') }}</div>
 
     <div class="gmr-snap gmr-snap--wide" data-testid="val-summary">
       <div
@@ -113,13 +113,13 @@ function isNeg(year, key) {
     </div>
 
     <!-- ── Per-year table ───────────────────────────────── -->
-    <div class="gmr-fin__section-label">Per Year</div>
+    <div class="gmr-fin__section-label">{{ $t('app.per_year') }}</div>
 
     <div class="gmr-ann-wrap" data-testid="val-annual-table">
       <table class="gmr-ann">
         <thead>
           <tr>
-            <th>Metric</th>
+            <th>{{ $t('app.metric') }}</th>
             <th v-for="year in sortedYears" :key="year">{{ year }}</th>
           </tr>
         </thead>

@@ -144,7 +144,7 @@ function truncate(text, maxLen = 140) {
   <section
     class="carousel"
     aria-roledescription="carousel"
-    aria-label="Recently published data stories"
+    :aria-label="$t('recently_published_carousel.recently_published_data_stories')"
     data-testid="recent-carousel"
     @pointerdown="pause"
     @pointerup="scheduleResume"
@@ -183,7 +183,7 @@ function truncate(text, maxLen = 140) {
       v-if="stories.length > 1"
       class="dots"
       role="tablist"
-      aria-label="Carousel position"
+      :aria-label="$t('recently_published_carousel.carousel_position')"
       data-testid="recent-carousel-dots"
     >
       <button

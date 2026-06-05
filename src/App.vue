@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, getCurrentInstance, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
@@ -8,13 +8,18 @@ import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
 import ToastStack from './components/ToastStack.vue'
+import I18nPluralProbe from './components/I18nPluralProbe.vue'
 
 const { init: initTheme } = useTheme()
 const { init: initLang } = useLang()
 // Sync the reactive refs with whatever the anti-FOUC scripts set on <html>
+// Grab the i18n instance from app context so initLang can wire the
+// locale-swap bridge. Doing it here (not at module scope) keeps SSR
+// safe — entry-server.js never reaches this onMounted.
 onMounted(() => {
   initTheme()
-  initLang()
+  const i18n = getCurrentInstance()?.appContext.config.globalProperties.$i18n
+  initLang(i18n)
 })
 
 // Horizontal swipe between Home / Feed / My Reports on mobile.
@@ -32,10 +37,9 @@ const showFooter = computed(() => route.path !== '/login')
          keyboard focus lands on it.  Pressing Enter jumps past the
          header + nav straight to the page's main content — the single
          biggest keyboard-a11y win for an SPA with a persistent nav. -->
-    <a href="#main" class="skip-link" data-testid="skip-to-main">
-      Skip to main content
-    </a>
+    <a href="#main" class="skip-link" data-testid="skip-to-main">{{ $t('app.skip_to_main_content') }}</a>
     <AppHeader />
+    <I18nPluralProbe />
     <main id="main" tabindex="-1">
       <router-view />
     </main>

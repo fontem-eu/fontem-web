@@ -6,8 +6,8 @@ onMounted(() => { document.title = 'Privacy Policy — Fontem' })
 
 <template>
   <div class="privacy">
-    <h1>Privacy Policy</h1>
-    <p class="privacy-updated">Last updated: April 2026</p>
+    <h1>{{ $t('privacy.privacy_policy') }}</h1>
+    <p class="privacy-updated">{{ $t('privacy.last_updated_april_2026') }}</p>
 
     <h2>1. What Fontem is</h2>
     <p>
@@ -18,33 +18,30 @@ onMounted(() => { document.title = 'Privacy Policy — Fontem' })
     </p>
 
     <h2>2. Data in the knowledge graph</h2>
-    <p>
-      All data in the Fontem knowledge graph relates to <strong>legal entities</strong>
+    <p>{{ $t('privacy.all_data_in_the_fontem_knowledge_graph_r') }}<strong>legal entities</strong>
       (companies, public authorities, and organisations) — not natural persons.
       We aggregate publicly available data from the following sources:
     </p>
     <ul>
-      <li><strong>GLEIF</strong> — Global LEI Foundation company registry data</li>
-      <li><strong>TED</strong> — EU public procurement notices and contract awards</li>
-      <li><strong>Kohesio</strong> — EU cohesion policy project funding</li>
-      <li><strong>EU Transparency Register</strong> — lobbying organisations registered with the EU</li>
-      <li><strong>EU Consolidated Sanctions List</strong> — sanctioned entities only</li>
+      <li><strong>{{ $t('app.gleif') }}</strong> — Global LEI Foundation company registry data</li>
+      <li><strong>{{ $t('app.ted') }}</strong> — EU public procurement notices and contract awards</li>
+      <li><strong>{{ $t('privacy.kohesio') }}</strong> — EU cohesion policy project funding</li>
+      <li><strong>{{ $t('privacy.eu_transparency_register') }}</strong> — lobbying organisations registered with the EU</li>
+      <li><strong>{{ $t('privacy.eu_consolidated_sanctions_list') }}</strong> — sanctioned entities only</li>
     </ul>
-    <p>
-      No personal data of individuals is stored in the knowledge graph.
-    </p>
+    <p>{{ $t('privacy.no_personal_data_of_individuals_is_store') }}</p>
 
     <h2>3. Your account data</h2>
-    <p>When you sign in, we collect and store:</p>
+    <p>{{ $t('privacy.when_you_sign_in_we_collect_and_store') }}</p>
     <ul>
-      <li>Your <strong>email address</strong>, <strong>name</strong>, and <strong>profile picture</strong> (provided by Google OAuth)</li>
+      <li>{{ $t('privacy.your') }}<strong>email address</strong>, <strong>name</strong>, and <strong>profile picture</strong> (provided by Google OAuth)</li>
     </ul>
     <p>
       This data is used solely for authentication and personalisation of your
       experience (e.g. displaying your name in the interface).
     </p>
     <p>
-      <strong>Legal basis:</strong> performance of a contract (Art. 6(1)(b) GDPR) —
+      <strong>{{ $t('privacy.legal_basis') }}</strong> performance of a contract (Art. 6(1)(b) GDPR) —
       we need this data to provide you with an account and the services you signed up for.
     </p>
     <p>
@@ -58,22 +55,20 @@ onMounted(() => { document.title = 'Privacy Policy — Fontem' })
       chat history and to compute usage metrics.
     </p>
     <ul>
-      <li>Conversation processing is performed by EU-based AI providers.</li>
+      <li>{{ $t('privacy.conversation_processing_is_performed_by_') }}</li>
       <li>You can delete your entire conversation history from the profile menu at any time.</li>
-      <li>Conversations are automatically deleted after 90 days.</li>
+      <li>{{ $t('privacy.conversations_are_automatically_deleted_') }}</li>
     </ul>
 
     <h2>5. Your rights</h2>
-    <p>Under the GDPR, you have the right to:</p>
+    <p>{{ $t('privacy.under_the_gdpr_you_have_the_right_to') }}</p>
     <ul>
-      <li><strong>Access</strong> the personal data we hold about you</li>
-      <li><strong>Rectify</strong> inaccurate data</li>
-      <li><strong>Erase</strong> your data ("right to be forgotten")</li>
-      <li><strong>Port</strong> your data to another service</li>
+      <li><strong>{{ $t('privacy.access') }}</strong> the personal data we hold about you</li>
+      <li><strong>{{ $t('privacy.rectify') }}</strong> inaccurate data</li>
+      <li><strong>{{ $t('privacy.erase') }}</strong> your data ("right to be forgotten")</li>
+      <li><strong>{{ $t('privacy.port') }}</strong> your data to another service</li>
     </ul>
-    <p>
-      To exercise any of these rights, contact us at
-      <a href="mailto:privacy@fontem.eu">privacy@fontem.eu</a>.
+    <p>{{ $t('privacy.to_exercise_any_of_these_rights_contact_') }}<a href="mailto:privacy@fontem.eu">privacy@fontem.eu</a>.
     </p>
     <p>
       You also have the right to lodge a complaint with a supervisory authority

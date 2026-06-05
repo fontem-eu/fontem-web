@@ -20,7 +20,7 @@ const widgetComponent = computed(() => resolveWidget(props.config.widget_type))
       :config="config"
     />
     <div v-else class="widget-unknown" data-testid="widget-unknown">
-      <p>Unknown widget type: <code>{{ config.widget_type }}</code></p>
+      <p>{{ $t('widget_renderer.unknown_widget_type') }}<code>{{ config.widget_type }}</code></p>
     </div>
   </div>
 </template>

@@ -27,7 +27,7 @@ defineExpose({ storeState, widgetType: 'graph_explorer' })
 <template>
   <div class="widget-graph-explorer" data-testid="widget-graph-explorer">
     <GraphExplorer v-if="entityId" :entity-id="entityId" />
-    <p v-else style="color: var(--muted); font-size: 0.75rem">No entity configured.</p>
+    <p v-else style="color: var(--muted); font-size: 0.75rem">{{ $t('app.no_entity_configured') }}</p>
   </div>
 </template>
 
