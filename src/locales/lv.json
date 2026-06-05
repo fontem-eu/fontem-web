@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "MI lietošanas rādītāji",
+    "last_24_h": "Pēdējās 24 h",
+    "last_7_days": "Pēdējās 7 dienas",
+    "last_hour": "Pēdējā stunda"
+  },
+  "about": {
+    "a_45_second_tour": "45 sekunžu apskats",
+    "how_it_works": "Kā tas strādā",
+    "recently_published": "Nesen publicēts",
+    "see_all_public_data_stories": "Skatīt visus publiskos datu stāstus →",
+    "try": "Izmēģini:",
+    "walkthrough_searching_a_company_explorin": "Pamācība: uzņēmuma meklēšana, publisko iepirkumu izpēte un datu stāsta publicēšana"
+  },
+  "activity": {
+    "loading_activity": "Ielādē aktivitāti...",
+    "sign_in": "Ielogoties",
+    "sign_in_to_see_your_activity": "Ielogojies, lai redzētu savu aktivitāti."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Darbības rīki, arhitektūras dokumenti un platformas stāvoklis"
+  },
+  "app": {
+    "activity": "Aktivitāte",
+    "admin": "Administrēšana",
+    "all": "Visi",
+    "cancel": "Atcelt",
+    "clear": "Notīrīt",
+    "close": "Aizvērt",
+    "companies_count": "nav uzņēmumu | 1 uzņēmums | {count} uzņēmumi",
+    "contracts": "Līgumi",
+    "contracts_count": "nav līgumu | 1 līgums | {count} līgumi",
+    "contracts_eur": "Līgumi (EUR)",
+    "description": "Apraksts",
+    "dismiss": "Aizvērt",
+    "entity_resolution": "Entītes atrisinājums",
+    "entity_type": "Entītes tips",
+    "esef": "ESEF",
+    "eu_public_procurement": "ES publiskais iepirkums",
+    "filings_by_year": "Iesniegumi pa gadiem",
+    "gleif": "GLEIF",
+    "image": "Attēls",
+    "issues": "Problēmas",
+    "language": "Valoda",
+    "loading": "Ielādē…",
+    "loading_2": "Ielādē...",
+    "loading_story": "Ielādē stāstu...",
+    "metric": "Rādītājs",
+    "no_data_available": "Datu nav pieejamu",
+    "no_entity_configured": "Nav konfigurētas entītes.",
+    "nuts_level": "NUTS līmenis",
+    "per_year": "Gadā",
+    "privacy": "Privātums",
+    "raise_an_issue": "Ziņot par problēmu",
+    "remove": "Noņemt",
+    "retry": "Mēģināt vēlreiz",
+    "sanctions": "Sankcijas",
+    "sign_out": "Izlogoties",
+    "skip_to_main_content": "Pāriet uz galveno saturu",
+    "ted": "TED",
+    "theme": "Tēma",
+    "total_value_eur": "Kopējā vērtība (EUR)",
+    "xbrl_field_coverage": "XBRL lauku pārklājums (%)"
+  },
+  "app_footer": {
+    "about": "Par",
+    "data_quality": "Datu kvalitāte",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Datu avoti: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (ES publiskais iepirkums)",
+    "footer": "Kājene",
+    "sparql": "SPARQL",
+    "support": "Atbalsti"
+  },
+  "assist": {
+    "accept_all": "Pieņemt visus",
+    "ai_assist": "MI palīgs",
+    "ai_assistant": "MI asistents",
+    "apply": "Lietot",
+    "ask_about_the_data": "Jautā par datiem...",
+    "clear_chat": "Notīrīt sarunu",
+    "conversations_are_processed_by_an_eu_bas": "Sarunas apstrādā ES bāzēts MI pakalpojumu sniedzējs.",
+    "embed": "Iegult",
+    "insert_into_story": "Ievietot stāstā",
+    "see_our_privacy_policy": "Skatīt mūsu privātuma politiku.",
+    "send": "Sūtīt"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kods",
+    "colour_scale": "Krāsu skala",
+    "coverage": "Pārklājums",
+    "data_slice": "Datu šķēlums",
+    "dataset": "Datu kopa",
+    "dataset_metadata": "Datu kopas metadati",
+    "distribution_is_right_skewed_log_scale_r": "Sadalījums ir nobīdīts pa labi — ieteicama logaritmiskā skala.",
+    "hide_low_coverage_datasets": "Slēpt datu kopas ar zemu pārklājumu",
+    "hide_low_coverage_years": "Slēpt gadus ar zemu pārklājumu",
+    "loading_datasets": "Ielādē datu kopas…",
+    "lock_to_dataset_range": "Bloķēt datu kopas diapazonā",
+    "log_scale": "Log. skala",
+    "notes": "Piezīmes",
+    "time_unit": "Laika vienība",
+    "updated": "Atjaunināts",
+    "value_scale": "Vērtību skala"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Atvērt Atlas →"
+  },
+  "balance": {
+    "capital_structure": "Kapitāla struktūra"
+  },
+  "cashflow": {
+    "cash_flow": "Naudas plūsma"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Pēc pārskata gada",
+    "cdp_climate_disclosure": "CDP klimata atklāšana",
+    "cdp_scores_and_climate_reporting_score_d": "CDP novērtējumi un klimata ziņojumi — novērtējumu sadalījums un pārskata gadi",
+    "score_distribution": "Novērtējumu sadalījums"
+  },
+  "chapter_rail": {
+    "chapters": "Nodaļas",
+    "story_chapters": "Stāsta nodaļas"
+  },
+  "company_profile": {
+    "company_not_found": "Uzņēmums nav atrasts.",
+    "company_profile": "Uzņēmuma profils",
+    "loading_company_profile": "Ielādē uzņēmuma profilu..."
+  },
+  "connectedness_d_q": {
+    "count": "Skaits",
+    "degree_distribution_per_type": "Pakāpes sadalījums pēc tipa",
+    "graph_connectedness": "Grafa savienojamība",
+    "isolated": "Izolēts",
+    "isolated_2": "Izolēts %",
+    "max": "Maks.",
+    "mean": "Vidējais",
+    "median": "Mediāna",
+    "min": "Min.",
+    "per_type_summary": "Kopsavilkums pēc tipa"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Neizdevās ielādēt iepirkuma datus.",
+    "loading_procurement_data": "Ielādē iepirkuma datus...",
+    "no_eu_public_procurement_data_found_for_": "Šim uzņēmumam nav atrasti ES publiskā iepirkuma dati.",
+    "top_authority": "Galvenā iepirkuma iestāde",
+    "top_sector_cpv": "Galvenā nozare (CPV)",
+    "type": "Tips"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Līgumu vērtība laikā (EUR)",
+    "contract_volume_over_time": "Līgumu apjoms laikā",
+    "contracts_by_country": "Līgumi pa valstīm",
+    "contracts_by_currency": "Līgumi pēc valūtas",
+    "currency_quality": "Valūtas kvalitāte",
+    "eu_public_procurement_awards_volume_cove": "ES publiskā iepirkuma piešķiršanas — apjoms, pārklājums, valūtas kvalitāte",
+    "loading_contract_data": "Ielādē līguma datus...",
+    "missing_fields_of_contracts": "Trūkstoši lauki (% no līgumiem)",
+    "ted_contracts": "TED līgumi",
+    "total_eur_by_country_top_15": "Kopā EUR pa valstīm (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Piekrist",
+    "cookie_consent": "Sīkdatņu piekrišana",
+    "decline": "Noraidīt",
+    "learn_more": "Uzzini vairāk"
+  },
+  "data_quality": {
+    "about_this_data": "Par šiem datiem",
+    "all_procurement_data_is_sourced_from": "Visi iepirkuma dati iegūti no",
+    "companies_with_lei": "Uzņēmumi ar LEI",
+    "companies_with_vat": "Uzņēmumi ar PVN",
+    "contract_date_range": "Līgumu datumu diapazons",
+    "country": "Valsts",
+    "cpv_code": "CPV kods",
+    "data_freshness": "Datu svaigums",
+    "data_quality_dashboard": "Datu kvalitātes panelis",
+    "failed_to_load_data_quality_metrics": "Neizdevās ielādēt datu kvalitātes rādītājus.",
+    "knowledge_graph": "Zināšanu grafs",
+    "last_data_load": "Pēdējā datu ielāde",
+    "loading_metrics": "Ielādē rādītājus...",
+    "pending_review_same_as_rarr": "Gaida pārskatīšanu (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Platformas stāvoklis, datu pārklājums un caurspīdīguma rādītāji",
+    "procurement_coverage_by_country": "Iepirkuma pārklājums pa valstīm",
+    "procurement_only": "Tikai iepirkums",
+    "relationships": "Attiecības",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Galvenās iepirkuma nozares (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Datu svaigums",
+    "data_quality": "Datu kvalitāte",
+    "latest_contract_load": "Pēdējā līgumu ielāde",
+    "loading_overview": "Ielādē pārskatu..."
+  },
+  "data_view_selector": {
+    "data_view": "Datu skats",
+    "gmr_long_tooltip": "Long-Term Value novērtē akciju ilgtermiņa vērtības ieguldījumam, izmantojot 5 gadu vidējos rādītājus: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, neto marža ≥ 15 %, D/E ≤ 1,5, dividenžu ienesīgums ≥ 3,5 %. Izstrādājis Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Dublikātu novēršana",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS rinda — dublikātu entīšu atrisinājuma stāvoklis",
+    "use_the": "Izmanto"
+  },
+  "donate": {
+    "backers": "Atbalstītāji",
+    "contribute_rarr": "Ziedo &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Ziedojumi plūst caur bezpeļņas fiskālo saimnieku platformā",
+    "open_collective": "Open Collective",
+    "support_fontem": "Atbalsti Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Paldies visiem, kas uztur Fontem dzīvu.",
+    "where_the_money_goes": "Kur nauda iet"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC finanšu pārskati — XBRL lauku pārklājums un iesniegumu tendences",
+    "us_edgar_financials": "ASV EDGAR finanšu dati"
+  },
+  "entity_mention": {
+    "remove_mention": "Noņemt pieminējumu"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Līgumi (skaits)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Visi atzīmētie pāri ir atrisināti.",
+    "different_entities_reject": "Atšķirīgas entītes — noraidīt",
+    "entity_a": "Entīte A",
+    "entity_b": "Entīte B",
+    "failed_to_load_candidates": "Neizdevās ielādēt kandidātus.",
+    "keep_as_related": "Saglabāt kā saistītu",
+    "loading_candidates": "Ielādē kandidātus...",
+    "merge_keep_a_b_is_removed": "Apvienot — saglabāt A (B tiek noņemta)",
+    "merge_keep_b_a_is_removed": "Apvienot — saglabāt B (A tiek noņemta)",
+    "no_pairs_pending_review": "Nav pāru, kas gaida pārskatīšanu.",
+    "review_and_decide_on_flagged_candidates": "Pārskati atzīmētos kandidātus un izlem",
+    "why_flagged": "Kāpēc atzīmēts"
+  },
+  "entity_side": {
+    "entity_details": "Entītes informācija"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "ES ESEF finanšu dati",
+    "european_financial_statements_xbrl_cover": "Eiropas finanšu pārskati — XBRL pārklājums un sadalījums pa valstīm",
+    "filings_by_country": "Iesniegumi pa valstīm"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Ilgums",
+    "etl_runs": "ETL palaišanas",
+    "failed": "Neizdevās",
+    "recent_cronjob_invocations_from": "Nesenās CronJob izsaukšanas no",
+    "recent_runs": "Nesenās palaišanas",
+    "refresh": "Atsvaidzināt",
+    "running": "Darbojas",
+    "started": "Sākts",
+    "status": "Stāvoklis:",
+    "status_2": "Stāvoklis",
+    "success": "Veiksme",
+    "summary": "Kopsavilkums"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "ES kohēzijas politikas projekti — finansējums, saņēmēji un ģeogrāfiskais sadalījums",
+    "eu_knowledge_graph": "ES zināšanu grafs",
+    "projects_by_country_top_15": "Projekti pa valstīm (Top 15)",
+    "projects_by_fund_top_10": "Projekti pa fondiem (Top 10)"
+  },
+  "explore": {
+    "explore": "Izpētīt"
+  },
+  "feed": {
+    "clear_filter": "Notīrīt filtru",
+    "feed": "Plūsma",
+    "filtering_by": "Filtrē pēc",
+    "loading_feed": "Ielādē plūsmu...",
+    "public_data_stories_from_the_community_n": "Publiski datu stāsti no kopienas, jaunākie pirmie."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Pēc instrumenta tipa",
+    "esma_financial_instruments_reference_dat": "ESMA finanšu instrumentu atsauces dati — ISIN pārklājums, instrumentu tipi, tirdzniecības vietas",
+    "firds_instruments": "FIRDS instrumenti",
+    "top_trading_venues_mic": "Galvenās tirdzniecības vietas (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Ģeo pārlūks"
+  },
+  "geo_choropleth": {
+    "companies": "Uzņēmumi",
+    "connected_to_3": "Savienots ar (α-3)",
+    "parent_nuts_1": "Vecāks NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Uzņēmumi pa valstīm (Top 30)",
+    "gleif_companies": "GLEIF uzņēmumi",
+    "global_lei_directory_entity_identificati": "Globālais LEI katalogs — entīšu identifikācija un korporatīvā struktūra"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Neizdevās ielādēt grafu",
+    "depth": "Dziļums",
+    "exit_fullscreen": "Iziet no pilnekrāna",
+    "expanding_node": "Paplašina mezglu...",
+    "export": "Eksportēt",
+    "filter": "Filtrs…",
+    "find_path_to": "Atrast ceļu uz",
+    "finding_paths": "Meklē ceļus...",
+    "fullscreen": "Pilnekrāns",
+    "go_to_profile": "Iet uz profilu",
+    "json": "JSON",
+    "loading_graph": "Ielādē grafu...",
+    "more_options": "Vairāk opciju",
+    "no_connections_found_for_this_entity": "Šai entītei savienojumi nav atrasti.",
+    "no_paths_found_between_these_entities": "Starp šīm entītēm ceļi nav atrasti.",
+    "path_to": "Ceļš uz",
+    "period": "Periods",
+    "png": "PNG",
+    "save_view": "Saglabāt skatu",
+    "search_entity_name": "Meklē entītes nosaukumu...",
+    "set_as_center": "Iestatīt kā centru",
+    "summary_edges": "Kopsavilkuma šķautnes",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Ieņēmumi &amp; neto ienākumi"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Īss problēmas apraksts",
+    "describe_the_issue_in_detail_markdown_su": "Apraksti problēmu detalizēti (Markdown atbalstīts)",
+    "entity_id": "Entītes ID",
+    "issue_type": "Problēmas tips",
+    "title": "Virsraksts"
+  },
+  "issue_detail": {
+    "add_a_comment": "Pievienot komentāru...",
+    "loading_issue": "Ielādē problēmu...",
+    "no_comments_yet": "Komentāru vēl nav.",
+    "reject": "Noraidīt",
+    "resolve": "Atrisināt"
+  },
+  "issues": {
+    "loading_issues": "Ielādē problēmas...",
+    "no_issues_found": "Problēmas nav atrastas."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "ES lobēšanas reģistrs",
+    "lobbying_cost_distribution": "Lobēšanas izmaksu sadalījums",
+    "registrations_over_time": "Reģistrācijas laikā",
+    "top_countries": "Galvenās valstis",
+    "transparency_register_lobbyist_registrat": "Caurspīdīguma reģistrs — lobistu reģistrācijas, EP piekļuve, izdevumi"
+  },
+  "login": {
+    "go_to_home": "Iet uz sākumu",
+    "you_already_have_an_active_session": "Tev jau ir aktīva sesija.",
+    "youre_signed_in": "Tu esi ielogojies"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Entīšu pieminējumi",
+    "searching": "Meklē…"
+  },
+  "moderation": {
+    "flagged_content": "Atzīmēts saturs",
+    "moderation": "Moderēšana",
+    "moderation_log": "Moderēšanas žurnāls",
+    "no_flagged_content": "Nav atzīmēta satura.",
+    "no_moderation_actions_yet": "Moderēšanas darbību vēl nav.",
+    "review_flagged_content_and_moderation_hi": "Pārskati atzīmēto saturu un moderēšanas vēsturi"
+  },
+  "multi_select": {
+    "none": "Nav"
+  },
+  "my_reports": {
+    "loading_stories": "Ielādē stāstus...",
+    "my_stories": "Mani stāsti",
+    "no_stories_yet_start_your_first_one_abov": "Stāstu vēl nav. Sāc pirmo augšā.",
+    "or_read_recent_public_stories": "Vai lasi nesen publicētus publiskus stāstus →"
+  },
+  "not_found": {
+    "back_to_home": "Atpakaļ uz sākumu",
+    "page_not_found": "Lapa nav atrasta",
+    "the_page_youre_looking_for_doesnt_exist_": "Meklētā lapa neeksistē vai ir pārvietota."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostat NUTS klasifikācija — uzņēmumu un iestāžu ģeogrāfiskais pārklājums",
+    "nuts_regions": "NUTS reģioni",
+    "regions_by_level": "Reģioni pa līmeņiem",
+    "top_nuts_0_regions_by_company_count": "Galvenie NUTS 0 reģioni pēc uzņēmumu skaita"
+  },
+  "overview_d_q": {
+    "cohesion": "Kohēzija",
+    "country_code_consistency": "Valstu kodu konsekvence",
+    "cross_source_overlap": "Avotu pārklāšanās",
+    "cross_source_overlap_country_code_consis": "Avotu pārklāšanās, valstu kodu konsekvence un lauku pilnīgums visos avotos",
+    "data_quality_overview": "Datu kvalitātes pārskats",
+    "listings": "Kotēšanas",
+    "lobby": "Lobēšana",
+    "top_alpha_2_codes": "Galvenie Alpha-2 kodi"
+  },
+  "pocket_button": {
+    "save": "Saglabāt",
+    "save_to_pocket": "Saglabāt Pocket"
+  },
+  "preferences_menu": {
+    "account": "Konts",
+    "ai_usage": "MI lietošana",
+    "atlas_palette": "Atlas palete",
+    "display": "Attēlojums",
+    "preferences": "Iestatījumi"
+  },
+  "privacy": {
+    "access": "Piekļuve",
+    "all_data_in_the_fontem_knowledge_graph_r": "Visi dati Fontem zināšanu grafā attiecas uz",
+    "conversation_processing_is_performed_by_": "Sarunu apstrādi veic ES bāzēti MI pakalpojumu sniedzēji.",
+    "conversations_are_automatically_deleted_": "Sarunas tiek automātiski dzēstas pēc 90 dienām.",
+    "erase": "Dzēšana",
+    "eu_consolidated_sanctions_list": "ES konsolidētais sankciju saraksts",
+    "eu_transparency_register": "ES caurspīdīguma reģistrs",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Pēdējoreiz atjaunināts: 2026. gada aprīlis",
+    "legal_basis": "Tiesiskais pamats:",
+    "no_personal_data_of_individuals_is_store": "Fizisko personu personas dati zināšanu grafā netiek glabāti.",
+    "port": "Pārnesamība",
+    "privacy_policy": "Privātuma politika",
+    "rectify": "Labošana",
+    "to_exercise_any_of_these_rights_contact_": "Lai izmantotu jebkuru no šīm tiesībām, sazinies ar mums:",
+    "under_the_gdpr_you_have_the_right_to": "Saskaņā ar GDPR tev ir tiesības:",
+    "when_you_sign_in_we_collect_and_store": "Kad ielogojies, mēs apkopojam un glabājam:",
+    "your": "Tavs"
+  },
+  "profile": {
+    "avg_net_margin": "Vidējā neto marža",
+    "avg_roe": "Vidējais ROE",
+    "corporate_group": "Korporatīvā grupa",
+    "current_price": "Pašreizējā cena",
+    "directors_amp_officers": "Direktori &amp; amatpersonas",
+    "financial_overview": "Finanšu pārskats",
+    "market_cap": "Tirgus kapitalizācija",
+    "part_of": "Daļa no"
+  },
+  "public_spending": {
+    "public_spending": "Publiskie tēriņi"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pozīcija karuselī",
+    "recently_published_data_stories": "Nesen publicēti datu stāsti"
+  },
+  "report": {
+    "edit": "Rediģēt"
+  },
+  "report_editor": {
+    "brief_abstract": "Īss kopsavilkums...",
+    "private_only_me": "Privāts — tikai es",
+    "public_anyone": "Publisks — jebkurš",
+    "signed_in_users": "Ielogojušies lietotāji",
+    "story_title": "Stāsta nosaukums"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sankcionētas entītes — personas, organizācijas, režīma pārklājums un uzņēmumu salāgojumi",
+    "top_sanction_regimes": "Galvenie sankciju režīmi"
+  },
+  "share": {
+    "add": "Pievienot",
+    "add_group": "Pievienot grupu",
+    "add_person": "Pievienot personu",
+    "collaborators": "Līdzstrādnieki",
+    "email_address": "E-pasta adrese",
+    "group_name": "Grupas nosaukums",
+    "no_collaborators_yet": "Līdzstrādnieku vēl nav.",
+    "share_story": "Kopīgot stāstu",
+    "visibility": "Redzamība"
+  },
+  "sparql": {
+    "endpoint": "Galapunkts",
+    "endpoint_url": "Galapunkta URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Robežas",
+    "method": "Metode",
+    "post": "POST",
+    "query_failed": "Vaicājums neizdevās:",
+    "response": "Atbilde",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultātu aploksne:",
+    "sparql_endpoint": "SPARQL galapunkts",
+    "try_a_query": "Izmēģini vaicājumu"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Bloka citāts",
+    "bold_b": "Treknraksts (⌘B)",
+    "bullet_list": "Aizzīmēts saraksts",
+    "code_block": "Koda bloks",
+    "divider": "Atdalītājs",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Virsraksts 1",
+    "heading_2": "Virsraksts 2",
+    "heading_3": "Virsraksts 3",
+    "inline_code": "Iekļauts kods",
+    "italic_i": "Slīpraksts (⌘I)",
+    "link": "Saite",
+    "numbered_list": "Numurēts saraksts",
+    "strikethrough": "Pārsvītrots",
+    "table": "Tabula",
+    "underline_u": "Pasvītrots (⌘U)",
+    "widget_from_pocket": "Logrīks no Pocket"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Noņemt kreiso kolonnu"
+  },
+  "tag_editor": {
+    "tags": "Birkas"
+  },
+  "ticker_card": {
+    "authority": "Iestāde",
+    "company": "Uzņēmums",
+    "person": "Persona"
+  },
+  "ticker_financials": {
+    "close_financials": "Aizvērt finanšu datus",
+    "history": "Vēsture",
+    "taking_longer_than_expected": "Ilgst ilgāk nekā gaidīts…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Tikeri nav atrasti meklējumam &ldquo;",
+    "search_companies_public_entities_lobbyis": "Meklē uzņēmumus, publiskas entītes, lobistus…",
+    "search_results": "Meklēšanas rezultāti",
+    "search_the_knowledge_graph": "Meklē zināšanu grafā"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "No līgumiem materializētās iestāžu-uzņēmumu tirdzniecības attiecības",
+    "trade_edges": "Tirdzniecības šķautnes",
+    "trade_edges_are_materialized_from_contra": "Tirdzniecības šķautnes tiek materializētas no līgumu datiem. Palaid"
+  },
+  "triples_d_q": {
+    "chart_view": "Diagrammas skats",
+    "click_a_graph_to_inspect_its_class_and_p": "Noklikšķini uz grafa, lai apskatītu tā klases un predikāta sadalījumu.",
+    "no": "Nē",
+    "no_triples_in_this_graph": "Šajā grafā nav trīšu.",
+    "top_classes": "Galvenās klases",
+    "top_predicates": "Galvenie predikāti",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Trīši uz nosaukto grafu",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso nav konfigurēts šajā vidē",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Vidējie"
+  },
+  "widget_node": {
+    "remove_widget": "Noņemt logrīku"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Nezināms logrīka tips:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
