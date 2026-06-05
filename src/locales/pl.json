@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Metryki użycia SI",
+    "last_24_h": "Ostatnie 24 godz.",
+    "last_7_days": "Ostatnie 7 dni",
+    "last_hour": "Ostatnia godzina"
+  },
+  "about": {
+    "a_45_second_tour": "Spacer 45-sekundowy",
+    "how_it_works": "Jak to działa",
+    "recently_published": "Niedawno opublikowane",
+    "see_all_public_data_stories": "Zobacz wszystkie publiczne historie danych →",
+    "try": "Wypróbuj:",
+    "walkthrough_searching_a_company_explorin": "Przewodnik: wyszukanie firmy, eksploracja zamówień publicznych i publikacja historii danych"
+  },
+  "activity": {
+    "loading_activity": "Wczytywanie aktywności...",
+    "sign_in": "Zaloguj się",
+    "sign_in_to_see_your_activity": "Zaloguj się, aby zobaczyć swoją aktywność."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Narzędzia operacyjne, dokumentacja architektury i stan platformy"
+  },
+  "app": {
+    "activity": "Aktywność",
+    "admin": "Administracja",
+    "all": "Wszystkie",
+    "cancel": "Anuluj",
+    "clear": "Wyczyść",
+    "close": "Zamknij",
+    "companies_count": "brak firm | 1 firma | {count} firm",
+    "contracts": "Umowy",
+    "contracts_count": "brak umów | 1 umowa | {count} umów",
+    "contracts_eur": "Umowy (EUR)",
+    "description": "Opis",
+    "dismiss": "Zamknij",
+    "entity_resolution": "Rozstrzyganie tożsamości",
+    "entity_type": "Typ podmiotu",
+    "esef": "ESEF",
+    "eu_public_procurement": "Zamówienia publiczne UE",
+    "filings_by_year": "Sprawozdania według roku",
+    "gleif": "GLEIF",
+    "image": "Obraz",
+    "issues": "Zgłoszenia",
+    "language": "Język",
+    "loading": "Wczytywanie…",
+    "loading_2": "Wczytywanie...",
+    "loading_story": "Wczytywanie historii...",
+    "metric": "Metryka",
+    "no_data_available": "Brak dostępnych danych",
+    "no_entity_configured": "Nie skonfigurowano podmiotu.",
+    "nuts_level": "Poziom NUTS",
+    "per_year": "Rocznie",
+    "privacy": "Prywatność",
+    "raise_an_issue": "Zgłoś problem",
+    "remove": "Usuń",
+    "retry": "Spróbuj ponownie",
+    "sanctions": "Sankcje",
+    "sign_out": "Wyloguj",
+    "skip_to_main_content": "Przejdź do głównej treści",
+    "ted": "TED",
+    "theme": "Motyw",
+    "total_value_eur": "Wartość całkowita (EUR)",
+    "xbrl_field_coverage": "Pokrycie pól XBRL (%)"
+  },
+  "app_footer": {
+    "about": "O projekcie",
+    "data_quality": "Jakość danych",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Dane z SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (zamówienia publiczne UE)",
+    "footer": "Stopka",
+    "sparql": "SPARQL",
+    "support": "Wesprzyj"
+  },
+  "assist": {
+    "accept_all": "Akceptuj wszystko",
+    "ai_assist": "Asystent SI",
+    "ai_assistant": "Asystent SI",
+    "apply": "Zastosuj",
+    "ask_about_the_data": "Zapytaj o dane...",
+    "clear_chat": "Wyczyść czat",
+    "conversations_are_processed_by_an_eu_bas": "Rozmowy są przetwarzane przez dostawcę SI mającego siedzibę w UE.",
+    "embed": "Osadź",
+    "insert_into_story": "Wstaw do historii",
+    "see_our_privacy_policy": "Zobacz naszą politykę prywatności.",
+    "send": "Wyślij"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kod",
+    "colour_scale": "Skala kolorów",
+    "coverage": "Pokrycie",
+    "data_slice": "Wycinek danych",
+    "dataset": "Zbiór danych",
+    "dataset_metadata": "Metadane zbioru",
+    "distribution_is_right_skewed_log_scale_r": "Rozkład jest skośny prawostronnie — zalecana skala logarytmiczna.",
+    "hide_low_coverage_datasets": "Ukryj zbiory o niskim pokryciu",
+    "hide_low_coverage_years": "Ukryj lata o niskim pokryciu",
+    "loading_datasets": "Wczytywanie zbiorów danych…",
+    "lock_to_dataset_range": "Zablokuj do zakresu zbioru",
+    "log_scale": "Skala log.",
+    "notes": "Uwagi",
+    "time_unit": "Jednostka czasu",
+    "updated": "Zaktualizowano",
+    "value_scale": "Skala wartości"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Otwórz w Atlasie →"
+  },
+  "balance": {
+    "capital_structure": "Struktura kapitału"
+  },
+  "cashflow": {
+    "cash_flow": "Przepływ środków"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Według roku sprawozdawczego",
+    "cdp_climate_disclosure": "Ujawnienia klimatyczne CDP",
+    "cdp_scores_and_climate_reporting_score_d": "Punktacje CDP i sprawozdawczość klimatyczna — rozkład punktacji i lata sprawozdawcze",
+    "score_distribution": "Rozkład punktacji"
+  },
+  "chapter_rail": {
+    "chapters": "Rozdziały",
+    "story_chapters": "Rozdziały historii"
+  },
+  "company_profile": {
+    "company_not_found": "Nie znaleziono firmy.",
+    "company_profile": "Profil firmy",
+    "loading_company_profile": "Wczytywanie profilu firmy..."
+  },
+  "connectedness_d_q": {
+    "count": "Liczba",
+    "degree_distribution_per_type": "Rozkład stopni według typu",
+    "graph_connectedness": "Spójność grafu",
+    "isolated": "Izolowany",
+    "isolated_2": "Izolowany %",
+    "max": "Maks.",
+    "mean": "Średnia",
+    "median": "Mediana",
+    "min": "Min.",
+    "per_type_summary": "Podsumowanie według typu"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Nie udało się wczytać danych o zamówieniach.",
+    "loading_procurement_data": "Wczytywanie danych o zamówieniach...",
+    "no_eu_public_procurement_data_found_for_": "Nie znaleziono danych o zamówieniach publicznych UE dla tej firmy.",
+    "top_authority": "Główna instytucja zamawiająca",
+    "top_sector_cpv": "Główny sektor (CPV)",
+    "type": "Typ"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Wartość umów w czasie (EUR)",
+    "contract_volume_over_time": "Wolumen umów w czasie",
+    "contracts_by_country": "Umowy według kraju",
+    "contracts_by_currency": "Umowy według waluty",
+    "currency_quality": "Jakość waluty",
+    "eu_public_procurement_awards_volume_cove": "Udzielanie zamówień publicznych UE — wolumen, pokrycie, jakość waluty",
+    "loading_contract_data": "Wczytywanie danych o umowach...",
+    "missing_fields_of_contracts": "Brakujące pola (% umów)",
+    "ted_contracts": "Umowy TED",
+    "total_eur_by_country_top_15": "Razem EUR według kraju (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Akceptuj",
+    "cookie_consent": "Zgoda na pliki cookie",
+    "decline": "Odrzuć",
+    "learn_more": "Dowiedz się więcej"
+  },
+  "data_quality": {
+    "about_this_data": "O tych danych",
+    "all_procurement_data_is_sourced_from": "Wszystkie dane o zamówieniach pochodzą z",
+    "companies_with_lei": "Firmy z LEI",
+    "companies_with_vat": "Firmy z NIP/VAT",
+    "contract_date_range": "Zakres dat umów",
+    "country": "Kraj",
+    "cpv_code": "Kod CPV",
+    "data_freshness": "Świeżość danych",
+    "data_quality_dashboard": "Pulpit jakości danych",
+    "failed_to_load_data_quality_metrics": "Nie udało się wczytać metryk jakości danych.",
+    "knowledge_graph": "Graf wiedzy",
+    "last_data_load": "Ostatnie ładowanie danych",
+    "loading_metrics": "Wczytywanie metryk...",
+    "pending_review_same_as_rarr": "Oczekuje przeglądu (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Stan platformy, pokrycie danych i metryki przejrzystości",
+    "procurement_coverage_by_country": "Pokrycie zamówień według kraju",
+    "procurement_only": "Tylko zamówienia",
+    "relationships": "Relacje",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Główne sektory zamówień (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Świeżość danych",
+    "data_quality": "Jakość danych",
+    "latest_contract_load": "Ostatnie ładowanie umów",
+    "loading_overview": "Wczytywanie przeglądu..."
+  },
+  "data_view_selector": {
+    "data_view": "Widok danych",
+    "gmr_long_tooltip": "Long-Term Value ocenia akcję pod kątem długoterminowych inwestycji value przy użyciu średnich 5-letnich: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, marża netto ≥ 15 %, D/E ≤ 1,5, stopa dywidendy ≥ 3,5 %. Opracowane przez Gonçalo Martinsa Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Deduplikacja",
+    "same_as_queue_duplicate_entity_resolutio": "Kolejka SAME_AS — stan rozstrzygania duplikatów podmiotów",
+    "use_the": "Użyj"
+  },
+  "donate": {
+    "backers": "Wspierający",
+    "contribute_rarr": "Wesprzyj &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Darowizny przechodzą przez fiscal-host organizację non-profit w",
+    "open_collective": "Open Collective",
+    "support_fontem": "Wesprzyj Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Dziękujemy wszystkim, którzy utrzymują Fontem przy życiu.",
+    "where_the_money_goes": "Dokąd trafiają pieniądze"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "Sprawozdania finansowe SEC — pokrycie pól XBRL i trendy zgłoszeń",
+    "us_edgar_financials": "Dane finansowe US EDGAR"
+  },
+  "entity_mention": {
+    "remove_mention": "Usuń wzmiankę"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Umowy (liczba)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Wszystkie oznaczone pary zostały rozstrzygnięte.",
+    "different_entities_reject": "Różne podmioty — odrzuć",
+    "entity_a": "Podmiot A",
+    "entity_b": "Podmiot B",
+    "failed_to_load_candidates": "Nie udało się wczytać kandydatów.",
+    "keep_as_related": "Zachowaj jako powiązany",
+    "loading_candidates": "Wczytywanie kandydatów...",
+    "merge_keep_a_b_is_removed": "Scal — zachowaj A (B zostaje usunięte)",
+    "merge_keep_b_a_is_removed": "Scal — zachowaj B (A zostaje usunięte)",
+    "no_pairs_pending_review": "Brak par oczekujących na przegląd.",
+    "review_and_decide_on_flagged_candidates": "Przejrzyj i zdecyduj o oznaczonych kandydatach",
+    "why_flagged": "Powód oznaczenia"
+  },
+  "entity_side": {
+    "entity_details": "Szczegóły podmiotu"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "Dane finansowe EU ESEF",
+    "european_financial_statements_xbrl_cover": "Europejskie sprawozdania finansowe — pokrycie XBRL i rozkład według krajów",
+    "filings_by_country": "Zgłoszenia według kraju"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "Cronjob",
+    "duration": "Czas trwania",
+    "etl_runs": "Uruchomienia ETL",
+    "failed": "Niepowodzenie",
+    "recent_cronjob_invocations_from": "Ostatnie wywołania CronJob z",
+    "recent_runs": "Ostatnie uruchomienia",
+    "refresh": "Odśwież",
+    "running": "Trwa",
+    "started": "Rozpoczęto",
+    "status": "Stan:",
+    "status_2": "Stan",
+    "success": "Sukces",
+    "summary": "Podsumowanie"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Projekty polityki spójności UE — finansowanie, beneficjenci i rozkład geograficzny",
+    "eu_knowledge_graph": "Graf wiedzy UE",
+    "projects_by_country_top_15": "Projekty według kraju (Top 15)",
+    "projects_by_fund_top_10": "Projekty według funduszu (Top 10)"
+  },
+  "explore": {
+    "explore": "Eksploruj"
+  },
+  "feed": {
+    "clear_filter": "Wyczyść filtr",
+    "feed": "Strumień",
+    "filtering_by": "Filtrowanie według",
+    "loading_feed": "Wczytywanie strumienia...",
+    "public_data_stories_from_the_community_n": "Publiczne historie danych od społeczności, najnowsze pierwsze."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Według typu instrumentu",
+    "esma_financial_instruments_reference_dat": "Dane referencyjne instrumentów finansowych ESMA — pokrycie ISIN, typy instrumentów, miejsca obrotu",
+    "firds_instruments": "Instrumenty FIRDS",
+    "top_trading_venues_mic": "Główne miejsca obrotu (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Eksplorator geograficzny"
+  },
+  "geo_choropleth": {
+    "companies": "Firmy",
+    "connected_to_3": "Połączone z (α-3)",
+    "parent_nuts_1": "Nadrzędne NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Firmy według kraju (Top 30)",
+    "gleif_companies": "Firmy GLEIF",
+    "global_lei_directory_entity_identificati": "Globalny katalog LEI — identyfikacja podmiotów i struktura korporacyjna"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Nie udało się wczytać grafu",
+    "depth": "Głębokość",
+    "exit_fullscreen": "Wyjdź z pełnego ekranu",
+    "expanding_node": "Rozwijanie węzła...",
+    "export": "Eksportuj",
+    "filter": "Filtr…",
+    "find_path_to": "Znajdź ścieżkę do",
+    "finding_paths": "Wyszukiwanie ścieżek...",
+    "fullscreen": "Pełny ekran",
+    "go_to_profile": "Przejdź do profilu",
+    "json": "JSON",
+    "loading_graph": "Wczytywanie grafu...",
+    "more_options": "Więcej opcji",
+    "no_connections_found_for_this_entity": "Nie znaleziono połączeń dla tego podmiotu.",
+    "no_paths_found_between_these_entities": "Nie znaleziono ścieżek między tymi podmiotami.",
+    "path_to": "Ścieżka do",
+    "period": "Okres",
+    "png": "PNG",
+    "save_view": "Zapisz widok",
+    "search_entity_name": "Szukaj nazwy podmiotu...",
+    "set_as_center": "Ustaw jako centrum",
+    "summary_edges": "Krawędzie podsumowujące",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Przychody &amp; zysk netto"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Krótkie podsumowanie problemu",
+    "describe_the_issue_in_detail_markdown_su": "Opisz problem szczegółowo (Markdown obsługiwany)",
+    "entity_id": "ID podmiotu",
+    "issue_type": "Typ zgłoszenia",
+    "title": "Tytuł"
+  },
+  "issue_detail": {
+    "add_a_comment": "Dodaj komentarz...",
+    "loading_issue": "Wczytywanie zgłoszenia...",
+    "no_comments_yet": "Brak komentarzy.",
+    "reject": "Odrzuć",
+    "resolve": "Rozwiąż"
+  },
+  "issues": {
+    "loading_issues": "Wczytywanie zgłoszeń...",
+    "no_issues_found": "Nie znaleziono zgłoszeń."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Rejestr lobbingu UE",
+    "lobbying_cost_distribution": "Rozkład kosztów lobbingu",
+    "registrations_over_time": "Rejestracje w czasie",
+    "top_countries": "Główne kraje",
+    "transparency_register_lobbyist_registrat": "Rejestr przejrzystości — rejestracje lobbystów, dostęp do PE, wydatki"
+  },
+  "login": {
+    "go_to_home": "Przejdź do strony głównej",
+    "you_already_have_an_active_session": "Masz już aktywną sesję.",
+    "youre_signed_in": "Jesteś zalogowany(-a)"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Wzmianki o podmiotach",
+    "searching": "Wyszukiwanie…"
+  },
+  "moderation": {
+    "flagged_content": "Oznaczone treści",
+    "moderation": "Moderacja",
+    "moderation_log": "Dziennik moderacji",
+    "no_flagged_content": "Brak oznaczonych treści.",
+    "no_moderation_actions_yet": "Brak działań moderacyjnych.",
+    "review_flagged_content_and_moderation_hi": "Przeglądaj oznaczone treści i historię moderacji"
+  },
+  "multi_select": {
+    "none": "Brak"
+  },
+  "my_reports": {
+    "loading_stories": "Wczytywanie historii...",
+    "my_stories": "Moje historie",
+    "no_stories_yet_start_your_first_one_abov": "Brak historii. Zacznij pierwszą powyżej.",
+    "or_read_recent_public_stories": "Lub przeczytaj najnowsze historie publiczne →"
+  },
+  "not_found": {
+    "back_to_home": "Powrót do strony głównej",
+    "page_not_found": "Nie znaleziono strony",
+    "the_page_youre_looking_for_doesnt_exist_": "Strona, której szukasz, nie istnieje lub została przeniesiona."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Klasyfikacja NUTS Eurostatu — pokrycie geograficzne firm i instytucji",
+    "nuts_regions": "Regiony NUTS",
+    "regions_by_level": "Regiony według poziomu",
+    "top_nuts_0_regions_by_company_count": "Główne regiony NUTS 0 według liczby firm"
+  },
+  "overview_d_q": {
+    "cohesion": "Spójność",
+    "country_code_consistency": "Spójność kodów krajów",
+    "cross_source_overlap": "Nakładanie się źródeł",
+    "cross_source_overlap_country_code_consis": "Nakładanie się źródeł, spójność kodów krajów i kompletność pól we wszystkich źródłach danych",
+    "data_quality_overview": "Przegląd jakości danych",
+    "listings": "Notowania",
+    "lobby": "Lobby",
+    "top_alpha_2_codes": "Główne kody Alpha-2"
+  },
+  "pocket_button": {
+    "save": "Zapisz",
+    "save_to_pocket": "Zapisz w Pocket"
+  },
+  "preferences_menu": {
+    "account": "Konto",
+    "ai_usage": "Użycie SI",
+    "atlas_palette": "Paleta Atlas",
+    "display": "Wyświetlanie",
+    "preferences": "Preferencje"
+  },
+  "privacy": {
+    "access": "Dostęp",
+    "all_data_in_the_fontem_knowledge_graph_r": "Wszystkie dane w grafie wiedzy Fontem dotyczą",
+    "conversation_processing_is_performed_by_": "Przetwarzanie rozmów odbywa się przez dostawców SI mających siedzibę w UE.",
+    "conversations_are_automatically_deleted_": "Rozmowy są automatycznie usuwane po 90 dniach.",
+    "erase": "Usuń",
+    "eu_consolidated_sanctions_list": "Skonsolidowana lista sankcji UE",
+    "eu_transparency_register": "Rejestr przejrzystości UE",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Ostatnia aktualizacja: kwiecień 2026",
+    "legal_basis": "Podstawa prawna:",
+    "no_personal_data_of_individuals_is_store": "W grafie wiedzy nie są przechowywane dane osobowe osób fizycznych.",
+    "port": "Przenoszenie",
+    "privacy_policy": "Polityka prywatności",
+    "rectify": "Sprostowanie",
+    "to_exercise_any_of_these_rights_contact_": "Aby skorzystać z tych praw, skontaktuj się z nami pod adresem",
+    "under_the_gdpr_you_have_the_right_to": "Zgodnie z RODO masz prawo do:",
+    "when_you_sign_in_we_collect_and_store": "Po zalogowaniu zbieramy i przechowujemy:",
+    "your": "Twoje"
+  },
+  "profile": {
+    "avg_net_margin": "Śr. marża netto",
+    "avg_roe": "Śr. ROE",
+    "corporate_group": "Grupa kapitałowa",
+    "current_price": "Aktualna cena",
+    "directors_amp_officers": "Dyrektorzy &amp; kierownictwo",
+    "financial_overview": "Przegląd finansowy",
+    "market_cap": "Kapitalizacja rynkowa",
+    "part_of": "Część"
+  },
+  "public_spending": {
+    "public_spending": "Wydatki publiczne"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pozycja w karuzeli",
+    "recently_published_data_stories": "Niedawno opublikowane historie danych"
+  },
+  "report": {
+    "edit": "Edytuj"
+  },
+  "report_editor": {
+    "brief_abstract": "Krótkie streszczenie...",
+    "private_only_me": "Prywatne — tylko ja",
+    "public_anyone": "Publiczne — wszyscy",
+    "signed_in_users": "Użytkownicy zalogowani",
+    "story_title": "Tytuł historii"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Podmioty objęte sankcjami — osoby, organizacje, pokrycie reżimu i dopasowanie firm",
+    "top_sanction_regimes": "Główne reżimy sankcji"
+  },
+  "share": {
+    "add": "Dodaj",
+    "add_group": "Dodaj grupę",
+    "add_person": "Dodaj osobę",
+    "collaborators": "Współpracownicy",
+    "email_address": "Adres e-mail",
+    "group_name": "Nazwa grupy",
+    "no_collaborators_yet": "Brak współpracowników.",
+    "share_story": "Udostępnij historię",
+    "visibility": "Widoczność"
+  },
+  "sparql": {
+    "endpoint": "Endpoint",
+    "endpoint_url": "URL endpointu",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Limity",
+    "method": "Metoda",
+    "post": "POST",
+    "query_failed": "Zapytanie nie powiodło się:",
+    "response": "Odpowiedź",
+    "sparql_11_json_results_envelope": "Obwiednia wyników SPARQL 1.1 JSON:",
+    "sparql_endpoint": "Endpoint SPARQL",
+    "try_a_query": "Wypróbuj zapytanie"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Cytat",
+    "bold_b": "Pogrubienie (⌘B)",
+    "bullet_list": "Lista punktowana",
+    "code_block": "Blok kodu",
+    "divider": "Separator",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Nagłówek 1",
+    "heading_2": "Nagłówek 2",
+    "heading_3": "Nagłówek 3",
+    "inline_code": "Kod w linii",
+    "italic_i": "Kursywa (⌘I)",
+    "link": "Łącze",
+    "numbered_list": "Lista numerowana",
+    "strikethrough": "Przekreślenie",
+    "table": "Tabela",
+    "underline_u": "Podkreślenie (⌘U)",
+    "widget_from_pocket": "Widget z Pocket"
+  },
+  "summary": {
+    "vol": "Wol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Usuń kolumnę po lewej"
+  },
+  "tag_editor": {
+    "tags": "Tagi"
+  },
+  "ticker_card": {
+    "authority": "Organ",
+    "company": "Firma",
+    "person": "Osoba"
+  },
+  "ticker_financials": {
+    "close_financials": "Zamknij dane finansowe",
+    "history": "Historia",
+    "taking_longer_than_expected": "Trwa to dłużej niż oczekiwano…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Nie znaleziono tickerów dla &ldquo;",
+    "search_companies_public_entities_lobbyis": "Szukaj firm, instytucji publicznych, lobbystów…",
+    "search_results": "Wyniki wyszukiwania",
+    "search_the_knowledge_graph": "Szukaj w grafie wiedzy"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Zmaterializowane relacje handlowe instytucja-firma z umów",
+    "trade_edges": "Krawędzie handlowe",
+    "trade_edges_are_materialized_from_contra": "Krawędzie handlowe są materializowane z danych umów. Uruchom"
+  },
+  "triples_d_q": {
+    "chart_view": "Widok wykresu",
+    "click_a_graph_to_inspect_its_class_and_p": "Kliknij graf, aby zobaczyć podział na klasy i predykaty.",
+    "no": "Nie",
+    "no_triples_in_this_graph": "Brak trójek w tym grafie.",
+    "top_classes": "Główne klasy",
+    "top_predicates": "Główne predykaty",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Trójki na nazwany graf",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso nie jest skonfigurowane w tym środowisku",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Średnie"
+  },
+  "widget_node": {
+    "remove_widget": "Usuń widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Nieznany typ widgetu:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
