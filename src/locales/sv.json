@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "AI-användningsmått",
+    "last_24_h": "Senaste 24 h",
+    "last_7_days": "Senaste 7 dagarna",
+    "last_hour": "Senaste timmen"
+  },
+  "about": {
+    "a_45_second_tour": "45-sekunders rundtur",
+    "how_it_works": "Hur det fungerar",
+    "recently_published": "Nyligen publicerat",
+    "see_all_public_data_stories": "Se alla offentliga datahistorier →",
+    "try": "Prova:",
+    "walkthrough_searching_a_company_explorin": "Guide: sök ett företag, utforska offentlig upphandling och publicera en datahistoria"
+  },
+  "activity": {
+    "loading_activity": "Laddar aktivitet...",
+    "sign_in": "Logga in",
+    "sign_in_to_see_your_activity": "Logga in för att se din aktivitet."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Driftverktyg, arkitekturdokument och plattformens hälsa"
+  },
+  "app": {
+    "activity": "Aktivitet",
+    "admin": "Administration",
+    "all": "Alla",
+    "cancel": "Avbryt",
+    "clear": "Rensa",
+    "close": "Stäng",
+    "companies_count": "inga företag | 1 företag | {count} företag",
+    "contracts": "Kontrakt",
+    "contracts_count": "inga kontrakt | 1 kontrakt | {count} kontrakt",
+    "contracts_eur": "Kontrakt (EUR)",
+    "description": "Beskrivning",
+    "dismiss": "Stäng",
+    "entity_resolution": "Entitetsupplösning",
+    "entity_type": "Entitetstyp",
+    "esef": "ESEF",
+    "eu_public_procurement": "EU offentlig upphandling",
+    "filings_by_year": "Inlämningar per år",
+    "gleif": "GLEIF",
+    "image": "Bild",
+    "issues": "Problem",
+    "language": "Språk",
+    "loading": "Laddar…",
+    "loading_2": "Laddar...",
+    "loading_story": "Laddar historia...",
+    "metric": "Mått",
+    "no_data_available": "Inga data tillgängliga",
+    "no_entity_configured": "Ingen entitet konfigurerad.",
+    "nuts_level": "NUTS-nivå",
+    "per_year": "Per år",
+    "privacy": "Integritet",
+    "raise_an_issue": "Rapportera ett problem",
+    "remove": "Ta bort",
+    "retry": "Försök igen",
+    "sanctions": "Sanktioner",
+    "sign_out": "Logga ut",
+    "skip_to_main_content": "Hoppa till huvudinnehållet",
+    "ted": "TED",
+    "theme": "Tema",
+    "total_value_eur": "Totalt värde (EUR)",
+    "xbrl_field_coverage": "Täckning av XBRL-fält (%)"
+  },
+  "app_footer": {
+    "about": "Om",
+    "data_quality": "Datakvalitet",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Data från SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU offentlig upphandling)",
+    "footer": "Sidfot",
+    "sparql": "SPARQL",
+    "support": "Stöd"
+  },
+  "assist": {
+    "accept_all": "Acceptera alla",
+    "ai_assist": "AI-hjälp",
+    "ai_assistant": "AI-assistent",
+    "apply": "Tillämpa",
+    "ask_about_the_data": "Fråga om data...",
+    "clear_chat": "Rensa chatt",
+    "conversations_are_processed_by_an_eu_bas": "Samtal behandlas av en EU-baserad AI-leverantör.",
+    "embed": "Bädda in",
+    "insert_into_story": "Infoga i historia",
+    "see_our_privacy_policy": "Se vår integritetspolicy.",
+    "send": "Skicka"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kod",
+    "colour_scale": "Färgskala",
+    "coverage": "Täckning",
+    "data_slice": "Dataskiva",
+    "dataset": "Dataset",
+    "dataset_metadata": "Dataset-metadata",
+    "distribution_is_right_skewed_log_scale_r": "Fördelningen är högervriden — logaritmisk skala rekommenderas.",
+    "hide_low_coverage_datasets": "Dölj dataset med låg täckning",
+    "hide_low_coverage_years": "Dölj år med låg täckning",
+    "loading_datasets": "Laddar dataset…",
+    "lock_to_dataset_range": "Lås till datasetintervall",
+    "log_scale": "Log.skala",
+    "notes": "Anteckningar",
+    "time_unit": "Tidsenhet",
+    "updated": "Uppdaterad",
+    "value_scale": "Värdeskala"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Öppna i Atlas →"
+  },
+  "balance": {
+    "capital_structure": "Kapitalstruktur"
+  },
+  "cashflow": {
+    "cash_flow": "Kassaflöde"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Per rapporteringsår",
+    "cdp_climate_disclosure": "CDP klimatupplysning",
+    "cdp_scores_and_climate_reporting_score_d": "CDP-poäng och klimatrapportering — poängfördelning och rapporteringsår",
+    "score_distribution": "Poängfördelning"
+  },
+  "chapter_rail": {
+    "chapters": "Kapitel",
+    "story_chapters": "Historiens kapitel"
+  },
+  "company_profile": {
+    "company_not_found": "Företaget hittades inte.",
+    "company_profile": "Företagsprofil",
+    "loading_company_profile": "Laddar företagsprofil..."
+  },
+  "connectedness_d_q": {
+    "count": "Antal",
+    "degree_distribution_per_type": "Gradfördelning per typ",
+    "graph_connectedness": "Grafens sammankoppling",
+    "isolated": "Isolerad",
+    "isolated_2": "Isolerad %",
+    "max": "Max",
+    "mean": "Medel",
+    "median": "Median",
+    "min": "Min",
+    "per_type_summary": "Sammanfattning per typ"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Det gick inte att ladda upphandlingsdata.",
+    "loading_procurement_data": "Laddar upphandlingsdata...",
+    "no_eu_public_procurement_data_found_for_": "Inga EU-data för offentlig upphandling hittades för detta företag.",
+    "top_authority": "Främsta myndighet",
+    "top_sector_cpv": "Främsta sektor (CPV)",
+    "type": "Typ"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Kontraktsvärde över tid (EUR)",
+    "contract_volume_over_time": "Kontraktsvolym över tid",
+    "contracts_by_country": "Kontrakt per land",
+    "contracts_by_currency": "Kontrakt per valuta",
+    "currency_quality": "Valutakvalitet",
+    "eu_public_procurement_awards_volume_cove": "EU offentliga upphandlingstilldelningar — volym, täckning, valutakvalitet",
+    "loading_contract_data": "Laddar kontraktsdata...",
+    "missing_fields_of_contracts": "Saknade fält (% av kontrakt)",
+    "ted_contracts": "TED-kontrakt",
+    "total_eur_by_country_top_15": "Totalt EUR per land (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Acceptera",
+    "cookie_consent": "Cookie-samtycke",
+    "decline": "Avböj",
+    "learn_more": "Läs mer"
+  },
+  "data_quality": {
+    "about_this_data": "Om dessa data",
+    "all_procurement_data_is_sourced_from": "Alla upphandlingsdata kommer från",
+    "companies_with_lei": "Företag med LEI",
+    "companies_with_vat": "Företag med moms",
+    "contract_date_range": "Kontraktens datumintervall",
+    "country": "Land",
+    "cpv_code": "CPV-kod",
+    "data_freshness": "Datafräschhet",
+    "data_quality_dashboard": "Instrumentpanel för datakvalitet",
+    "failed_to_load_data_quality_metrics": "Det gick inte att ladda datakvalitetsmått.",
+    "knowledge_graph": "Kunskapsgraf",
+    "last_data_load": "Senaste dataladdning",
+    "loading_metrics": "Laddar mått...",
+    "pending_review_same_as_rarr": "Väntar på granskning (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Plattformshälsa, datatäckning och transparensmått",
+    "procurement_coverage_by_country": "Upphandlingstäckning per land",
+    "procurement_only": "Endast upphandling",
+    "relationships": "Relationer",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Främsta upphandlingssektorer (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Datafräschhet",
+    "data_quality": "Datakvalitet",
+    "latest_contract_load": "Senaste kontraktsladdning",
+    "loading_overview": "Laddar översikt..."
+  },
+  "data_view_selector": {
+    "data_view": "Datavy",
+    "gmr_long_tooltip": "Long-Term Value bedömer en aktie för långsiktig värdeinvestering med 5-årsgenomsnitt: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, nettomarginal ≥ 15 %, D/E ≤ 1,5, direktavkastning ≥ 3,5 %. Utvecklad av Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Avduplicering",
+    "same_as_queue_duplicate_entity_resolutio": "SAME_AS-kö — status för upplösning av duplicerade entiteter",
+    "use_the": "Använd"
+  },
+  "donate": {
+    "backers": "Stödjare",
+    "contribute_rarr": "Bidra &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Donationer flödar genom en ideell fiskalvärd på",
+    "open_collective": "Open Collective",
+    "support_fontem": "Stöd Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Tack till alla som håller Fontem vid liv.",
+    "where_the_money_goes": "Vart pengarna går"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC-finansrapporter — XBRL-fältens täckning och inlämningstrender",
+    "us_edgar_financials": "USA EDGAR finansdata"
+  },
+  "entity_mention": {
+    "remove_mention": "Ta bort omnämnande"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Kontrakt (antal)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Alla flaggade par har lösts.",
+    "different_entities_reject": "Olika entiteter — avvisa",
+    "entity_a": "Entitet A",
+    "entity_b": "Entitet B",
+    "failed_to_load_candidates": "Det gick inte att ladda kandidater.",
+    "keep_as_related": "Behåll som relaterad",
+    "loading_candidates": "Laddar kandidater...",
+    "merge_keep_a_b_is_removed": "Slå samman — behåll A (B tas bort)",
+    "merge_keep_b_a_is_removed": "Slå samman — behåll B (A tas bort)",
+    "no_pairs_pending_review": "Inga par väntar på granskning.",
+    "review_and_decide_on_flagged_candidates": "Granska och besluta om flaggade kandidater",
+    "why_flagged": "Varför flaggad"
+  },
+  "entity_side": {
+    "entity_details": "Entitetsdetaljer"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF finansdata",
+    "european_financial_statements_xbrl_cover": "Europeiska finansrapporter — XBRL-täckning och fördelning per land",
+    "filings_by_country": "Inlämningar per land"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Varaktighet",
+    "etl_runs": "ETL-körningar",
+    "failed": "Misslyckad",
+    "recent_cronjob_invocations_from": "Senaste CronJob-anrop från",
+    "recent_runs": "Senaste körningar",
+    "refresh": "Uppdatera",
+    "running": "Körs",
+    "started": "Startad",
+    "status": "Status:",
+    "status_2": "Status",
+    "success": "Framgång",
+    "summary": "Sammanfattning"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "EU sammanhållningspolitiska projekt — finansiering, mottagare och geografisk fördelning",
+    "eu_knowledge_graph": "EU kunskapsgraf",
+    "projects_by_country_top_15": "Projekt per land (Top 15)",
+    "projects_by_fund_top_10": "Projekt per fond (Top 10)"
+  },
+  "explore": {
+    "explore": "Utforska"
+  },
+  "feed": {
+    "clear_filter": "Rensa filter",
+    "feed": "Flöde",
+    "filtering_by": "Filtrerar efter",
+    "loading_feed": "Laddar flöde...",
+    "public_data_stories_from_the_community_n": "Offentliga datahistorier från gemenskapen, nyaste först."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Per instrumenttyp",
+    "esma_financial_instruments_reference_dat": "ESMA referensdata för finansiella instrument — ISIN-täckning, instrumenttyper, handelsplatser",
+    "firds_instruments": "FIRDS-instrument",
+    "top_trading_venues_mic": "Främsta handelsplatser (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo-utforskare"
+  },
+  "geo_choropleth": {
+    "companies": "Företag",
+    "connected_to_3": "Anslutet till (α-3)",
+    "parent_nuts_1": "Förälder NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Företag per land (Top 30)",
+    "gleif_companies": "GLEIF-företag",
+    "global_lei_directory_entity_identificati": "Global LEI-katalog — entitetsidentifiering och företagsstruktur"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Det gick inte att ladda grafen",
+    "depth": "Djup",
+    "exit_fullscreen": "Lämna helskärm",
+    "expanding_node": "Expanderar nod...",
+    "export": "Exportera",
+    "filter": "Filter…",
+    "find_path_to": "Hitta väg till",
+    "finding_paths": "Hittar vägar...",
+    "fullscreen": "Helskärm",
+    "go_to_profile": "Gå till profil",
+    "json": "JSON",
+    "loading_graph": "Laddar graf...",
+    "more_options": "Fler alternativ",
+    "no_connections_found_for_this_entity": "Inga anslutningar hittades för denna entitet.",
+    "no_paths_found_between_these_entities": "Inga vägar hittades mellan dessa entiteter.",
+    "path_to": "Väg till",
+    "period": "Period",
+    "png": "PNG",
+    "save_view": "Spara vy",
+    "search_entity_name": "Sök entitetsnamn...",
+    "set_as_center": "Ställ in som centrum",
+    "summary_edges": "Sammanfattande kanter",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Intäkter &amp; nettoresultat"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Kort sammanfattning av problemet",
+    "describe_the_issue_in_detail_markdown_su": "Beskriv problemet i detalj (Markdown stöds)",
+    "entity_id": "Entitets-ID",
+    "issue_type": "Problemtyp",
+    "title": "Titel"
+  },
+  "issue_detail": {
+    "add_a_comment": "Lägg till en kommentar...",
+    "loading_issue": "Laddar problem...",
+    "no_comments_yet": "Inga kommentarer än.",
+    "reject": "Avvisa",
+    "resolve": "Lös"
+  },
+  "issues": {
+    "loading_issues": "Laddar problem...",
+    "no_issues_found": "Inga problem hittades."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "EU-lobbyregister",
+    "lobbying_cost_distribution": "Fördelning av lobbingkostnader",
+    "registrations_over_time": "Registreringar över tid",
+    "top_countries": "Främsta länder",
+    "transparency_register_lobbyist_registrat": "Transparensregister — lobbyistregistreringar, EP-tillgång, utgifter"
+  },
+  "login": {
+    "go_to_home": "Gå till startsidan",
+    "you_already_have_an_active_session": "Du har redan en aktiv session.",
+    "youre_signed_in": "Du är inloggad"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Entitetsomnämnanden",
+    "searching": "Söker…"
+  },
+  "moderation": {
+    "flagged_content": "Flaggat innehåll",
+    "moderation": "Moderering",
+    "moderation_log": "Modereringslogg",
+    "no_flagged_content": "Inget flaggat innehåll.",
+    "no_moderation_actions_yet": "Inga modereringsåtgärder än.",
+    "review_flagged_content_and_moderation_hi": "Granska flaggat innehåll och modereringshistorik"
+  },
+  "multi_select": {
+    "none": "Inga"
+  },
+  "my_reports": {
+    "loading_stories": "Laddar historier...",
+    "my_stories": "Mina historier",
+    "no_stories_yet_start_your_first_one_abov": "Inga historier än. Börja den första ovanför.",
+    "or_read_recent_public_stories": "Eller läs senaste offentliga historier →"
+  },
+  "not_found": {
+    "back_to_home": "Tillbaka till start",
+    "page_not_found": "Sidan hittades inte",
+    "the_page_youre_looking_for_doesnt_exist_": "Sidan du söker finns inte eller har flyttats."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Eurostat NUTS-klassificering — geografisk täckning av företag och myndigheter",
+    "nuts_regions": "NUTS-regioner",
+    "regions_by_level": "Regioner per nivå",
+    "top_nuts_0_regions_by_company_count": "Främsta NUTS 0-regioner per företagsantal"
+  },
+  "overview_d_q": {
+    "cohesion": "Sammanhållning",
+    "country_code_consistency": "Konsekvens av landskoder",
+    "cross_source_overlap": "Källöverlapp",
+    "cross_source_overlap_country_code_consis": "Källöverlapp, konsekvens av landskoder och fältens fullständighet i alla källor",
+    "data_quality_overview": "Datakvalitetsöversikt",
+    "listings": "Noteringar",
+    "lobby": "Lobbing",
+    "top_alpha_2_codes": "Främsta Alpha-2-koder"
+  },
+  "pocket_button": {
+    "save": "Spara",
+    "save_to_pocket": "Spara till Pocket"
+  },
+  "preferences_menu": {
+    "account": "Konto",
+    "ai_usage": "AI-användning",
+    "atlas_palette": "Atlas-palett",
+    "display": "Visning",
+    "preferences": "Inställningar"
+  },
+  "privacy": {
+    "access": "Tillgång",
+    "all_data_in_the_fontem_knowledge_graph_r": "All data i Fontem-kunskapsgrafen avser",
+    "conversation_processing_is_performed_by_": "Bearbetning av samtal utförs av EU-baserade AI-leverantörer.",
+    "conversations_are_automatically_deleted_": "Samtal raderas automatiskt efter 90 dagar.",
+    "erase": "Radering",
+    "eu_consolidated_sanctions_list": "EU:s konsoliderade sanktionslista",
+    "eu_transparency_register": "EU-transparensregister",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Senast uppdaterad: april 2026",
+    "legal_basis": "Rättslig grund:",
+    "no_personal_data_of_individuals_is_store": "Inga personuppgifter om individer lagras i kunskapsgrafen.",
+    "port": "Portabilitet",
+    "privacy_policy": "Integritetspolicy",
+    "rectify": "Rättelse",
+    "to_exercise_any_of_these_rights_contact_": "För att utöva någon av dessa rättigheter, kontakta oss på",
+    "under_the_gdpr_you_have_the_right_to": "Enligt GDPR har du rätt till:",
+    "when_you_sign_in_we_collect_and_store": "När du loggar in samlar vi in och lagrar:",
+    "your": "Dina"
+  },
+  "profile": {
+    "avg_net_margin": "Genomsnittlig nettomarginal",
+    "avg_roe": "Genomsnittlig ROE",
+    "corporate_group": "Företagsgrupp",
+    "current_price": "Aktuellt pris",
+    "directors_amp_officers": "Direktörer &amp; chefer",
+    "financial_overview": "Finansiell översikt",
+    "market_cap": "Börsvärde",
+    "part_of": "Del av"
+  },
+  "public_spending": {
+    "public_spending": "Offentliga utgifter"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Karusellposition",
+    "recently_published_data_stories": "Nyligen publicerade datahistorier"
+  },
+  "report": {
+    "edit": "Redigera"
+  },
+  "report_editor": {
+    "brief_abstract": "Kort sammanfattning...",
+    "private_only_me": "Privat — endast jag",
+    "public_anyone": "Offentlig — vem som helst",
+    "signed_in_users": "Inloggade användare",
+    "story_title": "Historiens titel"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sanktionerade entiteter — personer, organisationer, regimtäckning och företagsmatchning",
+    "top_sanction_regimes": "Främsta sanktionsregimer"
+  },
+  "share": {
+    "add": "Lägg till",
+    "add_group": "Lägg till grupp",
+    "add_person": "Lägg till person",
+    "collaborators": "Medarbetare",
+    "email_address": "E-postadress",
+    "group_name": "Gruppnamn",
+    "no_collaborators_yet": "Inga medarbetare än.",
+    "share_story": "Dela historia",
+    "visibility": "Synlighet"
+  },
+  "sparql": {
+    "endpoint": "Ändpunkt",
+    "endpoint_url": "Ändpunkts-URL",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Gränser",
+    "method": "Metod",
+    "post": "POST",
+    "query_failed": "Frågan misslyckades:",
+    "response": "Svar",
+    "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkuvert:",
+    "sparql_endpoint": "SPARQL-ändpunkt",
+    "try_a_query": "Prova en fråga"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Blockcitat",
+    "bold_b": "Fet (⌘B)",
+    "bullet_list": "Punktlista",
+    "code_block": "Kodblock",
+    "divider": "Avdelare",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Rubrik 1",
+    "heading_2": "Rubrik 2",
+    "heading_3": "Rubrik 3",
+    "inline_code": "Inline-kod",
+    "italic_i": "Kursiv (⌘I)",
+    "link": "Länk",
+    "numbered_list": "Numrerad lista",
+    "strikethrough": "Genomstruken",
+    "table": "Tabell",
+    "underline_u": "Understruken (⌘U)",
+    "widget_from_pocket": "Widget från Pocket"
+  },
+  "summary": {
+    "vol": "Vol."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Ta bort vänsterkolumnen"
+  },
+  "tag_editor": {
+    "tags": "Etiketter"
+  },
+  "ticker_card": {
+    "authority": "Myndighet",
+    "company": "Företag",
+    "person": "Person"
+  },
+  "ticker_financials": {
+    "close_financials": "Stäng finanser",
+    "history": "Historik",
+    "taking_longer_than_expected": "Tar längre tid än förväntat…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Inga tickers hittades för &ldquo;",
+    "search_companies_public_entities_lobbyis": "Sök företag, offentliga entiteter, lobbyister…",
+    "search_results": "Sökresultat",
+    "search_the_knowledge_graph": "Sök i kunskapsgrafen"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Materialiserade myndighet-företag handelsrelationer från kontrakt",
+    "trade_edges": "Handelskanter",
+    "trade_edges_are_materialized_from_contra": "Handelskanter materialiseras från kontraktsdata. Kör"
+  },
+  "triples_d_q": {
+    "chart_view": "Diagramvy",
+    "click_a_graph_to_inspect_its_class_and_p": "Klicka på en graf för att inspektera dess klass- och predikatfördelning.",
+    "no": "Nej",
+    "no_triples_in_this_graph": "Inga trippel i denna graf.",
+    "top_classes": "Främsta klasser",
+    "top_predicates": "Främsta predikat",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Trippel per namngiven graf",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso är inte konfigurerat i denna miljö",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Genomsnitt"
+  },
+  "widget_node": {
+    "remove_widget": "Ta bort widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Okänd widgettyp:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
