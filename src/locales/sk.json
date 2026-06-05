@@ -1,1 +1,560 @@
-{}
+{
+  "a_i_usage": {
+    "ai_usage_metrics": "Metriky využitia AI",
+    "last_24_h": "Posledných 24 h",
+    "last_7_days": "Posledných 7 dní",
+    "last_hour": "Posledná hodina"
+  },
+  "about": {
+    "a_45_second_tour": "45-sekundová prehliadka",
+    "how_it_works": "Ako to funguje",
+    "recently_published": "Nedávno zverejnené",
+    "see_all_public_data_stories": "Pozri všetky verejné dátové príbehy →",
+    "try": "Skús:",
+    "walkthrough_searching_a_company_explorin": "Sprievodca: vyhľadávanie firmy, preskúmanie verejného obstarávania a zverejnenie dátového príbehu"
+  },
+  "activity": {
+    "loading_activity": "Načítava sa aktivita...",
+    "sign_in": "Prihlásiť sa",
+    "sign_in_to_see_your_activity": "Prihlás sa, aby si videl svoju aktivitu."
+  },
+  "admin": {
+    "operational_tools_architecture_docs_and_": "Prevádzkové nástroje, architektonické dokumenty a stav platformy"
+  },
+  "app": {
+    "activity": "Aktivita",
+    "admin": "Správa",
+    "all": "Všetky",
+    "cancel": "Zrušiť",
+    "clear": "Vymazať",
+    "close": "Zatvoriť",
+    "companies_count": "žiadne firmy | 1 firma | {count} firiem",
+    "contracts": "Zmluvy",
+    "contracts_count": "žiadne zmluvy | 1 zmluva | {count} zmlúv",
+    "contracts_eur": "Zmluvy (EUR)",
+    "description": "Popis",
+    "dismiss": "Zatvoriť",
+    "entity_resolution": "Rozlišovanie entít",
+    "entity_type": "Typ entity",
+    "esef": "ESEF",
+    "eu_public_procurement": "Verejné obstarávanie EÚ",
+    "filings_by_year": "Podania podľa rokov",
+    "gleif": "GLEIF",
+    "image": "Obrázok",
+    "issues": "Problémy",
+    "language": "Jazyk",
+    "loading": "Načítava sa…",
+    "loading_2": "Načítava sa...",
+    "loading_story": "Načítava sa príbeh...",
+    "metric": "Metrika",
+    "no_data_available": "Žiadne dostupné údaje",
+    "no_entity_configured": "Žiadna entita nie je nakonfigurovaná.",
+    "nuts_level": "Úroveň NUTS",
+    "per_year": "Ročne",
+    "privacy": "Súkromie",
+    "raise_an_issue": "Nahlásiť problém",
+    "remove": "Odstrániť",
+    "retry": "Skúsiť znova",
+    "sanctions": "Sankcie",
+    "sign_out": "Odhlásiť sa",
+    "skip_to_main_content": "Prejsť na hlavný obsah",
+    "ted": "TED",
+    "theme": "Téma",
+    "total_value_eur": "Celková hodnota (EUR)",
+    "xbrl_field_coverage": "Pokrytie polí XBRL (%)"
+  },
+  "app_footer": {
+    "about": "O projekte",
+    "data_quality": "Kvalita údajov",
+    "data_sourced_from_sec_edgar_esma_esef_gl": "Údaje pochádzajú zo SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Verejné obstarávanie EÚ)",
+    "footer": "Päta",
+    "sparql": "SPARQL",
+    "support": "Podpor"
+  },
+  "assist": {
+    "accept_all": "Prijať všetko",
+    "ai_assist": "AI pomocník",
+    "ai_assistant": "AI asistent",
+    "apply": "Použiť",
+    "ask_about_the_data": "Opýtaj sa na údaje...",
+    "clear_chat": "Vymazať rozhovor",
+    "conversations_are_processed_by_an_eu_bas": "Rozhovory spracováva poskytovateľ AI so sídlom v EÚ.",
+    "embed": "Vložiť",
+    "insert_into_story": "Vložiť do príbehu",
+    "see_our_privacy_policy": "Pozri naše zásady ochrany súkromia.",
+    "send": "Odoslať"
+  },
+  "atlas": {
+    "atlas": "Atlas",
+    "code": "Kód",
+    "colour_scale": "Farebná škála",
+    "coverage": "Pokrytie",
+    "data_slice": "Dátový rez",
+    "dataset": "Dátová sada",
+    "dataset_metadata": "Metadáta dátovej sady",
+    "distribution_is_right_skewed_log_scale_r": "Rozdelenie je sklonené doprava — odporúča sa logaritmická škála.",
+    "hide_low_coverage_datasets": "Skryť sady s nízkym pokrytím",
+    "hide_low_coverage_years": "Skryť roky s nízkym pokrytím",
+    "loading_datasets": "Načítavajú sa dátové sady…",
+    "lock_to_dataset_range": "Uzamknúť na rozsah sady",
+    "log_scale": "Log. škála",
+    "notes": "Poznámky",
+    "time_unit": "Časová jednotka",
+    "updated": "Aktualizované",
+    "value_scale": "Hodnotová škála"
+  },
+  "atlas_map_embed": {
+    "open_in_atlas": "Otvoriť v Atlase →"
+  },
+  "balance": {
+    "capital_structure": "Kapitálová štruktúra"
+  },
+  "cashflow": {
+    "cash_flow": "Peňažný tok"
+  },
+  "cdp_d_q": {
+    "by_reporting_year": "Podľa roka vykazovania",
+    "cdp_climate_disclosure": "CDP klimatické zverejňovanie",
+    "cdp_scores_and_climate_reporting_score_d": "CDP skóre a klimatické správy — rozdelenie skóre a roky vykazovania",
+    "score_distribution": "Rozdelenie skóre"
+  },
+  "chapter_rail": {
+    "chapters": "Kapitoly",
+    "story_chapters": "Kapitoly príbehu"
+  },
+  "company_profile": {
+    "company_not_found": "Firma sa nenašla.",
+    "company_profile": "Profil firmy",
+    "loading_company_profile": "Načítava sa profil firmy..."
+  },
+  "connectedness_d_q": {
+    "count": "Počet",
+    "degree_distribution_per_type": "Rozdelenie stupňa podľa typu",
+    "graph_connectedness": "Súvislosť grafu",
+    "isolated": "Izolované",
+    "isolated_2": "Izolované %",
+    "max": "Max",
+    "mean": "Priemer",
+    "median": "Medián",
+    "min": "Min",
+    "per_type_summary": "Zhrnutie podľa typu"
+  },
+  "contracts": {
+    "cpv": "CPV",
+    "failed_to_load_procurement_data": "Načítanie údajov o obstarávaní zlyhalo.",
+    "loading_procurement_data": "Načítavajú sa údaje o obstarávaní...",
+    "no_eu_public_procurement_data_found_for_": "Pre túto firmu sa nenašli údaje o verejnom obstarávaní EÚ.",
+    "top_authority": "Hlavný obstarávateľ",
+    "top_sector_cpv": "Hlavný sektor (CPV)",
+    "type": "Typ"
+  },
+  "contracts_d_q": {
+    "contract_value_over_time_eur": "Hodnota zmlúv v čase (EUR)",
+    "contract_volume_over_time": "Objem zmlúv v čase",
+    "contracts_by_country": "Zmluvy podľa krajiny",
+    "contracts_by_currency": "Zmluvy podľa meny",
+    "currency_quality": "Kvalita meny",
+    "eu_public_procurement_awards_volume_cove": "Zákazky verejného obstarávania EÚ — objem, pokrytie, kvalita meny",
+    "loading_contract_data": "Načítavajú sa údaje o zmluvách...",
+    "missing_fields_of_contracts": "Chýbajúce polia (% zo zmlúv)",
+    "ted_contracts": "TED zmluvy",
+    "total_eur_by_country_top_15": "Spolu EUR podľa krajiny (Top 15)"
+  },
+  "cookie_consent_banner": {
+    "accept": "Prijať",
+    "cookie_consent": "Súhlas s cookies",
+    "decline": "Odmietnuť",
+    "learn_more": "Zisti viac"
+  },
+  "data_quality": {
+    "about_this_data": "O týchto údajoch",
+    "all_procurement_data_is_sourced_from": "Všetky údaje o obstarávaní pochádzajú z",
+    "companies_with_lei": "Firmy s LEI",
+    "companies_with_vat": "Firmy s DIČ",
+    "contract_date_range": "Rozsah dátumov zmlúv",
+    "country": "Krajina",
+    "cpv_code": "CPV kód",
+    "data_freshness": "Aktuálnosť údajov",
+    "data_quality_dashboard": "Panel kvality údajov",
+    "failed_to_load_data_quality_metrics": "Načítanie metrík kvality údajov zlyhalo.",
+    "knowledge_graph": "Znalostný graf",
+    "last_data_load": "Posledné načítanie údajov",
+    "loading_metrics": "Načítavajú sa metriky...",
+    "pending_review_same_as_rarr": "Čaká na kontrolu (SAME_AS) &rarr;",
+    "platform_health_data_coverage_and_transp": "Stav platformy, pokrytie údajov a metriky transparentnosti",
+    "procurement_coverage_by_country": "Pokrytie obstarávania podľa krajiny",
+    "procurement_only": "Iba obstarávanie",
+    "relationships": "Vzťahy",
+    "sec_edgar": "SEC EDGAR",
+    "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
+    "top_procurement_sectors_cpv": "Hlavné sektory obstarávania (CPV)"
+  },
+  "data_quality_hub": {
+    "data_freshness": "Aktuálnosť údajov",
+    "data_quality": "Kvalita údajov",
+    "latest_contract_load": "Posledné načítanie zmlúv",
+    "loading_overview": "Načítava sa prehľad..."
+  },
+  "data_view_selector": {
+    "data_view": "Zobrazenie údajov",
+    "gmr_long_tooltip": "Long-Term Value hodnotí akciu pre dlhodobé hodnotové investovanie pomocou 5-ročných priemerov: P/E ≤ 15, P/B ≤ 1,5, ROE ≥ 15 %, čistá marža ≥ 15 %, D/E ≤ 1,5, dividendový výnos ≥ 3,5 %. Vyvinul Gonçalo Martins Rato."
+  },
+  "dedup_d_q": {
+    "deduplication": "Odstránenie duplikátov",
+    "same_as_queue_duplicate_entity_resolutio": "Front SAME_AS — stav rozlišovania duplikátnych entít",
+    "use_the": "Použi"
+  },
+  "donate": {
+    "backers": "Podporovatelia",
+    "contribute_rarr": "Prispej &rarr;",
+    "donations_flow_through_a_fiscal_host_non": "Dary plynú cez neziskového fiškálneho hostiteľa na",
+    "open_collective": "Open Collective",
+    "support_fontem": "Podporte Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Vďaka všetkým, ktorí udržiavajú Fontem nažive.",
+    "where_the_money_goes": "Kam peniaze idú"
+  },
+  "edgar_d_q": {
+    "sec_financial_statements_xbrl_field_cove": "SEC finančné výkazy — pokrytie polí XBRL a trendy podaní",
+    "us_edgar_financials": "Finančné údaje US EDGAR"
+  },
+  "entity_mention": {
+    "remove_mention": "Odstrániť zmienku"
+  },
+  "entity_nuts_map": {
+    "contracts_count": "Zmluvy (počet)"
+  },
+  "entity_resolution": {
+    "all_flagged_pairs_have_been_resolved": "Všetky označené páry boli vyriešené.",
+    "different_entities_reject": "Rôzne entity — odmietnuť",
+    "entity_a": "Entita A",
+    "entity_b": "Entita B",
+    "failed_to_load_candidates": "Načítanie kandidátov zlyhalo.",
+    "keep_as_related": "Ponechať ako súvisiace",
+    "loading_candidates": "Načítavajú sa kandidáti...",
+    "merge_keep_a_b_is_removed": "Zlúčiť — ponechať A (B sa odstráni)",
+    "merge_keep_b_a_is_removed": "Zlúčiť — ponechať B (A sa odstráni)",
+    "no_pairs_pending_review": "Žiadne páry nečakajú na kontrolu.",
+    "review_and_decide_on_flagged_candidates": "Skontroluj označených kandidátov a rozhodni",
+    "why_flagged": "Prečo označené"
+  },
+  "entity_side": {
+    "entity_details": "Podrobnosti o entite"
+  },
+  "esef_d_q": {
+    "eu_esef_financials": "EU ESEF finančné údaje",
+    "european_financial_statements_xbrl_cover": "Európske finančné výkazy — XBRL pokrytie a rozdelenie podľa krajín",
+    "filings_by_country": "Podania podľa krajiny"
+  },
+  "etl_runs_d_q": {
+    "cronjob": "CronJob",
+    "duration": "Trvanie",
+    "etl_runs": "ETL spustenia",
+    "failed": "Zlyhalo",
+    "recent_cronjob_invocations_from": "Nedávne volania CronJob z",
+    "recent_runs": "Nedávne spustenia",
+    "refresh": "Obnoviť",
+    "running": "Beží",
+    "started": "Začalo sa",
+    "status": "Stav:",
+    "status_2": "Stav",
+    "success": "Úspech",
+    "summary": "Zhrnutie"
+  },
+  "eu_knowledge_graph_d_q": {
+    "eu_cohesion_policy_projects_funding_bene": "Projekty kohéznej politiky EÚ — financovanie, prijímatelia a geografické rozdelenie",
+    "eu_knowledge_graph": "Znalostný graf EÚ",
+    "projects_by_country_top_15": "Projekty podľa krajiny (Top 15)",
+    "projects_by_fund_top_10": "Projekty podľa fondu (Top 10)"
+  },
+  "explore": {
+    "explore": "Preskúmať"
+  },
+  "feed": {
+    "clear_filter": "Vymazať filter",
+    "feed": "Feed",
+    "filtering_by": "Filtruje sa podľa",
+    "loading_feed": "Načítava sa feed...",
+    "public_data_stories_from_the_community_n": "Verejné dátové príbehy z komunity, najnovšie prvé."
+  },
+  "firds_d_q": {
+    "by_instrument_type": "Podľa typu nástroja",
+    "esma_financial_instruments_reference_dat": "Referenčné údaje finančných nástrojov ESMA — pokrytie ISIN, typy nástrojov, miesta obchodovania",
+    "firds_instruments": "FIRDS nástroje",
+    "top_trading_venues_mic": "Hlavné miesta obchodovania (MIC)"
+  },
+  "geo": {
+    "geo_explorer": "Geo prieskumník"
+  },
+  "geo_choropleth": {
+    "companies": "Firmy",
+    "connected_to_3": "Spojené s (α-3)",
+    "parent_nuts_1": "Rodičovský NUTS 1"
+  },
+  "gleif_d_q": {
+    "companies_by_country_top_30": "Firmy podľa krajiny (Top 30)",
+    "gleif_companies": "GLEIF firmy",
+    "global_lei_directory_entity_identificati": "Globálny LEI adresár — identifikácia entít a firemná štruktúra"
+  },
+  "graph_explorer": {
+    "couldnt_load_the_graph": "Graf sa nepodarilo načítať",
+    "depth": "Hĺbka",
+    "exit_fullscreen": "Ukončiť celú obrazovku",
+    "expanding_node": "Rozširuje sa uzol...",
+    "export": "Export",
+    "filter": "Filter…",
+    "find_path_to": "Nájsť cestu k",
+    "finding_paths": "Hľadajú sa cesty...",
+    "fullscreen": "Celá obrazovka",
+    "go_to_profile": "Prejsť na profil",
+    "json": "JSON",
+    "loading_graph": "Načítava sa graf...",
+    "more_options": "Viac možností",
+    "no_connections_found_for_this_entity": "Pre túto entitu sa nenašli žiadne spojenia.",
+    "no_paths_found_between_these_entities": "Medzi týmito entitami sa nenašli žiadne cesty.",
+    "path_to": "Cesta k",
+    "period": "Obdobie",
+    "png": "PNG",
+    "save_view": "Uložiť pohľad",
+    "search_entity_name": "Hľadať názov entity...",
+    "set_as_center": "Nastaviť ako stred",
+    "summary_edges": "Súhrnné hrany",
+    "svg": "SVG"
+  },
+  "income": {
+    "revenue_amp_net_income": "Príjmy &amp; čistý zisk"
+  },
+  "issue_create": {
+    "brief_summary_of_the_issue": "Stručné zhrnutie problému",
+    "describe_the_issue_in_detail_markdown_su": "Opíš problém podrobne (Markdown podporovaný)",
+    "entity_id": "ID entity",
+    "issue_type": "Typ problému",
+    "title": "Názov"
+  },
+  "issue_detail": {
+    "add_a_comment": "Pridať komentár...",
+    "loading_issue": "Načítava sa problém...",
+    "no_comments_yet": "Zatiaľ žiadne komentáre.",
+    "reject": "Odmietnuť",
+    "resolve": "Vyriešiť"
+  },
+  "issues": {
+    "loading_issues": "Načítavajú sa problémy...",
+    "no_issues_found": "Nenašli sa žiadne problémy."
+  },
+  "lobbying_d_q": {
+    "eu_lobbying_register": "Register lobistov EÚ",
+    "lobbying_cost_distribution": "Rozdelenie nákladov na lobing",
+    "registrations_over_time": "Registrácie v čase",
+    "top_countries": "Hlavné krajiny",
+    "transparency_register_lobbyist_registrat": "Register transparentnosti — registrácie lobistov, prístup EP, výdavky"
+  },
+  "login": {
+    "go_to_home": "Prejsť na domovskú stránku",
+    "you_already_have_an_active_session": "Už máš aktívnu reláciu.",
+    "youre_signed_in": "Si prihlásený/á"
+  },
+  "mention_autocomplete": {
+    "entity_mentions": "Zmienky entít",
+    "searching": "Vyhľadáva sa…"
+  },
+  "moderation": {
+    "flagged_content": "Označený obsah",
+    "moderation": "Moderovanie",
+    "moderation_log": "Záznam moderovania",
+    "no_flagged_content": "Žiadny označený obsah.",
+    "no_moderation_actions_yet": "Zatiaľ žiadne moderátorské akcie.",
+    "review_flagged_content_and_moderation_hi": "Skontroluj označený obsah a históriu moderovania"
+  },
+  "multi_select": {
+    "none": "Žiadne"
+  },
+  "my_reports": {
+    "loading_stories": "Načítavajú sa príbehy...",
+    "my_stories": "Moje príbehy",
+    "no_stories_yet_start_your_first_one_abov": "Zatiaľ žiadne príbehy. Začni prvý vyššie.",
+    "or_read_recent_public_stories": "Alebo si prečítaj nedávne verejné príbehy →"
+  },
+  "not_found": {
+    "back_to_home": "Späť na domovskú stránku",
+    "page_not_found": "Stránka sa nenašla",
+    "the_page_youre_looking_for_doesnt_exist_": "Hľadaná stránka neexistuje alebo bola presunutá."
+  },
+  "nuts_d_q": {
+    "eurostat_nuts_classification_geographic_": "Klasifikácia NUTS Eurostatu — geografické pokrytie firiem a úradov",
+    "nuts_regions": "Regióny NUTS",
+    "regions_by_level": "Regióny podľa úrovne",
+    "top_nuts_0_regions_by_company_count": "Hlavné regióny NUTS 0 podľa počtu firiem"
+  },
+  "overview_d_q": {
+    "cohesion": "Súdržnosť",
+    "country_code_consistency": "Konzistentnosť kódov krajín",
+    "cross_source_overlap": "Prekrývanie zdrojov",
+    "cross_source_overlap_country_code_consis": "Prekrývanie zdrojov, konzistentnosť kódov krajín a úplnosť polí vo všetkých zdrojoch",
+    "data_quality_overview": "Prehľad kvality údajov",
+    "listings": "Listingy",
+    "lobby": "Lobing",
+    "top_alpha_2_codes": "Hlavné Alpha-2 kódy"
+  },
+  "pocket_button": {
+    "save": "Uložiť",
+    "save_to_pocket": "Uložiť do Pocket"
+  },
+  "preferences_menu": {
+    "account": "Účet",
+    "ai_usage": "Využitie AI",
+    "atlas_palette": "Paleta Atlas",
+    "display": "Zobrazenie",
+    "preferences": "Predvoľby"
+  },
+  "privacy": {
+    "access": "Prístup",
+    "all_data_in_the_fontem_knowledge_graph_r": "Všetky údaje v znalostnom grafe Fontem sa týkajú",
+    "conversation_processing_is_performed_by_": "Spracovanie rozhovorov vykonávajú poskytovatelia AI so sídlom v EÚ.",
+    "conversations_are_automatically_deleted_": "Rozhovory sa automaticky vymažú po 90 dňoch.",
+    "erase": "Vymazanie",
+    "eu_consolidated_sanctions_list": "Konsolidovaný zoznam sankcií EÚ",
+    "eu_transparency_register": "Register transparentnosti EÚ",
+    "kohesio": "Kohesio",
+    "last_updated_april_2026": "Posledná aktualizácia: apríl 2026",
+    "legal_basis": "Právny základ:",
+    "no_personal_data_of_individuals_is_store": "V znalostnom grafe sa nenachádzajú žiadne osobné údaje fyzických osôb.",
+    "port": "Prenosnosť",
+    "privacy_policy": "Zásady ochrany súkromia",
+    "rectify": "Oprava",
+    "to_exercise_any_of_these_rights_contact_": "Na uplatnenie ktoréhokoľvek z týchto práv nás kontaktuj na",
+    "under_the_gdpr_you_have_the_right_to": "Podľa GDPR máš právo:",
+    "when_you_sign_in_we_collect_and_store": "Pri prihlásení zhromažďujeme a ukladáme:",
+    "your": "Tvoje"
+  },
+  "profile": {
+    "avg_net_margin": "Priemerná čistá marža",
+    "avg_roe": "Priemerný ROE",
+    "corporate_group": "Firemná skupina",
+    "current_price": "Aktuálna cena",
+    "directors_amp_officers": "Riaditelia &amp; vedenie",
+    "financial_overview": "Finančný prehľad",
+    "market_cap": "Trhová kapitalizácia",
+    "part_of": "Súčasť"
+  },
+  "public_spending": {
+    "public_spending": "Verejné výdavky"
+  },
+  "recently_published_carousel": {
+    "carousel_position": "Pozícia v karuseli",
+    "recently_published_data_stories": "Nedávno zverejnené dátové príbehy"
+  },
+  "report": {
+    "edit": "Upraviť"
+  },
+  "report_editor": {
+    "brief_abstract": "Krátky abstrakt...",
+    "private_only_me": "Súkromné — iba ja",
+    "public_anyone": "Verejné — ktokoľvek",
+    "signed_in_users": "Prihlásení používatelia",
+    "story_title": "Názov príbehu"
+  },
+  "sanctions_d_q": {
+    "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizácie, pokrytie režimu a zhody firiem",
+    "top_sanction_regimes": "Hlavné sankčné režimy"
+  },
+  "share": {
+    "add": "Pridať",
+    "add_group": "Pridať skupinu",
+    "add_person": "Pridať osobu",
+    "collaborators": "Spolupracovníci",
+    "email_address": "E-mailová adresa",
+    "group_name": "Názov skupiny",
+    "no_collaborators_yet": "Zatiaľ žiadni spolupracovníci.",
+    "share_story": "Zdieľať príbeh",
+    "visibility": "Viditeľnosť"
+  },
+  "sparql": {
+    "endpoint": "Koncový bod",
+    "endpoint_url": "URL koncového bodu",
+    "get_apisparql": "GET /api/sparql",
+    "limits": "Limity",
+    "method": "Metóda",
+    "post": "POST",
+    "query_failed": "Dopyt zlyhal:",
+    "response": "Odpoveď",
+    "sparql_11_json_results_envelope": "Obálka výsledkov SPARQL 1.1 JSON:",
+    "sparql_endpoint": "SPARQL koncový bod",
+    "try_a_query": "Vyskúšaj dopyt"
+  },
+  "story_editor_toolbar": {
+    "blockquote": "Blokový citát",
+    "bold_b": "Tučné (⌘B)",
+    "bullet_list": "Odrážkový zoznam",
+    "code_block": "Blok kódu",
+    "divider": "Oddeľovač",
+    "h1": "H1",
+    "h2": "H2",
+    "h3": "H3",
+    "heading_1": "Nadpis 1",
+    "heading_2": "Nadpis 2",
+    "heading_3": "Nadpis 3",
+    "inline_code": "Vsadený kód",
+    "italic_i": "Kurzíva (⌘I)",
+    "link": "Odkaz",
+    "numbered_list": "Číslovaný zoznam",
+    "strikethrough": "Prečiarknuté",
+    "table": "Tabuľka",
+    "underline_u": "Podčiarknuté (⌘U)",
+    "widget_from_pocket": "Widget z Pocketu"
+  },
+  "summary": {
+    "vol": "Obj."
+  },
+  "table_controls_overlay": {
+    "remove_column_to_the_left": "Odstrániť ľavý stĺpec"
+  },
+  "tag_editor": {
+    "tags": "Štítky"
+  },
+  "ticker_card": {
+    "authority": "Úrad",
+    "company": "Firma",
+    "person": "Osoba"
+  },
+  "ticker_financials": {
+    "close_financials": "Zatvoriť financie",
+    "history": "História",
+    "taking_longer_than_expected": "Trvá dlhšie, než sa očakávalo…"
+  },
+  "ticker_search": {
+    "no_tickers_found_for_ldquo": "Pre &ldquo; sa nenašli žiadne tickery",
+    "search_companies_public_entities_lobbyis": "Hľadaj firmy, verejné entity, lobistov…",
+    "search_results": "Výsledky vyhľadávania",
+    "search_the_knowledge_graph": "Hľadaj v znalostnom grafe"
+  },
+  "trade_edges_d_q": {
+    "materialized_authority_company_trade_rel": "Obchodné vzťahy úrad-firma materializované zo zmlúv",
+    "trade_edges": "Obchodné hrany",
+    "trade_edges_are_materialized_from_contra": "Obchodné hrany sa materializujú z údajov o zmluvách. Spusti"
+  },
+  "triples_d_q": {
+    "chart_view": "Pohľad grafu",
+    "click_a_graph_to_inspect_its_class_and_p": "Kliknutím na graf zobrazíš jeho rozdelenie tried a predikátov.",
+    "no": "Nie",
+    "no_triples_in_this_graph": "V tomto grafe nie sú žiadne trojice.",
+    "top_classes": "Hlavné triedy",
+    "top_predicates": "Hlavné predikáty",
+    "triple_store": "Triple store",
+    "triples_per_named_graph": "Trojice na pomenovaný graf",
+    "virtuoso_not_configured_in_this_environm": "Virtuoso nie je nakonfigurované v tomto prostredí",
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+  },
+  "valuation": {
+    "averages": "Priemery"
+  },
+  "widget_node": {
+    "remove_widget": "Odstrániť widget"
+  },
+  "widget_renderer": {
+    "unknown_widget_type": "Neznámy typ widgetu:"
+  },
+  "wordmark": {
+    "fon": "Fon",
+    "fontem": "Fontem"
+  }
+}
