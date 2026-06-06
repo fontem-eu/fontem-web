@@ -191,5 +191,10 @@ export function createFontemApp(ssr = false) {
   const i18n = createFontemI18n()
   app.use(router)
   app.use(i18n)
+  // Expose the full i18n instance via provide so App.vue can hand it
+  // to useLang's init() — `globalProperties.$i18n` is a wrapper that
+  // only exposes the read-only display props (locale, t, n, d), not
+  // setLocaleMessage / global, which are what activateLocale needs.
+  app.provide('fontem-i18n', i18n)
   return { app, router, i18n }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, getCurrentInstance, onMounted } from 'vue'
+import { computed, inject, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
@@ -13,14 +13,14 @@ import I18nPluralProbe from './components/I18nPluralProbe.vue'
 
 const { init: initTheme } = useTheme()
 const { init: initLang } = useLang()
-// Sync the reactive refs with whatever the anti-FOUC scripts set on <html>
-// Grab the i18n instance from app context so initLang can wire the
-// locale-swap bridge. Doing it here (not at module scope) keeps SSR
-// safe — entry-server.js never reaches this onMounted.
+// Resolve the i18n instance now (in setup) — must come from the
+// `fontem-i18n` provide we set in app.js. globalProperties.$i18n is
+// a property-wrapper without `.global` / `setLocaleMessage`, which
+// is what activateLocale needs when a locale is lazy-loaded.
+const fontemI18n = inject('fontem-i18n', null)
 onMounted(() => {
   initTheme()
-  const i18n = getCurrentInstance()?.appContext.config.globalProperties.$i18n
-  initLang(i18n)
+  initLang(fontemI18n)
 })
 
 // Horizontal swipe between Home / Feed / My Reports on mobile.
