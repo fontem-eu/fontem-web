@@ -276,7 +276,7 @@ async function save() {
     <!-- Header -->
     <div class="editor-header">
       <router-link to="/my-stories" class="back-link" data-testid="back-to-my-stories">
-        &larr; My Stories
+        {{ $t('nav.back_my_stories') }}
       </router-link>
       <div class="header-actions">
         <select v-model="visibility" class="visibility-select" data-testid="visibility-select">

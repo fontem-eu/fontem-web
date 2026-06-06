@@ -8,7 +8,7 @@ const { isDark, toggle } = useTheme()
   <button
     type="button"
     class="gmr-toggle"
-    :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+    :aria-label="isDark ? $t('theme.switch_to_light') : $t('theme.switch_to_dark')"
     :aria-pressed="isDark"
     @click="toggle"
   >

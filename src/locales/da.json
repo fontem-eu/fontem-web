@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "En 45-sekunders rundtur",
+    "hero_lead": "En åben videnskaft, der forbinder EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering.",
     "how_it_works": "Sådan virker det",
     "recently_published": "Senest udgivet",
     "see_all_public_data_stories": "Se alle offentlige datafortællinger →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Indlæser aktivitet...",
+    "no_activity_yet": "Ingen aktivitet endnu. Start ved at udforske grafen eller oprette en datahistorie.",
     "sign_in": "Log ind",
     "sign_in_to_see_your_activity": "Log ind for at se din aktivitet."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktivitet",
     "admin": "Admin",
     "all": "Alle",
+    "anonymous": "Anonym",
+    "applied": "Anvendt",
+    "applied_auto": "Anvendt automatisk",
     "cancel": "Annullér",
     "clear": "Ryd",
+    "clearing": "Rydder…",
     "close": "Luk",
     "companies_count": "ingen selskaber | 1 selskab | {count} selskaber",
     "contracts": "Kontrakter",
     "contracts_count": "ingen kontrakter | 1 kontrakt | {count} kontrakter",
     "contracts_eur": "Kontrakter (EUR)",
+    "creating": "Opretter…",
+    "deleting": "Sletter…",
     "description": "Beskrivelse",
     "dismiss": "Afvis",
     "entity_resolution": "Entitetsopløsning",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU offentligt udbud",
     "filings_by_year": "Indberetninger pr. år",
+    "former": "(tidligere)",
     "gleif": "GLEIF",
     "image": "Billede",
     "issues": "Sager",
@@ -47,20 +56,35 @@
     "loading_2": "Indlæser...",
     "loading_story": "Indlæser fortælling...",
     "metric": "Metrik",
+    "no_data": "ingen data",
     "no_data_available": "Ingen data tilgængelige",
+    "no_data_paren": "(ingen data)",
     "no_entity_configured": "Ingen entitet konfigureret.",
+    "no_label": "(ingen etikette)",
+    "no_reason_given": "Ingen grund angivet",
     "nuts_level": "NUTS-niveau",
     "per_year": "Pr. år",
+    "posting": "Sender…",
     "privacy": "Privatliv",
+    "private": "privat",
+    "public": "offentlig",
     "raise_an_issue": "Opret en sag",
     "remove": "Fjern",
     "retry": "Prøv igen",
+    "run_query": "Kør forespørgsel",
+    "running_progress": "Kører…",
     "sanctions": "Sanktioner",
+    "save": "Gem",
+    "saving": "Gemmer…",
     "sign_out": "Log ud",
     "skip_to_main_content": "Spring til hovedindhold",
+    "submit_issue": "Indsend problem",
+    "submitting": "Indsender…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Samlet værdi (EUR)",
+    "unknown": "Ukendt",
+    "working": "Arbejder…",
     "xbrl_field_coverage": "XBRL-feltdækning (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekter pr. fond (Top 10)"
   },
   "explore": {
-    "explore": "Udforsk"
+    "explore": "Udforsk",
+    "intro": "Gennemse platformens kilde-til-sandhed dashboards og direkte-forespørgselsflader. Vælg et kort for at grave i dataene bag historierne."
   },
   "feed": {
     "clear_filter": "Ryd filter",
     "feed": "Feed",
     "filtering_by": "Filtrerer efter",
+    "follow": "Følg",
     "loading_feed": "Indlæser feed...",
-    "public_data_stories_from_the_community_n": "Offentlige datafortællinger fra fællesskabet, nyeste først."
+    "nothing_here": "Intet her endnu. Når folk udgiver offentlige datahistorier, dukker de op her.",
+    "public_data_stories_from_the_community_n": "Offentlige datafortællinger fra fællesskabet, nyeste først.",
+    "unfollow": "Stop med at følge"
   },
   "firds_d_q": {
     "by_instrument_type": "Efter instrumenttype",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Top handelspladser (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo-udforsker"
+    "geo_explorer": "Geo-udforsker",
+    "intro": "Entitets- og kontraktaggregater over NUTS-hierarkiet. Landniveau i dag — finere regioner kommer, når entitetsgeokodning lander."
   },
   "geo_choropleth": {
     "companies": "Selskaber",
@@ -334,6 +363,7 @@
     "add_a_comment": "Tilføj en kommentar...",
     "loading_issue": "Indlæser sag...",
     "no_comments_yet": "Ingen kommentarer endnu.",
+    "post_comment": "Send kommentar",
     "reject": "Afvis",
     "resolve": "Løs"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Indlæser fortællinger...",
     "my_stories": "Mine fortællinger",
     "no_stories_yet_start_your_first_one_abov": "Ingen fortællinger endnu. Start din første ovenfor.",
-    "or_read_recent_public_stories": "Eller læs aktuelle offentlige fortællinger →"
+    "or_read_recent_public_stories": "Eller læs aktuelle offentlige fortællinger →",
+    "start_a_new_story": "Start en ny historie"
+  },
+  "nav": {
+    "back_admin": "← Admin",
+    "back_data_quality": "← Datakvalitet",
+    "back_home": "← Hjem",
+    "back_my_stories": "← Mine historier",
+    "back_stories": "← Historier",
+    "back_to_issues": "← Tilbage til problemer"
   },
   "not_found": {
     "back_to_home": "Tilbage til forsiden",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Top alpha-2-koder"
   },
   "pocket_button": {
+    "name_this_snapshot": "Navngiv dette snapshot",
+    "pocket": "Pocket",
     "save": "Gem",
-    "save_to_pocket": "Gem til pocket"
+    "save_to_pocket": "Gem til pocket",
+    "save_to_pocket_tooltip": "Gem i Pocket",
+    "saved": "Gemt",
+    "saved_to_pocket_tooltip": "Gemt i Pocket"
   },
   "preferences_menu": {
     "account": "Konto",
     "ai_usage": "AI-brug",
     "atlas_palette": "Atlas-palette",
+    "clear_ai_history": "Ryd AI-historik",
+    "delete_account": "Slet konto",
     "display": "Visning",
     "preferences": "Indstillinger"
   },
@@ -461,6 +507,7 @@
     "part_of": "Del af"
   },
   "public_spending": {
+    "intro": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Eller bladr i hvad der er stort i dit land.",
     "public_spending": "Offentlige udgifter"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Synlighed"
   },
   "sparql": {
+    "discoverable_json": "returnerer den samme dokumentation som JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Forespørg Fontems vidensgraf direkte fra browseren, eller plug endpoint i OpenRefine / en notebook / dine egne værktøjer. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
     "limits": "Grænser",
     "method": "Metode",
     "post": "POST",
+    "query_cap_note": "4 KB forespørgselsloft; skrivebeskyttet (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE nøgleord afvises.",
     "query_failed": "Forespørgsel mislykkedes:",
     "response": "Svar",
+    "run_shortcut": "⌘/Ctrl + Enter for at køre",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkonvolut:",
     "sparql_endpoint": "SPARQL-endpoint",
     "try_a_query": "Prøv en forespørgsel"
@@ -530,14 +581,30 @@
     "vol": "Vol"
   },
   "table_controls_overlay": {
+    "add_row": "+ Række",
+    "delete_row": "Slet denne række",
+    "delete_table": "Slet tabellen",
+    "insert_column_end": "Indsæt kolonne til slut",
+    "insert_column_here": "Indsæt kolonne her",
+    "insert_column_start": "Indsæt kolonne i starten",
     "remove_column_to_the_left": "Fjern kolonnen til venstre"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Tilføj en tag…",
+    "remove_tag_aria": "Fjern tag {tag}",
     "tags": "Tags"
   },
+  "theme": {
+    "dark": "Mørk",
+    "light": "Lys",
+    "switch_to_dark": "Skift til mørkt tema",
+    "switch_to_light": "Skift til lyst tema"
+  },
   "ticker_card": {
+    "active": "Aktiv",
     "authority": "Myndighed",
     "company": "Selskab",
+    "inactive": "Inaktiv",
     "person": "Person"
   },
   "ticker_financials": {

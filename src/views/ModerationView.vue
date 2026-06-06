@@ -69,7 +69,7 @@ function formatDate(dateStr) {
   <div class="mod-page" data-testid="moderation-view">
     <header class="mod-header">
       <div>
-        <router-link to="/admin" class="mod-back">&larr; Admin</router-link>
+        <router-link to="/admin" class="mod-back">{{ $t('nav.back_admin') }}</router-link>
         <h1>{{ $t('moderation.moderation') }}</h1>
         <p class="mod-sub">{{ $t('moderation.review_flagged_content_and_moderation_hi') }}</p>
       </div>

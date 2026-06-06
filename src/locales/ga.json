@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Turas 45 soicind",
+    "hero_lead": "Graf eolais oscailte a nascann comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe.",
     "how_it_works": "Conas a oibríonn sé",
     "recently_published": "Foilsithe le déanaí",
     "see_all_public_data_stories": "Féach gach scéal sonraí poiblí →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Gníomhaíocht á luchtú...",
+    "no_activity_yet": "Níl aon ghníomhaíocht go fóill. Tosaigh trí thaiscéaladh an ghraif nó scéal sonraí a chruthú.",
     "sign_in": "Sínigh isteach",
     "sign_in_to_see_your_activity": "Sínigh isteach chun do ghníomhaíocht a fheiceáil."
   },
@@ -25,13 +27,19 @@
     "activity": "Gníomhaíocht",
     "admin": "Riarachán",
     "all": "Gach",
+    "anonymous": "Anaithnid",
+    "applied": "Curtha i bhfeidhm",
+    "applied_auto": "Curtha i bhfeidhm go huathoibríoch",
     "cancel": "Cealaigh",
     "clear": "Glan",
+    "clearing": "Á ghlanadh…",
     "close": "Dún",
     "companies_count": "gan comhlacht | 1 chomhlacht | {count} comhlachtaí",
     "contracts": "Conarthaí",
     "contracts_count": "gan conradh | 1 chonradh | {count} conarthaí",
     "contracts_eur": "Conarthaí (EUR)",
+    "creating": "Á chruthú…",
+    "deleting": "Á scriosadh…",
     "description": "Cur síos",
     "dismiss": "Dún",
     "entity_resolution": "Réiteach aonán",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Soláthar poiblí AE",
     "filings_by_year": "Comhdúcháin de réir bliana",
+    "former": "(iar-)",
     "gleif": "GLEIF",
     "image": "Íomhá",
     "issues": "Saincheisteanna",
@@ -47,20 +56,35 @@
     "loading_2": "Á luchtú...",
     "loading_story": "Scéal á luchtú...",
     "metric": "Méadracht",
+    "no_data": "gan sonraí",
     "no_data_available": "Níl aon sonraí ar fáil",
+    "no_data_paren": "(gan sonraí)",
     "no_entity_configured": "Níl aon aonán cumraithe.",
+    "no_label": "(gan lipéad)",
+    "no_reason_given": "Níor tugadh fáth",
     "nuts_level": "Leibhéal NUTS",
     "per_year": "Sa bhliain",
+    "posting": "Á phostáil…",
     "privacy": "Príobháideacht",
+    "private": "príobháideach",
+    "public": "poiblí",
     "raise_an_issue": "Ardaigh saincheist",
     "remove": "Bain",
     "retry": "Bain triail eile",
+    "run_query": "Rith ceist",
+    "running_progress": "Á rith…",
     "sanctions": "Smachtbhannaí",
+    "save": "Sábháil",
+    "saving": "Á shábháil…",
     "sign_out": "Sínigh amach",
     "skip_to_main_content": "Téigh chuig an bpríomhábhar",
+    "submit_issue": "Cuir saincheist isteach",
+    "submitting": "Á chur isteach…",
     "ted": "TED",
     "theme": "Téama",
     "total_value_eur": "Luach iomlán (EUR)",
+    "unknown": "Anaithnid",
+    "working": "Ag obair…",
     "xbrl_field_coverage": "Clúdach réimsí XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Tionscadail de réir ciste (Top 10)"
   },
   "explore": {
-    "explore": "Taiscéal"
+    "explore": "Taiscéal",
+    "intro": "Brabhsáil painéil fhoinse-na-fírinne an ardáin agus dromchlaí ceiste dírí. Roghnaigh cárta chun tochailt sna sonraí taobh thiar de na scéalta."
   },
   "feed": {
     "clear_filter": "Glan an scagaire",
     "feed": "Fotha",
     "filtering_by": "Á scagadh de réir",
+    "follow": "Lean",
     "loading_feed": "Fotha á luchtú...",
-    "public_data_stories_from_the_community_n": "Scéalta sonraí poiblí ón bpobal, an chuid is nuaí ar dtús."
+    "nothing_here": "Níl tada anseo go fóill. Nuair a fhoilseoidh daoine scéalta sonraí poiblí, beidh siad le feiceáil anseo.",
+    "public_data_stories_from_the_community_n": "Scéalta sonraí poiblí ón bpobal, an chuid is nuaí ar dtús.",
+    "unfollow": "Stop ag leanúint"
   },
   "firds_d_q": {
     "by_instrument_type": "De réir chineál uirlise",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Príomhionaid trádála (MIC)"
   },
   "geo": {
-    "geo_explorer": "Taiscéalaí geo"
+    "geo_explorer": "Taiscéalaí geo",
+    "intro": "Comhiomláin aonáin agus conarthaí thar an ordlathas NUTS. Ag leibhéal tíre inniu — réigiúin níos míne ag teacht nuair a thosóidh geochódú aonán."
   },
   "geo_choropleth": {
     "companies": "Comhlachtaí",
@@ -334,6 +363,7 @@
     "add_a_comment": "Cuir tuairim leis...",
     "loading_issue": "Saincheist á luchtú...",
     "no_comments_yet": "Níl tuairimí ann go fóill.",
+    "post_comment": "Postáil tuairim",
     "reject": "Diúltaigh",
     "resolve": "Réitigh"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Scéalta á luchtú...",
     "my_stories": "Mo scéalta",
     "no_stories_yet_start_your_first_one_abov": "Níl scéalta ann go fóill. Tosaigh do chéad cheann thuas.",
-    "or_read_recent_public_stories": "Nó léigh scéalta poiblí le déanaí →"
+    "or_read_recent_public_stories": "Nó léigh scéalta poiblí le déanaí →",
+    "start_a_new_story": "Tosaigh scéal nua"
+  },
+  "nav": {
+    "back_admin": "← Riarachán",
+    "back_data_quality": "← Cáilíocht sonraí",
+    "back_home": "← Baile",
+    "back_my_stories": "← Mo scéalta",
+    "back_stories": "← Scéalta",
+    "back_to_issues": "← Ar ais chuig saincheisteanna"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Príomhchóid Alpha-2"
   },
   "pocket_button": {
+    "name_this_snapshot": "Ainmnigh an seat seo",
+    "pocket": "Pocket",
     "save": "Sábháil",
-    "save_to_pocket": "Sábháil chuig Pocket"
+    "save_to_pocket": "Sábháil chuig Pocket",
+    "save_to_pocket_tooltip": "Sábháil chuig Pocket",
+    "saved": "Sábháilte",
+    "saved_to_pocket_tooltip": "Sábháilte chuig Pocket"
   },
   "preferences_menu": {
     "account": "Cuntas",
     "ai_usage": "Úsáid IS",
     "atlas_palette": "Pailéad Atlas",
+    "clear_ai_history": "Glan stair na hintleachta saorga",
+    "delete_account": "Scrios cuntas",
     "display": "Taispeáin",
     "preferences": "Sainroghanna"
   },
@@ -461,6 +507,7 @@
     "part_of": "Cuid de"
   },
   "public_spending": {
+    "intro": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail arna maoiniú ag an AE. Nó féach cad atá mór i do thír.",
     "public_spending": "Caiteachas poiblí"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Infheictheacht"
   },
   "sparql": {
+    "discoverable_json": "filleann an doiciméadú céanna mar JSON.",
     "endpoint": "Críochphointe",
     "endpoint_url": "URL críochphointe",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Cuir ceist ar ghraf eolais Fontem go díreach ón mbrabhsálaí, nó plugáil an pointe deiridh isteach in OpenRefine / nóta / d'uirlisí féin. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
     "limits": "Teorainneacha",
     "method": "Modh",
     "post": "POST",
+    "query_cap_note": "Uasteorainn 4 KB ar an gceist; léamh-amháin (SELECT / ASK / CONSTRUCT / DESCRIBE). Diúltaítear focail UPDATE.",
     "query_failed": "Theip ar an gceist:",
     "response": "Freagra",
+    "run_shortcut": "⌘/Ctrl + Enter chun rith",
     "sparql_11_json_results_envelope": "Clúdach torthaí SPARQL 1.1 JSON:",
     "sparql_endpoint": "Críochphointe SPARQL",
     "try_a_query": "Bain triail as ceist"
@@ -530,14 +581,30 @@
     "vol": "Voil."
   },
   "table_controls_overlay": {
+    "add_row": "+ Ró",
+    "delete_row": "Scrios an ró seo",
+    "delete_table": "Scrios an tábla",
+    "insert_column_end": "Cuir colún isteach ag deireadh",
+    "insert_column_here": "Cuir colún isteach anseo",
+    "insert_column_start": "Cuir colún isteach ag tús",
     "remove_column_to_the_left": "Bain an colún ar chlé"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Cuir clib leis…",
+    "remove_tag_aria": "Bain an chlib {tag}",
     "tags": "Clibeanna"
   },
+  "theme": {
+    "dark": "Dorcha",
+    "light": "Geal",
+    "switch_to_dark": "Athraigh go mód dorcha",
+    "switch_to_light": "Athraigh go mód geal"
+  },
   "ticker_card": {
+    "active": "Gníomhach",
     "authority": "Údarás",
     "company": "Comhlacht",
+    "inactive": "Neamhghníomhach",
     "person": "Duine"
   },
   "ticker_financials": {

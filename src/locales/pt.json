@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Uma visita guiada de 45 segundos",
+    "hero_lead": "Um grafo de conhecimento aberto a ligar empresas da UE, contratação pública, lobistas e financiamento da coesão.",
     "how_it_works": "Como funciona",
     "recently_published": "Publicado recentemente",
     "see_all_public_data_stories": "Ver todas as histórias de dados públicas →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "A carregar atividade...",
+    "no_activity_yet": "Ainda sem atividade. Começa a explorar o grafo ou a criar uma história de dados.",
     "sign_in": "Iniciar sessão",
     "sign_in_to_see_your_activity": "Inicie sessão para ver a sua atividade."
   },
@@ -25,13 +27,19 @@
     "activity": "Atividade",
     "admin": "Administração",
     "all": "Todos",
+    "anonymous": "Anónimo",
+    "applied": "Aplicado",
+    "applied_auto": "Aplicado automaticamente",
     "cancel": "Cancelar",
     "clear": "Limpar",
+    "clearing": "A limpar…",
     "close": "Fechar",
     "companies_count": "sem empresas | 1 empresa | {count} empresas",
     "contracts": "Contratos",
     "contracts_count": "sem contratos | 1 contrato | {count} contratos",
     "contracts_eur": "Contratos (EUR)",
+    "creating": "A criar…",
+    "deleting": "A eliminar…",
     "description": "Descrição",
     "dismiss": "Dispensar",
     "entity_resolution": "Resolução de entidades",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Contratação pública da UE",
     "filings_by_year": "Submissões por ano",
+    "former": "(anterior)",
     "gleif": "GLEIF",
     "image": "Imagem",
     "issues": "Problemas",
@@ -47,20 +56,35 @@
     "loading_2": "A carregar...",
     "loading_story": "A carregar história...",
     "metric": "Métrica",
+    "no_data": "sem dados",
     "no_data_available": "Não existem dados disponíveis",
+    "no_data_paren": "(sem dados)",
     "no_entity_configured": "Nenhuma entidade configurada.",
+    "no_label": "(sem etiqueta)",
+    "no_reason_given": "Sem motivo indicado",
     "nuts_level": "Nível NUTS",
     "per_year": "Por ano",
+    "posting": "A publicar…",
     "privacy": "Privacidade",
+    "private": "privada",
+    "public": "pública",
     "raise_an_issue": "Reportar um problema",
     "remove": "Remover",
     "retry": "Tentar novamente",
+    "run_query": "Executar consulta",
+    "running_progress": "A executar…",
     "sanctions": "Sanções",
+    "save": "Guardar",
+    "saving": "A guardar…",
     "sign_out": "Terminar sessão",
     "skip_to_main_content": "Saltar para o conteúdo principal",
+    "submit_issue": "Submeter problema",
+    "submitting": "A submeter…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Valor total (EUR)",
+    "unknown": "Desconhecido",
+    "working": "A trabalhar…",
     "xbrl_field_coverage": "Cobertura de campos XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projetos por fundo (Top 10)"
   },
   "explore": {
-    "explore": "Explorar"
+    "explore": "Explorar",
+    "intro": "Navega pelos painéis fonte-da-verdade da plataforma e pelas superfícies de consulta direta. Escolhe um cartão e mergulha nos dados por detrás das histórias."
   },
   "feed": {
     "clear_filter": "Limpar filtro",
     "feed": "Feed",
     "filtering_by": "A filtrar por",
+    "follow": "Seguir",
     "loading_feed": "A carregar feed...",
-    "public_data_stories_from_the_community_n": "Histórias de dados públicas da comunidade, mais recentes primeiro."
+    "nothing_here": "Ainda não há nada aqui. Quando alguém publicar histórias de dados públicas, vão aparecer aqui.",
+    "public_data_stories_from_the_community_n": "Histórias de dados públicas da comunidade, mais recentes primeiro.",
+    "unfollow": "Deixar de seguir"
   },
   "firds_d_q": {
     "by_instrument_type": "Por tipo de instrumento",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Principais plataformas de negociação (MIC)"
   },
   "geo": {
-    "geo_explorer": "Explorador geográfico"
+    "geo_explorer": "Explorador geográfico",
+    "intro": "Agregados de entidades e contratos sobre a hierarquia NUTS. Hoje ao nível dos países — regiões mais finas chegam quando a geocodificação das entidades estiver pronta."
   },
   "geo_choropleth": {
     "companies": "Empresas",
@@ -334,6 +363,7 @@
     "add_a_comment": "Adicione um comentário...",
     "loading_issue": "A carregar problema...",
     "no_comments_yet": "Ainda não há comentários.",
+    "post_comment": "Publicar comentário",
     "reject": "Rejeitar",
     "resolve": "Resolver"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "A carregar histórias...",
     "my_stories": "As minhas histórias",
     "no_stories_yet_start_your_first_one_abov": "Ainda sem histórias. Comece a sua primeira acima.",
-    "or_read_recent_public_stories": "Ou leia histórias públicas recentes →"
+    "or_read_recent_public_stories": "Ou leia histórias públicas recentes →",
+    "start_a_new_story": "Começa uma nova história"
+  },
+  "nav": {
+    "back_admin": "← Administração",
+    "back_data_quality": "← Qualidade dos dados",
+    "back_home": "← Início",
+    "back_my_stories": "← As minhas histórias",
+    "back_stories": "← Histórias",
+    "back_to_issues": "← Voltar aos problemas"
   },
   "not_found": {
     "back_to_home": "Voltar ao início",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Principais códigos Alpha-2"
   },
   "pocket_button": {
+    "name_this_snapshot": "Dá nome a este instantâneo",
+    "pocket": "Pocket",
     "save": "Guardar",
-    "save_to_pocket": "Guardar no Pocket"
+    "save_to_pocket": "Guardar no Pocket",
+    "save_to_pocket_tooltip": "Guardar no Pocket",
+    "saved": "Guardado",
+    "saved_to_pocket_tooltip": "Guardado no Pocket"
   },
   "preferences_menu": {
     "account": "Conta",
     "ai_usage": "Utilização da IA",
     "atlas_palette": "Paleta do Atlas",
+    "clear_ai_history": "Limpar histórico da IA",
+    "delete_account": "Eliminar conta",
     "display": "Visualização",
     "preferences": "Preferências"
   },
@@ -461,6 +507,7 @@
     "part_of": "Parte de"
   },
   "public_spending": {
+    "intro": "Procura empresas da UE, entidades adjudicantes, lobistas e projetos financiados pela UE. Ou vê o que é grande no teu país.",
     "public_spending": "Despesa pública"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Visibilidade"
   },
   "sparql": {
+    "discoverable_json": "devolve esta mesma documentação em JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "URL do endpoint",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Consulta o grafo de conhecimento do Fontem diretamente do browser, ou liga o endpoint ao OpenRefine / a um notebook / às tuas próprias ferramentas. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
     "limits": "Limites",
     "method": "Método",
     "post": "POST",
+    "query_cap_note": "Limite de 4 KB por consulta; só leitura (SELECT / ASK / CONSTRUCT / DESCRIBE). As palavras UPDATE são rejeitadas.",
     "query_failed": "Consulta falhou:",
     "response": "Resposta",
+    "run_shortcut": "⌘/Ctrl + Enter para executar",
     "sparql_11_json_results_envelope": "Envelope de resultados SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Experimentar uma consulta"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Linha",
+    "delete_row": "Eliminar esta linha",
+    "delete_table": "Eliminar a tabela",
+    "insert_column_end": "Inserir coluna no fim",
+    "insert_column_here": "Inserir coluna aqui",
+    "insert_column_start": "Inserir coluna no início",
     "remove_column_to_the_left": "Remover a coluna à esquerda"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Adicionar uma etiqueta…",
+    "remove_tag_aria": "Remover etiqueta {tag}",
     "tags": "Etiquetas"
   },
+  "theme": {
+    "dark": "Escuro",
+    "light": "Claro",
+    "switch_to_dark": "Mudar para o tema escuro",
+    "switch_to_light": "Mudar para o tema claro"
+  },
   "ticker_card": {
+    "active": "Ativo",
     "authority": "Autoridade",
     "company": "Empresa",
+    "inactive": "Inativo",
     "person": "Pessoa"
   },
   "ticker_financials": {

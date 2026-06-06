@@ -145,7 +145,7 @@ function onBackdrop(e) {
             :disabled="submitting"
             @click="submit"
           >
-            {{ submitting ? 'Submitting...' : 'Submit Issue' }}
+            {{ submitting ? $t('app.submitting') : $t('app.submit_issue') }}
           </button>
         </div>
       </div>

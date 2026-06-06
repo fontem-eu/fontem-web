@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45-sekundiline tutvustus",
+    "hero_lead": "Avatud teadmusgraaf, mis seob ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamise.",
     "how_it_works": "Kuidas see töötab",
     "recently_published": "Hiljuti avaldatud",
     "see_all_public_data_stories": "Vaata kõiki avalikke andmelugusid →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Tegevust laaditakse...",
+    "no_activity_yet": "Veel pole tegevust. Alusta graafi uurimisest või andmeloo loomisest.",
     "sign_in": "Logi sisse",
     "sign_in_to_see_your_activity": "Logi sisse, et näha oma tegevust."
   },
@@ -25,13 +27,19 @@
     "activity": "Tegevus",
     "admin": "Haldus",
     "all": "Kõik",
+    "anonymous": "Anonüümne",
+    "applied": "Rakendatud",
+    "applied_auto": "Rakendatud automaatselt",
     "cancel": "Tühista",
     "clear": "Tühjenda",
+    "clearing": "Tühjendamine…",
     "close": "Sulge",
     "companies_count": "ettevõtteid pole | 1 ettevõte | {count} ettevõtet",
     "contracts": "Lepingud",
     "contracts_count": "lepinguid pole | 1 leping | {count} lepingut",
     "contracts_eur": "Lepingud (EUR)",
+    "creating": "Loomine…",
+    "deleting": "Kustutamine…",
     "description": "Kirjeldus",
     "dismiss": "Sulge",
     "entity_resolution": "Olemite ühildamine",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EL riigihanked",
     "filings_by_year": "Esitused aastate kaupa",
+    "former": "(endine)",
     "gleif": "GLEIF",
     "image": "Pilt",
     "issues": "Probleemid",
@@ -47,20 +56,35 @@
     "loading_2": "Laadimine...",
     "loading_story": "Lugu laaditakse...",
     "metric": "Mõõdik",
+    "no_data": "andmed puuduvad",
     "no_data_available": "Andmeid pole saadaval",
+    "no_data_paren": "(andmed puuduvad)",
     "no_entity_configured": "Olemit pole seadistatud.",
+    "no_label": "(silt puudub)",
+    "no_reason_given": "Põhjus puudub",
     "nuts_level": "NUTS-i tase",
     "per_year": "Aastas",
+    "posting": "Postitamine…",
     "privacy": "Privaatsus",
+    "private": "privaatne",
+    "public": "avalik",
     "raise_an_issue": "Esita probleem",
     "remove": "Eemalda",
     "retry": "Proovi uuesti",
+    "run_query": "Käivita päring",
+    "running_progress": "Töötab…",
     "sanctions": "Sanktsioonid",
+    "save": "Salvesta",
+    "saving": "Salvestamine…",
     "sign_out": "Logi välja",
     "skip_to_main_content": "Mine põhisisu juurde",
+    "submit_issue": "Esita probleem",
+    "submitting": "Esitamine…",
     "ted": "TED",
     "theme": "Teema",
     "total_value_eur": "Koguväärtus (EUR)",
+    "unknown": "Tundmatu",
+    "working": "Töötab…",
     "xbrl_field_coverage": "XBRL-väljade kaetus (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projektid fondi järgi (Top 10)"
   },
   "explore": {
-    "explore": "Uuri"
+    "explore": "Uuri",
+    "intro": "Sirvi platvormi tõe-allika paneele ja otsepäringuvõimalusi. Vali kaart, et süveneda andmetesse vastuste taga."
   },
   "feed": {
     "clear_filter": "Tühjenda filter",
     "feed": "Voog",
     "filtering_by": "Filtreeritakse",
+    "follow": "Jälgi",
     "loading_feed": "Voogu laaditakse...",
-    "public_data_stories_from_the_community_n": "Avalikud andmelood kogukonnalt, uuemad eespool."
+    "nothing_here": "Siin pole veel midagi. Kui inimesed avaldavad avalikke andmelugusid, ilmuvad need siia.",
+    "public_data_stories_from_the_community_n": "Avalikud andmelood kogukonnalt, uuemad eespool.",
+    "unfollow": "Lõpeta jälgimine"
   },
   "firds_d_q": {
     "by_instrument_type": "Instrumendi tüübi järgi",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Tähtsamad kauplemiskohad (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo-uurija"
+    "geo_explorer": "Geo-uurija",
+    "intro": "Olemite ja lepingute koondnäitajad NUTS-i hierarhia järgi. Praegu riigi tasandil — peenemad piirkonnad tulevad, kui olemi geokodeerimine jõustub."
   },
   "geo_choropleth": {
     "companies": "Ettevõtted",
@@ -334,6 +363,7 @@
     "add_a_comment": "Lisa kommentaar...",
     "loading_issue": "Probleemi laaditakse...",
     "no_comments_yet": "Kommentaare veel pole.",
+    "post_comment": "Postita kommentaar",
     "reject": "Lükka tagasi",
     "resolve": "Lahenda"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Lugusid laaditakse...",
     "my_stories": "Minu lood",
     "no_stories_yet_start_your_first_one_abov": "Lugusid veel pole. Alusta esimesega ülal.",
-    "or_read_recent_public_stories": "Või loe viimaseid avalikke lugusid →"
+    "or_read_recent_public_stories": "Või loe viimaseid avalikke lugusid →",
+    "start_a_new_story": "Alusta uut lugu"
+  },
+  "nav": {
+    "back_admin": "← Haldus",
+    "back_data_quality": "← Andmekvaliteet",
+    "back_home": "← Avaleht",
+    "back_my_stories": "← Minu lood",
+    "back_stories": "← Lood",
+    "back_to_issues": "← Tagasi probleemide juurde"
   },
   "not_found": {
     "back_to_home": "Tagasi avalehele",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Põhilised Alpha-2 koodid"
   },
   "pocket_button": {
+    "name_this_snapshot": "Nimeta see hetktõmmis",
+    "pocket": "Pocket",
     "save": "Salvesta",
-    "save_to_pocket": "Salvesta Pocketisse"
+    "save_to_pocket": "Salvesta Pocketisse",
+    "save_to_pocket_tooltip": "Salvesta Pocketisse",
+    "saved": "Salvestatud",
+    "saved_to_pocket_tooltip": "Salvestatud Pocketisse"
   },
   "preferences_menu": {
     "account": "Konto",
     "ai_usage": "AI kasutus",
     "atlas_palette": "Atlase palett",
+    "clear_ai_history": "Tühjenda tehisintellekti ajalugu",
+    "delete_account": "Kustuta konto",
     "display": "Kuva",
     "preferences": "Eelistused"
   },
@@ -461,6 +507,7 @@
     "part_of": "Kuulub"
   },
   "public_spending": {
+    "intro": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja EL-i rahastatud projekte. Või vaata, mis on sinu riigis suur.",
     "public_spending": "Avalikud kulutused"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Nähtavus"
   },
   "sparql": {
+    "discoverable_json": "tagastab sama dokumentatsiooni JSON-ina.",
     "endpoint": "Lõpp-punkt",
     "endpoint_url": "Lõpp-punkti URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Päri Fontemi teadmusgraafi otse brauserist või ühenda lõpp-punkt OpenRefine'i / märkmiku / oma tööriistadega. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
     "limits": "Piirangud",
     "method": "Meetod",
     "post": "POST",
+    "query_cap_note": "4 KB päringulimit; ainult lugemine (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE võtmesõnad lükatakse tagasi.",
     "query_failed": "Päring ebaõnnestus:",
     "response": "Vastus",
+    "run_shortcut": "⌘/Ctrl + Enter käivitamiseks",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulemuste ümbrik:",
     "sparql_endpoint": "SPARQL-lõpp-punkt",
     "try_a_query": "Proovi päringut"
@@ -530,14 +581,30 @@
     "vol": "Maht"
   },
   "table_controls_overlay": {
+    "add_row": "+ Rida",
+    "delete_row": "Kustuta see rida",
+    "delete_table": "Kustuta tabel",
+    "insert_column_end": "Sisesta veerg lõppu",
+    "insert_column_here": "Sisesta veerg siia",
+    "insert_column_start": "Sisesta veerg algusesse",
     "remove_column_to_the_left": "Eemalda vasakpoolne veerg"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Lisa silt…",
+    "remove_tag_aria": "Eemalda silt {tag}",
     "tags": "Sildid"
   },
+  "theme": {
+    "dark": "Tume",
+    "light": "Hele",
+    "switch_to_dark": "Lülitu tumedale režiimile",
+    "switch_to_light": "Lülitu heledale režiimile"
+  },
   "ticker_card": {
+    "active": "Aktiivne",
     "authority": "Asutus",
     "company": "Ettevõte",
+    "inactive": "Mitteaktiivne",
     "person": "Isik"
   },
   "ticker_financials": {

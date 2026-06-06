@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Spacer 45-sekundowy",
+    "hero_lead": "Otwarty graf wiedzy łączący spółki UE, zamówienia publiczne, lobbystów i finansowanie spójności.",
     "how_it_works": "Jak to działa",
     "recently_published": "Niedawno opublikowane",
     "see_all_public_data_stories": "Zobacz wszystkie publiczne historie danych →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Wczytywanie aktywności...",
+    "no_activity_yet": "Brak aktywności. Zacznij od eksploracji grafu lub utworzenia historii danych.",
     "sign_in": "Zaloguj się",
     "sign_in_to_see_your_activity": "Zaloguj się, aby zobaczyć swoją aktywność."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktywność",
     "admin": "Administracja",
     "all": "Wszystkie",
+    "anonymous": "Anonimowy",
+    "applied": "Zastosowano",
+    "applied_auto": "Zastosowano automatycznie",
     "cancel": "Anuluj",
     "clear": "Wyczyść",
+    "clearing": "Czyszczenie…",
     "close": "Zamknij",
     "companies_count": "brak firm | 1 firma | {count} firm",
     "contracts": "Umowy",
     "contracts_count": "brak umów | 1 umowa | {count} umów",
     "contracts_eur": "Umowy (EUR)",
+    "creating": "Tworzenie…",
+    "deleting": "Usuwanie…",
     "description": "Opis",
     "dismiss": "Zamknij",
     "entity_resolution": "Rozstrzyganie tożsamości",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Zamówienia publiczne UE",
     "filings_by_year": "Sprawozdania według roku",
+    "former": "(były)",
     "gleif": "GLEIF",
     "image": "Obraz",
     "issues": "Zgłoszenia",
@@ -47,20 +56,35 @@
     "loading_2": "Wczytywanie...",
     "loading_story": "Wczytywanie historii...",
     "metric": "Metryka",
+    "no_data": "brak danych",
     "no_data_available": "Brak dostępnych danych",
+    "no_data_paren": "(brak danych)",
     "no_entity_configured": "Nie skonfigurowano podmiotu.",
+    "no_label": "(brak etykiety)",
+    "no_reason_given": "Nie podano powodu",
     "nuts_level": "Poziom NUTS",
     "per_year": "Rocznie",
+    "posting": "Publikowanie…",
     "privacy": "Prywatność",
+    "private": "prywatne",
+    "public": "publiczne",
     "raise_an_issue": "Zgłoś problem",
     "remove": "Usuń",
     "retry": "Spróbuj ponownie",
+    "run_query": "Uruchom zapytanie",
+    "running_progress": "Trwa…",
     "sanctions": "Sankcje",
+    "save": "Zapisz",
+    "saving": "Zapisywanie…",
     "sign_out": "Wyloguj",
     "skip_to_main_content": "Przejdź do głównej treści",
+    "submit_issue": "Zgłoś problem",
+    "submitting": "Wysyłanie…",
     "ted": "TED",
     "theme": "Motyw",
     "total_value_eur": "Wartość całkowita (EUR)",
+    "unknown": "Nieznany",
+    "working": "Pracuję…",
     "xbrl_field_coverage": "Pokrycie pól XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekty według funduszu (Top 10)"
   },
   "explore": {
-    "explore": "Eksploruj"
+    "explore": "Eksploruj",
+    "intro": "Przeglądaj pulpity źródła-prawdy platformy i powierzchnie bezpośrednich zapytań. Wybierz kartę, by zanurzyć się w danych za historiami."
   },
   "feed": {
     "clear_filter": "Wyczyść filtr",
     "feed": "Strumień",
     "filtering_by": "Filtrowanie według",
+    "follow": "Obserwuj",
     "loading_feed": "Wczytywanie strumienia...",
-    "public_data_stories_from_the_community_n": "Publiczne historie danych od społeczności, najnowsze pierwsze."
+    "nothing_here": "Jeszcze nic tu nie ma. Gdy ludzie opublikują publiczne historie danych, pojawią się tutaj.",
+    "public_data_stories_from_the_community_n": "Publiczne historie danych od społeczności, najnowsze pierwsze.",
+    "unfollow": "Przestań obserwować"
   },
   "firds_d_q": {
     "by_instrument_type": "Według typu instrumentu",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Główne miejsca obrotu (MIC)"
   },
   "geo": {
-    "geo_explorer": "Eksplorator geograficzny"
+    "geo_explorer": "Eksplorator geograficzny",
+    "intro": "Agregaty encji i umów po hierarchii NUTS. Dziś na poziomie krajów — bardziej szczegółowe regiony pojawią się, gdy będzie geokodowanie encji."
   },
   "geo_choropleth": {
     "companies": "Firmy",
@@ -334,6 +363,7 @@
     "add_a_comment": "Dodaj komentarz...",
     "loading_issue": "Wczytywanie zgłoszenia...",
     "no_comments_yet": "Brak komentarzy.",
+    "post_comment": "Opublikuj komentarz",
     "reject": "Odrzuć",
     "resolve": "Rozwiąż"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Wczytywanie historii...",
     "my_stories": "Moje historie",
     "no_stories_yet_start_your_first_one_abov": "Brak historii. Zacznij pierwszą powyżej.",
-    "or_read_recent_public_stories": "Lub przeczytaj najnowsze historie publiczne →"
+    "or_read_recent_public_stories": "Lub przeczytaj najnowsze historie publiczne →",
+    "start_a_new_story": "Zacznij nową historię"
+  },
+  "nav": {
+    "back_admin": "← Administracja",
+    "back_data_quality": "← Jakość danych",
+    "back_home": "← Strona główna",
+    "back_my_stories": "← Moje historie",
+    "back_stories": "← Historie",
+    "back_to_issues": "← Wróć do problemów"
   },
   "not_found": {
     "back_to_home": "Powrót do strony głównej",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Główne kody Alpha-2"
   },
   "pocket_button": {
+    "name_this_snapshot": "Nazwij ten zrzut",
+    "pocket": "Pocket",
     "save": "Zapisz",
-    "save_to_pocket": "Zapisz w Pocket"
+    "save_to_pocket": "Zapisz w Pocket",
+    "save_to_pocket_tooltip": "Zapisz w Pocket",
+    "saved": "Zapisano",
+    "saved_to_pocket_tooltip": "Zapisano w Pocket"
   },
   "preferences_menu": {
     "account": "Konto",
     "ai_usage": "Użycie SI",
     "atlas_palette": "Paleta Atlas",
+    "clear_ai_history": "Wyczyść historię SI",
+    "delete_account": "Usuń konto",
     "display": "Wyświetlanie",
     "preferences": "Preferencje"
   },
@@ -461,6 +507,7 @@
     "part_of": "Część"
   },
   "public_spending": {
+    "intro": "Wyszukuj spółki UE, zamawiających, lobbystów i projekty finansowane przez UE. Lub przeglądaj, co jest duże w twoim kraju.",
     "public_spending": "Wydatki publiczne"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Widoczność"
   },
   "sparql": {
+    "discoverable_json": "zwraca tę samą dokumentację jako JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpointu",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Odpytuj graf wiedzy Fontem bezpośrednio z przeglądarki lub podłącz endpoint do OpenRefine / notatnika / własnych narzędzi. Spółki, umowy, organy, lobbyści, sankcje — wszystko powiązane.",
     "limits": "Limity",
     "method": "Metoda",
     "post": "POST",
+    "query_cap_note": "Limit zapytania 4 KB; tylko do odczytu (SELECT / ASK / CONSTRUCT / DESCRIBE). Słowa UPDATE są odrzucane.",
     "query_failed": "Zapytanie nie powiodło się:",
     "response": "Odpowiedź",
+    "run_shortcut": "⌘/Ctrl + Enter, aby uruchomić",
     "sparql_11_json_results_envelope": "Obwiednia wyników SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Wypróbuj zapytanie"
@@ -530,14 +581,30 @@
     "vol": "Wol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Wiersz",
+    "delete_row": "Usuń ten wiersz",
+    "delete_table": "Usuń tabelę",
+    "insert_column_end": "Wstaw kolumnę na końcu",
+    "insert_column_here": "Wstaw kolumnę tutaj",
+    "insert_column_start": "Wstaw kolumnę na początku",
     "remove_column_to_the_left": "Usuń kolumnę po lewej"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Dodaj tag…",
+    "remove_tag_aria": "Usuń tag {tag}",
     "tags": "Tagi"
   },
+  "theme": {
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "switch_to_dark": "Przełącz na tryb ciemny",
+    "switch_to_light": "Przełącz na tryb jasny"
+  },
   "ticker_card": {
+    "active": "Aktywny",
     "authority": "Organ",
     "company": "Firma",
+    "inactive": "Nieaktywny",
     "person": "Osoba"
   },
   "ticker_financials": {

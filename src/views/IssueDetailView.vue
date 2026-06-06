@@ -113,7 +113,7 @@ function renderMarkdown(text) {
 
 <template>
   <div class="issue-detail" data-testid="issue-detail-view">
-    <router-link to="/issues" class="issue-back">&larr; Back to Issues</router-link>
+    <router-link to="/issues" class="issue-back">{{ $t('nav.back_to_issues') }}</router-link>
 
     <p v-if="error" class="issue-error" data-testid="issue-detail-error">{{ error }}</p>
     <p v-if="loading" class="issue-loading">{{ $t('issue_detail.loading_issue') }}</p>
@@ -186,7 +186,7 @@ function renderMarkdown(text) {
           data-testid="issue-comment"
         >
           <div class="comment-meta">
-            <span class="comment-author">{{ comment.author || 'Anonymous' }}</span>
+            <span class="comment-author">{{ comment.author || $t('app.anonymous') }}</span>
             <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
           </div>
           <!-- eslint-disable-next-line vue/no-v-html -- content sanitized via DOMPurify in renderMarkdown -> sanitizeMarkdown (src/utils/sanitize.js) -->
@@ -208,7 +208,7 @@ function renderMarkdown(text) {
             :disabled="submittingComment || !commentBody.trim()"
             @click="submitComment"
           >
-            {{ submittingComment ? 'Posting...' : 'Post Comment' }}
+            {{ submittingComment ? $t('app.posting') : $t('issue_detail.post_comment') }}
           </button>
         </div>
       </div>

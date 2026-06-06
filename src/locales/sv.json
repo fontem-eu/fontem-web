@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45-sekunders rundtur",
+    "hero_lead": "En öppen kunskapsgraf som länkar EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering.",
     "how_it_works": "Hur det fungerar",
     "recently_published": "Nyligen publicerat",
     "see_all_public_data_stories": "Se alla offentliga datahistorier →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Laddar aktivitet...",
+    "no_activity_yet": "Ingen aktivitet ännu. Börja med att utforska grafen eller skapa en datahistoria.",
     "sign_in": "Logga in",
     "sign_in_to_see_your_activity": "Logga in för att se din aktivitet."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktivitet",
     "admin": "Administration",
     "all": "Alla",
+    "anonymous": "Anonym",
+    "applied": "Tillämpad",
+    "applied_auto": "Tillämpad automatiskt",
     "cancel": "Avbryt",
     "clear": "Rensa",
+    "clearing": "Rensar…",
     "close": "Stäng",
     "companies_count": "inga företag | 1 företag | {count} företag",
     "contracts": "Kontrakt",
     "contracts_count": "inga kontrakt | 1 kontrakt | {count} kontrakt",
     "contracts_eur": "Kontrakt (EUR)",
+    "creating": "Skapar…",
+    "deleting": "Tar bort…",
     "description": "Beskrivning",
     "dismiss": "Stäng",
     "entity_resolution": "Entitetsupplösning",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU offentlig upphandling",
     "filings_by_year": "Inlämningar per år",
+    "former": "(tidigare)",
     "gleif": "GLEIF",
     "image": "Bild",
     "issues": "Problem",
@@ -47,20 +56,35 @@
     "loading_2": "Laddar...",
     "loading_story": "Laddar historia...",
     "metric": "Mått",
+    "no_data": "inga data",
     "no_data_available": "Inga data tillgängliga",
+    "no_data_paren": "(inga data)",
     "no_entity_configured": "Ingen entitet konfigurerad.",
+    "no_label": "(ingen etikett)",
+    "no_reason_given": "Ingen anledning angiven",
     "nuts_level": "NUTS-nivå",
     "per_year": "Per år",
+    "posting": "Publicerar…",
     "privacy": "Integritet",
+    "private": "privat",
+    "public": "offentlig",
     "raise_an_issue": "Rapportera ett problem",
     "remove": "Ta bort",
     "retry": "Försök igen",
+    "run_query": "Kör fråga",
+    "running_progress": "Kör…",
     "sanctions": "Sanktioner",
+    "save": "Spara",
+    "saving": "Sparar…",
     "sign_out": "Logga ut",
     "skip_to_main_content": "Hoppa till huvudinnehållet",
+    "submit_issue": "Skicka problem",
+    "submitting": "Skickar…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Totalt värde (EUR)",
+    "unknown": "Okänd",
+    "working": "Arbetar…",
     "xbrl_field_coverage": "Täckning av XBRL-fält (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekt per fond (Top 10)"
   },
   "explore": {
-    "explore": "Utforska"
+    "explore": "Utforska",
+    "intro": "Bläddra bland plattformens källa-till-sanning-paneler och direktfrågeytor. Välj ett kort för att gräva i datan bakom berättelserna."
   },
   "feed": {
     "clear_filter": "Rensa filter",
     "feed": "Flöde",
     "filtering_by": "Filtrerar efter",
+    "follow": "Följ",
     "loading_feed": "Laddar flöde...",
-    "public_data_stories_from_the_community_n": "Offentliga datahistorier från gemenskapen, nyaste först."
+    "nothing_here": "Inget här ännu. När folk publicerar offentliga datahistorier dyker de upp här.",
+    "public_data_stories_from_the_community_n": "Offentliga datahistorier från gemenskapen, nyaste först.",
+    "unfollow": "Sluta följa"
   },
   "firds_d_q": {
     "by_instrument_type": "Per instrumenttyp",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Främsta handelsplatser (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo-utforskare"
+    "geo_explorer": "Geo-utforskare",
+    "intro": "Entitets- och kontraktaggregat över NUTS-hierarkin. Idag på landsnivå — finare regioner kommer när entitetsgeokodning landar."
   },
   "geo_choropleth": {
     "companies": "Företag",
@@ -334,6 +363,7 @@
     "add_a_comment": "Lägg till en kommentar...",
     "loading_issue": "Laddar problem...",
     "no_comments_yet": "Inga kommentarer än.",
+    "post_comment": "Publicera kommentar",
     "reject": "Avvisa",
     "resolve": "Lös"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Laddar historier...",
     "my_stories": "Mina historier",
     "no_stories_yet_start_your_first_one_abov": "Inga historier än. Börja den första ovanför.",
-    "or_read_recent_public_stories": "Eller läs senaste offentliga historier →"
+    "or_read_recent_public_stories": "Eller läs senaste offentliga historier →",
+    "start_a_new_story": "Starta en ny berättelse"
+  },
+  "nav": {
+    "back_admin": "← Admin",
+    "back_data_quality": "← Datakvalitet",
+    "back_home": "← Hem",
+    "back_my_stories": "← Mina berättelser",
+    "back_stories": "← Berättelser",
+    "back_to_issues": "← Tillbaka till problem"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Främsta Alpha-2-koder"
   },
   "pocket_button": {
+    "name_this_snapshot": "Namnge denna ögonblicksbild",
+    "pocket": "Pocket",
     "save": "Spara",
-    "save_to_pocket": "Spara till Pocket"
+    "save_to_pocket": "Spara till Pocket",
+    "save_to_pocket_tooltip": "Spara till Pocket",
+    "saved": "Sparad",
+    "saved_to_pocket_tooltip": "Sparad till Pocket"
   },
   "preferences_menu": {
     "account": "Konto",
     "ai_usage": "AI-användning",
     "atlas_palette": "Atlas-palett",
+    "clear_ai_history": "Rensa AI-historik",
+    "delete_account": "Ta bort konto",
     "display": "Visning",
     "preferences": "Inställningar"
   },
@@ -461,6 +507,7 @@
     "part_of": "Del av"
   },
   "public_spending": {
+    "intro": "Sök EU-företag, upphandlande myndigheter, lobbyister och EU-finansierade projekt. Eller bläddra i vad som är stort i ditt land.",
     "public_spending": "Offentliga utgifter"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Synlighet"
   },
   "sparql": {
+    "discoverable_json": "returnerar samma dokumentation som JSON.",
     "endpoint": "Ändpunkt",
     "endpoint_url": "Ändpunkts-URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Fråga Fontems kunskapsgraf direkt från webbläsaren, eller koppla in slutpunkten i OpenRefine / en notebook / dina egna verktyg. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
     "limits": "Gränser",
     "method": "Metod",
     "post": "POST",
+    "query_cap_note": "4 KB frågetak; skrivskyddad (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE-nyckelord avvisas.",
     "query_failed": "Frågan misslyckades:",
     "response": "Svar",
+    "run_shortcut": "⌘/Ctrl + Retur för att köra",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkuvert:",
     "sparql_endpoint": "SPARQL-ändpunkt",
     "try_a_query": "Prova en fråga"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Rad",
+    "delete_row": "Ta bort denna rad",
+    "delete_table": "Ta bort tabellen",
+    "insert_column_end": "Infoga kolumn i slutet",
+    "insert_column_here": "Infoga kolumn här",
+    "insert_column_start": "Infoga kolumn i början",
     "remove_column_to_the_left": "Ta bort vänsterkolumnen"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Lägg till en tagg…",
+    "remove_tag_aria": "Ta bort taggen {tag}",
     "tags": "Etiketter"
   },
+  "theme": {
+    "dark": "Mörk",
+    "light": "Ljus",
+    "switch_to_dark": "Växla till mörkt läge",
+    "switch_to_light": "Växla till ljust läge"
+  },
   "ticker_card": {
+    "active": "Aktiv",
     "authority": "Myndighet",
     "company": "Företag",
+    "inactive": "Inaktiv",
     "person": "Person"
   },
   "ticker_financials": {

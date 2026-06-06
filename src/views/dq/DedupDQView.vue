@@ -13,7 +13,7 @@ onMounted(async () => {
 const pendingPct = computed(() => data.value && data.value.total > 0 ? Math.round(data.value.pending / data.value.total * 100) : 0)
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('dedup_d_q.deduplication') }}</h1><p class="dq-sub">{{ $t('dedup_d_q.same_as_queue_duplicate_entity_resolutio') }}</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('dedup_d_q.deduplication') }}</h1><p class="dq-sub">{{ $t('dedup_d_q.same_as_queue_duplicate_entity_resolutio') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.pending" label="Pending Review" color="#d97706" /><StatCard :value="data.reviewed" label="Reviewed" color="#16a34a" /><StatCard :value="data.total" label="Total SAME_AS" /></div>

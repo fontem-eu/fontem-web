@@ -18,7 +18,7 @@ const costBars = computed(() => (data.value?.cost_distribution || []).map(c => (
 const regTimeline = computed(() => data.value?.registrations_timeline || [])
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('lobbying_d_q.eu_lobbying_register') }}</h1><p class="dq-sub">{{ $t('lobbying_d_q.transparency_register_lobbyist_registrat') }}</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('lobbying_d_q.eu_lobbying_register') }}</h1><p class="dq-sub">{{ $t('lobbying_d_q.transparency_register_lobbyist_registrat') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Lobbyists" /><StatCard :value="data.with_ep_passes.toLocaleString()" label="EP Pass Holders" /><StatCard :value="data.matched_to_company.toLocaleString()" label="Matched to Company" /></div>

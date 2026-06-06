@@ -36,7 +36,7 @@ function cancel() {
       class="pocket-btn"
       :class="{ 'pocket-saved': saved }"
       data-testid="pocket-save-btn"
-      :title="saved ? 'Saved to pocket' : 'Save to pocket'"
+      :title="saved ? $t('pocket_button.saved_to_pocket_tooltip') : $t('pocket_button.save_to_pocket_tooltip')"
       @click="open"
     >
       <svg v-if="!saved" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -45,7 +45,7 @@ function cancel() {
       <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
       </svg>
-      <span class="pocket-label">{{ saved ? 'Saved' : 'Pocket' }}</span>
+      <span class="pocket-label">{{ saved ? $t('pocket_button.saved') : $t('pocket_button.pocket') }}</span>
     </button>
 
     <!-- Name prompt overlay -->
@@ -57,7 +57,7 @@ function cancel() {
           v-model="nameInput"
           type="text"
           class="pocket-prompt-input"
-          :placeholder="defaultName || 'Name this snapshot'"
+          :placeholder="defaultName || $t('pocket_button.name_this_snapshot')"
           data-testid="pocket-name-input"
           @keydown.enter="confirm"
           @keydown.escape="cancel"

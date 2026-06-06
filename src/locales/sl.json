@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45-sekundni ogled",
+    "hero_lead": "Odprt graf znanja, ki povezuje EU podjetja, javna naročila, lobiste in kohezijsko financiranje.",
     "how_it_works": "Kako deluje",
     "recently_published": "Nedavno objavljeno",
     "see_all_public_data_stories": "Oglej si vse javne podatkovne zgodbe →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Nalaganje aktivnosti...",
+    "no_activity_yet": "Še ni aktivnosti. Začni z raziskovanjem grafa ali ustvarjanjem podatkovne zgodbe.",
     "sign_in": "Prijava",
     "sign_in_to_see_your_activity": "Prijavi se, da vidiš svojo aktivnost."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktivnost",
     "admin": "Administracija",
     "all": "Vse",
+    "anonymous": "Anonimno",
+    "applied": "Uporabljeno",
+    "applied_auto": "Uporabljeno samodejno",
     "cancel": "Prekliči",
     "clear": "Počisti",
+    "clearing": "Čiščenje…",
     "close": "Zapri",
     "companies_count": "ni podjetij | 1 podjetje | {count} podjetij",
     "contracts": "Pogodbe",
     "contracts_count": "ni pogodb | 1 pogodba | {count} pogodb",
     "contracts_eur": "Pogodbe (EUR)",
+    "creating": "Ustvarjanje…",
+    "deleting": "Brisanje…",
     "description": "Opis",
     "dismiss": "Zapri",
     "entity_resolution": "Razreševanje entitet",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU javna naročila",
     "filings_by_year": "Vloge po letih",
+    "former": "(nekdanji)",
     "gleif": "GLEIF",
     "image": "Slika",
     "issues": "Težave",
@@ -47,20 +56,35 @@
     "loading_2": "Nalaganje...",
     "loading_story": "Nalaganje zgodbe...",
     "metric": "Meritev",
+    "no_data": "ni podatkov",
     "no_data_available": "Podatki niso na voljo",
+    "no_data_paren": "(ni podatkov)",
     "no_entity_configured": "Entiteta ni nastavljena.",
+    "no_label": "(brez oznake)",
+    "no_reason_given": "Razlog ni naveden",
     "nuts_level": "Raven NUTS",
     "per_year": "Letno",
+    "posting": "Objavljanje…",
     "privacy": "Zasebnost",
+    "private": "zasebno",
+    "public": "javno",
     "raise_an_issue": "Prijavi težavo",
     "remove": "Odstrani",
     "retry": "Poskusi znova",
+    "run_query": "Zaženi poizvedbo",
+    "running_progress": "Izvajanje…",
     "sanctions": "Sankcije",
+    "save": "Shrani",
+    "saving": "Shranjevanje…",
     "sign_out": "Odjava",
     "skip_to_main_content": "Preskoči na glavno vsebino",
+    "submit_issue": "Pošlji težavo",
+    "submitting": "Pošiljanje…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Skupna vrednost (EUR)",
+    "unknown": "Neznano",
+    "working": "Dela…",
     "xbrl_field_coverage": "Pokritost polj XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekti po skladu (Top 10)"
   },
   "explore": {
-    "explore": "Razišči"
+    "explore": "Razišči",
+    "intro": "Brskaj po platformnih armaturnih ploščah vira-resnice in površinah neposrednih poizvedb. Izberi karto in se poglobi v podatke za zgodbami."
   },
   "feed": {
     "clear_filter": "Počisti filter",
     "feed": "Vir",
     "filtering_by": "Filtrira po",
+    "follow": "Sledi",
     "loading_feed": "Nalaganje vira...",
-    "public_data_stories_from_the_community_n": "Javne podatkovne zgodbe iz skupnosti, najnovejše prve."
+    "nothing_here": "Tukaj še ni ničesar. Ko bodo ljudje objavili javne podatkovne zgodbe, se bodo pojavile tukaj.",
+    "public_data_stories_from_the_community_n": "Javne podatkovne zgodbe iz skupnosti, najnovejše prve.",
+    "unfollow": "Prenehaj slediti"
   },
   "firds_d_q": {
     "by_instrument_type": "Po vrsti instrumenta",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Glavna trgovalna mesta (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo raziskovalec"
+    "geo_explorer": "Geo raziskovalec",
+    "intro": "Agregati entitet in pogodb prek hierarhije NUTS. Danes na ravni držav — drobnejše regije pridejo, ko bo geokodiranje entitet pripravljeno."
   },
   "geo_choropleth": {
     "companies": "Podjetja",
@@ -334,6 +363,7 @@
     "add_a_comment": "Dodaj komentar...",
     "loading_issue": "Nalaganje težave...",
     "no_comments_yet": "Še ni komentarjev.",
+    "post_comment": "Objavi komentar",
     "reject": "Zavrni",
     "resolve": "Reši"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Nalaganje zgodb...",
     "my_stories": "Moje zgodbe",
     "no_stories_yet_start_your_first_one_abov": "Še ni zgodb. Začni s prvo zgoraj.",
-    "or_read_recent_public_stories": "Ali preberi nedavne javne zgodbe →"
+    "or_read_recent_public_stories": "Ali preberi nedavne javne zgodbe →",
+    "start_a_new_story": "Začni novo zgodbo"
+  },
+  "nav": {
+    "back_admin": "← Skrbništvo",
+    "back_data_quality": "← Kakovost podatkov",
+    "back_home": "← Domov",
+    "back_my_stories": "← Moje zgodbe",
+    "back_stories": "← Zgodbe",
+    "back_to_issues": "← Nazaj na težave"
   },
   "not_found": {
     "back_to_home": "Nazaj na domačo stran",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Glavne Alpha-2 kode"
   },
   "pocket_button": {
+    "name_this_snapshot": "Poimenuj ta posnetek",
+    "pocket": "Pocket",
     "save": "Shrani",
-    "save_to_pocket": "Shrani v Pocket"
+    "save_to_pocket": "Shrani v Pocket",
+    "save_to_pocket_tooltip": "Shrani v Pocket",
+    "saved": "Shranjeno",
+    "saved_to_pocket_tooltip": "Shranjeno v Pocket"
   },
   "preferences_menu": {
     "account": "Račun",
     "ai_usage": "Uporaba UI",
     "atlas_palette": "Atlas paleta",
+    "clear_ai_history": "Počisti zgodovino UI",
+    "delete_account": "Izbriši račun",
     "display": "Prikaz",
     "preferences": "Nastavitve"
   },
@@ -461,6 +507,7 @@
     "part_of": "Del"
   },
   "public_spending": {
+    "intro": "Išči EU podjetja, naročnike, lobiste in projekte, ki jih financira EU. Ali brskaj po tem, kar je veliko v tvoji državi.",
     "public_spending": "Javna poraba"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Vidnost"
   },
   "sparql": {
+    "discoverable_json": "vrne isto dokumentacijo kot JSON.",
     "endpoint": "Končna točka",
     "endpoint_url": "URL končne točke",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Poizveduj po grafu znanja Fontem neposredno iz brskalnika ali priklopi končno točko v OpenRefine / zvezek / lastna orodja. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
     "limits": "Omejitve",
     "method": "Metoda",
     "post": "POST",
+    "query_cap_note": "Omejitev poizvedbe 4 KB; samo branje (SELECT / ASK / CONSTRUCT / DESCRIBE). Ključne besede UPDATE so zavrnjene.",
     "query_failed": "Poizvedba ni uspela:",
     "response": "Odziv",
+    "run_shortcut": "⌘/Ctrl + Enter za zagon",
     "sparql_11_json_results_envelope": "Ovojnica rezultatov SPARQL 1.1 JSON:",
     "sparql_endpoint": "SPARQL končna točka",
     "try_a_query": "Poskusi poizvedbo"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Vrstica",
+    "delete_row": "Izbriši to vrstico",
+    "delete_table": "Izbriši tabelo",
+    "insert_column_end": "Vstavi stolpec na konec",
+    "insert_column_here": "Vstavi stolpec sem",
+    "insert_column_start": "Vstavi stolpec na začetek",
     "remove_column_to_the_left": "Odstrani levi stolpec"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Dodaj oznako…",
+    "remove_tag_aria": "Odstrani oznako {tag}",
     "tags": "Oznake"
   },
+  "theme": {
+    "dark": "Temna",
+    "light": "Svetla",
+    "switch_to_dark": "Preklopi na temni način",
+    "switch_to_light": "Preklopi na svetli način"
+  },
   "ticker_card": {
+    "active": "Aktiven",
     "authority": "Organ",
     "company": "Podjetje",
+    "inactive": "Neaktiven",
     "person": "Oseba"
   },
   "ticker_financials": {

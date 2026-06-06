@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45 sekundžių apžvalga",
+    "hero_lead": "Atviras žinių grafas, jungiantis ES įmones, viešuosius pirkimus, lobistus ir sanglaudos finansavimą.",
     "how_it_works": "Kaip tai veikia",
     "recently_published": "Neseniai paskelbta",
     "see_all_public_data_stories": "Žiūrėti visas viešas duomenų istorijas →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Įkeliama veikla...",
+    "no_activity_yet": "Veiklos dar nėra. Pradėk tyrinėdamas grafą arba kurdamas duomenų istoriją.",
     "sign_in": "Prisijungti",
     "sign_in_to_see_your_activity": "Prisijunk, kad matytum savo veiklą."
   },
@@ -25,13 +27,19 @@
     "activity": "Veikla",
     "admin": "Administravimas",
     "all": "Visi",
+    "anonymous": "Anoniminis",
+    "applied": "Pritaikyta",
+    "applied_auto": "Pritaikyta automatiškai",
     "cancel": "Atšaukti",
     "clear": "Išvalyti",
+    "clearing": "Valoma…",
     "close": "Uždaryti",
     "companies_count": "nėra įmonių | 1 įmonė | {count} įmonių",
     "contracts": "Sutartys",
     "contracts_count": "nėra sutarčių | 1 sutartis | {count} sutarčių",
     "contracts_eur": "Sutartys (EUR)",
+    "creating": "Kuriama…",
+    "deleting": "Trinama…",
     "description": "Aprašymas",
     "dismiss": "Uždaryti",
     "entity_resolution": "Esybių sutaikymas",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "ES viešieji pirkimai",
     "filings_by_year": "Paraiškos pagal metus",
+    "former": "(buvęs)",
     "gleif": "GLEIF",
     "image": "Vaizdas",
     "issues": "Problemos",
@@ -47,20 +56,35 @@
     "loading_2": "Įkeliama...",
     "loading_story": "Įkeliama istorija...",
     "metric": "Metrika",
+    "no_data": "nėra duomenų",
     "no_data_available": "Nėra duomenų",
+    "no_data_paren": "(nėra duomenų)",
     "no_entity_configured": "Esybė nesukonfigūruota.",
+    "no_label": "(be etiketės)",
+    "no_reason_given": "Priežastis nenurodyta",
     "nuts_level": "NUTS lygis",
     "per_year": "Per metus",
+    "posting": "Skelbiama…",
     "privacy": "Privatumas",
+    "private": "privatu",
+    "public": "vieša",
     "raise_an_issue": "Pranešti apie problemą",
     "remove": "Pašalinti",
     "retry": "Bandyti dar kartą",
+    "run_query": "Vykdyti užklausą",
+    "running_progress": "Vykdoma…",
     "sanctions": "Sankcijos",
+    "save": "Įrašyti",
+    "saving": "Įrašoma…",
     "sign_out": "Atsijungti",
     "skip_to_main_content": "Pereiti į pagrindinį turinį",
+    "submit_issue": "Pateikti problemą",
+    "submitting": "Pateikiama…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Bendra vertė (EUR)",
+    "unknown": "Nežinoma",
+    "working": "Vykdoma…",
     "xbrl_field_coverage": "XBRL laukų aprėptis (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projektai pagal fondą (Top 10)"
   },
   "explore": {
-    "explore": "Tyrinėti"
+    "explore": "Tyrinėti",
+    "intro": "Naršyk platformos tiesos-šaltinio prietaisų skydelius ir tiesioginių užklausų paviršius. Pasirink kortą ir gilinkis į duomenis už atsakymų."
   },
   "feed": {
     "clear_filter": "Išvalyti filtrą",
     "feed": "Srautas",
     "filtering_by": "Filtruojama pagal",
+    "follow": "Sekti",
     "loading_feed": "Įkeliamas srautas...",
-    "public_data_stories_from_the_community_n": "Viešos duomenų istorijos iš bendruomenės, naujausios pirma."
+    "nothing_here": "Kol kas čia nieko nėra. Kai žmonės paskelbs viešas duomenų istorijas, jos atsiras čia.",
+    "public_data_stories_from_the_community_n": "Viešos duomenų istorijos iš bendruomenės, naujausios pirma.",
+    "unfollow": "Nesekti"
   },
   "firds_d_q": {
     "by_instrument_type": "Pagal instrumento tipą",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Pagrindinės prekybos vietos (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo tyrinėtojas"
+    "geo_explorer": "Geo tyrinėtojas",
+    "intro": "Esybių ir sutarčių agregatai NUTS hierarchijoje. Šiandien šalies lygiu — smulkesni regionai atvyks, kai bus įdiegtas esybių geokodavimas."
   },
   "geo_choropleth": {
     "companies": "Įmonės",
@@ -334,6 +363,7 @@
     "add_a_comment": "Pridėti komentarą...",
     "loading_issue": "Įkeliama problema...",
     "no_comments_yet": "Komentarų dar nėra.",
+    "post_comment": "Skelbti komentarą",
     "reject": "Atmesti",
     "resolve": "Išspręsti"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Įkeliamos istorijos...",
     "my_stories": "Mano istorijos",
     "no_stories_yet_start_your_first_one_abov": "Istorijų dar nėra. Pradėk pirmą viršuje.",
-    "or_read_recent_public_stories": "Arba skaityk neseniai paskelbtas viešas istorijas →"
+    "or_read_recent_public_stories": "Arba skaityk neseniai paskelbtas viešas istorijas →",
+    "start_a_new_story": "Pradėk naują istoriją"
+  },
+  "nav": {
+    "back_admin": "← Administravimas",
+    "back_data_quality": "← Duomenų kokybė",
+    "back_home": "← Pradžia",
+    "back_my_stories": "← Mano istorijos",
+    "back_stories": "← Istorijos",
+    "back_to_issues": "← Atgal į problemas"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Pagrindiniai Alpha-2 kodai"
   },
   "pocket_button": {
+    "name_this_snapshot": "Įvardink šį momentą",
+    "pocket": "Pocket",
     "save": "Įrašyti",
-    "save_to_pocket": "Įrašyti į Pocket"
+    "save_to_pocket": "Įrašyti į Pocket",
+    "save_to_pocket_tooltip": "Įrašyti į Pocket",
+    "saved": "Įrašyta",
+    "saved_to_pocket_tooltip": "Įrašyta į Pocket"
   },
   "preferences_menu": {
     "account": "Paskyra",
     "ai_usage": "DI naudojimas",
     "atlas_palette": "Atlas paletė",
+    "clear_ai_history": "Išvalyti DI istoriją",
+    "delete_account": "Ištrinti paskyrą",
     "display": "Rodymas",
     "preferences": "Nuostatos"
   },
@@ -461,6 +507,7 @@
     "part_of": "Priklauso"
   },
   "public_spending": {
+    "intro": "Ieškok ES įmonių, perkančiųjų organizacijų, lobistų ir ES finansuojamų projektų. Arba peržiūrėk, kas didelis tavo šalyje.",
     "public_spending": "Viešosios išlaidos"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Matomumas"
   },
   "sparql": {
+    "discoverable_json": "grąžina tą pačią dokumentaciją kaip JSON.",
     "endpoint": "Galinis taškas",
     "endpoint_url": "Galinio taško URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Užklausk Fontem žinių grafą tiesiogiai iš naršyklės arba prijunk galinį tašką prie OpenRefine / užrašų / savo įrankių. Įmonės, sutartys, institucijos, lobistai, sankcijos — viskas susieta.",
     "limits": "Ribos",
     "method": "Metodas",
     "post": "POST",
+    "query_cap_note": "4 KB užklausos riba; tik skaitymas (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE raktiniai žodžiai atmetami.",
     "query_failed": "Užklausa nepavyko:",
     "response": "Atsakymas",
+    "run_shortcut": "⌘/Ctrl + Enter paleisti",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultatų vokas:",
     "sparql_endpoint": "SPARQL galinis taškas",
     "try_a_query": "Išbandyk užklausą"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Eilutė",
+    "delete_row": "Ištrinti šią eilutę",
+    "delete_table": "Ištrinti lentelę",
+    "insert_column_end": "Įterpti stulpelį pabaigoje",
+    "insert_column_here": "Įterpti stulpelį čia",
+    "insert_column_start": "Įterpti stulpelį pradžioje",
     "remove_column_to_the_left": "Pašalinti kairįjį stulpelį"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Pridėti žymą…",
+    "remove_tag_aria": "Pašalinti žymą {tag}",
     "tags": "Žymos"
   },
+  "theme": {
+    "dark": "Tamsi",
+    "light": "Šviesi",
+    "switch_to_dark": "Perjungti į tamsų režimą",
+    "switch_to_light": "Perjungti į šviesų režimą"
+  },
   "ticker_card": {
+    "active": "Aktyvus",
     "authority": "Institucija",
     "company": "Įmonė",
+    "inactive": "Neaktyvus",
     "person": "Asmuo"
   },
   "ticker_financials": {

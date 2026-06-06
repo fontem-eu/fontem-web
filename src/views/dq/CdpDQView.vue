@@ -15,7 +15,7 @@ const scoreBars = computed(() => (data.value?.score_distribution || []).map(s =>
 const yearBars = computed(() => (data.value?.by_reporting_year || []).map(y => ({ label: y.year, value: y.count })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('cdp_d_q.cdp_climate_disclosure') }}</h1><p class="dq-sub">{{ $t('cdp_d_q.cdp_scores_and_climate_reporting_score_d') }}</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('cdp_d_q.cdp_climate_disclosure') }}</h1><p class="dq-sub">{{ $t('cdp_d_q.cdp_scores_and_climate_reporting_score_d') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.companies_with_score.toLocaleString()" label="Companies with CDP Score" /></div>

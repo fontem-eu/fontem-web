@@ -134,10 +134,7 @@ function formatEur(n) {
     <header class="hero">
       <div class="hero-logo"><Wordmark size="lg" /></div>
       <h1 class="hero-title">{{ $t('public_spending.public_spending') }}</h1>
-      <p class="hero-sub">
-        Search EU companies, contracting authorities, lobbyists and EU-funded projects.
-        Or browse what's big in your country first.
-      </p>
+      <p class="hero-sub">{{ $t('public_spending.intro') }}</p>
       <TickerSearch
         :selected-symbol="null"
         :compact="true"

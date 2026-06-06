@@ -110,7 +110,7 @@ function pipelineStat(id) {
   <div class="dqh">
     <header class="dqh-header">
       <div>
-        <router-link to="/admin" class="dqh-back">&larr; Admin</router-link>
+        <router-link to="/admin" class="dqh-back">{{ $t('nav.back_admin') }}</router-link>
         <h1>{{ $t('data_quality_hub.data_quality') }}</h1>
         <p class="dqh-sub">Per-pipeline dashboards — drill into each ETL to spot gaps, trends, and anomalies.</p>
       </div>

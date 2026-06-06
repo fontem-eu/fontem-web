@@ -127,12 +127,7 @@ function cellIsIri(row, varName) {
   <div class="sparql-page" data-testid="sparql">
     <header class="sparql-hdr">
       <h1>{{ $t('sparql.sparql_endpoint') }}</h1>
-      <p class="sparql-sub">
-        Query the Fontem knowledge graph directly from the browser, or
-        plug the endpoint into OpenRefine / a notebook / your own
-        tooling. Companies, contracts, authorities, lobbyists,
-        sanctions — all linked.
-      </p>
+      <p class="sparql-sub">{{ $t('sparql.intro') }}</p>
     </header>
 
     <!-- Live endpoint details — documentation users can copy into
@@ -142,11 +137,11 @@ function cellIsIri(row, varName) {
         <dt>{{ $t('sparql.endpoint_url') }}</dt>
         <dd><code data-testid="sparql-endpoint-url">https://www.fontem.eu/api/sparql</code></dd>
         <dt>{{ $t('sparql.method') }}</dt>
-        <dd><code>{{ $t('sparql.post') }}</code> with <code>application/json</code> body <code>{"query": "…"}</code>. <code>{{ $t('sparql.get_apisparql') }}</code> returns this same documentation as JSON.</dd>
+        <dd><code>{{ $t('sparql.post') }}</code> with <code>application/json</code> body <code>{"query": "…"}</code>. <code>{{ $t('sparql.get_apisparql') }}</code> {{ $t('sparql.discoverable_json') }}</dd>
         <dt>{{ $t('sparql.response') }}</dt>
         <dd>{{ $t('sparql.sparql_11_json_results_envelope') }}<code>{head, results: {bindings}}</code>.</dd>
         <dt>{{ $t('sparql.limits') }}</dt>
-        <dd>4 KB query cap; read-only (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE keywords are rejected.</dd>
+        <dd>{{ $t('sparql.query_cap_note') }}</dd>
       </dl>
     </section>
 
@@ -154,7 +149,7 @@ function cellIsIri(row, varName) {
     <section class="sparql-editor-section" data-testid="sparql-editor-section">
       <div class="sparql-editor-header">
         <h2>{{ $t('sparql.try_a_query') }}</h2>
-        <span class="sparql-shortcut" aria-hidden="true">⌘/Ctrl + Enter to run</span>
+        <span class="sparql-shortcut" aria-hidden="true">{{ $t('sparql.run_shortcut') }}</span>
       </div>
       <textarea
         v-model="query"
@@ -172,7 +167,7 @@ function cellIsIri(row, varName) {
           data-testid="sparql-run"
           :disabled="running || !query.trim()"
           @click="runQuery"
-        >{{ running ? 'Running…' : 'Run query' }}</button>
+        >{{ running ? $t('app.running_progress') : $t('app.run_query') }}</button>
         <button
           type="button"
           class="sparql-clear-btn"

@@ -90,7 +90,7 @@ const generatedAt = computed(() => {
   <div class="dq" data-testid="triples-dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1>{{ $t('triples_d_q.triple_store') }}</h1>
         <p class="dq-sub">
           RDF inventory in the Virtuoso store —

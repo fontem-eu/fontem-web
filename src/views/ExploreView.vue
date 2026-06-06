@@ -42,10 +42,7 @@ const SECTIONS = [
   <div class="explore" data-testid="explore-view">
     <header class="explore-header">
       <h1>{{ $t('explore.explore') }}</h1>
-      <p>
-        Browse the platform's source-of-truth dashboards and direct-query
-        surfaces. Pick a card to dig into the data behind the stories.
-      </p>
+      <p>{{ $t('explore.intro') }}</p>
     </header>
 
     <div class="explore-grid" data-testid="explore-grid">

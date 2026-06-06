@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Een rondleiding van 45 seconden",
+    "hero_lead": "Een open kennisgraaf die EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering verbindt.",
     "how_it_works": "Hoe het werkt",
     "recently_published": "Onlangs gepubliceerd",
     "see_all_public_data_stories": "Bekijk alle openbare dataverhalen →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Activiteit laden...",
+    "no_activity_yet": "Nog geen activiteit. Begin met het verkennen van de graaf of het maken van een dataverhaal.",
     "sign_in": "Inloggen",
     "sign_in_to_see_your_activity": "Log in om uw activiteit te zien."
   },
@@ -25,13 +27,19 @@
     "activity": "Activiteit",
     "admin": "Beheer",
     "all": "Alle",
+    "anonymous": "Anoniem",
+    "applied": "Toegepast",
+    "applied_auto": "Automatisch toegepast",
     "cancel": "Annuleren",
     "clear": "Wissen",
+    "clearing": "Wissen…",
     "close": "Sluiten",
     "companies_count": "geen bedrijven | 1 bedrijf | {count} bedrijven",
     "contracts": "Contracten",
     "contracts_count": "geen contracten | 1 contract | {count} contracten",
     "contracts_eur": "Contracten (EUR)",
+    "creating": "Wordt aangemaakt…",
+    "deleting": "Verwijderen…",
     "description": "Beschrijving",
     "dismiss": "Sluiten",
     "entity_resolution": "Entiteitsoplossing",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU-aanbestedingen",
     "filings_by_year": "Indieningen per jaar",
+    "former": "(voormalig)",
     "gleif": "GLEIF",
     "image": "Afbeelding",
     "issues": "Issues",
@@ -47,20 +56,35 @@
     "loading_2": "Laden...",
     "loading_story": "Verhaal laden...",
     "metric": "Metriek",
+    "no_data": "geen data",
     "no_data_available": "Geen gegevens beschikbaar",
+    "no_data_paren": "(geen data)",
     "no_entity_configured": "Geen entiteit geconfigureerd.",
+    "no_label": "(geen label)",
+    "no_reason_given": "Geen reden opgegeven",
     "nuts_level": "NUTS-niveau",
     "per_year": "Per jaar",
+    "posting": "Plaatsen…",
     "privacy": "Privacy",
+    "private": "privé",
+    "public": "openbaar",
     "raise_an_issue": "Issue indienen",
     "remove": "Verwijderen",
     "retry": "Opnieuw proberen",
+    "run_query": "Query uitvoeren",
+    "running_progress": "Bezig…",
     "sanctions": "Sancties",
+    "save": "Opslaan",
+    "saving": "Opslaan…",
     "sign_out": "Uitloggen",
     "skip_to_main_content": "Ga naar hoofdinhoud",
+    "submit_issue": "Probleem indienen",
+    "submitting": "Wordt verzonden…",
     "ted": "TED",
     "theme": "Thema",
     "total_value_eur": "Totale waarde (EUR)",
+    "unknown": "Onbekend",
+    "working": "Bezig…",
     "xbrl_field_coverage": "XBRL-velddekking (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projecten per fonds (Top 10)"
   },
   "explore": {
-    "explore": "Verkennen"
+    "explore": "Verkennen",
+    "intro": "Blader door de bron-van-waarheid-dashboards van het platform en de directe-query-oppervlakken. Kies een kaart om in de data achter de verhalen te duiken."
   },
   "feed": {
     "clear_filter": "Filter wissen",
     "feed": "Feed",
     "filtering_by": "Filteren op",
+    "follow": "Volgen",
     "loading_feed": "Feed laden...",
-    "public_data_stories_from_the_community_n": "Openbare dataverhalen uit de community, nieuwste eerst."
+    "nothing_here": "Hier is nog niets. Wanneer mensen openbare dataverhalen plaatsen, verschijnen ze hier.",
+    "public_data_stories_from_the_community_n": "Openbare dataverhalen uit de community, nieuwste eerst.",
+    "unfollow": "Niet meer volgen"
   },
   "firds_d_q": {
     "by_instrument_type": "Per instrumenttype",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Belangrijkste handelsplaatsen (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geografische verkenner"
+    "geo_explorer": "Geografische verkenner",
+    "intro": "Aggregaten van entiteiten en contracten over de NUTS-hiërarchie. Vandaag op landniveau — fijnere regio's komen zodra entity-geocoding wordt uitgerold."
   },
   "geo_choropleth": {
     "companies": "Bedrijven",
@@ -334,6 +363,7 @@
     "add_a_comment": "Voeg een reactie toe...",
     "loading_issue": "Issue laden...",
     "no_comments_yet": "Nog geen reacties.",
+    "post_comment": "Reactie plaatsen",
     "reject": "Weigeren",
     "resolve": "Oplossen"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Verhalen laden...",
     "my_stories": "Mijn verhalen",
     "no_stories_yet_start_your_first_one_abov": "Nog geen verhalen. Begin uw eerste hierboven.",
-    "or_read_recent_public_stories": "Of lees recente openbare verhalen →"
+    "or_read_recent_public_stories": "Of lees recente openbare verhalen →",
+    "start_a_new_story": "Begin een nieuw verhaal"
+  },
+  "nav": {
+    "back_admin": "← Beheer",
+    "back_data_quality": "← Datakwaliteit",
+    "back_home": "← Home",
+    "back_my_stories": "← Mijn verhalen",
+    "back_stories": "← Verhalen",
+    "back_to_issues": "← Terug naar problemen"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Belangrijkste Alpha-2-codes"
   },
   "pocket_button": {
+    "name_this_snapshot": "Geef deze snapshot een naam",
+    "pocket": "Pocket",
     "save": "Opslaan",
-    "save_to_pocket": "Opslaan in Pocket"
+    "save_to_pocket": "Opslaan in Pocket",
+    "save_to_pocket_tooltip": "Opslaan in Pocket",
+    "saved": "Opgeslagen",
+    "saved_to_pocket_tooltip": "Opgeslagen in Pocket"
   },
   "preferences_menu": {
     "account": "Account",
     "ai_usage": "AI-gebruik",
     "atlas_palette": "Atlas-palet",
+    "clear_ai_history": "AI-geschiedenis wissen",
+    "delete_account": "Account verwijderen",
     "display": "Weergave",
     "preferences": "Voorkeuren"
   },
@@ -461,6 +507,7 @@
     "part_of": "Onderdeel van"
   },
   "public_spending": {
+    "intro": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Of blader door wat groot is in jouw land.",
     "public_spending": "Overheidsuitgaven"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Zichtbaarheid"
   },
   "sparql": {
+    "discoverable_json": "geeft dezelfde documentatie terug als JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Bevraag de Fontem-kennisgraaf rechtstreeks vanuit de browser of koppel het eindpunt aan OpenRefine / een notebook / je eigen tools. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — alles gekoppeld.",
     "limits": "Limieten",
     "method": "Methode",
     "post": "POST",
+    "query_cap_note": "4 KB query-limiet; alleen-lezen (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE-trefwoorden worden geweigerd.",
     "query_failed": "Query mislukt:",
     "response": "Antwoord",
+    "run_shortcut": "⌘/Ctrl + Enter om uit te voeren",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultaten-envelop:",
     "sparql_endpoint": "SPARQL-endpoint",
     "try_a_query": "Probeer een query"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Rij",
+    "delete_row": "Deze rij verwijderen",
+    "delete_table": "Tabel verwijderen",
+    "insert_column_end": "Kolom aan het einde invoegen",
+    "insert_column_here": "Kolom hier invoegen",
+    "insert_column_start": "Kolom aan het begin invoegen",
     "remove_column_to_the_left": "Verwijder de kolom links"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Voeg een tag toe…",
+    "remove_tag_aria": "Tag {tag} verwijderen",
     "tags": "Labels"
   },
+  "theme": {
+    "dark": "Donker",
+    "light": "Licht",
+    "switch_to_dark": "Schakel naar donkere modus",
+    "switch_to_light": "Schakel naar lichte modus"
+  },
   "ticker_card": {
+    "active": "Actief",
     "authority": "Autoriteit",
     "company": "Bedrijf",
+    "inactive": "Inactief",
     "person": "Persoon"
   },
   "ticker_financials": {

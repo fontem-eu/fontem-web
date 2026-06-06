@@ -229,7 +229,7 @@ function formatValue(v) {
   <div class="er">
     <header class="er-header">
       <div>
-        <router-link to="/admin" class="er-back">&larr; Admin</router-link>
+        <router-link to="/admin" class="er-back">{{ $t('nav.back_admin') }}</router-link>
         <h1>{{ $t('app.entity_resolution') }}</h1>
         <p class="er-subtitle">{{ $t('entity_resolution.review_and_decide_on_flagged_candidates') }}<span class="er-reviewer-line">
             &middot; reviewer: <input

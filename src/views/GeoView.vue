@@ -6,11 +6,7 @@ import GeoChoropleth from '../components/GeoChoropleth.vue'
   <div class="geo-view">
     <header class="geo-view__header">
       <h1>{{ $t('geo.geo_explorer') }}</h1>
-      <p class="geo-view__hint">
-        Entity and contract aggregates over the NUTS hierarchy.
-        Country-level today — finer regions coming soon as entity data gets
-        tagged with postal codes.
-      </p>
+      <p class="geo-view__hint">{{ $t('geo.intro') }}</p>
     </header>
     <GeoChoropleth />
   </div>

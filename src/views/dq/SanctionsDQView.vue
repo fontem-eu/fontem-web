@@ -16,7 +16,7 @@ const matchPct = computed(() => data.value ? Math.round(data.value.matched_to_co
 const regimeBars = computed(() => (data.value?.top_regimes || []).map(r => ({ label: r.regime, value: r.n })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('app.sanctions') }}</h1><p class="dq-sub">{{ $t('sanctions_d_q.sanctioned_entities_persons_organisation') }}</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('app.sanctions') }}</h1><p class="dq-sub">{{ $t('sanctions_d_q.sanctioned_entities_persons_organisation') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Sanctioned Entities" /><StatCard :value="data.persons.toLocaleString()" label="Persons" /><StatCard :value="data.entities.toLocaleString()" label="Organisations" /><StatCard :value="data.matched_to_companies.toLocaleString()" label="Matched to Companies" /></div>

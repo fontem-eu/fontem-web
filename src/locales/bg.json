@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Обиколка от 45 секунди",
+    "hero_lead": "Отворен граф на знания, свързващ компании от ЕС, обществените поръчки, лобистите и кохезионното финансиране.",
     "how_it_works": "Как работи",
     "recently_published": "Наскоро публикувано",
     "see_all_public_data_stories": "Вижте всички публични данни истории →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Зареждане на активност...",
+    "no_activity_yet": "Все още няма активност. Започни като разгледаш графа или създадеш история с данни.",
     "sign_in": "Вход",
     "sign_in_to_see_your_activity": "Влезте, за да видите вашата активност."
   },
@@ -25,13 +27,19 @@
     "activity": "Активност",
     "admin": "Администрация",
     "all": "Всички",
+    "anonymous": "Анонимен",
+    "applied": "Приложено",
+    "applied_auto": "Приложено автоматично",
     "cancel": "Отказ",
     "clear": "Изчисти",
+    "clearing": "Изчистване…",
     "close": "Затвори",
     "companies_count": "няма компании | 1 компания | {count} компании",
     "contracts": "Договори",
     "contracts_count": "няма договори | 1 договор | {count} договора",
     "contracts_eur": "Договори (EUR)",
+    "creating": "Създаване…",
+    "deleting": "Изтриване…",
     "description": "Описание",
     "dismiss": "Затвори",
     "entity_resolution": "Разрешаване на обекти",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Обществени поръчки на ЕС",
     "filings_by_year": "Подавания по година",
+    "former": "(бивш)",
     "gleif": "GLEIF",
     "image": "Изображение",
     "issues": "Проблеми",
@@ -47,20 +56,35 @@
     "loading_2": "Зареждане...",
     "loading_story": "Зареждане на история...",
     "metric": "Метрика",
+    "no_data": "няма данни",
     "no_data_available": "Няма налични данни",
+    "no_data_paren": "(няма данни)",
     "no_entity_configured": "Не е конфигуриран обект.",
+    "no_label": "(без етикет)",
+    "no_reason_given": "Не е посочена причина",
     "nuts_level": "Ниво NUTS",
     "per_year": "Годишно",
+    "posting": "Публикуване…",
     "privacy": "Поверителност",
+    "private": "частен",
+    "public": "публичен",
     "raise_an_issue": "Подаване на проблем",
     "remove": "Премахни",
     "retry": "Опитай отново",
+    "run_query": "Изпълни заявката",
+    "running_progress": "Изпълнява се…",
     "sanctions": "Санкции",
+    "save": "Запази",
+    "saving": "Запазване…",
     "sign_out": "Изход",
     "skip_to_main_content": "Преход към основното съдържание",
+    "submit_issue": "Подай проблема",
+    "submitting": "Подаване…",
     "ted": "TED",
     "theme": "Тема",
     "total_value_eur": "Обща стойност (EUR)",
+    "unknown": "Неизвестно",
+    "working": "Работи…",
     "xbrl_field_coverage": "Покритие на XBRL полета (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Проекти по фонд (Топ 10)"
   },
   "explore": {
-    "explore": "Разгледай"
+    "explore": "Разгледай",
+    "intro": "Разгледай таблата за източника на истината на платформата и повърхностите за директни заявки. Избери карта, за да се впуснеш в данните зад отговорите."
   },
   "feed": {
     "clear_filter": "Изчисти филтър",
     "feed": "Поток",
     "filtering_by": "Филтриране по",
+    "follow": "Следвай",
     "loading_feed": "Зареждане на поток...",
-    "public_data_stories_from_the_community_n": "Публични истории с данни от общността, най-новите първи."
+    "nothing_here": "Тук още няма нищо. Когато хората публикуват публични истории с данни, те ще се появят тук.",
+    "public_data_stories_from_the_community_n": "Публични истории с данни от общността, най-новите първи.",
+    "unfollow": "Не следвай"
   },
   "firds_d_q": {
     "by_instrument_type": "По тип инструмент",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Топ места за търговия (MIC)"
   },
   "geo": {
-    "geo_explorer": "Геоизследовател"
+    "geo_explorer": "Геоизследовател",
+    "intro": "Агрегати на субекти и договори по йерархията NUTS. Засега на ниво държава — по-фини региони идват, когато се добави геокодиране на субектите."
   },
   "geo_choropleth": {
     "companies": "Компании",
@@ -334,6 +363,7 @@
     "add_a_comment": "Добавете коментар...",
     "loading_issue": "Зареждане на проблем...",
     "no_comments_yet": "Все още няма коментари.",
+    "post_comment": "Публикувай коментар",
     "reject": "Отхвърли",
     "resolve": "Реши"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Зареждане на истории...",
     "my_stories": "Моите истории",
     "no_stories_yet_start_your_first_one_abov": "Все още няма истории. Започнете първата отгоре.",
-    "or_read_recent_public_stories": "Или прочетете последни публични истории →"
+    "or_read_recent_public_stories": "Или прочетете последни публични истории →",
+    "start_a_new_story": "Започни нова история"
+  },
+  "nav": {
+    "back_admin": "← Администрация",
+    "back_data_quality": "← Качество на данните",
+    "back_home": "← Начало",
+    "back_my_stories": "← Моите истории",
+    "back_stories": "← Истории",
+    "back_to_issues": "← Обратно към проблемите"
   },
   "not_found": {
     "back_to_home": "Към началната страница",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Топ Alpha-2 кодове"
   },
   "pocket_button": {
+    "name_this_snapshot": "Назови тази снимка",
+    "pocket": "Pocket",
     "save": "Запази",
-    "save_to_pocket": "Запази в Pocket"
+    "save_to_pocket": "Запази в Pocket",
+    "save_to_pocket_tooltip": "Запази в Pocket",
+    "saved": "Запазено",
+    "saved_to_pocket_tooltip": "Запазено в Pocket"
   },
   "preferences_menu": {
     "account": "Профил",
     "ai_usage": "Използване на ИИ",
     "atlas_palette": "Палитра на Атлас",
+    "clear_ai_history": "Изчисти историята на ИИ",
+    "delete_account": "Изтрий профила",
     "display": "Показване",
     "preferences": "Настройки"
   },
@@ -461,6 +507,7 @@
     "part_of": "Част от"
   },
   "public_spending": {
+    "intro": "Търси компании от ЕС, възлагащи органи, лобисти и проекти, финансирани от ЕС. Или разгледай какво е голямо в твоята страна.",
     "public_spending": "Публични разходи"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Видимост"
   },
   "sparql": {
+    "discoverable_json": "връща същата документация като JSON.",
     "endpoint": "Крайна точка",
     "endpoint_url": "URL на крайната точка",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Заяви Fontem графа на знания директно от браузъра или включи endpoint в OpenRefine / тетрадка / собствените си инструменти. Компании, договори, органи, лобисти, санкции — всички свързани.",
     "limits": "Лимити",
     "method": "Метод",
     "post": "POST",
+    "query_cap_note": "Ограничение от 4 KB; само за четене (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE ключовите думи се отхвърлят.",
     "query_failed": "Заявката не успя:",
     "response": "Отговор",
+    "run_shortcut": "⌘/Ctrl + Enter за изпълнение",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON обвивка на резултатите:",
     "sparql_endpoint": "SPARQL крайна точка",
     "try_a_query": "Опитай заявка"
@@ -530,14 +581,30 @@
     "vol": "Об."
   },
   "table_controls_overlay": {
+    "add_row": "+ Ред",
+    "delete_row": "Изтрий този ред",
+    "delete_table": "Изтрий таблицата",
+    "insert_column_end": "Вмъкни колона в края",
+    "insert_column_here": "Вмъкни колона тук",
+    "insert_column_start": "Вмъкни колона в началото",
     "remove_column_to_the_left": "Премахни лявата колона"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Добави етикет…",
+    "remove_tag_aria": "Премахни етикет {tag}",
     "tags": "Етикети"
   },
+  "theme": {
+    "dark": "Тъмна",
+    "light": "Светла",
+    "switch_to_dark": "Превключи на тъмен режим",
+    "switch_to_light": "Превключи на светъл режим"
+  },
   "ticker_card": {
+    "active": "Активен",
     "authority": "Власт",
     "company": "Компания",
+    "inactive": "Неактивен",
     "person": "Лице"
   },
   "ticker_financials": {

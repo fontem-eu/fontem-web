@@ -113,7 +113,7 @@ function typeLabel(type) {
       class="activity-empty"
       data-testid="activity-empty"
     >
-      No activity yet. Start by exploring the graph or creating a data story.
+      {{ $t('activity.no_activity_yet') }}
     </div>
 
     <!-- Activity feed -->

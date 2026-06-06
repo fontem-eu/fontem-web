@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45 sekunžu apskats",
+    "hero_lead": "Atvērts zināšanu grafs, kas savieno ES uzņēmumus, publisko iepirkumu, lobistus un kohēzijas finansējumu.",
     "how_it_works": "Kā tas strādā",
     "recently_published": "Nesen publicēts",
     "see_all_public_data_stories": "Skatīt visus publiskos datu stāstus →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Ielādē aktivitāti...",
+    "no_activity_yet": "Vēl nav aktivitātes. Sāc pētot grafu vai veidojot datu stāstu.",
     "sign_in": "Ielogoties",
     "sign_in_to_see_your_activity": "Ielogojies, lai redzētu savu aktivitāti."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktivitāte",
     "admin": "Administrēšana",
     "all": "Visi",
+    "anonymous": "Anonīms",
+    "applied": "Piemērots",
+    "applied_auto": "Piemērots automātiski",
     "cancel": "Atcelt",
     "clear": "Notīrīt",
+    "clearing": "Notīrīšana…",
     "close": "Aizvērt",
     "companies_count": "nav uzņēmumu | 1 uzņēmums | {count} uzņēmumi",
     "contracts": "Līgumi",
     "contracts_count": "nav līgumu | 1 līgums | {count} līgumi",
     "contracts_eur": "Līgumi (EUR)",
+    "creating": "Veidošana…",
+    "deleting": "Dzēšana…",
     "description": "Apraksts",
     "dismiss": "Aizvērt",
     "entity_resolution": "Entītes atrisinājums",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "ES publiskais iepirkums",
     "filings_by_year": "Iesniegumi pa gadiem",
+    "former": "(bijušais)",
     "gleif": "GLEIF",
     "image": "Attēls",
     "issues": "Problēmas",
@@ -47,20 +56,35 @@
     "loading_2": "Ielādē...",
     "loading_story": "Ielādē stāstu...",
     "metric": "Rādītājs",
+    "no_data": "nav datu",
     "no_data_available": "Datu nav pieejamu",
+    "no_data_paren": "(nav datu)",
     "no_entity_configured": "Nav konfigurētas entītes.",
+    "no_label": "(bez etiķetes)",
+    "no_reason_given": "Iemesls nav norādīts",
     "nuts_level": "NUTS līmenis",
     "per_year": "Gadā",
+    "posting": "Publicēšana…",
     "privacy": "Privātums",
+    "private": "privāts",
+    "public": "publisks",
     "raise_an_issue": "Ziņot par problēmu",
     "remove": "Noņemt",
     "retry": "Mēģināt vēlreiz",
+    "run_query": "Izpildīt vaicājumu",
+    "running_progress": "Darbojas…",
     "sanctions": "Sankcijas",
+    "save": "Saglabāt",
+    "saving": "Saglabāšana…",
     "sign_out": "Izlogoties",
     "skip_to_main_content": "Pāriet uz galveno saturu",
+    "submit_issue": "Iesniegt problēmu",
+    "submitting": "Iesniegšana…",
     "ted": "TED",
     "theme": "Tēma",
     "total_value_eur": "Kopējā vērtība (EUR)",
+    "unknown": "Nezināms",
+    "working": "Strādā…",
     "xbrl_field_coverage": "XBRL lauku pārklājums (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekti pa fondiem (Top 10)"
   },
   "explore": {
-    "explore": "Izpētīt"
+    "explore": "Izpētīt",
+    "intro": "Pārlūko platformas patiesības-avota informācijas paneļus un tiešo vaicājumu virsmas. Izvēlies kartīti, lai iedziļinātos datos aiz stāstiem."
   },
   "feed": {
     "clear_filter": "Notīrīt filtru",
     "feed": "Plūsma",
     "filtering_by": "Filtrē pēc",
+    "follow": "Seko",
     "loading_feed": "Ielādē plūsmu...",
-    "public_data_stories_from_the_community_n": "Publiski datu stāsti no kopienas, jaunākie pirmie."
+    "nothing_here": "Šeit pagaidām nekā nav. Kad cilvēki publicēs publiskus datu stāstus, tie parādīsies šeit.",
+    "public_data_stories_from_the_community_n": "Publiski datu stāsti no kopienas, jaunākie pirmie.",
+    "unfollow": "Pārtraukt sekošanu"
   },
   "firds_d_q": {
     "by_instrument_type": "Pēc instrumenta tipa",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Galvenās tirdzniecības vietas (MIC)"
   },
   "geo": {
-    "geo_explorer": "Ģeo pārlūks"
+    "geo_explorer": "Ģeo pārlūks",
+    "intro": "Entītu un līgumu agregāti pēc NUTS hierarhijas. Šobrīd valsts līmenī — smalkāki reģioni nāks, kad būs ieviesta entītu ģeokodēšana."
   },
   "geo_choropleth": {
     "companies": "Uzņēmumi",
@@ -334,6 +363,7 @@
     "add_a_comment": "Pievienot komentāru...",
     "loading_issue": "Ielādē problēmu...",
     "no_comments_yet": "Komentāru vēl nav.",
+    "post_comment": "Publicēt komentāru",
     "reject": "Noraidīt",
     "resolve": "Atrisināt"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Ielādē stāstus...",
     "my_stories": "Mani stāsti",
     "no_stories_yet_start_your_first_one_abov": "Stāstu vēl nav. Sāc pirmo augšā.",
-    "or_read_recent_public_stories": "Vai lasi nesen publicētus publiskus stāstus →"
+    "or_read_recent_public_stories": "Vai lasi nesen publicētus publiskus stāstus →",
+    "start_a_new_story": "Sākt jaunu stāstu"
+  },
+  "nav": {
+    "back_admin": "← Administrēšana",
+    "back_data_quality": "← Datu kvalitāte",
+    "back_home": "← Sākums",
+    "back_my_stories": "← Mani stāsti",
+    "back_stories": "← Stāsti",
+    "back_to_issues": "← Atpakaļ uz problēmām"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Galvenie Alpha-2 kodi"
   },
   "pocket_button": {
+    "name_this_snapshot": "Nosauc šo momentuzņēmumu",
+    "pocket": "Pocket",
     "save": "Saglabāt",
-    "save_to_pocket": "Saglabāt Pocket"
+    "save_to_pocket": "Saglabāt Pocket",
+    "save_to_pocket_tooltip": "Saglabāt Pocket",
+    "saved": "Saglabāts",
+    "saved_to_pocket_tooltip": "Saglabāts Pocket"
   },
   "preferences_menu": {
     "account": "Konts",
     "ai_usage": "MI lietošana",
     "atlas_palette": "Atlas palete",
+    "clear_ai_history": "Notīrīt MI vēsturi",
+    "delete_account": "Dzēst kontu",
     "display": "Attēlojums",
     "preferences": "Iestatījumi"
   },
@@ -461,6 +507,7 @@
     "part_of": "Daļa no"
   },
   "public_spending": {
+    "intro": "Meklē ES uzņēmumus, līgumslēdzējus, lobistus un ES finansētus projektus. Vai pārlūko to, kas ir liels tavā valstī.",
     "public_spending": "Publiskie tēriņi"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Redzamība"
   },
   "sparql": {
+    "discoverable_json": "atgriež to pašu dokumentāciju kā JSON.",
     "endpoint": "Galapunkts",
     "endpoint_url": "Galapunkta URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Pieprasi Fontem zināšanu grafu tieši no pārlūka vai pieslēdz galapunktu OpenRefine / piezīmju grāmatai / saviem rīkiem. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — viss savienots.",
     "limits": "Robežas",
     "method": "Metode",
     "post": "POST",
+    "query_cap_note": "4 KB vaicājumu robeža; tikai lasīšana (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE atslēgvārdi tiek noraidīti.",
     "query_failed": "Vaicājums neizdevās:",
     "response": "Atbilde",
+    "run_shortcut": "⌘/Ctrl + Enter, lai palaistu",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultātu aploksne:",
     "sparql_endpoint": "SPARQL galapunkts",
     "try_a_query": "Izmēģini vaicājumu"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Rinda",
+    "delete_row": "Dzēst šo rindu",
+    "delete_table": "Dzēst tabulu",
+    "insert_column_end": "Ievietot kolonnu beigās",
+    "insert_column_here": "Ievietot kolonnu šeit",
+    "insert_column_start": "Ievietot kolonnu sākumā",
     "remove_column_to_the_left": "Noņemt kreiso kolonnu"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Pievieno birku…",
+    "remove_tag_aria": "Noņemt birku {tag}",
     "tags": "Birkas"
   },
+  "theme": {
+    "dark": "Tumšs",
+    "light": "Gaišs",
+    "switch_to_dark": "Pārslēgties uz tumšo režīmu",
+    "switch_to_light": "Pārslēgties uz gaišo režīmu"
+  },
   "ticker_card": {
+    "active": "Aktīvs",
     "authority": "Iestāde",
     "company": "Uzņēmums",
+    "inactive": "Neaktīvs",
     "person": "Persona"
   },
   "ticker_financials": {

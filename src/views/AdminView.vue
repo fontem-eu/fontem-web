@@ -18,7 +18,7 @@ const tools = [
   <div class="adm">
     <header class="adm-header">
       <div>
-        <router-link to="/" class="adm-back">&larr; Home</router-link>
+        <router-link to="/" class="adm-back">{{ $t('nav.back_home') }}</router-link>
         <h1>{{ $t('app.admin') }}</h1>
         <p class="adm-sub">{{ $t('admin.operational_tools_architecture_docs_and_') }}</p>
       </div>

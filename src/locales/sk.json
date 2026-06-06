@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45-sekundová prehliadka",
+    "hero_lead": "Otvorený znalostný graf prepájajúci firmy EÚ, verejné obstarávanie, lobistov a kohézne financovanie.",
     "how_it_works": "Ako to funguje",
     "recently_published": "Nedávno zverejnené",
     "see_all_public_data_stories": "Pozri všetky verejné dátové príbehy →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Načítava sa aktivita...",
+    "no_activity_yet": "Zatiaľ žiadna aktivita. Začni preskúmaním grafu alebo vytvorením dátového príbehu.",
     "sign_in": "Prihlásiť sa",
     "sign_in_to_see_your_activity": "Prihlás sa, aby si videl svoju aktivitu."
   },
@@ -25,13 +27,19 @@
     "activity": "Aktivita",
     "admin": "Správa",
     "all": "Všetky",
+    "anonymous": "Anonymný",
+    "applied": "Použité",
+    "applied_auto": "Použité automaticky",
     "cancel": "Zrušiť",
     "clear": "Vymazať",
+    "clearing": "Vymazáva sa…",
     "close": "Zatvoriť",
     "companies_count": "žiadne firmy | 1 firma | {count} firiem",
     "contracts": "Zmluvy",
     "contracts_count": "žiadne zmluvy | 1 zmluva | {count} zmlúv",
     "contracts_eur": "Zmluvy (EUR)",
+    "creating": "Vytvára sa…",
+    "deleting": "Maže sa…",
     "description": "Popis",
     "dismiss": "Zatvoriť",
     "entity_resolution": "Rozlišovanie entít",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Verejné obstarávanie EÚ",
     "filings_by_year": "Podania podľa rokov",
+    "former": "(bývalý)",
     "gleif": "GLEIF",
     "image": "Obrázok",
     "issues": "Problémy",
@@ -47,20 +56,35 @@
     "loading_2": "Načítava sa...",
     "loading_story": "Načítava sa príbeh...",
     "metric": "Metrika",
+    "no_data": "žiadne údaje",
     "no_data_available": "Žiadne dostupné údaje",
+    "no_data_paren": "(žiadne údaje)",
     "no_entity_configured": "Žiadna entita nie je nakonfigurovaná.",
+    "no_label": "(bez popisu)",
+    "no_reason_given": "Bez udania dôvodu",
     "nuts_level": "Úroveň NUTS",
     "per_year": "Ročne",
+    "posting": "Publikuje sa…",
     "privacy": "Súkromie",
+    "private": "súkromné",
+    "public": "verejné",
     "raise_an_issue": "Nahlásiť problém",
     "remove": "Odstrániť",
     "retry": "Skúsiť znova",
+    "run_query": "Spustiť dopyt",
+    "running_progress": "Beží…",
     "sanctions": "Sankcie",
+    "save": "Uložiť",
+    "saving": "Ukladá sa…",
     "sign_out": "Odhlásiť sa",
     "skip_to_main_content": "Prejsť na hlavný obsah",
+    "submit_issue": "Odoslať problém",
+    "submitting": "Odosiela sa…",
     "ted": "TED",
     "theme": "Téma",
     "total_value_eur": "Celková hodnota (EUR)",
+    "unknown": "Neznáme",
+    "working": "Pracuje…",
     "xbrl_field_coverage": "Pokrytie polí XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projekty podľa fondu (Top 10)"
   },
   "explore": {
-    "explore": "Preskúmať"
+    "explore": "Preskúmať",
+    "intro": "Prezri si platformové dashboardy zdroja-pravdy a plochy priamych dopytov. Vyber kartu a ponor sa do údajov za príbehmi."
   },
   "feed": {
     "clear_filter": "Vymazať filter",
     "feed": "Feed",
     "filtering_by": "Filtruje sa podľa",
+    "follow": "Sledovať",
     "loading_feed": "Načítava sa feed...",
-    "public_data_stories_from_the_community_n": "Verejné dátové príbehy z komunity, najnovšie prvé."
+    "nothing_here": "Zatiaľ tu nič nie je. Keď ľudia zverejnia verejné dátové príbehy, objavia sa tu.",
+    "public_data_stories_from_the_community_n": "Verejné dátové príbehy z komunity, najnovšie prvé.",
+    "unfollow": "Prestať sledovať"
   },
   "firds_d_q": {
     "by_instrument_type": "Podľa typu nástroja",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Hlavné miesta obchodovania (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo prieskumník"
+    "geo_explorer": "Geo prieskumník",
+    "intro": "Agregáty entít a zmlúv cez hierarchiu NUTS. Dnes na úrovni krajiny — jemnejšie regióny prídu, keď bude geokódovanie entít k dispozícii."
   },
   "geo_choropleth": {
     "companies": "Firmy",
@@ -334,6 +363,7 @@
     "add_a_comment": "Pridať komentár...",
     "loading_issue": "Načítava sa problém...",
     "no_comments_yet": "Zatiaľ žiadne komentáre.",
+    "post_comment": "Zverejniť komentár",
     "reject": "Odmietnuť",
     "resolve": "Vyriešiť"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Načítavajú sa príbehy...",
     "my_stories": "Moje príbehy",
     "no_stories_yet_start_your_first_one_abov": "Zatiaľ žiadne príbehy. Začni prvý vyššie.",
-    "or_read_recent_public_stories": "Alebo si prečítaj nedávne verejné príbehy →"
+    "or_read_recent_public_stories": "Alebo si prečítaj nedávne verejné príbehy →",
+    "start_a_new_story": "Začni nový príbeh"
+  },
+  "nav": {
+    "back_admin": "← Správa",
+    "back_data_quality": "← Kvalita údajov",
+    "back_home": "← Domov",
+    "back_my_stories": "← Moje príbehy",
+    "back_stories": "← Príbehy",
+    "back_to_issues": "← Späť na problémy"
   },
   "not_found": {
     "back_to_home": "Späť na domovskú stránku",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Hlavné Alpha-2 kódy"
   },
   "pocket_button": {
+    "name_this_snapshot": "Pomenuj tento snímok",
+    "pocket": "Pocket",
     "save": "Uložiť",
-    "save_to_pocket": "Uložiť do Pocket"
+    "save_to_pocket": "Uložiť do Pocket",
+    "save_to_pocket_tooltip": "Uložiť do Pocket",
+    "saved": "Uložené",
+    "saved_to_pocket_tooltip": "Uložené do Pocket"
   },
   "preferences_menu": {
     "account": "Účet",
     "ai_usage": "Využitie AI",
     "atlas_palette": "Paleta Atlas",
+    "clear_ai_history": "Vyčistiť históriu AI",
+    "delete_account": "Zmazať účet",
     "display": "Zobrazenie",
     "preferences": "Predvoľby"
   },
@@ -461,6 +507,7 @@
     "part_of": "Súčasť"
   },
   "public_spending": {
+    "intro": "Hľadaj firmy EÚ, obstarávateľov, lobistov a projekty financované EÚ. Alebo si prezri, čo je veľké v tvojej krajine.",
     "public_spending": "Verejné výdavky"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Viditeľnosť"
   },
   "sparql": {
+    "discoverable_json": "vracia tú istú dokumentáciu ako JSON.",
     "endpoint": "Koncový bod",
     "endpoint_url": "URL koncového bodu",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Dopytuj sa znalostný graf Fontem priamo z prehliadača alebo napoj koncový bod na OpenRefine / poznámkový blok / svoje nástroje. Firmy, zmluvy, úrady, lobisti, sankcie — všetko prepojené.",
     "limits": "Limity",
     "method": "Metóda",
     "post": "POST",
+    "query_cap_note": "4 KB strop dopytu; iba čítanie (SELECT / ASK / CONSTRUCT / DESCRIBE). Kľúčové slová UPDATE sú odmietnuté.",
     "query_failed": "Dopyt zlyhal:",
     "response": "Odpoveď",
+    "run_shortcut": "⌘/Ctrl + Enter na spustenie",
     "sparql_11_json_results_envelope": "Obálka výsledkov SPARQL 1.1 JSON:",
     "sparql_endpoint": "SPARQL koncový bod",
     "try_a_query": "Vyskúšaj dopyt"
@@ -530,14 +581,30 @@
     "vol": "Obj."
   },
   "table_controls_overlay": {
+    "add_row": "+ Riadok",
+    "delete_row": "Zmazať tento riadok",
+    "delete_table": "Zmazať tabuľku",
+    "insert_column_end": "Vložiť stĺpec na koniec",
+    "insert_column_here": "Vložiť stĺpec sem",
+    "insert_column_start": "Vložiť stĺpec na začiatok",
     "remove_column_to_the_left": "Odstrániť ľavý stĺpec"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Pridaj štítok…",
+    "remove_tag_aria": "Odstrániť štítok {tag}",
     "tags": "Štítky"
   },
+  "theme": {
+    "dark": "Tmavý",
+    "light": "Svetlý",
+    "switch_to_dark": "Prepnúť na tmavý režim",
+    "switch_to_light": "Prepnúť na svetlý režim"
+  },
   "ticker_card": {
+    "active": "Aktívny",
     "authority": "Úrad",
     "company": "Firma",
+    "inactive": "Neaktívny",
     "person": "Osoba"
   },
   "ticker_financials": {

@@ -27,7 +27,7 @@ function fmtNum(n) {
   <div class="dq">
     <header class="dq-header">
       <div>
-        <router-link to="/admin" class="dq-back">&larr; Home</router-link>
+        <router-link to="/admin" class="dq-back">{{ $t('nav.back_home') }}</router-link>
         <h1>{{ $t('data_quality.data_quality_dashboard') }}</h1>
         <p class="dq-subtitle">{{ $t('data_quality.platform_health_data_coverage_and_transp') }}</p>
       </div>

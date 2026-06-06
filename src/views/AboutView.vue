@@ -102,10 +102,7 @@ onMounted(async () => {
       <div class="landing" data-testid="about">
         <div class="landing-card">
           <div class="landing-logo"><Wordmark size="lg" /></div>
-          <p class="landing-hint">
-            An open knowledge graph linking EU companies, public
-            procurement, lobbyists and cohesion funding.
-          </p>
+          <p class="landing-hint">{{ $t('about.hero_lead') }}</p>
         </div>
 
         <!-- Order: Recently-published leads (page feels alive),

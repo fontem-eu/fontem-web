@@ -70,7 +70,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
   <div class="dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1>{{ $t('overview_d_q.data_quality_overview') }}</h1>
         <p class="dq-sub">{{ $t('overview_d_q.cross_source_overlap_country_code_consis') }}</p>
       </div>

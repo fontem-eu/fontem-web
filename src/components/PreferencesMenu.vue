@@ -196,7 +196,7 @@ onBeforeUnmount(() => {
           @click="onThemeClick"
         >
           <span>{{ $t('app.theme') }}</span>
-          <span class="prefs-row-value">{{ isDark ? 'Dark' : 'Light' }}</span>
+          <span class="prefs-row-value">{{ isDark ? $t('theme.dark') : $t('theme.light') }}</span>
         </button>
 
         <label class="prefs-row" :class="{ 'prefs-row-button': false }">
@@ -258,7 +258,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-clear-ai-data"
             @click="onClearAiDataClick"
           >
-            <span>{{ clearingAiData ? 'Clearing…' : 'Clear AI history' }}</span>
+            <span>{{ clearingAiData ? $t('app.clearing') : $t('preferences_menu.clear_ai_history') }}</span>
             <span v-if="clearAiStatus === 'success'" class="prefs-row-status">✓</span>
             <span v-else-if="clearAiStatus === 'error'" class="prefs-row-status err">!</span>
           </button>
@@ -270,7 +270,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-delete-account"
             @click="onDeleteAccountClick"
           >
-            <span>{{ deletingAccount ? 'Deleting…' : 'Delete account' }}</span>
+            <span>{{ deletingAccount ? $t('app.deleting') : $t('preferences_menu.delete_account') }}</span>
             <span v-if="deleteAccountStatus === 'error'" class="prefs-row-status err">!</span>
           </button>
 

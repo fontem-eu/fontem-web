@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Un tur de 45 de secunde",
+    "hero_lead": "Un graf de cunoștințe deschis care leagă companiile UE, achizițiile publice, lobbyiștii și finanțarea de coeziune.",
     "how_it_works": "Cum funcționează",
     "recently_published": "Publicate recent",
     "see_all_public_data_stories": "Vezi toate poveștile publice de date →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Se încarcă activitatea...",
+    "no_activity_yet": "Încă fără activitate. Începe explorând graful sau creând o poveste de date.",
     "sign_in": "Autentifică-te",
     "sign_in_to_see_your_activity": "Autentifică-te pentru a-ți vedea activitatea."
   },
@@ -25,13 +27,19 @@
     "activity": "Activitate",
     "admin": "Administrare",
     "all": "Toate",
+    "anonymous": "Anonim",
+    "applied": "Aplicat",
+    "applied_auto": "Aplicat automat",
     "cancel": "Anulează",
     "clear": "Șterge",
+    "clearing": "Se curăță…",
     "close": "Închide",
     "companies_count": "nicio companie | 1 companie | {count} de companii",
     "contracts": "Contracte",
     "contracts_count": "niciun contract | 1 contract | {count} de contracte",
     "contracts_eur": "Contracte (EUR)",
+    "creating": "Se creează…",
+    "deleting": "Se șterge…",
     "description": "Descriere",
     "dismiss": "Închide",
     "entity_resolution": "Rezolvarea entităților",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Achiziții publice UE",
     "filings_by_year": "Depuneri pe an",
+    "former": "(anterior)",
     "gleif": "GLEIF",
     "image": "Imagine",
     "issues": "Probleme",
@@ -47,20 +56,35 @@
     "loading_2": "Se încarcă...",
     "loading_story": "Se încarcă povestea...",
     "metric": "Metrică",
+    "no_data": "fără date",
     "no_data_available": "Nu sunt date disponibile",
+    "no_data_paren": "(fără date)",
     "no_entity_configured": "Nicio entitate configurată.",
+    "no_label": "(fără etichetă)",
+    "no_reason_given": "Niciun motiv menționat",
     "nuts_level": "Nivel NUTS",
     "per_year": "Pe an",
+    "posting": "Se publică…",
     "privacy": "Confidențialitate",
+    "private": "privată",
+    "public": "publică",
     "raise_an_issue": "Raportează o problemă",
     "remove": "Elimină",
     "retry": "Reîncearcă",
+    "run_query": "Execută interogarea",
+    "running_progress": "Rulează…",
     "sanctions": "Sancțiuni",
+    "save": "Salvează",
+    "saving": "Se salvează…",
     "sign_out": "Deconectare",
     "skip_to_main_content": "Sari la conținutul principal",
+    "submit_issue": "Trimite problema",
+    "submitting": "Se trimite…",
     "ted": "TED",
     "theme": "Temă",
     "total_value_eur": "Valoare totală (EUR)",
+    "unknown": "Necunoscut",
+    "working": "Lucrează…",
     "xbrl_field_coverage": "Acoperire câmpuri XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Proiecte pe fond (Top 10)"
   },
   "explore": {
-    "explore": "Explorează"
+    "explore": "Explorează",
+    "intro": "Răsfoiește tablourile sursă-de-adevăr ale platformei și suprafețele de interogare directă. Alege un card și aprofundează datele din spatele poveștilor."
   },
   "feed": {
     "clear_filter": "Șterge filtrul",
     "feed": "Flux",
     "filtering_by": "Se filtrează după",
+    "follow": "Urmărește",
     "loading_feed": "Se încarcă fluxul...",
-    "public_data_stories_from_the_community_n": "Povești publice de date din comunitate, cele mai noi primele."
+    "nothing_here": "Încă nimic aici. Când oamenii vor publica povești publice de date, vor apărea aici.",
+    "public_data_stories_from_the_community_n": "Povești publice de date din comunitate, cele mai noi primele.",
+    "unfollow": "Nu mai urmări"
   },
   "firds_d_q": {
     "by_instrument_type": "După tipul instrumentului",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Principalele locuri de tranzacționare (MIC)"
   },
   "geo": {
-    "geo_explorer": "Explorator geo"
+    "geo_explorer": "Explorator geo",
+    "intro": "Agregate de entități și contracte pe ierarhia NUTS. Astăzi la nivel de țară — regiuni mai fine vor sosi când geocodarea entităților va fi gata."
   },
   "geo_choropleth": {
     "companies": "Companii",
@@ -334,6 +363,7 @@
     "add_a_comment": "Adaugă un comentariu...",
     "loading_issue": "Se încarcă problema...",
     "no_comments_yet": "Niciun comentariu încă.",
+    "post_comment": "Publică comentariul",
     "reject": "Respinge",
     "resolve": "Rezolvă"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Se încarcă poveștile...",
     "my_stories": "Poveștile mele",
     "no_stories_yet_start_your_first_one_abov": "Încă nicio poveste. Începe-o pe prima mai sus.",
-    "or_read_recent_public_stories": "Sau citește poveștile publice recente →"
+    "or_read_recent_public_stories": "Sau citește poveștile publice recente →",
+    "start_a_new_story": "Începe o nouă poveste"
+  },
+  "nav": {
+    "back_admin": "← Administrare",
+    "back_data_quality": "← Calitatea datelor",
+    "back_home": "← Acasă",
+    "back_my_stories": "← Poveștile mele",
+    "back_stories": "← Povești",
+    "back_to_issues": "← Înapoi la probleme"
   },
   "not_found": {
     "back_to_home": "Înapoi la pagina principală",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Principalele coduri Alpha-2"
   },
   "pocket_button": {
+    "name_this_snapshot": "Denumește acest instantaneu",
+    "pocket": "Pocket",
     "save": "Salvează",
-    "save_to_pocket": "Salvează în Pocket"
+    "save_to_pocket": "Salvează în Pocket",
+    "save_to_pocket_tooltip": "Salvează în Pocket",
+    "saved": "Salvat",
+    "saved_to_pocket_tooltip": "Salvat în Pocket"
   },
   "preferences_menu": {
     "account": "Cont",
     "ai_usage": "Utilizare IA",
     "atlas_palette": "Paletă Atlas",
+    "clear_ai_history": "Șterge istoricul IA",
+    "delete_account": "Șterge contul",
     "display": "Afișare",
     "preferences": "Preferințe"
   },
@@ -461,6 +507,7 @@
     "part_of": "Parte din"
   },
   "public_spending": {
+    "intro": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Sau răsfoiește ce e mare în țara ta.",
     "public_spending": "Cheltuieli publice"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Vizibilitate"
   },
   "sparql": {
+    "discoverable_json": "returnează aceeași documentație ca JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpoint",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Interoghează graful de cunoștințe Fontem direct din browser sau cuplează endpointul la OpenRefine / un notebook / propriile unelte. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
     "limits": "Limite",
     "method": "Metodă",
     "post": "POST",
+    "query_cap_note": "Limită interogare 4 KB; doar citire (SELECT / ASK / CONSTRUCT / DESCRIBE). Cuvintele UPDATE sunt respinse.",
     "query_failed": "Interogarea a eșuat:",
     "response": "Răspuns",
+    "run_shortcut": "⌘/Ctrl + Enter pentru a rula",
     "sparql_11_json_results_envelope": "Plic rezultate SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Încearcă o interogare"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Rând",
+    "delete_row": "Șterge acest rând",
+    "delete_table": "Șterge tabelul",
+    "insert_column_end": "Inserează coloană la sfârșit",
+    "insert_column_here": "Inserează coloană aici",
+    "insert_column_start": "Inserează coloană la început",
     "remove_column_to_the_left": "Elimină coloana din stânga"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Adaugă o etichetă…",
+    "remove_tag_aria": "Elimină eticheta {tag}",
     "tags": "Etichete"
   },
+  "theme": {
+    "dark": "Întunecat",
+    "light": "Luminos",
+    "switch_to_dark": "Comută la modul întunecat",
+    "switch_to_light": "Comută la modul luminos"
+  },
   "ticker_card": {
+    "active": "Activ",
     "authority": "Autoritate",
     "company": "Companie",
+    "inactive": "Inactiv",
     "person": "Persoană"
   },
   "ticker_financials": {

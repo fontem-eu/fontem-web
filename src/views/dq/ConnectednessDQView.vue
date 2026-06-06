@@ -50,7 +50,7 @@ const generatedAt = computed(() => {
   <div class="dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1>{{ $t('connectedness_d_q.graph_connectedness') }}</h1>
         <p class="dq-sub">
           How well each entity type is wired into the rest of the graph.

@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45 másodperces bemutató",
+    "hero_lead": "Nyitott tudásgráf, amely összeköti az EU vállalatait, a közbeszerzést, a lobbistákat és a kohéziós finanszírozást.",
     "how_it_works": "Hogyan működik",
     "recently_published": "Nemrég közzétéve",
     "see_all_public_data_stories": "Az összes nyilvános adat-történet megtekintése →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Tevékenység betöltése...",
+    "no_activity_yet": "Még nincs tevékenység. Kezdd a gráf felfedezésével vagy egy adat-történet létrehozásával.",
     "sign_in": "Bejelentkezés",
     "sign_in_to_see_your_activity": "Jelentkezz be, hogy lásd a tevékenységed."
   },
@@ -25,13 +27,19 @@
     "activity": "Tevékenység",
     "admin": "Adminisztráció",
     "all": "Mind",
+    "anonymous": "Névtelen",
+    "applied": "Alkalmazva",
+    "applied_auto": "Automatikusan alkalmazva",
     "cancel": "Mégse",
     "clear": "Törlés",
+    "clearing": "Tisztítás…",
     "close": "Bezárás",
     "companies_count": "nincs vállalat | 1 vállalat | {count} vállalat",
     "contracts": "Szerződések",
     "contracts_count": "nincs szerződés | 1 szerződés | {count} szerződés",
     "contracts_eur": "Szerződések (EUR)",
+    "creating": "Létrehozás…",
+    "deleting": "Törlés…",
     "description": "Leírás",
     "dismiss": "Bezárás",
     "entity_resolution": "Entitás-feloldás",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU közbeszerzések",
     "filings_by_year": "Beadványok évek szerint",
+    "former": "(korábbi)",
     "gleif": "GLEIF",
     "image": "Kép",
     "issues": "Problémák",
@@ -47,20 +56,35 @@
     "loading_2": "Betöltés...",
     "loading_story": "Történet betöltése...",
     "metric": "Mutató",
+    "no_data": "nincs adat",
     "no_data_available": "Nincs elérhető adat",
+    "no_data_paren": "(nincs adat)",
     "no_entity_configured": "Nincs konfigurálva entitás.",
+    "no_label": "(címke nélkül)",
+    "no_reason_given": "Nincs megadott ok",
     "nuts_level": "NUTS-szint",
     "per_year": "Évente",
+    "posting": "Közzététel…",
     "privacy": "Adatvédelem",
+    "private": "magán",
+    "public": "nyilvános",
     "raise_an_issue": "Probléma bejelentése",
     "remove": "Eltávolítás",
     "retry": "Újrapróbálkozás",
+    "run_query": "Lekérdezés futtatása",
+    "running_progress": "Fut…",
     "sanctions": "Szankciók",
+    "save": "Mentés",
+    "saving": "Mentés…",
     "sign_out": "Kijelentkezés",
     "skip_to_main_content": "Ugrás a fő tartalomhoz",
+    "submit_issue": "Probléma beküldése",
+    "submitting": "Beküldés…",
     "ted": "TED",
     "theme": "Téma",
     "total_value_eur": "Teljes érték (EUR)",
+    "unknown": "Ismeretlen",
+    "working": "Dolgozik…",
     "xbrl_field_coverage": "XBRL-mezők lefedettsége (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projektek alap szerint (Top 10)"
   },
   "explore": {
-    "explore": "Felfedezés"
+    "explore": "Felfedezés",
+    "intro": "Böngészd a platform forrás-az-igazság paneljeit és a közvetlen lekérdezési felületeket. Válassz egy kártyát, és merülj el a történetek mögötti adatokban."
   },
   "feed": {
     "clear_filter": "Szűrő törlése",
     "feed": "Hírfolyam",
     "filtering_by": "Szűrés erre:",
+    "follow": "Követés",
     "loading_feed": "Hírfolyam betöltése...",
-    "public_data_stories_from_the_community_n": "Nyilvános közösségi adat-történetek, legújabbak elöl."
+    "nothing_here": "Itt még semmi nincs. Amikor emberek nyilvános adat-történeteket tesznek közzé, itt jelennek meg.",
+    "public_data_stories_from_the_community_n": "Nyilvános közösségi adat-történetek, legújabbak elöl.",
+    "unfollow": "Követés megszüntetése"
   },
   "firds_d_q": {
     "by_instrument_type": "Eszköztípus szerint",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Fő kereskedési helyek (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo-böngésző"
+    "geo_explorer": "Geo-böngésző",
+    "intro": "Entitások és szerződések aggregátumai a NUTS hierarchián. Ma országszinten — finomabb régiók érkeznek, amint az entitások geokódolása rendelkezésre áll."
   },
   "geo_choropleth": {
     "companies": "Vállalatok",
@@ -334,6 +363,7 @@
     "add_a_comment": "Hozzászólás...",
     "loading_issue": "Probléma betöltése...",
     "no_comments_yet": "Még nincs hozzászólás.",
+    "post_comment": "Hozzászólás közzététele",
     "reject": "Elutasítás",
     "resolve": "Megoldás"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Történetek betöltése...",
     "my_stories": "Saját történeteim",
     "no_stories_yet_start_your_first_one_abov": "Még nincs történet. Kezdd el az elsőt fent.",
-    "or_read_recent_public_stories": "Vagy olvasd a friss nyilvános történeteket →"
+    "or_read_recent_public_stories": "Vagy olvasd a friss nyilvános történeteket →",
+    "start_a_new_story": "Új történet indítása"
+  },
+  "nav": {
+    "back_admin": "← Adminisztráció",
+    "back_data_quality": "← Adatminőség",
+    "back_home": "← Főoldal",
+    "back_my_stories": "← Saját történeteim",
+    "back_stories": "← Történetek",
+    "back_to_issues": "← Vissza a problémákhoz"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Fő Alpha-2 kódok"
   },
   "pocket_button": {
+    "name_this_snapshot": "Nevezd el ezt a pillanatképet",
+    "pocket": "Pocket",
     "save": "Mentés",
-    "save_to_pocket": "Mentés Pocketbe"
+    "save_to_pocket": "Mentés Pocketbe",
+    "save_to_pocket_tooltip": "Mentés a Pocketbe",
+    "saved": "Mentve",
+    "saved_to_pocket_tooltip": "Mentve a Pocketbe"
   },
   "preferences_menu": {
     "account": "Fiók",
     "ai_usage": "MI-használat",
     "atlas_palette": "Atlas-paletta",
+    "clear_ai_history": "MI előzmények törlése",
+    "delete_account": "Fiók törlése",
     "display": "Megjelenítés",
     "preferences": "Beállítások"
   },
@@ -461,6 +507,7 @@
     "part_of": "Része ennek:"
   },
   "public_spending": {
+    "intro": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Vagy nézd meg, mi a nagy a saját országodban.",
     "public_spending": "Közkiadás"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Láthatóság"
   },
   "sparql": {
+    "discoverable_json": "ugyanezt a dokumentációt adja vissza JSON-ként.",
     "endpoint": "Végpont",
     "endpoint_url": "Végpont URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Kérdezd le a Fontem tudásgráfot közvetlenül a böngészőből, vagy kösd be a végpontot az OpenRefine-ba / notebookba / saját eszközeidbe. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — mind összekapcsolva.",
     "limits": "Korlátok",
     "method": "Módszer",
     "post": "POST",
+    "query_cap_note": "4 KB-os lekérdezéskorlát; csak olvasható (SELECT / ASK / CONSTRUCT / DESCRIBE). Az UPDATE kulcsszavakat elutasítjuk.",
     "query_failed": "A lekérdezés nem sikerült:",
     "response": "Válasz",
+    "run_shortcut": "⌘/Ctrl + Enter a futtatáshoz",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-eredmények borítéka:",
     "sparql_endpoint": "SPARQL-végpont",
     "try_a_query": "Próbálj ki egy lekérdezést"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Sor",
+    "delete_row": "Sor törlése",
+    "delete_table": "Táblázat törlése",
+    "insert_column_end": "Oszlop beszúrása a végére",
+    "insert_column_here": "Oszlop beszúrása ide",
+    "insert_column_start": "Oszlop beszúrása az elejére",
     "remove_column_to_the_left": "Bal oldali oszlop eltávolítása"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Címke hozzáadása…",
+    "remove_tag_aria": "{tag} címke eltávolítása",
     "tags": "Címkék"
   },
+  "theme": {
+    "dark": "Sötét",
+    "light": "Világos",
+    "switch_to_dark": "Váltás sötét módra",
+    "switch_to_light": "Váltás világos módra"
+  },
   "ticker_card": {
+    "active": "Aktív",
     "authority": "Hatóság",
     "company": "Vállalat",
+    "inactive": "Inaktív",
     "person": "Személy"
   },
   "ticker_financials": {

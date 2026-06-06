@@ -431,7 +431,7 @@ defineExpose({ applyProposal, messages })
                     :class="{ 'proposal-status--auto': p.autoApplied }"
                     data-testid="proposal-applied"
                   >
-                    {{ p.autoApplied ? 'Applied automatically' : 'Applied' }}
+                    {{ p.autoApplied ? $t('app.applied_auto') : $t('app.applied') }}
                   </span>
                 </div>
                 <div class="proposal-desc" data-testid="proposal-desc">{{ p.description }}</div>
@@ -465,7 +465,7 @@ defineExpose({ applyProposal, messages })
             <span class="status-dot"></span>
           </div>
           <div class="status-text">
-            <span class="status-detail">{{ streamDetail || 'Working...' }}</span>
+            <span class="status-detail">{{ streamDetail || $t('app.working') }}</span>
             <span v-if="streamElapsed > 0" class="status-elapsed">{{ streamElapsed }}s</span>
           </div>
         </div>

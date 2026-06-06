@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Tour ta' 45 sekonda",
+    "hero_lead": "Graf tal-għarfien miftuħ li jgħaqqad il-kumpaniji tal-UE, l-akkwist pubbliku, il-lobbyists u l-finanzjament ta' koeżjoni.",
     "how_it_works": "Kif jaħdem",
     "recently_published": "Ippubblikat reċentement",
     "see_all_public_data_stories": "Ara l-istejjer tad-data pubbliċi kollha →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Qed jitgħabba l-attività...",
+    "no_activity_yet": "L-ebda attività s'issa. Ibda billi tesplora l-graf jew toħloq storja tad-data.",
     "sign_in": "Idħol",
     "sign_in_to_see_your_activity": "Idħol biex tara l-attività tiegħek."
   },
@@ -25,13 +27,19 @@
     "activity": "Attività",
     "admin": "Amministrazzjoni",
     "all": "Kollha",
+    "anonymous": "Anonimu",
+    "applied": "Applikat",
+    "applied_auto": "Applikat awtomatikament",
     "cancel": "Ikkanċella",
     "clear": "Naddaf",
+    "clearing": "Qed jiġi mnaddaf…",
     "close": "Agħlaq",
     "companies_count": "ebda kumpaniji | 1 kumpanija | {count} kumpaniji",
     "contracts": "Kuntratti",
     "contracts_count": "ebda kuntratti | 1 kuntratt | {count} kuntratti",
     "contracts_eur": "Kuntratti (EUR)",
+    "creating": "Qed tinħoloq…",
+    "deleting": "Qed jiġi mħassar…",
     "description": "Deskrizzjoni",
     "dismiss": "Warrab",
     "entity_resolution": "Riżoluzzjoni tal-entitajiet",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Akkwist pubbliku tal-UE",
     "filings_by_year": "Sottomissjonijiet skont is-sena",
+    "former": "(ex)",
     "gleif": "GLEIF",
     "image": "Stampa",
     "issues": "Problemi",
@@ -47,20 +56,35 @@
     "loading_2": "Qed jitgħabba...",
     "loading_story": "Qed titgħabba l-istorja...",
     "metric": "Metrika",
+    "no_data": "ebda data",
     "no_data_available": "Ebda data disponibbli",
+    "no_data_paren": "(ebda data)",
     "no_entity_configured": "Ebda entità mhix ikkonfigurata.",
+    "no_label": "(ebda tikketta)",
+    "no_reason_given": "L-ebda raġuni mogħtija",
     "nuts_level": "Livell NUTS",
     "per_year": "Fis-sena",
+    "posting": "Qed tippubblika…",
     "privacy": "Privatezza",
+    "private": "privat",
+    "public": "pubbliku",
     "raise_an_issue": "Issolleva problema",
     "remove": "Neħħi",
     "retry": "Erġa' pprova",
+    "run_query": "Ħaddem il-mistoqsija",
+    "running_progress": "Qed jaħdem…",
     "sanctions": "Sanzjonijiet",
+    "save": "Issejvja",
+    "saving": "Qed jiġi ssejvjat…",
     "sign_out": "Oħroġ",
     "skip_to_main_content": "Aqbeż għall-kontenut prinċipali",
+    "submit_issue": "Issottometti problema",
+    "submitting": "Qed jiġi sottomess…",
     "ted": "TED",
     "theme": "Tema",
     "total_value_eur": "Valur totali (EUR)",
+    "unknown": "Mhux magħruf",
+    "working": "Qed jaħdem…",
     "xbrl_field_coverage": "Kopertura tal-kampi XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Proġetti skont il-fond (Top 10)"
   },
   "explore": {
-    "explore": "Esplora"
+    "explore": "Esplora",
+    "intro": "Esplora d-dashboards sors-tal-verità tal-pjattaforma u l-uċuħ ta' mistoqsija diretta. Agħżel karta biex tħaffer fid-data wara l-istejjer."
   },
   "feed": {
     "clear_filter": "Naddaf il-filtru",
     "feed": "Feed",
     "filtering_by": "Qed jiffiltra skont",
+    "follow": "Segwi",
     "loading_feed": "Qed jitgħabba l-feed...",
-    "public_data_stories_from_the_community_n": "Stejjer pubbliċi tad-data mill-komunità, l-aħħar l-ewwel."
+    "nothing_here": "Xejn hawn s'issa. Meta n-nies jippubblikaw stejjer tad-data pubbliċi, jidhru hawn.",
+    "public_data_stories_from_the_community_n": "Stejjer pubbliċi tad-data mill-komunità, l-aħħar l-ewwel.",
+    "unfollow": "Tibqax issegwi"
   },
   "firds_d_q": {
     "by_instrument_type": "Skont it-tip ta' strument",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Postijiet ewlenin tan-negozjar (MIC)"
   },
   "geo": {
-    "geo_explorer": "Esploratur ġeografiku"
+    "geo_explorer": "Esploratur ġeografiku",
+    "intro": "Aggregati ta' entitajiet u kuntratti fuq il-ġerarkija NUTS. Illum f'livell ta' pajjiż — reġjuni iktar irqaq ġejjin meta jiġi implimentat il-ġeokodifikazzjoni tal-entitajiet."
   },
   "geo_choropleth": {
     "companies": "Kumpaniji",
@@ -334,6 +363,7 @@
     "add_a_comment": "Żid kumment...",
     "loading_issue": "Qed titgħabba l-problema...",
     "no_comments_yet": "L-ebda kummenti s'issa.",
+    "post_comment": "Ippubblika kumment",
     "reject": "Irrifjuta",
     "resolve": "Solvi"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Qed jitgħabbu l-istejjer...",
     "my_stories": "L-istejjer tiegħi",
     "no_stories_yet_start_your_first_one_abov": "L-ebda stejjer s'issa. Ibda l-ewwel waħda fuq.",
-    "or_read_recent_public_stories": "Jew aqra stejjer pubbliċi reċenti →"
+    "or_read_recent_public_stories": "Jew aqra stejjer pubbliċi reċenti →",
+    "start_a_new_story": "Ibda storja ġdida"
+  },
+  "nav": {
+    "back_admin": "← Amministrazzjoni",
+    "back_data_quality": "← Kwalità tad-data",
+    "back_home": "← Dar",
+    "back_my_stories": "← L-istejjer tiegħi",
+    "back_stories": "← Stejjer",
+    "back_to_issues": "← Lura għall-problemi"
   },
   "not_found": {
     "back_to_home": "Lura lejn id-dar",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Kodiċi Alpha-2 ewlenin"
   },
   "pocket_button": {
+    "name_this_snapshot": "Semmi din l-istampa",
+    "pocket": "Pocket",
     "save": "Issejvja",
-    "save_to_pocket": "Issejvja f'Pocket"
+    "save_to_pocket": "Issejvja f'Pocket",
+    "save_to_pocket_tooltip": "Issejvja f'Pocket",
+    "saved": "Issejvjat",
+    "saved_to_pocket_tooltip": "Issejvjat f'Pocket"
   },
   "preferences_menu": {
     "account": "Kont",
     "ai_usage": "Użu tal-IA",
     "atlas_palette": "Palette Atlas",
+    "clear_ai_history": "Naddaf l-istorja tal-IA",
+    "delete_account": "Ħassar il-kont",
     "display": "Wiri",
     "preferences": "Preferenzi"
   },
@@ -461,6 +507,7 @@
     "part_of": "Parti minn"
   },
   "public_spending": {
+    "intro": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Jew esplora dak li hu kbir f'pajjiżek.",
     "public_spending": "Nefqa pubblika"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Viżibilità"
   },
   "sparql": {
+    "discoverable_json": "tirritorna l-istess dokumentazzjoni bħala JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "URL tal-endpoint",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Staqsi l-graf tal-għarfien Fontem direttament mill-browser, jew waħħal il-punt finali f'OpenRefine / notebook / l-għodod tiegħek. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
     "limits": "Limiti",
     "method": "Metodu",
     "post": "POST",
+    "query_cap_note": "Limitu ta' mistoqsija ta' 4 KB; qari biss (SELECT / ASK / CONSTRUCT / DESCRIBE). Il-kelmiet UPDATE jiġu miċħuda.",
     "query_failed": "Il-mistoqsija fallit:",
     "response": "Rispons",
+    "run_shortcut": "⌘/Ctrl + Enter biex tħaddem",
     "sparql_11_json_results_envelope": "Envelope tar-riżultati SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Ipprova mistoqsija"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Ringiela",
+    "delete_row": "Ħassar din ir-ringiela",
+    "delete_table": "Ħassar it-tabella",
+    "insert_column_end": "Daħħal kolonna fl-aħħar",
+    "insert_column_here": "Daħħal kolonna hawn",
+    "insert_column_start": "Daħħal kolonna fil-bidu",
     "remove_column_to_the_left": "Neħħi l-kolonna tax-xellug"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Żid tag…",
+    "remove_tag_aria": "Neħħi t-tag {tag}",
     "tags": "Tags"
   },
+  "theme": {
+    "dark": "Skur",
+    "light": "Ċar",
+    "switch_to_dark": "Aqleb għall-mod skur",
+    "switch_to_light": "Aqleb għall-mod ċar"
+  },
   "ticker_card": {
+    "active": "Attiv",
     "authority": "Awtorità",
     "company": "Kumpanija",
+    "inactive": "Inattiv",
     "person": "Persuna"
   },
   "ticker_financials": {

@@ -108,7 +108,7 @@ watch(() => props.modelValue, () => {
         <button
           type="button"
           class="pill-x"
-          :aria-label="`Remove tag ${t}`"
+          :aria-label="$t('tag_editor.remove_tag_aria', { tag: t })"
           @click="remove(t)"
         >×</button>
       </span>
@@ -117,7 +117,7 @@ watch(() => props.modelValue, () => {
         v-model="draft"
         type="text"
         class="input"
-        :placeholder="atLimit ? '' : 'Add a tag…'"
+        :placeholder="atLimit ? '' : $t('tag_editor.add_tag_placeholder')"
         :disabled="atLimit"
         :maxlength="40"
         autocomplete="off"

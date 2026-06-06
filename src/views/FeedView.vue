@@ -169,7 +169,7 @@ function truncate(text, maxLen = 180) {
       class="empty-msg"
       data-testid="feed-empty"
     >
-      Nothing here yet. When people publish public data stories, they'll show up here.
+      {{ $t('feed.nothing_here') }}
     </div>
 
     <div v-else class="report-cards">

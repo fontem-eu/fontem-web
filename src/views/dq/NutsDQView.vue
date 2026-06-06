@@ -17,7 +17,7 @@ const regionBars = computed(() => (data.value?.top_regions || []).map(r => ({ la
 const levelBars = computed(() => (data.value?.by_level || []).map(l => ({ label: `Level ${l.level}`, value: l.n })))
 </script>
 <template>
-  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link><h1>{{ $t('nuts_d_q.nuts_regions') }}</h1><p class="dq-sub">{{ $t('nuts_d_q.eurostat_nuts_classification_geographic_') }}</p></div><ThemeToggle /></header>
+  <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('nuts_d_q.nuts_regions') }}</h1><p class="dq-sub">{{ $t('nuts_d_q.eurostat_nuts_classification_geographic_') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="data.total_regions.toLocaleString()" label="Total Regions" /><StatCard :value="data.companies_linked.toLocaleString()" label="Companies Linked" /><StatCard :value="data.authorities_linked.toLocaleString()" label="Authorities Linked" /></div>

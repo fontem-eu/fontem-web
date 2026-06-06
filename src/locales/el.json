@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "Μια ξενάγηση 45 δευτερολέπτων",
+    "hero_lead": "Ένας ανοιχτός γράφος γνώσης που συνδέει εταιρείες της ΕΕ, δημόσιες προμήθειες, εκπροσώπους πίεσης και χρηματοδότηση συνοχής.",
     "how_it_works": "Πώς λειτουργεί",
     "recently_published": "Πρόσφατα δημοσιευμένα",
     "see_all_public_data_stories": "Δείτε όλες τις δημόσιες ιστορίες δεδομένων →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Φόρτωση δραστηριότητας...",
+    "no_activity_yet": "Δεν υπάρχει δραστηριότητα ακόμα. Ξεκίνα εξερευνώντας τον γράφο ή δημιουργώντας μια ιστορία δεδομένων.",
     "sign_in": "Σύνδεση",
     "sign_in_to_see_your_activity": "Συνδεθείτε για να δείτε τη δραστηριότητά σας."
   },
@@ -25,13 +27,19 @@
     "activity": "Δραστηριότητα",
     "admin": "Διαχείριση",
     "all": "Όλα",
+    "anonymous": "Ανώνυμος",
+    "applied": "Εφαρμόστηκε",
+    "applied_auto": "Εφαρμόστηκε αυτόματα",
     "cancel": "Ακύρωση",
     "clear": "Καθαρισμός",
+    "clearing": "Εκκαθάριση…",
     "close": "Κλείσιμο",
     "companies_count": "καμία εταιρεία | 1 εταιρεία | {count} εταιρείες",
     "contracts": "Συμβάσεις",
     "contracts_count": "καμία σύμβαση | 1 σύμβαση | {count} συμβάσεις",
     "contracts_eur": "Συμβάσεις (EUR)",
+    "creating": "Δημιουργία…",
+    "deleting": "Διαγραφή…",
     "description": "Περιγραφή",
     "dismiss": "Απόρριψη",
     "entity_resolution": "Επίλυση οντοτήτων",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "Δημόσιες συμβάσεις ΕΕ",
     "filings_by_year": "Υποβολές ανά έτος",
+    "former": "(πρώην)",
     "gleif": "GLEIF",
     "image": "Εικόνα",
     "issues": "Θέματα",
@@ -47,20 +56,35 @@
     "loading_2": "Φόρτωση...",
     "loading_story": "Φόρτωση ιστορίας...",
     "metric": "Μετρική",
+    "no_data": "χωρίς δεδομένα",
     "no_data_available": "Δεν υπάρχουν διαθέσιμα δεδομένα",
+    "no_data_paren": "(χωρίς δεδομένα)",
     "no_entity_configured": "Δεν έχει διαμορφωθεί οντότητα.",
+    "no_label": "(χωρίς ετικέτα)",
+    "no_reason_given": "Δεν δόθηκε λόγος",
     "nuts_level": "Επίπεδο NUTS",
     "per_year": "Ανά έτος",
+    "posting": "Δημοσίευση…",
     "privacy": "Απόρρητο",
+    "private": "ιδιωτικό",
+    "public": "δημόσιο",
     "raise_an_issue": "Αναφορά προβλήματος",
     "remove": "Αφαίρεση",
     "retry": "Επανάληψη",
+    "run_query": "Εκτέλεση ερωτήματος",
+    "running_progress": "Εκτελείται…",
     "sanctions": "Κυρώσεις",
+    "save": "Αποθήκευση",
+    "saving": "Αποθήκευση…",
     "sign_out": "Αποσύνδεση",
     "skip_to_main_content": "Μετάβαση στο κύριο περιεχόμενο",
+    "submit_issue": "Υποβολή προβλήματος",
+    "submitting": "Υποβολή…",
     "ted": "TED",
     "theme": "Θέμα",
     "total_value_eur": "Συνολική αξία (EUR)",
+    "unknown": "Άγνωστο",
+    "working": "Δουλεύει…",
     "xbrl_field_coverage": "Κάλυψη πεδίων XBRL (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Έργα ανά ταμείο (Top 10)"
   },
   "explore": {
-    "explore": "Εξερεύνηση"
+    "explore": "Εξερεύνηση",
+    "intro": "Περιήγηση στα πλαίσια πηγής αλήθειας της πλατφόρμας και στις επιφάνειες άμεσης ερώτησης. Διάλεξε μια κάρτα για να σκάψεις στα δεδομένα πίσω από την απάντηση."
   },
   "feed": {
     "clear_filter": "Καθαρισμός φίλτρου",
     "feed": "Ροή",
     "filtering_by": "Φιλτράρισμα κατά",
+    "follow": "Ακολούθησε",
     "loading_feed": "Φόρτωση ροής...",
-    "public_data_stories_from_the_community_n": "Δημόσιες ιστορίες δεδομένων από την κοινότητα, νεότερες πρώτα."
+    "nothing_here": "Τίποτα ακόμα. Όταν οι άνθρωποι δημοσιεύσουν δημόσιες ιστορίες δεδομένων, θα εμφανιστούν εδώ.",
+    "public_data_stories_from_the_community_n": "Δημόσιες ιστορίες δεδομένων από την κοινότητα, νεότερες πρώτα.",
+    "unfollow": "Σταμάτησε να ακολουθείς"
   },
   "firds_d_q": {
     "by_instrument_type": "Ανά τύπο μέσου",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Κορυφαίοι τόποι διαπραγμάτευσης (MIC)"
   },
   "geo": {
-    "geo_explorer": "Γεωγραφικός εξερευνητής"
+    "geo_explorer": "Γεωγραφικός εξερευνητής",
+    "intro": "Συναθροίσματα οντοτήτων και συμβολαίων στην ιεραρχία NUTS. Σήμερα σε επίπεδο χώρας — πιο λεπτές περιοχές έρχονται καθώς εφαρμόζεται γεωκωδικοποίηση οντοτήτων."
   },
   "geo_choropleth": {
     "companies": "Εταιρείες",
@@ -334,6 +363,7 @@
     "add_a_comment": "Προσθέστε σχόλιο...",
     "loading_issue": "Φόρτωση προβλήματος...",
     "no_comments_yet": "Δεν υπάρχουν σχόλια ακόμα.",
+    "post_comment": "Δημοσίευση σχολίου",
     "reject": "Απόρριψη",
     "resolve": "Επίλυση"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Φόρτωση ιστοριών...",
     "my_stories": "Οι ιστορίες μου",
     "no_stories_yet_start_your_first_one_abov": "Δεν υπάρχουν ιστορίες ακόμα. Ξεκινήστε την πρώτη παραπάνω.",
-    "or_read_recent_public_stories": "Ή διαβάστε πρόσφατες δημόσιες ιστορίες →"
+    "or_read_recent_public_stories": "Ή διαβάστε πρόσφατες δημόσιες ιστορίες →",
+    "start_a_new_story": "Ξεκίνα νέα ιστορία"
+  },
+  "nav": {
+    "back_admin": "← Διαχείριση",
+    "back_data_quality": "← Ποιότητα δεδομένων",
+    "back_home": "← Αρχική",
+    "back_my_stories": "← Οι ιστορίες μου",
+    "back_stories": "← Ιστορίες",
+    "back_to_issues": "← Πίσω στα προβλήματα"
   },
   "not_found": {
     "back_to_home": "Επιστροφή στην αρχική",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Κορυφαίοι κωδικοί Alpha-2"
   },
   "pocket_button": {
+    "name_this_snapshot": "Ονόμασε αυτό το στιγμιότυπο",
+    "pocket": "Pocket",
     "save": "Αποθήκευση",
-    "save_to_pocket": "Αποθήκευση στο Pocket"
+    "save_to_pocket": "Αποθήκευση στο Pocket",
+    "save_to_pocket_tooltip": "Αποθήκευση στο Pocket",
+    "saved": "Αποθηκευμένο",
+    "saved_to_pocket_tooltip": "Αποθηκευμένο στο Pocket"
   },
   "preferences_menu": {
     "account": "Λογαριασμός",
     "ai_usage": "Χρήση AI",
     "atlas_palette": "Παλέτα Άτλαντα",
+    "clear_ai_history": "Καθαρισμός ιστορικού ΑΙ",
+    "delete_account": "Διαγραφή λογαριασμού",
     "display": "Εμφάνιση",
     "preferences": "Προτιμήσεις"
   },
@@ -461,6 +507,7 @@
     "part_of": "Μέρος του"
   },
   "public_spending": {
+    "intro": "Αναζήτησε εταιρείες της ΕΕ, αναθέτουσες αρχές, εκπροσώπους και έργα χρηματοδοτούμενα από την ΕΕ. Ή δες τι είναι μεγάλο στη χώρα σου.",
     "public_spending": "Δημόσιες δαπάνες"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Ορατότητα"
   },
   "sparql": {
+    "discoverable_json": "επιστρέφει την ίδια τεκμηρίωση ως JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpoint",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Κάνε ερώτημα στον γράφο γνώσης Fontem απευθείας από το πρόγραμμα περιήγησης ή σύνδεσε το endpoint στο OpenRefine / σε σημειωματάριο / στα δικά σου εργαλεία. Εταιρείες, συμβόλαια, αρχές, εκπρόσωποι, κυρώσεις — όλα συνδεδεμένα.",
     "limits": "Όρια",
     "method": "Μέθοδος",
     "post": "POST",
+    "query_cap_note": "Όριο ερωτημάτων 4 KB· μόνο ανάγνωση (SELECT / ASK / CONSTRUCT / DESCRIBE). Οι λέξεις-κλειδιά UPDATE απορρίπτονται.",
     "query_failed": "Το ερώτημα απέτυχε:",
     "response": "Απόκριση",
+    "run_shortcut": "⌘/Ctrl + Enter για εκτέλεση",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON envelope αποτελεσμάτων:",
     "sparql_endpoint": "SPARQL endpoint",
     "try_a_query": "Δοκιμάστε ένα ερώτημα"
@@ -530,14 +581,30 @@
     "vol": "Όγκ."
   },
   "table_controls_overlay": {
+    "add_row": "+ Σειρά",
+    "delete_row": "Διαγραφή αυτής της σειράς",
+    "delete_table": "Διαγραφή πίνακα",
+    "insert_column_end": "Εισαγωγή στήλης στο τέλος",
+    "insert_column_here": "Εισαγωγή στήλης εδώ",
+    "insert_column_start": "Εισαγωγή στήλης στην αρχή",
     "remove_column_to_the_left": "Αφαίρεση αριστερής στήλης"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Πρόσθεσε ετικέτα…",
+    "remove_tag_aria": "Αφαίρεσε την ετικέτα {tag}",
     "tags": "Ετικέτες"
   },
+  "theme": {
+    "dark": "Σκούρο",
+    "light": "Φωτεινό",
+    "switch_to_dark": "Εναλλαγή σε σκοτεινή λειτουργία",
+    "switch_to_light": "Εναλλαγή σε φωτεινή λειτουργία"
+  },
   "ticker_card": {
+    "active": "Ενεργό",
     "authority": "Αρχή",
     "company": "Εταιρεία",
+    "inactive": "Ανενεργό",
     "person": "Άτομο"
   },
   "ticker_financials": {

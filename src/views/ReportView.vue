@@ -177,7 +177,7 @@ function parseSectionContent(content) {
     <template v-else-if="report">
       <div class="report-header">
         <router-link to="/" class="back-link" data-testid="back-to-feed">
-          &larr; Stories
+          {{ $t('nav.back_stories') }}
         </router-link>
         <router-link
           v-if="hasToken"
@@ -196,7 +196,7 @@ function parseSectionContent(content) {
           class="visibility-badge"
           :class="`badge-${report.visibility || 'private'}`"
         >
-          {{ report.visibility || 'private' }}
+          {{ report.visibility ? $t(`app.${report.visibility}`) : $t('app.private') }}
         </span>
       </div>
 

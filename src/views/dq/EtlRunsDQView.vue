@@ -86,7 +86,7 @@ function rowStatus(run) {
   <div class="dq">
     <header class="dq-hdr">
       <div>
-        <router-link to="/data-quality" class="dq-back">&larr; Data Quality</router-link>
+        <router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1>{{ $t('etl_runs_d_q.etl_runs') }}</h1>
         <p class="dq-sub">{{ $t('etl_runs_d_q.recent_cronjob_invocations_from') }}<code>events.etl_run</code>. Replaces the legacy Uptime-Kuma pings; one row per loader run.</p>
       </div>

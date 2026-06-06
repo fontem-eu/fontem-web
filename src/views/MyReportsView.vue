@@ -65,7 +65,7 @@ function truncate(text, maxLen = 140) {
         data-testid="new-story-btn"
         @click="startNewStory"
       >
-        {{ creating ? 'Creating...' : 'Start a new story' }}
+        {{ creating ? $t('app.creating') : $t('my_reports.start_a_new_story') }}
       </button>
     </div>
 
@@ -100,7 +100,7 @@ function truncate(text, maxLen = 140) {
             class="visibility-badge"
             :class="`badge-${s.visibility || 'private'}`"
           >
-            {{ s.visibility || 'private' }}
+            {{ s.visibility ? $t(`app.${s.visibility}`) : $t('app.private') }}
           </span>
         </div>
         <p v-if="s.abstract" class="card-abstract">{{ truncate(s.abstract) }}</p>

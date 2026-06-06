@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "45 sekunnin esittely",
+    "hero_lead": "Avoin tietämysgraafi, joka yhdistää EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoituksen.",
     "how_it_works": "Miten se toimii",
     "recently_published": "Hiljattain julkaistut",
     "see_all_public_data_stories": "Näytä kaikki julkiset datatarinat →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Ladataan toimintaa...",
+    "no_activity_yet": "Ei vielä toimintaa. Aloita tutkimalla graafia tai luomalla datatarina.",
     "sign_in": "Kirjaudu sisään",
     "sign_in_to_see_your_activity": "Kirjaudu sisään nähdäksesi toimintasi."
   },
@@ -25,13 +27,19 @@
     "activity": "Toiminta",
     "admin": "Hallinta",
     "all": "Kaikki",
+    "anonymous": "Nimetön",
+    "applied": "Käytetty",
+    "applied_auto": "Käytetty automaattisesti",
     "cancel": "Peruuta",
     "clear": "Tyhjennä",
+    "clearing": "Tyhjennetään…",
     "close": "Sulje",
     "companies_count": "ei yrityksiä | 1 yritys | {count} yritystä",
     "contracts": "Sopimukset",
     "contracts_count": "ei sopimuksia | 1 sopimus | {count} sopimusta",
     "contracts_eur": "Sopimukset (EUR)",
+    "creating": "Luodaan…",
+    "deleting": "Poistetaan…",
     "description": "Kuvaus",
     "dismiss": "Sulje",
     "entity_resolution": "Entiteettien ratkaisu",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU:n julkiset hankinnat",
     "filings_by_year": "Ilmoitukset vuosittain",
+    "former": "(entinen)",
     "gleif": "GLEIF",
     "image": "Kuva",
     "issues": "Ongelmat",
@@ -47,20 +56,35 @@
     "loading_2": "Ladataan...",
     "loading_story": "Ladataan tarinaa...",
     "metric": "Mittari",
+    "no_data": "ei tietoja",
     "no_data_available": "Ei tietoja saatavilla",
+    "no_data_paren": "(ei tietoja)",
     "no_entity_configured": "Entiteettiä ei ole määritelty.",
+    "no_label": "(ei merkintää)",
+    "no_reason_given": "Syytä ei annettu",
     "nuts_level": "NUTS-taso",
     "per_year": "Vuodessa",
+    "posting": "Julkaistaan…",
     "privacy": "Yksityisyys",
+    "private": "yksityinen",
+    "public": "julkinen",
     "raise_an_issue": "Ilmoita ongelmasta",
     "remove": "Poista",
     "retry": "Yritä uudelleen",
+    "run_query": "Suorita kysely",
+    "running_progress": "Käynnissä…",
     "sanctions": "Pakotteet",
+    "save": "Tallenna",
+    "saving": "Tallennetaan…",
     "sign_out": "Kirjaudu ulos",
     "skip_to_main_content": "Siirry pääsisältöön",
+    "submit_issue": "Lähetä ongelma",
+    "submitting": "Lähetetään…",
     "ted": "TED",
     "theme": "Teema",
     "total_value_eur": "Kokonaisarvo (EUR)",
+    "unknown": "Tuntematon",
+    "working": "Työskennellään…",
     "xbrl_field_coverage": "XBRL-kenttien kattavuus (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Hankkeet rahastoittain (Top 10)"
   },
   "explore": {
-    "explore": "Tutki"
+    "explore": "Tutki",
+    "intro": "Selaa alustan totuuden-lähde-paneeleja ja suoria kyselypintoja. Valitse kortti ja sukella tarinoiden takana olevaan dataan."
   },
   "feed": {
     "clear_filter": "Tyhjennä suodatin",
     "feed": "Syöte",
     "filtering_by": "Suodatetaan",
+    "follow": "Seuraa",
     "loading_feed": "Ladataan syötettä...",
-    "public_data_stories_from_the_community_n": "Julkiset yhteisön datatarinat, uusimmat ensin."
+    "nothing_here": "Täällä ei ole vielä mitään. Kun ihmiset julkaisevat julkisia datatarinoita, ne näkyvät täällä.",
+    "public_data_stories_from_the_community_n": "Julkiset yhteisön datatarinat, uusimmat ensin.",
+    "unfollow": "Lopeta seuraaminen"
   },
   "firds_d_q": {
     "by_instrument_type": "Instrumenttityypin mukaan",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Pääkauppapaikat (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo-tutkija"
+    "geo_explorer": "Geo-tutkija",
+    "intro": "Yhteenvedot entiteeteistä ja sopimuksista NUTS-hierarkian yli. Tänään maatasolla — hienommat alueet tulevat, kun entiteettigeokoodaus saadaan käyttöön."
   },
   "geo_choropleth": {
     "companies": "Yritykset",
@@ -334,6 +363,7 @@
     "add_a_comment": "Lisää kommentti...",
     "loading_issue": "Ladataan ongelmaa...",
     "no_comments_yet": "Ei kommentteja vielä.",
+    "post_comment": "Julkaise kommentti",
     "reject": "Hylkää",
     "resolve": "Ratkaise"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Ladataan tarinoita...",
     "my_stories": "Omat tarinat",
     "no_stories_yet_start_your_first_one_abov": "Ei tarinoita vielä. Aloita ensimmäinen ylhäältä.",
-    "or_read_recent_public_stories": "Tai lue tuoreita julkisia tarinoita →"
+    "or_read_recent_public_stories": "Tai lue tuoreita julkisia tarinoita →",
+    "start_a_new_story": "Aloita uusi tarina"
+  },
+  "nav": {
+    "back_admin": "← Hallinta",
+    "back_data_quality": "← Datan laatu",
+    "back_home": "← Etusivu",
+    "back_my_stories": "← Omat tarinat",
+    "back_stories": "← Tarinat",
+    "back_to_issues": "← Takaisin ongelmiin"
   },
   "not_found": {
     "back_to_home": "Takaisin etusivulle",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Pää-Alpha-2-koodit"
   },
   "pocket_button": {
+    "name_this_snapshot": "Nimeä tämä tilannekuva",
+    "pocket": "Pocket",
     "save": "Tallenna",
-    "save_to_pocket": "Tallenna Pocketiin"
+    "save_to_pocket": "Tallenna Pocketiin",
+    "save_to_pocket_tooltip": "Tallenna Pocketiin",
+    "saved": "Tallennettu",
+    "saved_to_pocket_tooltip": "Tallennettu Pocketiin"
   },
   "preferences_menu": {
     "account": "Tili",
     "ai_usage": "Tekoälyn käyttö",
     "atlas_palette": "Atlas-paletti",
+    "clear_ai_history": "Tyhjennä tekoälyn historia",
+    "delete_account": "Poista tili",
     "display": "Näyttö",
     "preferences": "Asetukset"
   },
@@ -461,6 +507,7 @@
     "part_of": "Osa"
   },
   "public_spending": {
+    "intro": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Tai selaa, mikä maassasi on suurta.",
     "public_spending": "Julkiset menot"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Näkyvyys"
   },
   "sparql": {
+    "discoverable_json": "palauttaa saman dokumentaation JSON-muodossa.",
     "endpoint": "Päätepiste",
     "endpoint_url": "Päätepisteen URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Kysele Fontemin tietämysgraafia suoraan selaimesta tai kytke päätepiste OpenRefineen / muistikirjaan / omiin työkaluihisi. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki linkitettyinä.",
     "limits": "Rajat",
     "method": "Menetelmä",
     "post": "POST",
+    "query_cap_note": "4 KB kyselykatto; vain luku (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE-avainsanat hylätään.",
     "query_failed": "Kysely epäonnistui:",
     "response": "Vastaus",
+    "run_shortcut": "⌘/Ctrl + Enter suorittaaksesi",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulosten kuori:",
     "sparql_endpoint": "SPARQL-päätepiste",
     "try_a_query": "Kokeile kyselyä"
@@ -530,14 +581,30 @@
     "vol": "Vol."
   },
   "table_controls_overlay": {
+    "add_row": "+ Rivi",
+    "delete_row": "Poista tämä rivi",
+    "delete_table": "Poista taulukko",
+    "insert_column_end": "Lisää sarake loppuun",
+    "insert_column_here": "Lisää sarake tähän",
+    "insert_column_start": "Lisää sarake alkuun",
     "remove_column_to_the_left": "Poista vasemmanpuoleinen sarake"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Lisää tunniste…",
+    "remove_tag_aria": "Poista tunniste {tag}",
     "tags": "Tunnisteet"
   },
+  "theme": {
+    "dark": "Tumma",
+    "light": "Vaalea",
+    "switch_to_dark": "Vaihda tummaan tilaan",
+    "switch_to_light": "Vaihda vaaleaan tilaan"
+  },
   "ticker_card": {
+    "active": "Aktiivinen",
     "authority": "Viranomainen",
     "company": "Yritys",
+    "inactive": "Epäaktiivinen",
     "person": "Henkilö"
   },
   "ticker_financials": {

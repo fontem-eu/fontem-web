@@ -7,6 +7,7 @@
   },
   "about": {
     "a_45_second_tour": "A 45-second tour",
+    "hero_lead": "An open knowledge graph linking EU companies, public procurement, lobbyists and cohesion funding.",
     "how_it_works": "How it works",
     "recently_published": "Recently published",
     "see_all_public_data_stories": "See all public data stories →",
@@ -15,6 +16,7 @@
   },
   "activity": {
     "loading_activity": "Loading activity...",
+    "no_activity_yet": "No activity yet. Start by exploring the graph or creating a data story.",
     "sign_in": "Sign in",
     "sign_in_to_see_your_activity": "Sign in to see your activity."
   },
@@ -25,13 +27,19 @@
     "activity": "Activity",
     "admin": "Admin",
     "all": "All",
+    "anonymous": "Anonymous",
+    "applied": "Applied",
+    "applied_auto": "Applied automatically",
     "cancel": "Cancel",
     "clear": "Clear",
+    "clearing": "Clearing…",
     "close": "Close",
     "companies_count": "no companies | 1 company | {count} companies",
     "contracts": "Contracts",
     "contracts_count": "no contracts | 1 contract | {count} contracts",
     "contracts_eur": "Contracts (EUR)",
+    "creating": "Creating…",
+    "deleting": "Deleting…",
     "description": "Description",
     "dismiss": "Dismiss",
     "entity_resolution": "Entity Resolution",
@@ -39,6 +47,7 @@
     "esef": "ESEF",
     "eu_public_procurement": "EU Public Procurement",
     "filings_by_year": "Filings by Year",
+    "former": "(former)",
     "gleif": "GLEIF",
     "image": "Image",
     "issues": "Issues",
@@ -47,20 +56,35 @@
     "loading_2": "Loading...",
     "loading_story": "Loading story...",
     "metric": "Metric",
+    "no_data": "no data",
     "no_data_available": "No data available",
+    "no_data_paren": "(no data)",
     "no_entity_configured": "No entity configured.",
+    "no_label": "(no label)",
+    "no_reason_given": "No reason given",
     "nuts_level": "NUTS level",
     "per_year": "Per Year",
+    "posting": "Posting…",
     "privacy": "Privacy",
+    "private": "private",
+    "public": "public",
     "raise_an_issue": "Raise an Issue",
     "remove": "Remove",
     "retry": "Retry",
+    "run_query": "Run query",
+    "running_progress": "Running…",
     "sanctions": "Sanctions",
+    "save": "Save",
+    "saving": "Saving…",
     "sign_out": "Sign out",
     "skip_to_main_content": "Skip to main content",
+    "submit_issue": "Submit Issue",
+    "submitting": "Submitting…",
     "ted": "TED",
     "theme": "Theme",
     "total_value_eur": "Total Value (EUR)",
+    "unknown": "Unknown",
+    "working": "Working…",
     "xbrl_field_coverage": "XBRL Field Coverage (%)"
   },
   "app_footer": {
@@ -267,14 +291,18 @@
     "projects_by_fund_top_10": "Projects by Fund (Top 10)"
   },
   "explore": {
-    "explore": "Explore"
+    "explore": "Explore",
+    "intro": "Browse the platform's source-of-truth dashboards and direct-query surfaces. Pick a card to dig into the data behind the stories."
   },
   "feed": {
     "clear_filter": "Clear filter",
     "feed": "Feed",
     "filtering_by": "Filtering by",
+    "follow": "Follow",
     "loading_feed": "Loading feed...",
-    "public_data_stories_from_the_community_n": "Public data stories from the community, newest first."
+    "nothing_here": "Nothing here yet. When people publish public data stories, they'll show up here.",
+    "public_data_stories_from_the_community_n": "Public data stories from the community, newest first.",
+    "unfollow": "Unfollow"
   },
   "firds_d_q": {
     "by_instrument_type": "By Instrument Type",
@@ -283,7 +311,8 @@
     "top_trading_venues_mic": "Top Trading Venues (MIC)"
   },
   "geo": {
-    "geo_explorer": "Geo explorer"
+    "geo_explorer": "Geo explorer",
+    "intro": "Entity and contract aggregates over the NUTS hierarchy. Country-level today — finer regions coming soon as entity data gets tagged with postal codes."
   },
   "geo_choropleth": {
     "companies": "Companies",
@@ -334,6 +363,7 @@
     "add_a_comment": "Add a comment...",
     "loading_issue": "Loading issue...",
     "no_comments_yet": "No comments yet.",
+    "post_comment": "Post Comment",
     "reject": "Reject",
     "resolve": "Resolve"
   },
@@ -396,7 +426,16 @@
     "loading_stories": "Loading stories...",
     "my_stories": "My Stories",
     "no_stories_yet_start_your_first_one_abov": "No stories yet. Start your first one above.",
-    "or_read_recent_public_stories": "Or read recent public stories →"
+    "or_read_recent_public_stories": "Or read recent public stories →",
+    "start_a_new_story": "Start a new story"
+  },
+  "nav": {
+    "back_admin": "← Admin",
+    "back_data_quality": "← Data Quality",
+    "back_home": "← Home",
+    "back_my_stories": "← My Stories",
+    "back_stories": "← Stories",
+    "back_to_issues": "← Back to Issues"
   },
   "not_found": {
     "back_to_home": "Back to home",
@@ -420,13 +459,20 @@
     "top_alpha_2_codes": "Top Alpha-2 Codes"
   },
   "pocket_button": {
+    "name_this_snapshot": "Name this snapshot",
+    "pocket": "Pocket",
     "save": "Save",
-    "save_to_pocket": "Save to pocket"
+    "save_to_pocket": "Save to pocket",
+    "save_to_pocket_tooltip": "Save to pocket",
+    "saved": "Saved",
+    "saved_to_pocket_tooltip": "Saved to pocket"
   },
   "preferences_menu": {
     "account": "Account",
     "ai_usage": "AI usage",
     "atlas_palette": "Atlas palette",
+    "clear_ai_history": "Clear AI history",
+    "delete_account": "Delete account",
     "display": "Display",
     "preferences": "Preferences"
   },
@@ -461,6 +507,7 @@
     "part_of": "Part of"
   },
   "public_spending": {
+    "intro": "Search EU companies, contracting authorities, lobbyists and EU-funded projects. Or browse what's big in your country first.",
     "public_spending": "Public Spending"
   },
   "recently_published_carousel": {
@@ -493,14 +540,18 @@
     "visibility": "Visibility"
   },
   "sparql": {
+    "discoverable_json": "returns this same documentation as JSON.",
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint URL",
     "get_apisparql": "GET /api/sparql",
+    "intro": "Query the Fontem knowledge graph directly from the browser, or plug the endpoint into OpenRefine / a notebook / your own tooling. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
     "limits": "Limits",
     "method": "Method",
     "post": "POST",
+    "query_cap_note": "4 KB query cap; read-only (SELECT / ASK / CONSTRUCT / DESCRIBE). UPDATE keywords are rejected.",
     "query_failed": "Query failed:",
     "response": "Response",
+    "run_shortcut": "⌘/Ctrl + Enter to run",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON results envelope:",
     "sparql_endpoint": "SPARQL endpoint",
     "try_a_query": "Try a query"
@@ -530,14 +581,30 @@
     "vol": "Vol"
   },
   "table_controls_overlay": {
+    "add_row": "+ Row",
+    "delete_row": "Delete this row",
+    "delete_table": "Delete the table",
+    "insert_column_end": "Insert column at end",
+    "insert_column_here": "Insert column here",
+    "insert_column_start": "Insert column at start",
     "remove_column_to_the_left": "Remove column to the left"
   },
   "tag_editor": {
+    "add_tag_placeholder": "Add a tag…",
+    "remove_tag_aria": "Remove tag {tag}",
     "tags": "Tags"
   },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "switch_to_dark": "Switch to dark mode",
+    "switch_to_light": "Switch to light mode"
+  },
   "ticker_card": {
+    "active": "Active",
     "authority": "Authority",
     "company": "Company",
+    "inactive": "Inactive",
     "person": "Person"
   },
   "ticker_financials": {

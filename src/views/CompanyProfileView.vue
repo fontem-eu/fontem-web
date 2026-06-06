@@ -28,7 +28,7 @@ onMounted(async () => {
   <div class="cp">
     <header class="cp-header">
       <div>
-        <router-link to="/" class="cp-back">&larr; Home</router-link>
+        <router-link to="/" class="cp-back">{{ $t('nav.back_home') }}</router-link>
         <h1 v-if="profile">{{ profile.company_name || gmrId }}</h1>
         <h1 v-else>{{ $t('company_profile.company_profile') }}</h1>
         <div v-if="profile" class="cp-meta">
