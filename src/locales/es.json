@@ -357,6 +357,30 @@
     "entity_mentions": "Menciones de entidades",
     "searching": "Buscando…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem es la plataforma de transparencia de fuentes primarias. Empresas de la UE, contratación pública, lobistas y financiación de cohesión — enlazados en un grafo y contrastados con los registros oficiales.",
+      "data_quality": "Cobertura, frescura y desglose de fuentes para cada dataset del grafo de conocimiento de Fontem. Transparencia sobre transparencia.",
+      "donate": "Fontem es gratuito y siempre lo será. Las donaciones pasan por un anfitrión fiscal sin ánimo de lucro en Open Collective y mantienen las tuberías de datos operativas, el grafo creciendo y el equipo en trabajo de calidad.",
+      "home": "Historias de datos públicas de la comunidad Fontem — investigaciones, comprobaciones cruzadas y hallazgos basados en fuentes primarias.",
+      "login": "Inicia sesión en Fontem para publicar historias de datos, plantear problemas y guardar tu investigación.",
+      "map": "Mapa coroplético interactivo de datasets seleccionados de Eurostat a nivel NUTS — población, PIB, desempleo, I+D y más, cartografiados por toda Europa.",
+      "privacy": "Cómo gestiona Fontem los datos personales. Solo almacenamos lo básico de la cuenta, sin cookies de seguimiento ni analítica de terceros.",
+      "sparql": "Consulta el grafo de conocimiento de Fontem directamente vía SPARQL. Empresas, contratos, autoridades, lobistas, sanciones — todo enlazado.",
+      "spending": "Busca empresas de la UE, órganos de contratación, lobistas y proyectos financiados por la UE. Además de lo que es grande en tu país."
+    },
+    "title": {
+      "about": "Acerca de — Fontem",
+      "data_quality": "Calidad de los datos — Fontem",
+      "donate": "Apoya a Fontem",
+      "home": "Fontem — Historias de datos públicas",
+      "login": "Iniciar sesión — Fontem",
+      "map": "Mapa — Estadísticas europeas en Fontem",
+      "privacy": "Política de privacidad — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Gasto — contratación pública de la UE en Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Contenido marcado",
     "moderation": "Moderación",

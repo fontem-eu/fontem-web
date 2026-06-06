@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
 import { useSwipeNav } from './composables/useSwipeNav.js'
+import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
@@ -24,6 +25,9 @@ onMounted(() => {
 
 // Horizontal swipe between Home / Feed / My Reports on mobile.
 useSwipeNav()
+
+// Per-route document.title + meta description, reactive to locale switch.
+useDocumentMeta()
 
 const route = useRoute()
 // Footer is visible everywhere except the login page (where it would

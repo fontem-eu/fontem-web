@@ -357,6 +357,30 @@
     "entity_mentions": "Zmínky o entitách",
     "searching": "Vyhledávání…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem je platforma pro transparentnost z primárních zdrojů. Společnosti EU, veřejné zakázky, lobbisté a soudržná politika — propojeno do jednoho grafu a křížově ověřeno proti oficiálním rejstříkům.",
+      "data_quality": "Pokrytí, aktuálnost a rozdělení zdrojů pro každý datový soubor v grafu znalostí Fontem. Transparentnost o transparentnosti.",
+      "donate": "Fontem je zdarma a vždy bude. Dary plynou skrz neziskového fiskálního hostitele na Open Collective a udržují datové toky v provozu, graf roste a tým u kvalitní práce.",
+      "home": "Veřejné datové příběhy z komunity Fontem — vyšetřování, křížové kontroly a zjištění zakotvená v primárních zdrojích.",
+      "login": "Přihlaste se do Fontemu pro publikování datových příběhů, hlášení problémů a ukládání výzkumu.",
+      "map": "Interaktivní choropletová mapa kurátorovaných Eurostat datasetů na úrovni NUTS — populace, HDP, nezaměstnanost, R&D a další, mapováno napříč Evropou.",
+      "privacy": "Jak Fontem zachází s osobními údaji. Ukládáme pouze základní údaje účtu, žádné sledovací soubory cookie ani analytiku třetích stran.",
+      "sparql": "Dotazujte se grafu znalostí Fontem přímo přes SPARQL. Společnosti, smlouvy, orgány, lobbisté, sankce — vše propojeno.",
+      "spending": "Hledejte EU společnosti, zadávající orgány, lobbisty a projekty financované EU. Plus co je velké ve vaší zemi."
+    },
+    "title": {
+      "about": "O projektu — Fontem",
+      "data_quality": "Kvalita dat — Fontem",
+      "donate": "Podpořte Fontem",
+      "home": "Fontem — Veřejné datové příběhy",
+      "login": "Přihlásit se — Fontem",
+      "map": "Mapa — Evropské statistiky na Fontemu",
+      "privacy": "Zásady ochrany soukromí — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Výdaje — EU zadávání veřejných zakázek na Fontemu"
+    }
+  },
   "moderation": {
     "flagged_content": "Označený obsah",
     "moderation": "Moderace",

@@ -357,6 +357,30 @@
     "entity_mentions": "Omembe entitet",
     "searching": "Iskanje…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem je platforma transparentnosti iz primarnih virov. Podjetja EU, javna naročila, lobisti in kohezijsko financiranje — povezani v en graf in navzkrižno preverjeni z uradnimi registri.",
+      "data_quality": "Pokritost, svežina in razčlenitev virov za vsak podatkovni niz v Fontem grafu znanja. Transparentnost o transparentnosti.",
+      "donate": "Fontem je brezplačen za uporabo in vedno bo. Donacije gredo prek neprofitnega fiskalnega gostitelja na Open Collective in ohranjajo podatkovne cevovode v teku, graf rastoč in ekipo pri kakovostnem delu.",
+      "home": "Javne podatkovne zgodbe iz skupnosti Fontem — preiskave, navzkrižna preverjanja in ugotovitve, ki temeljijo na primarnih virih.",
+      "login": "Prijavi se v Fontem za objavo podatkovnih zgodb, prijavo težav in shranjevanje raziskav.",
+      "map": "Interaktivni horopleti kuriranih podatkovnih nizov Eurostat na ravni NUTS — prebivalstvo, BDP, brezposelnost, R&R in več, kartirani po vsej Evropi.",
+      "privacy": "Kako Fontem ravna z osebnimi podatki. Shranjujemo le osnovne podatke računa, brez sledilnih piškotkov in brez analitike tretjih oseb.",
+      "sparql": "Poizveduj Fontem graf znanja neposredno prek SPARQL. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
+      "spending": "Išči podjetja EU, naročnike, lobiste in projekte, ki jih financira EU. Plus kaj je veliko v tvoji državi."
+    },
+    "title": {
+      "about": "O — Fontem",
+      "data_quality": "Kakovost podatkov — Fontem",
+      "donate": "Podpri Fontem",
+      "home": "Fontem — Javne podatkovne zgodbe",
+      "login": "Prijava — Fontem",
+      "map": "Zemljevid — Evropske statistike na Fontemu",
+      "privacy": "Politika zasebnosti — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Poraba — EU javna naročila na Fontemu"
+    }
+  },
   "moderation": {
     "flagged_content": "Označena vsebina",
     "moderation": "Moderiranje",

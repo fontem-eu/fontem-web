@@ -357,6 +357,30 @@
     "entity_mentions": "Entitetsomtaler",
     "searching": "Søger…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
+      "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Fontem-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
+      "donate": "Fontem er gratis at bruge og vil altid være det. Donationer flyder gennem en nonprofit fiskal vært på Open Collective og holder datapipelines kørende, grafen voksende og teamet på kvalitetsarbejde.",
+      "home": "Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
+      "login": "Log ind på Fontem for at udgive datahistorier, rejse problemer og gemme din forskning.",
+      "map": "Interaktiv chloroplet af kuraterede Eurostat-datasæt på NUTS-niveau — befolkning, BNP, arbejdsløshed, R&D og mere, kortlagt på tværs af Europa.",
+      "privacy": "Hvordan Fontem håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
+      "sparql": "Forespørg Fontem-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
+      "spending": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Plus hvad er stort i dit land."
+    },
+    "title": {
+      "about": "Om — Fontem",
+      "data_quality": "Datakvalitet — Fontem",
+      "donate": "Støt Fontem",
+      "home": "Fontem — Offentlige datahistorier",
+      "login": "Log ind — Fontem",
+      "map": "Kort — Europæiske statistikker på Fontem",
+      "privacy": "Privatlivspolitik — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Udgifter — EU offentlige indkøb på Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Markeret indhold",
     "moderation": "Moderation",

@@ -357,6 +357,30 @@
     "entity_mentions": "Mentions d'entités",
     "searching": "Recherche…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem est la plateforme de transparence en sources primaires. Entreprises de l'UE, marchés publics, lobbyistes et financement de cohésion — liés dans un seul graphe et recoupés avec les registres officiels.",
+      "data_quality": "Couverture, fraîcheur et répartition par source pour chaque jeu de données du graphe de connaissances Fontem. La transparence sur la transparence.",
+      "donate": "Fontem est gratuit et le restera. Les dons transitent par un hébergeur fiscal à but non lucratif sur Open Collective et permettent aux pipelines de données de tourner, au graphe de grandir et à l'équipe de se consacrer à la qualité.",
+      "home": "Histoires de données publiques de la communauté Fontem — enquêtes, recoupements et conclusions ancrées dans des sources primaires.",
+      "login": "Connectez-vous à Fontem pour publier des histoires de données, signaler des problèmes et sauvegarder vos recherches.",
+      "map": "Choroplèthe interactif de jeux de données Eurostat sélectionnés au niveau NUTS — population, PIB, chômage, R&D et plus, cartographiés à travers l'Europe.",
+      "privacy": "Comment Fontem gère les données personnelles. Nous ne stockons que les bases de votre compte, aucun cookie de pistage, aucun outil d'analyse tiers.",
+      "sparql": "Interrogez directement le graphe de connaissances Fontem via SPARQL. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est lié.",
+      "spending": "Cherchez des entreprises de l'UE, des pouvoirs adjudicateurs, des lobbyistes et des projets financés par l'UE. Plus ce qui est gros dans votre pays."
+    },
+    "title": {
+      "about": "À propos — Fontem",
+      "data_quality": "Qualité des données — Fontem",
+      "donate": "Soutenez Fontem",
+      "home": "Fontem — Histoires de données publiques",
+      "login": "Connexion — Fontem",
+      "map": "Carte — Statistiques européennes sur Fontem",
+      "privacy": "Politique de confidentialité — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Dépenses — marchés publics européens sur Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Contenu signalé",
     "moderation": "Modération",

@@ -357,6 +357,30 @@
     "entity_mentions": "Olemi mainimised",
     "searching": "Otsitakse…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem on esmaste allikate läbipaistvusplatvorm. ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamine — ühte graafi seotud ja ametlike registritega ristkontrollitud.",
+      "data_quality": "Kaetus, värskus ja allikate jaotus iga andmestiku jaoks Fontemi teadmusgraafis. Läbipaistvus läbipaistvuse kohta.",
+      "donate": "Fontem on tasuta kasutamiseks ja jääb selleks alati. Annetused liiguvad mittetulundusliku fiskaalse võõrustaja kaudu Open Collective'is ja hoiavad andmevood toimimas, graafi kasvamas ja meeskonna kvaliteetsel tööl.",
+      "home": "Avalikud andmelood Fontemi kogukonnalt — uurimised, ristkontrollid ja leiud, mis tuginevad esmastele allikatele.",
+      "login": "Logi Fontemisse sisse, et avaldada andmelugusid, esitada probleeme ja salvestada oma uuringuid.",
+      "map": "Kureeritud Eurostati andmestike interaktiivne koroplett NUTS-i tasemel — rahvastik, SKP, tööpuudus, T&A ja muu, kaardistatud üle Euroopa.",
+      "privacy": "Kuidas Fontem käitleb isikuandmeid. Salvestame ainult kontode põhiandmed, ilma jälgimisküpsisteta ja ilma kolmandate osapoolte analüütikata.",
+      "sparql": "Päri Fontemi teadmusgraafi otse SPARQL-i kaudu. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
+      "spending": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja ELi rahastatud projekte. Pluss see, mis on sinu riigis suur."
+    },
+    "title": {
+      "about": "Teave — Fontem",
+      "data_quality": "Andmekvaliteet — Fontem",
+      "donate": "Toeta Fontemit",
+      "home": "Fontem — Avalikud andmelood",
+      "login": "Logi sisse — Fontem",
+      "map": "Kaart — Euroopa statistika Fontemis",
+      "privacy": "Privaatsuspoliitika — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Kulutused — ELi riigihanked Fontemis"
+    }
+  },
   "moderation": {
     "flagged_content": "Märgitud sisu",
     "moderation": "Modereerimine",

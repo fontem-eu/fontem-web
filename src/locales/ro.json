@@ -357,6 +357,30 @@
     "entity_mentions": "Mențiuni de entități",
     "searching": "Se caută…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
+      "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Fontem. Transparență despre transparență.",
+      "donate": "Fontem este gratuit de utilizat și va fi întotdeauna. Donațiile trec printr-o gazdă fiscală non-profit pe Open Collective și mențin conductele de date în funcțiune, graful în creștere și echipa la muncă de calitate.",
+      "home": "Povești publice de date din comunitatea Fontem — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
+      "login": "Autentifică-te în Fontem pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
+      "map": "Coroplet interactiv al seturilor de date Eurostat curate la nivel NUTS — populație, PIB, șomaj, C&D și altele, mapate în întreaga Europă.",
+      "privacy": "Cum gestionează Fontem datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
+      "sparql": "Interoghează graful de cunoștințe Fontem direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
+      "spending": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Plus ce e mare în țara ta."
+    },
+    "title": {
+      "about": "Despre — Fontem",
+      "data_quality": "Calitatea datelor — Fontem",
+      "donate": "Sprijină Fontem",
+      "home": "Fontem — Povești publice de date",
+      "login": "Autentificare — Fontem",
+      "map": "Hartă — Statistici europene pe Fontem",
+      "privacy": "Politica de confidențialitate — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Cheltuieli — achiziții publice UE pe Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Conținut marcat",
     "moderation": "Moderare",

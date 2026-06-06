@@ -357,6 +357,30 @@
     "entity_mentions": "Entitetsomnämnanden",
     "searching": "Söker…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem är transparensplattformen baserad på primärkällor. EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering — länkade i en graf och korskontrollerade mot de officiella registren.",
+      "data_quality": "Täckning, färskhet och källuppdelning för varje dataset i Fontems kunskapsgraf. Transparens om transparens.",
+      "donate": "Fontem är gratis att använda och kommer alltid att vara det. Donationer går via en ideell fiskal värd på Open Collective och håller datapipelines igång, grafen växande och teamet på kvalitetsarbete.",
+      "home": "Offentliga datahistorier från Fontem-gemenskapen — undersökningar, korskontroller och fynd grundade på primärkällor.",
+      "login": "Logga in på Fontem för att publicera datahistorier, rapportera problem och spara din forskning.",
+      "map": "Interaktiv choroplet av kurerade Eurostat-dataset på NUTS-nivå — befolkning, BNP, arbetslöshet, FoU och mer, kartlagda över hela Europa.",
+      "privacy": "Hur Fontem hanterar personuppgifter. Vi lagrar endast kontogrunder, inga spårningscookies, ingen tredjepartsanalys.",
+      "sparql": "Fråga Fontems kunskapsgraf direkt via SPARQL. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
+      "spending": "Sök EU-företag, upphandlande myndigheter, lobbyister och EU-finansierade projekt. Plus vad som är stort i ditt land."
+    },
+    "title": {
+      "about": "Om — Fontem",
+      "data_quality": "Datakvalitet — Fontem",
+      "donate": "Stöd Fontem",
+      "home": "Fontem — Offentliga datahistorier",
+      "login": "Logga in — Fontem",
+      "map": "Karta — Europeisk statistik på Fontem",
+      "privacy": "Integritetspolicy — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Utgifter — EU offentlig upphandling på Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Flaggat innehåll",
     "moderation": "Moderering",

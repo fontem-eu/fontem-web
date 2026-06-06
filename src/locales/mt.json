@@ -357,6 +357,30 @@
     "entity_mentions": "Imsemmijiet ta' entitajiet",
     "searching": "Qed jiġi mfittex…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem hija l-pjattaforma ta' trasparenza minn sorsi primarji. Kumpaniji tal-UE, akkwist pubbliku, lobbyists u finanzjament ta' koeżjoni — marbutin f'graf wieħed u kontroverifikati mar-reġistri uffiċjali.",
+      "data_quality": "Kopertura, friskezza u tqassim tas-sorsi għal kull sett tad-data fil-graf tal-għarfien Fontem. Trasparenza dwar it-trasparenza.",
+      "donate": "Fontem hija b'xejn għall-użu u dejjem se tibqa'. Id-donazzjonijiet jgħaddu minn host fiskali bla skop ta' qligħ fuq Open Collective u jżommu l-pipelines tad-data jaħdmu, il-graf qed jikber u t-tim fuq xogħol ta' kwalità.",
+      "home": "Stejjer tad-data pubbliċi mill-komunità Fontem — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
+      "login": "Idħol f'Fontem biex tippubblika stejjer tad-data, tirrapporta problemi u tissejvja r-riċerka tiegħek.",
+      "map": "Choropleth interattiva ta' settijiet tad-data Eurostat magħżula fuq livell NUTS — popolazzjoni, PDG, qgħad, R&Ż u aktar, immappjati madwar l-Ewropa.",
+      "privacy": "Kif Fontem timmaniġġja d-data personali. Naħżnu biss l-essenzjali tal-kont, ebda cookies ta' traċċar, ebda analitika ta' partijiet terzi.",
+      "sparql": "Staqsi l-graf tal-għarfien Fontem direttament permezz ta' SPARQL. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
+      "spending": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Plus dak li hu kbir f'pajjiżek."
+    },
+    "title": {
+      "about": "Dwar — Fontem",
+      "data_quality": "Kwalità tad-data — Fontem",
+      "donate": "Appoġġja Fontem",
+      "home": "Fontem — Stejjer tad-data pubbliċi",
+      "login": "Idħol — Fontem",
+      "map": "Mappa — Statistika Ewropea fuq Fontem",
+      "privacy": "Politika tal-privatezza — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Nefqa — akkwist pubbliku tal-UE fuq Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Kontenut immarkat",
     "moderation": "Moderazzjoni",

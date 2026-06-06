@@ -357,6 +357,30 @@
     "entity_mentions": "Spominjanja entiteta",
     "searching": "Pretraživanje…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem je platforma transparentnosti iz primarnih izvora. Tvrtke EU, javna nabava, lobisti i kohezijsko financiranje — povezani u jedan graf i križno provjereni s službenim registrima.",
+      "data_quality": "Pokrivenost, svježina i raspodjela izvora za svaki skup podataka u Fontem grafu znanja. Transparentnost o transparentnosti.",
+      "donate": "Fontem je besplatan za korištenje i uvijek će biti. Donacije teku kroz neprofitnog fiskalnog hosta na Open Collectiveu i održavaju podatkovne cjevovode u radu, graf rastućim i tim na kvalitetnom radu.",
+      "home": "Javne podatkovne priče iz Fontem zajednice — istraživanja, križne provjere i zaključci utemeljeni na primarnim izvorima.",
+      "login": "Prijavi se na Fontem za objavljivanje podatkovnih priča, prijavu problema i spremanje istraživanja.",
+      "map": "Interaktivni horoplet kuriranih Eurostat skupova podataka na NUTS razini — stanovništvo, BDP, nezaposlenost, R&D i više, mapirani diljem Europe.",
+      "privacy": "Kako Fontem postupa s osobnim podacima. Pohranjujemo samo osnovne podatke računa, bez kolačića za praćenje i bez analitike trećih strana.",
+      "sparql": "Pretraži Fontem graf znanja izravno putem SPARQL-a. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
+      "spending": "Pretraži tvrtke EU, ugovorne ustanove, lobiste i projekte koje financira EU. Plus što je veliko u tvojoj zemlji."
+    },
+    "title": {
+      "about": "O — Fontem",
+      "data_quality": "Kvaliteta podataka — Fontem",
+      "donate": "Podrži Fontem",
+      "home": "Fontem — Javne podatkovne priče",
+      "login": "Prijava — Fontem",
+      "map": "Karta — Europske statistike na Fontemu",
+      "privacy": "Pravila privatnosti — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Potrošnja — javna nabava EU na Fontemu"
+    }
+  },
   "moderation": {
     "flagged_content": "Označeni sadržaj",
     "moderation": "Moderiranje",

@@ -357,6 +357,30 @@
     "entity_mentions": "Entity mentions",
     "searching": "Searching…"
   },
+  "meta": {
+    "description": {
+      "about": "Fontem is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.",
+      "data_quality": "Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.",
+      "donate": "Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.",
+      "home": "Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.",
+      "login": "Sign in to Fontem to publish data stories, raise issues, and save your research.",
+      "map": "Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.",
+      "privacy": "How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.",
+      "sparql": "Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
+      "spending": "Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country."
+    },
+    "title": {
+      "about": "About — Fontem",
+      "data_quality": "Data quality — Fontem",
+      "donate": "Support Fontem",
+      "home": "Fontem — Public data stories",
+      "login": "Sign in — Fontem",
+      "map": "Map — European statistics on Fontem",
+      "privacy": "Privacy policy — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Spending — EU procurement on Fontem"
+    }
+  },
   "moderation": {
     "flagged_content": "Flagged Content",
     "moderation": "Moderation",
