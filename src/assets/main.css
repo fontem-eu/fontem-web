@@ -24,15 +24,22 @@
     --border: #e6d3b8;   /* tan */
     --text: #3e2b1f;     /* espresso */
     --muted: #806753;    /* warm taupe — nudged darker for ~5.4:1 on linen */
-    --accent: #3f5b88;   /* dusty EU navy */
+    --accent: #4a5275;   /* antique-ink indigo — low chroma, shares
+                            the ~22 % saturation of the cream + espresso
+                            palette so it sits next to the warm bg
+                            instead of fighting it. Slight indigo lean
+                            (hue ~229°) bridges to the old dusty-plum
+                            family the prior palette used. */
     --negative: #c04b2a; /* burnt sienna */
 
     /* Brand tokens — the two-tone Fontem wordmark. Kept separate from
        --accent so a future accent tweak won't repaint the logo. EU
-       flag homage: navy + mustard gold, tamed so they don't fight the
-       cream / espresso palette around them. */
-    --brand-primary: #3f5b88;   /* dusty EU navy — the source */
-    --brand-secondary: #b88a32; /* warm mustard — the reflection */
+       flag homage: indigo + warm mustard, both tamed to the cream /
+       espresso family so they read as "archival" rather than "modern
+       tech logo". */
+    --brand-primary: #4a5275;   /* antique-ink indigo — the source */
+    --brand-secondary: #94772b; /* warm mustard, deepened so it stops
+                                   melting into the linen-yellow bg */
 
     --badge-ok-bg: #e8efd6;      /* sage wash */
     --badge-ok-text: #5b6a2f;    /* olive */
@@ -63,11 +70,14 @@
     --border: #3d3026;   /* warm dark, slightly lifted from old #332820 */
     --text: #faf0db;     /* warm cream — brighter than light's bg */
     --muted: #c4a98a;    /* warm taupe, lifted for legibility (~5.6:1) */
-    --accent: #94b3d6;   /* soft sky — dusty navy lifted for dark */
+    --accent: #9aa8c5;   /* soft indigo — warmer / grayer than a pure
+                            sky-blue so it doesn't read as "modern UI
+                            blue" against the warm cream text */
     --negative: #e08363; /* warm sienna */
 
-    --brand-primary: #94b3d6;   /* soft sky — accent twin */
-    --brand-secondary: #e5be60; /* warm amber — mustard lifted for dark */
+    --brand-primary: #9aa8c5;   /* soft indigo — accent twin */
+    --brand-secondary: #d4b057; /* warm amber, slightly richer than the
+                                   first pass so it carries on dark */
 
     --badge-ok-bg: #2a3818;      /* moss on dark */
     --badge-ok-text: #b0c472;    /* light olive */
