@@ -7,16 +7,29 @@
   },
   "about": {
     "a_45_second_tour": "Uma visita guiada de 45 segundos",
+    "chip_company": "Procura uma empresa: Fujitsu Tech Sol ES",
+    "chip_graph": "Explora uma rede empresarial: Siemens AG",
+    "chip_map": "Mapeia um dataset do Eurostat pela Europa",
+    "chip_story": "Lê uma história com dados da comunidade",
     "hero_lead": "Um grafo de conhecimento aberto a ligar empresas da UE, contratação pública, lobistas e financiamento da coesão.",
     "how_it_works": "Como funciona",
     "recently_published": "Publicado recentemente",
-    "see_all_public_data_stories": "Ver todas as histórias de dados públicas →",
+    "see_all_public_data_stories": "Ver todas as histórias com dados públicas →",
+    "step_crosscheck_desc": "Compara lado a lado o que o TED, o GLEIF, o Registo de Transparência, a Coesão e outras fontes dizem sobre a mesma entidade.",
+    "step_crosscheck_gif_alt": "Alternar entre vistas de contratação, finanças e lobby",
+    "step_crosscheck_name": "Verificação cruzada",
+    "step_publish_desc": "Escreve o que encontrares como uma história com dados e publica-a — privada, só para autenticados ou totalmente pública.",
+    "step_publish_gif_alt": "A publicar uma história com dados a partir do editor",
+    "step_publish_name": "Publicar",
+    "step_search_desc": "Procura qualquer empresa, entidade adjudicante, lobista ou projeto financiado pela UE por nome ou identificador.",
+    "step_search_gif_alt": "A procurar uma entidade no Fontem",
+    "step_search_name": "Procurar",
     "try": "Experimente:",
-    "walkthrough_searching_a_company_explorin": "Passo a passo: pesquisar uma empresa, explorar contratos públicos e publicar uma história de dados"
+    "walkthrough_searching_a_company_explorin": "Passo a passo: pesquisar uma empresa, explorar contratos públicos e publicar uma história com dados"
   },
   "activity": {
     "loading_activity": "A carregar atividade...",
-    "no_activity_yet": "Ainda sem atividade. Começa a explorar o grafo ou a criar uma história de dados.",
+    "no_activity_yet": "Ainda sem atividade. Começa a explorar o grafo ou a criar uma história com dados.",
     "sign_in": "Iniciar sessão",
     "sign_in_to_see_your_activity": "Inicie sessão para ver a sua atividade."
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Aceitar",
+    "body": "Usamos um cookie de analítica auto-hospedado para perceber que páginas são úteis. Sem rastreio, sem terceiros.",
     "cookie_consent": "Consentimento de cookies",
     "decline": "Recusar",
     "learn_more": "Saber mais"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Apoiar o Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Obrigado a todos os que mantêm o Fontem vivo.",
+    "tier_backer_desc": "Financia o trabalho contínuo nos pipelines de dados: novas fontes, melhor cobertura.",
+    "tier_backer_name": "Mecenas",
+    "tier_oneoff_amount": "Qualquer valor",
+    "tier_oneoff_desc": "Uma única contribuição, o que te servir. Sem compromisso.",
+    "tier_oneoff_name": "Pontual",
+    "tier_partner_desc": "Apoia um lugar na equipa principal e a gestão de dados a longo prazo.",
+    "tier_partner_name": "Parceiro",
+    "tier_supporter_desc": "Mantém as luzes acesas — alojamento, domínio, licenças de fontes de dados.",
+    "tier_supporter_name": "Apoiante",
     "where_the_money_goes": "Para onde vai o dinheiro"
   },
   "edgar_d_q": {
@@ -300,8 +323,8 @@
     "filtering_by": "A filtrar por",
     "follow": "Seguir",
     "loading_feed": "A carregar feed...",
-    "nothing_here": "Ainda não há nada aqui. Quando alguém publicar histórias de dados públicas, vão aparecer aqui.",
-    "public_data_stories_from_the_community_n": "Histórias de dados públicas da comunidade, mais recentes primeiro.",
+    "nothing_here": "Ainda não há nada aqui. Quando alguém publicar histórias com dados públicas, vão aparecer aqui.",
+    "public_data_stories_from_the_community_n": "Histórias com dados públicas da comunidade, mais recentes primeiro.",
     "unfollow": "Deixar de seguir"
   },
   "firds_d_q": {
@@ -392,8 +415,8 @@
       "about": "O Fontem é a plataforma de transparência a partir de fontes primárias. Empresas da UE, contratação pública, lobistas e financiamento da coesão — ligados num único grafo e cruzados com os registos oficiais.",
       "data_quality": "Cobertura, frescura e repartição por fonte para cada conjunto de dados no grafo de conhecimento do Fontem. Transparência sobre a transparência.",
       "donate": "O Fontem é gratuito e sempre o será. As doações passam por um anfitrião fiscal sem fins lucrativos no Open Collective e mantêm as pipelines de dados a correr, o grafo a crescer e a equipa em trabalho de qualidade.",
-      "home": "Histórias de dados públicas da comunidade Fontem — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
-      "login": "Inicia sessão no Fontem para publicar histórias de dados, levantar problemas e guardar a tua pesquisa.",
+      "home": "Histórias com dados públicas da comunidade Fontem — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
+      "login": "Inicia sessão no Fontem para publicar histórias com dados, levantar problemas e guardar a tua pesquisa.",
       "map": "Coroplético interativo de conjuntos Eurostat curados ao nível NUTS — população, PIB, desemprego, I&D e mais, mapeados por toda a Europa.",
       "privacy": "Como o Fontem trata os dados pessoais. Só guardamos o essencial da conta, sem cookies de rastreio e sem analítica de terceiros.",
       "sparql": "Consulta o grafo de conhecimento do Fontem diretamente via SPARQL. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
@@ -403,7 +426,7 @@
       "about": "Sobre — Fontem",
       "data_quality": "Qualidade dos dados — Fontem",
       "donate": "Apoia o Fontem",
-      "home": "Fontem — Histórias de dados públicas",
+      "home": "Fontem — Histórias com dados públicas",
       "login": "Iniciar sessão — Fontem",
       "map": "Mapa — Estatísticas europeias no Fontem",
       "privacy": "Política de privacidade — Fontem",
@@ -435,7 +458,12 @@
     "back_home": "← Início",
     "back_my_stories": "← As minhas histórias",
     "back_stories": "← Histórias",
-    "back_to_issues": "← Voltar aos problemas"
+    "back_to_issues": "← Voltar aos problemas",
+    "explore": "Explorar",
+    "map": "Mapa",
+    "my_stories": "As minhas histórias",
+    "spending": "Despesas",
+    "stories": "Histórias"
   },
   "not_found": {
     "back_to_home": "Voltar ao início",
@@ -512,7 +540,7 @@
   },
   "recently_published_carousel": {
     "carousel_position": "Posição no carrossel",
-    "recently_published_data_stories": "Histórias de dados publicadas recentemente"
+    "recently_published_data_stories": "Histórias com dados publicadas recentemente"
   },
   "report": {
     "edit": "Editar"

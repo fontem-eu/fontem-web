@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "En 45-sekunders rundtur",
+    "chip_company": "Søg en virksomhed: Fujitsu Tech Sol ES",
+    "chip_graph": "Udforsk et virksomhedsnetværk: Siemens AG",
+    "chip_map": "Kortlæg et Eurostat-datasæt over Europa",
+    "chip_story": "Læs en datahistorie fra fællesskabet",
     "hero_lead": "En åben videnskaft, der forbinder EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering.",
     "how_it_works": "Sådan virker det",
     "recently_published": "Senest udgivet",
     "see_all_public_data_stories": "Se alle offentlige datafortællinger →",
+    "step_crosscheck_desc": "Sammenlign hvad TED, GLEIF, Transparensregistret, Samhørighed og andre kilder siger om samme entitet, side om side.",
+    "step_crosscheck_gif_alt": "Skifter mellem indkøbs-, finans- og lobby-visninger",
+    "step_crosscheck_name": "Kryds-tjek",
+    "step_publish_desc": "Skriv det du finder som en datahistorie og udgiv den — privat, kun for indloggede eller fuldt offentlig.",
+    "step_publish_gif_alt": "Udgivelse af en datahistorie fra editoren",
+    "step_publish_name": "Udgiv",
+    "step_search_desc": "Slå enhver virksomhed, ordregivende myndighed, lobbyist eller EU-finansieret projekt op efter navn eller identifikator.",
+    "step_search_gif_alt": "Søger efter en entitet i Fontem",
+    "step_search_name": "Søg",
     "try": "Prøv:",
     "walkthrough_searching_a_company_explorin": "Gennemgang: søg et selskab, udforsk udbud og udgiv en datafortælling"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Accepter",
+    "body": "Vi bruger en selv-hostet analyse-cookie for at forstå hvilke sider der er nyttige. Ingen sporing, ingen tredjeparter.",
     "cookie_consent": "Cookie-samtykke",
     "decline": "Afvis",
     "learn_more": "Læs mere"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Støt Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Tak til alle der holder Fontem i live.",
+    "tier_backer_desc": "Finansierer løbende datapipeline-arbejde: nye kilder, bedre dækning.",
+    "tier_backer_name": "Bagmand",
+    "tier_oneoff_amount": "Ethvert beløb",
+    "tier_oneoff_desc": "Et enkelt bidrag, hvad der passer. Ingen forpligtelse.",
+    "tier_oneoff_name": "Engangs",
+    "tier_partner_desc": "Støtter en plads på kerneteamet og langsigtet dataforvaltning.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Holder lyset tændt — hosting, domæne, datakilde-licenser.",
+    "tier_supporter_name": "Støtte",
     "where_the_money_goes": "Hvor pengene går hen"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Hjem",
     "back_my_stories": "← Mine historier",
     "back_stories": "← Historier",
-    "back_to_issues": "← Tilbage til problemer"
+    "back_to_issues": "← Tilbage til problemer",
+    "explore": "Udforsk",
+    "map": "Kort",
+    "my_stories": "Mine historier",
+    "spending": "Udgifter",
+    "stories": "Historier"
   },
   "not_found": {
     "back_to_home": "Tilbage til forsiden",

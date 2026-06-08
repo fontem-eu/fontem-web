@@ -1,12 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import TickerSearch from './TickerSearch.vue'
 import PreferencesMenu from './PreferencesMenu.vue'
 import Wordmark from './Wordmark.vue'
 
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 
 // Safe during SSR: localStorage doesn't exist on the server, so
 // anonymous render is the default. Client re-evaluates on hydration.
@@ -29,13 +31,13 @@ const navTabs = computed(() => {
   // by-source affordances; it replaces the previous direct link to
   // the data-quality entry point.
   const base = [
-    { key: 'stories',  label: 'Stories',  path: '/' },
-    { key: 'spending', label: 'Spending', path: '/spending' },
-    { key: 'map',      label: 'Map',      path: '/map' },
-    { key: 'explore',  label: 'Explore',  path: '/explore' },
+    { key: 'stories',  label: t('nav.stories'),  path: '/' },
+    { key: 'spending', label: t('nav.spending'), path: '/spending' },
+    { key: 'map',      label: t('nav.map'),      path: '/map' },
+    { key: 'explore',  label: t('nav.explore'),  path: '/explore' },
   ]
   if (hasToken.value) {
-    base.push({ key: 'my-reports', label: 'My Stories', path: '/my-stories' })
+    base.push({ key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories' })
   }
   return base
 })

@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45-sekundiline tutvustus",
+    "chip_company": "Otsi ettevõtet: Fujitsu Tech Sol ES",
+    "chip_graph": "Uuri ettevõttevõrgustikku: Siemens AG",
+    "chip_map": "Kaardista Eurostati andmestik üle Euroopa",
+    "chip_story": "Loe kogukonna andmelugu",
     "hero_lead": "Avatud teadmusgraaf, mis seob ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamise.",
     "how_it_works": "Kuidas see töötab",
     "recently_published": "Hiljuti avaldatud",
     "see_all_public_data_stories": "Vaata kõiki avalikke andmelugusid →",
+    "step_crosscheck_desc": "Võrdle kõrvuti, mida sama olemi kohta ütlevad TED, GLEIF, läbipaistvusregister, ühtekuuluvus ja muud allikad.",
+    "step_crosscheck_gif_alt": "Vahetamine hangete, rahanduse ja lobitöö vaadete vahel",
+    "step_crosscheck_name": "Ristkontroll",
+    "step_publish_desc": "Kirjuta oma leiud andmelooks ja avalda see — privaatne, ainult sisselogitutele või täiesti avalik.",
+    "step_publish_gif_alt": "Andmeloo avaldamine redaktorist",
+    "step_publish_name": "Avalda",
+    "step_search_desc": "Otsi mis tahes ettevõtet, hankivat asutust, lobisti või ELi rahastatud projekti nime või identifikaatori järgi.",
+    "step_search_gif_alt": "Olemi otsing Fontemis",
+    "step_search_name": "Otsi",
     "try": "Proovi:",
     "walkthrough_searching_a_company_explorin": "Juhend: ettevõtte otsimine, riigihangete uurimine ja andmeloo avaldamine"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Aktsepteeri",
+    "body": "Kasutame ise-hostitud analüütika küpsist, et mõista, millised lehed on kasulikud. Ilma jälgimiseta, ilma kolmandate osapoolteta.",
     "cookie_consent": "Küpsiste nõusolek",
     "decline": "Keeldu",
     "learn_more": "Loe rohkem"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Toeta Fontemit",
     "thanks_to_everyone_keeping_fontem_alive": "Aitäh kõigile, kes hoiavad Fontemit elus.",
+    "tier_backer_desc": "Rahastab jätkuvat tööd andmevoogudega: uued allikad, parem kaetus.",
+    "tier_backer_name": "Toetuse andja",
+    "tier_oneoff_amount": "Mis tahes summa",
+    "tier_oneoff_desc": "Üks panus, nii palju kui sobib. Ilma kohustusteta.",
+    "tier_oneoff_name": "Ühekordne",
+    "tier_partner_desc": "Toetab kohta põhimeeskonnas ja andmete pikaajalist hooldust.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Hoiab tuled põlemas — hostimine, domeen, andmeallikate litsentsid.",
+    "tier_supporter_name": "Toetaja",
     "where_the_money_goes": "Kuhu raha läheb"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Avaleht",
     "back_my_stories": "← Minu lood",
     "back_stories": "← Lood",
-    "back_to_issues": "← Tagasi probleemide juurde"
+    "back_to_issues": "← Tagasi probleemide juurde",
+    "explore": "Uuri",
+    "map": "Kaart",
+    "my_stories": "Minu lood",
+    "spending": "Kulutused",
+    "stories": "Lood"
   },
   "not_found": {
     "back_to_home": "Tagasi avalehele",

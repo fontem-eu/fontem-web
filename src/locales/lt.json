@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45 sekundžių apžvalga",
+    "chip_company": "Surask įmonę: Fujitsu Tech Sol ES",
+    "chip_graph": "Ištyrinėk įmonės tinklą: Siemens AG",
+    "chip_map": "Žemėlapinė Eurostato duomenų rinkinį visoje Europoje",
+    "chip_story": "Perskaityk bendruomenės duomenų istoriją",
     "hero_lead": "Atviras žinių grafas, jungiantis ES įmones, viešuosius pirkimus, lobistus ir sanglaudos finansavimą.",
     "how_it_works": "Kaip tai veikia",
     "recently_published": "Neseniai paskelbta",
     "see_all_public_data_stories": "Žiūrėti visas viešas duomenų istorijas →",
+    "step_crosscheck_desc": "Palygink šalia, ką apie tą pačią esybę sako TED, GLEIF, Skaidrumo registras, Sanglauda ir kiti šaltiniai.",
+    "step_crosscheck_gif_alt": "Perjungimas tarp pirkimų, finansų ir lobistinių rodinių",
+    "step_crosscheck_name": "Kryžminis patikrinimas",
+    "step_publish_desc": "Užrašyk savo radinius kaip duomenų istoriją ir paskelbk — privati, tik prisijungusiems arba visiškai vieša.",
+    "step_publish_gif_alt": "Duomenų istorijos paskelbimas iš redaktoriaus",
+    "step_publish_name": "Paskelbti",
+    "step_search_desc": "Ieškok bet kurios įmonės, perkančiosios institucijos, lobisto ar ES finansuoto projekto pagal vardą ar identifikatorių.",
+    "step_search_gif_alt": "Esybės paieška Fontem'e",
+    "step_search_name": "Ieškoti",
     "try": "Išbandyk:",
     "walkthrough_searching_a_company_explorin": "Vadovas: įmonės paieška, viešųjų pirkimų tyrinėjimas ir duomenų istorijos paskelbimas"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Priimti",
+    "body": "Naudojame savarankiškai hostinamą analitikos slapuką, kad suprastume, kurie puslapiai naudingi. Be sekimo, be trečiųjų šalių.",
     "cookie_consent": "Slapukų sutikimas",
     "decline": "Atmesti",
     "learn_more": "Sužinok daugiau"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Paremk Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Ačiū visiems, kurie palaiko Fontem gyvą.",
+    "tier_backer_desc": "Finansuoja nuolatinį darbą su duomenų kanalais: nauji šaltiniai, geresnė aprėptis.",
+    "tier_backer_name": "Globėjas",
+    "tier_oneoff_amount": "Bet kokia suma",
+    "tier_oneoff_desc": "Vienkartinis įnašas, kiek tinkama. Be įsipareigojimo.",
+    "tier_oneoff_name": "Vienkartinis",
+    "tier_partner_desc": "Palaiko vietą pagrindinėje komandoje ir ilgalaikę duomenų priežiūrą.",
+    "tier_partner_name": "Partneris",
+    "tier_supporter_desc": "Laiko šviesas degančias — talpinimas, domenas, duomenų šaltinių licencijos.",
+    "tier_supporter_name": "Rėmėjas",
     "where_the_money_goes": "Kur pinigai keliauja"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Pradžia",
     "back_my_stories": "← Mano istorijos",
     "back_stories": "← Istorijos",
-    "back_to_issues": "← Atgal į problemas"
+    "back_to_issues": "← Atgal į problemas",
+    "explore": "Tyrinėk",
+    "map": "Žemėlapis",
+    "my_stories": "Mano istorijos",
+    "spending": "Išlaidos",
+    "stories": "Istorijos"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",

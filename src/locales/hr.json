@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Obilazak od 45 sekundi",
+    "chip_company": "Pretraži tvrtku: Fujitsu Tech Sol ES",
+    "chip_graph": "Istraži korporativnu mrežu: Siemens AG",
+    "chip_map": "Mapiraj Eurostat skup podataka diljem Europe",
+    "chip_story": "Pročitaj podatkovnu priču zajednice",
     "hero_lead": "Otvoreni graf znanja koji povezuje tvrtke EU, javnu nabavu, lobiste i kohezijsko financiranje.",
     "how_it_works": "Kako radi",
     "recently_published": "Nedavno objavljeno",
     "see_all_public_data_stories": "Pogledaj sve javne podatkovne priče →",
+    "step_crosscheck_desc": "Usporedi rame uz rame što o istom entitetu kažu TED, GLEIF, Registar transparentnosti, Kohezija i drugi izvori.",
+    "step_crosscheck_gif_alt": "Prebacivanje između prikaza nabave, financija i lobiranja",
+    "step_crosscheck_name": "Križna provjera",
+    "step_publish_desc": "Zapiši što si pronašao kao podatkovnu priču i objavi je — privatno, samo za prijavljene ili potpuno javno.",
+    "step_publish_gif_alt": "Objavljivanje podatkovne priče iz uređivača",
+    "step_publish_name": "Objavi",
+    "step_search_desc": "Potraži bilo koju tvrtku, ugovaratelja, lobista ili projekt koji financira EU prema nazivu ili identifikatoru.",
+    "step_search_gif_alt": "Pretraga entiteta u Fontemu",
+    "step_search_name": "Pretraži",
     "try": "Pokušaj:",
     "walkthrough_searching_a_company_explorin": "Vodič: pretraživanje tvrtke, istraživanje javne nabave i objava podatkovne priče"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Prihvati",
+    "body": "Koristimo samostalno hostani analitički kolačić kako bismo razumjeli koje su stranice korisne. Bez praćenja, bez trećih strana.",
     "cookie_consent": "Pristanak na kolačiće",
     "decline": "Odbij",
     "learn_more": "Saznaj više"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Podrži Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Hvala svima koji održavaju Fontem na životu.",
+    "tier_backer_desc": "Financira tekući rad na podatkovnim cjevovodima: novi izvori, bolja pokrivenost.",
+    "tier_backer_name": "Sponzor",
+    "tier_oneoff_amount": "Bilo koji iznos",
+    "tier_oneoff_desc": "Jedan doprinos, što god ti odgovara. Bez obveze.",
+    "tier_oneoff_name": "Jednokratno",
+    "tier_partner_desc": "Podržava mjesto u glavnom timu i dugoročno upravljanje podacima.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Drži svjetla upaljena — hosting, domena, licence izvora podataka.",
+    "tier_supporter_name": "Podržavatelj",
     "where_the_money_goes": "Gdje novac odlazi"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Početna",
     "back_my_stories": "← Moje priče",
     "back_stories": "← Priče",
-    "back_to_issues": "← Natrag na probleme"
+    "back_to_issues": "← Natrag na probleme",
+    "explore": "Istraži",
+    "map": "Karta",
+    "my_stories": "Moje priče",
+    "spending": "Potrošnja",
+    "stories": "Priče"
   },
   "not_found": {
     "back_to_home": "Natrag na početnu",

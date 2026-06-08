@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "A 45-second tour",
+    "chip_company": "Search a company: Fujitsu Tech Sol ES",
+    "chip_graph": "Explore a corporate network: Siemens AG",
+    "chip_map": "Map a Eurostat dataset across Europe",
+    "chip_story": "Read a community data story",
     "hero_lead": "An open knowledge graph linking EU companies, public procurement, lobbyists and cohesion funding.",
     "how_it_works": "How it works",
     "recently_published": "Recently published",
     "see_all_public_data_stories": "See all public data stories →",
+    "step_crosscheck_desc": "Compare what TED, GLEIF, the Transparency Register, Cohesion and other sources say about the same entity, side by side.",
+    "step_crosscheck_gif_alt": "Switching between procurement, financial and lobbying views",
+    "step_crosscheck_name": "Cross-check",
+    "step_publish_desc": "Write up what you find as a data story and publish it — private, signed-in only, or fully public.",
+    "step_publish_gif_alt": "Publishing a data story from the editor",
+    "step_publish_name": "Publish",
+    "step_search_desc": "Look up any company, contracting authority, lobbyist or EU-funded project by name or identifier.",
+    "step_search_gif_alt": "Searching for an entity in Fontem",
+    "step_search_name": "Search",
     "try": "Try:",
     "walkthrough_searching_a_company_explorin": "Walkthrough: searching a company, exploring procurement, and publishing a data story"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Accept",
+    "body": "We use a self-hosted analytics cookie to understand which pages are useful. No tracking, no third parties.",
     "cookie_consent": "Cookie consent",
     "decline": "Decline",
     "learn_more": "Learn more"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Support Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Thanks to everyone keeping Fontem alive.",
+    "tier_backer_desc": "Funds ongoing data-pipeline work: new sources, better coverage.",
+    "tier_backer_name": "Backer",
+    "tier_oneoff_amount": "Any amount",
+    "tier_oneoff_desc": "A single contribution, whatever fits. No commitment.",
+    "tier_oneoff_name": "One-off",
+    "tier_partner_desc": "Supports a seat on the core team and long-term data stewardship.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Keeps the lights on — hosting, domain, data-source licences.",
+    "tier_supporter_name": "Supporter",
     "where_the_money_goes": "Where the money goes"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Home",
     "back_my_stories": "← My Stories",
     "back_stories": "← Stories",
-    "back_to_issues": "← Back to Issues"
+    "back_to_issues": "← Back to Issues",
+    "explore": "Explore",
+    "map": "Map",
+    "my_stories": "My Stories",
+    "spending": "Spending",
+    "stories": "Stories"
   },
   "not_found": {
     "back_to_home": "Back to home",

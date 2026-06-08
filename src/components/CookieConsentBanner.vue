@@ -97,8 +97,7 @@ function decline() {
   <Teleport to="body">
     <dialog v-if="visible" ref="bannerEl" open class="ccb" :aria-label="$t('cookie_consent_banner.cookie_consent')" data-testid="cookie-consent-banner">
       <div class="ccb-text">
-        We use a self-hosted analytics cookie to understand which pages are useful.
-        No tracking, no third parties.
+        {{ $t('cookie_consent_banner.body') }}
         <router-link to="/privacy" class="ccb-link">{{ $t('cookie_consent_banner.learn_more') }}</router-link>
       </div>
       <div class="ccb-actions">

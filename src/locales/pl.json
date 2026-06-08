@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Spacer 45-sekundowy",
+    "chip_company": "Wyszukaj spółkę: Fujitsu Tech Sol ES",
+    "chip_graph": "Eksploruj sieć korporacyjną: Siemens AG",
+    "chip_map": "Zmapuj zbiór Eurostat w całej Europie",
+    "chip_story": "Przeczytaj historię danych ze społeczności",
     "hero_lead": "Otwarty graf wiedzy łączący spółki UE, zamówienia publiczne, lobbystów i finansowanie spójności.",
     "how_it_works": "Jak to działa",
     "recently_published": "Niedawno opublikowane",
     "see_all_public_data_stories": "Zobacz wszystkie publiczne historie danych →",
+    "step_crosscheck_desc": "Porównaj obok siebie, co o tej samej encji mówią TED, GLEIF, Rejestr Transparencji, Spójność i inne źródła.",
+    "step_crosscheck_gif_alt": "Przełączanie między widokami zamówień, finansów i lobby",
+    "step_crosscheck_name": "Weryfikacja krzyżowa",
+    "step_publish_desc": "Spisz to, co znalazłeś, jako historię danych i opublikuj — prywatnie, tylko dla zalogowanych lub w pełni publicznie.",
+    "step_publish_gif_alt": "Publikowanie historii danych z edytora",
+    "step_publish_name": "Opublikuj",
+    "step_search_desc": "Wyszukaj dowolną spółkę, zamawiającego, lobbystę lub projekt finansowany przez UE według nazwy lub identyfikatora.",
+    "step_search_gif_alt": "Wyszukiwanie encji w Fontem",
+    "step_search_name": "Wyszukaj",
     "try": "Wypróbuj:",
     "walkthrough_searching_a_company_explorin": "Przewodnik: wyszukanie firmy, eksploracja zamówień publicznych i publikacja historii danych"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Akceptuj",
+    "body": "Używamy samodzielnie hostowanego ciasteczka analitycznego, aby zrozumieć, które strony są przydatne. Bez śledzenia, bez stron trzecich.",
     "cookie_consent": "Zgoda na pliki cookie",
     "decline": "Odrzuć",
     "learn_more": "Dowiedz się więcej"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Wesprzyj Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Dziękujemy wszystkim, którzy utrzymują Fontem przy życiu.",
+    "tier_backer_desc": "Finansuje bieżące prace nad potokami danych: nowe źródła, lepsze pokrycie.",
+    "tier_backer_name": "Sponsor",
+    "tier_oneoff_amount": "Dowolna kwota",
+    "tier_oneoff_desc": "Jednorazowy wkład, jak ci pasuje. Bez zobowiązań.",
+    "tier_oneoff_name": "Jednorazowo",
+    "tier_partner_desc": "Wspiera miejsce w głównym zespole i długoterminową opiekę nad danymi.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Utrzymuje światła zapalone — hosting, domena, licencje źródeł danych.",
+    "tier_supporter_name": "Wspierający",
     "where_the_money_goes": "Dokąd trafiają pieniądze"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Strona główna",
     "back_my_stories": "← Moje historie",
     "back_stories": "← Historie",
-    "back_to_issues": "← Wróć do problemów"
+    "back_to_issues": "← Wróć do problemów",
+    "explore": "Eksploruj",
+    "map": "Mapa",
+    "my_stories": "Moje historie",
+    "spending": "Wydatki",
+    "stories": "Historie"
   },
   "not_found": {
     "back_to_home": "Powrót do strony głównej",

@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Turas 45 soicind",
+    "chip_company": "Cuardaigh comhlacht: Fujitsu Tech Sol ES",
+    "chip_graph": "Taiscéal líonra corparáideach: Siemens AG",
+    "chip_map": "Mapáil tacar sonraí Eurostat ar fud na hEorpa",
+    "chip_story": "Léigh scéal sonraí pobail",
     "hero_lead": "Graf eolais oscailte a nascann comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe.",
     "how_it_works": "Conas a oibríonn sé",
     "recently_published": "Foilsithe le déanaí",
     "see_all_public_data_stories": "Féach gach scéal sonraí poiblí →",
+    "step_crosscheck_desc": "Cuir i gcomparáid taobh le taobh cad a deir TED, GLEIF, an Clár Trédhearcachta, Comhtháthú agus foinsí eile faoin aonán céanna.",
+    "step_crosscheck_gif_alt": "Athrú idir radhairc soláthair, airgeadais agus brústocaireachta",
+    "step_crosscheck_name": "Tras-seiceáil",
+    "step_publish_desc": "Scríobh do thorthaí mar scéal sonraí agus foilsigh é — príobháideach, do dhaoine sínithe isteach amháin, nó go hiomlán poiblí.",
+    "step_publish_gif_alt": "Scéal sonraí á fhoilsiú ón eagarthóir",
+    "step_publish_name": "Foilsigh",
+    "step_search_desc": "Cuardaigh comhlacht, údarás conarthach, brústocaire nó tionscadal maoinithe ag an AE ar bith de réir ainm nó aitheantóra.",
+    "step_search_gif_alt": "Cuardach aonáin i Fontem",
+    "step_search_name": "Cuardaigh",
     "try": "Bain triail as:",
     "walkthrough_searching_a_company_explorin": "Treoraí: cuardach comhlachta, soláthar poiblí a thaiscéaladh agus scéal sonraí a fhoilsiú"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Glac",
+    "body": "Úsáidimid fianán anailíse féin-óstaithe chun a thuiscint cén leathanaigh atá úsáideach. Gan rianú, gan tríú páirtithe.",
     "cookie_consent": "Toiliú fianán",
     "decline": "Diúltaigh",
     "learn_more": "Foghlaim tuilleadh"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Tacaigh le Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Buíochas le gach duine atá ag coinneáil Fontem beo.",
+    "tier_backer_desc": "Maoiníonn obair leanúnach ar phíblínte sonraí: foinsí nua, clúdach níos fearr.",
+    "tier_backer_name": "Tacaí",
+    "tier_oneoff_amount": "Aon mhéid",
+    "tier_oneoff_desc": "Aon ranníocaíocht amháin, cibé rud a oireann. Gan tiomantas.",
+    "tier_oneoff_name": "Aon uair",
+    "tier_partner_desc": "Tacaíonn le suíochán ar an gcroífhoireann agus stiúrthóireacht sonraí fadtéarmach.",
+    "tier_partner_name": "Comhpháirtí",
+    "tier_supporter_desc": "Coinníonn na soilse ar siúl — óstáil, fearann, ceadúnais foinsí sonraí.",
+    "tier_supporter_name": "Tacadóir",
     "where_the_money_goes": "Cá dtéann an t-airgead"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Baile",
     "back_my_stories": "← Mo scéalta",
     "back_stories": "← Scéalta",
-    "back_to_issues": "← Ar ais chuig saincheisteanna"
+    "back_to_issues": "← Ar ais chuig saincheisteanna",
+    "explore": "Taiscéal",
+    "map": "Léarscáil",
+    "my_stories": "Mo scéalta",
+    "spending": "Caiteachas",
+    "stories": "Scéalta"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",

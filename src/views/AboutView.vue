@@ -23,22 +23,22 @@ import { listReports } from '../api/community.js'
 const EXAMPLE_CHIPS = [
   {
     key: 'company',
-    label: 'Search a company: Fujitsu Tech Sol ES',
+    labelKey: 'about.chip_company',
     to: '/c/a73f2b1c-2fca-5ad8-a0ad-8b86d24b5371/profile',
   },
   {
     key: 'graph',
-    label: 'Explore a corporate network: Siemens AG',
+    labelKey: 'about.chip_graph',
     to: '/c/f4259a89-88f7-5796-a22a-1c8c1999cc69/graph',
   },
   {
     key: 'story',
-    label: 'Read a community data story',
+    labelKey: 'about.chip_story',
     to: '/stories/d13f6e62-da50-4d4f-a401-8ab409e69ae4',
   },
   {
     key: 'map',
-    label: 'Map a Eurostat dataset across Europe',
+    labelKey: 'about.chip_map',
     to: '/map',
   },
 ]
@@ -49,27 +49,27 @@ const EXAMPLE_CHIPS = [
 const STEPS = [
   {
     key: 'search',
-    name: 'Search',
-    desc: 'Look up any company, contracting authority, lobbyist or EU-funded project by name or identifier.',
+    nameKey: 'about.step_search_name',
+    descKey: 'about.step_search_desc',
     svg: '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
     gif: null,
-    gifAlt: 'Searching for an entity in Fontem',
+    gifAltKey: 'about.step_search_gif_alt',
   },
   {
     key: 'crosscheck',
-    name: 'Cross-check',
-    desc: 'Compare what TED, GLEIF, the Transparency Register, Cohesion and other sources say about the same entity, side by side.',
+    nameKey: 'about.step_crosscheck_name',
+    descKey: 'about.step_crosscheck_desc',
     svg: '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7H3v4"/><path d="M3 7l5 5"/><path d="M17 17h4v-4"/><path d="M21 17l-5-5"/></svg>',
     gif: null,
-    gifAlt: 'Switching between procurement, financial and lobbying views',
+    gifAltKey: 'about.step_crosscheck_gif_alt',
   },
   {
     key: 'publish',
-    name: 'Publish',
-    desc: 'Write up what you find as a data story and publish it — private, signed-in only, or fully public.',
+    nameKey: 'about.step_publish_name',
+    descKey: 'about.step_publish_desc',
     svg: '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>',
     gif: null,
-    gifAlt: 'Publishing a data story from the editor',
+    gifAltKey: 'about.step_publish_gif_alt',
   },
 ]
 
@@ -127,7 +127,7 @@ onMounted(async () => {
               :to="c.to"
               class="example-chip"
               :data-testid="`example-chip-${c.key}`"
-            >{{ c.label }}</router-link>
+            >{{ $t(c.labelKey) }}</router-link>
           </div>
 
           <section class="howitworks" data-testid="howitworks">
@@ -143,14 +143,14 @@ onMounted(async () => {
                 <!-- Inline SVG from a hardcoded const, no user input. -->
                 <!-- eslint-disable-next-line vue/no-v-html -->
                 <div class="howitworks-icon" aria-hidden="true" v-html="s.svg" />
-                <div class="howitworks-step-name">{{ s.name }}</div>
-                <p class="howitworks-step-desc">{{ s.desc }}</p>
+                <div class="howitworks-step-name">{{ $t(s.nameKey) }}</div>
+                <p class="howitworks-step-desc">{{ $t(s.descKey) }}</p>
                 <div
                   v-if="s.gif"
                   class="howitworks-gif"
                   :style="{ backgroundImage: `url(${s.gif})` }"
                   role="img"
-                  :aria-label="s.gifAlt"
+                  :aria-label="$t(s.gifAltKey)"
                 />
               </div>
             </div>

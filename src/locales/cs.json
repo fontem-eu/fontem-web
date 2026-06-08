@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45sekundová prohlídka",
+    "chip_company": "Vyhledej firmu: Fujitsu Tech Sol ES",
+    "chip_graph": "Prozkoumej korporátní síť: Siemens AG",
+    "chip_map": "Zmapuj Eurostatový dataset napříč Evropou",
+    "chip_story": "Přečti si komunitní datový příběh",
     "hero_lead": "Otevřený znalostní graf propojující firmy EU, veřejné zakázky, lobbisty a financování koheze.",
     "how_it_works": "Jak to funguje",
     "recently_published": "Nedávno publikováno",
     "see_all_public_data_stories": "Zobrazit všechny veřejné datové příběhy →",
+    "step_crosscheck_desc": "Porovnej, co o stejné entitě říkají TED, GLEIF, Registr transparentnosti, Soudržnost a další zdroje, bok po boku.",
+    "step_crosscheck_gif_alt": "Přepínání mezi pohledy na zakázky, finance a lobbing",
+    "step_crosscheck_name": "Křížová kontrola",
+    "step_publish_desc": "Sepiš svá zjištění jako datový příběh a zveřejni jej — soukromý, jen pro přihlášené nebo plně veřejný.",
+    "step_publish_gif_alt": "Publikování datového příběhu z editoru",
+    "step_publish_name": "Publikuj",
+    "step_search_desc": "Vyhledej libovolnou firmu, zadavatele, lobbistu nebo projekt financovaný EU podle jména nebo identifikátoru.",
+    "step_search_gif_alt": "Hledání entity ve Fontemu",
+    "step_search_name": "Hledej",
     "try": "Vyzkoušejte:",
     "walkthrough_searching_a_company_explorin": "Návod: hledání společnosti, průzkum veřejných zakázek a publikace datového příběhu"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Přijmout",
+    "body": "Používáme self-hostovaný analytický cookie, abychom rozuměli, které stránky jsou užitečné. Žádné sledování, žádné třetí strany.",
     "cookie_consent": "Souhlas s cookies",
     "decline": "Odmítnout",
     "learn_more": "Více informací"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Podpořte Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Díky všem, kdo udržují Fontem naživu.",
+    "tier_backer_desc": "Financuje průběžnou práci na datových potrubích: nové zdroje, lepší pokrytí.",
+    "tier_backer_name": "Spolufinancující",
+    "tier_oneoff_amount": "Libovolná částka",
+    "tier_oneoff_desc": "Jediný příspěvek, jakkoli vám sedí. Bez závazku.",
+    "tier_oneoff_name": "Jednorázově",
+    "tier_partner_desc": "Podporuje místo v jádrovém týmu a dlouhodobou správu dat.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Drží světla rozsvícená — hosting, doména, licence ke zdrojům dat.",
+    "tier_supporter_name": "Podporovatel",
     "where_the_money_goes": "Kam peníze putují"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Domů",
     "back_my_stories": "← Mé příběhy",
     "back_stories": "← Příběhy",
-    "back_to_issues": "← Zpět na problémy"
+    "back_to_issues": "← Zpět na problémy",
+    "explore": "Prozkoumat",
+    "map": "Mapa",
+    "my_stories": "Mé příběhy",
+    "spending": "Výdaje",
+    "stories": "Příběhy"
   },
   "not_found": {
     "back_to_home": "Zpět na domovskou stránku",

@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45-sekundová prehliadka",
+    "chip_company": "Vyhľadaj firmu: Fujitsu Tech Sol ES",
+    "chip_graph": "Preskúmaj firemnú sieť: Siemens AG",
+    "chip_map": "Zmapuj Eurostatový dataset po Európe",
+    "chip_story": "Prečítaj si dátový príbeh komunity",
     "hero_lead": "Otvorený znalostný graf prepájajúci firmy EÚ, verejné obstarávanie, lobistov a kohézne financovanie.",
     "how_it_works": "Ako to funguje",
     "recently_published": "Nedávno zverejnené",
     "see_all_public_data_stories": "Pozri všetky verejné dátové príbehy →",
+    "step_crosscheck_desc": "Porovnaj bok po boku, čo o tej istej entite hovoria TED, GLEIF, Register transparentnosti, Súdržnosť a iné zdroje.",
+    "step_crosscheck_gif_alt": "Prepínanie medzi pohľadmi obstarávania, financií a lobby",
+    "step_crosscheck_name": "Krížová kontrola",
+    "step_publish_desc": "Napíš svoje zistenia ako dátový príbeh a zverejni ho — súkromný, len pre prihlásených alebo úplne verejný.",
+    "step_publish_gif_alt": "Publikovanie dátového príbehu z editora",
+    "step_publish_name": "Publikovať",
+    "step_search_desc": "Vyhľadaj akúkoľvek firmu, obstarávateľa, lobistu alebo EÚ-financovaný projekt podľa mena alebo identifikátora.",
+    "step_search_gif_alt": "Vyhľadávanie entity vo Fonteme",
+    "step_search_name": "Hľadať",
     "try": "Skús:",
     "walkthrough_searching_a_company_explorin": "Sprievodca: vyhľadávanie firmy, preskúmanie verejného obstarávania a zverejnenie dátového príbehu"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Prijať",
+    "body": "Používame self-hostovaný analytický cookie, aby sme pochopili, ktoré stránky sú užitočné. Žiadne sledovanie, žiadne tretie strany.",
     "cookie_consent": "Súhlas s cookies",
     "decline": "Odmietnuť",
     "learn_more": "Zisti viac"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Podporte Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Vďaka všetkým, ktorí udržiavajú Fontem nažive.",
+    "tier_backer_desc": "Financuje priebežnú prácu na dátových potrubiach: nové zdroje, lepšie pokrytie.",
+    "tier_backer_name": "Spolu-financovateľ",
+    "tier_oneoff_amount": "Akákoľvek suma",
+    "tier_oneoff_desc": "Jednorazový príspevok, ako ti pasuje. Bez záväzku.",
+    "tier_oneoff_name": "Jednorazovo",
+    "tier_partner_desc": "Podporuje miesto v jadre tímu a dlhodobú správu dát.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Drží svetlá zapálené — hosting, doména, licencie zdrojov dát.",
+    "tier_supporter_name": "Podporovateľ",
     "where_the_money_goes": "Kam peniaze idú"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Domov",
     "back_my_stories": "← Moje príbehy",
     "back_stories": "← Príbehy",
-    "back_to_issues": "← Späť na problémy"
+    "back_to_issues": "← Späť na problémy",
+    "explore": "Preskúmať",
+    "map": "Mapa",
+    "my_stories": "Moje príbehy",
+    "spending": "Výdavky",
+    "stories": "Príbehy"
   },
   "not_found": {
     "back_to_home": "Späť na domovskú stránku",

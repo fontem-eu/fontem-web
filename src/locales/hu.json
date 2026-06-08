@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45 másodperces bemutató",
+    "chip_company": "Keress egy céget: Fujitsu Tech Sol ES",
+    "chip_graph": "Fedezz fel egy vállalati hálózatot: Siemens AG",
+    "chip_map": "Térképezz egy Eurostat adatkészletet Európában",
+    "chip_story": "Olvass egy közösségi adat-történetet",
     "hero_lead": "Nyitott tudásgráf, amely összeköti az EU vállalatait, a közbeszerzést, a lobbistákat és a kohéziós finanszírozást.",
     "how_it_works": "Hogyan működik",
     "recently_published": "Nemrég közzétéve",
     "see_all_public_data_stories": "Az összes nyilvános adat-történet megtekintése →",
+    "step_crosscheck_desc": "Hasonlítsd össze egymás mellett, mit mond ugyanarról az entitásról a TED, GLEIF, az Átláthatósági Nyilvántartás, a Kohézió és más források.",
+    "step_crosscheck_gif_alt": "Váltás a beszerzési, pénzügyi és lobbi nézetek között",
+    "step_crosscheck_name": "Kereszt-ellenőrzés",
+    "step_publish_desc": "Írd le, amit találtál, mint adat-történet, és tedd közzé — privát, csak bejelentkezetteknek vagy teljesen nyilvános.",
+    "step_publish_gif_alt": "Adat-történet közzététele a szerkesztőből",
+    "step_publish_name": "Közzététel",
+    "step_search_desc": "Keress bármilyen vállalatot, ajánlatkérőt, lobbistát vagy EU-finanszírozású projektet név vagy azonosító alapján.",
+    "step_search_gif_alt": "Entitás keresése a Fontemben",
+    "step_search_name": "Keresés",
     "try": "Próbáld ki:",
     "walkthrough_searching_a_company_explorin": "Útmutató: vállalat keresése, közbeszerzések böngészése és adat-történet közzététele"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Elfogadás",
+    "body": "Saját hostolt analitikai cookie-t használunk, hogy megértsük, mely oldalak hasznosak. Nincs követés, nincs harmadik fél.",
     "cookie_consent": "Süti hozzájárulás",
     "decline": "Elutasítás",
     "learn_more": "Tudj meg többet"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Támogasd a Fontemet",
     "thanks_to_everyone_keeping_fontem_alive": "Köszönet mindenkinek, aki életben tartja a Fontemet.",
+    "tier_backer_desc": "Finanszírozza a folyamatos adatcsatorna-munkát: új források, jobb lefedettség.",
+    "tier_backer_name": "Pártfogó",
+    "tier_oneoff_amount": "Tetszőleges összeg",
+    "tier_oneoff_desc": "Egyszeri hozzájárulás, amennyi belefér. Nincs elköteleződés.",
+    "tier_oneoff_name": "Egyszeri",
+    "tier_partner_desc": "Támogat egy helyet a fő csapatban és a hosszú távú adatkezelést.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Életben tartja a rendszert — tárhely, domain, adatforrás-licencek.",
+    "tier_supporter_name": "Támogató",
     "where_the_money_goes": "Hová megy a pénz"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Főoldal",
     "back_my_stories": "← Saját történeteim",
     "back_stories": "← Történetek",
-    "back_to_issues": "← Vissza a problémákhoz"
+    "back_to_issues": "← Vissza a problémákhoz",
+    "explore": "Felfedezés",
+    "map": "Térkép",
+    "my_stories": "Saját történeteim",
+    "spending": "Kiadások",
+    "stories": "Történetek"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",

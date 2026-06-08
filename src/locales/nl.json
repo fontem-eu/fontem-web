@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Een rondleiding van 45 seconden",
+    "chip_company": "Zoek een bedrijf: Fujitsu Tech Sol ES",
+    "chip_graph": "Verken een bedrijvennetwerk: Siemens AG",
+    "chip_map": "Breng een Eurostat-dataset in kaart door heel Europa",
+    "chip_story": "Lees een dataverhaal uit de community",
     "hero_lead": "Een open kennisgraaf die EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering verbindt.",
     "how_it_works": "Hoe het werkt",
     "recently_published": "Onlangs gepubliceerd",
     "see_all_public_data_stories": "Bekijk alle openbare dataverhalen →",
+    "step_crosscheck_desc": "Vergelijk naast elkaar wat TED, GLEIF, het Transparantieregister, Cohesie en andere bronnen over dezelfde entiteit zeggen.",
+    "step_crosscheck_gif_alt": "Schakelen tussen aanbestedings-, financiële en lobby-views",
+    "step_crosscheck_name": "Kruisverwijzen",
+    "step_publish_desc": "Schrijf je bevindingen op als dataverhaal en publiceer het — privé, alleen voor ingelogden of volledig openbaar.",
+    "step_publish_gif_alt": "Een dataverhaal publiceren vanuit de editor",
+    "step_publish_name": "Publiceren",
+    "step_search_desc": "Zoek elk bedrijf, aanbestedende dienst, lobbyist of door de EU gefinancierd project op naam of identifier.",
+    "step_search_gif_alt": "Zoeken naar een entiteit in Fontem",
+    "step_search_name": "Zoeken",
     "try": "Probeer:",
     "walkthrough_searching_a_company_explorin": "Stappenplan: een bedrijf zoeken, aanbestedingen verkennen en een dataverhaal publiceren"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Accepteren",
+    "body": "We gebruiken een zelf-gehoste analytische cookie om te begrijpen welke pagina's nuttig zijn. Geen tracking, geen derden.",
     "cookie_consent": "Cookietoestemming",
     "decline": "Weigeren",
     "learn_more": "Meer informatie"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Steun Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Dank aan iedereen die Fontem in leven houdt.",
+    "tier_backer_desc": "Financiert het lopende datapipeline-werk: nieuwe bronnen, betere dekking.",
+    "tier_backer_name": "Beschermheer",
+    "tier_oneoff_amount": "Elk bedrag",
+    "tier_oneoff_desc": "Een eenmalige bijdrage, wat past. Geen verplichting.",
+    "tier_oneoff_name": "Eenmalig",
+    "tier_partner_desc": "Steunt een plek in het kernteam en lange-termijn datastewardship.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Houdt de boel draaiende — hosting, domein, datalicenties.",
+    "tier_supporter_name": "Steunpilaar",
     "where_the_money_goes": "Waar het geld naartoe gaat"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Home",
     "back_my_stories": "← Mijn verhalen",
     "back_stories": "← Verhalen",
-    "back_to_issues": "← Terug naar problemen"
+    "back_to_issues": "← Terug naar problemen",
+    "explore": "Verkennen",
+    "map": "Kaart",
+    "my_stories": "Mijn verhalen",
+    "spending": "Uitgaven",
+    "stories": "Verhalen"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",

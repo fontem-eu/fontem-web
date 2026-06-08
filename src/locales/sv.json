@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45-sekunders rundtur",
+    "chip_company": "Sök ett företag: Fujitsu Tech Sol ES",
+    "chip_graph": "Utforska ett företagsnätverk: Siemens AG",
+    "chip_map": "Kartlägg ett Eurostat-dataset över hela Europa",
+    "chip_story": "Läs en datahistoria från gemenskapen",
     "hero_lead": "En öppen kunskapsgraf som länkar EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering.",
     "how_it_works": "Hur det fungerar",
     "recently_published": "Nyligen publicerat",
     "see_all_public_data_stories": "Se alla offentliga datahistorier →",
+    "step_crosscheck_desc": "Jämför sida vid sida vad TED, GLEIF, Transparensregistret, Sammanhållning och andra källor säger om samma entitet.",
+    "step_crosscheck_gif_alt": "Växlar mellan upphandlings-, finans- och lobbyvyer",
+    "step_crosscheck_name": "Korskontroll",
+    "step_publish_desc": "Skriv ner vad du hittar som en datahistoria och publicera den — privat, endast för inloggade eller helt offentlig.",
+    "step_publish_gif_alt": "Publicering av en datahistoria från editorn",
+    "step_publish_name": "Publicera",
+    "step_search_desc": "Slå upp valfritt företag, upphandlande myndighet, lobbyist eller EU-finansierat projekt efter namn eller identifierare.",
+    "step_search_gif_alt": "Söker efter en entitet i Fontem",
+    "step_search_name": "Sök",
     "try": "Prova:",
     "walkthrough_searching_a_company_explorin": "Guide: sök ett företag, utforska offentlig upphandling och publicera en datahistoria"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Acceptera",
+    "body": "Vi använder en självhostad analyscookie för att förstå vilka sidor som är användbara. Ingen spårning, inga tredjeparter.",
     "cookie_consent": "Cookie-samtycke",
     "decline": "Avböj",
     "learn_more": "Läs mer"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Stöd Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Tack till alla som håller Fontem vid liv.",
+    "tier_backer_desc": "Finansierar pågående arbete med datapipelines: nya källor, bättre täckning.",
+    "tier_backer_name": "Mecenat",
+    "tier_oneoff_amount": "Valfritt belopp",
+    "tier_oneoff_desc": "Ett enskilt bidrag, vad som passar. Ingen förpliktelse.",
+    "tier_oneoff_name": "Engångs",
+    "tier_partner_desc": "Stödjer en plats i kärnteamet och långsiktig dataförvaltning.",
+    "tier_partner_name": "Partner",
+    "tier_supporter_desc": "Håller lamporna tända — hosting, domän, datakällslicenser.",
+    "tier_supporter_name": "Stödjare",
     "where_the_money_goes": "Vart pengarna går"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Hem",
     "back_my_stories": "← Mina berättelser",
     "back_stories": "← Berättelser",
-    "back_to_issues": "← Tillbaka till problem"
+    "back_to_issues": "← Tillbaka till problem",
+    "explore": "Utforska",
+    "map": "Karta",
+    "my_stories": "Mina berättelser",
+    "spending": "Utgifter",
+    "stories": "Berättelser"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",

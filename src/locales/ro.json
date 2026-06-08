@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Un tur de 45 de secunde",
+    "chip_company": "Caută o companie: Fujitsu Tech Sol ES",
+    "chip_graph": "Explorează o rețea corporativă: Siemens AG",
+    "chip_map": "Cartografiază un dataset Eurostat în Europa",
+    "chip_story": "Citește o poveste de date a comunității",
     "hero_lead": "Un graf de cunoștințe deschis care leagă companiile UE, achizițiile publice, lobbyiștii și finanțarea de coeziune.",
     "how_it_works": "Cum funcționează",
     "recently_published": "Publicate recent",
     "see_all_public_data_stories": "Vezi toate poveștile publice de date →",
+    "step_crosscheck_desc": "Compară unul lângă altul ce spun TED, GLEIF, Registrul de Transparență, Coeziunea și alte surse despre aceeași entitate.",
+    "step_crosscheck_gif_alt": "Comutare între vizualizările de achiziții, financiare și lobby",
+    "step_crosscheck_name": "Verificare încrucișată",
+    "step_publish_desc": "Notează ce ai găsit ca o poveste de date și publică-o — privată, doar pentru autentificați sau complet publică.",
+    "step_publish_gif_alt": "Publicarea unei povești de date din editor",
+    "step_publish_name": "Publică",
+    "step_search_desc": "Caută orice companie, autoritate contractantă, lobbyist sau proiect finanțat de UE după nume sau identificator.",
+    "step_search_gif_alt": "Căutare entitate în Fontem",
+    "step_search_name": "Caută",
     "try": "Încearcă:",
     "walkthrough_searching_a_company_explorin": "Ghid: căutarea unei companii, explorarea achizițiilor publice și publicarea unei povești de date"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Acceptă",
+    "body": "Folosim un cookie de analytics auto-găzduit pentru a înțelege ce pagini sunt utile. Fără urmărire, fără terți.",
     "cookie_consent": "Consimțământ cookie-uri",
     "decline": "Refuză",
     "learn_more": "Află mai multe"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Sprijină Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Mulțumim tuturor celor care mențin Fontem în viață.",
+    "tier_backer_desc": "Finanțează munca continuă pe pipeline-urile de date: surse noi, acoperire mai bună.",
+    "tier_backer_name": "Sprijinitor",
+    "tier_oneoff_amount": "Orice sumă",
+    "tier_oneoff_desc": "O singură contribuție, cât ți se potrivește. Fără angajament.",
+    "tier_oneoff_name": "Unic",
+    "tier_partner_desc": "Susține un loc în echipa de bază și administrarea datelor pe termen lung.",
+    "tier_partner_name": "Partener",
+    "tier_supporter_desc": "Ține luminile aprinse — găzduire, domeniu, licențe pentru sursele de date.",
+    "tier_supporter_name": "Susținător",
     "where_the_money_goes": "Unde merg banii"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Acasă",
     "back_my_stories": "← Poveștile mele",
     "back_stories": "← Povești",
-    "back_to_issues": "← Înapoi la probleme"
+    "back_to_issues": "← Înapoi la probleme",
+    "explore": "Explorează",
+    "map": "Hartă",
+    "my_stories": "Poveștile mele",
+    "spending": "Cheltuieli",
+    "stories": "Povești"
   },
   "not_found": {
     "back_to_home": "Înapoi la pagina principală",

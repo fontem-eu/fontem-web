@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45 sekunžu apskats",
+    "chip_company": "Meklē uzņēmumu: Fujitsu Tech Sol ES",
+    "chip_graph": "Izpēti korporatīvu tīklu: Siemens AG",
+    "chip_map": "Kartē Eurostat datu kopu visā Eiropā",
+    "chip_story": "Izlasi kopienas datu stāstu",
     "hero_lead": "Atvērts zināšanu grafs, kas savieno ES uzņēmumus, publisko iepirkumu, lobistus un kohēzijas finansējumu.",
     "how_it_works": "Kā tas strādā",
     "recently_published": "Nesen publicēts",
     "see_all_public_data_stories": "Skatīt visus publiskos datu stāstus →",
+    "step_crosscheck_desc": "Salīdzini blakus, ko par to pašu entītu saka TED, GLEIF, Caurspīdīguma reģistrs, Kohēzija un citi avoti.",
+    "step_crosscheck_gif_alt": "Pārslēgšanās starp iepirkuma, finanšu un lobēšanas skatiem",
+    "step_crosscheck_name": "Krusteniska pārbaude",
+    "step_publish_desc": "Pieraksti to, ko atrod, kā datu stāstu un publicē to — privāts, tikai ieiestajiem vai pilnībā publisks.",
+    "step_publish_gif_alt": "Datu stāsta publicēšana no redaktora",
+    "step_publish_name": "Publicēt",
+    "step_search_desc": "Meklē jebkuru uzņēmumu, līgumslēdzēju, lobistu vai ES finansētu projektu pēc vārda vai identifikatora.",
+    "step_search_gif_alt": "Entitātes meklēšana Fontem",
+    "step_search_name": "Meklēt",
     "try": "Izmēģini:",
     "walkthrough_searching_a_company_explorin": "Pamācība: uzņēmuma meklēšana, publisko iepirkumu izpēte un datu stāsta publicēšana"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Piekrist",
+    "body": "Izmantojam pašhostētu analītikas sīkdatni, lai saprastu, kuras lapas ir noderīgas. Bez izsekošanas, bez trešajām pusēm.",
     "cookie_consent": "Sīkdatņu piekrišana",
     "decline": "Noraidīt",
     "learn_more": "Uzzini vairāk"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Atbalsti Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Paldies visiem, kas uztur Fontem dzīvu.",
+    "tier_backer_desc": "Finansē notiekošo darbu pie datu plūsmām: jauni avoti, labāks pārklājums.",
+    "tier_backer_name": "Atbalsta sniedzējs",
+    "tier_oneoff_amount": "Jebkura summa",
+    "tier_oneoff_desc": "Viens ieguldījums, cik der. Bez saistībām.",
+    "tier_oneoff_name": "Vienreizējs",
+    "tier_partner_desc": "Atbalsta vietu galvenajā komandā un ilgtermiņa datu pārvaldību.",
+    "tier_partner_name": "Partneris",
+    "tier_supporter_desc": "Uztur gaismas iedegtas — mitināšana, domēns, datu avotu licences.",
+    "tier_supporter_name": "Atbalstītājs",
     "where_the_money_goes": "Kur nauda iet"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Sākums",
     "back_my_stories": "← Mani stāsti",
     "back_stories": "← Stāsti",
-    "back_to_issues": "← Atpakaļ uz problēmām"
+    "back_to_issues": "← Atpakaļ uz problēmām",
+    "explore": "Izpētīt",
+    "map": "Karte",
+    "my_stories": "Mani stāsti",
+    "spending": "Tēriņi",
+    "stories": "Stāsti"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",

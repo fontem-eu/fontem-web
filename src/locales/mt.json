@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Tour ta' 45 sekonda",
+    "chip_company": "Fittex kumpanija: Fujitsu Tech Sol ES",
+    "chip_graph": "Esplora netwerk korporattiv: Siemens AG",
+    "chip_map": "Immappja sett tad-data Eurostat madwar l-Ewropa",
+    "chip_story": "Aqra storja tad-data tal-komunità",
     "hero_lead": "Graf tal-għarfien miftuħ li jgħaqqad il-kumpaniji tal-UE, l-akkwist pubbliku, il-lobbyists u l-finanzjament ta' koeżjoni.",
     "how_it_works": "Kif jaħdem",
     "recently_published": "Ippubblikat reċentement",
     "see_all_public_data_stories": "Ara l-istejjer tad-data pubbliċi kollha →",
+    "step_crosscheck_desc": "Qabbel ġenb b'ġenb dak li jgħidu TED, GLEIF, ir-Reġistru tat-Trasparenza, il-Koeżjoni u sorsi oħra dwar l-istess entità.",
+    "step_crosscheck_gif_alt": "Tibdil bejn viżwalizzazzjonijiet ta' akkwist, finanzi u lobby",
+    "step_crosscheck_name": "Verifika inkroċjata",
+    "step_publish_desc": "Ikteb dak li ssib bħala storja tad-data u ppubblikaha — privata, biss għal min daħal jew kompletament pubblika.",
+    "step_publish_gif_alt": "Pubblikazzjoni ta' storja tad-data mill-editur",
+    "step_publish_name": "Ippubblika",
+    "step_search_desc": "Fittex kwalunkwe kumpanija, awtorità kontraenti, lobbyist jew proġett iffinanzjat mill-UE bl-isem jew identifikatur.",
+    "step_search_gif_alt": "Tfittxija għal entità f'Fontem",
+    "step_search_name": "Fittex",
     "try": "Ipprova:",
     "walkthrough_searching_a_company_explorin": "Gwida: tfittxija ta' kumpanija, esplorazzjoni tal-akkwist pubbliku u pubblikazzjoni ta' storja tad-data"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Aċċetta",
+    "body": "Nużaw cookie analitiku self-hosted biex nifhmu liema paġni huma utli. L-ebda traċċar, l-ebda partijiet terzi.",
     "cookie_consent": "Kunsens tal-cookies",
     "decline": "Irrifjuta",
     "learn_more": "Itgħallem aktar"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Appoġġja Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Grazzi lil kulħadd li qed iżommu Fontem ħaj.",
+    "tier_backer_desc": "Tiffinanzja x-xogħol kontinwu fuq il-pipelines tad-data: sorsi ġodda, kopertura aħjar.",
+    "tier_backer_name": "Patron",
+    "tier_oneoff_amount": "Kwalunkwe ammont",
+    "tier_oneoff_desc": "Kontribuzzjoni waħda, kif jaqbel. L-ebda impenn.",
+    "tier_oneoff_name": "Darba",
+    "tier_partner_desc": "Issostni post fit-tim ewlieni u amministrazzjoni tad-data fit-tul.",
+    "tier_partner_name": "Sieħeb",
+    "tier_supporter_desc": "Iżomm id-dwal mixgħulin — hosting, dominju, liċenzji ta' sorsi tad-data.",
+    "tier_supporter_name": "Sostenitur",
     "where_the_money_goes": "Fejn jmorr il-flus"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Dar",
     "back_my_stories": "← L-istejjer tiegħi",
     "back_stories": "← Stejjer",
-    "back_to_issues": "← Lura għall-problemi"
+    "back_to_issues": "← Lura għall-problemi",
+    "explore": "Esplora",
+    "map": "Mappa",
+    "my_stories": "L-istejjer tiegħi",
+    "spending": "Nefqa",
+    "stories": "Stejjer"
   },
   "not_found": {
     "back_to_home": "Lura lejn id-dar",

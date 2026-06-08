@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "Une visite de 45 secondes",
+    "chip_company": "Recherche une entreprise : Fujitsu Tech Sol ES",
+    "chip_graph": "Explore un réseau d'entreprises : Siemens AG",
+    "chip_map": "Cartographie un jeu de données Eurostat à travers l'Europe",
+    "chip_story": "Lis une histoire de données de la communauté",
     "hero_lead": "Un graphe de connaissances ouvert reliant les entreprises de l'UE, les marchés publics, les lobbyistes et le financement de cohésion.",
     "how_it_works": "Comment ça marche",
     "recently_published": "Récemment publié",
     "see_all_public_data_stories": "Voir toutes les histoires de données publiques →",
+    "step_crosscheck_desc": "Compare côte à côte ce que TED, GLEIF, le Registre de transparence, la Cohésion et d'autres sources disent de la même entité.",
+    "step_crosscheck_gif_alt": "Bascule entre les vues marchés, finances et lobby",
+    "step_crosscheck_name": "Recouper",
+    "step_publish_desc": "Écris ce que tu trouves sous forme d'histoire de données et publie-la — privée, réservée aux connectés ou entièrement publique.",
+    "step_publish_gif_alt": "Publication d'une histoire de données depuis l'éditeur",
+    "step_publish_name": "Publier",
+    "step_search_desc": "Recherche n'importe quelle entreprise, pouvoir adjudicateur, lobbyiste ou projet financé par l'UE par nom ou identifiant.",
+    "step_search_gif_alt": "Recherche d'une entité dans Fontem",
+    "step_search_name": "Rechercher",
     "try": "Essayez :",
     "walkthrough_searching_a_company_explorin": "Tutoriel : rechercher une entreprise, explorer les marchés publics et publier une histoire de données"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Accepter",
+    "body": "Nous utilisons un cookie d'analytique auto-hébergé pour comprendre quelles pages sont utiles. Aucun pistage, aucun tiers.",
     "cookie_consent": "Consentement aux cookies",
     "decline": "Refuser",
     "learn_more": "En savoir plus"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Soutenir Fontem",
     "thanks_to_everyone_keeping_fontem_alive": "Merci à tous ceux qui maintiennent Fontem en vie.",
+    "tier_backer_desc": "Finance le travail continu sur les pipelines de données : nouvelles sources, meilleure couverture.",
+    "tier_backer_name": "Mécène",
+    "tier_oneoff_amount": "N'importe quel montant",
+    "tier_oneoff_desc": "Une seule contribution, comme cela te convient. Sans engagement.",
+    "tier_oneoff_name": "Ponctuel",
+    "tier_partner_desc": "Soutient un poste dans l'équipe principale et la gestion des données à long terme.",
+    "tier_partner_name": "Partenaire",
+    "tier_supporter_desc": "Garde les lumières allumées — hébergement, nom de domaine, licences des sources de données.",
+    "tier_supporter_name": "Soutien",
     "where_the_money_goes": "Où va l'argent"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Accueil",
     "back_my_stories": "← Mes histoires",
     "back_stories": "← Histoires",
-    "back_to_issues": "← Retour aux problèmes"
+    "back_to_issues": "← Retour aux problèmes",
+    "explore": "Explorer",
+    "map": "Carte",
+    "my_stories": "Mes histoires",
+    "spending": "Dépenses",
+    "stories": "Histoires"
   },
   "not_found": {
     "back_to_home": "Retour à l'accueil",

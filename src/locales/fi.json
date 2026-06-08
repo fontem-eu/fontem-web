@@ -7,10 +7,23 @@
   },
   "about": {
     "a_45_second_tour": "45 sekunnin esittely",
+    "chip_company": "Hae yritystä: Fujitsu Tech Sol ES",
+    "chip_graph": "Tutki yritysverkostoa: Siemens AG",
+    "chip_map": "Kartoita Eurostatin datajoukko ympäri Eurooppaa",
+    "chip_story": "Lue yhteisön datatarina",
     "hero_lead": "Avoin tietämysgraafi, joka yhdistää EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoituksen.",
     "how_it_works": "Miten se toimii",
     "recently_published": "Hiljattain julkaistut",
     "see_all_public_data_stories": "Näytä kaikki julkiset datatarinat →",
+    "step_crosscheck_desc": "Vertaa rinnakkain, mitä TED, GLEIF, Avoimuusrekisteri, Koheesio ja muut lähteet sanovat samasta entiteetistä.",
+    "step_crosscheck_gif_alt": "Vaihtaminen hankinta-, talous- ja lobbausnäkymien välillä",
+    "step_crosscheck_name": "Ristiintarkistus",
+    "step_publish_desc": "Kirjoita löydöksesi datatarinaksi ja julkaise se — yksityisenä, vain kirjautuneille tai täysin julkisena.",
+    "step_publish_gif_alt": "Datatarinan julkaiseminen editorista",
+    "step_publish_name": "Julkaise",
+    "step_search_desc": "Hae mikä tahansa yritys, hankintayksikkö, lobbari tai EU-rahoitteinen hanke nimen tai tunnisteen perusteella.",
+    "step_search_gif_alt": "Entiteetin etsiminen Fontemissa",
+    "step_search_name": "Etsi",
     "try": "Kokeile:",
     "walkthrough_searching_a_company_explorin": "Opastus: yrityksen haku, julkisten hankintojen tutkiminen ja datatarinan julkaisu"
   },
@@ -186,6 +199,7 @@
   },
   "cookie_consent_banner": {
     "accept": "Hyväksy",
+    "body": "Käytämme itse-isännöityä analytiikkaevästettä ymmärtääksemme, mitkä sivut ovat hyödyllisiä. Ei seurantaa, ei kolmansia osapuolia.",
     "cookie_consent": "Evästesuostumus",
     "decline": "Hylkää",
     "learn_more": "Lue lisää"
@@ -235,6 +249,15 @@
     "open_collective": "Open Collective",
     "support_fontem": "Tue Fontemia",
     "thanks_to_everyone_keeping_fontem_alive": "Kiitos kaikille, jotka pitävät Fontemia elossa.",
+    "tier_backer_desc": "Rahoittaa jatkuvaa dataputkien työtä: uudet lähteet, parempi kattavuus.",
+    "tier_backer_name": "Avustaja",
+    "tier_oneoff_amount": "Mikä tahansa summa",
+    "tier_oneoff_desc": "Yksittäinen lahjoitus, mikä sopii. Ei sitoumuksia.",
+    "tier_oneoff_name": "Kertaluonteinen",
+    "tier_partner_desc": "Tukee paikkaa ydintiimissä ja pitkän aikavälin datahuoltoa.",
+    "tier_partner_name": "Kumppani",
+    "tier_supporter_desc": "Pitää valot päällä — hosting, verkkotunnus, datalähteiden lisenssit.",
+    "tier_supporter_name": "Tukija",
     "where_the_money_goes": "Mihin rahat menevät"
   },
   "edgar_d_q": {
@@ -435,7 +458,12 @@
     "back_home": "← Etusivu",
     "back_my_stories": "← Omat tarinat",
     "back_stories": "← Tarinat",
-    "back_to_issues": "← Takaisin ongelmiin"
+    "back_to_issues": "← Takaisin ongelmiin",
+    "explore": "Tutki",
+    "map": "Kartta",
+    "my_stories": "Omat tarinat",
+    "spending": "Menot",
+    "stories": "Tarinat"
   },
   "not_found": {
     "back_to_home": "Takaisin etusivulle",

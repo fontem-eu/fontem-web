@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
-onMounted(() => { document.title = 'Support Fontem' })
 
 // Canonical Open Collective slug. The Collective + fiscal host
 // setup happens out-of-band; if the URL changes, update this
@@ -12,28 +11,28 @@ onMounted(() => { document.title = 'Support Fontem' })
 const OC_URL = 'https://opencollective.com/fontem'
 const TIERS = [
   {
-    name: 'Supporter',
+    nameKey: 'donate.tier_supporter_name',
     amount: '€5 / month',
     url: `${OC_URL}/contribute/supporter/checkout`,
-    desc: 'Keeps the lights on — hosting, domain, data-source licences.',
+    descKey: 'donate.tier_supporter_desc',
   },
   {
-    name: 'Backer',
+    nameKey: 'donate.tier_backer_name',
     amount: '€25 / month',
     url: `${OC_URL}/contribute/backer/checkout`,
-    desc: 'Funds ongoing data-pipeline work: new sources, better coverage.',
+    descKey: 'donate.tier_backer_desc',
   },
   {
-    name: 'Partner',
+    nameKey: 'donate.tier_partner_name',
     amount: '€100 / month',
     url: `${OC_URL}/contribute/partner/checkout`,
-    desc: 'Supports a seat on the core team and long-term data stewardship.',
+    descKey: 'donate.tier_partner_desc',
   },
   {
-    name: 'One-off',
-    amount: 'Any amount',
+    nameKey: 'donate.tier_oneoff_name',
+    amountKey: 'donate.tier_oneoff_amount',
     url: `${OC_URL}/donate`,
-    desc: 'A single contribution, whatever fits. No commitment.',
+    descKey: 'donate.tier_oneoff_desc',
   },
 ]
 
@@ -73,16 +72,16 @@ onMounted(async () => {
     <section class="donate-tiers">
       <a
         v-for="t in TIERS"
-        :key="t.name"
+        :key="t.nameKey"
         class="donate-tier"
         :href="t.url"
         target="_blank"
         rel="noopener noreferrer"
-        :data-testid="`donate-tier-${t.name.toLowerCase()}`"
+        :data-testid="`donate-tier-${$t(t.nameKey).toLowerCase()}`"
       >
-        <div class="donate-tier-name">{{ t.name }}</div>
-        <div class="donate-tier-amount">{{ t.amount }}</div>
-        <p class="donate-tier-desc">{{ t.desc }}</p>
+        <div class="donate-tier-name">{{ $t(t.nameKey) }}</div>
+        <div class="donate-tier-amount">{{ t.amountKey ? $t(t.amountKey) : t.amount }}</div>
+        <p class="donate-tier-desc">{{ $t(t.descKey) }}</p>
         <span class="donate-tier-cta">{{ $t('donate.contribute_rarr') }}</span>
       </a>
     </section>
