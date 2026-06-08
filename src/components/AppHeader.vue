@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import TickerSearch from './TickerSearch.vue'
 import PreferencesMenu from './PreferencesMenu.vue'
-import Wordmark from './Wordmark.vue'
+import Logomark from './Logomark.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -68,7 +68,7 @@ function onTickerSelect(symbol) {
     <div class="header-top">
       <!-- Logo -->
       <h1 class="header-logo" @click="router.push('/')">
-        <Wordmark size="sm" />
+        <Logomark size="sm" />
       </h1>
 
       <!-- Search bar — shown on sub-pages -->
