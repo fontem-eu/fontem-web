@@ -1,32 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!--
-    Fontem favicon — a droplet ("source") above two pool ripples
-    ("reflection"). The two-tone colour scheme mirrors the wordmark:
-    rose drop, plum pool.
+    Fontem favicon — a single lavender sprig: short stem with a pair
+    of curved leaves, cluster of small buds at the top. Mirrors the
+    autumn-flowers palette of the wordmark: dusty aster lavender on
+    the buds, sage-warm taupe on the stem, on the linen / dusk bg
+    used by the rest of the site.
 
-    Background inverts with the OS preferred colour scheme so the
-    favicon stays legible against both light and dark browser chrome.
+    bg + accent colours invert with the OS preferred colour scheme so
+    the mark stays legible against both light and dark browser chrome.
   -->
   <style>
-    .bg { fill: #faf3e6; }                       /* linen */
-    .drop { fill: #b45a7a; }                     /* rose */
-    .pool { fill: #6b4f8f; }                     /* plum */
+    .bg     { fill: #faf3e6; }                   /* linen */
+    .bud    { fill: #9a85ad; }                   /* dusty aster lavender */
+    .bud-hi { fill: #c4a7d6; }                   /* highlight on a few buds */
+    .stem   { stroke: #806753; }                 /* warm taupe stem + leaves */
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #14100c; }                     /* espresso */
-      .drop { fill: #d48aa8; }                   /* rose (lifted) */
-      .pool { fill: #c1a6d9; }                   /* lavender */
+      .bg     { fill: #1f1827; }                 /* dusk */
+      .bud    { fill: #b9a8d4; }                 /* aster, lifted */
+      .bud-hi { fill: #d8c8e8; }
+      .stem   { stroke: #c4a98a; }               /* warm taupe, lifted */
     }
   </style>
 
   <rect class="bg" width="32" height="32" rx="6"/>
 
-  <!-- Droplet — teardrop shape, point up, base down. Centered on x=16. -->
-  <path
-    class="drop"
-    d="M16 5 C16 5 10 12 10 17 A6 6 0 0 0 22 17 C22 12 16 5 16 5 Z"
-  />
+  <!-- Stem + two small leaves -->
+  <g class="stem" stroke-width="1.2" stroke-linecap="round" fill="none">
+    <line x1="16" y1="16" x2="16" y2="28"/>
+    <path d="M16 22 q-3.5 -1 -5 -3.5"/>
+    <path d="M16 24 q3.5 -1 5 -3.5"/>
+  </g>
 
-  <!-- Pool ripples — two short horizontal bars below the drop -->
-  <rect class="pool" x="7"  y="24" width="8" height="2" rx="1"/>
-  <rect class="pool" x="17" y="24" width="8" height="2" rx="1"/>
+  <!-- Bud cluster — small circles stacked into a sprig shape,
+       alternating shade so the cluster reads as dimension at 16px. -->
+  <g>
+    <circle class="bud"    cx="16"   cy="4.5"  r="1.6"/>
+    <circle class="bud-hi" cx="13.4" cy="7"    r="1.7"/>
+    <circle class="bud"    cx="18.6" cy="7"    r="1.7"/>
+    <circle class="bud-hi" cx="16"   cy="9.4"  r="1.8"/>
+    <circle class="bud"    cx="13.2" cy="11.6" r="1.8"/>
+    <circle class="bud-hi" cx="18.8" cy="11.6" r="1.8"/>
+    <circle class="bud"    cx="16"   cy="13.8" r="1.7"/>
+  </g>
 </svg>

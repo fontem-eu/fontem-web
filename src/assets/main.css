@@ -154,6 +154,41 @@
     mix-blend-mode: soft-light;
     opacity: 0.7;
   }
+
+  /* Decorative lavender sprig — bottom-right corner of the viewport.
+     Fixed-position so it stays in place as you scroll, behind every
+     interactive layer (z-index -1) so it never intercepts clicks
+     and doesn't draw the eye. Opacity tuned per theme: a touch
+     lower on dark so the sprig reads as "outside, dusk" rather
+     than something hovering in the viewport. */
+  html::after {
+    content: "";
+    position: fixed;
+    right: clamp(1.5rem, 4vw, 4rem);
+    bottom: clamp(1rem, 3vw, 3rem);
+    width: clamp(120px, 14vw, 220px);
+    aspect-ratio: 64 / 128;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("/lavender-mark.svg");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: contain;
+    /* `color` is what currentColor in the svg picks up — the aster
+       lavender from --brand-secondary, but dimmed so the sprig stays
+       in the bottom corner as decoration, never as figure. */
+    color: var(--brand-secondary);
+    opacity: 0.18;
+  }
+  html.dark::after {
+    opacity: 0.22;
+  }
+  @media (max-width: 640px) {
+    /* On phones the sprig competes with the cookie banner; hide it
+       below the breakpoint where its position would overlap the
+       fixed banner. */
+    html::after { display: none; }
+  }
 }
 
 /* ── Reusable component primitives ─────────────────────────── */
