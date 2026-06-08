@@ -2,19 +2,19 @@
 @import '@fontsource-variable/inter';
 
 /* ── Theme variants (toggled via class on <html>) ─────────
-   `.dark` — warm dark (near-black with a slight espresso shift),
-             same dusty-blue + warm-gold accents as light. No other
-             variants — one warm light, one warm dark, family
+   `.dark` — dusk (deep twilight with a warm violet undertone),
+             same autumn-flowers pastel accents as light. No other
+             variants — one warm light, one warm dusk, family
              continuity. Default (no class) is light. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ── Design tokens ──────────────────────────────────────────
-   Warm linen + espresso base in both themes, with a dusty EU navy
-   accent paired with a tamed mustard gold — homage to the European
-   flag, desaturated enough that the brand keeps its quiet, archival
-   / newspaper feel. Same accent pair in light and dark so the
-   wordmark and UI hit-targets keep their identity when a user flips
-   the toggle.
+   Autumn flowers on aged linen. Pastel dahlia rose + soft aster
+   lavender carry the brand, both in the ~30 % saturation band the
+   linen + espresso base already lives in so nothing fights anything.
+   Dark mode swaps the espresso-black bg for a dusk twilight — deep
+   slate-violet rather than near-black — so the same flower accents
+   land on a sky that already shares their warmth.
    ─────────────────────────────────────────────────────────── */
 @layer base {
   :root {
@@ -24,22 +24,19 @@
     --border: #e6d3b8;   /* tan */
     --text: #3e2b1f;     /* espresso */
     --muted: #806753;    /* warm taupe — nudged darker for ~5.4:1 on linen */
-    --accent: #4a5275;   /* antique-ink indigo — low chroma, shares
-                            the ~22 % saturation of the cream + espresso
-                            palette so it sits next to the warm bg
-                            instead of fighting it. Slight indigo lean
-                            (hue ~229°) bridges to the old dusty-plum
-                            family the prior palette used. */
+    --accent: #c47a8a;   /* pastel dahlia rose — autumn-flower bloom,
+                            warm enough to feel near-analogous to the
+                            linen bg, gentle enough to read as pastel
+                            rather than primary-school pink */
     --negative: #c04b2a; /* burnt sienna */
 
     /* Brand tokens — the two-tone Fontem wordmark. Kept separate from
-       --accent so a future accent tweak won't repaint the logo. EU
-       flag homage: indigo + warm mustard, both tamed to the cream /
-       espresso family so they read as "archival" rather than "modern
-       tech logo". */
-    --brand-primary: #4a5275;   /* antique-ink indigo — the source */
-    --brand-secondary: #94772b; /* warm mustard, deepened so it stops
-                                   melting into the linen-yellow bg */
+       --accent so a future accent tweak won't repaint the logo.
+       Autumn-flowers pair: dahlia rose + dusty aster lavender, both
+       pastel-saturated to sit in the same chroma band as the cream
+       + espresso base. */
+    --brand-primary: #c47a8a;   /* pastel dahlia rose */
+    --brand-secondary: #9a85ad; /* dusty aster lavender */
 
     --badge-ok-bg: #e8efd6;      /* sage wash */
     --badge-ok-text: #5b6a2f;    /* olive */
@@ -47,37 +44,34 @@
     --badge-ko-text: #8a2e1b;    /* deep sienna */
     --badge-tag-bg: #f1e3cc;     /* oat */
     --badge-tag-text: #5a4330;   /* walnut */
-    --badge-esef-bg: #dde6f2;    /* misty sky */
-    --badge-esef-text: #2f4a73;  /* deep slate blue */
+    --badge-esef-bg: #e8dee8;    /* pastel lavender wash */
+    --badge-esef-text: #5e3f72;  /* deep plum */
     --badge-edgar-bg: #f5dfc2;   /* ochre wash */
     --badge-edgar-text: #8a5420; /* burnt umber */
   }
 
   .dark {
-    /* Dark — near-black with a slight warm undertone so it rhymes with
-       the light cream rather than clashing. Kept very dark for real
-       contrast; the warmth is in the green channel of bg, not brown.
-       Full dark-brown would read as a coffee-shop menu and eat text
-       legibility. Restraint wins here.
+    /* Dark — dusk twilight, not pitch-black. A deep slate-violet bg
+       (#1f1827) lets the autumn-flower accents land on a sky that
+       already shares their warmth instead of fighting the espresso
+       black we had before. Bg sits at HSL(264°, 24%, 13 %): dark
+       enough to feel "evening", warm enough to rhyme with rose +
+       aster.
 
-       Primary + muted text both nudged lighter in dark — the previous
-       muted (#8a7661) hit ~4.2:1 on espresso-black, which read as
-       washed-out for any long-form copy that lived in it. Lifting it
-       to ~5.6:1 keeps the warm taupe feel without sacrificing
-       legibility, and the body text gets a small bump too. */
-    --bg: #14100c;       /* espresso near-black */
-    --surface: #1d1713;  /* cards — one step up */
-    --border: #3d3026;   /* warm dark, slightly lifted from old #332820 */
-    --text: #faf0db;     /* warm cream — brighter than light's bg */
-    --muted: #c4a98a;    /* warm taupe, lifted for legibility (~5.6:1) */
-    --accent: #9aa8c5;   /* soft indigo — warmer / grayer than a pure
-                            sky-blue so it doesn't read as "modern UI
-                            blue" against the warm cream text */
+       Text and muted lifts from the prior pass are preserved — the
+       user signed off on those (warm cream ~14:1 on bg, taupe ~5.5:1
+       on bg). Both still read cleanly on the new dusk bg because the
+       backdrop's lightness barely moved (12 → 13 %). */
+    --bg: #1f1827;       /* dusk — deep slate-violet, evening sky */
+    --surface: #2a2230;  /* cards — one step up */
+    --border: #3d3145;   /* dusk border */
+    --text: #faf0db;     /* warm cream — preserved */
+    --muted: #c4a98a;    /* warm taupe, preserved */
+    --accent: #d99baa;   /* lifted dahlia rose — pastel bloom on dusk */
     --negative: #e08363; /* warm sienna */
 
-    --brand-primary: #9aa8c5;   /* soft indigo — accent twin */
-    --brand-secondary: #d4b057; /* warm amber, slightly richer than the
-                                   first pass so it carries on dark */
+    --brand-primary: #d99baa;   /* lifted dahlia rose — accent twin */
+    --brand-secondary: #b9a8d4; /* lifted aster lavender */
 
     --badge-ok-bg: #2a3818;      /* moss on dark */
     --badge-ok-text: #b0c472;    /* light olive */
@@ -85,8 +79,8 @@
     --badge-ko-text: #e89878;    /* warm peach */
     --badge-tag-bg: #2a2017;     /* dark oat */
     --badge-tag-text: #c8ab8d;   /* warm taupe, lifted to match new --muted */
-    --badge-esef-bg: #1c2839;    /* deep slate */
-    --badge-esef-text: #a8c2dd;  /* misty sky */
+    --badge-esef-bg: #2e2335;    /* deep dusk-mauve */
+    --badge-esef-text: #c8a8d4;  /* lifted lavender */
     --badge-edgar-bg: #382516;   /* dark ochre */
     --badge-edgar-text: #d9a870; /* warm amber */
   }
