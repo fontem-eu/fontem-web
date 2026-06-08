@@ -20,6 +20,12 @@
   :root {
     /* Light — aged linen + espresso */
     --bg: #faf3e6;       /* aged linen */
+
+    /* Paper grain — tiled fractal noise applied at the <body> level
+       with soft-light blend. Variable so themes can tune the
+       alpha / inversion independently. The url-encoded SVG renders
+       in the browser without an extra asset request. */
+    --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
     --surface: #fffaec;  /* ivory, a touch lighter than bg */
     --border: #e6d3b8;   /* tan */
     --text: #3e2b1f;     /* espresso */
@@ -63,6 +69,11 @@
        on bg). Both still read cleanly on the new dusk bg because the
        backdrop's lightness barely moved (12 → 13 %). */
     --bg: #1f1827;       /* dusk — deep slate-violet, evening sky */
+
+    /* In dark, the same turbulence shape inverted so the noise reads
+       as "stars in a dusk sky" / paper-fleck — light specks on the
+       slate-violet bg, lifting it slightly rather than dimming it. */
+    --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0.35 0.35 0.35 0 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
     --surface: #2a2230;  /* cards — one step up */
     --border: #3d3145;   /* dusk border */
     --text: #faf0db;     /* warm cream — preserved */
@@ -122,6 +133,26 @@
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
+  }
+
+  /* Newsprint grain — fixed-position pseudo-overlay so the texture
+     reads above every surface (cards, headers, modals) regardless
+     of which painter set var(--bg). soft-light blend keeps the
+     noise as a perceived texture rather than a literal layer of
+     dirt: it gently darkens light pixels and gently lifts dark
+     pixels, never going pure black or pure white. pointer-events:
+     none lets every click pass through unchanged. */
+  html::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: var(--paper-grain);
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    mix-blend-mode: soft-light;
+    opacity: 0.7;
   }
 }
 
