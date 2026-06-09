@@ -337,7 +337,6 @@
     "cap_tooltip": "You've given the maximum {max} flowers to this story",
     "give": "{total} flowers, you've given {mine}",
     "give_tooltip": "Give this story a flower",
-    "mine_suffix": "(you: {count})",
     "sign_in_tooltip": "Sign in to give flowers"
   },
   "geo": {

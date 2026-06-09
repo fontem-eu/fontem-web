@@ -337,7 +337,6 @@
     "cap_tooltip": "Této historii jsi daroval(a) maximální počet {max} květin",
     "give": "{total} květin, dali jste {mine}",
     "give_tooltip": "Daruj této historii květinu",
-    "mine_suffix": "(ty: {count})",
     "sign_in_tooltip": "Přihlas se a daruj květinu"
   },
   "geo": {

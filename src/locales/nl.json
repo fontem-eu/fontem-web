@@ -337,7 +337,6 @@
     "cap_tooltip": "Je hebt dit verhaal het maximum van {max} bloemen gegeven",
     "give": "{total} bloemen, je hebt er {mine} gegeven",
     "give_tooltip": "Geef dit verhaal een bloem",
-    "mine_suffix": "(jij: {count})",
     "sign_in_tooltip": "Log in om bloemen te geven"
   },
   "geo": {

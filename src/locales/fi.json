@@ -337,7 +337,6 @@
     "cap_tooltip": "Olet antanut tälle tarinalle enimmäismäärän {max} kukkaa",
     "give": "{total} kukkaa, olet antanut {mine}",
     "give_tooltip": "Anna tälle tarinalle kukka",
-    "mine_suffix": "(sinä: {count})",
     "sign_in_tooltip": "Kirjaudu sisään antaaksesi kukkia"
   },
   "geo": {

@@ -337,7 +337,6 @@
     "cap_tooltip": "Ai oferit maximul de {max} flori acestei povești",
     "give": "{total} flori, ai dat {mine}",
     "give_tooltip": "Oferă o floare acestei povești",
-    "mine_suffix": "(tu: {count})",
     "sign_in_tooltip": "Autentifică-te pentru a oferi flori"
   },
   "geo": {

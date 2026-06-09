@@ -337,7 +337,6 @@
     "cap_tooltip": "Šiai istorijai padovanojai maksimumą {max} gėlių",
     "give": "{total} gėlių, jūs davėte {mine}",
     "give_tooltip": "Padovanok šiai istorijai gėlę",
-    "mine_suffix": "(tu: {count})",
     "sign_in_tooltip": "Prisijunk, kad galėtum dovanoti gėles"
   },
   "geo": {

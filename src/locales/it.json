@@ -337,7 +337,6 @@
     "cap_tooltip": "Hai già regalato il massimo di {max} fiori a questa storia",
     "give": "{total} fiori, ne hai dato {mine}",
     "give_tooltip": "Regala un fiore a questa storia",
-    "mine_suffix": "(tu: {count})",
     "sign_in_tooltip": "Accedi per regalare fiori"
   },
   "geo": {

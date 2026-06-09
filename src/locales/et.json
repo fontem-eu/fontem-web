@@ -337,7 +337,6 @@
     "cap_tooltip": "Oled kinkinud sellele loole maksimaalse {max} lille",
     "give": "{total} lille, oled andnud {mine}",
     "give_tooltip": "Kingi sellele loole lill",
-    "mine_suffix": "(sina: {count})",
     "sign_in_tooltip": "Logi sisse, et lilli kinkida"
   },
   "geo": {

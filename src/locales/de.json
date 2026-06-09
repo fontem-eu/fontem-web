@@ -337,7 +337,6 @@
     "cap_tooltip": "Du hast dieser Story bereits die maximale Anzahl von {max} Blumen geschenkt",
     "give": "{total} Blumen, du hast {mine} gegeben",
     "give_tooltip": "Dieser Story eine Blume schenken",
-    "mine_suffix": "(du: {count})",
     "sign_in_tooltip": "Anmelden, um Blumen zu schenken"
   },
   "geo": {

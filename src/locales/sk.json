@@ -337,7 +337,6 @@
     "cap_tooltip": "Tomuto príbehu si daroval(a) maximum {max} kvetov",
     "give": "{total} kvetov, dali ste {mine}",
     "give_tooltip": "Daruj tomuto príbehu kvet",
-    "mine_suffix": "(ty: {count})",
     "sign_in_tooltip": "Prihlás sa a daruj kvety"
   },
   "geo": {

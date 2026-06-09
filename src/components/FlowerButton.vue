@@ -159,38 +159,48 @@ onUnmounted(() => {
       </g>
     </svg>
     <span class="flower-count" data-testid="flower-count">{{ total }}</span>
-    <span v-if="mine > 0" class="flower-mine" data-testid="flower-mine">
-      {{ t('flower_button.mine_suffix', { count: mine }) }}
-    </span>
+    <!-- Sub-divided section: visible separator + the caller's own
+         count rendered as "+N" so it reads as a contribution, not
+         metadata. Hidden when mine=0 to avoid a "+0" pill on a
+         story you haven't clapped. -->
+    <span
+      v-if="mine > 0"
+      class="flower-mine"
+      data-testid="flower-mine"
+    >+{{ mine }}</span>
   </button>
 </template>
 
 <style scoped>
 .flower-btn {
   display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.65rem;
+  align-items: stretch;
+  gap: 0;
+  /* No horizontal padding — the inner segments own their padding so
+     the divider runs the full vertical height of the pill. */
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
   color: var(--brand-secondary);
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 500;
+  line-height: 1;
   cursor: pointer;
+  overflow: hidden;
   transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
   user-select: none;
 }
 .flower-btn:hover:not(:disabled) {
   border-color: var(--brand-secondary);
-  background: color-mix(in oklab, var(--brand-secondary) 12%, var(--surface));
+  background: color-mix(in oklab, var(--brand-secondary) 10%, var(--surface));
 }
 .flower-btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
-/* The brief "you gave a flower" pulse — slight scale + colour bump
-   so the click reads as a tactile action without firing a toast. */
+/* Brief "you gave a flower" pulse — slight scale + colour bump so
+   the click reads as a tactile action without firing a toast. */
 .flower-btn.flower-given {
   color: var(--accent);
   border-color: var(--accent);
@@ -200,10 +210,35 @@ onUnmounted(() => {
 .flower-btn.flower-cap {
   color: var(--muted);
 }
-.flower-icon { flex: 0 0 auto; }
-.flower-count { line-height: 1; }
+.flower-icon {
+  flex: 0 0 auto;
+  margin-left: 0.7rem;
+  align-self: center;
+}
+.flower-count {
+  padding: 0.45rem 0.7rem 0.45rem 0.4rem;
+  display: inline-flex;
+  align-items: center;
+}
+/* The +N sub-section: visibly divided from the total via a left
+   border, slightly tinted background so it reads as a distinct
+   "your contribution" panel. Sits flush against the right edge. */
 .flower-mine {
-  color: var(--muted);
-  font-weight: 400;
+  padding: 0.45rem 0.75rem;
+  border-left: 1px solid var(--border);
+  background: color-mix(in oklab, var(--brand-secondary) 8%, transparent);
+  color: var(--brand-secondary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+}
+.flower-btn:hover:not(:disabled) .flower-mine {
+  border-left-color: var(--brand-secondary);
+  background: color-mix(in oklab, var(--brand-secondary) 16%, transparent);
+}
+.flower-btn.flower-given .flower-mine {
+  border-left-color: var(--accent);
+  color: var(--accent);
 }
 </style>

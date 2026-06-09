@@ -337,7 +337,6 @@
     "cap_tooltip": "Tu as offert le maximum de {max} fleurs à cette histoire",
     "give": "{total} fleurs, tu en as donné {mine}",
     "give_tooltip": "Offrir une fleur à cette histoire",
-    "mine_suffix": "(toi : {count})",
     "sign_in_tooltip": "Connecte-toi pour offrir des fleurs"
   },
   "geo": {

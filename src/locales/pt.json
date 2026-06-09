@@ -337,7 +337,6 @@
     "cap_tooltip": "Já deste o máximo de {max} flores a esta história",
     "give": "{total} flores, deste {mine}",
     "give_tooltip": "Dá uma flor a esta história",
-    "mine_suffix": "(tu: {count})",
     "sign_in_tooltip": "Inicia sessão para dar flores"
   },
   "geo": {

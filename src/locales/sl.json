@@ -337,7 +337,6 @@
     "cap_tooltip": "Tej zgodbi si podaril maksimalno {max} cvetov",
     "give": "{total} cvetov, dali ste {mine}",
     "give_tooltip": "Podari tej zgodbi cvet",
-    "mine_suffix": "(ti: {count})",
     "sign_in_tooltip": "Prijavi se za darovanje cvetov"
   },
   "geo": {

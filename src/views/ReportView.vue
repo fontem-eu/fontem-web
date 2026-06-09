@@ -199,11 +199,6 @@ function parseSectionContent(content) {
         >
           {{ report.visibility ? $t(`app.${report.visibility}`) : $t('app.private') }}
         </span>
-        <FlowerButton
-          v-if="reportId && (report.visibility === 'public_open' || report.visibility === 'public_auth')"
-          :report-id="reportId"
-          class="story-flowers"
-        />
       </div>
 
       <p v-if="report.abstract" class="report-abstract" data-testid="story-abstract">
@@ -232,6 +227,18 @@ function parseSectionContent(content) {
               <div v-if="part.type === 'html'" class="section-html" v-html="sanitizeHtml(part.content)" />
               <WidgetRenderer v-else-if="part.type === 'widget'" :config="part.config" />
             </template>
+          </div>
+
+          <!-- Story footer: clap (flower) lives below the body so a
+               reader who actually finished reading is the one who
+               taps it. Only rendered for publicly-clappable
+               visibilities; private + group stories don't show it. -->
+          <div
+            v-if="reportId && (report.visibility === 'public_open' || report.visibility === 'public_auth')"
+            class="story-footer"
+            data-testid="story-footer"
+          >
+            <FlowerButton :report-id="reportId" />
           </div>
         </div>
 
@@ -344,6 +351,17 @@ function parseSectionContent(content) {
 
 .report-body { margin-bottom: 1.5rem; }
 .report-tiptap { font-size: 0.9rem; line-height: 1.7; color: var(--text); }
+
+/* Footer sits below the body so the clap reads as "I finished
+   reading and want to thank the author" rather than a metadata
+   chip. Centred and visually separated from the running text. */
+.story-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
 .report-tiptap :deep(.tiptap) { outline: none; }
 .report-tiptap :deep(.tiptap h1) { font-size: 1.4rem; font-weight: 700; margin: 1rem 0 0.5rem; }
 .report-tiptap :deep(.tiptap h2) { font-size: 1.2rem; font-weight: 600; margin: 1rem 0 0.5rem; }

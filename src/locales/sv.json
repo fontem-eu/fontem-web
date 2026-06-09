@@ -337,7 +337,6 @@
     "cap_tooltip": "Du har gett det maximala antalet {max} blommor till denna berättelse",
     "give": "{total} blommor, du har gett {mine}",
     "give_tooltip": "Ge denna berättelse en blomma",
-    "mine_suffix": "(du: {count})",
     "sign_in_tooltip": "Logga in för att ge blommor"
   },
   "geo": {

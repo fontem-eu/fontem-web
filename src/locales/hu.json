@@ -337,7 +337,6 @@
     "cap_tooltip": "Már a maximum {max} virágot adtad ennek a sztorinak",
     "give": "{total} virág, ebből {mine}-et te adtál",
     "give_tooltip": "Adj ennek a sztorinak egy virágot",
-    "mine_suffix": "(te: {count})",
     "sign_in_tooltip": "Jelentkezz be virágot adni"
   },
   "geo": {

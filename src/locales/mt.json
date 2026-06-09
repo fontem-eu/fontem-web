@@ -337,7 +337,6 @@
     "cap_tooltip": "Tajt il-massimu ta' {max} fjuri lil din l-istorja",
     "give": "{total} fjuri, tajt {mine}",
     "give_tooltip": "Agħti fjura lil din l-istorja",
-    "mine_suffix": "(int: {count})",
     "sign_in_tooltip": "Idħol biex tagħti fjuri"
   },
   "geo": {

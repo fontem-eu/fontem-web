@@ -337,7 +337,6 @@
     "cap_tooltip": "Podarowano tej historii maksymalnie {max} kwiatów",
     "give": "{total} kwiatów, dałeś {mine}",
     "give_tooltip": "Podaruj tej historii kwiatek",
-    "mine_suffix": "(ty: {count})",
     "sign_in_tooltip": "Zaloguj się, aby podarować kwiaty"
   },
   "geo": {

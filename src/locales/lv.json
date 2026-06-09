@@ -337,7 +337,6 @@
     "cap_tooltip": "Esi uzdāvinājis maksimālo {max} ziedu skaitu šim stāstam",
     "give": "{total} ziedi, jūs esat iedevuši {mine}",
     "give_tooltip": "Uzdāvini šim stāstam ziedu",
-    "mine_suffix": "(tu: {count})",
     "sign_in_tooltip": "Pieslēdzies, lai dāvinātu ziedus"
   },
   "geo": {

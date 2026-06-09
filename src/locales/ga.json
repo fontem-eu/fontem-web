@@ -337,7 +337,6 @@
     "cap_tooltip": "Thug tú an t-uasmhéid de {max} bláth don scéal seo",
     "give": "{total} bláth, tá {mine} tugtha agat",
     "give_tooltip": "Tabhair bláth don scéal seo",
-    "mine_suffix": "(tusa: {count})",
     "sign_in_tooltip": "Sínigh isteach chun bláthanna a thabhairt"
   },
   "geo": {
