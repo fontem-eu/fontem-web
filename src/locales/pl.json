@@ -333,6 +333,13 @@
     "firds_instruments": "Instrumenty FIRDS",
     "top_trading_venues_mic": "Główne miejsca obrotu (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Podarowano tej historii maksymalnie {max} kwiatów",
+    "give": "{total} kwiatów, dałeś {mine}",
+    "give_tooltip": "Podaruj tej historii kwiatek",
+    "mine_suffix": "(ty: {count})",
+    "sign_in_tooltip": "Zaloguj się, aby podarować kwiaty"
+  },
   "geo": {
     "geo_explorer": "Eksplorator geograficzny",
     "intro": "Agregaty encji i umów po hierarchii NUTS. Dziś na poziomie krajów — bardziej szczegółowe regiony pojawią się, gdy będzie geokodowanie encji."

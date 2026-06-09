@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-eszközök",
     "top_trading_venues_mic": "Fő kereskedési helyek (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Már a maximum {max} virágot adtad ennek a sztorinak",
+    "give": "{total} virág, ebből {mine}-et te adtál",
+    "give_tooltip": "Adj ennek a sztorinak egy virágot",
+    "mine_suffix": "(te: {count})",
+    "sign_in_tooltip": "Jelentkezz be virágot adni"
+  },
   "geo": {
     "geo_explorer": "Geo-böngésző",
     "intro": "Entitások és szerződések aggregátumai a NUTS hierarchián. Ma országszinten — finomabb régiók érkeznek, amint az entitások geokódolása rendelkezésre áll."

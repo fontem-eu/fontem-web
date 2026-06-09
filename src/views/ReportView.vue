@@ -15,6 +15,7 @@ import { WidgetNode } from '../extensions/WidgetNode.js'
 import { EntityMention } from '../extensions/EntityMention.js'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import ChapterRail from '../components/ChapterRail.vue'
+import FlowerButton from '../components/FlowerButton.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import { getReport } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
@@ -198,6 +199,11 @@ function parseSectionContent(content) {
         >
           {{ report.visibility ? $t(`app.${report.visibility}`) : $t('app.private') }}
         </span>
+        <FlowerButton
+          v-if="reportId && (report.visibility === 'public_open' || report.visibility === 'public_auth')"
+          :report-id="reportId"
+          class="story-flowers"
+        />
       </div>
 
       <p v-if="report.abstract" class="report-abstract" data-testid="story-abstract">

@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS instrumenti",
     "top_trading_venues_mic": "Galvenās tirdzniecības vietas (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Esi uzdāvinājis maksimālo {max} ziedu skaitu šim stāstam",
+    "give": "{total} ziedi, jūs esat iedevuši {mine}",
+    "give_tooltip": "Uzdāvini šim stāstam ziedu",
+    "mine_suffix": "(tu: {count})",
+    "sign_in_tooltip": "Pieslēdzies, lai dāvinātu ziedus"
+  },
   "geo": {
     "geo_explorer": "Ģeo pārlūks",
     "intro": "Entītu un līgumu agregāti pēc NUTS hierarhijas. Šobrīd valsts līmenī — smalkāki reģioni nāks, kad būs ieviesta entītu ģeokodēšana."

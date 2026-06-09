@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-instrumenter",
     "top_trading_venues_mic": "Top handelspladser (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Du har givet det maksimale antal på {max} blomster til denne historie",
+    "give": "{total} blomster, du har givet {mine}",
+    "give_tooltip": "Giv denne historie en blomst",
+    "mine_suffix": "(dig: {count})",
+    "sign_in_tooltip": "Log ind for at give blomster"
+  },
   "geo": {
     "geo_explorer": "Geo-udforsker",
     "intro": "Entitets- og kontraktaggregater over NUTS-hierarkiet. Landniveau i dag — finere regioner kommer, når entitetsgeokodning lander."

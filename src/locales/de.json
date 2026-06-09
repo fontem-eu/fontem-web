@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-Instrumente",
     "top_trading_venues_mic": "Top-Handelsplätze (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Du hast dieser Story bereits die maximale Anzahl von {max} Blumen geschenkt",
+    "give": "{total} Blumen, du hast {mine} gegeben",
+    "give_tooltip": "Dieser Story eine Blume schenken",
+    "mine_suffix": "(du: {count})",
+    "sign_in_tooltip": "Anmelden, um Blumen zu schenken"
+  },
   "geo": {
     "geo_explorer": "Geo-Explorer",
     "intro": "Entitäts- und Vertrags-Aggregate über die NUTS-Hierarchie. Heute auf Länderebene — feinere Regionen folgen, sobald die Entitätsgeocodierung steht."

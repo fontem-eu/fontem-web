@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS nástroje",
     "top_trading_venues_mic": "Hlavné miesta obchodovania (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Tomuto príbehu si daroval(a) maximum {max} kvetov",
+    "give": "{total} kvetov, dali ste {mine}",
+    "give_tooltip": "Daruj tomuto príbehu kvet",
+    "mine_suffix": "(ty: {count})",
+    "sign_in_tooltip": "Prihlás sa a daruj kvety"
+  },
   "geo": {
     "geo_explorer": "Geo prieskumník",
     "intro": "Agregáty entít a zmlúv cez hierarchiu NUTS. Dnes na úrovni krajiny — jemnejšie regióny prídu, keď bude geokódovanie entít k dispozícii."

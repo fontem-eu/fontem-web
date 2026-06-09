@@ -333,6 +333,13 @@
     "firds_instruments": "Strumenti FIRDS",
     "top_trading_venues_mic": "Postijiet ewlenin tan-negozjar (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Tajt il-massimu ta' {max} fjuri lil din l-istorja",
+    "give": "{total} fjuri, tajt {mine}",
+    "give_tooltip": "Agħti fjura lil din l-istorja",
+    "mine_suffix": "(int: {count})",
+    "sign_in_tooltip": "Idħol biex tagħti fjuri"
+  },
   "geo": {
     "geo_explorer": "Esploratur ġeografiku",
     "intro": "Aggregati ta' entitajiet u kuntratti fuq il-ġerarkija NUTS. Illum f'livell ta' pajjiż — reġjuni iktar irqaq ġejjin meta jiġi implimentat il-ġeokodifikazzjoni tal-entitajiet."

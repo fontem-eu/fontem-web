@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS Instruments",
     "top_trading_venues_mic": "Top Trading Venues (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "You've given the maximum {max} flowers to this story",
+    "give": "{total} flowers, you've given {mine}",
+    "give_tooltip": "Give this story a flower",
+    "mine_suffix": "(you: {count})",
+    "sign_in_tooltip": "Sign in to give flowers"
+  },
   "geo": {
     "geo_explorer": "Geo explorer",
     "intro": "Entity and contract aggregates over the NUTS hierarchy. Country-level today — finer regions coming soon as entity data gets tagged with postal codes."

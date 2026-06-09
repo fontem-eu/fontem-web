@@ -333,6 +333,13 @@
     "firds_instruments": "Instrumentos FIRDS",
     "top_trading_venues_mic": "Principales centros de negociación (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Has regalado el máximo de {max} flores a esta historia",
+    "give": "{total} flores, has dado {mine}",
+    "give_tooltip": "Regala una flor a esta historia",
+    "mine_suffix": "(tú: {count})",
+    "sign_in_tooltip": "Inicia sesión para regalar flores"
+  },
   "geo": {
     "geo_explorer": "Explorador geo",
     "intro": "Agregados de entidades y contratos sobre la jerarquía NUTS. Hoy a nivel país — regiones más finas llegan cuando se complete la geocodificación de entidades."

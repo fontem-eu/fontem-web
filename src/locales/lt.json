@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS instrumentai",
     "top_trading_venues_mic": "Pagrindinės prekybos vietos (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Šiai istorijai padovanojai maksimumą {max} gėlių",
+    "give": "{total} gėlių, jūs davėte {mine}",
+    "give_tooltip": "Padovanok šiai istorijai gėlę",
+    "mine_suffix": "(tu: {count})",
+    "sign_in_tooltip": "Prisijunk, kad galėtum dovanoti gėles"
+  },
   "geo": {
     "geo_explorer": "Geo tyrinėtojas",
     "intro": "Esybių ir sutarčių agregatai NUTS hierarchijoje. Šiandien šalies lygiu — smulkesni regionai atvyks, kai bus įdiegtas esybių geokodavimas."

@@ -333,6 +333,13 @@
     "firds_instruments": "Instrumente FIRDS",
     "top_trading_venues_mic": "Principalele locuri de tranzacționare (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Ai oferit maximul de {max} flori acestei povești",
+    "give": "{total} flori, ai dat {mine}",
+    "give_tooltip": "Oferă o floare acestei povești",
+    "mine_suffix": "(tu: {count})",
+    "sign_in_tooltip": "Autentifică-te pentru a oferi flori"
+  },
   "geo": {
     "geo_explorer": "Explorator geo",
     "intro": "Agregate de entități și contracte pe ierarhia NUTS. Astăzi la nivel de țară — regiuni mai fine vor sosi când geocodarea entităților va fi gata."

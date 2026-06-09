@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-i instrumendid",
     "top_trading_venues_mic": "Tähtsamad kauplemiskohad (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Oled kinkinud sellele loole maksimaalse {max} lille",
+    "give": "{total} lille, oled andnud {mine}",
+    "give_tooltip": "Kingi sellele loole lill",
+    "mine_suffix": "(sina: {count})",
+    "sign_in_tooltip": "Logi sisse, et lilli kinkida"
+  },
   "geo": {
     "geo_explorer": "Geo-uurija",
     "intro": "Olemite ja lepingute koondnäitajad NUTS-i hierarhia järgi. Praegu riigi tasandil — peenemad piirkonnad tulevad, kui olemi geokodeerimine jõustub."

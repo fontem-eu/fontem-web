@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS instrumenti",
     "top_trading_venues_mic": "Glavna trgovalna mesta (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Tej zgodbi si podaril maksimalno {max} cvetov",
+    "give": "{total} cvetov, dali ste {mine}",
+    "give_tooltip": "Podari tej zgodbi cvet",
+    "mine_suffix": "(ti: {count})",
+    "sign_in_tooltip": "Prijavi se za darovanje cvetov"
+  },
   "geo": {
     "geo_explorer": "Geo raziskovalec",
     "intro": "Agregati entitet in pogodb prek hierarhije NUTS. Danes na ravni držav — drobnejše regije pridejo, ko bo geokodiranje entitet pripravljeno."

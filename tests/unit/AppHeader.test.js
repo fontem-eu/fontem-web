@@ -53,9 +53,7 @@ describe('AppHeader', () => {
 
   it('renders the Fontem wordmark in the header logo', async () => {
     const { wrapper } = await mountAt('/')
-    const logo = wrapper.find('h1 [role="img"]')
-    expect(logo.exists()).toBe(true)
-    expect(logo.attributes('aria-label')).toBe('Fontem')
+    expect(wrapper.find('h1').text()).toBe('Fontem')
   })
 
   it('preferences gear is always present', async () => {

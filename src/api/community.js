@@ -115,6 +115,20 @@ export function unfollowTag(tag) {
   return request('DELETE', `/me/followed-tags/${encodeURIComponent(tag)}`)
 }
 
+// ── Flowers (Medium-style clap) ─────────────────────────────────
+// Two routes — GET returns the current {total, mine, max_per_user},
+// POST adds one flower to the caller's count. Cap of 50 per user
+// per story is enforced server-side; the UI also disables clicks
+// past 50 so the cap reads as immediate.
+
+export function getFlowers(id) {
+  return request('GET', `/data-stories/${encodeURIComponent(id)}/flowers`)
+}
+
+export function giveFlower(id) {
+  return request('POST', `/data-stories/${encodeURIComponent(id)}/flowers`)
+}
+
 // ── Sections ────────────────────────────────────────────────────
 export function addSection(reportId, content) {
   return request('POST', `/data-stories/${encodeURIComponent(reportId)}/sections`, { content })

@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-instrumentit",
     "top_trading_venues_mic": "Pääkauppapaikat (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Olet antanut tälle tarinalle enimmäismäärän {max} kukkaa",
+    "give": "{total} kukkaa, olet antanut {mine}",
+    "give_tooltip": "Anna tälle tarinalle kukka",
+    "mine_suffix": "(sinä: {count})",
+    "sign_in_tooltip": "Kirjaudu sisään antaaksesi kukkia"
+  },
   "geo": {
     "geo_explorer": "Geo-tutkija",
     "intro": "Yhteenvedot entiteeteistä ja sopimuksista NUTS-hierarkian yli. Tänään maatasolla — hienommat alueet tulevat, kun entiteettigeokoodaus saadaan käyttöön."

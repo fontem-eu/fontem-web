@@ -333,6 +333,13 @@
     "firds_instruments": "FIRDS-instrumenten",
     "top_trading_venues_mic": "Belangrijkste handelsplaatsen (MIC)"
   },
+  "flower_button": {
+    "cap_tooltip": "Je hebt dit verhaal het maximum van {max} bloemen gegeven",
+    "give": "{total} bloemen, je hebt er {mine} gegeven",
+    "give_tooltip": "Geef dit verhaal een bloem",
+    "mine_suffix": "(jij: {count})",
+    "sign_in_tooltip": "Log in om bloemen te geven"
+  },
   "geo": {
     "geo_explorer": "Geografische verkenner",
     "intro": "Aggregaten van entiteiten en contracten over de NUTS-hiërarchie. Vandaag op landniveau — fijnere regio's komen zodra entity-geocoding wordt uitgerold."
