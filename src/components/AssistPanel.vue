@@ -33,6 +33,31 @@ const emit = defineEmits(['insert', 'refresh', 'applied'])
 
 const open = ref(false)
 const input = ref('')
+const inputEl = ref(null)
+
+// Auto-grow the textarea up to ``--assist-input-max-h`` (8 lines /
+// ~12rem). Past that the box stops growing and scrolls vertically.
+// We measure scrollHeight on every input event after collapsing
+// height to 0 so the new measurement reflects the current content
+// rather than the previous (taller) box.
+function autoGrow() {
+  const el = inputEl.value
+  if (!el) return
+  el.style.height = '0px'
+  const max = parseFloat(
+    getComputedStyle(el).getPropertyValue('max-height'),
+  ) || el.scrollHeight
+  el.style.height = Math.min(el.scrollHeight, max) + 'px'
+}
+
+// Watch for programmatic resets (e.g. after send) so the textarea
+// shrinks back to one row instead of staying at the multi-line size.
+watch(input, async (v) => {
+  if (v === '') {
+    await nextTick()
+    autoGrow()
+  }
+})
 const loading = ref(false)
 const messages = ref([])
 const error = ref(null)
@@ -476,13 +501,15 @@ defineExpose({ applyProposal, messages })
 
       <!-- Input -->
       <form class="assist-input" @submit.prevent="send">
-        <input
+        <textarea
+          ref="inputEl"
           v-model="input"
-          type="text"
           :placeholder="$t('assist.ask_about_the_data')"
           :disabled="loading"
           data-testid="assist-input"
-          @keydown.enter.prevent="send"
+          rows="1"
+          @input="autoGrow"
+          @keydown.enter.exact.prevent="send"
         />
         <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
       </form>
@@ -933,6 +960,7 @@ defineExpose({ applyProposal, messages })
 
 .assist-input {
   display: flex;
+  align-items: flex-end;
   gap: 0.4rem;
   padding: 0.75rem;
   /* Lift the input above the fixed cookie consent banner when it's
@@ -947,18 +975,32 @@ defineExpose({ applyProposal, messages })
   flex-shrink: 0;
 }
 
-.assist-input input {
+.assist-input textarea {
   flex: 1;
+  min-width: 0;             /* let flex shrink below content width */
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
   border-radius: 4px;
+  font: inherit;
   font-size: 0.8rem;
   background: var(--surface);
   color: var(--text);
   outline: none;
+  /* Wrap long words/URLs so the textarea never widens past the
+     panel — this was the mobile bug where pasting a URL pushed the
+     entire input row off-screen. */
+  resize: none;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Auto-grow ceiling. Past ~8 short lines the box stops growing
+     and scrolls; without the cap a long paste would push the
+     messages list out of view entirely on mobile. */
+  max-height: 12rem;
+  line-height: 1.35;
 }
 
-.assist-input input:focus {
+.assist-input textarea:focus {
   border-color: var(--accent);
 }
 
@@ -971,6 +1013,7 @@ defineExpose({ applyProposal, messages })
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .assist-input button:disabled {
