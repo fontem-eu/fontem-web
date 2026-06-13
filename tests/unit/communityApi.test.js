@@ -1,4 +1,12 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+
+// In single-fork vitest mode (poolOptions.forks.singleFork=true), the
+// module graph is shared across files. If another test file ran first
+// and called vi.mock('../../src/api/community.js', () => ({...})), our
+// dynamic-import below gets that mocked partial module instead of the
+// real one. Explicit unmock pins the real module for this file.
+vi.unmock('../../src/api/community.js')
 
 // We need to test the community API client. It uses fetch internally.
 // Import after mocking fetch.
@@ -16,7 +24,7 @@ describe('Community API client', () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
   })
 
   function mockOk(data, status = 200) {
@@ -80,7 +88,7 @@ describe('Community API client', () => {
   })
 
   it('sends auth header when token exists', async () => {
-    localStorage.setItem('gmr-token', 'test-jwt')
+    _internal.setAccessToken('test-jwt')
     mockOk({})
     await communityApi.listReports()
     const headers = fetchMock.mock.calls[0][1].headers

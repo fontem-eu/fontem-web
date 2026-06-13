@@ -1,57 +1,51 @@
 /**
  * Community API client — calls /capi/ endpoints for collaborative data stories,
  * issues, moderation, and user management.
+ *
+ * Session model (2026-06-13, see ./session.js):
+ *
+ * The access JWT is held in memory by the session store; the refresh
+ * token rides in an httpOnly cookie. A 401 on a token-bearing request
+ * triggers a silent /auth/refresh; if that succeeds we replay the
+ * original request with the fresh access token. If refresh fails the
+ * user is signed out and the caller sees the original 401 propagate.
  */
 
 import { withLang } from './_lang.js'
+import { getAccessToken, refresh } from './session.js'
 
 function authHeaders() {
-  // localStorage + window don't exist during SSR; no auth from the
-  // server — anonymous requests happen via the same code path.
-  if (typeof localStorage === 'undefined') return {}
-  const token = localStorage.getItem('gmr-token')
-  if (!token) return {}
-
-  // Check JWT expiry client-side to avoid sending stale tokens
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]))
-    if (payload.exp && payload.exp * 1000 < Date.now()) {
-      localStorage.removeItem('gmr-token')
-      localStorage.removeItem('gmr-user')
-      globalThis.location.href = '/login'
-      return {}
-    }
-  } catch { /* malformed token — let the server reject it */ }
-
-  return { Authorization: `Bearer ${token}` }
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
-async function request(method, path, body, { retries = 0 } = {}) {
+async function request(method, path, body, { retries = 0, refreshed = false } = {}) {
   const headers = { ...authHeaders(), 'Content-Type': 'application/json' }
-  // Did we actually send a token on this request?  Needed below to tell
-  // "session expired" apart from "anonymous call to a token-optional
-  // endpoint that happened to 401" — we should only punt the user to
-  // /login in the first case.
   const sentAuth = 'Authorization' in headers
-  const opts = { method, headers }
+  const opts = { method, headers, credentials: 'include' }
   if (body !== undefined) opts.body = JSON.stringify(body)
   const res = await fetch(`/capi${withLang(path)}`, opts)
 
-  // Auto-redirect only when a stale token triggered the 401. Anonymous
-  // callers (no token) should surface the error so the calling view can
-  // render the right state (e.g. a 404 page for private data stories they
-  // tried to open via direct link).
-  if (res.status === 401 && sentAuth) {
-    localStorage.removeItem('gmr-token')
-    localStorage.removeItem('gmr-user')
-    globalThis.location.href = '/login'
+  // 401 on a token-bearing request: try a silent refresh exactly once.
+  // The session store dedupes concurrent refreshes so N parallel API
+  // calls that all 401 produce a single /auth/refresh round trip.
+  if (res.status === 401 && sentAuth && !refreshed) {
+    const ok = await refresh()
+    if (ok) {
+      return request(method, path, body, { retries, refreshed: true })
+    }
+    // Refresh failed — the session store has already cleared local
+    // state. Bounce to /login so the user can re-authenticate.
+    if (typeof globalThis !== 'undefined' && globalThis.location) {
+      globalThis.location.href = '/login'
+    }
     throw new Error('Session expired')
   }
 
   // Retry on transient server errors (GET only)
   if (res.status >= 500 && method === 'GET' && retries < 2) {
     await new Promise((r) => setTimeout(r, 1000 * (retries + 1)))
-    return request(method, path, body, { retries: retries + 1 })
+    return request(method, path, body, { retries: retries + 1, refreshed })
   }
 
   if (!res.ok) {

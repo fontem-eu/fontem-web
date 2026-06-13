@@ -1,9 +1,10 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { usePocket } from '../../src/composables/usePocket.js'
 
 describe('usePocket', () => {
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     const { clear } = usePocket()
     clear()
   })

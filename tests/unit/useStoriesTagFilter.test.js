@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useStoriesTagFilter } from '../../src/composables/useStoriesTagFilter.js'
 
@@ -5,7 +6,7 @@ describe('useStoriesTagFilter', () => {
   const KEY = 'gmr-stories-tag'
 
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
   })
 
   it('exposes the storage key (so tests + future migrations can target it)', () => {

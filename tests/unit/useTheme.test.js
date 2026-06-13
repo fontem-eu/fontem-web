@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 // useTheme uses a module-level singleton ref.
@@ -19,7 +20,7 @@ describe('useTheme composable', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     document.documentElement.classList.remove('dark', 'autumn')
     mockMatchMedia(false)
     const mod = await import('../../src/composables/useTheme.js')

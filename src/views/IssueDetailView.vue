@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed, getAccessToken } from '../api/session.js'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getIssue, addComment, voteIssue } from '../api/community.js'
@@ -14,7 +15,7 @@ const commentBody = ref('')
 const submittingComment = ref(false)
 const voting = ref(false)
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+const hasToken = computed(() => isAuthed.value)
 
 onMounted(async () => {
   await fetchIssue()
@@ -63,7 +64,7 @@ async function vote(direction) {
 async function moderateAction(action) {
   error.value = null
   try {
-    const token = localStorage.getItem('gmr-token')
+    const token = getAccessToken()
     const res = await fetch(`/capi/issues/${encodeURIComponent(issueId)}`, {
       method: 'PATCH',
       headers: {

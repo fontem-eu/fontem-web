@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed } from '../api/session.js'
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
@@ -38,7 +39,7 @@ const error = ref(null)
 const bodyRef = ref(null)
 const bodyVersion = ref(0)
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+const hasToken = computed(() => isAuthed.value)
 
 onMounted(async () => {
   try {

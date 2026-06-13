@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import {
   createReport, getReport, listReports, updateReport, deleteReport,
@@ -19,13 +20,13 @@ function mockFetch(status, body) {
 describe('community API client', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
   })
 
   // ── Auth header ──────────────────────────────────────────────
 
   it('sends Authorization header when gmr-token exists', async () => {
-    localStorage.setItem('gmr-token', 'abc123')
+    _internal.setAccessToken('abc123')
     vi.stubGlobal('fetch', mockFetch(200, []))
 
     await listReports()

@@ -9,6 +9,7 @@
  * fields don't match, a mismatch message renders, and only matching
  * passwords reach the network.
  */
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
@@ -40,7 +41,7 @@ async function mountAt(path = '/login') {
 // SSO path. `window.location.href` is replaced so the navigate-on-success
 // path doesn't blow up jsdom.
 beforeEach(() => {
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
   window.location.href = 'about:blank'
   globalThis.fetch = vi.fn()
 })

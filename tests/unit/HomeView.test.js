@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
@@ -61,7 +62,7 @@ async function mountAt(path = '/') {
 
 describe('HomeView (ticker-detail host)', () => {
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     fetchFundamentals.mockReset()
     fetchFundamentals.mockResolvedValue({
       annual_data: [{ year: 2023, revenue: 1e6 }],

@@ -5,6 +5,7 @@
  * tests assert on optimistic update, rollback, the sign-in-disabled
  * state, and the 50-cap.
  */
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
@@ -26,13 +27,13 @@ function mountBtn(opts = {}) {
 }
 
 beforeEach(() => {
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
   vi.clearAllMocks()
   api.getFlowers.mockResolvedValue({ total: 0, mine: 0, max_per_user: 50 })
   api.giveFlower.mockResolvedValue({ total: 1, mine: 1, max_per_user: 50 })
 })
 afterEach(() => {
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
   vi.restoreAllMocks()
 })
 
@@ -47,7 +48,7 @@ describe('FlowerButton — render + initial load', () => {
   })
 
   it('loads server state on mount and renders total + mine when authed', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 7, mine: 3, max_per_user: 50 })
     const w = mountBtn()
     await flushPromises()
@@ -57,7 +58,7 @@ describe('FlowerButton — render + initial load', () => {
   })
 
   it('does not surface mine when 0 (clean idle state)', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 7, mine: 0, max_per_user: 50 })
     const w = mountBtn()
     await flushPromises()
@@ -90,7 +91,7 @@ describe('FlowerButton — auth gating', () => {
   })
 
   it('enables and clears the disabled tooltip once a token appears', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     const w = mountBtn()
     await flushPromises()
     const btn = w.find('[data-testid="flower-button"]')
@@ -101,7 +102,7 @@ describe('FlowerButton — auth gating', () => {
 
 describe('FlowerButton — give() flow', () => {
   it('optimistically bumps total and mine on click', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 4, mine: 1, max_per_user: 50 })
     // Make the POST hang so the test can see the optimistic state.
     let resolveGive
@@ -124,7 +125,7 @@ describe('FlowerButton — give() flow', () => {
   })
 
   it('rolls back the optimistic update when the server rejects', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 4, mine: 1, max_per_user: 50 })
     api.giveFlower.mockRejectedValueOnce(new Error('400'))
     const w = mountBtn()
@@ -137,7 +138,7 @@ describe('FlowerButton — give() flow', () => {
   })
 
   it('disables the button at the 50-cap and tooltip reflects the limit', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 50, mine: 50, max_per_user: 50 })
     const w = mountBtn()
     await flushPromises()
@@ -147,7 +148,7 @@ describe('FlowerButton — give() flow', () => {
   })
 
   it('clicking at the cap does NOT call giveFlower', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 50, mine: 50, max_per_user: 50 })
     const w = mountBtn()
     await flushPromises()
@@ -161,7 +162,7 @@ describe('FlowerButton — pulse + double-click guard + aria', () => {
   it('applies the just-given pulse class on click and clears it after the timer', async () => {
     vi.useFakeTimers()
     try {
-      localStorage.setItem('gmr-token', 'jwt')
+      _internal.setAccessToken('jwt')
       const w = mountBtn()
       await flushPromises()
       await w.find('[data-testid="flower-button"]').trigger('click')
@@ -176,7 +177,7 @@ describe('FlowerButton — pulse + double-click guard + aria', () => {
   })
 
   it('busy gate prevents a second click while the first POST is in flight', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.giveFlower.mockImplementationOnce(() => new Promise(() => {}))
     const w = mountBtn()
     await flushPromises()
@@ -188,7 +189,7 @@ describe('FlowerButton — pulse + double-click guard + aria', () => {
   })
 
   it('confirmedMine gates capReached — optimistic 50th does NOT flash cap state', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 49, mine: 49, max_per_user: 50 })
     let resolveGive
     api.giveFlower.mockReturnValueOnce(new Promise((r) => { resolveGive = r }))
@@ -208,7 +209,7 @@ describe('FlowerButton — pulse + double-click guard + aria', () => {
   })
 
   it('aria-label includes the total and mine counts', async () => {
-    localStorage.setItem('gmr-token', 'jwt')
+    _internal.setAccessToken('jwt')
     api.getFlowers.mockResolvedValueOnce({ total: 7, mine: 3, max_per_user: 50 })
     const w = mountBtn()
     await flushPromises()

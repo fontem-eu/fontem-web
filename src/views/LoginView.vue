@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed, login, register, loginWithGoogle, logout } from '../api/session.js'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -29,7 +30,7 @@ const passwordMismatch = computed(
 const GOOGLE_CLIENT_ID =
   '1055538305131-87jn8h6gunj55q1akfdkuv6kpg43ld4t.apps.googleusercontent.com'
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+const hasToken = computed(() => isAuthed.value)
 
 onMounted(() => {
   if (hasToken.value) return
@@ -66,18 +67,7 @@ async function onGoogleResponse(response) {
   error.value = null
   loading.value = true
   try {
-    const res = await fetch('/capi/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential: response.credential }),
-    })
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}))
-      throw new Error(data.detail || `HTTP ${res.status}`)
-    }
-    const data = await res.json()
-    localStorage.setItem('gmr-token', data.access_token)
-    localStorage.setItem('gmr-user', JSON.stringify(data.user))
+    await loginWithGoogle(response.credential)
     window.location.href = '/'
   } catch (err) {
     error.value = err.message
@@ -87,37 +77,20 @@ async function onGoogleResponse(response) {
 }
 
 async function handleTokenSignIn() {
-  const trimmed = manualToken.value.trim()
-  if (!trimmed) return
-  error.value = null
-  try {
-    const res = await fetch('/capi/users/me', {
-      headers: { Authorization: `Bearer ${trimmed}` },
-    })
-    if (!res.ok) throw new Error('Invalid or expired token')
-    localStorage.setItem('gmr-token', trimmed)
-    window.location.href = '/'
-  } catch (err) {
-    error.value = err.message
-  }
+  // Deprecated post-2026-06-13 session migration — the access token
+  // now lives in memory only and there's no userspace path to inject
+  // one. Surface a helpful error rather than silently breaking.
+  error.value = (
+    'Manual-token sign-in is no longer supported. ' +
+    'Use email + password or Google sign-in.'
+  )
 }
 
 async function handleLocalLogin() {
   error.value = null
   loading.value = true
   try {
-    const res = await fetch('/capi/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value }),
-    })
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}))
-      throw new Error(data.detail || `HTTP ${res.status}`)
-    }
-    const data = await res.json()
-    localStorage.setItem('gmr-token', data.access_token)
-    localStorage.setItem('gmr-user', JSON.stringify(data.user))
+    await login(loginEmail.value, loginPassword.value)
     window.location.href = '/'
   } catch (err) {
     error.value = err.message
@@ -137,18 +110,7 @@ async function handleRegister() {
   }
   loading.value = true
   try {
-    const res = await fetch('/capi/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: regEmail.value, password: regPassword.value, name: regName.value }),
-    })
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}))
-      throw new Error(data.detail || `HTTP ${res.status}`)
-    }
-    const data = await res.json()
-    localStorage.setItem('gmr-token', data.access_token)
-    localStorage.setItem('gmr-user', JSON.stringify(data.user))
+    await register(regEmail.value, regPassword.value, regName.value)
     window.location.href = '/'
   } catch (err) {
     error.value = err.message
@@ -157,9 +119,8 @@ async function handleRegister() {
   }
 }
 
-function handleSignOut() {
-  localStorage.removeItem('gmr-token')
-  localStorage.removeItem('gmr-user')
+async function handleSignOut() {
+  await logout()
   window.location.href = '/'
 }
 </script>

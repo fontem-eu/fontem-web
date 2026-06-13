@@ -1,6 +1,7 @@
 /**
  * FeedView — tag chip strip + URL-driven filter + follow toggle.
  */
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
@@ -30,7 +31,7 @@ const TAGS = [
 ]
 
 beforeEach(() => {
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
   _resetFollowedTagsForTests()
   vi.clearAllMocks()
   api.listReports.mockResolvedValue(STORIES_ALL)
@@ -103,7 +104,7 @@ describe('FeedView', () => {
   })
 
   it('clicking a follow star while authed hits the API, not localStorage', async () => {
-    localStorage.setItem('gmr-token', 'fake.jwt')
+    _internal.setAccessToken('fake.jwt')
     const { wrapper } = await mountFeed()
     await wrapper.find('[data-testid="tag-follow-procurement"]').trigger('click')
     await flushPromises()

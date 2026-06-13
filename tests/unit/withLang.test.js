@@ -1,8 +1,9 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 describe('withLang', () => {
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     vi.resetModules()
   })
 

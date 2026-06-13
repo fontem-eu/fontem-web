@@ -5,6 +5,7 @@
  * `localStorage` MUST live inside function bodies or lifecycle hooks,
  * otherwise the Node render will crash at import time.
  */
+import { isAuthed } from './api/session.js'
 import { createSSRApp, createApp as createCSRApp } from 'vue'
 import {
   createRouter,
@@ -175,7 +176,7 @@ export function createFontemRouter(ssr = false) {
     // localStorage doesn't exist during SSR — skip the guard on the
     // server and let the client redirect after hydration if needed.
     if (typeof localStorage === 'undefined') return
-    if (requiresAuth(to.path) && !localStorage.getItem('gmr-token')) return '/login'
+    if (requiresAuth(to.path) && !isAuthed.value) return '/login'
   })
 
   return router

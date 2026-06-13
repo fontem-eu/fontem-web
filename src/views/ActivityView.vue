@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed } from '../api/session.js'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { listReports, listIssues, getCurrentUser } from '../api/community.js'
@@ -10,7 +11,7 @@ const activities = ref([])
 const loading = ref(true)
 const error = ref(null)
 
-const hasToken = computed(() => !!localStorage.getItem('gmr-token'))
+const hasToken = computed(() => isAuthed.value)
 
 onMounted(async () => {
   if (!hasToken.value) {

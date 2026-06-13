@@ -11,6 +11,7 @@
  * Caps mirror the backend (50). Slug normalisation also matches.
  */
 import { ref, readonly } from 'vue'
+import { isAuthed } from '../api/session.js'
 import {
   listFollowedTags as apiList,
   followTag as apiFollow,
@@ -27,11 +28,6 @@ export const MAX_FOLLOWED_TAGS = 50
 const tags = ref([])
 const ready = ref(false)
 let initPromise = null
-
-function isAuthed() {
-  if (typeof localStorage === 'undefined') return false
-  return !!localStorage.getItem('gmr-token')
-}
 
 function readLocal() {
   if (typeof localStorage === 'undefined') return []
@@ -69,7 +65,7 @@ function normaliseTag(raw) {
 async function init() {
   if (initPromise) return initPromise
   initPromise = (async () => {
-    if (isAuthed()) {
+    if (isAuthed.value) {
       try {
         const r = await apiList()
         tags.value = Array.isArray(r?.tags) ? r.tags : []
@@ -90,7 +86,7 @@ async function follow(rawTag) {
   if (tags.value.includes(slug)) return
   if (tags.value.length >= MAX_FOLLOWED_TAGS) return
 
-  if (isAuthed()) {
+  if (isAuthed.value) {
     try {
       const r = await apiFollow(slug)
       const stored = r?.tag || slug
@@ -112,7 +108,7 @@ async function unfollow(rawTag) {
   if (!slug) return
   if (!tags.value.includes(slug)) return
 
-  if (isAuthed()) {
+  if (isAuthed.value) {
     try {
       await apiUnfollow(slug)
     } catch {
@@ -123,7 +119,7 @@ async function unfollow(rawTag) {
   }
   const next = tags.value.filter((t) => t !== slug)
   tags.value = next
-  if (!isAuthed()) writeLocal(next)
+  if (!isAuthed.value) writeLocal(next)
 }
 
 function toggle(rawTag) {
@@ -143,7 +139,7 @@ function isFollowing(rawTag) {
  * ON CONFLICT DO NOTHING absorbs the duplicates.
  */
 async function migrateLocalToServer() {
-  if (!isAuthed()) return
+  if (!isAuthed.value) return
   const local = readLocal()
   if (!local.length) return
   for (const t of local) {

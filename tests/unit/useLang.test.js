@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import { normaliseLang, EU_CODES, DEFAULT_LANG } from '../../src/composables/eu-languages.js'
@@ -29,13 +30,13 @@ describe('useLang', () => {
   const originalLang = typeof navigator !== 'undefined' ? navigator.language : ''
 
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     document.documentElement.lang = ''
   })
 
   afterEach(() => {
     Object.defineProperty(navigator, 'language', { value: originalLang, configurable: true })
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     vi.restoreAllMocks()
     // Reset the singleton between tests
     vi.resetModules()

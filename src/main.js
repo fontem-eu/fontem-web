@@ -4,9 +4,19 @@
  * graph via ./entry-server.js.
  */
 import { createFontemApp } from './app.js'
+import { refresh } from './api/session.js'
 import { useAnalytics } from './composables/useAnalytics.js'
 
 const { app, router } = createFontemApp(false)
+
+// Silently refresh the session on every cold page load. If the user
+// has a live refresh cookie (legitimate browser session), this
+// restores an in-memory access token before the first /capi call
+// fires — no flash of "signed in -> not signed in -> signed in"
+// during navigation. If the cookie's gone, the refresh fails and
+// the session store stays anonymous; the router gate redirects to
+// /login on the first protected route. Fire-and-forget.
+refresh()
 
 // Page-view tracking — client only; the analytics composable handles
 // its own consent + dev-mode guards.

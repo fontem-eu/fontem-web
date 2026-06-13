@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import * as gmrApi from '../../src/api/gmr.js'
 import * as tickersApi from '../../src/api/tickers.js'
@@ -9,7 +10,7 @@ vi.stubGlobal('fetch', mockFetch)
 
 afterEach(() => {
   vi.restoreAllMocks()
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
 })
 
 function mockOk(data) {
@@ -168,7 +169,7 @@ describe('tickers.js API', () => {
 
 describe('community.js API', () => {
   beforeEach(() => {
-    localStorage.setItem('gmr-token', 'test-jwt')
+    _internal.setAccessToken('test-jwt')
   })
 
   it('createReport sends POST with auth header', async () => {

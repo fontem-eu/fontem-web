@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { usePocket } from '../../src/composables/usePocket.js'
@@ -5,10 +6,10 @@ import PocketButton from '../../src/components/PocketButton.vue'
 
 describe('usePocket composable', () => {
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     usePocket().clear()
   })
-  afterEach(() => localStorage.clear())
+  afterEach(() => { _internal.clearForTests(); localStorage.clear() })
 
   it('starts with empty pocket', () => {
     const { items } = usePocket()
@@ -66,10 +67,10 @@ describe('usePocket composable', () => {
 
 describe('PocketButton component', () => {
   beforeEach(() => {
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
     usePocket().clear()
   })
-  afterEach(() => localStorage.clear())
+  afterEach(() => { _internal.clearForTests(); localStorage.clear() })
 
   it('renders the Pocket button', () => {
     const wrapper = mount(PocketButton, {

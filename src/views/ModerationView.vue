@@ -1,4 +1,5 @@
 <script setup>
+import { getAccessToken } from '../api/session.js'
 import { ref, onMounted } from 'vue'
 import { getModerationLog } from '../api/community.js'
 
@@ -30,7 +31,7 @@ async function fetchData() {
 async function reviewFlag(flagId, action) {
   error.value = null
   try {
-    const token = localStorage.getItem('gmr-token')
+    const token = getAccessToken()
     const res = await fetch(`/capi/flags/${encodeURIComponent(flagId)}`, {
       method: 'PATCH',
       headers: {

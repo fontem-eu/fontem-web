@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed } from '../api/session.js'
 /**
  * FlowerButton — Medium-style clap for stories.
  *
@@ -44,7 +45,7 @@ let pulseTimer = null
 
 // Inline auth check (no central composable in this repo). SSR-safe.
 const hasToken = computed(
-  () => typeof localStorage !== 'undefined' && !!localStorage.getItem('gmr-token'),
+  () => typeof localStorage !== 'undefined' && isAuthed.value,
 )
 
 const capReached = computed(

@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed } from '../api/session.js'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -13,7 +14,7 @@ const { t } = useI18n()
 // Safe during SSR: localStorage doesn't exist on the server, so
 // anonymous render is the default. Client re-evaluates on hydration.
 const hasToken = computed(
-  () => typeof localStorage !== 'undefined' && !!localStorage.getItem('gmr-token'),
+  () => typeof localStorage !== 'undefined' && isAuthed.value,
 )
 
 /* Top-level nav tabs.  Home + Feed are public (browsing public data

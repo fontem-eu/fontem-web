@@ -1,4 +1,5 @@
 <script setup>
+import { isAuthed, currentUser, logout, signOutEverywhere } from '../api/session.js'
 /**
  * Preferences popover — single gear icon in the header that hosts
  * everything that used to be three separate chips: theme toggle,
@@ -29,15 +30,9 @@ const { palette, setPalette, catalog: paletteCatalog } = useAtlasPalette()
 const open = ref(false)
 const rootRef = ref(null)
 
-const hasToken = computed(() => {
-  if (typeof localStorage === 'undefined') return false
-  return !!localStorage.getItem('gmr-token')
-})
+const hasToken = computed(() => isAuthed.value)
 
-const user = computed(() => {
-  if (typeof localStorage === 'undefined') return null
-  try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') } catch { return null }
-})
+const user = computed(() => currentUser.value)
 
 // Group the palette catalog for the select. Sequential first (most
 // common), diverging next, the auto-default at the very top.
@@ -72,10 +67,26 @@ function onSignInClick() {
   router.push('/login')
 }
 
-function onSignOutClick() {
-  localStorage.removeItem('gmr-token')
-  localStorage.removeItem('gmr-user')
+async function onSignOutClick() {
+  await logout()
   globalThis.location.href = '/'
+}
+
+const signingOutEverywhere = ref(false)
+
+async function onSignOutEverywhereClick() {
+  if (!globalThis.confirm(
+    'Sign out of every device that has access to your account?\n\n' +
+    'Anyone currently signed in as you on any browser or device will ' +
+    'be signed out within seconds.',
+  )) return
+  signingOutEverywhere.value = true
+  try {
+    await signOutEverywhere()
+  } finally {
+    signingOutEverywhere.value = false
+    globalThis.location.href = '/'
+  }
 }
 
 const clearingAiData = ref(false)
@@ -110,9 +121,8 @@ async function onDeleteAccountClick() {
   deleteAccountStatus.value = null
   try {
     await deleteCurrentUser()
-    localStorage.removeItem('gmr-token')
-    localStorage.removeItem('gmr-user')
-    localStorage.removeItem('gmr-cookie-consent')
+    await logout()
+    try { localStorage.removeItem('gmr-cookie-consent') } catch { /* ignore */ }
     globalThis.location.href = '/'
   } catch {
     deleteAccountStatus.value = 'error'
@@ -272,6 +282,16 @@ onBeforeUnmount(() => {
           >
             <span>{{ deletingAccount ? $t('app.deleting') : $t('preferences_menu.delete_account') }}</span>
             <span v-if="deleteAccountStatus === 'error'" class="prefs-row-status err">!</span>
+          </button>
+
+          <button
+            class="prefs-row prefs-row-button"
+            role="menuitem"
+            :disabled="signingOutEverywhere"
+            data-testid="prefs-sign-out-everywhere"
+            @click="onSignOutEverywhereClick"
+          >
+            <span>{{ signingOutEverywhere ? 'Signing out…' : 'Sign out of all devices' }}</span>
           </button>
 
           <button

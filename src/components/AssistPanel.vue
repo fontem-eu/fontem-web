@@ -1,4 +1,5 @@
 <script setup>
+import { getAccessToken } from '../api/session.js'
 import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
@@ -163,7 +164,7 @@ async function send() {
   let assistMsg = null
 
   try {
-    const token = localStorage.getItem('gmr-token')
+    const token = getAccessToken()
     const res = await fetch('/capi/assist/chat/stream', {
       method: 'POST',
       headers: {

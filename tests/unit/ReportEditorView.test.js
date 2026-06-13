@@ -1,6 +1,7 @@
 /**
  * Tests for the unified Confluence-style report editor.
  */
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
@@ -46,12 +47,12 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1' 
 
 describe('ReportEditorView — unified editor', () => {
   beforeEach(() => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
-    localStorage.clear()
+    _internal.clearForTests(); localStorage.clear()
   })
 
   it('mounts and shows title input', async () => {

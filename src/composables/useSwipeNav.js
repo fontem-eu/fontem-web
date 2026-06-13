@@ -1,4 +1,5 @@
 import { onMounted, onBeforeUnmount } from 'vue'
+import { isAuthed } from '../api/session.js'
 import { useRoute, useRouter } from 'vue-router'
 
 // Horizontal swipe between the top-level views. Order mirrors the nav
@@ -13,7 +14,7 @@ function currentOrder() {
   // Safe on the server (SSR) — no localStorage there, default to the
   // anonymous order; the client re-evaluates on hydration.
   if (typeof localStorage === 'undefined') return PUBLIC_ORDER
-  return localStorage.getItem('gmr-token') ? AUTHED_ORDER : PUBLIC_ORDER
+  return isAuthed.value ? AUTHED_ORDER : PUBLIC_ORDER
 }
 
 const SWIPE_MIN_DX = 60        // px — must move at least this far horizontally

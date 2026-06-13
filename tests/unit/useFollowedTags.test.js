@@ -1,6 +1,7 @@
 /**
  * useFollowedTags — localStorage for unauth, API for auth.
  */
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 vi.mock('../../src/api/community.js', () => ({
@@ -17,7 +18,7 @@ import {
 import * as api from '../../src/api/community.js'
 
 beforeEach(() => {
-  localStorage.clear()
+  _internal.clearForTests(); localStorage.clear()
   _resetFollowedTagsForTests()
   vi.clearAllMocks()
 })
@@ -70,7 +71,7 @@ describe('useFollowedTags — unauthenticated', () => {
 
 describe('useFollowedTags — authenticated', () => {
   beforeEach(() => {
-    localStorage.setItem('gmr-token', 'fake.jwt.token')
+    _internal.setAccessToken('fake.jwt.token')
   })
 
   it('hydrates from the API on init', async () => {
@@ -108,7 +109,7 @@ describe('useFollowedTags — authenticated', () => {
 
   it('migrateLocalToServer pushes localStorage tags up + clears storage', async () => {
     // Stage: signed-out user followed two tags before logging in.
-    localStorage.removeItem('gmr-token')
+    _internal.clearForTests()
     _resetFollowedTagsForTests()
     let u = useFollowedTags()
     await u.init()
@@ -118,7 +119,7 @@ describe('useFollowedTags — authenticated', () => {
       .toEqual(['procurement', 'lobbying'])
 
     // Now they sign in — token appears, migrate runs.
-    localStorage.setItem('gmr-token', 'fake.jwt.token')
+    _internal.setAccessToken('fake.jwt.token')
     // Two calls happen: init() reads the empty server-side state,
     // then migrate() pushes locals up and re-reads the merged list.
     api.listFollowedTags

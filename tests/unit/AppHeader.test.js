@@ -1,3 +1,4 @@
+import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
@@ -48,8 +49,8 @@ async function mountAt(path = '/') {
 }
 
 describe('AppHeader', () => {
-  beforeEach(() => localStorage.clear())
-  afterEach(() => { localStorage.clear(); vi.restoreAllMocks() })
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks() })
 
   it('renders the Fontem wordmark in the header logo', async () => {
     const { wrapper } = await mountAt('/')
@@ -72,7 +73,7 @@ describe('AppHeader', () => {
   })
 
   it('exposes Sign out inside the preferences menu when authenticated', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     await wrapper.find('[data-testid="prefs-menu-trigger"]').trigger('click')
     await flushPromises()
@@ -86,18 +87,18 @@ describe('AppHeader', () => {
   })
 
   it('renders the avatar trigger next to the gear when authenticated', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
-    localStorage.setItem('gmr-user', JSON.stringify({
+    _internal.setAccessToken('test-token')
+    _internal.setUserForTests({
       name: 'Bernardo Marques', email: 'bernardo@example.com',
-    }))
+    })
     const { wrapper } = await mountAt('/')
     expect(wrapper.find('[data-testid="prefs-avatar-trigger"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="user-avatar-initials"]').text()).toBe('BM')
   })
 
   it('clicking the avatar opens the same prefs menu as the gear', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
-    localStorage.setItem('gmr-user', JSON.stringify({ name: 'Bernardo' }))
+    _internal.setAccessToken('test-token')
+    _internal.setUserForTests({ name: 'Bernardo' })
     const { wrapper } = await mountAt('/')
     await wrapper.find('[data-testid="prefs-avatar-trigger"]').trigger('click')
     await flushPromises()
@@ -105,7 +106,7 @@ describe('AppHeader', () => {
   })
 
   it('shows nav tabs when authenticated', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.exists()).toBe(true)
@@ -132,7 +133,7 @@ describe('AppHeader', () => {
   })
 
   it('moves Issues and Activity out of the top-level nav', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.text()).not.toContain('Issues')
@@ -153,7 +154,7 @@ describe('AppHeader', () => {
 
   // ── Explore tab (batch-5 item 5) ──────────────────────────────
   it('shows the Explore tab between Map and My Stories', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     const exploreTab = wrapper.find('[data-testid="nav-explore"]')
     expect(exploreTab.exists()).toBe(true)
@@ -209,15 +210,15 @@ describe('AppHeader', () => {
   })
 
   it('marks active nav tab', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/my-stories')
     const tab = wrapper.find('[data-testid="nav-my-reports"]')
     expect(tab.classes()).toContain('active')
   })
 
   it('shows user name inside the preferences menu when authenticated', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
-    localStorage.setItem('gmr-user', JSON.stringify({ name: 'Alice', email: 'a@b.com' }))
+    _internal.setAccessToken('test-token')
+    _internal.setUserForTests({ name: 'Alice', email: 'a@b.com' })
     const { wrapper } = await mountAt('/')
     await wrapper.find('[data-testid="prefs-menu-trigger"]').trigger('click')
     await flushPromises()
@@ -225,7 +226,7 @@ describe('AppHeader', () => {
   })
 
   it('preserves current view when selecting a ticker', async () => {
-    localStorage.setItem('gmr-token', 'test-token')
+    _internal.setAccessToken('test-token')
     const { wrapper, router } = await mountAt('/c/AAPL/gmr-long')
     const pushSpy = vi.spyOn(router, 'push')
     await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'MSFT')
