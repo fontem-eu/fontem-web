@@ -70,3 +70,27 @@ describe('sanitizeMarkdown', () => {
     expect(sanitizeMarkdown(null)).toBe('')
   })
 })
+
+// SEC-2026-06-11 #10 — `style` attribute must be stripped from
+// markdown-sanitized HTML so a CSS `url(javascript:…)` payload
+// can't ride through. Non-exploitable on current browsers (they
+// dropped support ~2017), defence-in-depth.
+describe('sanitizeMarkdown (security review #10)', () => {
+  it('strips bare style attributes', () => {
+    const out = sanitizeMarkdown('<p style="color:red">hi</p>')
+    expect(out).not.toContain('style=')
+    expect(out).toContain('hi')
+  })
+
+  it('strips a CSS url(javascript:…) payload that survived in style', () => {
+    const dirty = `<div style="background:url(javascript:alert('xss'))">x</div>`
+    const out = sanitizeMarkdown(dirty)
+    expect(out).not.toContain('javascript:')
+    expect(out).not.toContain('style=')
+  })
+
+  it('strips style on inline elements too', () => {
+    const out = sanitizeMarkdown('<span style="background:#fff">ok</span>')
+    expect(out).not.toMatch(/style=/i)
+  })
+})

@@ -120,7 +120,16 @@ function createEditor(content = '') {
       StarterKit,
       Placeholder.configure({ placeholder: 'Start writing your analysis...' }),
       Image.configure({ inline: false, allowBase64: false }),
-      Link.configure({ openOnClick: false, autolink: true }),
+      Link.configure({
+        // Explicit protocol allow-list. Tiptap's defaults filter out
+        // `javascript:` / `data:` today, but a future minor bump
+        // could change that. Pinning here so we know exactly which
+        // schemes we honour regardless of upstream churn. See the
+        // 2026-06-11 security review, finding #9.
+        protocols: ['http', 'https', 'mailto'],
+        openOnClick: false,
+        autolink: true,
+      }),
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Table.configure({ resizable: true }),

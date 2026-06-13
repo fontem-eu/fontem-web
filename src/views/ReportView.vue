@@ -50,7 +50,13 @@ onMounted(async () => {
       readOnlyEditor = new Editor({
         editable: false,
         extensions: [
-          StarterKit, Image, Link, Underline,
+          StarterKit, Image,
+          // Same protocol allow-list as the editor (security review
+          // finding #9). Pinning so href schemes in rendered stories
+          // can't drift past http/https/mailto if Tiptap relaxes
+          // its defaults in a future minor.
+          Link.configure({ protocols: ['http', 'https', 'mailto'] }),
+          Underline,
           Table, TableRow, TableCell, TableHeader,
           WidgetNode,
           // EntityMention is editable: false-aware — chips render

@@ -50,6 +50,12 @@ export function sanitizeMarkdown(dirty) {
   return DOMPurify.sanitize(dirty, {
     ALLOW_DATA_ATTR: false,
     FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'textarea'],
-    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+    // ``style`` is forbidden because DOMPurify lets it through by
+    // default and a CSS `url(javascript:...)` payload would survive
+    // markdown sanitization. Modern browsers don't execute that today
+    // (Chrome/Firefox/Safari dropped support ~2017) but pinning the
+    // attribute out is the defence-in-depth — none of our authoring
+    // flows actually want inline styles. See security review #10.
+    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur', 'style'],
   })
 }
