@@ -375,7 +375,6 @@
     "save_view": "Zapisz widok",
     "search_entity_name": "Szukaj nazwy podmiotu...",
     "set_as_center": "Ustaw jako centrum",
-    "summary_edges": "Krawędzie podsumowujące",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Zmaterializowane relacje handlowe instytucja-firma z umów",
-    "trade_edges": "Krawędzie handlowe",
-    "trade_edges_are_materialized_from_contra": "Krawędzie handlowe są materializowane z danych umów. Uruchom"
+    "trade_edges": "Krawędzie handlowe"
   },
   "triples_d_q": {
     "chart_view": "Widok wykresu",

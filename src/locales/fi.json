@@ -375,7 +375,6 @@
     "save_view": "Tallenna näkymä",
     "search_entity_name": "Etsi entiteetin nimeä...",
     "set_as_center": "Aseta keskukseksi",
-    "summary_edges": "Yhteenvetokaaret",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Sopimuksista materialisoidut viranomais-yritys-kauppasuhteet",
-    "trade_edges": "Kauppakaaret",
-    "trade_edges_are_materialized_from_contra": "Kauppakaaret materialisoidaan sopimustiedoista. Aja"
+    "trade_edges": "Kauppakaaret"
   },
   "triples_d_q": {
     "chart_view": "Kaavionäkymä",

@@ -375,7 +375,6 @@
     "save_view": "Saglabāt skatu",
     "search_entity_name": "Meklē entītes nosaukumu...",
     "set_as_center": "Iestatīt kā centru",
-    "summary_edges": "Kopsavilkuma šķautnes",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "No līgumiem materializētās iestāžu-uzņēmumu tirdzniecības attiecības",
-    "trade_edges": "Tirdzniecības šķautnes",
-    "trade_edges_are_materialized_from_contra": "Tirdzniecības šķautnes tiek materializētas no līgumu datiem. Palaid"
+    "trade_edges": "Tirdzniecības šķautnes"
   },
   "triples_d_q": {
     "chart_view": "Diagrammas skats",

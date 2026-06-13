@@ -17,7 +17,6 @@ function storeState() {
     depth: props.config.depth ?? 1,
     typeFilters: props.config.typeFilters ?? {},
     timeRange: props.config.timeRange ?? '12m',
-    summaryEdges: props.config.summaryEdges ?? true,
   }
 }
 

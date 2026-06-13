@@ -375,7 +375,6 @@
     "save_view": "Issejvja l-veduta",
     "search_entity_name": "Fittex isem l-entità...",
     "set_as_center": "Issettja bħala ċentru",
-    "summary_edges": "Truf ta' sommarju",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relazzjonijiet kummerċjali awtorità-kumpanija materjalizzati minn kuntratti",
-    "trade_edges": "Truf kummerċjali",
-    "trade_edges_are_materialized_from_contra": "It-truf kummerċjali huma materjalizzati minn dejta tal-kuntratti. Ħaddem"
+    "trade_edges": "Truf kummerċjali"
   },
   "triples_d_q": {
     "chart_view": "Veduta tal-graff",

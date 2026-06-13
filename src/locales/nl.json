@@ -375,7 +375,6 @@
     "save_view": "Weergave opslaan",
     "search_entity_name": "Entiteitsnaam zoeken...",
     "set_as_center": "Instellen als centrum",
-    "summary_edges": "Samenvattingsranden",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Gematerialiseerde autoriteit-bedrijf-handelsrelaties uit contracten",
-    "trade_edges": "Handelskanten",
-    "trade_edges_are_materialized_from_contra": "Handelskanten worden gematerialiseerd uit contractgegevens. Voer uit"
+    "trade_edges": "Handelskanten"
   },
   "triples_d_q": {
     "chart_view": "Grafiekweergave",

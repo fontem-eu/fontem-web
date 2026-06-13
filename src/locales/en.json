@@ -375,7 +375,6 @@
     "save_view": "Save view",
     "search_entity_name": "Search entity name...",
     "set_as_center": "Set as center",
-    "summary_edges": "Summary edges",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialized authority-company trade relationships from contracts",
-    "trade_edges": "Trade Edges",
-    "trade_edges_are_materialized_from_contra": "Trade edges are materialized from contract data. Run"
+    "trade_edges": "Trade Edges"
   },
   "triples_d_q": {
     "chart_view": "Chart view",

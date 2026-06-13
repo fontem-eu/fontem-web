@@ -375,7 +375,6 @@
     "save_view": "Salvează vizualizarea",
     "search_entity_name": "Caută numele entității...",
     "set_as_center": "Setează ca centru",
-    "summary_edges": "Muchii de rezumat",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relații comerciale autoritate-companie materializate din contracte",
-    "trade_edges": "Muchii comerciale",
-    "trade_edges_are_materialized_from_contra": "Muchiile comerciale sunt materializate din datele contractelor. Rulează"
+    "trade_edges": "Muchii comerciale"
   },
   "triples_d_q": {
     "chart_view": "Vizualizare grafic",

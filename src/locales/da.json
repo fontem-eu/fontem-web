@@ -375,7 +375,6 @@
     "save_view": "Gem visning",
     "search_entity_name": "Søg entitetsnavn...",
     "set_as_center": "Indstil som center",
-    "summary_edges": "Sammenfatningskanter",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialiserede myndighed-selskab-handelsrelationer fra kontrakter",
-    "trade_edges": "Handelskanter",
-    "trade_edges_are_materialized_from_contra": "Handelskanter materialiseres fra kontraktdata. Kør"
+    "trade_edges": "Handelskanter"
   },
   "triples_d_q": {
     "chart_view": "Diagramvisning",

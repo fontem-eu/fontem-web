@@ -375,7 +375,6 @@
     "save_view": "Запази изглед",
     "search_entity_name": "Търсене на име на обект...",
     "set_as_center": "Задади като център",
-    "summary_edges": "Обобщени ръбове",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Материализирани търговски отношения власт-компания от договори",
-    "trade_edges": "Търговски ребра",
-    "trade_edges_are_materialized_from_contra": "Търговските ребра се материализират от данните на договорите. Стартирай"
+    "trade_edges": "Търговски ребра"
   },
   "triples_d_q": {
     "chart_view": "Изглед на графика",

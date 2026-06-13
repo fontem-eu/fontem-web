@@ -375,7 +375,6 @@
     "save_view": "Shrani pogled",
     "search_entity_name": "Iskanje imena entitete...",
     "set_as_center": "Nastavi kot središče",
-    "summary_edges": "Povzetni robovi",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Trgovinski odnosi organ-podjetje materializirani iz pogodb",
-    "trade_edges": "Trgovinski robovi",
-    "trade_edges_are_materialized_from_contra": "Trgovinski robovi se materializirajo iz podatkov o pogodbah. Zaženi"
+    "trade_edges": "Trgovinski robovi"
   },
   "triples_d_q": {
     "chart_view": "Grafikon",

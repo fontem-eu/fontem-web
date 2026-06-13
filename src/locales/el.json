@@ -375,7 +375,6 @@
     "save_view": "Αποθήκευση προβολής",
     "search_entity_name": "Αναζήτηση ονόματος οντότητας...",
     "set_as_center": "Ορισμός ως κέντρου",
-    "summary_edges": "Συνοπτικές ακμές",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Υλοποιημένες εμπορικές σχέσεις αρχής-εταιρείας από συμβάσεις",
-    "trade_edges": "Εμπορικές ακμές",
-    "trade_edges_are_materialized_from_contra": "Οι εμπορικές ακμές υλοποιούνται από δεδομένα συμβάσεων. Εκτέλεση"
+    "trade_edges": "Εμπορικές ακμές"
   },
   "triples_d_q": {
     "chart_view": "Προβολή γραφήματος",
