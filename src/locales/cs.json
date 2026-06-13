@@ -375,7 +375,6 @@
     "save_view": "Uložit zobrazení",
     "search_entity_name": "Hledat název entity...",
     "set_as_center": "Nastavit jako střed",
-    "summary_edges": "Souhrnné hrany",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materializované obchodní vztahy úřad-společnost ze zakázek",
-    "trade_edges": "Obchodní hrany",
-    "trade_edges_are_materialized_from_contra": "Obchodní hrany jsou materializovány z dat zakázek. Spustit"
+    "trade_edges": "Obchodní hrany"
   },
   "triples_d_q": {
     "chart_view": "Zobrazení grafu",

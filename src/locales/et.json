@@ -375,7 +375,6 @@
     "save_view": "Salvesta vaade",
     "search_entity_name": "Otsi olemi nime...",
     "set_as_center": "Sea keskmeks",
-    "summary_edges": "Kokkuvõtteservad",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Lepingutest materialiseeritud asutuse-ettevõtte kaubandussuhted",
-    "trade_edges": "Kaubandusservad",
-    "trade_edges_are_materialized_from_contra": "Kaubandusservad materialiseeritakse lepinguandmetest. Käivita"
+    "trade_edges": "Kaubandusservad"
   },
   "triples_d_q": {
     "chart_view": "Diagrammi vaade",

@@ -375,7 +375,6 @@
     "save_view": "Salva vista",
     "search_entity_name": "Cerca nome entità...",
     "set_as_center": "Imposta come centro",
-    "summary_edges": "Archi di riepilogo",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relazioni commerciali autorità-azienda materializzate dai contratti",
-    "trade_edges": "Archi commerciali",
-    "trade_edges_are_materialized_from_contra": "Gli archi commerciali sono materializzati dai dati dei contratti. Esegui"
+    "trade_edges": "Archi commerciali"
   },
   "triples_d_q": {
     "chart_view": "Vista grafico",

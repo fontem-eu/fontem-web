@@ -375,7 +375,6 @@
     "save_view": "Enregistrer la vue",
     "search_entity_name": "Rechercher le nom d'une entité...",
     "set_as_center": "Définir comme centre",
-    "summary_edges": "Arêtes de résumé",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relations commerciales autorité-entreprise matérialisées à partir des marchés",
-    "trade_edges": "Arêtes commerciales",
-    "trade_edges_are_materialized_from_contra": "Les arêtes commerciales sont matérialisées à partir des données de marchés. Exécutez"
+    "trade_edges": "Arêtes commerciales"
   },
   "triples_d_q": {
     "chart_view": "Vue graphique",

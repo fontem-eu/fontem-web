@@ -17,7 +17,7 @@ onMounted(async () => {
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><StatCard :value="(data.trade_pairs || 0).toLocaleString()" label="Trade Pairs" /><StatCard :value="fmtEur(data.total_eur)" label="Total EUR Value" /><StatCard :value="(data.total_contracts || 0).toLocaleString()" label="Total Contracts" /></div>
-      <p class="dq-note">{{ $t('trade_edges_d_q.trade_edges_are_materialized_from_contra') }}<code>materialize_trade_edges.py</code> to refresh.</p>
+      <p class="dq-note">Counts derive live from the per-contract <code>(:Authority)-[:AWARDED]-&gt;(:Contract)-[:AWARDED_TO]-&gt;(:Company)</code> chain. No materialised cache; numbers always reflect the current graph.</p>
     </template>
   </div>
 </template>

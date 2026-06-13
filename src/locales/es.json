@@ -375,7 +375,6 @@
     "save_view": "Guardar vista",
     "search_entity_name": "Buscar nombre de entidad...",
     "set_as_center": "Establecer como centro",
-    "summary_edges": "Aristas de resumen",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relaciones comerciales autoridad-empresa materializadas a partir de los contratos",
-    "trade_edges": "Aristas comerciales",
-    "trade_edges_are_materialized_from_contra": "Las aristas comerciales se materializan a partir de los datos de contratos. Ejecuta"
+    "trade_edges": "Aristas comerciales"
   },
   "triples_d_q": {
     "chart_view": "Vista de gráfico",

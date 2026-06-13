@@ -375,7 +375,6 @@
     "save_view": "Nézet mentése",
     "search_entity_name": "Entitás nevének keresése...",
     "set_as_center": "Beállítás középpontnak",
-    "summary_edges": "Összegző élek",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Szerződésekből materializált hatóság-vállalat kereskedelmi kapcsolatok",
-    "trade_edges": "Kereskedelmi élek",
-    "trade_edges_are_materialized_from_contra": "A kereskedelmi éleket szerződésadatokból materializáljuk. Futtasd:"
+    "trade_edges": "Kereskedelmi élek"
   },
   "triples_d_q": {
     "chart_view": "Diagram-nézet",

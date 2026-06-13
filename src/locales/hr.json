@@ -375,7 +375,6 @@
     "save_view": "Spremi prikaz",
     "search_entity_name": "Pretraži ime entiteta...",
     "set_as_center": "Postavi kao središte",
-    "summary_edges": "Sažeti bridovi",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Trgovinski odnosi ustanove-tvrtke materijalizirani iz ugovora",
-    "trade_edges": "Trgovinski bridovi",
-    "trade_edges_are_materialized_from_contra": "Trgovinski bridovi materijaliziraju se iz podataka o ugovorima. Pokreni"
+    "trade_edges": "Trgovinski bridovi"
   },
   "triples_d_q": {
     "chart_view": "Prikaz grafikona",

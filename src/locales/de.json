@@ -375,7 +375,6 @@
     "save_view": "Ansicht speichern",
     "search_entity_name": "Entitätsnamen suchen...",
     "set_as_center": "Als Zentrum setzen",
-    "summary_edges": "Zusammenfassungs-Kanten",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialisierte Behörde-Unternehmen-Handelsbeziehungen aus Aufträgen",
-    "trade_edges": "Handelskanten",
-    "trade_edges_are_materialized_from_contra": "Handelskanten werden aus Auftragsdaten materialisiert. Ausführen"
+    "trade_edges": "Handelskanten"
   },
   "triples_d_q": {
     "chart_view": "Diagrammansicht",

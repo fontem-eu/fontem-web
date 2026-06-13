@@ -375,7 +375,6 @@
     "save_view": "Įrašyti vaizdą",
     "search_entity_name": "Ieškoti esybės pavadinimo...",
     "set_as_center": "Nustatyti kaip centrą",
-    "summary_edges": "Santraukos briaunos",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Iš sutarčių materializuoti institucijos-įmonės prekybos santykiai",
-    "trade_edges": "Prekybos briaunos",
-    "trade_edges_are_materialized_from_contra": "Prekybos briaunos materializuojamos iš sutarčių duomenų. Paleisk"
+    "trade_edges": "Prekybos briaunos"
   },
   "triples_d_q": {
     "chart_view": "Diagramos rodinys",

@@ -32,7 +32,6 @@ const pocketConfig = computed(() => ({
   depth: depth.value,
   typeFilters: { ...typeFilters.value },
   timeRange: timeRange.value,
-  summaryEdges: summaryEdges.value,
 }))
 
 const pocketName = computed(() => {
@@ -47,7 +46,6 @@ const typeFilters = ref({
 })
 const keyword = ref('')
 const timeRange = ref('12m') // '12m' | '3y' | '5y' | 'all'
-const summaryEdges = ref(true) // CLIENT_OF/SUPPLIER_OF vs AWARDED/AWARDED_TO
 const edgeTypeFilters = ref({}) // populated dynamically from graph data
 const loading = ref(false)
 const graphData = ref(null)
@@ -174,7 +172,6 @@ async function fetchGraph() {
       + `?depth=${depth.value}`
       + (types ? `&types=${types}` : '')
       + (sinceDate ? `&since=${sinceDate}` : '')
-      + `&summary=${summaryEdges.value}`
     const res = await fetch(url)
     if (!res.ok) throw new Error(`API ${res.status}`)
     graphData.value = await res.json()
@@ -308,23 +305,18 @@ async function renderGraph() {
 
   // Add edges
   for (const edge of graphData.value.edges) {
-    if (edge.type === 'SUPPLIER_OF') continue
     const edgeId = `${edge.source}-${edge.target}-${edge.type}`
     const props = edge.properties || {}
-    const isClient = edge.type === 'CLIENT_OF'
+    const edgeColor = isDark ? '#475569' : '#94a3b8'
     try {
       graph.addEdge(edge.source, edge.target, {
         id: edgeId,
-        label: isClient && props.contracts ? `${props.contracts} contracts` : edge.type,
-        color: isClient
-          ? (isDark ? '#38bdf8' : '#0ea5e9')
-          : (isDark ? '#475569' : '#94a3b8'),
-        size: isClient ? 2.5 : 1,
+        label: edge.type,
+        color: edgeColor,
+        size: 1,
         relType: edge.type,
         properties: props,
-        _origColor: isClient
-          ? (isDark ? '#38bdf8' : '#0ea5e9')
-          : (isDark ? '#475569' : '#94a3b8'),
+        _origColor: edgeColor,
         _hidden: false,
       })
     } catch { /* skip duplicate edges */ }
@@ -451,7 +443,7 @@ async function toggleNodeExpansion(nodeId) {
 async function expandNode(nodeId) {
   expandLoading.value = nodeId
   try {
-    const res = await fetch(`/api/graph/${encodeURIComponent(nodeId)}?depth=1&summary=${summaryEdges.value}`)
+    const res = await fetch(`/api/graph/${encodeURIComponent(nodeId)}?depth=1`)
     if (!res.ok) return
     const data = await res.json()
 
@@ -481,21 +473,20 @@ async function expandNode(nodeId) {
 
     // Add new edges (skip duplicates)
     for (const edge of data.edges) {
-      if (edge.type === 'SUPPLIER_OF') continue
       const edgeId = `${edge.source}-${edge.target}-${edge.type}`
       if (graph.hasEdge(edgeId)) continue
       if (!graph.hasNode(edge.source) || !graph.hasNode(edge.target)) continue
       const props = edge.properties || {}
-      const isClient = edge.type === 'CLIENT_OF'
+      const edgeColor = isDark ? '#475569' : '#94a3b8'
       try {
         graph.addEdge(edge.source, edge.target, {
           id: edgeId,
-          label: isClient && props.contracts ? `${props.contracts} contracts` : edge.type,
-          color: isClient ? (isDark ? '#38bdf8' : '#0ea5e9') : (isDark ? '#475569' : '#94a3b8'),
-          size: isClient ? 2.5 : 1,
+          label: edge.type,
+          color: edgeColor,
+          size: 1,
           relType: edge.type,
           properties: props,
-          _origColor: isClient ? (isDark ? '#38bdf8' : '#0ea5e9') : (isDark ? '#475569' : '#94a3b8'),
+          _origColor: edgeColor,
           _hidden: false,
         })
       } catch { /* skip */ }
@@ -904,12 +895,6 @@ watch(timeRange, async () => {
   renderGraph()
 })
 
-watch(summaryEdges, async () => {
-  await fetchGraph()
-  await nextTick()
-  renderGraph()
-})
-
 watch(edgeTypeFilters, () => {
   applyEdgeTypeFilter()
 }, { deep: true })
@@ -1030,8 +1015,6 @@ async function retryFetch() {
           </svg>
         </button>
         <div v-if="optionsOpen" class="ge-options__menu" data-testid="ge-options-menu">
-          <label class="ge-options__item" data-testid="ge-summary-toggle">
-            <input v-model="summaryEdges" type="checkbox" />{{ $t('graph_explorer.summary_edges') }}</label>
           <button
             class="ge-options__item"
             data-testid="ge-path-toggle"

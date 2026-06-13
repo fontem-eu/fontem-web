@@ -134,14 +134,6 @@ describe('GraphExplorer — options menu', () => {
     wrapper.unmount()
   })
 
-  it('options menu contains summary edges toggle', async () => {
-    const wrapper = mountExplorer()
-    await flushPromises()
-    await wrapper.find('[data-testid="ge-options-btn"]').trigger('click')
-    expect(wrapper.find('[data-testid="ge-summary-toggle"]').exists()).toBe(true)
-    wrapper.unmount()
-  })
-
   it('options menu contains path mode, timeline, export, save view', async () => {
     const wrapper = mountExplorer()
     await flushPromises()

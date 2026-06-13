@@ -375,7 +375,6 @@
     "save_view": "Sábháil an amharc",
     "search_entity_name": "Cuardaigh ainm an aonáin...",
     "set_as_center": "Socraigh mar lár",
-    "summary_edges": "Imill achoimre",
     "svg": "SVG"
   },
   "income": {
@@ -654,8 +653,7 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Caidrimh thrádála údarás-comhlachtaí ábharaithe ó chonarthaí",
-    "trade_edges": "Imill thrádála",
-    "trade_edges_are_materialized_from_contra": "Ábharaítear imill thrádála ó shonraí conartha. Rith"
+    "trade_edges": "Imill thrádála"
   },
   "triples_d_q": {
     "chart_view": "Amharc cairte",
