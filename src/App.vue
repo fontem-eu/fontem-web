@@ -7,6 +7,7 @@ import { useSwipeNav } from './composables/useSwipeNav.js'
 import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
+import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
 import ToastStack from './components/ToastStack.vue'
 import I18nPluralProbe from './components/I18nPluralProbe.vue'
@@ -43,6 +44,7 @@ const showFooter = computed(() => route.path !== '/login')
          biggest keyboard-a11y win for an SPA with a persistent nav. -->
     <a href="#main" class="skip-link" data-testid="skip-to-main">{{ $t('app.skip_to_main_content') }}</a>
     <AppHeader />
+    <VerifyEmailBanner />
     <I18nPluralProbe />
     <main id="main" tabindex="-1">
       <router-view />

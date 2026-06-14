@@ -47,6 +47,9 @@ import IssuesView from './views/IssuesView.vue'
 import IssueDetailView from './views/IssueDetailView.vue'
 import ModerationView from './views/ModerationView.vue'
 import LoginView from './views/LoginView.vue'
+import VerifyEmailView from './views/VerifyEmailView.vue'
+import ForgotPasswordView from './views/ForgotPasswordView.vue'
+import ResetPasswordView from './views/ResetPasswordView.vue'
 import PrivacyView from './views/PrivacyView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
@@ -108,6 +111,9 @@ const ROUTES = [
 
   // Auth
   { path: '/login', component: LoginView },
+  { path: '/verify-email', component: VerifyEmailView },
+  { path: '/forgot-password', component: ForgotPasswordView },
+  { path: '/reset-password', component: ResetPasswordView },
 
   // Legal
   { path: '/privacy', component: PrivacyView },

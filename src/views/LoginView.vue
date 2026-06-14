@@ -1,7 +1,7 @@
 <script setup>
 import { isAuthed, login, register, loginWithGoogle, logout } from '../api/session.js'
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 
 const router = useRouter()
 const error = ref(null)
@@ -161,6 +161,9 @@ async function handleSignOut() {
           <button type="submit" class="btn-primary" :disabled="loading" data-testid="login-submit">
             {{ loading ? 'Signing in...' : 'Sign in' }}
           </button>
+          <RouterLink to="/forgot-password" class="login-forgot-link" data-testid="login-forgot-link">
+            Forgot your password?
+          </RouterLink>
         </form>
 
         <!-- Register form -->

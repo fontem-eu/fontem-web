@@ -59,6 +59,22 @@ export const isAuthed = computed(() => {
 export const currentUser = computed(() => state.user)
 
 
+/**
+ * True when the signed-in user has confirmed their email. Drives the
+ * "confirm your email" banner + gating of compose affordances. The
+ * server is still the source of truth and re-checks every
+ * participation action; this is purely for UX. Defaults to true for
+ * anonymous (no banner) and for any user object that predates the
+ * field (legacy cache).
+ */
+export const emailVerified = computed(() => {
+  if (!state.user) return true
+  // Field absent on legacy cached users → treat as verified so we
+  // don't nag grandfathered accounts that logged in before this shipped.
+  return state.user.email_verified !== false
+})
+
+
 /** Internal: stash credentials returned from a successful auth call. */
 function _accept(data) {
   accessToken = data.access_token
@@ -202,6 +218,72 @@ export async function signOutEverywhere() {
     })
   } finally {
     _clear()
+  }
+}
+
+
+/**
+ * Redeem an email-verification link. On success we refresh the
+ * session so the in-memory user object flips to verified (and the
+ * banner disappears) without a manual reload.
+ */
+export async function verifyEmail(token) {
+  const res = await fetch('/capi/auth/verify-email', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  })
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}))
+    throw new Error(data.detail || 'Verification link is invalid or expired.')
+  }
+  // Pull a fresh user object (now verified) into the store.
+  await refresh()
+}
+
+
+/** Re-send the verification email for the signed-in account. */
+export async function resendVerification() {
+  const res = await fetch('/capi/auth/resend-verification', {
+    method: 'POST',
+    credentials: 'include',
+    headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+  })
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}))
+    throw new Error(data.detail || 'Could not resend the verification email.')
+  }
+}
+
+
+/** Request a password-reset link. Always resolves (enumeration-safe). */
+export async function forgotPassword(email) {
+  const res = await fetch('/capi/auth/forgot', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+  // The server always 200s; surface a generic error only on a true
+  // transport/5xx failure so we never hint at account existence.
+  if (!res.ok && res.status >= 500) {
+    throw new Error('Something went wrong. Please try again.')
+  }
+}
+
+
+/** Redeem a reset token + set a new password. */
+export async function resetPassword(token, newPassword) {
+  const res = await fetch('/capi/auth/reset', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, new_password: newPassword }),
+  })
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}))
+    throw new Error(data.detail || 'Reset link is invalid or expired.')
   }
 }
 
