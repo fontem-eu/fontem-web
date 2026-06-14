@@ -172,6 +172,37 @@ export async function loginWithGoogle(credential) {
 let refreshInFlight = null
 
 
+// The cold-boot session restore. On first browser load we attempt one
+// refresh() from the httpOnly cookie; until it settles, the in-memory
+// access token is null. The API client awaits ``whenSessionReady()``
+// before its first request so an authed-only call can't race out
+// anonymously (which, for a private resource, would 404 — the server
+// won't distinguish "anonymous" from "gone"). Anonymous visitors just
+// see the refresh 401 quickly and proceed unauthenticated.
+let initialRestore = null
+
+/**
+ * Kick off (once) the cold-boot session restore and return its promise.
+ * Idempotent — repeated calls return the same in-flight/settled promise.
+ * Resolves regardless of outcome (a failed refresh = "we're anonymous").
+ */
+export function restoreSession() {
+  if (initialRestore === null) {
+    initialRestore = refresh().then(() => undefined, () => undefined)
+  }
+  return initialRestore
+}
+
+/**
+ * Await the cold-boot restore if one is in flight. Returns immediately
+ * once it has settled (or if none was ever started — e.g. SSR). The
+ * API client awaits this before its first request.
+ */
+export function whenSessionReady() {
+  return initialRestore || Promise.resolve()
+}
+
+
 export function refresh() {
   if (refreshInFlight) return refreshInFlight
   refreshInFlight = (async () => {
@@ -300,5 +331,5 @@ export const _internal = {
     state.tick++
   },
   getRefreshInFlight() { return refreshInFlight },
-  clearForTests() { _clear(); refreshInFlight = null },
+  clearForTests() { _clear(); refreshInFlight = null; initialRestore = null },
 }

@@ -96,3 +96,42 @@ describe('community.js silent refresh', () => {
     }
   })
 })
+
+describe('community.js cold-boot session-ready gate', () => {
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks() })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear() })
+
+  it('first request waits for the cold-boot restore so it does not go out anonymous', async () => {
+    // Simulate: restoreSession() is in flight (cookie→token refresh)
+    // when a view fires a data fetch. The request must NOT send before
+    // the token lands, or a private resource would 404.
+    const { restoreSession } = await import('../../src/api/session.js')
+    const { getReport } = await import('../../src/api/community.js')
+
+    let resolveRefresh
+    const order = []
+    const fetchMock = vi.fn(async (url) => {
+      if (url === '/capi/auth/refresh') {
+        order.push('refresh')
+        return new Promise((res) => { resolveRefresh = () => {
+          res({ ok: true, json: async () => ({ access_token: 'fresh.jwt', user: { id: 'u1' } }) })
+        } })
+      }
+      // The data request — assert the token is already in place.
+      order.push('data:' + (url.includes('Authorization') ? 'authed' : 'sent'))
+      return { ok: true, status: 200, json: async () => ({ id: 'abc' }), text: async () => '' }
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    restoreSession()                 // cold-boot restore kicks off (pending)
+    const reqPromise = getReport('abc')  // view fires a fetch immediately
+    // Let microtasks flush — the data request must be blocked on the refresh.
+    await Promise.resolve()
+    expect(order).toEqual(['refresh'])   // only refresh has gone out so far
+    resolveRefresh()                  // cookie→token resolves
+    await reqPromise
+    // Now the data request went out, AFTER refresh, carrying the token.
+    const dataCall = fetchMock.mock.calls.find(([u]) => u.startsWith('/capi/data-stories'))
+    expect(dataCall[1].headers.Authorization).toBe('Bearer fresh.jwt')
+  })
+})

@@ -4,7 +4,7 @@
  * graph via ./entry-server.js.
  */
 import { createFontemApp } from './app.js'
-import { refresh } from './api/session.js'
+import { restoreSession } from './api/session.js'
 import { useAnalytics } from './composables/useAnalytics.js'
 
 const { app, router } = createFontemApp(false)
@@ -15,8 +15,10 @@ const { app, router } = createFontemApp(false)
 // fires — no flash of "signed in -> not signed in -> signed in"
 // during navigation. If the cookie's gone, the refresh fails and
 // the session store stays anonymous; the router gate redirects to
-// /login on the first protected route. Fire-and-forget.
-refresh()
+// /login on the first protected route. The API client awaits this
+// same restore (whenSessionReady) before its first request, so a
+// data fetch can't beat the token into place and go out anonymous.
+restoreSession()
 
 // Page-view tracking — client only; the analytics composable handles
 // its own consent + dev-mode guards.

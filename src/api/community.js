@@ -12,7 +12,7 @@
  */
 
 import { withLang } from './_lang.js'
-import { getAccessToken, refresh } from './session.js'
+import { getAccessToken, refresh, whenSessionReady } from './session.js'
 
 function authHeaders() {
   const token = getAccessToken()
@@ -20,6 +20,11 @@ function authHeaders() {
 }
 
 async function request(method, path, body, { retries = 0, refreshed = false } = {}) {
+  // Wait for the cold-boot session restore to settle before sending —
+  // otherwise the first call on a freshly-loaded page can race ahead
+  // of the cookie→token refresh and go out anonymous, which 404s any
+  // private resource. No-op once settled (and on SSR).
+  await whenSessionReady()
   const headers = { ...authHeaders(), 'Content-Type': 'application/json' }
   const sentAuth = 'Authorization' in headers
   const opts = { method, headers, credentials: 'include' }
