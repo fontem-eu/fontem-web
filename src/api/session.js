@@ -188,7 +188,22 @@ let initialRestore = null
  */
 export function restoreSession() {
   if (initialRestore === null) {
-    initialRestore = refresh().then(() => undefined, () => undefined)
+    // Test seam: an automated harness (Playwright smoke) injects a
+    // pre-minted access token via window.__FONTEM_BOOTSTRAP_TOKEN__
+    // before app boot, so every browser context is authenticated
+    // from one long-lived token WITHOUT a per-context cookie refresh.
+    // This sidesteps the refresh-token-family rotation that makes a
+    // single shared refresh cookie unusable across many contexts.
+    // Production NEVER sets this global, so the normal cookie-refresh
+    // path is unaffected — app code only ever reads it, never writes.
+    const boot = (typeof globalThis !== 'undefined') && globalThis.__FONTEM_BOOTSTRAP_TOKEN__
+    if (boot) {
+      accessToken = boot
+      state.tick++
+      initialRestore = Promise.resolve()
+    } else {
+      initialRestore = refresh().then(() => undefined, () => undefined)
+    }
   }
   return initialRestore
 }

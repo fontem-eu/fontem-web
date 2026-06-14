@@ -174,3 +174,26 @@ describe('session store', () => {
     })
   })
 })
+
+describe('restoreSession bootstrap-token seam', () => {
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks(); delete globalThis.__FONTEM_BOOTSTRAP_TOKEN__ })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear(); delete globalThis.__FONTEM_BOOTSTRAP_TOKEN__ })
+
+  it('uses an injected bootstrap token instead of a cookie refresh', async () => {
+    const { restoreSession, getAccessToken } = await import('../../src/api/session.js')
+    const fetchMock = vi.fn()  // must NOT be called
+    vi.stubGlobal('fetch', fetchMock)
+    globalThis.__FONTEM_BOOTSTRAP_TOKEN__ = 'injected.test.jwt'
+    await restoreSession()
+    expect(getAccessToken()).toBe('injected.test.jwt')
+    expect(fetchMock).not.toHaveBeenCalled()  // no /auth/refresh
+  })
+
+  it('falls back to cookie refresh when no bootstrap token is set', async () => {
+    const { restoreSession } = await import('../../src/api/session.js')
+    const fetchMock = vi.fn(async () => ({ ok: true, json: async () => ({ access_token: 't', user: { id: 'u1' } }) }))
+    vi.stubGlobal('fetch', fetchMock)
+    await restoreSession()
+    expect(fetchMock).toHaveBeenCalledWith('/capi/auth/refresh', expect.anything())
+  })
+})
