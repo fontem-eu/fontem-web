@@ -73,14 +73,13 @@ function onCompanyClick(company) {
 }
 
 function onAuthorityClick(authority) {
-  // Authority detail isn't a routed page yet; jump to the
-  // procurement view of the company-side or filter the contracts
-  // page by authority. For now, navigate to /authority/:id
-  // — view will be added in a follow-up. Falls through to a 404
-  // softly if the route isn't wired yet, the link is still
-  // discoverable.
+  // Authorities render at the shared entity profile, same route as
+  // companies (`/c/:id/profile` → HomeView resolves the UUID to the
+  // authority and shows its contracts). The old `/authority/:id` path
+  // was never wired in the router, so this used to dump users on the
+  // 404 page when they opened an authority from the rankings.
   track('public-spending-authority-click', { id: authority.id })
-  router.push('/authority/' + authority.id)
+  router.push('/c/' + authority.id + '/profile')
 }
 
 async function loadFor(c) {

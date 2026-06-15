@@ -30,7 +30,10 @@ async function mountAt(path = '/public-spending') {
     routes: [
       { path: '/public-spending', component: PublicSpendingView },
       { path: '/c/:symbol/:view', component: { template: '<div />' } },
-      { path: '/authority/:id', component: { template: '<div />' } },
+      // NB: there is deliberately NO `/authority/:id` route here — the real
+      // app (src/app.js) has none, so an authority row must navigate to the
+      // shared entity profile at `/c/:id/profile`, not a dead `/authority/:id`.
+      { path: '/:pathMatch(.*)*', name: 'not-found', component: { template: '<div data-testid="nf" />' } },
     ],
   })
   await router.push(path)
@@ -100,6 +103,20 @@ describe('PublicSpendingView', () => {
     const pushSpy = vi.spyOn(router, 'push')
     await wrapper.find('[data-testid="ps-company-c1"]').trigger('click')
     expect(pushSpy).toHaveBeenCalledWith('/c/c1/profile')
+  })
+
+  it('navigates to the authority profile on row click (not a dead /authority/:id)', async () => {
+    // Regression: clicking a top-authority row pushed `/authority/:id`,
+    // which has no route in the app → users hit the 404 page when trying to
+    // open an authority (and thus never reached its contracts/contractors).
+    // Authorities render at the shared entity profile `/c/:id/profile`, same
+    // as companies, so the row must navigate there.
+    const { wrapper, router } = await mountAt()
+    const pushSpy = vi.spyOn(router, 'push')
+    await wrapper.find('[data-testid="ps-authority-a1"]').trigger('click')
+    expect(pushSpy).toHaveBeenCalledWith('/c/a1/profile')
+    // And the resolved route must not be the catch-all 404.
+    expect(router.currentRoute.value.name).not.toBe('not-found')
   })
 
   it('forwards a TickerSearch select to /c/:symbol/:view', async () => {
