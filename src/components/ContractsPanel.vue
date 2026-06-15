@@ -4,6 +4,8 @@ import { RouterLink } from 'vue-router'
 import { fmtEur } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
 import PocketButton from './PocketButton.vue'
+import DataQualityBadge from './DataQualityBadge.vue'
+import { contractValueConcerns } from '../utils/dataQuality.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -235,7 +237,7 @@ const topCpv = computed(() => {
                 >{{ c.title }}</a>
                 <span v-else>{{ c.title }}</span>
               </td>
-              <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}</td>
+              <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataQualityBadge :concerns="contractValueConcerns(c)" /></td>
               <td>
                 <template v-if="counterpartyFor(c).profileId">
                   <RouterLink
@@ -287,7 +289,7 @@ const topCpv = computed(() => {
             <span v-else class="cc-title">{{ c.title }}</span>
           </div>
           <div class="cc-details">
-            <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span>
+            <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataQualityBadge :concerns="contractValueConcerns(c)" />
             <span v-if="c.award_date" class="cc-date">{{ c.award_date.substring(0, 10) }}</span>
             <span v-if="c.procedure_type" class="ctag">{{ c.procedure_type }}</span>
           </div>

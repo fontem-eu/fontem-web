@@ -225,7 +225,15 @@
     "relationships": "Relationships",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Top Procurement Sectors (CPV)"
+    "top_procurement_sectors_cpv": "Top Procurement Sectors (CPV)",
+    "badge_aria": "Data quality concern",
+    "concern_value_disagreement": "Awarded value disagrees with the budget estimate; excluded from totals.",
+    "concern_implausible_magnitude": "Value too large to be plausible for a single contract; excluded from totals.",
+    "concern_concession_negative": "Negative (concession) value; excluded from value totals.",
+    "concern_no_value": "No usable contract value disclosed.",
+    "concern_unverified": "Value could not be cross-checked against an estimate.",
+    "concern_low_confidence": "Low-confidence value; excluded from totals pending review.",
+    "concern_payable_discrepancy": "The source listed a conflicting payable amount (possible data-entry error such as a ×1000 inflation)."
   },
   "data_quality_hub": {
     "data_freshness": "Data freshness",
