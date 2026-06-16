@@ -59,11 +59,6 @@ const undisclosedPct = computed(() => {
   return Math.round(currencyQuality.value.value_undisclosed / currencyQuality.value.total * 100)
 })
 
-const inferredPct = computed(() => {
-  if (!currencyQuality.value || !currencyQuality.value.total) return 0
-  return Math.round(currencyQuality.value.currency_inferred / currencyQuality.value.total * 100)
-})
-
 const currencyBars = computed(() => {
   if (!currencyQuality.value?.by_currency) return []
   return currencyQuality.value.by_currency.map(c => ({
@@ -105,7 +100,6 @@ const currencyBars = computed(() => {
         <div class="dq-gauges">
           <GaugeChart :value="conversionRate" label="EUR Conversion Success" />
           <GaugeChart :value="100 - undisclosedPct" label="Value Disclosed" />
-          <GaugeChart :value="100 - inferredPct" label="Currency Declared (vs inferred)" />
         </div>
       </section>
 
