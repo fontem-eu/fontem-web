@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
@@ -21,6 +22,8 @@ const regTimeline = computed(() => data.value?.registrations_timeline || [])
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('lobbying_d_q.eu_lobbying_register') }}</h1><p class="dq-sub">{{ $t('lobbying_d_q.transparency_register_lobbyist_registrat') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
+      <SourcePipelinePanel source-id="lobbying" />
+
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Lobbyists" /><StatCard :value="data.with_ep_passes.toLocaleString()" label="EP Pass Holders" /><StatCard :value="data.matched_to_company.toLocaleString()" label="Matched to Company" /></div>
       <div class="dq-gauges"><GaugeChart :value="data.match_rate" label="Company Match Rate" /></div>
       <section class="dq-section"><h2>{{ $t('lobbying_d_q.registrations_over_time') }}</h2><ZoomableBarChart :data="regTimeline" value-label="Registrations" /></section>

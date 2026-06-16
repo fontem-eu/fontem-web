@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+import SourceHealthBadge from '../components/SourceHealthBadge.vue'
 
 onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
 
@@ -11,22 +12,22 @@ const freshness = ref(null)
 const freshnessError = ref(null)
 
 const pipelines = [
-  { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true },
-  { id: 'connectedness', title: 'Graph Connectedness', desc: 'Degree distribution per entity type — how many nodes are stranded vs well-integrated. Reveals where entity resolution still has work to do.', icon: '🔗' },
-  { id: 'triples', title: 'Triple Store', desc: 'RDF inventory in Virtuoso — total triples, per-named-graph counts, and class/predicate breakdowns. Shows what is actually in the SPARQL store.', icon: '🧬' },
-  { id: 'contracts', title: 'TED Contracts', desc: 'EU public procurement awards — daily volume, country coverage, field completeness, match quality.', icon: '📄' },
-  { id: 'gleif', title: 'GLEIF Companies', desc: 'Global LEI entity data — active/inactive, country distribution, parent-child relationships.', icon: '🏢' },
-  { id: 'edgar', title: 'US EDGAR', desc: 'SEC financial statements — filing coverage by year, XBRL field completeness, sparse companies.', icon: '📊' },
-  { id: 'esef', title: 'EU ESEF', desc: 'European XBRL financials — filings by country and year, field coverage, LEI resolution.', icon: '📈' },
-  { id: 'lobbying', title: 'EU Lobbying', desc: 'Transparency Register — registrations over time, cost distribution, EP passes, company matching.', icon: '🏛' },
-  { id: 'trade-edges', title: 'Trade Edges', desc: 'Materialized authority↔company relationships — pair counts, value aggregation.', icon: '🔗' },
-  { id: 'dedup', title: 'Deduplication', desc: 'SAME_AS queue — pending review, auto-merged, resolution rate.', icon: '🔍' },
-  { id: 'sanctions', title: 'Sanctions', desc: 'Sanctioned entities — persons vs organisations, regime coverage, company matching.', icon: '🚫' },
-  { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋' },
-  { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍' },
-  { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺' },
-  { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺' },
-  { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱' },
+  { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true, theme: 'analytical'  },
+  { id: 'connectedness', title: 'Graph Connectedness', desc: 'Degree distribution per entity type — how many nodes are stranded vs well-integrated. Reveals where entity resolution still has work to do.', icon: '🔗', theme: 'analytical'  },
+  { id: 'triples', title: 'Triple Store', desc: 'RDF inventory in Virtuoso — total triples, per-named-graph counts, and class/predicate breakdowns. Shows what is actually in the SPARQL store.', icon: '🧬', theme: 'analytical'  },
+  { id: 'contracts', title: 'TED Contracts', desc: 'EU public procurement awards — daily volume, country coverage, field completeness, match quality.', icon: '📄', theme: 'procurement'  },
+  { id: 'gleif', title: 'GLEIF Companies', desc: 'Global LEI entity data — active/inactive, country distribution, parent-child relationships.', icon: '🏢', theme: 'corporate'  },
+  { id: 'edgar', title: 'US EDGAR', desc: 'SEC financial statements — filing coverage by year, XBRL field completeness, sparse companies.', icon: '📊', theme: 'corporate'  },
+  { id: 'esef', title: 'EU ESEF', desc: 'European XBRL financials — filings by country and year, field coverage, LEI resolution.', icon: '📈', theme: 'corporate'  },
+  { id: 'lobbying', title: 'EU Lobbying', desc: 'Transparency Register — registrations over time, cost distribution, EP passes, company matching.', icon: '🏛', theme: 'influence'  },
+  { id: 'trade-edges', title: 'Trade Edges', desc: 'Materialized authority↔company relationships — pair counts, value aggregation.', icon: '🔗', theme: 'analytical'  },
+  { id: 'dedup', title: 'Deduplication', desc: 'SAME_AS queue — pending review, auto-merged, resolution rate.', icon: '🔍', theme: 'analytical'  },
+  { id: 'sanctions', title: 'Sanctions', desc: 'Sanctioned entities — persons vs organisations, regime coverage, company matching.', icon: '🚫', theme: 'influence'  },
+  { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋', theme: 'securities'  },
+  { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍', theme: 'climate'  },
+  { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺', theme: 'geography'  },
+  { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺', theme: 'influence'  },
+  { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱', theme: 'analytical'  },
 ]
 
 async function loadOverview() {
@@ -65,6 +66,59 @@ async function loadFreshness() {
 
 onMounted(loadOverview)
 onMounted(loadFreshness)
+
+const pipelineHealth = ref([])
+async function loadPipeline() {
+  try {
+    const resp = await fetch('/api/data-quality/pipeline')
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+    pipelineHealth.value = await resp.json()
+  } catch { /* hub still renders without KPIs */ }
+}
+onMounted(loadPipeline)
+
+// Aggregate per-source health onto the dashboard route each source maps
+// to (e.g. gleif + gleif-relationships both land on /data-quality/gleif).
+const RANK = { success: 0, running: 1, failed: 2 }
+const healthByRoute = computed(() => {
+  const map = {}
+  for (const h of pipelineHealth.value) {
+    if (!h.route) continue
+    const m = map[h.route] || (map[h.route] = {
+      events_total: 0, events_30d: 0, deadletter: 0,
+      age_hours: null, stale: false, last_run_status: 'success',
+    })
+    m.events_total += h.events_total || 0
+    m.events_30d += h.events_30d || 0
+    m.deadletter += h.deadletter || 0
+    m.stale = m.stale || h.stale
+    if (h.age_hours != null) {
+      m.age_hours = m.age_hours == null ? h.age_hours : Math.max(m.age_hours, h.age_hours)
+    }
+    if ((RANK[h.last_run_status] ?? 0) > (RANK[m.last_run_status] ?? 0)) {
+      m.last_run_status = h.last_run_status
+    }
+  }
+  for (const m of Object.values(map)) {
+    m.deadletter_pct = m.events_total
+      ? Math.round((m.deadletter / m.events_total) * 1000) / 10 : 0
+  }
+  return map
+})
+function tileHealth(id) { return healthByRoute.value[`/data-quality/${id}`] || null }
+
+const THEME_LABEL = {
+  procurement: 'Public Procurement', corporate: 'Corporate & Financials',
+  securities: 'Securities & Instruments', influence: 'Influence & Accountability',
+  geography: 'Geography', climate: 'Climate',
+  analytical: 'Cross-source & Analytical',
+}
+const THEME_ORDER = ['procurement', 'corporate', 'securities', 'influence',
+                     'geography', 'climate', 'analytical']
+const groupedPipelines = computed(() => THEME_ORDER
+  .map(t => ({ theme: t, label: THEME_LABEL[t], tiles: pipelines.filter(p => p.theme === t) }))
+  .filter(g => g.tiles.length))
+
 
 function formatTimestamp(ts) {
   if (!ts) return '—'
@@ -166,23 +220,33 @@ function pipelineStat(id) {
         Data freshness unavailable: {{ freshnessError }}
       </div>
 
-      <!-- Pipeline grid -->
-      <div class="dqh-grid">
-        <router-link
-          v-for="p in pipelines"
-          :key="p.id"
-          :to="`/data-quality/${p.id}`"
-          class="dqh-card"
-          :class="{ 'dqh-card--featured': p.featured }"
-        >
-          <div class="dqh-card-header">
-            <span class="dqh-card-icon">{{ p.icon }}</span>
-            <h2>{{ p.title }}</h2>
-            <span v-if="pipelineStat(p.id)" class="dqh-card-badge">{{ pipelineStat(p.id) }}</span>
-          </div>
-          <p>{{ p.desc }}</p>
-        </router-link>
-      </div>
+      <!-- Per-source dashboards, grouped by theme, each with live
+           pipeline-health KPIs (freshness / volume / dead-letter). -->
+      <section
+        v-for="group in groupedPipelines"
+        :key="group.theme"
+        class="dqh-theme"
+        :data-testid="`dqh-theme-${group.theme}`"
+      >
+        <h2 class="dqh-theme-title">{{ group.label }}</h2>
+        <div class="dqh-grid">
+          <router-link
+            v-for="p in group.tiles"
+            :key="p.id"
+            :to="`/data-quality/${p.id}`"
+            class="dqh-card"
+            :class="{ 'dqh-card--featured': p.featured }"
+          >
+            <div class="dqh-card-header">
+              <span class="dqh-card-icon">{{ p.icon }}</span>
+              <h3>{{ p.title }}</h3>
+              <span v-if="pipelineStat(p.id)" class="dqh-card-badge">{{ pipelineStat(p.id) }}</span>
+            </div>
+            <p>{{ p.desc }}</p>
+            <SourceHealthBadge :health="tileHealth(p.id)" />
+          </router-link>
+        </div>
+      </section>
     </template>
   </div>
 </template>
@@ -219,4 +283,9 @@ function pipelineStat(id) {
 .dqh-source-chip { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.55rem; margin-right: 0.4rem; border-radius: 999px; background: var(--accent-bg, rgba(10, 102, 194, 0.10)); color: var(--accent); font-size: 0.78rem; font-weight: 500; }
 .dqh-source-count { color: var(--muted); font-weight: 600; }
 .dqh-freshness-error { margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }
+
+.dqh-theme { margin-bottom: 1.75rem; }
+.dqh-theme-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+.dqh-card h3 { font-size: 0.98rem; font-weight: 700; margin: 0; }
+.dqh-card .shb { margin-top: 0.55rem; }
 </style>

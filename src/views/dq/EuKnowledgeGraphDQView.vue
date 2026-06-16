@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
@@ -23,6 +24,8 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('eu_knowledge_graph_d_q.eu_knowledge_graph') }}</h1><p class="dq-sub">{{ $t('eu_knowledge_graph_d_q.eu_cohesion_policy_projects_funding_bene') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
+      <SourcePipelinePanel source-id="eu-knowledge-graph" />
+
       <div class="dq-stats"><StatCard :value="data.total_projects.toLocaleString()" label="Total Projects" /><StatCard :value="data.beneficiary_links.toLocaleString()" label="Beneficiary Links" /><StatCard :value="euContributionLabel" label="EU Contribution" /></div>
       <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_fund_top_10') }}</h2><HorizontalBarChart :data="fundBars" :max-bars="10" /></section>
       <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_country_top_15') }}</h2><HorizontalBarChart :data="countryBars" :max-bars="15" /></section>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
@@ -20,6 +21,8 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('firds_d_q.firds_instruments') }}</h1><p class="dq-sub">{{ $t('firds_d_q.esma_financial_instruments_reference_dat') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
+      <SourcePipelinePanel source-id="firds" />
+
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Instruments (with ISIN)" /><StatCard :value="data.with_ticker.toLocaleString()" label="With Ticker" /><StatCard :value="data.without_ticker.toLocaleString()" label="Without Ticker" /></div>
       <div class="dq-gauges"><GaugeChart :value="tickerPct" label="Ticker Coverage" /></div>
       <section class="dq-section"><h2>{{ $t('firds_d_q.by_instrument_type') }}</h2><HorizontalBarChart :data="typeBars" :max-bars="15" /></section>

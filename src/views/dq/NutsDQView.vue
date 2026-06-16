@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
@@ -20,6 +21,8 @@ const levelBars = computed(() => (data.value?.by_level || []).map(l => ({ label:
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('nuts_d_q.nuts_regions') }}</h1><p class="dq-sub">{{ $t('nuts_d_q.eurostat_nuts_classification_geographic_') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
+      <SourcePipelinePanel source-id="nuts" />
+
       <div class="dq-stats"><StatCard :value="data.total_regions.toLocaleString()" label="Total Regions" /><StatCard :value="data.companies_linked.toLocaleString()" label="Companies Linked" /><StatCard :value="data.authorities_linked.toLocaleString()" label="Authorities Linked" /></div>
       <div class="dq-gauges"><GaugeChart :value="coveragePct" label="Company Coverage" /></div>
       <section class="dq-section"><h2>{{ $t('nuts_d_q.top_nuts_0_regions_by_company_count') }}</h2><HorizontalBarChart :data="regionBars" :max-bars="15" /></section>

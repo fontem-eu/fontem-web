@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
@@ -20,6 +21,8 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('gleif_d_q.gleif_companies') }}</h1><p class="dq-sub">{{ $t('gleif_d_q.global_lei_directory_entity_identificati') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
+      <SourcePipelinePanel source-id="gleif" />
+
       <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Companies" /><StatCard :value="data.with_lei.toLocaleString()" label="With LEI" /><StatCard :value="data.subsidiary_links.toLocaleString()" label="Subsidiary Links" /><StatCard :value="data.orphan_subsidiaries.toLocaleString()" label="Orphan Subsidiaries" color="#d97706" /></div>
       <div class="dq-gauges"><GaugeChart :value="leiPct" label="LEI Coverage" /><GaugeChart :value="activePct" label="Active Companies" /></div>
       <section class="dq-section"><h2>{{ $t('gleif_d_q.companies_by_country_top_30') }}</h2><HorizontalBarChart :data="countryBars" :max-bars="30" /></section>

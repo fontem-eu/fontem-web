@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import StatCard from '../../components/charts/StatCard.vue'
 import GaugeChart from '../../components/charts/GaugeChart.vue'
@@ -82,6 +83,8 @@ const currencyBars = computed(() => {
     <div v-if="loading" class="dq-loading">{{ $t('contracts_d_q.loading_contract_data') }}</div>
 
     <template v-else>
+      <SourcePipelinePanel source-id="contracts" />
+
       <div class="dq-stats">
         <StatCard :value="totalContracts.toLocaleString()" label="Total Contracts" />
         <StatCard :value="fmtEur(totalEur)" label="Total EUR Value" />
