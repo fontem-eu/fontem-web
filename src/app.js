@@ -39,6 +39,7 @@ import OverviewDQView from './views/dq/OverviewDQView.vue'
 import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
 import TriplesDQView from './views/dq/TriplesDQView.vue'
 import EtlRunsDQView from './views/dq/EtlRunsDQView.vue'
+import ProcurementThemeView from './views/themes/ProcurementThemeView.vue'
 import FeedView from './views/FeedView.vue'
 import MyReportsView from './views/MyReportsView.vue'
 import ReportView from './views/ReportView.vue'
@@ -91,6 +92,7 @@ const ROUTES = [
   // and from existing in-app links / external bookmarks; the
   // route paths stay where they are so nothing breaks.
   { path: '/data-quality', component: DataQualityHubView },
+  { path: '/data-quality/theme/procurement', component: ProcurementThemeView },
   { path: '/data-quality/overview', component: OverviewDQView },
   { path: '/data-quality/contracts', component: ContractsDQView },
   { path: '/data-quality/gleif', component: GleifDQView },

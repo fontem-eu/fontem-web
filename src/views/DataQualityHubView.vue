@@ -8,8 +8,6 @@ onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
 const loading = ref(true)
 const stats = ref(null)
 const error = ref(null)
-const freshness = ref(null)
-const freshnessError = ref(null)
 
 const pipelines = [
   { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true, theme: 'analytical'  },
@@ -30,6 +28,19 @@ const pipelines = [
   { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱', theme: 'analytical'  },
 ]
 
+const themes = [
+  { id: 'procurement', title: 'Public Procurement', icon: '💶', live: true,
+    desc: 'Where EU public money goes — contract awards, value flows, and the data quality behind the figures.' },
+  { id: 'corporate', title: 'Corporate Ownership', icon: '🏢', live: false,
+    desc: 'Who owns whom — LEI entities, ownership chains, and financial filings.' },
+  { id: 'influence', title: 'Influence & Accountability', icon: '🏛', live: false,
+    desc: 'Lobbying, sanctions, and EU cohesion spending.' },
+  { id: 'securities', title: 'Securities & Instruments', icon: '📋', live: false,
+    desc: 'Financial instruments, venues, and identifiers.' },
+  { id: 'geography', title: 'Geography', icon: '🗺', live: false,
+    desc: 'The regional dimension across every source.' },
+]
+
 async function loadOverview() {
   try {
     const resp = await fetch('/api/data-quality')
@@ -42,30 +53,7 @@ async function loadOverview() {
   }
 }
 
-async function loadFreshness() {
-  // Hit the live freshness endpoint. The original
-  // `/api/data-quality/source-freshness` URL was a 404 — no such
-  // endpoint ever existed; the typo + a shape mismatch (the view
-  // expected per-source rows with stale/age fields) left a
-  // permanent "Source freshness unavailable: HTTP 404" banner on
-  // the dashboard. The actual endpoint returns the latest contract
-  // load + a per-source-system count for financial filings.
-  try {
-    const resp = await fetch('/api/data-quality/freshness')
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
-    const data = await resp.json()
-    freshness.value = {
-      latest_contract_load: data.latest_contract_load,
-      contract_date_range: data.contract_date_range || null,
-      financial_sources: data.financial_sources || [],
-    }
-  } catch (e) {
-    freshnessError.value = e.message
-  }
-}
-
 onMounted(loadOverview)
-onMounted(loadFreshness)
 
 const pipelineHealth = ref([])
 async function loadPipeline() {
@@ -120,18 +108,6 @@ const groupedPipelines = computed(() => THEME_ORDER
   .filter(g => g.tiles.length))
 
 
-function formatTimestamp(ts) {
-  if (!ts) return '—'
-  try {
-    const d = new Date(ts)
-    if (Number.isNaN(d.getTime())) return ts
-    return d.toLocaleString(undefined, {
-      year: 'numeric', month: 'short', day: 'numeric',
-      hour: '2-digit', minute: '2-digit',
-    })
-  } catch { return ts }
-}
-
 function fmt(n) {
   if (n === '—' || n == null) return '—'
   return Number(n).toLocaleString()
@@ -183,42 +159,28 @@ function pipelineStat(id) {
         </div>
       </div>
 
-      <!-- Data freshness panel — driven by /api/data-quality/freshness.
-           Three sub-blocks rendered conditionally based on whatever the
-           backend returned: latest contract load timestamp, contract
-           publication-date range, financial-filing counts per source. -->
-      <section
-        v-if="freshness && (freshness.latest_contract_load || freshness.contract_date_range || freshness.financial_sources?.length)"
-        class="dqh-freshness"
-        data-testid="source-freshness"
-      >
-        <h2>{{ $t('data_quality_hub.data_freshness') }}</h2>
-        <dl class="dqh-freshness-list" data-testid="dqh-freshness-list">
-          <template v-if="freshness.latest_contract_load">
-            <dt>{{ $t('data_quality_hub.latest_contract_load') }}</dt>
-            <dd data-testid="freshness-latest-contract-load">{{ formatTimestamp(freshness.latest_contract_load) }}</dd>
-          </template>
-          <template v-if="freshness.contract_date_range?.earliest || freshness.contract_date_range?.latest">
-            <dt>Contract publication range</dt>
-            <dd data-testid="freshness-contract-range">
-              {{ freshness.contract_date_range.earliest || '—' }} → {{ freshness.contract_date_range.latest || '—' }}
-            </dd>
-          </template>
-          <template v-if="freshness.financial_sources?.length">
-            <dt>Financial sources</dt>
-            <dd data-testid="freshness-financial-sources">
-              <span
-                v-for="src in freshness.financial_sources"
-                :key="src.source"
-                class="dqh-source-chip"
-              >{{ src.source }} <span class="dqh-source-count">{{ fmt(src.n) }}</span></span>
-            </dd>
-          </template>
-        </dl>
+      <!-- Themes: the investigative entry, composed across sources. The
+           per-source dashboards below remain the operational / health layer. -->
+      <section class="dqh-themes" data-testid="dqh-themes">
+        <h2 class="dqh-theme-title">Themes</h2>
+        <div class="dqh-grid">
+          <component
+            :is="t.live ? 'router-link' : 'div'"
+            v-for="t in themes"
+            :key="t.id"
+            :to="t.live ? `/data-quality/theme/${t.id}` : undefined"
+            class="dqh-card dqh-card--theme"
+            :class="{ 'dqh-card--soon': !t.live }"
+          >
+            <div class="dqh-card-header">
+              <span class="dqh-card-icon">{{ t.icon }}</span>
+              <h3>{{ t.title }}</h3>
+              <span v-if="!t.live" class="dqh-card-badge">soon</span>
+            </div>
+            <p>{{ t.desc }}</p>
+          </component>
+        </div>
       </section>
-      <div v-else-if="freshnessError" class="dqh-freshness-error" data-testid="dqh-freshness-error">
-        Data freshness unavailable: {{ freshnessError }}
-      </div>
 
       <!-- Per-source dashboards, grouped by theme, each with live
            pipeline-health KPIs (freshness / volume / dead-letter). -->
@@ -275,17 +237,13 @@ function pipelineStat(id) {
 .dqh-card p { font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.4; }
 .dqh-card--featured { grid-column: 1 / -1; border-color: var(--accent); border-width: 2px; }
 
-.dqh-freshness { margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-.dqh-freshness h2 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 0 0 0.5rem; }
-.dqh-freshness-list { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1rem; font-size: 0.85rem; margin: 0; }
-.dqh-freshness-list dt { color: var(--muted); font-weight: 500; }
-.dqh-freshness-list dd { margin: 0; color: var(--text); font-variant-numeric: tabular-nums; }
-.dqh-source-chip { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.55rem; margin-right: 0.4rem; border-radius: 999px; background: var(--accent-bg, rgba(10, 102, 194, 0.10)); color: var(--accent); font-size: 0.78rem; font-weight: 500; }
-.dqh-source-count { color: var(--muted); font-weight: 600; }
-.dqh-freshness-error { margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }
 
 .dqh-theme { margin-bottom: 1.75rem; }
 .dqh-theme-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
 .dqh-card h3 { font-size: 0.98rem; font-weight: 700; margin: 0; }
 .dqh-card .shb { margin-top: 0.55rem; }
+
+.dqh-themes { margin-bottom: 2rem; }
+.dqh-card--theme { border-left: 3px solid var(--accent); }
+.dqh-card--soon { opacity: 0.55; cursor: default; }
 </style>
