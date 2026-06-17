@@ -1,0 +1,83 @@
+<script setup>
+/**
+ * Generic theme landing for every theme except procurement (which has a
+ * richer composed page). Driven by themeConfig: a question-first framing,
+ * the operational pipeline panel + drill-link for each constituent source,
+ * and an honest "deeper insights" note for the cross-source analytics
+ * still to come. Themes are the investigative lens; per-source dashboards
+ * remain the operational/health layer this links down into.
+ */
+import { computed, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import ThemeToggle from '../../components/ThemeToggle.vue'
+import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
+import { THEMES, SCAFFOLD } from './themeConfig.js'
+
+const route = useRoute()
+const themeId = computed(() => route.params.themeId)
+const meta = computed(() => THEMES.find(t => t.id === themeId.value) || null)
+const cfg = computed(() => SCAFFOLD[themeId.value] || null)
+
+function setTitle() {
+  document.title = meta.value ? `${meta.value.title} — Fontem` : 'Theme — Fontem'
+}
+onMounted(setTitle)
+watch(themeId, setTitle)
+</script>
+
+<template>
+  <div class="theme">
+    <header class="theme-hdr">
+      <div>
+        <router-link to="/data-quality" class="theme-back">← Data Quality</router-link>
+        <h1 v-if="meta">{{ meta.icon }} {{ meta.title }}</h1>
+        <h1 v-else>Unknown theme</h1>
+        <p v-if="meta" class="theme-sub">{{ meta.blurb }}</p>
+      </div>
+      <ThemeToggle />
+    </header>
+
+    <template v-if="cfg">
+      <section v-if="cfg.questions?.length" class="theme-section">
+        <h2>Questions this answers</h2>
+        <ul class="theme-q">
+          <li v-for="(q, i) in cfg.questions" :key="i">{{ q }}</li>
+        </ul>
+      </section>
+
+      <section class="theme-section">
+        <h2>Sources &amp; pipeline health</h2>
+        <div v-for="src in cfg.sources" :key="src.id" class="theme-src">
+          <SourcePipelinePanel :source-id="src.id" :title="src.label" />
+          <router-link v-if="src.route" :to="src.route" class="theme-drill">
+            Open the {{ src.label }} dashboard →
+          </router-link>
+          <p v-else class="theme-hint">No dedicated dashboard yet.</p>
+        </div>
+      </section>
+
+      <section v-if="cfg.soon" class="theme-section theme-soon">
+        <h2>Deeper insights <span class="theme-badge">coming soon</span></h2>
+        <p class="theme-hint">{{ cfg.soon }}</p>
+      </section>
+    </template>
+    <p v-else class="theme-hint">This theme has no configuration yet.</p>
+  </div>
+</template>
+
+<style scoped>
+.theme { max-width: 960px; margin: 0 auto; padding: 0 1rem 4rem; }
+.theme-hdr { display: flex; justify-content: space-between; align-items: flex-start; padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+.theme-hdr h1 { font-size: 1.5rem; font-weight: 700; margin: 0.3rem 0 0; }
+.theme-back { font-size: 0.85rem; color: var(--accent); text-decoration: none; }
+.theme-sub { font-size: 0.9rem; color: var(--muted); margin-top: 0.3rem; max-width: 60ch; }
+.theme-section { margin-bottom: 1.75rem; }
+.theme-section h2 { font-size: 1rem; font-weight: 700; margin: 0 0 0.5rem; }
+.theme-q { margin: 0; padding-left: 1.1rem; color: var(--text); font-size: 0.9rem; }
+.theme-q li { margin-bottom: 0.25rem; }
+.theme-src { margin-bottom: 0.5rem; }
+.theme-hint { font-size: 0.82rem; color: var(--muted); margin: 0.2rem 0 0; }
+.theme-soon { opacity: 0.75; }
+.theme-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 0.1rem 0.5rem; margin-left: 0.4rem; vertical-align: middle; }
+.theme-drill { display: inline-block; margin: 0.1rem 0 0.4rem; font-size: 0.85rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+</style>

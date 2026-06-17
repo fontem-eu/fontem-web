@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 import SourceHealthBadge from '../components/SourceHealthBadge.vue'
+import { THEMES } from './themes/themeConfig.js'
 
 onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
 
@@ -28,18 +29,7 @@ const pipelines = [
   { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱', theme: 'analytical'  },
 ]
 
-const themes = [
-  { id: 'procurement', title: 'Public Procurement', icon: '💶', live: true,
-    desc: 'Where EU public money goes — contract awards, value flows, and the data quality behind the figures.' },
-  { id: 'corporate', title: 'Corporate Ownership', icon: '🏢', live: false,
-    desc: 'Who owns whom — LEI entities, ownership chains, and financial filings.' },
-  { id: 'influence', title: 'Influence & Accountability', icon: '🏛', live: false,
-    desc: 'Lobbying, sanctions, and EU cohesion spending.' },
-  { id: 'securities', title: 'Securities & Instruments', icon: '📋', live: false,
-    desc: 'Financial instruments, venues, and identifiers.' },
-  { id: 'geography', title: 'Geography', icon: '🗺', live: false,
-    desc: 'The regional dimension across every source.' },
-]
+const themes = THEMES
 
 async function loadOverview() {
   try {
@@ -164,21 +154,18 @@ function pipelineStat(id) {
       <section class="dqh-themes" data-testid="dqh-themes">
         <h2 class="dqh-theme-title">Themes</h2>
         <div class="dqh-grid">
-          <component
-            :is="t.live ? 'router-link' : 'div'"
+          <router-link
             v-for="t in themes"
             :key="t.id"
-            :to="t.live ? `/data-quality/theme/${t.id}` : undefined"
+            :to="`/data-quality/theme/${t.id}`"
             class="dqh-card dqh-card--theme"
-            :class="{ 'dqh-card--soon': !t.live }"
           >
             <div class="dqh-card-header">
               <span class="dqh-card-icon">{{ t.icon }}</span>
               <h3>{{ t.title }}</h3>
-              <span v-if="!t.live" class="dqh-card-badge">soon</span>
             </div>
-            <p>{{ t.desc }}</p>
-          </component>
+            <p>{{ t.blurb }}</p>
+          </router-link>
         </div>
       </section>
 
@@ -245,5 +232,4 @@ function pipelineStat(id) {
 
 .dqh-themes { margin-bottom: 2rem; }
 .dqh-card--theme { border-left: 3px solid var(--accent); }
-.dqh-card--soon { opacity: 0.55; cursor: default; }
 </style>
