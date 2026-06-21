@@ -20,6 +20,7 @@ import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
+import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import AdminView from './views/AdminView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
@@ -161,6 +162,7 @@ const ROUTES = [
 
   // Company views
   { path: '/company/:gmr_id', component: CompanyProfileView },
+  { path: '/contract/:noticeId', component: ContractDetailView },
   { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   { path: '/c/:ticker/:view', component: HomeView },
 

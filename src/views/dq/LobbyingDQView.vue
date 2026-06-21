@@ -17,6 +17,15 @@ onMounted(async () => {
 const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ label: c.country, value: c.count })))
 const costBars = computed(() => (data.value?.cost_distribution || []).map(c => ({ label: c.bucket, value: c.count })))
 const regTimeline = computed(() => data.value?.registrations_timeline || [])
+const companyBars = computed(() => (data.value?.top_companies || []).map(c => ({ label: c.company, value: c.lobbyists })))
+const categoryBars = computed(() => (data.value?.by_category || []).map(c => ({ label: c.category, value: c.count })))
+const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ label: s.lobbyist, value: s.cost_max })))
+function fmtEur(n) {
+  if (n == null) return '—'
+  if (n >= 1e6) return `€${(n / 1e6).toFixed(1)}M`
+  if (n >= 1e3) return `€${(n / 1e3).toFixed(0)}k`
+  return `€${Math.round(n)}`
+}
 </script>
 <template>
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('lobbying_d_q.eu_lobbying_register') }}</h1><p class="dq-sub">{{ $t('lobbying_d_q.transparency_register_lobbyist_registrat') }}</p></div><ThemeToggle /></header>
@@ -29,6 +38,20 @@ const regTimeline = computed(() => data.value?.registrations_timeline || [])
       <section class="dq-section"><h2>{{ $t('lobbying_d_q.registrations_over_time') }}</h2><ZoomableBarChart :data="regTimeline" value-label="Registrations" /></section>
       <section class="dq-section"><h2>{{ $t('lobbying_d_q.top_countries') }}</h2><HorizontalBarChart :data="countryBars" /></section>
       <section class="dq-section"><h2>{{ $t('lobbying_d_q.lobbying_cost_distribution') }}</h2><HorizontalBarChart :data="costBars" color="#d97706" /></section>
+      <section v-if="companyBars.length" class="dq-section">
+        <h2>Most-represented companies</h2>
+        <p class="dq-hint">Registrants resolved to a known company via the consolidator (Disclosure→FILED_BY→Company).</p>
+        <HorizontalBarChart :data="companyBars" :max-bars="20" color="#0a66c2" />
+      </section>
+      <section v-if="categoryBars.length" class="dq-section">
+        <h2>Registrant category mix</h2>
+        <HorizontalBarChart :data="categoryBars" :max-bars="15" color="#7c3aed" />
+      </section>
+      <section v-if="spenderBars.length" class="dq-section">
+        <h2>Top declared spenders</h2>
+        <p class="dq-hint">By declared annual lobbying-cost ceiling.</p>
+        <HorizontalBarChart :data="spenderBars" :max-bars="20" :format-value="fmtEur" color="#16a34a" />
+      </section>
     </template>
   </div>
 </template>
@@ -42,5 +65,6 @@ const regTimeline = computed(() => data.value?.registrations_timeline || [])
 .dq-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .dq-gauges { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; }
 .dq-section { margin-bottom: 2rem; }
-.dq-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.dq-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.dq-hint { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.6rem; }
 </style>

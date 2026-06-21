@@ -19,6 +19,7 @@ function makeRouter() {
     routes: [
       { path: '/', component: { template: '<div />' } },
       { path: '/c/:id/profile', component: { template: '<div data-testid="profile-stub" />' } },
+      { path: '/contract/:noticeId', component: { template: '<div data-testid="contract-detail-stub" />' } },
     ],
   })
 }
@@ -166,7 +167,39 @@ describe('ContractsPanel', () => {
     expect(wrapper.find('[data-testid="contracts-empty"]').exists()).toBe(true)
   })
 
-  it('renders TED links in the contracts table', async () => {
+  it('links each contract title to our detail page (not TED)', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [makeContract({ ted_notice_id: '123-2024' })],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+    const link = wrapper.find('[data-testid="contract-title-link-123-2024"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe('/contract/123-2024')
+  })
+
+  it('links the details column to our detail page', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [makeContract({ ted_notice_id: '123-2024' })],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
+    })
+    await flushPromises()
+    const link = wrapper.find('[data-testid="contract-details-link-123-2024"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe('/contract/123-2024')
+  })
+
+  it('no longer links contracts straight out to TED', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeContractsResponse(),
@@ -175,82 +208,13 @@ describe('ContractsPanel', () => {
       props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
     })
     await flushPromises()
-
-    const link = wrapper.find('a[href*="ted.europa.eu"]')
-    expect(link.exists()).toBe(true)
-    expect(link.attributes('target')).toBe('_blank')
-  })
-
-  it('renders an explicit "View ↗" TED column link per row even when ted_url is missing', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => makeContractsResponse({
-        contracts: [
-          makeContract({ ted_notice_id: '123-2024', ted_url: null }),
-          makeContract({ ted_notice_id: '456-2024', ted_url: '' }),
-        ],
-      }),
-    })
-    const wrapper = mount(ContractsPanel, {
-      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
-    })
-    await flushPromises()
-
-    const cell123 = wrapper.find('[data-testid="contract-ted-link-123-2024"]')
-    const cell456 = wrapper.find('[data-testid="contract-ted-link-456-2024"]')
-    expect(cell123.exists()).toBe(true)
-    expect(cell456.exists()).toBe(true)
-    // The link goes through fontem-api's /api/contracts/<id>/ted-link
-    // redirect (which translates the eForms UUID we store as
-    // ted_notice_id into TED's publication-number before 302-ing to
-    // the canonical detail URL) — pin the redirect-URL shape rather
-    // than the final ted.europa.eu host. See src/utils/tedUrl.js for
-    // the full rationale.
-    expect(cell123.attributes('href')).toBe('/api/contracts/123-2024/ted-link')
-    expect(cell123.attributes('target')).toBe('_blank')
-    expect(cell123.attributes('rel')).toContain('noopener')
-    expect(cell123.text()).toContain('View')
-  })
-
-  it('uses the explicit ted_url when the API returns one', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => makeContractsResponse({
-        contracts: [
-          makeContract({
-            ted_notice_id: '999-2024',
-            ted_url: 'https://ted.europa.eu/en/notice/-/detail/explicit-override',
-          }),
-        ],
-      }),
-    })
-    const wrapper = mount(ContractsPanel, {
-      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
-    })
-    await flushPromises()
-
-    const link = wrapper.find('[data-testid="contract-ted-link-999-2024"]')
-    expect(link.exists()).toBe(true)
-    expect(link.attributes('href'))
-      .toBe('https://ted.europa.eu/en/notice/-/detail/explicit-override')
-  })
-
-  it('does not render a TED link when the row has neither ted_url nor ted_notice_id', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => makeContractsResponse({
-        contracts: [
-          { ...makeContract(), ted_notice_id: '', ted_url: null },
-        ],
-      }),
-    })
-    const wrapper = mount(ContractsPanel, {
-      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
-    })
-    await flushPromises()
-
+    // Contracts now route through our detail page; the outward TED link
+    // lives there, not in the table.
+    expect(wrapper.find('a[href*="ted.europa.eu"]').exists()).toBe(false)
+    expect(wrapper.find('a[href*="/ted-link"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid^="contract-ted-link-"]').exists()).toBe(false)
   })
+
 
   it('sorts by value descending by default', async () => {
     mockFetch.mockResolvedValueOnce({

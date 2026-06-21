@@ -2,7 +2,6 @@
 import { ref, watch, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { fmtEur } from '../utils/format.js'
-import { tedNoticeUrl } from '../utils/tedUrl.js'
 import PocketButton from './PocketButton.vue'
 import DataQualityBadge from './DataQualityBadge.vue'
 import { contractValueConcerns } from '../utils/dataQuality.js'
@@ -228,14 +227,10 @@ const topCpv = computed(() => {
             <tr v-for="c in sortedContracts" :key="c.ted_notice_id" :data-testid="`contract-row-${c.ted_notice_id}`">
               <td class="nowrap">{{ c.award_date?.substring(0, 10) || '—' }}</td>
               <td>
-                <a
-                  v-if="tedNoticeUrl(c)"
-                  :href="tedNoticeUrl(c)"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <RouterLink
+                  :to="`/contract/${c.ted_notice_id}`"
                   :data-testid="`contract-title-link-${c.ted_notice_id}`"
-                >{{ c.title }}</a>
-                <span v-else>{{ c.title }}</span>
+                >{{ c.title }}</RouterLink>
               </td>
               <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataQualityBadge :concerns="contractValueConcerns(c)" /></td>
               <td>
@@ -252,17 +247,12 @@ const topCpv = computed(() => {
               <td class="nowrap">{{ c.cpv || '—' }}</td>
               <td class="nowrap">{{ c.procedure_type || '—' }}</td>
               <td class="nowrap">
-                <a
-                  v-if="tedNoticeUrl(c)"
-                  :href="tedNoticeUrl(c)"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <RouterLink
+                  :to="`/contract/${c.ted_notice_id}`"
                   class="ted-link"
-                  :data-testid="`contract-ted-link-${c.ted_notice_id}`"
-                  :title="`Open TED notice ${c.ted_notice_id}`"
-                  :aria-label="`Open TED notice ${c.ted_notice_id} in a new tab`"
-                >View ↗</a>
-                <span v-else>—</span>
+                  :data-testid="`contract-details-link-${c.ted_notice_id}`"
+                  :title="`Open contract details ${c.ted_notice_id}`"
+                >Details →</RouterLink>
               </td>
             </tr>
           </tbody>
@@ -278,15 +268,11 @@ const topCpv = computed(() => {
           :data-testid="`contract-card-${c.ted_notice_id}`"
         >
           <div class="cc-header">
-            <a
-              v-if="tedNoticeUrl(c)"
-              :href="tedNoticeUrl(c)"
-              target="_blank"
-              rel="noopener noreferrer"
+            <RouterLink
+              :to="`/contract/${c.ted_notice_id}`"
               class="cc-title"
               :data-testid="`contract-card-title-link-${c.ted_notice_id}`"
-            >{{ c.title }}</a>
-            <span v-else class="cc-title">{{ c.title }}</span>
+            >{{ c.title }}</RouterLink>
           </div>
           <div class="cc-details">
             <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataQualityBadge :concerns="contractValueConcerns(c)" />
@@ -307,15 +293,12 @@ const topCpv = computed(() => {
             <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
             <span v-if="c.cpv" class="cc-cpv">{{ c.cpv }}</span>
           </div>
-          <a
-            v-if="tedNoticeUrl(c)"
-            :href="tedNoticeUrl(c)"
-            target="_blank"
-            rel="noopener noreferrer"
+          <RouterLink
+            :to="`/contract/${c.ted_notice_id}`"
             class="cc-ted-link"
-            :data-testid="`contract-card-ted-link-${c.ted_notice_id}`"
-            :aria-label="`Open TED notice ${c.ted_notice_id} in a new tab`"
-          >View on TED ↗</a>
+            :data-testid="`contract-card-details-link-${c.ted_notice_id}`"
+            :aria-label="`Open contract details ${c.ted_notice_id}`"
+          >View details →</RouterLink>
         </div>
       </div>
     </div>
