@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import PocketableChart from '../../src/components/charts/PocketableChart.vue'
 import ChartSnapshotEmbed from '../../src/widgets/ChartSnapshotEmbed.vue'
@@ -11,20 +11,32 @@ describe('PocketableChart + chart_snapshot engine', () => {
     usePocket().clear()
   })
 
-  it('renders the underlying chart primitive', () => {
+  it('renders the chart with a permanent actions menu button (menu closed)', () => {
     const w = mount(PocketableChart, {
       props: { chart: 'stat', chartProps: { value: 42, label: 'Answer' }, name: 'Answer' },
     })
     expect(w.text()).toContain('42')
-    expect(w.text()).toContain('Answer')
-    expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="chart-menu-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="chart-menu"]').exists()).toBe(false)
   })
 
-  it('hides the save button when not savable', () => {
+  it('opens the menu with Save + Download actions', async () => {
+    const w = mount(PocketableChart, {
+      props: { chart: 'stat', chartProps: { value: 1, label: 'X' }, name: 'X' },
+    })
+    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
+    expect(w.find('[data-testid="chart-menu"]').exists()).toBe(true)
+    expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="chart-download-btn"]').exists()).toBe(true)
+  })
+
+  it('omits Save but keeps Download when not savable', async () => {
     const w = mount(PocketableChart, {
       props: { chart: 'stat', chartProps: { value: 1, label: 'X' }, savable: false },
     })
+    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
     expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(false)
+    expect(w.find('[data-testid="chart-download-btn"]').exists()).toBe(true)
   })
 
   it('saves a chart_snapshot to the pocket with serialised config', async () => {
@@ -35,7 +47,9 @@ describe('PocketableChart + chart_snapshot engine', () => {
         name: 'My Bars',
       },
     })
+    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
     await w.find('[data-testid="pocket-save-btn"]').trigger('click')
+    await w.find('[data-testid="pocket-name-input"]').setValue('My Bars')
     await w.find('[data-testid="pocket-confirm"]').trigger('click')
 
     const stored = JSON.parse(localStorage.getItem('gmr-pocket'))
@@ -46,6 +60,20 @@ describe('PocketableChart + chart_snapshot engine', () => {
     expect(stored[0].config.props.data).toEqual([{ label: 'A', value: 1 }])
     expect(stored[0].config.props.format).toBe('eur')
     expect(stored[0].config.props.formatValue).toBeUndefined() // function dropped
+  })
+
+  it('download triggers a file download (stat tile → svg text snapshot)', async () => {
+    const createSpy = vi.spyOn(URL, 'createObjectURL')
+    const clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
+    const w = mount(PocketableChart, {
+      props: { chart: 'stat', chartProps: { value: 7, label: 'Lucky' }, name: 'Lucky tile' },
+    })
+    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
+    await w.find('[data-testid="chart-download-btn"]').trigger('click')
+    expect(createSpy).toHaveBeenCalled()
+    expect(clickSpy).toHaveBeenCalled()
+    createSpy.mockRestore()
+    clickSpy.mockRestore()
   })
 
   it('registry resolves the chart_snapshot widget type', () => {

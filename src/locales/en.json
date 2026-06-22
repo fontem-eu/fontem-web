@@ -500,6 +500,8 @@
     "top_alpha_2_codes": "Top Alpha-2 Codes"
   },
   "pocket_button": {
+    "chart_actions": "Chart actions",
+    "download_image": "Download as image",
     "name_this_snapshot": "Name this snapshot",
     "pocket": "Pocket",
     "save": "Save",
