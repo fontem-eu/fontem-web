@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 import { fetchEtlRuns } from '../../api/atlas.js'
 
 onMounted(() => {
@@ -97,11 +97,11 @@ function rowStatus(run) {
     <div v-else-if="error" class="dq-error">Failed to load: {{ error }}</div>
     <template v-else>
       <div class="dq-stats">
-        <StatCard :value="stats.total.toLocaleString()" label="Runs (last 100)" />
-        <StatCard :value="stats.success.toLocaleString()" label="Successful" />
-        <StatCard :value="stats.failed.toLocaleString()" label="Failed" />
-        <StatCard :value="stats.running.toLocaleString()" label="In progress" />
-        <StatCard :value="stats.crashed.toLocaleString()" label="Crashed (running >6h)" />
+        <PocketableChart chart="stat" :chart-props="{ value: stats.total.toLocaleString(), label: 'Runs (last 100)' }" name="Runs (last 100)" />
+        <PocketableChart chart="stat" :chart-props="{ value: stats.success.toLocaleString(), label: 'Successful' }" name="Successful" />
+        <PocketableChart chart="stat" :chart-props="{ value: stats.failed.toLocaleString(), label: 'Failed' }" name="Failed" />
+        <PocketableChart chart="stat" :chart-props="{ value: stats.running.toLocaleString(), label: 'In progress' }" name="In progress" />
+        <PocketableChart chart="stat" :chart-props="{ value: stats.crashed.toLocaleString(), label: 'Crashed (running >6h)' }" name="Crashed (running >6h)" />
       </div>
 
       <div class="dq-filters">

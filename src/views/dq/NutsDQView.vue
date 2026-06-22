@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import GaugeChart from '../../components/charts/GaugeChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'NUTS Regions Data Quality — Fontem' })
 const data = ref(null)
@@ -23,10 +21,34 @@ const levelBars = computed(() => (data.value?.by_level || []).map(l => ({ label:
     <template v-else-if="data">
       <SourcePipelinePanel source-id="nuts" />
 
-      <div class="dq-stats"><StatCard :value="data.total_regions.toLocaleString()" label="Total Regions" /><StatCard :value="data.companies_linked.toLocaleString()" label="Companies Linked" /><StatCard :value="data.authorities_linked.toLocaleString()" label="Authorities Linked" /></div>
-      <div class="dq-gauges"><GaugeChart :value="coveragePct" label="Company Coverage" /></div>
-      <section class="dq-section"><h2>{{ $t('nuts_d_q.top_nuts_0_regions_by_company_count') }}</h2><HorizontalBarChart :data="regionBars" :max-bars="15" /></section>
-      <section class="dq-section"><h2>{{ $t('nuts_d_q.regions_by_level') }}</h2><HorizontalBarChart :data="levelBars" :max-bars="4" /></section>
+      <div class="dq-stats"><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.total_regions.toLocaleString(), label: 'Total Regions' }"
+        name="Total Regions"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.companies_linked.toLocaleString(), label: 'Companies Linked' }"
+        name="Companies Linked"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.authorities_linked.toLocaleString(), label: 'Authorities Linked' }"
+        name="Authorities Linked"
+      /></div>
+      <div class="dq-gauges"><PocketableChart
+        chart="gauge"
+        :chart-props="{ value: coveragePct, label: 'Company Coverage' }"
+        name="Company Coverage"
+      /></div>
+      <section class="dq-section"><h2>{{ $t('nuts_d_q.top_nuts_0_regions_by_company_count') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: regionBars, maxBars: 15 }"
+        :name="$t('nuts_d_q.top_nuts_0_regions_by_company_count')"
+      /></section>
+      <section class="dq-section"><h2>{{ $t('nuts_d_q.regions_by_level') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: levelBars, maxBars: 4 }"
+        :name="$t('nuts_d_q.regions_by_level')"
+      /></section>
     </template>
   </div>
 </template>

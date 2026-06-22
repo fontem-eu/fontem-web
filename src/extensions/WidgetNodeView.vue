@@ -27,6 +27,8 @@ const config = computed(() => {
   if (a.nuts_level !== undefined && a.nuts_level !== null) out.nuts_level = a.nuts_level
   if (a.year !== undefined && a.year !== null) out.year = a.year
   if (a.dimensions) out.dimensions = a.dimensions
+  if (a.chart)      out.chart = a.chart
+  if (a.props)      out.props = a.props
   return out
 })
 </script>

@@ -2,10 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import GaugeChart from '../../components/charts/GaugeChart.vue'
-import ZoomableBarChart from '../../components/charts/ZoomableBarChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 import { fmtEur } from '../../utils/format.js'
 
 onMounted(() => { document.title = 'TED Contracts Data Quality — Fontem' })
@@ -109,14 +106,26 @@ const redFlagDistBars = computed(() =>
       <SourcePipelinePanel source-id="contracts" />
 
       <div class="dq-stats">
-        <StatCard :value="totalContracts.toLocaleString()" label="Total Contracts" />
-        <StatCard :value="fmtEur(totalEur)" label="Total EUR Value" />
-        <StatCard :value="byCountry.length" label="Countries" />
-        <StatCard
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: totalContracts.toLocaleString(), label: 'Total Contracts' }"
+          name="Total Contracts"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: fmtEur(totalEur), label: 'Total EUR Value' }"
+          name="Total EUR Value"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: byCountry.length, label: 'Countries' }"
+          name="Countries"
+        />
+        <PocketableChart
           v-if="currencyQuality"
-          :value="undisclosedPct + '%'"
-          label="Undisclosed Value"
-          color="#d97706"
+          chart="stat"
+          :chart-props="{ value: undisclosedPct + '%', label: 'Undisclosed Value', color: '#d97706' }"
+          name="Undisclosed Value"
         />
       </div>
 
@@ -125,27 +134,55 @@ const redFlagDistBars = computed(() =>
         <h2>Tender Integrity</h2>
         <p class="dq-hint">Single-bidder rate and red-flag indicators per the EC Single Market Scoreboard / ECA CRI methodology — a flag is a prompt to look, not proof of wrongdoing.</p>
         <div class="dq-stats">
-          <StatCard
-            :value="(singleBidderRatePct ?? '\u2014') + (singleBidderRatePct == null ? '' : '%')"
-            label="Single-bidder rate"
-            :color="singleBidderRatePct >= 30 ? '#dc2626' : '#d97706'"
+          <PocketableChart
+            chart="stat"
+            :chart-props="{ value: (singleBidderRatePct ?? '—') + (singleBidderRatePct == null ? '' : '%'), label: 'Single-bidder rate', color: singleBidderRatePct >= 30 ? '#dc2626' : '#d97706' }"
+            name="Single-bidder rate"
             data-testid="dq-single-bidder-rate"
           />
-          <StatCard :value="(integrity.single_bidder ?? 0).toLocaleString()" label="Single-bidder contracts" />
-          <StatCard :value="(bidderCoveragePct ?? '\u2014') + (bidderCoveragePct == null ? '' : '%')" label="Bidder-count coverage" />
-          <StatCard :value="(procCoveragePct ?? '\u2014') + (procCoveragePct == null ? '' : '%')" label="Procedure-type coverage" />
+          <PocketableChart
+            chart="stat"
+            :chart-props="{ value: (integrity.single_bidder ?? 0).toLocaleString(), label: 'Single-bidder contracts' }"
+            name="Single-bidder contracts"
+          />
+          <PocketableChart
+            chart="stat"
+            :chart-props="{ value: (bidderCoveragePct ?? '—') + (bidderCoveragePct == null ? '' : '%'), label: 'Bidder-count coverage' }"
+            name="Bidder-count coverage"
+          />
+          <PocketableChart
+            chart="stat"
+            :chart-props="{ value: (procCoveragePct ?? '—') + (procCoveragePct == null ? '' : '%'), label: 'Procedure-type coverage' }"
+            name="Procedure-type coverage"
+          />
         </div>
         <div class="dq-gauges">
-          <GaugeChart :value="singleBidderRatePct || 0" label="Single-bidder rate" />
-          <GaugeChart :value="bidderCoveragePct || 0" label="Bidder-count coverage" />
+          <PocketableChart
+            chart="gauge"
+            :chart-props="{ value: singleBidderRatePct || 0, label: 'Single-bidder rate' }"
+            name="Single-bidder rate"
+          />
+          <PocketableChart
+            chart="gauge"
+            :chart-props="{ value: bidderCoveragePct || 0, label: 'Bidder-count coverage' }"
+            name="Bidder-count coverage"
+          />
         </div>
         <section v-if="flagBars.length" class="dq-subsection">
           <h3>Red flags by type</h3>
-          <HorizontalBarChart :data="flagBars" color="#d97706" />
+          <PocketableChart
+            chart="bar_h"
+            :chart-props="{ data: flagBars, color: '#d97706' }"
+            name="Red flags by type"
+          />
         </section>
         <section v-if="redFlagDistBars.length" class="dq-subsection">
           <h3>Red-flag count distribution</h3>
-          <HorizontalBarChart :data="redFlagDistBars" color="#dc2626" />
+          <PocketableChart
+            chart="bar_h"
+            :chart-props="{ data: redFlagDistBars, color: '#dc2626' }"
+            name="Red-flag count distribution"
+          />
         </section>
       </section>
 
@@ -153,41 +190,73 @@ const redFlagDistBars = computed(() =>
       <section v-if="currencyQuality" class="dq-section">
         <h2>{{ $t('contracts_d_q.currency_quality') }}</h2>
         <div class="dq-gauges">
-          <GaugeChart :value="conversionRate" label="EUR Conversion Success" />
-          <GaugeChart :value="100 - undisclosedPct" label="Value Disclosed" />
+          <PocketableChart
+            chart="gauge"
+            :chart-props="{ value: conversionRate, label: 'EUR Conversion Success' }"
+            name="EUR Conversion Success"
+          />
+          <PocketableChart
+            chart="gauge"
+            :chart-props="{ value: 100 - undisclosedPct, label: 'Value Disclosed' }"
+            name="Value Disclosed"
+          />
         </div>
       </section>
 
       <section class="dq-section">
         <h2>{{ $t('contracts_d_q.contract_volume_over_time') }}</h2>
         <p class="dq-hint">Scroll to zoom in/out. Bars aggregate: daily → weekly → monthly → yearly.</p>
-        <ZoomableBarChart :data="timeline" value-label="Contracts" :height="350" />
+        <PocketableChart
+          chart="ts_bar"
+          :chart-props="{ data: timeline, valueLabel: 'Contracts', height: 350 }"
+          :name="$t('contracts_d_q.contract_volume_over_time')"
+        />
       </section>
 
       <section class="dq-section">
         <h2>{{ $t('contracts_d_q.contract_value_over_time_eur') }}</h2>
-        <ZoomableBarChart :data="valueTimeline" value-label="EUR" :height="300" :format-value="fmtEur" color="#16a34a" />
+        <PocketableChart
+          chart="ts_bar"
+          :chart-props="{ data: valueTimeline, valueLabel: 'EUR', height: 300, format: 'eur', color: '#16a34a' }"
+          :name="$t('contracts_d_q.contract_value_over_time_eur')"
+        />
       </section>
 
       <section class="dq-section">
         <h2>{{ $t('contracts_d_q.contracts_by_country') }}</h2>
-        <HorizontalBarChart :data="countryBars" :max-bars="25" />
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: countryBars, maxBars: 25 }"
+          :name="$t('contracts_d_q.contracts_by_country')"
+        />
       </section>
 
       <section class="dq-section">
         <h2>{{ $t('contracts_d_q.total_eur_by_country_top_15') }}</h2>
-        <HorizontalBarChart :data="countryEurBars" :max-bars="15" :format-value="fmtEur" color="#16a34a" />
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: countryEurBars, maxBars: 15, format: 'eur', color: '#16a34a' }"
+          :name="$t('contracts_d_q.total_eur_by_country_top_15')"
+        />
       </section>
 
       <section v-if="currencyBars.length" class="dq-section">
         <h2>{{ $t('contracts_d_q.contracts_by_currency') }}</h2>
         <p class="dq-hint">Distribution of original currencies. EUR dominates but many EU member contracts use local currency.</p>
-        <HorizontalBarChart :data="currencyBars" :max-bars="20" />
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: currencyBars, maxBars: 20 }"
+          :name="$t('contracts_d_q.contracts_by_currency')"
+        />
       </section>
 
       <section v-if="nullBars.length" class="dq-section">
         <h2>{{ $t('contracts_d_q.missing_fields_of_contracts') }}</h2>
-        <HorizontalBarChart :data="nullBars" :format-value="v => v + '%'" color="#dc2626" />
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: nullBars, format: 'pct', color: '#dc2626' }"
+          :name="$t('contracts_d_q.missing_fields_of_contracts')"
+        />
       </section>
     </template>
   </div>

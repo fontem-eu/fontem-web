@@ -27,6 +27,9 @@ export const WidgetNode = Node.create({
       nuts_level: { default: undefined },
       year: { default: undefined },
       dimensions: { default: undefined },
+      // chart_snapshot widget: logical chart type + serialised props.
+      chart: { default: undefined },
+      props: { default: undefined },
     }
   },
 

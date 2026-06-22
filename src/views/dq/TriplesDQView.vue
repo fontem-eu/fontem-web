@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'Triple Store — Fontem' })
 
@@ -128,20 +127,23 @@ const generatedAt = computed(() => {
 
     <template v-else>
       <div class="dq-stats">
-        <StatCard
-          :value="totalTriples.toLocaleString()"
-          label="Total triples"
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: totalTriples.toLocaleString(), label: 'Total triples' }"
+          name="Total triples"
           data-testid="triples-total"
         />
-        <StatCard
-          :value="graphCount.toLocaleString()"
-          label="Named graphs"
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: graphCount.toLocaleString(), label: 'Named graphs' }"
+          name="Named graphs"
           data-testid="triples-graph-count"
         />
-        <StatCard
+        <PocketableChart
           v-if="generatedAt"
-          :value="generatedAt"
-          label="Snapshot taken"
+          chart="stat"
+          :chart-props="{ value: generatedAt, label: 'Snapshot taken' }"
+          name="Snapshot taken"
         />
       </div>
 
@@ -166,7 +168,7 @@ const generatedAt = computed(() => {
         </ul>
         <details class="dq-collapsible">
           <summary>{{ $t('triples_d_q.chart_view') }}</summary>
-          <HorizontalBarChart :data="graphBars" :max-bars="20" />
+          <PocketableChart chart="bar_h" :chart-props="{ data: graphBars, maxBars: 20 }" :name="$t('triples_d_q.triples_per_named_graph')" />
         </details>
       </section>
 
@@ -184,20 +186,22 @@ const generatedAt = computed(() => {
         <div class="dq-twocol">
           <div>
             <h3>{{ $t('triples_d_q.top_classes') }}<span class="dq-count">({{ selected.classes.length }})</span></h3>
-            <HorizontalBarChart
+            <PocketableChart
               v-if="classBars.length"
-              :data="classBars"
-              :max-bars="15"
+              chart="bar_h"
+              :chart-props="{ data: classBars, maxBars: 15 }"
+              :name="$t('triples_d_q.top_classes')"
             />
             <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no') }}<code>rdf:type</code> assertions in this graph.
             </p>
           </div>
           <div>
             <h3>{{ $t('triples_d_q.top_predicates') }}<span class="dq-count">({{ selected.top_predicates.length }})</span></h3>
-            <HorizontalBarChart
+            <PocketableChart
               v-if="predicateBars.length"
-              :data="predicateBars"
-              :max-bars="15"
+              chart="bar_h"
+              :chart-props="{ data: predicateBars, maxBars: 15 }"
+              :name="$t('triples_d_q.top_predicates')"
             />
             <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no_triples_in_this_graph') }}</p>
           </div>

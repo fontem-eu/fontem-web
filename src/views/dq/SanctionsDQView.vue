@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import GaugeChart from '../../components/charts/GaugeChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'Sanctions Data Quality — Fontem' })
 const data = ref(null)
@@ -22,9 +20,33 @@ const regimeBars = computed(() => (data.value?.top_regimes || []).map(r => ({ la
     <template v-else-if="data">
       <SourcePipelinePanel source-id="sanctions" />
 
-      <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Sanctioned Entities" /><StatCard :value="data.persons.toLocaleString()" label="Persons" /><StatCard :value="data.entities.toLocaleString()" label="Organisations" /><StatCard :value="data.matched_to_companies.toLocaleString()" label="Matched to Companies" /></div>
-      <div class="dq-gauges"><GaugeChart :value="matchPct" label="Company Match Rate" /></div>
-      <section class="dq-section"><h2>{{ $t('sanctions_d_q.top_sanction_regimes') }}</h2><HorizontalBarChart :data="regimeBars" :max-bars="10" /></section>
+      <div class="dq-stats"><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.total.toLocaleString(), label: 'Total Sanctioned Entities' }"
+        name="Total Sanctioned Entities"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.persons.toLocaleString(), label: 'Persons' }"
+        name="Persons"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.entities.toLocaleString(), label: 'Organisations' }"
+        name="Organisations"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.matched_to_companies.toLocaleString(), label: 'Matched to Companies' }"
+        name="Matched to Companies"
+      /></div>
+      <div class="dq-gauges"><PocketableChart
+        chart="gauge"
+        :chart-props="{ value: matchPct, label: 'Company Match Rate' }"
+        name="Company Match Rate"
+      /></div>
+      <section class="dq-section"><h2>{{ $t('sanctions_d_q.top_sanction_regimes') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: regimeBars, maxBars: 10 }"
+        :name="$t('sanctions_d_q.top_sanction_regimes')"
+      /></section>
     </template>
   </div>
 </template>

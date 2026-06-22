@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import GaugeChart from '../../components/charts/GaugeChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'GLEIF Data Quality — Fontem' })
 const data = ref(null)
@@ -23,9 +21,48 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
     <template v-else-if="data">
       <SourcePipelinePanel source-id="gleif" />
 
-      <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Companies" /><StatCard :value="data.with_lei.toLocaleString()" label="With LEI" /><StatCard :value="data.subsidiary_links.toLocaleString()" label="Subsidiary Links" /><StatCard :value="data.orphan_subsidiaries.toLocaleString()" label="Orphan Subsidiaries" color="#d97706" /></div>
-      <div class="dq-gauges"><GaugeChart :value="leiPct" label="LEI Coverage" /><GaugeChart :value="activePct" label="Active Companies" /></div>
-      <section class="dq-section"><h2>{{ $t('gleif_d_q.companies_by_country_top_30') }}</h2><HorizontalBarChart :data="countryBars" :max-bars="30" /></section>
+      <div class="dq-stats">
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.total.toLocaleString(), label: 'Total Companies' }"
+          name="Total Companies"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.with_lei.toLocaleString(), label: 'With LEI' }"
+          name="With LEI"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.subsidiary_links.toLocaleString(), label: 'Subsidiary Links' }"
+          name="Subsidiary Links"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.orphan_subsidiaries.toLocaleString(), label: 'Orphan Subsidiaries', color: '#d97706' }"
+          name="Orphan Subsidiaries"
+        />
+      </div>
+      <div class="dq-gauges">
+        <PocketableChart
+          chart="gauge"
+          :chart-props="{ value: leiPct, label: 'LEI Coverage' }"
+          name="LEI Coverage"
+        />
+        <PocketableChart
+          chart="gauge"
+          :chart-props="{ value: activePct, label: 'Active Companies' }"
+          name="Active Companies"
+        />
+      </div>
+      <section class="dq-section">
+        <h2>{{ $t('gleif_d_q.companies_by_country_top_30') }}</h2>
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: countryBars, maxBars: 30 }"
+          :name="$t('gleif_d_q.companies_by_country_top_30')"
+        />
+      </section>
     </template>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { getAssistUsage, getAssistUsageHistory } from '../api/community.js'
-import ZoomableLineChart from '../components/charts/ZoomableLineChart.vue'
+import PocketableChart from '../components/charts/PocketableChart.vue'
 
 const INPUT_COLOR = '#3b82f6'  // blue-500
 const OUTPUT_COLOR = '#f59e0b' // amber-500
@@ -121,11 +121,10 @@ onMounted(load)
 
       <!-- Line chart -->
       <div class="usage-chart-wrap">
-        <ZoomableLineChart
-          :series="series"
-          :height="360"
-          value-label="Tokens"
-          :format-value="fmt"
+        <PocketableChart
+          chart="ts_line"
+          :chart-props="{ series: series, height: 360, valueLabel: 'Tokens', formatValue: fmt }"
+          name="AI Usage Metrics"
         />
       </div>
     </template>

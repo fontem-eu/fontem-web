@@ -74,15 +74,20 @@ function openPocketModal() {
 
 function insertFromPocket(item) {
   if (!editor) return
-  editor.chain().focus().insertContent({
-    type: 'widget',
-    attrs: {
-      widget_type: item.widget_type,
-      entityId: item.config?.entityId || item.config?.entity_id,
-      schema_version: 1,
-      ...(item.config?.depth ? { depth: item.config.depth } : {}),
-    },
-  }).run()
+  // Carry every attr the widget needs into the node. WidgetNode only
+  // persists declared attrs, so each must be set explicitly here.
+  const c = item.config || {}
+  const attrs = { widget_type: item.widget_type, schema_version: 1 }
+  const entityId = c.entityId || c.entity_id
+  if (entityId) attrs.entityId = entityId
+  if (c.depth) attrs.depth = c.depth
+  if (c.dataset) attrs.dataset = c.dataset
+  if (c.nuts_level !== undefined && c.nuts_level !== null) attrs.nuts_level = c.nuts_level
+  if (c.year !== undefined && c.year !== null) attrs.year = c.year
+  if (c.dimensions) attrs.dimensions = c.dimensions
+  if (c.chart) attrs.chart = c.chart
+  if (c.props) attrs.props = c.props
+  editor.chain().focus().insertContent({ type: 'widget', attrs }).run()
   showPocketModal.value = false
 }
 

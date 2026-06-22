@@ -2,8 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'EU Knowledge Graph Data Quality — Fontem' })
 const data = ref(null)
@@ -26,9 +25,29 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
     <template v-else-if="data">
       <SourcePipelinePanel source-id="eu-knowledge-graph" />
 
-      <div class="dq-stats"><StatCard :value="data.total_projects.toLocaleString()" label="Total Projects" /><StatCard :value="data.beneficiary_links.toLocaleString()" label="Beneficiary Links" /><StatCard :value="euContributionLabel" label="EU Contribution" /></div>
-      <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_fund_top_10') }}</h2><HorizontalBarChart :data="fundBars" :max-bars="10" /></section>
-      <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_country_top_15') }}</h2><HorizontalBarChart :data="countryBars" :max-bars="15" /></section>
+      <div class="dq-stats"><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.total_projects.toLocaleString(), label: 'Total Projects' }"
+        name="Total Projects"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.beneficiary_links.toLocaleString(), label: 'Beneficiary Links' }"
+        name="Beneficiary Links"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: euContributionLabel, label: 'EU Contribution' }"
+        name="EU Contribution"
+      /></div>
+      <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_fund_top_10') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: fundBars, maxBars: 10 }"
+        :name="$t('eu_knowledge_graph_d_q.projects_by_fund_top_10')"
+      /></section>
+      <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_country_top_15') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: countryBars, maxBars: 15 }"
+        :name="$t('eu_knowledge_graph_d_q.projects_by_country_top_15')"
+      /></section>
     </template>
   </div>
 </template>

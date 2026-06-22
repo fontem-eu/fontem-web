@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'Graph Connectedness — Fontem' })
 
@@ -69,9 +68,9 @@ const generatedAt = computed(() => {
 
     <template v-else-if="data">
       <div class="dq-stats">
-        <StatCard :value="fmt(totalNodes)" label="Total Nodes" />
-        <StatCard :value="fmt(totalIsolated)" label="Isolated" />
-        <StatCard :value="fmtPct(isolatedPct)" label="Isolated %" />
+        <PocketableChart chart="stat" :chart-props="{ value: fmt(totalNodes), label: 'Total Nodes' }" name="Total Nodes" />
+        <PocketableChart chart="stat" :chart-props="{ value: fmt(totalIsolated), label: 'Isolated' }" name="Isolated" />
+        <PocketableChart chart="stat" :chart-props="{ value: fmtPct(isolatedPct), label: 'Isolated %' }" name="Isolated %" />
       </div>
 
       <p v-if="generatedAt" class="dq-cachenote">
@@ -124,7 +123,7 @@ const generatedAt = computed(() => {
         <div class="dq-hist-grid">
           <div v-for="t in data.per_type" :key="t.entity_type" class="dq-hist-card">
             <h3>{{ t.entity_type }}</h3>
-            <HorizontalBarChart :data="histogramBars(t)" :max-bars="8" />
+            <PocketableChart chart="bar_h" :chart-props="{ data: histogramBars(t), maxBars: 8 }" :name="t.entity_type" />
           </div>
         </div>
       </section>

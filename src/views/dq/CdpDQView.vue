@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'CDP Data Quality — Fontem' })
 const data = ref(null)
@@ -18,9 +17,9 @@ const yearBars = computed(() => (data.value?.by_reporting_year || []).map(y => (
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('cdp_d_q.cdp_climate_disclosure') }}</h1><p class="dq-sub">{{ $t('cdp_d_q.cdp_scores_and_climate_reporting_score_d') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
-      <div class="dq-stats"><StatCard :value="data.companies_with_score.toLocaleString()" label="Companies with CDP Score" /></div>
-      <section class="dq-section"><h2>{{ $t('cdp_d_q.score_distribution') }}</h2><HorizontalBarChart :data="scoreBars" :max-bars="10" /></section>
-      <section class="dq-section"><h2>{{ $t('cdp_d_q.by_reporting_year') }}</h2><HorizontalBarChart :data="yearBars" :max-bars="10" /></section>
+      <div class="dq-stats"><PocketableChart chart="stat" :chart-props="{ value: data.companies_with_score.toLocaleString(), label: 'Companies with CDP Score' }" name="Companies with CDP Score" /></div>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.score_distribution') }}</h2><PocketableChart chart="bar_h" :chart-props="{ data: scoreBars, maxBars: 10 }" :name="$t('cdp_d_q.score_distribution')" /></section>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.by_reporting_year') }}</h2><PocketableChart chart="bar_h" :chart-props="{ data: yearBars, maxBars: 10 }" :name="$t('cdp_d_q.by_reporting_year')" /></section>
     </template>
   </div>
 </template>

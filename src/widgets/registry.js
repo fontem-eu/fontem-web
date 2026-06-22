@@ -6,6 +6,7 @@ const registry = {
   entity_profile: () => import('./EntityProfileEmbed.vue'),
   entity_nuts_map: () => import('./EntityNutsMapEmbed.vue'),
   atlas_map: () => import('./AtlasMapEmbed.vue'),
+  chart_snapshot: () => import('./ChartSnapshotEmbed.vue'),
 }
 
 export function resolveWidget(type) {

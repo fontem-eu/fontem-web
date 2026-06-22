@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import ZoomableBarChart from '../../components/charts/ZoomableBarChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'ESEF Data Quality — Fontem' })
 const data = ref(null)
@@ -22,10 +20,30 @@ const fieldBars = computed(() => Object.entries(data.value?.field_coverage || {}
     <template v-else-if="data">
       <SourcePipelinePanel source-id="eu-listings" />
 
-      <div class="dq-stats"><StatCard :value="data.companies.toLocaleString()" label="EU Companies" /><StatCard :value="data.financial_years.toLocaleString()" label="Financial Years" /></div>
-      <section class="dq-section"><h2>{{ $t('app.filings_by_year') }}</h2><ZoomableBarChart :data="data.by_year" value-label="Filings" /></section>
-      <section class="dq-section"><h2>{{ $t('esef_d_q.filings_by_country') }}</h2><HorizontalBarChart :data="countryBars" /></section>
-      <section class="dq-section"><h2>{{ $t('app.xbrl_field_coverage') }}</h2><HorizontalBarChart :data="fieldBars" :format-value="v => v + '%'" color="#16a34a" /></section>
+      <div class="dq-stats"><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.companies.toLocaleString(), label: 'EU Companies' }"
+        name="EU Companies"
+      /><PocketableChart
+        chart="stat"
+        :chart-props="{ value: data.financial_years.toLocaleString(), label: 'Financial Years' }"
+        name="Financial Years"
+      /></div>
+      <section class="dq-section"><h2>{{ $t('app.filings_by_year') }}</h2><PocketableChart
+        chart="ts_bar"
+        :chart-props="{ data: data.by_year, valueLabel: 'Filings' }"
+        :name="$t('app.filings_by_year')"
+      /></section>
+      <section class="dq-section"><h2>{{ $t('esef_d_q.filings_by_country') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: countryBars }"
+        :name="$t('esef_d_q.filings_by_country')"
+      /></section>
+      <section class="dq-section"><h2>{{ $t('app.xbrl_field_coverage') }}</h2><PocketableChart
+        chart="bar_h"
+        :chart-props="{ data: fieldBars, format: 'pct', color: '#16a34a' }"
+        :name="$t('app.xbrl_field_coverage')"
+      /></section>
     </template>
   </div>
 </template>

@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
-import StatCard from '../../components/charts/StatCard.vue'
-import GaugeChart from '../../components/charts/GaugeChart.vue'
-import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
+import PocketableChart from '../../components/charts/PocketableChart.vue'
 
 onMounted(() => { document.title = 'FIRDS Data Quality — Fontem' })
 const data = ref(null)
@@ -23,10 +21,46 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
     <template v-else-if="data">
       <SourcePipelinePanel source-id="firds" />
 
-      <div class="dq-stats"><StatCard :value="data.total.toLocaleString()" label="Total Instruments (with ISIN)" /><StatCard :value="data.with_ticker.toLocaleString()" label="With Ticker" /><StatCard :value="data.without_ticker.toLocaleString()" label="Without Ticker" /></div>
-      <div class="dq-gauges"><GaugeChart :value="tickerPct" label="Ticker Coverage" /></div>
-      <section class="dq-section"><h2>{{ $t('firds_d_q.by_instrument_type') }}</h2><HorizontalBarChart :data="typeBars" :max-bars="15" /></section>
-      <section class="dq-section"><h2>{{ $t('firds_d_q.top_trading_venues_mic') }}</h2><HorizontalBarChart :data="venueBars" :max-bars="10" /></section>
+      <div class="dq-stats">
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.total.toLocaleString(), label: 'Total Instruments (with ISIN)' }"
+          name="Total Instruments (with ISIN)"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.with_ticker.toLocaleString(), label: 'With Ticker' }"
+          name="With Ticker"
+        />
+        <PocketableChart
+          chart="stat"
+          :chart-props="{ value: data.without_ticker.toLocaleString(), label: 'Without Ticker' }"
+          name="Without Ticker"
+        />
+      </div>
+      <div class="dq-gauges">
+        <PocketableChart
+          chart="gauge"
+          :chart-props="{ value: tickerPct, label: 'Ticker Coverage' }"
+          name="Ticker Coverage"
+        />
+      </div>
+      <section class="dq-section">
+        <h2>{{ $t('firds_d_q.by_instrument_type') }}</h2>
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: typeBars, maxBars: 15 }"
+          :name="$t('firds_d_q.by_instrument_type')"
+        />
+      </section>
+      <section class="dq-section">
+        <h2>{{ $t('firds_d_q.top_trading_venues_mic') }}</h2>
+        <PocketableChart
+          chart="bar_h"
+          :chart-props="{ data: venueBars, maxBars: 10 }"
+          :name="$t('firds_d_q.top_trading_venues_mic')"
+        />
+      </section>
     </template>
   </div>
 </template>
