@@ -16,27 +16,25 @@ describe('PocketableChart + chart_snapshot engine', () => {
       props: { chart: 'stat', chartProps: { value: 42, label: 'Answer' }, name: 'Answer' },
     })
     expect(w.text()).toContain('42')
-    expect(w.find('[data-testid="chart-menu-btn"]').exists()).toBe(true)
-    expect(w.find('[data-testid="chart-menu"]').exists()).toBe(false)
+    expect(w.find('[data-testid="pocket-menu-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="pocket-menu"]').exists()).toBe(false)
   })
 
   it('opens the menu with Save + Download actions', async () => {
     const w = mount(PocketableChart, {
       props: { chart: 'stat', chartProps: { value: 1, label: 'X' }, name: 'X' },
     })
-    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
-    expect(w.find('[data-testid="chart-menu"]').exists()).toBe(true)
+    await w.find('[data-testid="pocket-menu-btn"]').trigger('click')
+    expect(w.find('[data-testid="pocket-menu"]').exists()).toBe(true)
     expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(true)
-    expect(w.find('[data-testid="chart-download-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="pocket-download-btn"]').exists()).toBe(true)
   })
 
-  it('omits Save but keeps Download when not savable', async () => {
+  it('hides the actions menu when not savable', () => {
     const w = mount(PocketableChart, {
       props: { chart: 'stat', chartProps: { value: 1, label: 'X' }, savable: false },
     })
-    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
-    expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(false)
-    expect(w.find('[data-testid="chart-download-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="pocket-menu-btn"]').exists()).toBe(false)
   })
 
   it('saves a chart_snapshot to the pocket with serialised config', async () => {
@@ -47,7 +45,7 @@ describe('PocketableChart + chart_snapshot engine', () => {
         name: 'My Bars',
       },
     })
-    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
+    await w.find('[data-testid="pocket-menu-btn"]').trigger('click')
     await w.find('[data-testid="pocket-save-btn"]').trigger('click')
     await w.find('[data-testid="pocket-name-input"]').setValue('My Bars')
     await w.find('[data-testid="pocket-confirm"]').trigger('click')
@@ -62,14 +60,14 @@ describe('PocketableChart + chart_snapshot engine', () => {
     expect(stored[0].config.props.formatValue).toBeUndefined() // function dropped
   })
 
-  it('download triggers a file download (stat tile → svg text snapshot)', async () => {
+  it('download triggers a file download (gauge → svg export)', async () => {
     const createSpy = vi.spyOn(URL, 'createObjectURL')
     const clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
     const w = mount(PocketableChart, {
-      props: { chart: 'stat', chartProps: { value: 7, label: 'Lucky' }, name: 'Lucky tile' },
+      props: { chart: 'gauge', chartProps: { value: 75, label: 'Coverage' }, name: 'Coverage gauge' },
     })
-    await w.find('[data-testid="chart-menu-btn"]').trigger('click')
-    await w.find('[data-testid="chart-download-btn"]').trigger('click')
+    await w.find('[data-testid="pocket-menu-btn"]').trigger('click')
+    await w.find('[data-testid="pocket-download-btn"]').trigger('click')
     expect(createSpy).toHaveBeenCalled()
     expect(clickSpy).toHaveBeenCalled()
     createSpy.mockRestore()

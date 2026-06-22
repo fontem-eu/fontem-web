@@ -52,6 +52,7 @@ const graphData = ref(null)
 const error = ref(null)
 const tooltip = ref(null)
 const cyContainer = ref(null)
+const captureTarget = () => cyContainer.value
 const optionsOpen = ref(false)
 const fullscreen = ref(false)
 
@@ -1057,6 +1058,7 @@ async function retryFetch() {
             widget-type="graph_explorer"
             :config="pocketConfig"
             :default-name="pocketName"
+            :capture-target="captureTarget"
           />
         </div>
       </div>

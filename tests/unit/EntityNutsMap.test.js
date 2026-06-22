@@ -162,7 +162,7 @@ describe('EntityNutsMap — controls', () => {
   it('renders a PocketButton', async () => {
     const w = await mountMap()
     await flushPromises()
-    expect(w.find('[data-testid="pocket-save-btn"]').exists()).toBe(true)
+    expect(w.find('[data-testid="pocket-menu-btn"]').exists()).toBe(true)
     w.unmount()
   })
 })

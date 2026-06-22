@@ -19,6 +19,7 @@ const props = defineProps({
 })
 
 const container = ref(null)
+const captureTarget = () => container.value
 let map = null
 
 const level     = ref(0)
@@ -182,6 +183,7 @@ watch(atlasPalette, () => { if (map) refresh() })
 onMounted(() => {
   map = new maplibregl.Map({
     container: container.value,
+    preserveDrawingBuffer: true,
     style: {
       version: 8,
       sources: {
@@ -243,6 +245,7 @@ onBeforeUnmount(() => {
         widget-type="entity_nuts_map"
         :config="pocketConfig"
         :default-name="pocketName"
+        :capture-target="captureTarget"
       />
     </div>
 

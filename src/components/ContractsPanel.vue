@@ -17,6 +17,8 @@ const props = defineProps({
 
 const pocketConfig = computed(() => ({ entityId: props.symbol }))
 const pocketName = computed(() => `${props.symbol} — Contracts`)
+const rootRef = ref(null)
+const captureTarget = () => rootRef.value
 
 const state = ref('loading')
 const data = ref(null)
@@ -162,7 +164,7 @@ const topCpv = computed(() => {
 </script>
 
 <template>
-  <div data-testid="contracts-panel" class="contracts-panel">
+  <div ref="rootRef" data-testid="contracts-panel" class="contracts-panel">
     <!-- Loading -->
     <div v-if="state === 'loading'" class="contracts-msg">{{ $t('contracts.loading_procurement_data') }}</div>
 
@@ -185,6 +187,7 @@ const topCpv = computed(() => {
           widget-type="contracts_table"
           :config="pocketConfig"
           :default-name="pocketName"
+          :capture-target="captureTarget"
         />
       </div>
       <div class="contracts-summary" data-testid="contracts-summary">

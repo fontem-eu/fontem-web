@@ -381,6 +381,7 @@ function _formatValue(v, dataset) {
 
 // ── Map setup ────────────────────────────────────────────────────────
 const container = ref(null)
+const captureTarget = () => container.value
 let map = null
 
 // Painting is split into two MapLibre layers:
@@ -612,6 +613,7 @@ function _createMap() {
   if (!container.value || map) return
   map = new maplibregl.Map({
     container: container.value,
+    preserveDrawingBuffer: true,
     style: {
       version: 8,
       sources: {
@@ -833,6 +835,7 @@ onBeforeUnmount(() => {
             widget-type="atlas_map"
             :config="pocketConfig"
             :default-name="pocketName"
+            :capture-target="captureTarget"
           />
         </div>
       </aside>

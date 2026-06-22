@@ -13,6 +13,8 @@ const props = defineProps({
 
 const pocketConfig = computed(() => ({ entityId: props.gmrId || props.symbol }))
 const pocketName = computed(() => `${props.companyName || props.symbol} — Profile`)
+const rootRef = ref(null)
+const captureTarget = () => rootRef.value
 
 const profile = ref(null)
 const profileState = ref('loading')
@@ -47,7 +49,7 @@ watch(() => props.symbol, (sym) => {
 </script>
 
 <template>
-  <div class="profile-panel" data-testid="profile-panel">
+  <div ref="rootRef" class="profile-panel" data-testid="profile-panel">
     <!-- Company info card -->
     <div class="pp-header">
       <div class="pp-header-top">
@@ -56,6 +58,7 @@ watch(() => props.symbol, (sym) => {
           widget-type="entity_profile"
           :config="pocketConfig"
           :default-name="pocketName"
+          :capture-target="captureTarget"
         />
       </div>
       <div class="pp-meta">
