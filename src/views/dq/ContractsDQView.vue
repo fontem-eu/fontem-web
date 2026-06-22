@@ -16,6 +16,7 @@ const valueTimeline = ref([])
 const byCountry = ref([])
 const nulls = ref(null)
 const currencyQuality = ref(null)
+const integrity = ref(null)
 
 onMounted(async () => {
   const endpoints = [
@@ -24,14 +25,16 @@ onMounted(async () => {
     fetch('/api/data-quality/contracts/by-country'),
     fetch('/api/data-quality/contracts/nulls'),
     fetch('/api/data-quality/contracts/currency-quality'),
+    fetch('/api/data-quality/contracts/integrity'),
   ]
   try {
-    const [tl, vt, bc, nl, cq] = await Promise.all(endpoints)
+    const [tl, vt, bc, nl, cq, it] = await Promise.all(endpoints)
     if (tl.ok) timeline.value = await tl.json()
     if (vt.ok) valueTimeline.value = await vt.json()
     if (bc.ok) byCountry.value = await bc.json()
     if (nl.ok) nulls.value = await nl.json()
     if (cq.ok) currencyQuality.value = await cq.json()
+    if (it.ok) integrity.value = await it.json()
   } catch { /* */ }
   loading.value = false
 })
@@ -67,6 +70,26 @@ const currencyBars = computed(() => {
     value: c.contracts,
   }))
 })
+
+const pct = (x) => (x == null ? null : Math.round(x * 100))
+const singleBidderRatePct = computed(() => pct(integrity.value?.single_bidder_rate))
+const bidderCoveragePct = computed(() => pct(integrity.value?.bidder_count_coverage))
+const procCoveragePct = computed(() => pct(integrity.value?.procedure_type_coverage))
+const flagLabels = {
+  single_bidder: 'Single bidder', non_open: 'Non-open procedure',
+  no_call: 'No call for bids', price_only: 'Lowest-price only',
+}
+const flagBars = computed(() => {
+  const f = integrity.value?.flags
+  if (!f) return []
+  return Object.entries(f)
+    .map(([k, v]) => ({ label: flagLabels[k] || k, value: v }))
+    .sort((a, b) => b.value - a.value)
+})
+const redFlagDistBars = computed(() =>
+  (integrity.value?.red_flag_distribution || []).map(d => ({
+    label: `${d.flags} flag${d.flags === 1 ? '' : 's'}`, value: d.contracts,
+  })))
 </script>
 
 <template>
@@ -96,6 +119,35 @@ const currencyBars = computed(() => {
           color="#d97706"
         />
       </div>
+
+      <!-- Tender integrity — the procurement-integrity lens -->
+      <section v-if="integrity" class="dq-section" data-testid="dq-integrity">
+        <h2>Tender Integrity</h2>
+        <p class="dq-hint">Single-bidder rate and red-flag indicators per the EC Single Market Scoreboard / ECA CRI methodology — a flag is a prompt to look, not proof of wrongdoing.</p>
+        <div class="dq-stats">
+          <StatCard
+            :value="(singleBidderRatePct ?? '\u2014') + (singleBidderRatePct == null ? '' : '%')"
+            label="Single-bidder rate"
+            :color="singleBidderRatePct >= 30 ? '#dc2626' : '#d97706'"
+            data-testid="dq-single-bidder-rate"
+          />
+          <StatCard :value="(integrity.single_bidder ?? 0).toLocaleString()" label="Single-bidder contracts" />
+          <StatCard :value="(bidderCoveragePct ?? '\u2014') + (bidderCoveragePct == null ? '' : '%')" label="Bidder-count coverage" />
+          <StatCard :value="(procCoveragePct ?? '\u2014') + (procCoveragePct == null ? '' : '%')" label="Procedure-type coverage" />
+        </div>
+        <div class="dq-gauges">
+          <GaugeChart :value="singleBidderRatePct || 0" label="Single-bidder rate" />
+          <GaugeChart :value="bidderCoveragePct || 0" label="Bidder-count coverage" />
+        </div>
+        <section v-if="flagBars.length" class="dq-subsection">
+          <h3>Red flags by type</h3>
+          <HorizontalBarChart :data="flagBars" color="#d97706" />
+        </section>
+        <section v-if="redFlagDistBars.length" class="dq-subsection">
+          <h3>Red-flag count distribution</h3>
+          <HorizontalBarChart :data="redFlagDistBars" color="#dc2626" />
+        </section>
+      </section>
 
       <!-- Currency quality gauges -->
       <section v-if="currencyQuality" class="dq-section">
