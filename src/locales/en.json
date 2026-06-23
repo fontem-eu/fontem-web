@@ -703,10 +703,6 @@
     "members": "Members",
     "invite": "Invite",
     "invite_email": "Invite by email",
-    "cap_can_write_stories": "Write stories",
-    "cap_can_add_viz": "Add visualizations",
-    "cap_can_administer": "Administer",
-    "cap_is_owner": "Owner",
     "dossier": "Dossier",
     "dossier_empty": "No articles yet.",
     "new_dossier": "New dossier",
@@ -719,6 +715,11 @@
     "stories": "Stories",
     "no_stories": "No stories yet.",
     "from_this_investigation": "From this investigation",
-    "from_your_pocket": "From your pocket"
+    "from_your_pocket": "From your pocket",
+    "role_viewer": "Viewer",
+    "role_contributor": "Contributor",
+    "role_admin": "Admin",
+    "role_owner": "Owner",
+    "role": "Role"
   }
 }

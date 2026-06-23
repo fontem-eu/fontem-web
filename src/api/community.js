@@ -289,7 +289,7 @@ export function listInvestigationMembers(id) {
   return request('GET', `/investigations/${encodeURIComponent(id)}/members`)
 }
 export function addInvestigationMember(id, member) {
-  // member: { email | user_id, can_write_stories, can_add_viz, can_administer, is_owner }
+  // member: { email | user_id, role }
   return request('POST', `/investigations/${encodeURIComponent(id)}/members`, member)
 }
 export function updateInvestigationMember(id, uid, caps) {

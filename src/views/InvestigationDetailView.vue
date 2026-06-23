@@ -14,7 +14,7 @@ import {
   updateInvestigationMember, removeInvestigationMember,
   listInvestigationStories, removeInvestigationStory,
 } from '../api/community.js'
-import { roleLabel } from '../utils/investigationRole.js'
+import { roleLabel, roleAtLeast, ROLES } from '../utils/investigationRole.js'
 
 const route = useRoute()
 const id = route.params.id
@@ -27,14 +27,14 @@ const error = ref(null)
 
 const myMembership = computed(() => inv.value?.membership || null)
 const canManage = computed(
-  () => !!myMembership.value && (myMembership.value.is_owner || myMembership.value.can_administer),
+  () => roleAtLeast(myMembership.value, 'admin'),
 )
 const canWrite = computed(
-  () => !!myMembership.value && (myMembership.value.is_owner || myMembership.value.can_write_stories),
+  () => roleAtLeast(myMembership.value, 'contributor'),
 )
 
 const inviteEmail = ref('')
-const inviteCaps = ref({ can_write_stories: false, can_add_viz: false, can_administer: false, is_owner: false })
+const inviteRole = ref('viewer')
 
 async function load() {
   loading.value = true
@@ -51,15 +51,6 @@ async function load() {
 }
 onMounted(load)
 
-function capsOf(m) {
-  return {
-    can_write_stories: m.can_write_stories,
-    can_add_viz: m.can_add_viz,
-    can_administer: m.can_administer,
-    is_owner: m.is_owner,
-  }
-}
-
 async function removeStory(s) {
   error.value = null
   try {
@@ -74,21 +65,19 @@ async function invite() {
   if (!inviteEmail.value.trim()) return
   error.value = null
   try {
-    await addInvestigationMember(id, { email: inviteEmail.value.trim(), ...inviteCaps.value })
+    await addInvestigationMember(id, { email: inviteEmail.value.trim(), role: inviteRole.value })
     inviteEmail.value = ''
-    inviteCaps.value = { can_write_stories: false, can_add_viz: false, can_administer: false, is_owner: false }
+    inviteRole.value = 'viewer'
     members.value = (await listInvestigationMembers(id)) || []
   } catch (e) {
     error.value = e.message
   }
 }
 
-async function toggleCap(m, cap) {
+async function setRole(m, role) {
   error.value = null
-  const caps = capsOf(m)
-  caps[cap] = !caps[cap]
   try {
-    await updateInvestigationMember(id, m.user_id, caps)
+    await updateInvestigationMember(id, m.user_id, { role })
     members.value = (await listInvestigationMembers(id)) || []
   } catch (e) {
     error.value = e.message
@@ -127,10 +116,14 @@ async function remove(m) {
             <span class="invd-member-id">{{ m.email || m.name || m.user_id }}</span>
             <span class="invd-member-role" :data-testid="'member-role-' + m.user_id">{{ roleLabel(m) }}</span>
             <template v-if="canManage">
-              <label v-for="cap in ['can_write_stories','can_add_viz','can_administer','is_owner']" :key="cap" class="invd-cap">
-                <input type="checkbox" :checked="m[cap]" :data-testid="'cap-' + cap + '-' + m.user_id" @change="toggleCap(m, cap)" />
-                <span>{{ $t('investigations.cap_' + cap) }}</span>
-              </label>
+              <select
+                class="invd-role-select"
+                :data-testid="'member-role-select-' + m.user_id"
+                :value="m.role"
+                @change="setRole(m, $event.target.value)"
+              >
+                <option v-for="r in ROLES" :key="r" :value="r">{{ $t('investigations.role_' + r) }}</option>
+              </select>
               <button class="invd-remove" :data-testid="'remove-' + m.user_id" @click="remove(m)">×</button>
             </template>
           </li>
@@ -145,10 +138,9 @@ async function remove(m) {
             data-testid="invite-email-input"
             @keydown.enter="invite"
           />
-          <label class="invd-cap"><input v-model="inviteCaps.can_write_stories" type="checkbox" data-testid="invite-write" /> {{ $t('investigations.cap_can_write_stories') }}</label>
-          <label class="invd-cap"><input v-model="inviteCaps.can_add_viz" type="checkbox" data-testid="invite-viz" /> {{ $t('investigations.cap_can_add_viz') }}</label>
-          <label class="invd-cap"><input v-model="inviteCaps.can_administer" type="checkbox" data-testid="invite-admin" /> {{ $t('investigations.cap_can_administer') }}</label>
-          <label class="invd-cap"><input v-model="inviteCaps.is_owner" type="checkbox" data-testid="invite-owner" /> {{ $t('investigations.cap_is_owner') }}</label>
+          <select v-model="inviteRole" class="invd-role-select" data-testid="invite-role">
+            <option v-for="r in ROLES" :key="r" :value="r">{{ $t('investigations.role_' + r) }}</option>
+          </select>
           <button class="inv-primary" data-testid="invite-add-btn" @click="invite">{{ $t('investigations.invite') }}</button>
         </div>
       </section>
@@ -195,4 +187,5 @@ async function remove(m) {
 .invd-stories { list-style: none; padding: 0; margin: 0; }
 .invd-story { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; }
 .invd-story-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+.invd-role-select { font-size: 0.8rem; padding: 0.2rem 0.3rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: var(--text); }
 </style>

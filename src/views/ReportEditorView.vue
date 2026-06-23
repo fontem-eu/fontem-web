@@ -44,6 +44,7 @@ import {
   addInvestigationStory,
   listVisualizations,
 } from '../api/community.js'
+import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
 
 const route = useRoute()
@@ -82,10 +83,7 @@ async function openInvestigationPicker() {
     const all = (await listInvestigations()) || []
     // Only investigations where the current user may add stories (write cap or
     // owner) — the others would 403 server-side.
-    investigationOptions.value = all.filter((i) => {
-      const m = i.membership
-      return m && (m.is_owner || m.can_write_stories)
-    })
+    investigationOptions.value = all.filter((i) => canContribute(i.membership))
     showInvestigationPicker.value = true
   } catch (err) {
     investigationAddStatus.value = err.message

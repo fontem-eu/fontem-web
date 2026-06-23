@@ -38,7 +38,7 @@ beforeEach(() => {
 describe('InvestigationsView', () => {
   it('lists investigations with the caller role', async () => {
     listInvestigations.mockResolvedValue([
-      { id: 'i1', name: 'Panama', description: 'leaks', membership: { is_owner: true } },
+      { id: 'i1', name: 'Panama', description: 'leaks', membership: { role: 'owner' } },
     ])
     const { w } = await mountView()
     expect(w.find('[data-testid="investigation-list"]').exists()).toBe(true)

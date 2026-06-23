@@ -28,8 +28,8 @@ beforeEach(() => {
 describe('PocketButton — Add to investigation', () => {
   it('lists writable investigations and saves the viz server-side', async () => {
     listInvestigations.mockResolvedValue([
-      { id: 'inv-w', name: 'Writable', membership: { is_owner: true, can_add_viz: true } },
-      { id: 'inv-v', name: 'ViewerOnly', membership: { is_owner: false, can_add_viz: false } },
+      { id: 'inv-w', name: 'Writable', membership: { role: 'owner' } },
+      { id: 'inv-v', name: 'ViewerOnly', membership: { role: 'viewer' } },
     ])
     createVisualization.mockResolvedValue({ id: 'v1' })
     const w = mount(PocketButton, { props: PROPS })
