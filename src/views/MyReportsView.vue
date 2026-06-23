@@ -125,7 +125,10 @@ function truncate(text, maxLen = 140) {
       </div>
     </div>
 
-    <div v-else class="report-cards">
+    <!-- Independent v-if: stories must render alongside dossiers. A `v-else`
+         here paired with the dossier-list v-if above and hid the stories list
+         whenever the user had any dossier (regression caught by smoke STORY-14). -->
+    <div v-if="stories.length" class="report-cards" data-testid="story-cards">
       <div
         v-for="s in stories"
         :key="s.id"

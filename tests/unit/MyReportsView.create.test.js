@@ -11,7 +11,7 @@ vi.mock('../../src/api/community.js', () => ({
 }))
 
 import MyReportsView from '../../src/views/MyReportsView.vue'
-import { listDossiers, createDossier } from '../../src/api/community.js'
+import { listReports, listDossiers, createDossier } from '../../src/api/community.js'
 
 function makeRouter() {
   return createRouter({
@@ -32,7 +32,7 @@ async function mountView() {
   return { w, router }
 }
 
-beforeEach(() => { listDossiers.mockReset(); createDossier.mockReset() })
+beforeEach(() => { listReports.mockReset(); listReports.mockResolvedValue([]); listDossiers.mockReset(); createDossier.mockReset() })
 
 describe('MyReportsView — Create split + dossiers', () => {
   it('Create reveals Story + Dossier options', async () => {
@@ -50,6 +50,18 @@ describe('MyReportsView — Create split + dossiers', () => {
     expect(w.find('[data-testid="dossier-list"]').exists()).toBe(true)
     expect(w.find('[data-testid="dossier-card-d1"]').exists()).toBe(true)
     expect(w.text()).toContain('My Dossier')
+  })
+
+  it('shows BOTH stories and dossiers when both exist (STORY-14 regression)', async () => {
+    listReports.mockResolvedValue([{ id: 'r1', title: 'My Story', visibility: 'private' }])
+    listDossiers.mockResolvedValue([{ id: 'd1', name: 'My Dossier' }])
+    const { w } = await mountView()
+    // The stories list must not be hidden just because a dossier exists.
+    expect(w.find('[data-testid="story-cards"]').exists()).toBe(true)
+    expect(w.text()).toContain('My Story')
+    expect(w.find('[data-testid="dossier-list"]').exists()).toBe(true)
+    expect(w.text()).toContain('My Dossier')
+    expect(w.find('[data-testid="my-stories-empty"]').exists()).toBe(false)
   })
 
   it('creating a dossier navigates to it', async () => {
