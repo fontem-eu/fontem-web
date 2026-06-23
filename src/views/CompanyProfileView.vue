@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import ThemeToggle from '../components/ThemeToggle.vue'
 import ContractsPanel from '../components/ContractsPanel.vue'
+import CohesionGrantsPanel from '../components/CohesionGrantsPanel.vue'
 import { fmtMoney } from '../utils/format.js'
 
 const route = useRoute()
@@ -51,6 +52,7 @@ onMounted(async () => {
       <!-- Contracts panel (reuses the existing component) -->
       <h2 class="cp-section">{{ $t('app.eu_public_procurement') }}</h2>
       <ContractsPanel :symbol="gmrId" />
+      <CohesionGrantsPanel :gmr-id="gmrId" />
     </div>
   </div>
 </template>
