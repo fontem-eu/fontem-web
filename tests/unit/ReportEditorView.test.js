@@ -21,7 +21,7 @@ function makeRouter(reportId = 'r1') {
   return router
 }
 
-async function mountEditor({ content_doc = null, sections = [], reportId = 'r1' } = {}) {
+async function mountEditor({ content_doc = null, sections = [], reportId = 'r1', reportExtra = {} } = {}) {
   vi.spyOn(communityApi, 'getReport').mockResolvedValue({
     id: reportId,
     title: 'Test Report',
@@ -29,6 +29,7 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1' 
     visibility: 'private',
     content_doc,
     sections,
+    ...reportExtra,
   })
   vi.spyOn(communityApi, 'updateReport').mockResolvedValue({})
   vi.spyOn(communityApi, 'saveDocument').mockResolvedValue({ ok: true })
@@ -53,6 +54,21 @@ describe('ReportEditorView — unified editor', () => {
   afterEach(() => {
     vi.restoreAllMocks()
     _internal.clearForTests(); localStorage.clear()
+  })
+
+  it('insert-widget modal lists this investigation\'s visualizations (dual-source)', async () => {
+    vi.spyOn(communityApi, 'listVisualizations').mockResolvedValue([
+      { id: 'v1', name: 'Cohesion chart', widget_type: 'chart_snapshot', config: { entityId: 'CZ' } },
+    ])
+    const { wrapper } = await mountEditor({ reportId: 'r1', reportExtra: { investigation_id: 'inv1' } })
+
+    await wrapper.find('[data-testid="tb-widget"]').trigger('click')
+    await flushPromises()
+    // the investigation's saved viz appear as an insert source alongside the pocket
+    expect(communityApi.listVisualizations).toHaveBeenCalledWith('inv1')
+    expect(wrapper.find('[data-testid="inv-viz-list"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="inv-viz-item-v1"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Cohesion chart')
   })
 
   it('add-to-investigation picker lists writable investigations and adds the story', async () => {

@@ -510,7 +510,8 @@
     "save_to_pocket": "Save to pocket",
     "save_to_pocket_tooltip": "Save to pocket",
     "saved": "Saved",
-    "saved_to_pocket_tooltip": "Saved to pocket"
+    "saved_to_pocket_tooltip": "Saved to pocket",
+    "add_to_investigation": "Add to investigation"
   },
   "preferences_menu": {
     "account": "Account",
@@ -716,6 +717,8 @@
     "back_stories": "← My Stories",
     "add_to_investigation": "Add to investigation",
     "stories": "Stories",
-    "no_stories": "No stories yet."
+    "no_stories": "No stories yet.",
+    "from_this_investigation": "From this investigation",
+    "from_your_pocket": "From your pocket"
   }
 }

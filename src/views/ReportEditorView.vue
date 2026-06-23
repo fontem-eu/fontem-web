@@ -42,6 +42,7 @@ import {
   addDossierArticle,
   listInvestigations,
   addInvestigationStory,
+  listVisualizations,
 } from '../api/community.js'
 import TagEditor from '../components/TagEditor.vue'
 
@@ -122,9 +123,20 @@ const toast = useToast()
 // ── Pocket ──────────────────────────────────────────────────
 const { items: pocketItems, remove: removePocketItem, refresh: refreshPocket } = usePocket()
 const showPocketModal = ref(false)
+const articleInvestigationId = ref(null)
+const investigationViz = ref([])
 
-function openPocketModal() {
+async function openPocketModal() {
   refreshPocket()
+  investigationViz.value = []
+  if (articleInvestigationId.value) {
+    // Articles in an investigation can also insert that investigation's saved
+    // visualizations, not just the browser-local pocket. Failure here is
+    // non-fatal — the pocket source still works.
+    try {
+      investigationViz.value = (await listVisualizations(articleInvestigationId.value)) || []
+    } catch { /* ignore */ }
+  }
   showPocketModal.value = true
 }
 
@@ -280,6 +292,7 @@ async function loadReport() {
     abstract.value = report.abstract || ''
     visibility.value = report.visibility || 'private'
     tags.value = Array.isArray(report.tags) ? report.tags : []
+    articleInvestigationId.value = report.investigation_id || null
 
     if (editor) editor.destroy()
 
@@ -495,6 +508,23 @@ async function save() {
     >
       <div class="modal-content">
         <h3>Insert Widget</h3>
+        <template v-if="investigationViz.length">
+          <h4 class="pocket-subhead" data-testid="inv-viz-heading">{{ $t('investigations.from_this_investigation') }}</h4>
+          <ul class="pocket-list" data-testid="inv-viz-list">
+            <li
+              v-for="v in investigationViz"
+              :key="v.id"
+              class="pocket-item"
+              :data-testid="'inv-viz-item-' + v.id"
+            >
+              <div class="pocket-item-info" @click="insertFromPocket(v)">
+                <span class="pocket-item-type">{{ v.widget_type?.replace(/_/g, ' ') }}</span>
+                <span class="pocket-item-name">{{ v.name }}</span>
+              </div>
+            </li>
+          </ul>
+          <h4 class="pocket-subhead">{{ $t('investigations.from_your_pocket') }}</h4>
+        </template>
         <p v-if="!pocketItems.length" class="pocket-empty">
           Your pocket is empty. Save visualizations using the Pocket button first.
         </p>

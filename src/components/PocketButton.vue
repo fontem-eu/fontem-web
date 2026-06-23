@@ -12,6 +12,7 @@
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { usePocket } from '../composables/usePocket.js'
 import { downloadElementAsImage } from '../utils/downloadViz.js'
+import { listInvestigations, createVisualization } from '../api/community.js'
 
 const props = defineProps({
   widgetType: { type: String, required: true },
@@ -29,6 +30,9 @@ const menuOpen = ref(false)
 const showPrompt = ref(false)
 const nameInput = ref('')
 const saved = ref(false)
+const showInvPicker = ref(false)
+const invOptions = ref([])
+const invStatus = ref(null)
 
 function toggleMenu() { menuOpen.value = !menuOpen.value }
 function closeMenu() { menuOpen.value = false }
@@ -68,6 +72,37 @@ function downloadImage() {
   closeMenu()
   downloadElementAsImage(resolveTarget(), props.defaultName || props.widgetType)
 }
+
+async function openInvPicker() {
+  closeMenu()
+  invStatus.value = null
+  try {
+    const all = (await listInvestigations()) || []
+    // Only investigations the user may add viz to (owner or can_add_viz).
+    invOptions.value = all.filter((i) => {
+      const m = i.membership
+      return m && (m.is_owner || m.can_add_viz)
+    })
+    showInvPicker.value = true
+  } catch (err) {
+    invStatus.value = err.message
+  }
+}
+async function saveToInvestigation(investigationId) {
+  try {
+    await createVisualization({
+      name: props.defaultName || props.widgetType,
+      widget_type: props.widgetType,
+      config: { ...props.config, schema_version: 1 },
+      investigation_id: investigationId,
+    })
+    showInvPicker.value = false
+    saved.value = true
+    setTimeout(() => { saved.value = false }, 2000)
+  } catch (err) {
+    invStatus.value = err.message
+  }
+}
 </script>
 
 <template>
@@ -98,6 +133,13 @@ function downloadImage() {
           role="menuitem"
           @click="downloadImage"
         >{{ $t('pocket_button.download_image') }}</button>
+        <button
+          type="button"
+          class="pocket-menu-item"
+          data-testid="pocket-add-investigation-btn"
+          role="menuitem"
+          @click="openInvPicker"
+        >{{ $t('pocket_button.add_to_investigation') }}</button>
       </div>
     </span>
 
@@ -118,6 +160,25 @@ function downloadImage() {
       </svg>
       <span class="pocket-label">{{ saved ? $t('pocket_button.saved') : $t('pocket_button.pocket') }}</span>
     </button>
+
+    <!-- Add-to-investigation picker -->
+    <div v-if="showInvPicker" class="pocket-prompt" data-testid="pocket-inv-picker" @click.self="showInvPicker = false">
+      <div class="pocket-prompt-card" @click.stop>
+        <span class="pocket-prompt-label">{{ $t('pocket_button.add_to_investigation') }}</span>
+        <p v-if="invStatus" class="pocket-inv-status" data-testid="pocket-inv-status">{{ invStatus }}</p>
+        <p v-if="!invOptions.length" class="pocket-inv-empty">{{ $t('investigations.empty') }}</p>
+        <ul v-else class="pocket-inv-list" data-testid="pocket-inv-list">
+          <li v-for="i in invOptions" :key="i.id">
+            <button type="button" class="pocket-inv-item" :data-testid="'pocket-inv-pick-' + i.id" @click="saveToInvestigation(i.id)">
+              {{ i.name }}
+            </button>
+          </li>
+        </ul>
+        <div class="pocket-prompt-actions">
+          <button class="pocket-cancel" @click="showInvPicker = false">{{ $t('app.cancel') }}</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Name prompt overlay (shared by both modes) -->
     <div v-if="showPrompt" class="pocket-prompt" data-testid="pocket-prompt">
@@ -273,4 +334,8 @@ function downloadImage() {
   color: var(--text);
 }
 .pocket-confirm { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pocket-inv-list { list-style: none; padding: 0; margin: 0.5rem 0; max-height: 240px; overflow-y: auto; }
+.pocket-inv-item { display: block; width: 100%; text-align: left; padding: 0.4rem 0.6rem; border: none; background: transparent; color: var(--text); border-radius: 4px; cursor: pointer; font-size: 0.82rem; }
+.pocket-inv-item:hover { background: var(--bg); color: var(--accent); }
+.pocket-inv-empty, .pocket-inv-status { color: var(--muted); font-size: 0.8rem; }
 </style>

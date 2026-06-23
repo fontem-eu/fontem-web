@@ -334,3 +334,22 @@ export function addDossierArticle(id, reportId, parentId = null) {
 export function removeDossierArticle(id, reportId) {
   return request('DELETE', `/dossiers/${encodeURIComponent(id)}/articles/${encodeURIComponent(reportId)}`)
 }
+
+// ── Visualizations (server-side; the pocket's successor) (M5) ────
+export function listVisualizations(investigationId = null) {
+  const qs = investigationId ? `?investigation_id=${encodeURIComponent(investigationId)}` : ''
+  return request('GET', `/visualizations${qs}`)
+}
+export function createVisualization(payload) {
+  // payload: { name, widget_type, config, investigation_id? }
+  return request('POST', '/visualizations', payload)
+}
+export function deleteVisualization(id) {
+  return request('DELETE', `/visualizations/${encodeURIComponent(id)}`)
+}
+export function attachVisualization(id, investigationId) {
+  return request('POST', `/visualizations/${encodeURIComponent(id)}/attach`, { investigation_id: investigationId })
+}
+export function detachVisualization(id) {
+  return request('POST', `/visualizations/${encodeURIComponent(id)}/detach`)
+}
