@@ -40,6 +40,8 @@ import {
   uploadImage,
   listDossiers,
   addDossierArticle,
+  listInvestigations,
+  addInvestigationStory,
 } from '../api/community.js'
 import TagEditor from '../components/TagEditor.vue'
 
@@ -66,6 +68,35 @@ async function addToDossier(dossierId) {
     dossierAddStatus.value = 'added'
   } catch (err) {
     dossierAddStatus.value = err.message
+  }
+}
+
+// ── Add to investigation (M4) ───────────────────────────────
+const showInvestigationPicker = ref(false)
+const investigationOptions = ref([])
+const investigationAddStatus = ref(null)
+async function openInvestigationPicker() {
+  investigationAddStatus.value = null
+  try {
+    const all = (await listInvestigations()) || []
+    // Only investigations where the current user may add stories (write cap or
+    // owner) — the others would 403 server-side.
+    investigationOptions.value = all.filter((i) => {
+      const m = i.membership
+      return m && (m.is_owner || m.can_write_stories)
+    })
+    showInvestigationPicker.value = true
+  } catch (err) {
+    investigationAddStatus.value = err.message
+  }
+}
+async function addToInvestigation(investigationId) {
+  try {
+    await addInvestigationStory(investigationId, reportId)
+    showInvestigationPicker.value = false
+    investigationAddStatus.value = 'added'
+  } catch (err) {
+    investigationAddStatus.value = err.message
   }
 }
 
@@ -333,6 +364,9 @@ async function save() {
         <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
           {{ $t('investigations.add_to_dossier') }}
         </button>
+        <button class="save-btn" data-testid="add-to-investigation-btn" @click="openInvestigationPicker">
+          {{ $t('investigations.add_to_investigation') }}
+        </button>
         <button class="save-btn" :disabled="saving" data-testid="save-story" @click="save">
           {{ saving ? 'Saving...' : 'Save' }}
         </button>
@@ -428,6 +462,27 @@ async function save() {
           </li>
         </ul>
         <div class="modal-actions"><button @click="showDossierPicker = false">{{ $t('app.cancel') }}</button></div>
+      </div>
+    </div>
+
+    <!-- Add-to-investigation picker -->
+    <div
+      v-if="showInvestigationPicker"
+      class="modal-overlay"
+      data-testid="investigation-picker"
+      @click.self="showInvestigationPicker = false"
+    >
+      <div class="modal-card">
+        <h3>{{ $t('investigations.add_to_investigation') }}</h3>
+        <p v-if="!investigationOptions.length" class="pocket-empty">{{ $t('investigations.empty') }}</p>
+        <ul v-else class="pocket-list" data-testid="investigation-picker-list">
+          <li v-for="i in investigationOptions" :key="i.id" class="pocket-item">
+            <div class="pocket-item-info" :data-testid="'investigation-pick-' + i.id" @click="addToInvestigation(i.id)">
+              <span class="pocket-item-name">{{ i.name }}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="modal-actions"><button @click="showInvestigationPicker = false">{{ $t('app.cancel') }}</button></div>
       </div>
     </div>
 

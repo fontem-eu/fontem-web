@@ -55,6 +55,27 @@ describe('ReportEditorView — unified editor', () => {
     _internal.clearForTests(); localStorage.clear()
   })
 
+  it('add-to-investigation picker lists writable investigations and adds the story', async () => {
+    vi.spyOn(communityApi, 'listInvestigations').mockResolvedValue([
+      { id: 'inv-w', name: 'Writable', membership: { is_owner: true, can_write_stories: true } },
+      { id: 'inv-v', name: 'ViewerOnly', membership: { is_owner: false, can_write_stories: false } },
+    ])
+    const addSpy = vi.spyOn(communityApi, 'addInvestigationStory').mockResolvedValue({ status: 'ok' })
+    const { wrapper } = await mountEditor({ reportId: 'r1' })
+
+    await wrapper.find('[data-testid="add-to-investigation-btn"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="investigation-picker"]').exists()).toBe(true)
+    // only the writable investigation is offered (viewer-only filtered out)
+    expect(wrapper.find('[data-testid="investigation-pick-inv-w"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="investigation-pick-inv-v"]').exists()).toBe(false)
+
+    await wrapper.find('[data-testid="investigation-pick-inv-w"]').trigger('click')
+    await flushPromises()
+    expect(addSpy).toHaveBeenCalledWith('inv-w', 'r1')
+    expect(wrapper.find('[data-testid="investigation-picker"]').exists()).toBe(false)
+  })
+
   it('mounts and shows title input', async () => {
     const { wrapper } = await mountEditor()
     expect(wrapper.find('[data-testid="story-title-input"]').exists()).toBe(true)

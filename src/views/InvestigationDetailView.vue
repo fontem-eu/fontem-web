@@ -12,6 +12,7 @@ import {
   getInvestigation,
   listInvestigationMembers, addInvestigationMember,
   updateInvestigationMember, removeInvestigationMember,
+  listInvestigationStories, removeInvestigationStory,
 } from '../api/community.js'
 import { roleLabel } from '../utils/investigationRole.js'
 
@@ -20,12 +21,16 @@ const id = route.params.id
 
 const inv = ref(null)
 const members = ref([])
+const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
 
 const myMembership = computed(() => inv.value?.membership || null)
 const canManage = computed(
   () => !!myMembership.value && (myMembership.value.is_owner || myMembership.value.can_administer),
+)
+const canWrite = computed(
+  () => !!myMembership.value && (myMembership.value.is_owner || myMembership.value.can_write_stories),
 )
 
 const inviteEmail = ref('')
@@ -37,6 +42,7 @@ async function load() {
   try {
     inv.value = await getInvestigation(id)
     members.value = (await listInvestigationMembers(id)) || []
+    stories.value = (await listInvestigationStories(id)) || []
   } catch (e) {
     error.value = e.message
   } finally {
@@ -51,6 +57,16 @@ function capsOf(m) {
     can_add_viz: m.can_add_viz,
     can_administer: m.can_administer,
     is_owner: m.is_owner,
+  }
+}
+
+async function removeStory(s) {
+  error.value = null
+  try {
+    await removeInvestigationStory(id, s.id)
+    stories.value = (await listInvestigationStories(id)) || []
+  } catch (e) {
+    error.value = e.message
   }
 }
 
@@ -136,6 +152,22 @@ async function remove(m) {
           <button class="inv-primary" data-testid="invite-add-btn" @click="invite">{{ $t('investigations.invite') }}</button>
         </div>
       </section>
+
+      <section class="invd-section" data-testid="investigation-stories">
+        <h2>{{ $t('investigations.stories') }}</h2>
+        <p v-if="!stories.length" class="invd-empty">{{ $t('investigations.no_stories') }}</p>
+        <ul v-else class="invd-stories">
+          <li v-for="s in stories" :key="s.id" class="invd-story" :data-testid="'inv-story-' + s.id">
+            <router-link :to="`/stories/${s.id}`" class="invd-story-link">{{ s.title || 'Untitled' }}</router-link>
+            <button
+              v-if="canWrite"
+              class="invd-remove"
+              :data-testid="'inv-story-remove-' + s.id"
+              @click="removeStory(s)"
+            >&times;</button>
+          </li>
+        </ul>
+      </section>
     </template>
   </div>
 </template>
@@ -159,4 +191,8 @@ async function remove(m) {
 .invd-invite { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px solid var(--border); }
 .invd-input { padding: 0.45rem 0.6rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); color: var(--text); font-size: 0.85rem; }
 .inv-primary { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.82rem; }
+.invd-empty { color: var(--muted); font-size: 0.85rem; }
+.invd-stories { list-style: none; padding: 0; margin: 0; }
+.invd-story { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; }
+.invd-story-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 </style>

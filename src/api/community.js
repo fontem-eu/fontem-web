@@ -299,6 +299,17 @@ export function removeInvestigationMember(id, uid) {
   return request('DELETE', `/investigations/${encodeURIComponent(id)}/members/${encodeURIComponent(uid)}`)
 }
 
+// ── Investigation ↔ story association (M4) ──────────────────────
+export function listInvestigationStories(id) {
+  return request('GET', `/investigations/${encodeURIComponent(id)}/stories`)
+}
+export function addInvestigationStory(id, reportId) {
+  return request('POST', `/investigations/${encodeURIComponent(id)}/stories`, { report_id: reportId })
+}
+export function removeInvestigationStory(id, reportId) {
+  return request('DELETE', `/investigations/${encodeURIComponent(id)}/stories/${encodeURIComponent(reportId)}`)
+}
+
 // ── Dossiers ────────────────────────────────────────────────────
 // Thin tree-of-articles (M3). getDossier returns the dossier + its flat
 // `articles` list ({id, title, parent_id}); the client assembles the tree.

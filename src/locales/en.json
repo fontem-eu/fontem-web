@@ -713,6 +713,9 @@
     "add_to_dossier": "Add to dossier",
     "open_in_editor": "Open in editor",
     "select_article": "Select an article from the tree.",
-    "back_stories": "← My Stories"
+    "back_stories": "← My Stories",
+    "add_to_investigation": "Add to investigation",
+    "stories": "Stories",
+    "no_stories": "No stories yet."
   }
 }
