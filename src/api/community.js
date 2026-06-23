@@ -298,3 +298,28 @@ export function updateInvestigationMember(id, uid, caps) {
 export function removeInvestigationMember(id, uid) {
   return request('DELETE', `/investigations/${encodeURIComponent(id)}/members/${encodeURIComponent(uid)}`)
 }
+
+// ── Dossiers ────────────────────────────────────────────────────
+// Thin tree-of-articles (M3). getDossier returns the dossier + its flat
+// `articles` list ({id, title, parent_id}); the client assembles the tree.
+export function listDossiers() {
+  return request('GET', '/dossiers')
+}
+export function createDossier(name, investigationId = null) {
+  return request('POST', '/dossiers', { name, investigation_id: investigationId })
+}
+export function getDossier(id) {
+  return request('GET', `/dossiers/${encodeURIComponent(id)}`)
+}
+export function updateDossier(id, name) {
+  return request('PUT', `/dossiers/${encodeURIComponent(id)}`, { name })
+}
+export function deleteDossier(id, content = 'orphan') {
+  return request('DELETE', `/dossiers/${encodeURIComponent(id)}?content=${content}`)
+}
+export function addDossierArticle(id, reportId, parentId = null) {
+  return request('POST', `/dossiers/${encodeURIComponent(id)}/articles`, { report_id: reportId, parent_id: parentId })
+}
+export function removeDossierArticle(id, reportId) {
+  return request('DELETE', `/dossiers/${encodeURIComponent(id)}/articles/${encodeURIComponent(reportId)}`)
+}

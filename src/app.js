@@ -46,6 +46,7 @@ import FeedView from './views/FeedView.vue'
 import MyReportsView from './views/MyReportsView.vue'
 import InvestigationsView from './views/InvestigationsView.vue'
 import InvestigationDetailView from './views/InvestigationDetailView.vue'
+import DossierView from './views/DossierView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
 import IssuesView from './views/IssuesView.vue'
@@ -156,6 +157,7 @@ const ROUTES = [
   { path: '/my-stories', component: MyReportsView },
   { path: '/investigations', component: InvestigationsView },
   { path: '/investigations/:id', component: InvestigationDetailView },
+  { path: '/dossiers/:id', component: DossierView },
   { path: '/stories', redirect: '/my-stories' },
   { path: '/stories/:id', component: ReportView },
   { path: '/stories/:id/edit', component: ReportEditorView },

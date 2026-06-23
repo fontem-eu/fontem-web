@@ -16,6 +16,8 @@ import { makeTestI18n } from './helpers/i18n.js'
 vi.mock('../../src/api/community.js', () => ({
   listReports: vi.fn(() => Promise.resolve([])),
   createReport: vi.fn(),
+  listDossiers: vi.fn(() => Promise.resolve([])),
+  createDossier: vi.fn(),
 }))
 
 import MyReportsView from '../../src/views/MyReportsView.vue'

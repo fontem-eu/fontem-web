@@ -463,7 +463,9 @@
     "my_stories": "My Stories",
     "no_stories_yet_start_your_first_one_abov": "No stories yet. Start your first one above.",
     "or_read_recent_public_stories": "Or read recent public stories →",
-    "start_a_new_story": "Start a new story"
+    "start_a_new_story": "Start a new story",
+    "create": "Create",
+    "story": "Story"
   },
   "nav": {
     "back_admin": "← Admin",
@@ -703,6 +705,14 @@
     "cap_can_write_stories": "Write stories",
     "cap_can_add_viz": "Add visualizations",
     "cap_can_administer": "Administer",
-    "cap_is_owner": "Owner"
+    "cap_is_owner": "Owner",
+    "dossier": "Dossier",
+    "dossier_empty": "No articles yet.",
+    "new_dossier": "New dossier",
+    "new_article": "New article",
+    "add_to_dossier": "Add to dossier",
+    "open_in_editor": "Open in editor",
+    "select_article": "Select an article from the tree.",
+    "back_stories": "← My Stories"
   }
 }

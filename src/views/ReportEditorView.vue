@@ -38,11 +38,36 @@ import {
   saveDocument,
   setStoryTags,
   uploadImage,
+  listDossiers,
+  addDossierArticle,
 } from '../api/community.js'
 import TagEditor from '../components/TagEditor.vue'
 
 const route = useRoute()
 const reportId = route.params.id
+
+// ── Add to dossier ──────────────────────────────────────────
+const showDossierPicker = ref(false)
+const dossierOptions = ref([])
+const dossierAddStatus = ref(null)
+async function openDossierPicker() {
+  dossierAddStatus.value = null
+  try {
+    dossierOptions.value = (await listDossiers()) || []
+    showDossierPicker.value = true
+  } catch (err) {
+    dossierAddStatus.value = err.message
+  }
+}
+async function addToDossier(dossierId) {
+  try {
+    await addDossierArticle(dossierId, reportId)
+    showDossierPicker.value = false
+    dossierAddStatus.value = 'added'
+  } catch (err) {
+    dossierAddStatus.value = err.message
+  }
+}
 
 const title = ref('')
 const abstract = ref('')
@@ -305,6 +330,9 @@ async function save() {
           @insert="onAssistInsert"
           @applied="onProposalApplied"
         />
+        <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
+          {{ $t('investigations.add_to_dossier') }}
+        </button>
         <button class="save-btn" :disabled="saving" data-testid="save-story" @click="save">
           {{ saving ? 'Saving...' : 'Save' }}
         </button>
@@ -381,6 +409,27 @@ async function save() {
         @change="onFileSelected"
       />
     </template>
+
+    <!-- Add-to-dossier picker -->
+    <div
+      v-if="showDossierPicker"
+      class="modal-overlay"
+      data-testid="dossier-picker"
+      @click.self="showDossierPicker = false"
+    >
+      <div class="modal-card">
+        <h3>{{ $t('investigations.add_to_dossier') }}</h3>
+        <p v-if="!dossierOptions.length" class="pocket-empty">{{ $t('investigations.empty') }}</p>
+        <ul v-else class="pocket-list" data-testid="dossier-picker-list">
+          <li v-for="d in dossierOptions" :key="d.id" class="pocket-item">
+            <div class="pocket-item-info" :data-testid="'dossier-pick-' + d.id" @click="addToDossier(d.id)">
+              <span class="pocket-item-name">{{ d.name }}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="modal-actions"><button @click="showDossierPicker = false">{{ $t('app.cancel') }}</button></div>
+      </div>
+    </div>
 
     <!-- Pocket picker modal -->
     <div
