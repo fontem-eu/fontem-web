@@ -44,6 +44,8 @@ import ProcurementThemeView from './views/themes/ProcurementThemeView.vue'
 import ThemeScaffoldView from './views/themes/ThemeScaffoldView.vue'
 import FeedView from './views/FeedView.vue'
 import MyReportsView from './views/MyReportsView.vue'
+import InvestigationsView from './views/InvestigationsView.vue'
+import InvestigationDetailView from './views/InvestigationDetailView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
 import IssuesView from './views/IssuesView.vue'
@@ -152,6 +154,8 @@ const ROUTES = [
   // Data stories — canonical paths. Legacy /reports* paths redirect
   // for one release so external links and bookmarks keep working.
   { path: '/my-stories', component: MyReportsView },
+  { path: '/investigations', component: InvestigationsView },
+  { path: '/investigations/:id', component: InvestigationDetailView },
   { path: '/stories', redirect: '/my-stories' },
   { path: '/stories/:id', component: ReportView },
   { path: '/stories/:id/edit', component: ReportEditorView },

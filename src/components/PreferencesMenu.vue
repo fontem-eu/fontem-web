@@ -248,6 +248,9 @@ onBeforeUnmount(() => {
       <div class="prefs-section">
         <template v-if="hasToken">
           <div class="prefs-section-title">{{ $t('preferences_menu.account') }}</div>
+          <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-investigations" @click="nav('/investigations')">
+            <span>{{ $t('investigations.title') }}</span><span class="prefs-row-chevron">›</span>
+          </button>
           <button class="prefs-row prefs-row-button" role="menuitem" data-testid="prefs-issues" @click="nav('/issues')">
             <span>{{ $t('app.issues') }}</span><span class="prefs-row-chevron">›</span>
           </button>

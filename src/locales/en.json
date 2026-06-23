@@ -689,5 +689,20 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "investigations": {
+    "title": "Investigations",
+    "create": "Create investigation",
+    "empty": "You're not in any investigations yet.",
+    "name": "Name",
+    "description": "Description",
+    "back": "← Investigations",
+    "members": "Members",
+    "invite": "Invite",
+    "invite_email": "Invite by email",
+    "cap_can_write_stories": "Write stories",
+    "cap_can_add_viz": "Add visualizations",
+    "cap_can_administer": "Administer",
+    "cap_is_owner": "Owner"
   }
 }

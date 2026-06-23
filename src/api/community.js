@@ -265,3 +265,36 @@ export async function uploadImage(reportId, file) {
   if (!res.ok) throw new Error(`Upload failed: ${res.status}`)
   return res.json()
 }
+
+// ── Investigations ──────────────────────────────────────────────
+// Aggregating workspaces (M2). Membership = capability flags; the list
+// endpoint returns each investigation with the caller's `membership` so
+// the UI can show their role.
+export function listInvestigations() {
+  return request('GET', '/investigations')
+}
+export function createInvestigation(name, description = '') {
+  return request('POST', '/investigations', { name, description })
+}
+export function getInvestigation(id) {
+  return request('GET', `/investigations/${encodeURIComponent(id)}`)
+}
+export function updateInvestigation(id, fields) {
+  return request('PUT', `/investigations/${encodeURIComponent(id)}`, fields)
+}
+export function deleteInvestigation(id, content = 'orphan') {
+  return request('DELETE', `/investigations/${encodeURIComponent(id)}?content=${content}`)
+}
+export function listInvestigationMembers(id) {
+  return request('GET', `/investigations/${encodeURIComponent(id)}/members`)
+}
+export function addInvestigationMember(id, member) {
+  // member: { email | user_id, can_write_stories, can_add_viz, can_administer, is_owner }
+  return request('POST', `/investigations/${encodeURIComponent(id)}/members`, member)
+}
+export function updateInvestigationMember(id, uid, caps) {
+  return request('PUT', `/investigations/${encodeURIComponent(id)}/members/${encodeURIComponent(uid)}`, caps)
+}
+export function removeInvestigationMember(id, uid) {
+  return request('DELETE', `/investigations/${encodeURIComponent(id)}/members/${encodeURIComponent(uid)}`)
+}
