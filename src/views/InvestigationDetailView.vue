@@ -109,7 +109,7 @@ async function remove(m) {
         <ul class="invd-members" data-testid="investigation-members">
           <li v-for="m in members" :key="m.user_id" class="invd-member" :data-testid="'member-' + m.user_id">
             <span class="invd-member-id">{{ m.email || m.name || m.user_id }}</span>
-            <span class="invd-member-role">{{ roleLabel(m) }}</span>
+            <span class="invd-member-role" :data-testid="'member-role-' + m.user_id">{{ roleLabel(m) }}</span>
             <template v-if="canManage">
               <label v-for="cap in ['can_write_stories','can_add_viz','can_administer','is_owner']" :key="cap" class="invd-cap">
                 <input type="checkbox" :checked="m[cap]" :data-testid="'cap-' + cap + '-' + m.user_id" @change="toggleCap(m, cap)" />
