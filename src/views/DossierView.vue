@@ -10,6 +10,7 @@ import {
   getDossier, addDossierArticle, removeDossierArticle, createReport,
 } from '../api/community.js'
 import TreeNav from '../components/TreeNav.vue'
+import DossierShareModal from '../components/DossierShareModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +19,7 @@ const id = route.params.id
 const dossier = ref(null)
 const articles = ref([])
 const selectedId = ref(null)
+const showShare = ref(false)
 const loading = ref(true)
 const error = ref(null)
 
@@ -71,7 +73,13 @@ function editArticle() {
     <p v-if="loading" class="dv-msg">{{ $t('app.loading') }}</p>
 
     <template v-else-if="dossier">
-      <header class="dv-header"><h1 data-testid="dossier-title">{{ dossier.name }}</h1></header>
+      <header class="dv-header">
+        <h1 data-testid="dossier-title">{{ dossier.name }}</h1>
+        <button class="inv-primary" data-testid="dossier-share-btn" @click="showShare = true">
+          {{ $t('investigations.share_dossier') }}
+        </button>
+      </header>
+      <DossierShareModal v-if="showShare" :dossier-id="id" @close="showShare = false" />
       <div class="dv-body">
         <aside class="dv-tree">
           <button class="inv-primary" data-testid="dossier-new-article" @click="newArticle(null)">

@@ -353,3 +353,18 @@ export function attachVisualization(id, investigationId) {
 export function detachVisualization(id) {
   return request('POST', `/visualizations/${encodeURIComponent(id)}/detach`)
 }
+
+// ── Dossier sharing + effective access (Phase C/D) ──────────────
+export function dossierEffectiveAccess(id) {
+  return request('GET', `/dossiers/${encodeURIComponent(id)}/effective-access`)
+}
+export function listDossierAccess(id) {
+  return request('GET', `/dossiers/${encodeURIComponent(id)}/access`)
+}
+export function shareDossier(id, payload) {
+  // payload: { email | user_id, level }
+  return request('POST', `/dossiers/${encodeURIComponent(id)}/access`, payload)
+}
+export function revokeDossierAccess(id, uid) {
+  return request('DELETE', `/dossiers/${encodeURIComponent(id)}/access/${encodeURIComponent(uid)}`)
+}

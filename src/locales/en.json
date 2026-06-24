@@ -720,6 +720,12 @@
     "role_contributor": "Contributor",
     "role_admin": "Admin",
     "role_owner": "Owner",
-    "role": "Role"
+    "role": "Role",
+    "share_dossier": "Share dossier",
+    "who_has_access": "Who has access",
+    "add_people": "Add people",
+    "level_viewer": "Viewer",
+    "level_editor": "Editor",
+    "level_owner": "Owner"
   }
 }
