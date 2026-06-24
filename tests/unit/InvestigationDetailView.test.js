@@ -12,6 +12,8 @@ vi.mock('../../src/api/community.js', () => ({
   removeInvestigationMember: vi.fn(),
   listInvestigationStories: vi.fn(),
   removeInvestigationStory: vi.fn(),
+  listVisualizations: vi.fn(),
+  deleteInvestigation: vi.fn(),
 }))
 
 import InvestigationDetailView from '../../src/views/InvestigationDetailView.vue'
@@ -19,6 +21,7 @@ import {
   getInvestigation, listInvestigationMembers,
   addInvestigationMember, updateInvestigationMember, removeInvestigationMember,
   listInvestigationStories, removeInvestigationStory,
+  listVisualizations, deleteInvestigation,
 } from '../../src/api/community.js'
 
 const MEMBERS = [
@@ -30,6 +33,7 @@ async function mountDetail(membership) {
   getInvestigation.mockResolvedValue({ id: 'i1', name: 'Panama', description: 'd', membership })
   listInvestigationMembers.mockResolvedValue(MEMBERS)
   if (!listInvestigationStories.getMockImplementation()) listInvestigationStories.mockResolvedValue([])
+  if (!listVisualizations.getMockImplementation()) listVisualizations.mockResolvedValue([])
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
@@ -46,7 +50,7 @@ async function mountDetail(membership) {
 }
 
 beforeEach(() => {
-  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory]) m.mockReset()
+  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory, listVisualizations, deleteInvestigation]) m.mockReset()
 })
 
 describe('InvestigationDetailView', () => {
@@ -114,5 +118,32 @@ describe('InvestigationDetailView', () => {
     const w = await mountDetail({ role: 'viewer' })
     expect(w.find('[data-testid="inv-story-s1"]').exists()).toBe(true)
     expect(w.find('[data-testid="inv-story-remove-s1"]').exists()).toBe(false)
+  })
+})
+
+describe('InvestigationDetailView — viz list + delete', () => {
+  it('lists the investigation visualizations', async () => {
+    listVisualizations.mockResolvedValue([{ id: 'v1', name: 'Cohesion chart', widget_type: 'chart_snapshot' }])
+    const w = await mountDetail({ role: 'viewer' })
+    expect(w.find('[data-testid="investigation-viz"]').exists()).toBe(true)
+    expect(w.find('[data-testid="inv-viz-v1"]').exists()).toBe(true)
+    expect(w.text()).toContain('Cohesion chart')
+  })
+
+  it('owner sees Delete; viewer does not', async () => {
+    const owner = await mountDetail({ role: 'owner' })
+    expect(owner.find('[data-testid="investigation-delete-btn"]').exists()).toBe(true)
+    const viewer = await mountDetail({ role: 'viewer' })
+    expect(viewer.find('[data-testid="investigation-delete-btn"]').exists()).toBe(false)
+  })
+
+  it('delete with cascade/orphan calls deleteInvestigation', async () => {
+    deleteInvestigation.mockResolvedValue({})
+    const w = await mountDetail({ role: 'owner' })
+    await w.find('[data-testid="investigation-delete-btn"]').trigger('click')
+    expect(w.find('[data-testid="investigation-delete-confirm"]').exists()).toBe(true)
+    await w.find('[data-testid="investigation-delete-orphan"]').trigger('click')
+    await flushPromises()
+    expect(deleteInvestigation).toHaveBeenCalledWith('i1', 'orphan')
   })
 })

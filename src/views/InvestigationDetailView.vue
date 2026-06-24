@@ -7,21 +7,25 @@
  * surfaced inline.
  */
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   getInvestigation,
   listInvestigationMembers, addInvestigationMember,
   updateInvestigationMember, removeInvestigationMember,
   listInvestigationStories, removeInvestigationStory,
+  listVisualizations, deleteInvestigation,
 } from '../api/community.js'
 import { roleLabel, roleAtLeast, ROLES } from '../utils/investigationRole.js'
 
 const route = useRoute()
+const router = useRouter()
 const id = route.params.id
 
 const inv = ref(null)
 const members = ref([])
 const stories = ref([])
+const viz = ref([])
+const showDelete = ref(false)
 const loading = ref(true)
 const error = ref(null)
 
@@ -31,6 +35,9 @@ const canManage = computed(
 )
 const canWrite = computed(
   () => roleAtLeast(myMembership.value, 'contributor'),
+)
+const canDelete = computed(
+  () => roleAtLeast(myMembership.value, 'owner'),
 )
 
 const inviteEmail = ref('')
@@ -43,6 +50,7 @@ async function load() {
     inv.value = await getInvestigation(id)
     members.value = (await listInvestigationMembers(id)) || []
     stories.value = (await listInvestigationStories(id)) || []
+    viz.value = (await listVisualizations(id)) || []
   } catch (e) {
     error.value = e.message
   } finally {
@@ -56,6 +64,7 @@ async function removeStory(s) {
   try {
     await removeInvestigationStory(id, s.id)
     stories.value = (await listInvestigationStories(id)) || []
+    viz.value = (await listVisualizations(id)) || []
   } catch (e) {
     error.value = e.message
   }
@@ -94,6 +103,17 @@ async function remove(m) {
     error.value = e.message
   }
 }
+
+async function deleteInv(content) {
+  error.value = null
+  try {
+    await deleteInvestigation(id, content)
+    router.push('/investigations')
+  } catch (e) {
+    error.value = e.message
+    showDelete.value = false
+  }
+}
 </script>
 
 <template>
@@ -106,7 +126,26 @@ async function remove(m) {
       <header class="invd-header">
         <h1 data-testid="investigation-title">{{ inv.name }}</h1>
         <span class="invd-role">{{ roleLabel(myMembership) }}</span>
+        <button
+          v-if="canDelete"
+          class="invd-delete-btn"
+          data-testid="investigation-delete-btn"
+          @click="showDelete = true"
+        >{{ $t('investigations.delete') }}</button>
       </header>
+
+      <div v-if="showDelete" class="invd-confirm" data-testid="investigation-delete-confirm">
+        <span>{{ $t('investigations.delete_confirm') }}</span>
+        <button class="invd-danger" data-testid="investigation-delete-cascade" @click="deleteInv('cascade')">
+          {{ $t('investigations.delete_all') }}
+        </button>
+        <button class="inv-primary" data-testid="investigation-delete-orphan" @click="deleteInv('orphan')">
+          {{ $t('investigations.delete_keep') }}
+        </button>
+        <button class="invd-cancel" data-testid="investigation-delete-cancel" @click="showDelete = false">
+          {{ $t('app.cancel') }}
+        </button>
+      </div>
       <p class="invd-desc">{{ inv.description }}</p>
 
       <section class="invd-section">
@@ -160,6 +199,17 @@ async function remove(m) {
           </li>
         </ul>
       </section>
+
+      <section class="invd-section" data-testid="investigation-viz">
+        <h2>{{ $t('investigations.visualizations') }}</h2>
+        <p v-if="!viz.length" class="invd-empty">{{ $t('investigations.no_viz') }}</p>
+        <ul v-else class="invd-stories">
+          <li v-for="v in viz" :key="v.id" class="invd-story" :data-testid="'inv-viz-' + v.id">
+            <span class="invd-viz-type">{{ (v.widget_type || '').replace(/_/g, ' ') }}</span>
+            <span class="invd-story-link">{{ v.name || 'Untitled' }}</span>
+          </li>
+        </ul>
+      </section>
     </template>
   </div>
 </template>
@@ -188,4 +238,9 @@ async function remove(m) {
 .invd-story { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; }
 .invd-story-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 .invd-role-select { font-size: 0.8rem; padding: 0.2rem 0.3rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: var(--text); }
+.invd-delete-btn { margin-left: auto; border: 1px solid var(--border); background: none; color: #dc2626; border-radius: 6px; padding: 0.3rem 0.7rem; cursor: pointer; font-size: 0.8rem; }
+.invd-confirm { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #dc2626; border-radius: 6px; font-size: 0.85rem; }
+.invd-danger { background: #dc2626; color: #fff; border: none; border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.82rem; }
+.invd-cancel { border: none; background: none; color: var(--muted); cursor: pointer; font-size: 0.82rem; }
+.invd-viz-type { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-right: 0.4rem; }
 </style>

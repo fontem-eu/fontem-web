@@ -727,6 +727,12 @@
     "add_people": "Add people",
     "level_viewer": "Viewer",
     "level_editor": "Editor",
-    "level_owner": "Owner"
+    "level_owner": "Owner",
+    "visualizations": "Visualizations",
+    "no_viz": "No visualizations yet.",
+    "delete": "Delete",
+    "delete_confirm": "Delete this investigation?",
+    "delete_all": "Delete everything",
+    "delete_keep": "Delete, keep articles"
   }
 }
