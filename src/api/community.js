@@ -368,3 +368,8 @@ export function shareDossier(id, payload) {
 export function revokeDossierAccess(id, uid) {
   return request('DELETE', `/dossiers/${encodeURIComponent(id)}/access/${encodeURIComponent(uid)}`)
 }
+
+// ── Article 'who has access & why' (Phase D parity) ─────────────
+export function reportEffectiveAccess(id) {
+  return request('GET', `/data-stories/${encodeURIComponent(id)}/effective-access`)
+}

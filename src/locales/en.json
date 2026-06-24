@@ -583,7 +583,8 @@
     "group_name": "Group name",
     "no_collaborators_yet": "No collaborators yet.",
     "share_story": "Share Story",
-    "visibility": "Visibility"
+    "visibility": "Visibility",
+    "who_has_access": "Who has access"
   },
   "sparql": {
     "discoverable_json": "returns this same documentation as JSON.",

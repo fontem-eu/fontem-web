@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { getAccess, grantAccess, revokeAccess, updateReport } from '../api/community.js'
+import { getAccess, grantAccess, revokeAccess, updateReport, reportEffectiveAccess } from '../api/community.js'
 
 const props = defineProps({
   reportId: { type: String, required: true },
@@ -10,6 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const collaborators = ref([])
+const effectiveAccess = ref([])
 const loading = ref(false)
 const error = ref(null)
 
@@ -33,11 +34,19 @@ async function fetchAccess() {
     const data = await getAccess(props.reportId)
     collaborators.value = data.access || data || []
     if (data.visibility) visibility.value = data.visibility
+    try { effectiveAccess.value = (await reportEffectiveAccess(props.reportId)) || [] } catch { /* non-fatal */ }
   } catch (err) {
     error.value = err.message
   } finally {
     loading.value = false
   }
+}
+
+function sourceLabel(src) {
+  if (src === 'owner') return 'Owner'
+  if (src === 'direct') return 'Shared directly'
+  if (src && src.startsWith('inherited:')) return `Investigation ${src.split(':')[1]}`
+  return src
 }
 
 async function addPerson() {
@@ -104,6 +113,20 @@ function onBackdrop(e) {
         </div>
 
         <p v-if="error" class="share-error" data-testid="share-error">{{ error }}</p>
+
+        <div v-if="effectiveAccess.length" class="share-section" data-testid="report-effective-access">
+          <label class="share-label">{{ $t('share.who_has_access') }}</label>
+          <div
+            v-for="a in effectiveAccess"
+            :key="a.user_id || a.group_id"
+            class="share-eff-row"
+            :data-testid="'report-access-' + (a.user_id || a.group_id)"
+          >
+            <span class="share-eff-id">{{ a.email || a.name || a.user_id || a.group_id }}</span>
+            <span class="share-eff-level">{{ a.level }}</span>
+            <span class="share-eff-source">{{ sourceLabel(a.source) }}</span>
+          </div>
+        </div>
         <p v-if="loading" class="share-loading">{{ $t('app.loading_2') }}</p>
 
         <!-- Visibility -->
@@ -305,4 +328,8 @@ function onBackdrop(e) {
 .share-remove-btn:hover {
   text-decoration: underline;
 }
+.share-eff-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0; font-size: 0.82rem; }
+.share-eff-id { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.share-eff-level { font-weight: 600; }
+.share-eff-source { color: var(--muted); font-size: 0.72rem; }
 </style>
