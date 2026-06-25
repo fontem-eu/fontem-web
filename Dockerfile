@@ -29,6 +29,7 @@ RUN npm run build
 FROM nginx:1.29
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY rate-limit.conf /etc/nginx/conf.d/00-rate-limit.conf
+COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 # nginx's image envsubst-templates only substitute vars listed in
 # NGINX_ENVSUBST_FILTER; explicit defaults below double as the
