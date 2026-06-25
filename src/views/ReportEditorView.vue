@@ -462,7 +462,7 @@ async function save() {
       data-testid="dossier-picker"
       @click.self="showDossierPicker = false"
     >
-      <div class="modal-card">
+      <div class="modal-content">
         <h3>{{ $t('investigations.add_to_dossier') }}</h3>
         <p v-if="!dossierOptions.length" class="pocket-empty">{{ $t('investigations.empty') }}</p>
         <ul v-else class="pocket-list" data-testid="dossier-picker-list">
@@ -483,7 +483,7 @@ async function save() {
       data-testid="investigation-picker"
       @click.self="showInvestigationPicker = false"
     >
-      <div class="modal-card">
+      <div class="modal-content">
         <h3>{{ $t('investigations.add_to_investigation') }}</h3>
         <p v-if="!investigationOptions.length" class="pocket-empty">{{ $t('investigations.empty') }}</p>
         <ul v-else class="pocket-list" data-testid="investigation-picker-list">
