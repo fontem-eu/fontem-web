@@ -16,6 +16,13 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on-first-retry',
+    // Private void42 PKI on the *.void42.internal envs (incl. DAST).
+    ignoreHTTPSErrors: /\.void42\.internal(\/|$|:)/.test(process.env.BASE_URL || ''),
+    // The DAST runner sets this to the in-cluster ZAP proxy so the e2e
+    // traffic is captured for the passive scan.
+    ...(process.env.PLAYWRIGHT_PROXY
+      ? { proxy: { server: process.env.PLAYWRIGHT_PROXY } }
+      : {}),
   },
   projects: [
     {
