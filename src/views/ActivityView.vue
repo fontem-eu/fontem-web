@@ -2,7 +2,7 @@
 import { isAuthed } from '../api/session.js'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { listReports, listIssues, getCurrentUser } from '../api/community.js'
+import { listActivity, getCurrentUser } from '../api/community.js'
 
 const router = useRouter()
 
@@ -19,63 +19,44 @@ onMounted(async () => {
     return
   }
   try {
-    const [userData, reportsData, issuesData] = await Promise.allSettled([
+    const [userData, activityData] = await Promise.allSettled([
       getCurrentUser(),
-      listReports(),
-      listIssues(),
+      listActivity(),
     ])
 
     if (userData.status === 'fulfilled') user.value = userData.value
 
-    const items = []
-
-    /* Stories the user authored */
-    if (reportsData.status === 'fulfilled') {
-      const stories = reportsData.value.stories
-        || reportsData.value.reports
-        || reportsData.value
-        || []
-      for (const s of stories) {
-        items.push({
-          type: 'story',
-          action: 'created',
-          title: s.title,
-          date: s.created_at || s.updated_at,
-          link: `/stories/${s.id}`,
-          id: `story-${s.id}`,
-        })
-      }
+    if (activityData.status === 'fulfilled') {
+      const events = activityData.value || []
+      /* The API already returns newest-first; map to the feed item shape. */
+      activities.value = events.map((e) => ({
+        id: e.id,
+        type: e.entity_type,
+        action: e.action,
+        title: e.summary || '(untitled)',
+        date: e.created_at,
+        link: linkFor(e),
+      }))
     }
-
-    /* Issues */
-    if (issuesData.status === 'fulfilled') {
-      const issues = issuesData.value.issues || issuesData.value || []
-      for (const i of issues) {
-        items.push({
-          type: 'issue',
-          action: i.status === 'open' ? 'opened' : i.status,
-          title: i.title,
-          date: i.created_at,
-          link: `/issues/${i.id}`,
-          id: `issue-${i.id}`,
-        })
-      }
-    }
-
-    /* Sort by date descending */
-    items.sort((a, b) => {
-      const da = a.date ? new Date(a.date).getTime() : 0
-      const db = b.date ? new Date(b.date).getTime() : 0
-      return db - da
-    })
-
-    activities.value = items
   } catch (err) {
     error.value = err.message
   } finally {
     loading.value = false
   }
 })
+
+const ENTITY_ROUTES = {
+  story: '/stories/',
+  investigation: '/investigations/',
+  dossier: '/dossiers/',
+  issue: '/issues/',
+}
+
+/* Deleted resources have no destination; everything else links to its detail page. */
+function linkFor(e) {
+  const base = ENTITY_ROUTES[e.entity_type]
+  return e.action !== 'deleted' && base && e.entity_id ? base + e.entity_id : null
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return ''
@@ -87,7 +68,7 @@ function formatDate(dateStr) {
 }
 
 function typeLabel(type) {
-  const map = { story: 'Story', report: 'Story', issue: 'Issue' }
+  const map = { story: 'Story', report: 'Story', issue: 'Issue', dossier: 'Dossier', investigation: 'Investigation' }
   return map[type] || type
 }
 </script>
@@ -123,7 +104,9 @@ function typeLabel(type) {
         v-for="item in activities"
         :key="item.id"
         class="activity-item"
-        @click="router.push(item.link)"
+        :class="{ 'activity-clickable': item.link }"
+        :data-testid="'activity-' + item.type + '-' + item.action"
+        @click="item.link && router.push(item.link)"
       >
         <span class="activity-type-badge" :class="'badge-' + item.type">
           {{ typeLabel(item.type) }}
@@ -227,6 +210,9 @@ function typeLabel(type) {
 .badge-report,
 .badge-story { background: #dbeafe; color: #1d4ed8; }
 .badge-issue { background: #fef3c7; color: #92400e; }
+.badge-dossier { background: #ede9fe; color: #6d28d9; }
+.badge-investigation { background: #dcfce7; color: #166534; }
+.activity-clickable { cursor: pointer; }
 
 .activity-body {
   flex: 1;

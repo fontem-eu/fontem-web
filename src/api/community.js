@@ -195,6 +195,11 @@ export function listIssues(params) {
   return request('GET', `/issues${qs}`)
 }
 
+export function listActivity(params) {
+  const qs = params ? '?' + new URLSearchParams(params).toString() : ''
+  return request('GET', `/activity${qs}`)
+}
+
 export function getIssue(id) {
   return request('GET', `/issues/${encodeURIComponent(id)}`)
 }
