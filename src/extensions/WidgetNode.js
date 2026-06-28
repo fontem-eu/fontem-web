@@ -30,6 +30,9 @@ export const WidgetNode = Node.create({
       // chart_snapshot widget: logical chart type + serialised props.
       chart: { default: undefined },
       props: { default: undefined },
+      // new viz abstraction: the recipe is params, never data.
+      data_params: { default: undefined },
+      ui_params: { default: undefined },
     }
   },
 
