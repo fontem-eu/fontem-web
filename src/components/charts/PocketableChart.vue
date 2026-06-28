@@ -10,7 +10,6 @@
 import { ref, computed } from 'vue'
 import ChartSpec from './ChartSpec.vue'
 import PocketButton from '../PocketButton.vue'
-import { serializeChartProps } from '../../widgets/chartSnapshot.js'
 
 const props = defineProps({
   chart: { type: String, required: true },
@@ -27,27 +26,20 @@ const props = defineProps({
 const bodyRef = ref(null)
 const captureTarget = () => bodyRef.value
 
-const snapshotConfig = computed(() => ({
-  chart: props.chart,
-  props: serializeChartProps(props.chartProps),
-  title: props.name,
+// The pocket only ever stores a recipe (params) — the data is refetched from
+// Fontem on render, so nothing inline can be injected. A chart must declare a
+// chart-key to be savable.
+const pocketConfig = computed(() => ({
+  data_params: { chart_key: props.chartKey, ...props.dataParams },
+  ui_params: {},
 }))
-
-// With a chart_key the pocket stores only a recipe — the data is refetched
-// from Fontem on render, so nothing inline can be injected.
-const pocketWidgetType = computed(() => (props.chartKey ? 'dq_chart' : 'chart_snapshot'))
-const pocketConfig = computed(() =>
-  props.chartKey
-    ? { data_params: { chart_key: props.chartKey, ...props.dataParams }, ui_params: {} }
-    : snapshotConfig.value,
-)
 </script>
 
 <template>
   <div class="pocketable-chart" data-testid="pocketable-chart">
-    <div v-if="savable" class="pc-toolbar">
+    <div v-if="savable && chartKey" class="pc-toolbar">
       <PocketButton
-        :widget-type="pocketWidgetType"
+        widget-type="dq_chart"
         :config="pocketConfig"
         :default-name="name"
         :capture-target="captureTarget"
