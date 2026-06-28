@@ -231,7 +231,23 @@ onMounted(() => {
   if (!container.value) return
   map = new maplibregl.Map({
     container: container.value,
-    style: 'https://tiles.openfreemap.org/styles/positron',
+    preserveDrawingBuffer: true,
+    // Inline OSM raster style — CSP allows tile.openstreetmap.org but NOT the
+    // external openfreemap.org style URL, so fetching that style silently never
+    // fires maplibre's 'load' event and the choropleth layer is never added
+    // (the widget renders blank). Mirror AtlasView, which uses this same style.
+    style: {
+      version: 8,
+      sources: {
+        osm: {
+          type: 'raster',
+          tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+          tileSize: 256,
+          attribution: '© OpenStreetMap contributors',
+        },
+      },
+      layers: [{ id: 'osm', type: 'raster', source: 'osm' }],
+    },
     center: [10, 52],
     zoom: 3,
   })
