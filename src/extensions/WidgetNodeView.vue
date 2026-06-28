@@ -29,6 +29,8 @@ const config = computed(() => {
   if (a.dimensions) out.dimensions = a.dimensions
   if (a.chart)      out.chart = a.chart
   if (a.props)      out.props = a.props
+  if (a.data_params) out.data_params = a.data_params
+  if (a.ui_params)   out.ui_params = a.ui_params
   return out
 })
 </script>

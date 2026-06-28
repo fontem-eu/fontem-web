@@ -153,6 +153,9 @@ function insertFromPocket(item) {
   if (c.dimensions) attrs.dimensions = c.dimensions
   if (c.chart) attrs.chart = c.chart
   if (c.props) attrs.props = c.props
+  // new viz abstraction: a recipe of params (grouped), not data.
+  if (c.data_params) attrs.data_params = c.data_params
+  if (c.ui_params) attrs.ui_params = c.ui_params
   editor.chain().focus().insertContent({ type: 'widget', attrs }).run()
   showPocketModal.value = false
 }
