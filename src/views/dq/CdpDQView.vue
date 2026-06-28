@@ -17,9 +17,9 @@ const yearBars = computed(() => (data.value?.by_reporting_year || []).map(y => (
   <div class="dq"><header class="dq-hdr"><div><router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link><h1>{{ $t('cdp_d_q.cdp_climate_disclosure') }}</h1><p class="dq-sub">{{ $t('cdp_d_q.cdp_scores_and_climate_reporting_score_d') }}</p></div><ThemeToggle /></header>
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
-      <div class="dq-stats"><PocketableChart chart="stat" :chart-props="{ value: data.companies_with_score.toLocaleString(), label: 'Companies with CDP Score' }" name="Companies with CDP Score" /></div>
-      <section class="dq-section"><h2>{{ $t('cdp_d_q.score_distribution') }}</h2><PocketableChart chart="bar_h" :chart-props="{ data: scoreBars, maxBars: 10 }" :name="$t('cdp_d_q.score_distribution')" /></section>
-      <section class="dq-section"><h2>{{ $t('cdp_d_q.by_reporting_year') }}</h2><PocketableChart chart="bar_h" :chart-props="{ data: yearBars, maxBars: 10 }" :name="$t('cdp_d_q.by_reporting_year')" /></section>
+      <div class="dq-stats"><PocketableChart chart-key="cdp_companies_with_score" chart="stat" :chart-props="{ value: data.companies_with_score.toLocaleString(), label: 'Companies with CDP Score' }" name="Companies with CDP Score" /></div>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.score_distribution') }}</h2><PocketableChart chart-key="cdp_score_distribution" chart="bar_h" :chart-props="{ data: scoreBars, maxBars: 10 }" :name="$t('cdp_d_q.score_distribution')" /></section>
+      <section class="dq-section"><h2>{{ $t('cdp_d_q.by_reporting_year') }}</h2><PocketableChart chart-key="cdp_by_year" chart="bar_h" :chart-props="{ data: yearBars, maxBars: 10 }" :name="$t('cdp_d_q.by_reporting_year')" /></section>
     </template>
   </div>
 </template>

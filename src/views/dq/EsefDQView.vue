@@ -22,25 +22,30 @@ const fieldBars = computed(() => Object.entries(data.value?.field_coverage || {}
 
       <div class="dq-stats"><PocketableChart
         chart="stat"
+        chart-key="esef_companies"
         :chart-props="{ value: data.companies.toLocaleString(), label: 'EU Companies' }"
         name="EU Companies"
       /><PocketableChart
         chart="stat"
+        chart-key="esef_financial_years"
         :chart-props="{ value: data.financial_years.toLocaleString(), label: 'Financial Years' }"
         name="Financial Years"
       /></div>
       <section class="dq-section"><h2>{{ $t('app.filings_by_year') }}</h2><PocketableChart
         chart="ts_bar"
+        chart-key="esef_by_year"
         :chart-props="{ data: data.by_year, valueLabel: 'Filings' }"
         :name="$t('app.filings_by_year')"
       /></section>
       <section class="dq-section"><h2>{{ $t('esef_d_q.filings_by_country') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="esef_by_country"
         :chart-props="{ data: countryBars }"
         :name="$t('esef_d_q.filings_by_country')"
       /></section>
       <section class="dq-section"><h2>{{ $t('app.xbrl_field_coverage') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="esef_field_coverage"
         :chart-props="{ data: fieldBars, format: 'pct', color: '#16a34a' }"
         :name="$t('app.xbrl_field_coverage')"
       /></section>

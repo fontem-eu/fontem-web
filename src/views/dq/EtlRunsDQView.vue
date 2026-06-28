@@ -97,11 +97,11 @@ function rowStatus(run) {
     <div v-else-if="error" class="dq-error">Failed to load: {{ error }}</div>
     <template v-else>
       <div class="dq-stats">
-        <PocketableChart chart="stat" :chart-props="{ value: stats.total.toLocaleString(), label: 'Runs (last 100)' }" name="Runs (last 100)" />
-        <PocketableChart chart="stat" :chart-props="{ value: stats.success.toLocaleString(), label: 'Successful' }" name="Successful" />
-        <PocketableChart chart="stat" :chart-props="{ value: stats.failed.toLocaleString(), label: 'Failed' }" name="Failed" />
-        <PocketableChart chart="stat" :chart-props="{ value: stats.running.toLocaleString(), label: 'In progress' }" name="In progress" />
-        <PocketableChart chart="stat" :chart-props="{ value: stats.crashed.toLocaleString(), label: 'Crashed (running >6h)' }" name="Crashed (running >6h)" />
+        <PocketableChart :savable="false" chart="stat" :chart-props="{ value: stats.total.toLocaleString(), label: 'Runs (last 100)' }" name="Runs (last 100)" />
+        <PocketableChart :savable="false" chart="stat" :chart-props="{ value: stats.success.toLocaleString(), label: 'Successful' }" name="Successful" />
+        <PocketableChart :savable="false" chart="stat" :chart-props="{ value: stats.failed.toLocaleString(), label: 'Failed' }" name="Failed" />
+        <PocketableChart :savable="false" chart="stat" :chart-props="{ value: stats.running.toLocaleString(), label: 'In progress' }" name="In progress" />
+        <PocketableChart :savable="false" chart="stat" :chart-props="{ value: stats.crashed.toLocaleString(), label: 'Crashed (running >6h)' }" name="Crashed (running >6h)" />
       </div>
 
       <div class="dq-filters">

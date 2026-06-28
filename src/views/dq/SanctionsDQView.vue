@@ -22,28 +22,34 @@ const regimeBars = computed(() => (data.value?.top_regimes || []).map(r => ({ la
 
       <div class="dq-stats"><PocketableChart
         chart="stat"
+        chart-key="sanctions_total"
         :chart-props="{ value: data.total.toLocaleString(), label: 'Total Sanctioned Entities' }"
         name="Total Sanctioned Entities"
       /><PocketableChart
         chart="stat"
+        chart-key="sanctions_persons"
         :chart-props="{ value: data.persons.toLocaleString(), label: 'Persons' }"
         name="Persons"
       /><PocketableChart
         chart="stat"
+        chart-key="sanctions_entities"
         :chart-props="{ value: data.entities.toLocaleString(), label: 'Organisations' }"
         name="Organisations"
       /><PocketableChart
         chart="stat"
+        chart-key="sanctions_matched"
         :chart-props="{ value: data.matched_to_companies.toLocaleString(), label: 'Matched to Companies' }"
         name="Matched to Companies"
       /></div>
       <div class="dq-gauges"><PocketableChart
         chart="gauge"
+        chart-key="sanctions_match_rate"
         :chart-props="{ value: matchPct, label: 'Company Match Rate' }"
         name="Company Match Rate"
       /></div>
       <section class="dq-section"><h2>{{ $t('sanctions_d_q.top_sanction_regimes') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="sanctions_top_regimes"
         :chart-props="{ data: regimeBars, maxBars: 10 }"
         :name="$t('sanctions_d_q.top_sanction_regimes')"
       /></section>

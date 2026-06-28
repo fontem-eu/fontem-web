@@ -4,7 +4,7 @@ import { resolveWidget, getWidgetTypes } from '../../src/widgets/registry.js'
 describe('Widget Registry', () => {
   it('getWidgetTypes returns all registered types', () => {
     const types = getWidgetTypes()
-    expect(types).toHaveLength(7)
+    expect(types).toHaveLength(8)
     const keys = types.map((t) => t.key)
     expect(keys).toContain('graph_explorer')
     expect(keys).toContain('contracts_table')
@@ -13,6 +13,7 @@ describe('Widget Registry', () => {
     expect(keys).toContain('atlas_map')
     expect(keys).toContain('chart_snapshot')
     expect(keys).toContain('company_bidder_breakdown')
+    expect(keys).toContain('dq_chart')
   })
 
   it('getWidgetTypes returns human-readable labels', () => {

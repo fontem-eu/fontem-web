@@ -23,29 +23,35 @@ const levelBars = computed(() => (data.value?.by_level || []).map(l => ({ label:
 
       <div class="dq-stats"><PocketableChart
         chart="stat"
+        chart-key="nuts_total_regions"
         :chart-props="{ value: data.total_regions.toLocaleString(), label: 'Total Regions' }"
         name="Total Regions"
       /><PocketableChart
         chart="stat"
+        chart-key="nuts_companies_linked"
         :chart-props="{ value: data.companies_linked.toLocaleString(), label: 'Companies Linked' }"
         name="Companies Linked"
       /><PocketableChart
         chart="stat"
+        chart-key="nuts_authorities_linked"
         :chart-props="{ value: data.authorities_linked.toLocaleString(), label: 'Authorities Linked' }"
         name="Authorities Linked"
       /></div>
       <div class="dq-gauges"><PocketableChart
         chart="gauge"
+        chart-key="nuts_coverage"
         :chart-props="{ value: coveragePct, label: 'Company Coverage' }"
         name="Company Coverage"
       /></div>
       <section class="dq-section"><h2>{{ $t('nuts_d_q.top_nuts_0_regions_by_company_count') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="nuts_top_regions"
         :chart-props="{ data: regionBars, maxBars: 15 }"
         :name="$t('nuts_d_q.top_nuts_0_regions_by_company_count')"
       /></section>
       <section class="dq-section"><h2>{{ $t('nuts_d_q.regions_by_level') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="nuts_by_level"
         :chart-props="{ data: levelBars, maxBars: 4 }"
         :name="$t('nuts_d_q.regions_by_level')"
       /></section>

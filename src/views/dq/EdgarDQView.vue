@@ -20,20 +20,24 @@ const fieldBars = computed(() => Object.entries(data.value?.field_coverage || {}
       <SourcePipelinePanel source-id="us-companies" />
 
       <div class="dq-stats"><PocketableChart
+chart-key="edgar_companies"
         chart="stat"
         :chart-props="{ value: data.companies.toLocaleString(), label: 'US Companies' }"
         name="US Companies"
       /><PocketableChart
+chart-key="edgar_financial_years"
         chart="stat"
         :chart-props="{ value: data.financial_years.toLocaleString(), label: 'Financial Years' }"
         name="Financial Years"
       /></div>
       <section class="dq-section"><h2>{{ $t('app.filings_by_year') }}</h2><PocketableChart
+chart-key="edgar_by_year"
         chart="ts_bar"
         :chart-props="{ data: data.by_year, valueLabel: 'Filings' }"
         :name="$t('app.filings_by_year')"
       /></section>
       <section class="dq-section"><h2>{{ $t('app.xbrl_field_coverage') }}</h2><PocketableChart
+chart-key="edgar_field_coverage"
         chart="bar_h"
         :chart-props="{ data: fieldBars, format: 'pct', color: '#16a34a' }"
         :name="$t('app.xbrl_field_coverage')"

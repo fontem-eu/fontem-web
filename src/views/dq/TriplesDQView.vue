@@ -128,19 +128,22 @@ const generatedAt = computed(() => {
     <template v-else>
       <div class="dq-stats">
         <PocketableChart
+chart-key="triples_total"
           chart="stat"
           :chart-props="{ value: totalTriples.toLocaleString(), label: 'Total triples' }"
           name="Total triples"
           data-testid="triples-total"
         />
         <PocketableChart
+chart-key="triples_graphs"
           chart="stat"
           :chart-props="{ value: graphCount.toLocaleString(), label: 'Named graphs' }"
           name="Named graphs"
           data-testid="triples-graph-count"
         />
         <PocketableChart
-          v-if="generatedAt"
+v-if="generatedAt"
+          chart-key="triples_snapshot"
           chart="stat"
           :chart-props="{ value: generatedAt, label: 'Snapshot taken' }"
           name="Snapshot taken"
@@ -168,7 +171,7 @@ const generatedAt = computed(() => {
         </ul>
         <details class="dq-collapsible">
           <summary>{{ $t('triples_d_q.chart_view') }}</summary>
-          <PocketableChart chart="bar_h" :chart-props="{ data: graphBars, maxBars: 20 }" :name="$t('triples_d_q.triples_per_named_graph')" />
+          <PocketableChart chart-key="triples_graphs_bars" chart="bar_h" :chart-props="{ data: graphBars, maxBars: 20 }" :name="$t('triples_d_q.triples_per_named_graph')" />
         </details>
       </section>
 
@@ -187,7 +190,8 @@ const generatedAt = computed(() => {
           <div>
             <h3>{{ $t('triples_d_q.top_classes') }}<span class="dq-count">({{ selected.classes.length }})</span></h3>
             <PocketableChart
-              v-if="classBars.length"
+v-if="classBars.length" chart-key="triples_classes"
+              :data-params="{ graph_iri: selectedIri }"
               chart="bar_h"
               :chart-props="{ data: classBars, maxBars: 15 }"
               :name="$t('triples_d_q.top_classes')"
@@ -198,7 +202,8 @@ const generatedAt = computed(() => {
           <div>
             <h3>{{ $t('triples_d_q.top_predicates') }}<span class="dq-count">({{ selected.top_predicates.length }})</span></h3>
             <PocketableChart
-              v-if="predicateBars.length"
+v-if="predicateBars.length" chart-key="triples_predicates"
+              :data-params="{ graph_iri: selectedIri }"
               chart="bar_h"
               :chart-props="{ data: predicateBars, maxBars: 15 }"
               :name="$t('triples_d_q.top_predicates')"

@@ -27,16 +27,19 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
       <div class="dq-stats">
         <PocketableChart
           chart="stat"
+          chart-key="lobbying_total"
           :chart-props="{ value: data.total.toLocaleString(), label: 'Lobbyists' }"
           name="Lobbyists"
         />
         <PocketableChart
           chart="stat"
+          chart-key="lobbying_ep_passes"
           :chart-props="{ value: data.with_ep_passes.toLocaleString(), label: 'EP Pass Holders' }"
           name="EP Pass Holders"
         />
         <PocketableChart
           chart="stat"
+          chart-key="lobbying_matched"
           :chart-props="{ value: data.matched_to_company.toLocaleString(), label: 'Matched to Company' }"
           name="Matched to Company"
         />
@@ -44,6 +47,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
       <div class="dq-gauges">
         <PocketableChart
           chart="gauge"
+          chart-key="lobbying_match_rate"
           :chart-props="{ value: data.match_rate, label: 'Company Match Rate' }"
           name="Company Match Rate"
         />
@@ -52,6 +56,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <h2>{{ $t('lobbying_d_q.registrations_over_time') }}</h2>
         <PocketableChart
           chart="ts_bar"
+          chart-key="lobbying_registrations_timeline"
           :chart-props="{ data: regTimeline, valueLabel: 'Registrations' }"
           :name="$t('lobbying_d_q.registrations_over_time')"
         />
@@ -60,6 +65,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <h2>{{ $t('lobbying_d_q.top_countries') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="lobbying_by_country"
           :chart-props="{ data: countryBars }"
           :name="$t('lobbying_d_q.top_countries')"
         />
@@ -68,6 +74,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <h2>{{ $t('lobbying_d_q.lobbying_cost_distribution') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="lobbying_cost_distribution"
           :chart-props="{ data: costBars, color: '#d97706' }"
           :name="$t('lobbying_d_q.lobbying_cost_distribution')"
         />
@@ -77,6 +84,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <p class="dq-hint">Registrants resolved to a known company via the consolidator (Disclosure→FILED_BY→Company).</p>
         <PocketableChart
           chart="bar_h"
+          chart-key="lobbying_top_companies"
           :chart-props="{ data: companyBars, maxBars: 20, color: '#0a66c2' }"
           name="Most-represented companies"
         />
@@ -85,6 +93,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <h2>Registrant category mix</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="lobbying_by_category"
           :chart-props="{ data: categoryBars, maxBars: 15, color: '#7c3aed' }"
           name="Registrant category mix"
         />
@@ -94,6 +103,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         <p class="dq-hint">By declared annual lobbying-cost ceiling.</p>
         <PocketableChart
           chart="bar_h"
+          chart-key="lobbying_top_spenders"
           :chart-props="{ data: spenderBars, maxBars: 20, format: 'eur', color: '#16a34a' }"
           name="Top declared spenders"
         />

@@ -24,21 +24,25 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
       <div class="dq-stats">
         <PocketableChart
           chart="stat"
+          chart-key="gleif_total"
           :chart-props="{ value: data.total.toLocaleString(), label: 'Total Companies' }"
           name="Total Companies"
         />
         <PocketableChart
           chart="stat"
+          chart-key="gleif_with_lei"
           :chart-props="{ value: data.with_lei.toLocaleString(), label: 'With LEI' }"
           name="With LEI"
         />
         <PocketableChart
           chart="stat"
+          chart-key="gleif_subsidiary_links"
           :chart-props="{ value: data.subsidiary_links.toLocaleString(), label: 'Subsidiary Links' }"
           name="Subsidiary Links"
         />
         <PocketableChart
           chart="stat"
+          chart-key="gleif_orphan_subsidiaries"
           :chart-props="{ value: data.orphan_subsidiaries.toLocaleString(), label: 'Orphan Subsidiaries', color: '#d97706' }"
           name="Orphan Subsidiaries"
         />
@@ -46,11 +50,13 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
       <div class="dq-gauges">
         <PocketableChart
           chart="gauge"
+          chart-key="gleif_lei_coverage"
           :chart-props="{ value: leiPct, label: 'LEI Coverage' }"
           name="LEI Coverage"
         />
         <PocketableChart
           chart="gauge"
+          chart-key="gleif_active"
           :chart-props="{ value: activePct, label: 'Active Companies' }"
           name="Active Companies"
         />
@@ -59,6 +65,7 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
         <h2>{{ $t('gleif_d_q.companies_by_country_top_30') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="gleif_by_country"
           :chart-props="{ data: countryBars, maxBars: 30 }"
           :name="$t('gleif_d_q.companies_by_country_top_30')"
         />

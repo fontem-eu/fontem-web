@@ -122,6 +122,7 @@ onMounted(load)
       <!-- Line chart -->
       <div class="usage-chart-wrap">
         <PocketableChart
+:savable="false"
           chart="ts_line"
           :chart-props="{ series: series, height: 360, valueLabel: 'Tokens', formatValue: fmt }"
           name="AI Usage Metrics"

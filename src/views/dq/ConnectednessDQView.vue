@@ -68,9 +68,9 @@ const generatedAt = computed(() => {
 
     <template v-else-if="data">
       <div class="dq-stats">
-        <PocketableChart chart="stat" :chart-props="{ value: fmt(totalNodes), label: 'Total Nodes' }" name="Total Nodes" />
-        <PocketableChart chart="stat" :chart-props="{ value: fmt(totalIsolated), label: 'Isolated' }" name="Isolated" />
-        <PocketableChart chart="stat" :chart-props="{ value: fmtPct(isolatedPct), label: 'Isolated %' }" name="Isolated %" />
+        <PocketableChart chart-key="conn_total_nodes" chart="stat" :chart-props="{ value: fmt(totalNodes), label: 'Total Nodes' }" name="Total Nodes" />
+        <PocketableChart chart-key="conn_isolated" chart="stat" :chart-props="{ value: fmt(totalIsolated), label: 'Isolated' }" name="Isolated" />
+        <PocketableChart chart-key="conn_isolated_pct" chart="stat" :chart-props="{ value: fmtPct(isolatedPct), label: 'Isolated %' }" name="Isolated %" />
       </div>
 
       <p v-if="generatedAt" class="dq-cachenote">
@@ -123,7 +123,7 @@ const generatedAt = computed(() => {
         <div class="dq-hist-grid">
           <div v-for="t in data.per_type" :key="t.entity_type" class="dq-hist-card">
             <h3>{{ t.entity_type }}</h3>
-            <PocketableChart chart="bar_h" :chart-props="{ data: histogramBars(t), maxBars: 8 }" :name="t.entity_type" />
+            <PocketableChart chart-key="conn_histogram" :data-params="{ entity_type: t.entity_type }" chart="bar_h" :chart-props="{ data: histogramBars(t), maxBars: 8 }" :name="t.entity_type" />
           </div>
         </div>
       </section>

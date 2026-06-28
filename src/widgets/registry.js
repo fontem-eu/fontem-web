@@ -8,6 +8,7 @@ const registry = {
   atlas_map: () => import('./AtlasMapEmbed.vue'),
   chart_snapshot: () => import('./ChartSnapshotEmbed.vue'),
   company_bidder_breakdown: () => import('./VizEmbed.vue'),
+  dq_chart: () => import('./DqChartEmbed.vue'),
 }
 
 export function resolveWidget(type) {

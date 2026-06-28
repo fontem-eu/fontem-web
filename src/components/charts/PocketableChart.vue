@@ -16,6 +16,10 @@ const props = defineProps({
   chart: { type: String, required: true },
   chartProps: { type: Object, default: () => ({}) },
   name: { type: String, default: '' },
+  // new abstraction: when set, pocket a {dq_chart, {chart_key}} recipe (no inline data)
+  chartKey: { type: String, default: '' },
+  // extra recipe params for parameterized DQ charts (e.g. { entity_type } / { graph_iri })
+  dataParams: { type: Object, default: () => ({}) },
   // Reserved for future opt-out; the menu is always shown today.
   savable: { type: Boolean, default: true },
 })
@@ -28,14 +32,23 @@ const snapshotConfig = computed(() => ({
   props: serializeChartProps(props.chartProps),
   title: props.name,
 }))
+
+// With a chart_key the pocket stores only a recipe — the data is refetched
+// from Fontem on render, so nothing inline can be injected.
+const pocketWidgetType = computed(() => (props.chartKey ? 'dq_chart' : 'chart_snapshot'))
+const pocketConfig = computed(() =>
+  props.chartKey
+    ? { data_params: { chart_key: props.chartKey, ...props.dataParams }, ui_params: {} }
+    : snapshotConfig.value,
+)
 </script>
 
 <template>
   <div class="pocketable-chart" data-testid="pocketable-chart">
     <div v-if="savable" class="pc-toolbar">
       <PocketButton
-        widget-type="chart_snapshot"
-        :config="snapshotConfig"
+        :widget-type="pocketWidgetType"
+        :config="pocketConfig"
         :default-name="name"
         :capture-target="captureTarget"
       />

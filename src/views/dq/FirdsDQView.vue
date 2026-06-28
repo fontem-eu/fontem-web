@@ -24,16 +24,19 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
       <div class="dq-stats">
         <PocketableChart
           chart="stat"
+          chart-key="firds_total"
           :chart-props="{ value: data.total.toLocaleString(), label: 'Total Instruments (with ISIN)' }"
           name="Total Instruments (with ISIN)"
         />
         <PocketableChart
           chart="stat"
+          chart-key="firds_with_ticker"
           :chart-props="{ value: data.with_ticker.toLocaleString(), label: 'With Ticker' }"
           name="With Ticker"
         />
         <PocketableChart
           chart="stat"
+          chart-key="firds_without_ticker"
           :chart-props="{ value: data.without_ticker.toLocaleString(), label: 'Without Ticker' }"
           name="Without Ticker"
         />
@@ -41,6 +44,7 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
       <div class="dq-gauges">
         <PocketableChart
           chart="gauge"
+          chart-key="firds_ticker_coverage"
           :chart-props="{ value: tickerPct, label: 'Ticker Coverage' }"
           name="Ticker Coverage"
         />
@@ -49,6 +53,7 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
         <h2>{{ $t('firds_d_q.by_instrument_type') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="firds_by_type"
           :chart-props="{ data: typeBars, maxBars: 15 }"
           :name="$t('firds_d_q.by_instrument_type')"
         />
@@ -57,6 +62,7 @@ const venueBars = computed(() => (data.value?.by_venue || []).map(v => ({ label:
         <h2>{{ $t('firds_d_q.top_trading_venues_mic') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="firds_by_venue"
           :chart-props="{ data: venueBars, maxBars: 10 }"
           :name="$t('firds_d_q.top_trading_venues_mic')"
         />

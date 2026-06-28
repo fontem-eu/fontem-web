@@ -83,10 +83,10 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
         <h2>{{ $t('overview_d_q.cross_source_overlap') }}</h2>
         <p class="dq-hint">How many entities appear in multiple data sources — a measure of graph connectivity.</p>
         <div class="dq-stats">
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_cohesion), label: 'Contracts + Cohesion' }" name="Contracts + Cohesion" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_lobby), label: 'Contracts + Lobby' }" name="Contracts + Lobby" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(overlap.listed_and_contracts), label: 'Listed + Contracts' }" name="Listed + Contracts" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(overlap.sanctions_matched), label: 'Sanctions Matched' }" name="Sanctions Matched" />
+          <PocketableChart chart-key="overview_overlap_contracts_cohesion" chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_cohesion), label: 'Contracts + Cohesion' }" name="Contracts + Cohesion" />
+          <PocketableChart chart-key="overview_overlap_contracts_lobby" chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_lobby), label: 'Contracts + Lobby' }" name="Contracts + Lobby" />
+          <PocketableChart chart-key="overview_overlap_listed_contracts" chart="stat" :chart-props="{ value: fmt(overlap.listed_and_contracts), label: 'Listed + Contracts' }" name="Listed + Contracts" />
+          <PocketableChart chart-key="overview_overlap_sanctions_matched" chart="stat" :chart-props="{ value: fmt(overlap.sanctions_matched), label: 'Sanctions Matched' }" name="Sanctions Matched" />
         </div>
         <table class="overlap-matrix">
           <thead>
@@ -109,18 +109,18 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
           {{ fmt(countryCodes.alpha2_count) }} companies still use alpha-2 country codes instead of ISO 3166-1 alpha-2/alpha-3.
         </div>
         <div class="dq-stats">
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(countryCodes.alpha2_count), label: 'Alpha-2 Codes' }" name="Alpha-2 Codes" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(countryCodes.alpha3_count), label: 'Alpha-3 Codes' }" name="Alpha-3 Codes" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(countryCodes.other_count), label: 'Other Format' }" name="Other Format" />
-          <PocketableChart chart="stat" :chart-props="{ value: fmt(countryCodes.no_country_count), label: 'No Country' }" name="No Country" />
+          <PocketableChart chart-key="overview_alpha2_count" chart="stat" :chart-props="{ value: fmt(countryCodes.alpha2_count), label: 'Alpha-2 Codes' }" name="Alpha-2 Codes" />
+          <PocketableChart chart-key="overview_alpha3_count" chart="stat" :chart-props="{ value: fmt(countryCodes.alpha3_count), label: 'Alpha-3 Codes' }" name="Alpha-3 Codes" />
+          <PocketableChart chart-key="overview_other_count" chart="stat" :chart-props="{ value: fmt(countryCodes.other_count), label: 'Other Format' }" name="Other Format" />
+          <PocketableChart chart-key="overview_no_country_count" chart="stat" :chart-props="{ value: fmt(countryCodes.no_country_count), label: 'No Country' }" name="No Country" />
         </div>
         <div class="dq-gauges">
-          <PocketableChart chart="gauge" :chart-props="{ value: alpha3Pct, label: 'Alpha-3 %' }" name="Alpha-3 %" />
-          <PocketableChart chart="gauge" :chart-props="{ value: alpha2Pct, label: 'Alpha-2 %' }" name="Alpha-2 %" />
+          <PocketableChart chart-key="overview_alpha3_pct" chart="gauge" :chart-props="{ value: alpha3Pct, label: 'Alpha-3 %' }" name="Alpha-3 %" />
+          <PocketableChart chart-key="overview_alpha2_pct" chart="gauge" :chart-props="{ value: alpha2Pct, label: 'Alpha-2 %' }" name="Alpha-2 %" />
         </div>
         <template v-if="alpha2Bars.length">
           <h3>{{ $t('overview_d_q.top_alpha_2_codes') }}</h3>
-          <PocketableChart chart="bar_h" :chart-props="{ data: alpha2Bars, maxBars: 10 }" :name="$t('overview_d_q.top_alpha_2_codes')" />
+          <PocketableChart chart-key="overview_top_alpha2" chart="bar_h" :chart-props="{ data: alpha2Bars, maxBars: 10 }" :name="$t('overview_d_q.top_alpha_2_codes')" />
         </template>
       </section>
 

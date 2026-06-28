@@ -27,24 +27,29 @@ const countryBars = computed(() => (data.value?.by_country || []).map(c => ({ la
 
       <div class="dq-stats"><PocketableChart
         chart="stat"
+        chart-key="eukg_total_projects"
         :chart-props="{ value: data.total_projects.toLocaleString(), label: 'Total Projects' }"
         name="Total Projects"
       /><PocketableChart
         chart="stat"
+        chart-key="eukg_beneficiary_links"
         :chart-props="{ value: data.beneficiary_links.toLocaleString(), label: 'Beneficiary Links' }"
         name="Beneficiary Links"
       /><PocketableChart
         chart="stat"
+        chart-key="eukg_eu_contribution"
         :chart-props="{ value: euContributionLabel, label: 'EU Contribution' }"
         name="EU Contribution"
       /></div>
       <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_fund_top_10') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="eukg_by_fund"
         :chart-props="{ data: fundBars, maxBars: 10 }"
         :name="$t('eu_knowledge_graph_d_q.projects_by_fund_top_10')"
       /></section>
       <section class="dq-section"><h2>{{ $t('eu_knowledge_graph_d_q.projects_by_country_top_15') }}</h2><PocketableChart
         chart="bar_h"
+        chart-key="eukg_by_country"
         :chart-props="{ data: countryBars, maxBars: 15 }"
         :name="$t('eu_knowledge_graph_d_q.projects_by_country_top_15')"
       /></section>

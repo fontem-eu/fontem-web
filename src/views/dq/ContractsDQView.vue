@@ -108,22 +108,26 @@ const redFlagDistBars = computed(() =>
       <div class="dq-stats">
         <PocketableChart
           chart="stat"
+          chart-key="contracts_total"
           :chart-props="{ value: totalContracts.toLocaleString(), label: 'Total Contracts' }"
           name="Total Contracts"
         />
         <PocketableChart
           chart="stat"
+          chart-key="contracts_total_eur"
           :chart-props="{ value: fmtEur(totalEur), label: 'Total EUR Value' }"
           name="Total EUR Value"
         />
         <PocketableChart
           chart="stat"
+          chart-key="contracts_countries"
           :chart-props="{ value: byCountry.length, label: 'Countries' }"
           name="Countries"
         />
         <PocketableChart
           v-if="currencyQuality"
           chart="stat"
+          chart-key="contracts_undisclosed_value"
           :chart-props="{ value: undisclosedPct + '%', label: 'Undisclosed Value', color: '#d97706' }"
           name="Undisclosed Value"
         />
@@ -136,22 +140,26 @@ const redFlagDistBars = computed(() =>
         <div class="dq-stats">
           <PocketableChart
             chart="stat"
+            chart-key="contracts_single_bidder_rate"
             :chart-props="{ value: (singleBidderRatePct ?? '—') + (singleBidderRatePct == null ? '' : '%'), label: 'Single-bidder rate', color: singleBidderRatePct >= 30 ? '#dc2626' : '#d97706' }"
             name="Single-bidder rate"
             data-testid="dq-single-bidder-rate"
           />
           <PocketableChart
             chart="stat"
+            chart-key="contracts_single_bidder_count"
             :chart-props="{ value: (integrity.single_bidder ?? 0).toLocaleString(), label: 'Single-bidder contracts' }"
             name="Single-bidder contracts"
           />
           <PocketableChart
             chart="stat"
+            chart-key="contracts_bidder_coverage"
             :chart-props="{ value: (bidderCoveragePct ?? '—') + (bidderCoveragePct == null ? '' : '%'), label: 'Bidder-count coverage' }"
             name="Bidder-count coverage"
           />
           <PocketableChart
             chart="stat"
+            chart-key="contracts_proc_coverage"
             :chart-props="{ value: (procCoveragePct ?? '—') + (procCoveragePct == null ? '' : '%'), label: 'Procedure-type coverage' }"
             name="Procedure-type coverage"
           />
@@ -159,11 +167,13 @@ const redFlagDistBars = computed(() =>
         <div class="dq-gauges">
           <PocketableChart
             chart="gauge"
+            chart-key="contracts_single_bidder_rate_gauge"
             :chart-props="{ value: singleBidderRatePct || 0, label: 'Single-bidder rate' }"
             name="Single-bidder rate"
           />
           <PocketableChart
             chart="gauge"
+            chart-key="contracts_bidder_coverage_gauge"
             :chart-props="{ value: bidderCoveragePct || 0, label: 'Bidder-count coverage' }"
             name="Bidder-count coverage"
           />
@@ -172,6 +182,7 @@ const redFlagDistBars = computed(() =>
           <h3>Red flags by type</h3>
           <PocketableChart
             chart="bar_h"
+            chart-key="contracts_red_flags"
             :chart-props="{ data: flagBars, color: '#d97706' }"
             name="Red flags by type"
           />
@@ -180,6 +191,7 @@ const redFlagDistBars = computed(() =>
           <h3>Red-flag count distribution</h3>
           <PocketableChart
             chart="bar_h"
+            chart-key="contracts_red_flag_dist"
             :chart-props="{ data: redFlagDistBars, color: '#dc2626' }"
             name="Red-flag count distribution"
           />
@@ -192,11 +204,13 @@ const redFlagDistBars = computed(() =>
         <div class="dq-gauges">
           <PocketableChart
             chart="gauge"
+            chart-key="contracts_conversion_gauge"
             :chart-props="{ value: conversionRate, label: 'EUR Conversion Success' }"
             name="EUR Conversion Success"
           />
           <PocketableChart
             chart="gauge"
+            chart-key="contracts_value_disclosed_gauge"
             :chart-props="{ value: 100 - undisclosedPct, label: 'Value Disclosed' }"
             name="Value Disclosed"
           />
@@ -208,6 +222,7 @@ const redFlagDistBars = computed(() =>
         <p class="dq-hint">Scroll to zoom in/out. Bars aggregate: daily → weekly → monthly → yearly.</p>
         <PocketableChart
           chart="ts_bar"
+          chart-key="contracts_volume_timeline"
           :chart-props="{ data: timeline, valueLabel: 'Contracts', height: 350 }"
           :name="$t('contracts_d_q.contract_volume_over_time')"
         />
@@ -217,6 +232,7 @@ const redFlagDistBars = computed(() =>
         <h2>{{ $t('contracts_d_q.contract_value_over_time_eur') }}</h2>
         <PocketableChart
           chart="ts_bar"
+          chart-key="contracts_value_timeline"
           :chart-props="{ data: valueTimeline, valueLabel: 'EUR', height: 300, format: 'eur', color: '#16a34a' }"
           :name="$t('contracts_d_q.contract_value_over_time_eur')"
         />
@@ -226,6 +242,7 @@ const redFlagDistBars = computed(() =>
         <h2>{{ $t('contracts_d_q.contracts_by_country') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="contracts_by_country"
           :chart-props="{ data: countryBars, maxBars: 25 }"
           :name="$t('contracts_d_q.contracts_by_country')"
         />
@@ -235,6 +252,7 @@ const redFlagDistBars = computed(() =>
         <h2>{{ $t('contracts_d_q.total_eur_by_country_top_15') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="contracts_by_country_eur"
           :chart-props="{ data: countryEurBars, maxBars: 15, format: 'eur', color: '#16a34a' }"
           :name="$t('contracts_d_q.total_eur_by_country_top_15')"
         />
@@ -245,6 +263,7 @@ const redFlagDistBars = computed(() =>
         <p class="dq-hint">Distribution of original currencies. EUR dominates but many EU member contracts use local currency.</p>
         <PocketableChart
           chart="bar_h"
+          chart-key="contracts_by_currency"
           :chart-props="{ data: currencyBars, maxBars: 20 }"
           :name="$t('contracts_d_q.contracts_by_currency')"
         />
@@ -254,6 +273,7 @@ const redFlagDistBars = computed(() =>
         <h2>{{ $t('contracts_d_q.missing_fields_of_contracts') }}</h2>
         <PocketableChart
           chart="bar_h"
+          chart-key="contracts_missing_fields"
           :chart-props="{ data: nullBars, format: 'pct', color: '#dc2626' }"
           :name="$t('contracts_d_q.missing_fields_of_contracts')"
         />
