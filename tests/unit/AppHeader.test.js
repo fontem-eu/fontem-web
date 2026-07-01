@@ -105,94 +105,15 @@ describe('AppHeader', () => {
     expect(wrapper.find('[data-testid="prefs-menu"]').exists()).toBe(true)
   })
 
-  it('shows nav tabs when authenticated', async () => {
-    _internal.setAccessToken('test-token')
-    const { wrapper } = await mountAt('/')
-    const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Stories')
-    expect(nav.text()).toContain('Spending')
-    expect(nav.text()).toContain('Map')
-    expect(nav.text()).toContain('My Stories')
-  })
 
-  it('shows Map tab to anonymous visitors too', async () => {
-    const { wrapper } = await mountAt('/')
-    const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.text()).toContain('Map')
-    expect(wrapper.find('[data-testid="nav-map"]').attributes('href'))
-      .toBe('/map')
-  })
 
-  it('shows Spending tab next to Map', async () => {
-    const { wrapper } = await mountAt('/')
-    expect(wrapper.find('[data-testid="nav-spending"]').attributes('href'))
-      .toBe('/spending')
-    expect(wrapper.find('[data-testid="app-nav"]').text())
-      .toContain('Spending')
-  })
 
-  it('moves Issues and Activity out of the top-level nav', async () => {
-    _internal.setAccessToken('test-token')
-    const { wrapper } = await mountAt('/')
-    const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.text()).not.toContain('Issues')
-    expect(nav.text()).not.toContain('Activity')
-  })
 
-  it('shows Stories + Spending + Map nav tabs to anonymous visitors (My Stories hidden)', async () => {
-    const { wrapper } = await mountAt('/')
-    const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Stories')
-    expect(nav.text()).toContain('Spending')
-    expect(nav.text()).toContain('Map')
-    // "My Stories" auth-only — substring "Stories" is in the public
-    // tab too, so check the testid instead of the label.
-    expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
-  })
 
-  // ── Explore tab (batch-5 item 5) ──────────────────────────────
-  it('shows the Explore tab between Map and My Stories', async () => {
-    _internal.setAccessToken('test-token')
-    const { wrapper } = await mountAt('/')
-    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
-    expect(exploreTab.exists()).toBe(true)
-    expect(exploreTab.attributes('href')).toBe('/explore')
-    expect(exploreTab.text()).toBe('Explore')
 
-    // Order: the Explore tab sits AFTER Map and BEFORE My Stories.
-    const tabs = wrapper.findAll('[data-testid^="nav-"]').map((t) => t.attributes('data-testid'))
-    const mapIdx = tabs.indexOf('nav-map')
-    const explIdx = tabs.indexOf('nav-explore')
-    const myIdx = tabs.indexOf('nav-my-reports')
-    expect(mapIdx).toBeGreaterThanOrEqual(0)
-    expect(explIdx).toBeGreaterThan(mapIdx)
-    expect(myIdx).toBeGreaterThan(explIdx)
-  })
 
-  it('shows the Explore tab to anonymous visitors too', async () => {
-    const { wrapper } = await mountAt('/')
-    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
-    expect(exploreTab.exists()).toBe(true)
-  })
 
-  it('marks Explore active when on /explore', async () => {
-    const { wrapper } = await mountAt('/explore')
-    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
-    expect(exploreTab.classes()).toContain('active')
-  })
 
-  it('marks Explore active on a nested /data-quality path (still under the hub)', async () => {
-    const { wrapper } = await mountAt('/explore')
-    const exploreTab = wrapper.find('[data-testid="nav-explore"]')
-    expect(exploreTab.classes()).toContain('active')
-  })
-
-  it('hides nav tabs on the login page regardless of auth state', async () => {
-    const { wrapper } = await mountAt('/login')
-    expect(wrapper.find('[data-testid="app-nav"]').exists()).toBe(false)
-  })
 
   it('shows the header search on `/` (Stories landing — no embedded search)', async () => {
     const { wrapper } = await mountAt('/')
@@ -209,12 +130,6 @@ describe('AppHeader', () => {
     expect(wrapper.findComponent({ name: 'TickerSearch' }).exists()).toBe(false)
   })
 
-  it('marks active nav tab', async () => {
-    _internal.setAccessToken('test-token')
-    const { wrapper } = await mountAt('/my-stories')
-    const tab = wrapper.find('[data-testid="nav-my-reports"]')
-    expect(tab.classes()).toContain('active')
-  })
 
   it('shows user name inside the preferences menu when authenticated', async () => {
     _internal.setAccessToken('test-token')
@@ -232,4 +147,14 @@ describe('AppHeader', () => {
     await wrapper.findComponent({ name: 'TickerSearch' }).vm.$emit('select', 'MSFT')
     expect(pushSpy).toHaveBeenCalledWith('/c/MSFT/gmr-long')
   })
+
+  it('the hamburger toggles the mobile sidebar drawer', async () => {
+    const { wrapper } = await mountAt('/')
+    const { useSidebar } = await import('../../src/composables/useSidebar.js')
+    const s = useSidebar(); s.closeMobile()
+    await wrapper.find('[data-testid="nav-toggle"]').trigger('click')
+    expect(s.mobileOpen.value).toBe(true)
+    s.closeMobile()
+  })
+
 })

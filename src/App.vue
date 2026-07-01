@@ -6,6 +6,7 @@ import { useLang } from './composables/useLang.js'
 import { useSwipeNav } from './composables/useSwipeNav.js'
 import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
+import AppSidebar from './components/AppSidebar.vue'
 import AppFooter from './components/AppFooter.vue'
 import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
@@ -34,6 +35,7 @@ const route = useRoute()
 // Footer is visible everywhere except the login page (where it would
 // displace the form and add link noise during sign-in).
 const showFooter = computed(() => route.path !== '/login')
+const showSidebar = computed(() => route.path !== '/login')
 </script>
 
 <template>
@@ -46,10 +48,15 @@ const showFooter = computed(() => route.path !== '/login')
     <AppHeader />
     <VerifyEmailBanner />
     <I18nPluralProbe />
-    <main id="main" tabindex="-1">
-      <router-view />
-    </main>
-    <AppFooter v-if="showFooter" />
+    <div class="app-body">
+      <AppSidebar v-if="showSidebar" />
+      <div class="app-content">
+        <main id="main" tabindex="-1">
+          <router-view />
+        </main>
+        <AppFooter v-if="showFooter" />
+      </div>
+    </div>
     <CookieConsentBanner />
     <ToastStack />
   </div>
@@ -60,13 +67,12 @@ const showFooter = computed(() => route.path !== '/login')
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  --bezel-h: 3.25rem;
 }
-.app-shell > main {
-  flex: 1 0 auto;
-}
-.app-shell > .app-footer {
-  margin-top: auto;
-}
+.app-body { display: flex; align-items: stretch; flex: 1 0 auto; min-height: 0; }
+.app-content { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.app-content > main { flex: 1 0 auto; }
+.app-content > .app-footer { margin-top: auto; }
 
 /* Focusable main — when the skip-link is used, #main receives focus.
    We don't want a default focus ring on a container, so suppress it

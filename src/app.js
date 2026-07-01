@@ -59,6 +59,7 @@ import ResetPasswordView from './views/ResetPasswordView.vue'
 import PrivacyView from './views/PrivacyView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
+import AccountView from './views/AccountView.vue'
 import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
 import SparqlView from './views/SparqlView.vue'
@@ -139,6 +140,7 @@ const ROUTES = [
   // User
   { path: '/activity', component: ActivityView },
   { path: '/ai-usage', component: AIUsageView },
+  { path: '/account', component: AccountView },
 
   // Issues
   { path: '/issues', component: IssuesView },

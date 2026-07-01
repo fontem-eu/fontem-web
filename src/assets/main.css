@@ -27,6 +27,8 @@
        in the browser without an extra asset request. */
     --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
     --surface: #fffaec;  /* ivory, a touch lighter than bg */
+    --bezel: #efe1c6;    /* framing chrome — deeper than bg, reads as a separate part */
+    --bezel-border: #e0cba8;
     --border: #e6d3b8;   /* tan */
     --text: #3e2b1f;     /* espresso */
     --muted: #806753;    /* warm taupe — nudged darker for ~5.4:1 on linen */
@@ -75,6 +77,8 @@
        slate-violet bg, lifting it slightly rather than dimming it. */
     --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0.35 0.35 0.35 0 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
     --surface: #2a2230;  /* cards — one step up */
+    --bezel: #181120;    /* framing chrome — deeper than bg dusk */
+    --bezel-border: #322842;
     --border: #3d3145;   /* dusk border */
     --text: #faf0db;     /* warm cream — preserved */
     --muted: #c4a98a;    /* warm taupe, preserved */

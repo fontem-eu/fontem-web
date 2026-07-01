@@ -1,209 +1,80 @@
 <script setup>
-import { isAuthed } from '../api/session.js'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import TickerSearch from './TickerSearch.vue'
 import PreferencesMenu from './PreferencesMenu.vue'
 import Wordmark from './Wordmark.vue'
+import { useSidebar } from '../composables/useSidebar.js'
 
 const router = useRouter()
 const route = useRoute()
-const { t } = useI18n()
-
-// Safe during SSR: localStorage doesn't exist on the server, so
-// anonymous render is the default. Client re-evaluates on hydration.
-const hasToken = computed(
-  () => typeof localStorage !== 'undefined' && isAuthed.value,
-)
-
-/* Top-level nav tabs.  Home + Feed are public (browsing public data
- * stories does not require auth — transparency is the point); My
- * Stories is authed-only because it's the user's own workspace.
- * Issues and Activity live in the profile dropdown.
- *
- * Test-ids stay nav-my-reports/`my-reports` for one release so the
- * existing smoke-test selectors keep matching while the smoke repo
- * renames its IDs in lockstep. */
-const navTabs = computed(() => {
-  // Four sibling tabs as the platform's primary IA, plus the authed
-  // workspace. Stories (the public feed) lives at `/`. "Explore" is
-  // a hub that hosts the data-quality dashboards and other browse-
-  // by-source affordances; it replaces the previous direct link to
-  // the data-quality entry point.
-  const base = [
-    { key: 'stories',  label: t('nav.stories'),  path: '/' },
-    { key: 'spending', label: t('nav.spending'), path: '/spending' },
-    { key: 'map',      label: t('nav.map'),      path: '/map' },
-    { key: 'explore',  label: t('nav.explore'),  path: '/explore' },
-  ]
-  if (hasToken.value) {
-    base.push({ key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories' })
-  }
-  return base
-})
-
-function isActive(path) {
-  if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
-}
+const { toggleMobile } = useSidebar()
 
 /* Login has no search; the Spending tab has its own centered search
- * card so the header search is redundant there. Every other page
- * shows the compact header search so users can jump to any entity. */
+ * card so the header search is redundant there. */
 const showSearch = computed(() => route.path !== '/login' && route.path !== '/spending')
+const showNavToggle = computed(() => route.path !== '/login')
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
-  /* Preserve the current view if we're already on a ticker page */
   const currentView = route.params.view
   const view = isUuid ? 'profile' : (currentView || 'summary')
   router.push('/c/' + symbol + '/' + view)
 }
-
-
 </script>
 
 <template>
-  <header class="app-header">
-    <div class="header-top">
-      <!-- Logo -->
-      <h1 class="header-logo" @click="router.push('/')">
-        <Wordmark size="sm" />
-      </h1>
+  <header class="app-header" data-testid="app-header">
+    <button
+      v-if="showNavToggle"
+      type="button"
+      class="header-burger"
+      data-testid="nav-toggle"
+      :aria-label="$t('nav.menu')"
+      @click="toggleMobile"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+    </button>
 
-      <!-- Search bar — shown on sub-pages -->
-      <div v-if="showSearch" class="header-search">
-        <TickerSearch :compact="true" @select="onTickerSelect" />
-      </div>
+    <h1 class="header-logo" @click="router.push('/')">
+      <Wordmark size="sm" />
+    </h1>
 
-      <!-- Right side: single preferences gear that hosts theme,
-           language, atlas palette, and (auth-aware) sign-in /
-           account links. Pinned to the far right via
-           `margin-left: auto` below, even when the search bar is
-           absent (landing / login pages). -->
-      <div class="header-right">
-        <PreferencesMenu />
-      </div>
+    <div v-if="showSearch" class="header-search">
+      <TickerSearch :compact="true" @select="onTickerSelect" />
     </div>
 
-    <!-- Top-level nav tabs — visible to everyone on non-login pages.
-         Contents adapt to auth state (My Stories requires a token). -->
-    <nav v-if="route.path !== '/login'" class="header-nav" data-testid="app-nav">
-      <router-link
-        v-for="tab in navTabs"
-        :key="tab.key"
-        :to="tab.path"
-        class="nav-tab"
-        :class="{ active: isActive(tab.path) }"
-        :data-testid="'nav-' + tab.key"
-      >
-        {{ tab.label }}
-      </router-link>
-    </nav>
+    <div class="header-right">
+      <PreferencesMenu />
+    </div>
   </header>
 </template>
 
 <style scoped>
 .app-header {
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.header-top {
-  max-width: 72rem;
-  margin: 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  height: 3.25rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  gap: 0.6rem;
+  padding: 0 0.75rem;
+  background: var(--bezel);
+  border-bottom: 1px solid var(--bezel-border);
 }
+@media (min-width: 640px) { .app-header { padding: 0 1rem; gap: 0.9rem; } }
 
-@media (min-width: 640px) {
-  .header-top {
-    gap: 1.5rem;
-    padding: 1rem 1.5rem;
-  }
+.header-burger {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.1rem; height: 2.1rem; flex-shrink: 0;
+  border: 0; background: transparent; color: var(--text); cursor: pointer; border-radius: 8px;
 }
+.header-burger:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+/* The rail is persistent on desktop, so the burger is a mobile affordance. */
+@media (min-width: 900px) { .header-burger { display: none; } }
 
-.header-logo {
-  flex-shrink: 0;
-  cursor: pointer;
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-
-.logo-accent { color: var(--accent); }
-.logo-sub { color: var(--text); }
-
-.header-search {
-  flex: 1;
-  min-width: 0;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  /* Always pinned to the top-right — critical when the search bar is
-   * absent (landing / login) and there'd otherwise be no sibling
-   * pushing us over. */
-  margin-left: auto;
-}
-
-.sign-in-btn {
-  padding: 0.35rem 0.85rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-  transition: border-color 0.15s;
-}
-
-.sign-in-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* GitHub-style underline tabs */
-.header-nav {
-  max-width: 72rem;
-  margin: 0 auto;
-  display: flex;
-  gap: 0;
-  padding: 0 1rem;
-  overflow-x: auto;
-}
-
-@media (min-width: 640px) {
-  .header-nav {
-    padding: 0 1.5rem;
-  }
-}
-
-.nav-tab {
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--muted);
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  white-space: nowrap;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.nav-tab:hover {
-  color: var(--text);
-}
-
-.nav-tab.active {
-  color: var(--text);
-  font-weight: 600;
-  border-bottom-color: var(--accent);
-}
+.header-logo { flex-shrink: 0; cursor: pointer; font-size: 1.2rem; font-weight: 700; line-height: 1; }
+.header-search { flex: 1; min-width: 0; max-width: 36rem; }
+.header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; margin-left: auto; }
 </style>
