@@ -1,56 +1,73 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import { makeTestI18n } from './helpers/i18n.js'
+
+// DuckDB-WASM needs a real browser; mock the combine engine for unit tests.
+const runTransform = vi.fn()
+vi.mock('../../src/composables/useDuckDB.js', () => ({ useDuckDB: () => ({ runTransform, warmup: vi.fn() }) }))
+
 import DataStudioView from '../../src/views/DataStudioView.vue'
 
-const mountView = () => mount(DataStudioView, { global: { plugins: [makeTestI18n()] } })
+const stubs = { ChartSpec: { props: ['chart', 'chartProps'], template: '<div class="cs" :data-chart="chart">{{ (chartProps&&chartProps.data||[]).length }}|{{ chartProps&&chartProps.value }}</div>' } }
+const mountView = () => mount(DataStudioView, { global: { plugins: [makeTestI18n()], stubs } })
 
-describe('DataStudioView', () => {
-  beforeEach(() => { global.fetch = vi.fn() })
+describe('DataStudioView (data lab)', () => {
+  beforeEach(() => { global.fetch = vi.fn(); runTransform.mockReset() })
 
-  it('shows a toolbar + empty state until New query', async () => {
+  it('starts with one source cell + a toolbar', () => {
     const w = mountView()
-    expect(w.find('[data-testid="studio-toolbar"]').exists()).toBe(true)
-    expect(w.find('[data-testid="studio-empty"]').exists()).toBe(true)
-    expect(w.find('[data-testid="studio-panel"]').exists()).toBe(false)
+    expect(w.find('[data-testid="data-studio"]').exists()).toBe(true)
+    expect(w.findAll('[data-testid="studio-source"]').length).toBe(1)
   })
 
-  it('New query opens the panel with a Cypher sample; switching language swaps the sample', async () => {
+  it('adds and removes source cells', async () => {
     const w = mountView()
-    await w.find('[data-testid="studio-new-query"]').trigger('click')
-    expect(w.find('[data-testid="studio-panel"]').exists()).toBe(true)
-    expect(w.find('[data-testid="studio-editor"]').element.value).toContain('MATCH')
-    await w.find('[data-testid="studio-lang-sparql"]').trigger('click')
-    expect(w.find('[data-testid="studio-editor"]').element.value).toContain('SELECT ?s')
+    await w.find('[data-testid="studio-add-source"]').trigger('click')
+    expect(w.findAll('[data-testid="studio-source"]').length).toBe(2)
   })
 
-  it('runs a Cypher query and renders the results table', async () => {
-    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['company', 'contracts'], rows: [['Acme', 5], ['Beta', 3]], truncated: false }) })
+  it('runs a source query against the right proxy and shows row meta', async () => {
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['company', 'n'], rows: [['Acme', 5]] }) })
     const w = mountView()
-    await w.find('[data-testid="studio-new-query"]').trigger('click')
-    await w.find('[data-testid="studio-run"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="source-run"]').trigger('click'); await flushPromises()
     expect(global.fetch).toHaveBeenCalledWith('/api/query/cypher', expect.objectContaining({ method: 'POST' }))
-    const table = w.find('[data-testid="studio-results"] table')
-    expect(table.exists()).toBe(true)
-    expect(table.text()).toContain('company'); expect(table.text()).toContain('Acme')
+    expect(w.find('[data-testid="studio-source"]').text()).toContain('1 rows')
   })
 
-  it('normalizes a SPARQL bindings response into columns/rows', async () => {
-    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ head: { vars: ['s', 'o'] }, results: { bindings: [{ s: { value: 'x' }, o: { value: '1' } }] } }) })
+  it('combines sources via DuckDB and renders the result table + plot', async () => {
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['country', 'value'], rows: [['X', 1], ['Y', 2]] }) })
+    runTransform.mockResolvedValue({ columns: ['country', 'total'], rows: [['X', 3], ['Y', 7]] })
     const w = mountView()
-    await w.find('[data-testid="studio-new-query"]').trigger('click')
-    await w.find('[data-testid="studio-lang-sparql"]').trigger('click')
-    await w.find('[data-testid="studio-run"]').trigger('click'); await flushPromises()
-    expect(global.fetch).toHaveBeenCalledWith('/api/sparql', expect.anything())
-    expect(w.find('[data-testid="studio-results"] table').text()).toContain('x')
+    await w.find('[data-testid="source-run"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="transform-run"]').trigger('click'); await flushPromises()
+    expect(runTransform).toHaveBeenCalled()
+    const table = w.find('[data-testid="transform-result"] table')
+    expect(table.exists()).toBe(true); expect(table.text()).toContain('total')
+    // plot section appears with a chart
+    expect(w.find('[data-testid="studio-plot"]').exists()).toBe(true)
+    expect(w.find('.cs').exists()).toBe(true)
   })
 
-  it('surfaces a server error (e.g. forbidden write) without a table', async () => {
-    global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'Cypher: write/DDL keyword not allowed' }) })
+  it('surfaces a source error without a result', async () => {
+    global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'write not allowed' }) })
     const w = mountView()
-    await w.find('[data-testid="studio-new-query"]').trigger('click')
-    await w.find('[data-testid="studio-run"]').trigger('click'); await flushPromises()
-    expect(w.find('[data-testid="studio-error"]').text()).toContain('write/DDL')
-    expect(w.find('[data-testid="studio-results"]').exists()).toBe(false)
+    await w.find('[data-testid="source-run"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="studio-source"]').text()).toContain('write not allowed')
   })
+
+  it('pockets the plot as a pipeline recipe (sources + transform, no data)', async () => {
+    localStorage.clear()
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['country', 'value'], rows: [['X', 1]] }) })
+    runTransform.mockResolvedValue({ columns: ['country', 'total'], rows: [['X', 3]] })
+    const w = mountView()
+    await w.find('[data-testid="source-run"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="transform-run"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="studio-pocket"]').trigger('click'); await flushPromises()
+    const pocket = JSON.parse(localStorage.getItem('gmr-pocket') || '[]')
+    expect(pocket[0].widget_type).toBe('pipeline')
+    expect(pocket[0].config.data_params.sources.length).toBe(1)
+    expect(pocket[0].config.data_params.transform).toBeDefined()
+    expect(pocket[0].config.props).toBeUndefined()
+  })
+
 })
