@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
-import PreferencesMenu from './PreferencesMenu.vue'
+import ProfileMenu from './ProfileMenu.vue'
 import Wordmark from './Wordmark.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
@@ -45,7 +45,7 @@ function onTickerSelect(symbol) {
     </div>
 
     <div class="header-right">
-      <PreferencesMenu />
+      <ProfileMenu />
     </div>
   </header>
 </template>

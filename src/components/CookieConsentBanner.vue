@@ -125,7 +125,7 @@ function decline() {
 .ccb {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: var(--rail-w, 0);
   right: 0;
   z-index: 1000;
   display: flex;

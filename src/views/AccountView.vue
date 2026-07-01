@@ -36,7 +36,7 @@ async function doDeleteAccount() {
 
 <template>
   <div class="account-view" data-testid="account-view">
-    <h1 class="av-title">Account &amp; settings</h1>
+    <h1 class="av-title">{{ $t('account.title') }}</h1>
 
     <section v-if="authed" class="av-card av-profile">
       <UserAvatar :user="user" :size="48" />
@@ -46,20 +46,20 @@ async function doDeleteAccount() {
       </div>
     </section>
     <section v-else class="av-card">
-      <p>You are not signed in. <router-link to="/login" class="av-link">Log in or sign up</router-link>.</p>
+      <p>{{ $t('account.not_signed_in') }} <router-link to="/login" class="av-link">{{ $t('profile.log_in') }}</router-link></p>
     </section>
 
     <section class="av-card">
-      <h2 class="av-h2">Preferences</h2>
-      <div class="av-row"><span>Theme</span>
-        <button class="av-btn" data-testid="account-theme" @click="toggleTheme">{{ isDark ? 'Dark' : 'Light' }}</button>
+      <h2 class="av-h2">{{ $t('account.preferences') }}</h2>
+      <div class="av-row"><span>{{ $t('account.theme') }}</span>
+        <button class="av-btn" data-testid="account-theme" @click="toggleTheme">{{ isDark ? $t('account.dark') : $t('account.light') }}</button>
       </div>
-      <div class="av-row"><span>Language</span>
+      <div class="av-row"><span>{{ $t('account.language') }}</span>
         <select class="av-select" :value="lang" @change="setLang($event.target.value)">
           <option v-for="l in EU_LANGUAGES" :key="l.code" :value="l.code">{{ l.label || l.code }}</option>
         </select>
       </div>
-      <div class="av-row"><span>Map palette</span>
+      <div class="av-row"><span>{{ $t('account.map_palette') }}</span>
         <select class="av-select" :value="palette" @change="setPalette($event.target.value)">
           <option v-for="k in paletteKeys" :key="k" :value="k">{{ k }}</option>
         </select>
@@ -67,18 +67,18 @@ async function doDeleteAccount() {
     </section>
 
     <section class="av-card">
-      <h2 class="av-h2">Activity &amp; usage</h2>
-      <router-link to="/ai-usage" class="av-linkrow">AI usage metrics</router-link>
-      <router-link to="/activity" class="av-linkrow">Your activity</router-link>
-      <router-link to="/privacy" class="av-linkrow">Privacy &amp; data policy</router-link>
+      <h2 class="av-h2">{{ $t('account.activity_usage') }}</h2>
+      <router-link to="/ai-usage" class="av-linkrow">{{ $t('account.ai_usage_metrics') }}</router-link>
+      <router-link to="/activity" class="av-linkrow">{{ $t('account.your_activity') }}</router-link>
+      <router-link to="/privacy" class="av-linkrow">{{ $t('account.privacy') }}</router-link>
     </section>
 
     <section v-if="authed" class="av-card">
-      <h2 class="av-h2">Account &amp; data</h2>
-      <button class="av-linkrow" data-testid="account-logout" @click="doLogout">Sign out</button>
-      <button class="av-linkrow" :disabled="busy === 'all'" @click="doSignOutAll">Sign out of all devices</button>
-      <button class="av-linkrow" :disabled="busy === 'ai'" @click="doClearAi">Delete my AI conversations</button>
-      <button class="av-linkrow av-danger" :disabled="busy === 'del'" @click="doDeleteAccount">Delete account &amp; all data</button>
+      <h2 class="av-h2">{{ $t('account.account_data') }}</h2>
+      <button class="av-linkrow" data-testid="account-logout" @click="doLogout">{{ $t('profile.sign_out') }}</button>
+      <button class="av-linkrow" :disabled="busy === 'all'" @click="doSignOutAll">{{ $t('profile.sign_out_all') }}</button>
+      <button class="av-linkrow" :disabled="busy === 'ai'" @click="doClearAi">{{ $t('profile.delete_ai_data') }}</button>
+      <button class="av-linkrow av-danger" :disabled="busy === 'del'" @click="doDeleteAccount">{{ $t('profile.delete_account') }}</button>
     </section>
   </div>
 </template>

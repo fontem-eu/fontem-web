@@ -7,6 +7,7 @@ import { useSwipeNav } from './composables/useSwipeNav.js'
 import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppSidebar from './components/AppSidebar.vue'
+import { useSidebar } from './composables/useSidebar.js'
 import AppFooter from './components/AppFooter.vue'
 import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
@@ -36,10 +37,11 @@ const route = useRoute()
 // displace the form and add link noise during sign-in).
 const showFooter = computed(() => route.path !== '/login')
 const showSidebar = computed(() => route.path !== '/login')
+const { collapsed } = useSidebar()
 </script>
 
 <template>
-  <div class="min-h-screen app-shell" style="background: var(--bg)">
+  <div class="min-h-screen app-shell" :class="{ 'shell-has-rail': showSidebar, 'shell-rail-collapsed': collapsed }" style="background: var(--bg)">
     <!-- Skip-link: first focusable element on every page.  Hidden until
          keyboard focus lands on it.  Pressing Enter jumps past the
          header + nav straight to the page's main content — the single
@@ -68,6 +70,10 @@ const showSidebar = computed(() => route.path !== '/login')
   flex-direction: column;
   min-height: 100vh;
   --bezel-h: 3.25rem;
+}
+@media (min-width: 900px) {
+  .app-shell.shell-has-rail { --rail-w: 15rem; }
+  .app-shell.shell-has-rail.shell-rail-collapsed { --rail-w: 3.5rem; }
 }
 .app-body { display: flex; align-items: stretch; flex: 1 0 auto; min-height: 0; }
 .app-content { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }

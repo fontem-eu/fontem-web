@@ -27,6 +27,21 @@
     "try": "Try:",
     "walkthrough_searching_a_company_explorin": "Walkthrough: searching a company, exploring procurement, and publishing a data story"
   },
+  "account": {
+    "account_data": "Account & data",
+    "activity_usage": "Activity & usage",
+    "ai_usage_metrics": "AI usage metrics",
+    "dark": "Dark",
+    "language": "Language",
+    "light": "Light",
+    "map_palette": "Map palette",
+    "not_signed_in": "You are not signed in.",
+    "preferences": "Preferences",
+    "privacy": "Privacy & data policy",
+    "theme": "Theme",
+    "title": "Account & settings",
+    "your_activity": "Your activity"
+  },
   "activity": {
     "loading_activity": "Loading activity...",
     "no_activity_yet": "No activity yet. Start by exploring the graph or creating a data story.",
@@ -588,14 +603,18 @@
     "your": "Your"
   },
   "profile": {
-    "avg_net_margin": "Avg Net Margin",
-    "avg_roe": "Avg ROE",
-    "corporate_group": "Corporate Group",
-    "current_price": "Current Price",
-    "directors_amp_officers": "Directors &amp; Officers",
-    "financial_overview": "Financial Overview",
-    "market_cap": "Market Cap",
-    "part_of": "Part of"
+    "account_settings": "Account settings",
+    "activity": "Activity",
+    "ai_usage": "AI usage",
+    "confirm_delete_account": "Permanently delete your account and ALL associated data? This cannot be undone.",
+    "confirm_delete_ai": "Delete all of your AI assistant conversations?",
+    "confirm_sign_out_all": "Sign out of every device that has access to your account?",
+    "delete_account": "Delete account & all data",
+    "delete_ai_data": "Delete my AI conversations",
+    "log_in": "Log in / Sign up",
+    "menu": "Account menu",
+    "sign_out": "Sign out",
+    "sign_out_all": "Sign out of all devices"
   },
   "public_spending": {
     "intro": "Search EU companies, contracting authorities, lobbyists and EU-funded projects. Or browse what's big in your country first.",
