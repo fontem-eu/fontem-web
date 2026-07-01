@@ -1,9 +1,17 @@
 /**
  * Client-side DuckDB-WASM for the Data Studio's combine step. Source query
- * results (fetched from Fontem's read-only proxies) are registered as tables and
+ * results (fetched from Fontem's read-only proxies) are loaded as tables and
  * combined with a SQL transform — all in the browser sandbox, zero server compute.
  * Lazy-loaded: the ~few-MB wasm bundle only loads when a transform first runs.
+ *
+ * Tables are loaded via Arrow (conn.insertArrowTable) rather than read_json_auto:
+ * read_json_auto pulls the JSON extension from extensions.duckdb.org, which our
+ * CSP (rightly) blocks — Arrow insertion is core, needs no extension and no
+ * network. apache-arrow is pinned to the major version DuckDB-WASM bundles (17),
+ * so the Table we build and the IPC it serializes stay ABI-compatible.
  */
+import { tableFromJSON } from 'apache-arrow'
+
 let _dbPromise = null
 
 async function _init() {
@@ -22,6 +30,13 @@ async function _init() {
   const worker = new Worker(bundle.mainWorker)
   const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING), worker)
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker)
+  // Belt-and-braces: never reach out to the extension registry over the network.
+  const c = await db.connect()
+  try {
+    await c.query('SET autoinstall_known_extensions=false')
+    await c.query('SET autoload_known_extensions=false')
+  } catch { /* older builds lack these knobs; the Arrow path needs no extensions anyway */ }
+  await c.close()
   return db
 }
 
@@ -40,6 +55,15 @@ function _plain(v) {
   return v
 }
 
+/** rows (array-of-arrays) + columns -> array-of-objects, undefined -> null. */
+function _toObjects(columns, rows) {
+  return rows.map((r) => {
+    const o = {}
+    columns.forEach((c, i) => { o[c] = r[i] === undefined ? null : r[i] })
+    return o
+  })
+}
+
 export function useDuckDB() {
   /**
    * sources: [{ name, columns, rows }] (rows = array-of-arrays)
@@ -50,10 +74,11 @@ export function useDuckDB() {
     const conn = await db.connect()
     try {
       for (const s of sources) {
-        const objs = s.rows.map((r) => Object.fromEntries(s.columns.map((c, i) => [c, r[i]])))
-        const file = `${s.name}.json`
-        await db.registerFileText(file, JSON.stringify(objs))
-        await conn.query(`CREATE OR REPLACE TABLE "${s.name}" AS SELECT * FROM read_json_auto('${file}')`)
+        const objs = _toObjects(s.columns, s.rows)
+        await conn.query(`DROP TABLE IF EXISTS "${s.name}"`)
+        // insertArrowTable serializes via DuckDB's own bundled Arrow; the pinned
+        // apache-arrow major matches, so the Table round-trips cleanly.
+        await conn.insertArrowTable(tableFromJSON(objs), { name: s.name, create: true })
       }
       const res = await conn.query(sql)
       const columns = res.schema.fields.map((f) => f.name)
