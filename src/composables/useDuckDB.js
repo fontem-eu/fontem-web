@@ -1,17 +1,20 @@
 /**
  * Client-side DuckDB-WASM for the Data Studio's combine step. Source query
- * results (fetched from Fontem's read-only proxies) are loaded as tables and
- * combined with a SQL transform — all in the browser sandbox, zero server compute.
+ * results (from Fontem's read-only proxies) are loaded as tables and combined
+ * with a SQL transform — all in the browser sandbox, zero server compute.
  * Lazy-loaded: the ~few-MB wasm bundle only loads when a transform first runs.
  *
- * Tables are loaded via Arrow (conn.insertArrowTable) rather than read_json_auto:
- * read_json_auto pulls the JSON extension from extensions.duckdb.org, which our
- * CSP (rightly) blocks — Arrow insertion is core, needs no extension and no
- * network. apache-arrow is pinned to the major version DuckDB-WASM bundles (17),
- * so the Table we build and the IPC it serializes stay ABI-compatible.
+ * Loading path — why CSV, not Arrow or read_json_auto:
+ *  - read_json_auto pulls the JSON extension from extensions.duckdb.org, a
+ *    network fetch our CSP blocks (and we don't want the app touching the
+ *    extension registry at all).
+ *  - apache-arrow's table builders compile a validity predicate with
+ *    `new Function`, which needs script-src 'unsafe-eval'. We keep the CSP tight
+ *    ('wasm-unsafe-eval' only), so any arrow-builder insert path is out.
+ * read_csv is core DuckDB (no extension, parsed inside the wasm, no JS codegen).
+ * We derive each column's type from the JS values and pass them explicitly, so
+ * civic codes ("047", NUTS ids) stay VARCHAR instead of being guessed numeric.
  */
-import { tableFromJSON } from 'apache-arrow'
-
 let _dbPromise = null
 
 async function _init() {
@@ -30,12 +33,12 @@ async function _init() {
   const worker = new Worker(bundle.mainWorker)
   const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING), worker)
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker)
-  // Belt-and-braces: never reach out to the extension registry over the network.
+  // Never reach out to the extension registry over the network.
   const c = await db.connect()
   try {
     await c.query('SET autoinstall_known_extensions=false')
     await c.query('SET autoload_known_extensions=false')
-  } catch { /* older builds lack these knobs; the Arrow path needs no extensions anyway */ }
+  } catch { /* older builds lack these knobs; the CSV path needs no extensions anyway */ }
   await c.close()
   return db
 }
@@ -48,20 +51,45 @@ function _ensure() {
 function _plain(v) {
   if (typeof v === 'bigint') return Number(v)
   if (v && typeof v === 'object' && typeof v.toString === 'function' && !(Array.isArray(v))) {
-    // Arrow structs / dates stringify sensibly
     const s = v.toString()
     return s === '[object Object]' ? JSON.stringify(v) : s
   }
   return v
 }
 
-/** rows (array-of-arrays) + columns -> array-of-objects, undefined -> null. */
-function _toObjects(columns, rows) {
-  return rows.map((r) => {
-    const o = {}
-    columns.forEach((c, i) => { o[c] = r[i] === undefined ? null : r[i] })
-    return o
-  })
+/** Coarse kind of a single JS value, for column-type inference. */
+function _valueKind(v) {
+  if (v === null || v === undefined) return 'null'
+  const t = typeof v
+  if (t === 'bigint') return 'int'
+  if (t === 'number') return Number.isInteger(v) ? 'int' : 'float'
+  if (t === 'boolean') return 'bool'
+  return 'str'
+}
+
+/** DuckDB column type from the JS values in column i (null-tolerant). */
+function _duckType(rows, i) {
+  const kinds = new Set()
+  for (const r of rows) {
+    const k = _valueKind(r[i])
+    if (k !== 'null') kinds.add(k)
+  }
+  if (kinds.size === 0 || kinds.has('str')) return 'VARCHAR'
+  if (kinds.has('bool')) return kinds.size === 1 ? 'BOOLEAN' : 'VARCHAR'
+  return kinds.has('float') ? 'DOUBLE' : 'BIGINT'
+}
+
+/** One CSV field. null/undefined -> empty (read with nullstr=''); strings quoted. */
+function _csvField(v) {
+  if (v === null || v === undefined) return ''
+  const s = String(v) // String(true) -> "true", read as BOOLEAN by DuckDB
+  return /[",\n\r]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s
+}
+
+function _csv(columns, rows) {
+  const head = columns.map(_csvField).join(',')
+  const body = rows.map((r) => columns.map((_, i) => _csvField(r[i])).join(',')).join('\n')
+  return `${head}\n${body}\n`
 }
 
 export function useDuckDB() {
@@ -74,11 +102,13 @@ export function useDuckDB() {
     const conn = await db.connect()
     try {
       for (const s of sources) {
-        const objs = _toObjects(s.columns, s.rows)
+        const file = `${s.name}.csv`
+        const colDefs = s.columns.map((c, i) => `'${c.replaceAll("'", "''")}': '${_duckType(s.rows, i)}'`).join(', ')
+        await db.registerFileText(file, _csv(s.columns, s.rows))
         await conn.query(`DROP TABLE IF EXISTS "${s.name}"`)
-        // insertArrowTable serializes via DuckDB's own bundled Arrow; the pinned
-        // apache-arrow major matches, so the Table round-trips cleanly.
-        await conn.insertArrowTable(tableFromJSON(objs), { name: s.name, create: true })
+        await conn.query(
+          `CREATE TABLE "${s.name}" AS SELECT * FROM read_csv('${file}', header=true, columns={${colDefs}}, nullstr='')`,
+        )
       }
       const res = await conn.query(sql)
       const columns = res.schema.fields.map((f) => f.name)
