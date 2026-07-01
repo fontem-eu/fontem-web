@@ -55,7 +55,7 @@ async function doDeleteAccount() {
         <button class="av-btn" data-testid="account-theme" @click="toggleTheme">{{ isDark ? $t('account.dark') : $t('account.light') }}</button>
       </div>
       <div class="av-row"><span>{{ $t('account.language') }}</span>
-        <select class="av-select" :value="lang" @change="setLang($event.target.value)">
+        <select class="av-select" data-testid="account-lang-picker" :value="lang" @change="setLang($event.target.value)">
           <option v-for="l in EU_LANGUAGES" :key="l.code" :value="l.code">{{ l.label || l.code }}</option>
         </select>
       </div>

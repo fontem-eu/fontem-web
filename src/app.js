@@ -60,6 +60,7 @@ import PrivacyView from './views/PrivacyView.vue'
 import ActivityView from './views/ActivityView.vue'
 import AIUsageView from './views/AIUsageView.vue'
 import AccountView from './views/AccountView.vue'
+import DataStudioView from './views/DataStudioView.vue'
 import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
 import SparqlView from './views/SparqlView.vue'
@@ -141,6 +142,7 @@ const ROUTES = [
   { path: '/activity', component: ActivityView },
   { path: '/ai-usage', component: AIUsageView },
   { path: '/account', component: AccountView },
+  { path: '/studio', component: DataStudioView },
 
   // Issues
   { path: '/issues', component: IssuesView },

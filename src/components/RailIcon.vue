@@ -10,6 +10,7 @@ defineProps({ name: { type: String, required: true } })
     <template v-else-if="name === 'explore'"><circle cx="12" cy="12" r="10" /><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" /></template>
     <template v-else-if="name === 'mystories'"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></template>
     <template v-else-if="name === 'account'"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></template>
+    <template v-else-if="name === 'studio'"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3L14 9V3"/></template>
     <template v-else-if="name === 'chevron'"><polyline points="15 18 9 12 15 6" /></template>
   </svg>
 </template>

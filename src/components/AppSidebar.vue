@@ -25,6 +25,7 @@ const navItems = computed(() => {
     { key: 'spending', label: t('nav.spending'), path: '/spending', icon: 'spending' },
     { key: 'map', label: t('nav.map'), path: '/map', icon: 'map' },
     { key: 'explore', label: t('nav.explore'), path: '/explore', icon: 'explore' },
+    { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
   ]
   if (authed.value) base.push({ key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' })
   return base
