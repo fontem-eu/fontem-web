@@ -47,13 +47,21 @@ async function boundariesFor(level) {
   return JSON.parse(JSON.stringify(_geoCache[level]))
 }
 
-function quantileStops(values) {
+// A maplibre `step` fill-color expression, or a single colour when the data is
+// degenerate. step inputs MUST be strictly ascending, so ties are dropped.
+function buildPaint(values) {
   const vs = values.filter((v) => v > 0).sort((a, b) => a - b)
   bounds.value = { lo: vs[0] || 0, hi: vs[vs.length - 1] || 0 }
-  return COLOR_STOPS.slice(1).map((_, i) => {
+  if (vs.length < 2 || vs[0] === vs[vs.length - 1]) return COLOR_STOPS[COLOR_STOPS.length - 1]
+  const stops = []
+  let prev = -Infinity
+  COLOR_STOPS.slice(1).forEach((color, i) => {
     const idx = Math.floor(((i + 1) / COLOR_STOPS.length) * vs.length)
-    return vs[Math.max(0, idx - 1)] || 0
+    const t = vs[Math.max(0, idx - 1)] || 0
+    if (t > prev) { stops.push(t, color); prev = t }
   })
+  if (!stops.length) return COLOR_STOPS[COLOR_STOPS.length - 1]
+  return ['step', ['get', 'value'], COLOR_STOPS[0], ...stops]
 }
 
 async function render() {
@@ -71,8 +79,7 @@ async function render() {
       if (lookup.has(code)) { codes.add(code); vals.push(v) }
     }
     coverage.value = { matched: codes.size, total: lookup.size }
-    const thresholds = quantileStops(vals)
-    const paint = ['step', ['get', 'value'], COLOR_STOPS[0], ...thresholds.flatMap((t, i) => [t, COLOR_STOPS[i + 1]])]
+    const paint = buildPaint(vals)
     const apply = () => {
       if (map.getSource('nuts')) {
         map.getSource('nuts').setData(geojson)
