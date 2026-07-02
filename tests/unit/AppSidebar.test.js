@@ -8,7 +8,7 @@ import AppSidebar from '../../src/components/AppSidebar.vue'
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
-    routes: ['/', '/spending', '/map', '/explore', '/my-stories', '/account'].map((p) => ({ path: p, component: { template: '<div />' } })),
+    routes: ['/', '/spending', '/map', '/explore', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
   })
 }
 async function mountAt(path = '/') {
@@ -59,6 +59,14 @@ describe('AppSidebar (nav rail)', () => {
     const { wrapper } = await mountAt('/')
     expect(wrapper.find('[data-testid="rail-account"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="rail-collapse"]').exists()).toBe(true)
+  })
+
+  it('reveals the Data Studio navigator on /studio routes', async () => {
+    const { wrapper } = await mountAt('/studio')
+    expect(wrapper.find('[data-testid="studio-nav"]').exists()).toBe(true)
+    // and not on other routes
+    const { wrapper: home } = await mountAt('/')
+    expect(home.find('[data-testid="studio-nav"]').exists()).toBe(false)
   })
 
   it('collapse toggle flips the collapsed rail class', async () => {

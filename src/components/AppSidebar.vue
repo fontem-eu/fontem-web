@@ -10,6 +10,7 @@ import { useI18n } from 'vue-i18n'
 import { isAuthed, currentUser } from '../api/session.js'
 import UserAvatar from './UserAvatar.vue'
 import RailIcon from './RailIcon.vue'
+import StudioNav from './StudioNav.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
 const route = useRoute()
@@ -18,6 +19,7 @@ const { collapsed, mobileOpen, toggleCollapsed, closeMobile } = useSidebar()
 
 const authed = computed(() => typeof localStorage !== 'undefined' && isAuthed.value)
 const user = computed(() => currentUser.value)
+const onStudio = computed(() => route.path.startsWith('/studio'))
 
 const navItems = computed(() => {
   const base = [
@@ -45,19 +47,22 @@ function isActive(path) {
     data-testid="app-sidebar"
   >
     <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.stories')">
-      <router-link
-        v-for="item in navItems"
-        :key="item.key"
-        :to="item.path"
-        class="rail-item"
-        :class="{ active: isActive(item.path) }"
-        :data-testid="'nav-' + item.key"
-        :title="collapsed ? item.label : null"
-        @click="closeMobile"
-      >
-        <RailIcon :name="item.icon" />
-        <span class="rail-label">{{ item.label }}</span>
-      </router-link>
+      <template v-for="item in navItems" :key="item.key">
+        <router-link
+          :to="item.path"
+          class="rail-item"
+          :class="{ active: isActive(item.path) }"
+          :data-testid="'nav-' + item.key"
+          :title="collapsed ? item.label : null"
+          @click="closeMobile"
+        >
+          <RailIcon :name="item.icon" />
+          <span class="rail-label">{{ item.label }}</span>
+        </router-link>
+        <div v-if="item.key === 'studio' && onStudio" class="rail-studio">
+          <StudioNav @navigate="closeMobile" />
+        </div>
+      </template>
     </nav>
 
     <div class="rail-bottom">
@@ -125,6 +130,7 @@ function isActive(path) {
 
 /* Collapsed (desktop): icons only, labels hidden, centred */
 .rail--collapsed .rail-label { display: none; }
+.rail--collapsed .rail-studio { display: none; }
 .rail--collapsed .rail-item { justify-content: center; gap: 0; padding: 0.55rem; }
 
 .rail-scrim { display: none; }
@@ -144,6 +150,7 @@ function isActive(path) {
   }
   .rail--collapsed { width: 15rem; } /* on mobile the drawer always shows labels */
   .rail--collapsed .rail-label { display: inline; }
+  .rail--collapsed .rail-studio { display: block; }
   .rail--collapsed .rail-item { justify-content: flex-start; gap: 0.7rem; padding: 0.55rem 0.6rem; }
   .rail--mobile-open { transform: translateX(0); }
   .rail-collapse-btn { display: none; } /* no icon-collapse on mobile */
