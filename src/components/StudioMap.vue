@@ -106,7 +106,7 @@ onMounted(() => {
     center: [10, 51], zoom: 3,
   })
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
-  map.on('load', render)
+  render()
 })
 onBeforeUnmount(() => { if (map) { map.remove(); map = null } })
 watch(() => [props.rows, props.geoCol, props.valueCol, props.level], render, { deep: true })
