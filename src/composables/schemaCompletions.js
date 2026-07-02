@@ -49,9 +49,11 @@ export function buildVocab(lang, schema) {
 export function completionSource(lang, schema) {
   const options = buildVocab(lang, schema)
   return (ctx) => {
-    const word = ctx.matchBefore(/[\w:.#/-]*/)
+    // Match only the identifier segment (word chars) so a Cypher `c:Comp`
+    // completes the label `Company` — not `c:Comp`. Same for `n.prop`.
+    const word = ctx.matchBefore(/\w*/)
     if (!word || (word.from === word.to && !ctx.explicit)) return null
-    return { from: word.from, options, validFor: /^[\w:.#/-]*$/ }
+    return { from: word.from, options, validFor: /^\w*$/ }
   }
 }
 
