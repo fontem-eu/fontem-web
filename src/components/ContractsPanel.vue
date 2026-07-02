@@ -4,6 +4,8 @@ import { RouterLink } from 'vue-router'
 import { fmtEur } from '../utils/format.js'
 import PocketButton from './PocketButton.vue'
 import DataQualityBadge from './DataQualityBadge.vue'
+import ErrataIcon from './ErrataIcon.vue'
+import ContractModificationModal from './ContractModificationModal.vue'
 import { contractValueConcerns } from '../utils/dataQuality.js'
 
 const props = defineProps({
@@ -22,6 +24,8 @@ const captureTarget = () => rootRef.value
 
 const state = ref('loading')
 const data = ref(null)
+// The modification whose before→after modal is open (null = closed).
+const errataContract = ref(null)
 const sortKey = ref('value_eur')
 const sortAsc = ref(false)
 
@@ -235,7 +239,7 @@ const topCpv = computed(() => {
                   :data-testid="`contract-title-link-${c.ted_notice_id}`"
                 >{{ c.title }}</RouterLink>
               </td>
-              <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataQualityBadge :concerns="contractValueConcerns(c)" /></td>
+              <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataQualityBadge :concerns="contractValueConcerns(c)" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" /></td>
               <td>
                 <template v-if="counterpartyFor(c).profileId">
                   <RouterLink
@@ -278,7 +282,7 @@ const topCpv = computed(() => {
             >{{ c.title }}</RouterLink>
           </div>
           <div class="cc-details">
-            <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataQualityBadge :concerns="contractValueConcerns(c)" />
+            <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataQualityBadge :concerns="contractValueConcerns(c)" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" />
             <span v-if="c.award_date" class="cc-date">{{ c.award_date.substring(0, 10) }}</span>
             <span v-if="c.procedure_type" class="ctag">{{ c.procedure_type }}</span>
           </div>
@@ -305,6 +309,11 @@ const topCpv = computed(() => {
         </div>
       </div>
     </div>
+    <ContractModificationModal
+      :visible="errataContract != null"
+      :contract="errataContract"
+      @close="errataContract = null"
+    />
   </div>
 </template>
 

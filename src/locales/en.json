@@ -1,4 +1,17 @@
 {
+  "errata": {
+    "icon_title": "This contract was modified — click to see what changed",
+    "modal_title": "Contract modification",
+    "subtitle": "Values reported by the modification notice",
+    "field": "Field",
+    "previous": "Previous",
+    "new": "New",
+    "change": "Change",
+    "value": "Contract value",
+    "modifies": "Modifies notice",
+    "close": "Close",
+    "none": "No field-level changes were recorded for this modification."
+  },
   "a_i_usage": {
     "ai_usage_metrics": "AI usage metrics",
     "last_24_h": "Last 24 h",
