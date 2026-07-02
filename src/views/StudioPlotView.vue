@@ -46,8 +46,8 @@ const autoFilled = ref('')       // last auto-generated transform (detects user 
 // Cache the last combine result in the browser so a saved plot renders on open
 // without re-clicking; the combine only re-runs live when the user asks.
 const runKey = () => (route.params.plotId ? `fontem-studio-run:${route.params.plotId}` : null)
-function saveRun() {
-  const k = runKey()
+function saveRun(id) {
+  const k = id ? `fontem-studio-run:${id}` : runKey()
   if (!k || !combine.result) return
   try { localStorage.setItem(k, JSON.stringify(combine.result)) } catch { /* quota */ }
 }
@@ -190,8 +190,10 @@ async function savePlot() {
   const name = plotName.value.trim() || 'Untitled plot'
   if (editMode.value) {
     await studio.updatePlot(pid, route.params.plotId, { name, spec: currentSpec() })
+    saveRun(route.params.plotId)
   } else {
     const pl = await studio.createPlot(pid, { name, spec: currentSpec() })
+    saveRun(pl.id)   // cache the run under the new id so it renders on next open
     router.replace(`/studio/p/${pid}/plot/${pl.id}`)
   }
   saved.value = true
