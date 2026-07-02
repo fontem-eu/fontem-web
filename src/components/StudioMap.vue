@@ -73,10 +73,13 @@ async function render() {
     const vals = []
     const lookup = byCode.value
     for (const f of geojson.features) {
+      // join on the NUTS code OR the country's alpha-3 (so alpha-3 datasets map too)
       const code = f.properties.nuts_code
-      const v = lookup.has(code) ? lookup.get(code) : 0
+      const a3 = f.properties.country_a3
+      const key = lookup.has(code) ? code : (a3 && lookup.has(a3) ? a3 : null)
+      const v = key ? lookup.get(key) : 0
       f.properties.value = v
-      if (lookup.has(code)) { codes.add(code); vals.push(v) }
+      if (key) { codes.add(key); vals.push(v) }
     }
     coverage.value = { matched: codes.size, total: lookup.size }
     const paint = buildPaint(vals)

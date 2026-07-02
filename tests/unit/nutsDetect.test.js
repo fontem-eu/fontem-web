@@ -23,6 +23,17 @@ describe('nutsDetect', () => {
     expect(detectNuts(['geo', 'v'], rows)).toEqual({ geoCol: 'geo', valueCol: 'v', level: 0 })
   })
 
+  it('detects an alpha-3 country column as a level-0 (country) map', () => {
+    const rows = [['HUN', 47], ['DEU', 22], ['FRA', 17], ['POL', 60]]
+    expect(detectNuts(['country', 'pct'], rows)).toEqual({ geoCol: 'country', valueCol: 'pct', level: 0 })
+  })
+
+  it('does NOT mistake NUTS L1 all-letter codes (DEA/DEB) for alpha-3', () => {
+    const rows = [['DEA', 1], ['DEB', 2], ['DEC', 3]]
+    // DEA/DEB/DEC are NUTS L1 (not in the alpha-3 country set) -> level 1, not 0
+    expect(detectNuts(['g', 'v'], rows).level).toBe(1)
+  })
+
   it('returns null when no column looks like NUTS', () => {
     expect(detectNuts(['name', 'n'], [['Acme', 1], ['Globex', 2]])).toBeNull()
   })

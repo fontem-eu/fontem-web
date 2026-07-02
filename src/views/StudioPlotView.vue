@@ -43,6 +43,20 @@ const qCols = reactive({})       // new mode: query id -> columns
 const editCols = reactive({})    // edit mode: source name -> columns
 const autoFilled = ref('')       // last auto-generated transform (detects user edits)
 
+// Cache the last combine result in the browser so a saved plot renders on open
+// without re-clicking; the combine only re-runs live when the user asks.
+const runKey = () => (route.params.plotId ? `fontem-studio-run:${route.params.plotId}` : null)
+function saveRun() {
+  const k = runKey()
+  if (!k || !combine.result) return
+  try { localStorage.setItem(k, JSON.stringify(combine.result)) } catch { /* quota */ }
+}
+function loadCachedRun() {
+  const k = runKey()
+  if (!k) return
+  try { const raw = localStorage.getItem(k); if (raw) combine.result = JSON.parse(raw) } catch { /* ignore */ }
+}
+
 async function hydrate() {
   ready.value = false
   await studio.ensureLoaded()
@@ -68,6 +82,7 @@ async function hydrate() {
     plot.chart = 'bar_h'; plot.x = ''; plot.y = ''
   }
   combine.result = null; combine.error = null
+  if (editMode.value) loadCachedRun()  // render the saved plot immediately
   ready.value = true
 }
 onMounted(hydrate)
@@ -150,6 +165,7 @@ async function runCombine() {
     const cols = combine.result.columns
     if (!plot.x || !cols.includes(plot.x)) plot.x = cols[0] || ''
     if (!plot.y || !cols.includes(plot.y)) plot.y = cols.find((c) => c !== plot.x) || cols[0] || ''
+    saveRun()
   } catch (e) { combine.error = e.message } finally { combine.loading = false }
 }
 

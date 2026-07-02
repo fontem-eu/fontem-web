@@ -30,6 +30,18 @@ describe('StudioMap (studio choropleth)', () => {
     expect(w.find('[data-testid="map-coverage"]').text()).toContain('matched 2 of 2')
   })
 
+  it('joins alpha-3 data via the boundaries country_a3 property', async () => {
+    fetchBoundaries.mockResolvedValue({ type: 'FeatureCollection', features: [
+      { properties: { nuts_code: 'HU', country_a3: 'HUN' } },
+      { properties: { nuts_code: 'DE', country_a3: 'DEU' } },
+    ] })
+    const w = mount(StudioMap, { props: {
+      rows: [['HUN', 47], ['DEU', 22]], columns: ['country', 'pct'], geoCol: 'country', valueCol: 'pct', level: 0,
+    } })
+    await flushPromises()
+    expect(w.find('[data-testid="map-coverage"]').text()).toContain('matched 2 of 2')
+  })
+
   it('warns when nothing matches (wrong column/level)', async () => {
     fetchBoundaries.mockResolvedValue({ type: 'FeatureCollection', features: [{ properties: { nuts_code: 'DE' } }] })
     const w = mount(StudioMap, { props: {

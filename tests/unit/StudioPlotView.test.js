@@ -84,6 +84,17 @@ describe('StudioPlotView (server-backed, new + edit)', () => {
     expect(w.find('[data-testid="plot-level"]').exists()).toBe(true)
   })
 
+  it('renders a saved plot from the cached run on open (no re-click)', async () => {
+    const spec = { sources: [{ name: 'q1', lang: 'cypher', query: 'MATCH (n) RETURN n' }], transform: 'SELECT * FROM q1', chart: 'bar_h', x: 'country', y: 'value' }
+    seedProject([{ id: 'pl1', name: 'Saved', spec }])
+    routeParams = { projectId: 'p1', plotId: 'pl1' }
+    localStorage.setItem('fontem-studio-run:pl1', JSON.stringify({ columns: ['country', 'value'], rows: [['X', 3], ['Y', 7]] }))
+    const w = mount(StudioPlotView, { global: { stubs } }); await flushPromises()
+    // the chart + result render immediately, without clicking Run & combine
+    expect(w.find('[data-testid="plot-result"] table').text()).toContain('country')
+    expect(w.find('[data-testid="studio-plot"]').exists()).toBe(true)
+  })
+
   it('pockets the combined plot as a live pipeline recipe', async () => {
     localStorage.clear()
     seedProject()
