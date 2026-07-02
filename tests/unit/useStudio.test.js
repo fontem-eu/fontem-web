@@ -1,62 +1,57 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+vi.mock('../../src/api/studio.js', async () => (await import('./helpers/studioApiMock.js')).makeStudioApiMock())
+
+import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
 
-describe('useStudio (data projects + queries store)', () => {
+describe('useStudio (server-backed store)', () => {
   let s
-  beforeEach(() => { localStorage.clear(); s = useStudio(); s.refresh() })
+  beforeEach(() => { api.__reset(); s = useStudio(); s.reset() })
 
-  it('creates a project and persists it to localStorage', () => {
-    const p = s.createProject('Corruption watch')
+  it('ensureLoaded fetches projects into the cache once', async () => {
+    api.__seed([{ id: 'p1', name: 'Seeded', created_by: 'u', queries: [], plots: [] }])
+    await s.ensureLoaded()
+    expect(s.projects.value.map((p) => p.name)).toEqual(['Seeded'])
+    await s.ensureLoaded() // second call is a no-op
+    expect(api.listProjects).toHaveBeenCalledTimes(1)
+  })
+
+  it('creates a project via the API and prepends it to the cache', async () => {
+    await s.ensureLoaded()
+    const p = await s.createProject('Corruption')
+    expect(api.createProject).toHaveBeenCalledWith('Corruption')
+    expect(s.projects.value[0].name).toBe('Corruption')
     expect(p.id).toBeTruthy()
-    expect(s.projects.value[0].name).toBe('Corruption watch')
-    const stored = JSON.parse(localStorage.getItem('fontem-studio'))
-    expect(stored.projects[0].name).toBe('Corruption watch')
   })
 
-  it('falls back to a default name for a blank project', () => {
-    const p = s.createProject('   ')
-    expect(p.name).toBe('Untitled project')
-  })
-
-  it('adds queries under a project with sensible defaults', () => {
-    const p = s.createProject('P')
-    const q = s.createQuery(p.id, { lang: 'sql', query: 'SELECT 1' })
-    expect(q.name).toBe('Query 1')
-    expect(q.lang).toBe('sql')
+  it('adds, updates, duplicates and deletes queries in the cache', async () => {
+    await s.ensureLoaded()
+    const p = await s.createProject('P')
+    const q = await s.createQuery(p.id, { name: 'a', lang: 'sql', query: 'SELECT 1' })
+    expect(s.getProject(p.id).queries).toHaveLength(1)
+    await s.updateQuery(p.id, q.id, { name: 'b' })
+    expect(s.getQuery(p.id, q.id).name).toBe('b')
+    await s.duplicateQuery(p.id, q.id)
+    expect(s.getProject(p.id).queries).toHaveLength(2)
+    await s.deleteQuery(p.id, q.id)
     expect(s.getProject(p.id).queries).toHaveLength(1)
   })
 
-  it('updates + renames a query', () => {
-    const p = s.createProject('P'); const q = s.createQuery(p.id, {})
-    s.updateQuery(p.id, q.id, { query: 'MATCH (n) RETURN n' })
-    s.renameQuery(p.id, q.id, 'Companies')
-    const got = s.getQuery(p.id, q.id)
-    expect(got.query).toBe('MATCH (n) RETURN n')
-    expect(got.name).toBe('Companies')
+  it('adds and deletes plots in the cache', async () => {
+    await s.ensureLoaded()
+    const p = await s.createProject('P')
+    const pl = await s.createPlot(p.id, { name: 'Overview', spec: { chart: 'bar_h' } })
+    expect(s.getPlot(p.id, pl.id).spec.chart).toBe('bar_h')
+    await s.deletePlot(p.id, pl.id)
+    expect(s.getProject(p.id).plots).toHaveLength(0)
   })
 
-  it('duplicates a query right after the original', () => {
-    const p = s.createProject('P')
-    const a = s.createQuery(p.id, { name: 'A' })
-    s.createQuery(p.id, { name: 'B' })
-    const copy = s.duplicateQuery(p.id, a.id)
-    const names = s.getProject(p.id).queries.map((q) => q.name)
-    expect(names).toEqual(['A', 'A copy', 'B'])
-    expect(copy.id).not.toBe(a.id)
-  })
-
-  it('deletes a query and a project', () => {
-    const p = s.createProject('P'); const q = s.createQuery(p.id, {})
-    s.deleteQuery(p.id, q.id)
-    expect(s.getProject(p.id).queries).toHaveLength(0)
-    s.deleteProject(p.id)
+  it('renames and deletes a project', async () => {
+    await s.ensureLoaded()
+    const p = await s.createProject('P')
+    await s.renameProject(p.id, 'Renamed')
+    expect(s.getProject(p.id).name).toBe('Renamed')
+    await s.deleteProject(p.id)
     expect(s.getProject(p.id)).toBeNull()
-  })
-
-  it('reloads persisted state on refresh', () => {
-    const p = s.createProject('Persisted'); s.createQuery(p.id, { name: 'keep' })
-    s.refresh()
-    expect(s.projects.value[0].name).toBe('Persisted')
-    expect(s.projects.value[0].queries[0].name).toBe('keep')
   })
 })

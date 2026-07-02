@@ -1,103 +1,126 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-
+vi.mock('../../src/api/studio.js', async () => (await import('./helpers/studioApiMock.js')).makeStudioApiMock())
 const push = vi.fn()
 let routeParams = {}
-vi.mock('vue-router', () => ({
-  useRoute: () => ({ get params() { return routeParams } }),
-  useRouter: () => ({ push }),
-}))
+vi.mock('vue-router', () => ({ useRoute: () => ({ get params() { return routeParams } }), useRouter: () => ({ push }) }))
+import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
 import StudioNav from '../../src/components/StudioNav.vue'
 
 function seed() {
-  localStorage.setItem('fontem-studio', JSON.stringify({ projects: [
-    { id: 'P1', name: 'Corruption', createdAt: 't', plots: [], queries: [
-      { id: 'Q1', name: 'contracts', lang: 'cypher', query: 'MATCH (n) RETURN n', updatedAt: 't' },
-    ] },
-  ] }))
-  useStudio().refresh()
+  api.__seed([{ id: 'p1', name: 'Corruption', created_by: 'u',
+    queries: [{ id: 'q1', name: 'contracts', lang: 'cypher', query: 'MATCH (n) RETURN n' }],
+    plots: [{ id: 'pl1', name: 'Overview', spec: { chart: 'bar_h' } }] }])
 }
 
-describe('StudioNav (drawer projects → queries tree)', () => {
-  beforeEach(() => { localStorage.clear(); push.mockReset(); routeParams = {} })
-  afterEach(() => { vi.unstubAllGlobals() })
+describe('StudioNav (server-backed drawer tree)', () => {
+  beforeEach(() => { api.__reset(); useStudio().reset(); push.mockReset(); routeParams = {} })
 
-  it('renders projects; expanding reveals queries and a New query action', async () => {
+  it('renders projects; expanding reveals queries + plots + add actions', async () => {
     seed()
-    const w = mount(StudioNav)
+    const w = mount(StudioNav); await flushPromises()
     expect(w.find('[data-testid="studio-nav-project"]').text()).toContain('Corruption')
-    // not expanded yet -> no query rows
     expect(w.find('[data-testid="studio-nav-query"]').exists()).toBe(false)
-    await w.find('[data-testid="nav-project-toggle-P1"]').trigger('click')
+    await w.find('[data-testid="nav-project-toggle-p1"]').trigger('click')
     expect(w.find('[data-testid="studio-nav-query"]').text()).toContain('contracts')
+    expect(w.find('[data-testid="studio-nav-plot"]').text()).toContain('Overview')
     expect(w.find('[data-testid="nav-new-query"]').exists()).toBe(true)
+    expect(w.find('[data-testid="nav-new-plot"]').exists()).toBe(true)
   })
 
-  it('auto-expands the project in the current route', () => {
-    seed(); routeParams = { projectId: 'P1' }
-    const w = mount(StudioNav)
+  it('auto-expands the project in the current route', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
     expect(w.find('[data-testid="studio-nav-query"]').exists()).toBe(true)
   })
 
-  it('new project prompts for a name, creates it, and navigates', async () => {
-    localStorage.clear(); useStudio().refresh()
-    vi.stubGlobal('prompt', () => 'Lobby money')
-    const w = mount(StudioNav)
+  it('new project creates via API and navigates (no prompt)', async () => {
+    const w = mount(StudioNav); await flushPromises()
     await w.find('[data-testid="nav-new-project"]').trigger('click'); await flushPromises()
-    expect(useStudio().projects.value[0].name).toBe('Lobby money')
+    expect(api.createProject).toHaveBeenCalledWith('Untitled project')
     expect(push).toHaveBeenCalledWith(expect.stringMatching(/^\/studio\/p\//))
   })
 
-  it('query context menu can rename via prompt', async () => {
-    seed(); routeParams = { projectId: 'P1' }
-    vi.stubGlobal('prompt', () => 'awards')
-    const w = mount(StudioNav)
+  it('inline-renames a query (no prompt)', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
     await w.find('[data-testid="nav-query-menu"]').trigger('click')
     await w.find('[data-testid="nav-menu"] [data-testid="menu-rename"]').trigger('click')
-    expect(useStudio().getQuery('P1', 'Q1').name).toBe('awards')
+    const input = w.find('[data-testid="nav-rename"]')
+    expect(input.exists()).toBe(true)
+    await input.setValue('awards')
+    await input.trigger('keyup.enter'); await flushPromises()
+    expect(api.updateQuery).toHaveBeenCalledWith('p1', 'q1', { name: 'awards' })
   })
 
-  it('project context menu deletes via confirm', async () => {
+  it('deletes a project via two-click confirm (no confirm dialog)', async () => {
     seed()
-    vi.stubGlobal('confirm', () => true)
-    const w = mount(StudioNav)
+    const w = mount(StudioNav); await flushPromises()
     await w.find('[data-testid="nav-project-menu"]').trigger('click')
-    await w.find('[data-testid="nav-menu"] [data-testid="menu-delete"]').trigger('click')
-    expect(useStudio().getProject('P1')).toBeNull()
+    await w.find('[data-testid="menu-delete"]').trigger('click') // arm
+    expect(api.deleteProject).not.toHaveBeenCalled()
+    await w.find('[data-testid="menu-delete-confirm"]').trigger('click'); await flushPromises()
+    expect(api.deleteProject).toHaveBeenCalledWith('p1')
   })
 
-  it('project menu can rename and create a new query', async () => {
-    seed()
-    vi.stubGlobal('prompt', () => 'Renamed project')
-    const w = mount(StudioNav)
+  it('navigates to a plot editor from the tree', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
+    await w.find('[data-testid="studio-nav-plot"] .srow-label').trigger('click')
+    expect(push).toHaveBeenCalledWith('/studio/p/p1/plot/pl1')
+  })
+
+  it('add buttons create a query and a plot and navigate', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
+    await w.find('[data-testid="nav-new-query"]').trigger('click'); await flushPromises()
+    expect(api.createQuery).toHaveBeenCalledWith('p1', {})
+    expect(push).toHaveBeenCalledWith(expect.stringMatching(/\/studio\/p\/p1\/q\//))
+    await w.find('[data-testid="nav-new-plot"]').trigger('click')
+    expect(push).toHaveBeenCalledWith('/studio/p/p1/plot')
+  })
+
+  it('duplicates a query from its menu and navigates to the copy', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
+    await w.find('[data-testid="nav-query-menu"]').trigger('click')
+    await w.find('[data-testid="nav-menu"] [data-testid="menu-duplicate"]').trigger('click'); await flushPromises()
+    expect(api.duplicateQuery).toHaveBeenCalledWith('p1', 'q1')
+    expect(push).toHaveBeenCalledWith(expect.stringMatching(/\/studio\/p\/p1\/q\//))
+  })
+
+  it('inline-renames a project and a plot; esc cancels without saving', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
+    // project rename
     await w.find('[data-testid="nav-project-menu"]').trigger('click')
     await w.find('[data-testid="nav-menu"] [data-testid="menu-rename"]').trigger('click')
-    expect(useStudio().getProject('P1').name).toBe('Renamed project')
-    // new query from the project menu creates + navigates to the editor
-    await w.find('[data-testid="nav-project-menu"]').trigger('click')
-    await w.find('[data-testid="nav-menu"] [data-testid="menu-new-query"]').trigger('click')
-    expect(useStudio().getProject('P1').queries).toHaveLength(2)
-    expect(push).toHaveBeenCalledWith(expect.stringMatching(/\/studio\/p\/P1\/q\//))
+    let input = w.find('[data-testid="nav-rename"]')
+    await input.setValue('Renamed')
+    await input.trigger('keyup.enter'); await flushPromises()
+    expect(api.renameProject).toHaveBeenCalledWith('p1', 'Renamed')
+    // plot rename, then cancel via esc → no update
+    await w.find('[data-testid="nav-plot-menu"]').trigger('click')
+    await w.find('[data-testid="nav-menu"] [data-testid="menu-rename"]').trigger('click')
+    input = w.find('[data-testid="nav-rename"]')
+    await input.setValue('nope')
+    await input.trigger('keyup.esc'); await flushPromises()
+    expect(api.updatePlot).not.toHaveBeenCalled()
   })
 
-  it('query menu duplicates + deletes; clicking a query and the plot link navigates', async () => {
-    seed(); routeParams = { projectId: 'P1' }
-    vi.stubGlobal('confirm', () => true)
-    const w = mount(StudioNav)
-    // open a query -> editor route
-    await w.find('[data-testid="studio-nav-query"] .srow-label').trigger('click')
-    expect(push).toHaveBeenCalledWith('/studio/p/P1/q/Q1')
-    // combine & plot link
-    await w.find('.plot').trigger('click')
-    expect(push).toHaveBeenCalledWith('/studio/p/P1/plot')
-    // duplicate
+  it('deletes a query and a plot via two-click confirm', async () => {
+    seed(); routeParams = { projectId: 'p1' }
+    const w = mount(StudioNav); await flushPromises()
+    // query delete
     await w.find('[data-testid="nav-query-menu"]').trigger('click')
-    await w.find('[data-testid="nav-menu"] [data-testid="menu-duplicate"]').trigger('click')
-    expect(useStudio().getProject('P1').queries.length).toBe(2)
-    // delete original
-    await w.findAll('[data-testid="nav-query-menu"]')[0].trigger('click')
-    await w.find('[data-testid="nav-menu"] [data-testid="menu-delete"]').trigger('click')
-    expect(useStudio().getQuery('P1', 'Q1')).toBeNull()
+    await w.find('[data-testid="menu-delete"]').trigger('click')
+    await w.find('[data-testid="menu-delete-confirm"]').trigger('click'); await flushPromises()
+    expect(api.deleteQuery).toHaveBeenCalledWith('p1', 'q1')
+    // plot delete
+    await w.find('[data-testid="nav-plot-menu"]').trigger('click')
+    await w.find('[data-testid="menu-delete"]').trigger('click')
+    await w.find('[data-testid="menu-delete-confirm"]').trigger('click'); await flushPromises()
+    expect(api.deletePlot).toHaveBeenCalledWith('p1', 'pl1')
   })
 })

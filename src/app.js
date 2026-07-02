@@ -148,6 +148,7 @@ const ROUTES = [
   { path: '/studio', component: StudioHomeView },
   { path: '/studio/p/:projectId', component: StudioProjectView },
   { path: '/studio/p/:projectId/plot', component: StudioPlotView },
+  { path: '/studio/p/:projectId/plot/:plotId', component: StudioPlotView },
   { path: '/studio/p/:projectId/q/:queryId', component: StudioQueryView },
 
   // Issues

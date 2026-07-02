@@ -28,6 +28,7 @@ export function requiresAuth(path) {
   if (/^\/stories\/[^/]+\/edit/.test(path)) return true
   if (/^\/reports\/[^/]+\/edit/.test(path)) return true
   if (path === '/issues' || path.startsWith('/issues/')) return true
+  if (path === '/studio' || path.startsWith('/studio/')) return true
   if (path === '/activity') return true
   if (path === '/ai-usage') return true
   if (path === '/admin' || path.startsWith('/admin/')) return true

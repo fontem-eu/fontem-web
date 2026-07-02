@@ -1,11 +1,11 @@
 <script setup>
 /**
- * Data Studio — single-query editor. One query at a time: pick the language,
- * write it, run it against the read-only proxy, and see a tabular preview of
- * the result right below (columns + first rows). The query recipe autosaves to
- * its project; results are never stored.
+ * Data Studio — single-query editor (server-backed). Pick a language, write the
+ * query, run it against the read-only proxy, and preview the result table.
+ * The recipe autosaves to its project. Inline name + two-click delete (no
+ * browser dialogs).
  */
-import { ref, reactive, watch, computed, onBeforeUnmount } from 'vue'
+import { ref, reactive, watch, computed, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
 import { ENGINES, engine, runSource } from '../composables/studioEngines.js'
@@ -15,11 +15,15 @@ const router = useRouter()
 const studio = useStudio()
 
 const draft = reactive({ name: '', lang: 'cypher', query: '' })
-const run = reactive({ result: null, error: null, loading: false, ranName: '' })
+const run = reactive({ result: null, error: null, loading: false })
 const project = ref(null)
 const query = ref(null)
+const ready = ref(false)
+const confirmDelete = ref(false)
 
-function hydrate() {
+async function hydrate() {
+  ready.value = false
+  await studio.ensureLoaded()
   const { projectId, queryId } = route.params
   project.value = studio.getProject(projectId)
   query.value = studio.getQuery(projectId, queryId)
@@ -29,23 +33,25 @@ function hydrate() {
   draft.lang = query.value.lang
   draft.query = query.value.query
   run.result = null; run.error = null; run.loading = false
+  await nextTick() // let the hydrate-driven draft watch flush before enabling autosave
+  ready.value = true
 }
-hydrate()
+onMounted(hydrate)
 watch(() => route.params.queryId, hydrate)
 
-// Autosave the recipe (debounced) whenever the draft changes.
 let saveTimer = null
+function persist() {
+  studio.updateQuery(route.params.projectId, route.params.queryId,
+    { name: draft.name.trim() || 'Untitled', lang: draft.lang, query: draft.query })
+}
 watch(draft, () => {
-  if (!query.value) return
+  if (!ready.value) return
   clearTimeout(saveTimer)
-  saveTimer = setTimeout(() => {
-    studio.updateQuery(route.params.projectId, route.params.queryId, { name: draft.name.trim() || 'Untitled', lang: draft.lang, query: draft.query })
-  }, 400)
+  saveTimer = setTimeout(persist, 500)
 })
 onBeforeUnmount(() => clearTimeout(saveTimer))
 
 const activeEngine = computed(() => engine(draft.lang))
-
 function pickLang(k) {
   const prev = engine(draft.lang)
   draft.lang = k
@@ -55,29 +61,26 @@ function pickLang(k) {
 async function execute() {
   if (!draft.query.trim() || run.loading) return
   run.loading = true; run.error = null; run.result = null
-  // flush the pending autosave so a reload replays exactly what ran
-  clearTimeout(saveTimer)
-  studio.updateQuery(route.params.projectId, route.params.queryId, { name: draft.name.trim() || 'Untitled', lang: draft.lang, query: draft.query })
+  clearTimeout(saveTimer); persist()
   try {
     run.result = await runSource(draft.lang, draft.query)
-    run.ranName = draft.name
   } catch (e) { run.error = e.message } finally { run.loading = false }
 }
 
-function duplicate() {
-  const copy = studio.duplicateQuery(route.params.projectId, route.params.queryId)
+async function duplicate() {
+  const copy = await studio.duplicateQuery(route.params.projectId, route.params.queryId)
   if (copy) router.push(`/studio/p/${route.params.projectId}/q/${copy.id}`)
 }
-function remove() {
-  if (!confirm(`Delete query “${draft.name}”?`)) return
+async function remove() {
+  if (!confirmDelete.value) { confirmDelete.value = true; setTimeout(() => { confirmDelete.value = false }, 3000); return }
   const pid = route.params.projectId
-  studio.deleteQuery(pid, route.params.queryId)
+  await studio.deleteQuery(pid, route.params.queryId)
   router.replace(`/studio/p/${pid}`)
 }
 </script>
 
 <template>
-  <div v-if="query" class="qview" data-testid="studio-query-view">
+  <div v-if="ready && query" class="qview" data-testid="studio-query-view">
     <nav class="crumbs">
       <router-link to="/studio">Studio</router-link>
       <span class="sep">/</span>
@@ -88,7 +91,7 @@ function remove() {
       <input v-model="draft.name" class="qname" data-testid="query-name" spellcheck="false" aria-label="Query name" />
       <div class="qactions">
         <button type="button" class="sbtn" data-testid="query-duplicate" @click="duplicate">Duplicate</button>
-        <button type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">Delete</button>
+        <button type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">{{ confirmDelete ? 'Confirm delete' : 'Delete' }}</button>
       </div>
     </div>
 
@@ -111,7 +114,6 @@ function remove() {
       <span v-if="run.error" class="qerr" data-testid="query-error">{{ run.error }}</span>
     </div>
 
-    <!-- Tabular preview of the result -->
     <div v-if="run.result" class="qresult" data-testid="query-result">
       <div v-if="!run.result.rows.length" class="qempty">Query ran successfully — no rows returned.</div>
       <div v-else class="twrap">
@@ -127,10 +129,12 @@ function remove() {
       </div>
     </div>
   </div>
+  <p v-else class="qloading" data-testid="query-loading">Loading…</p>
 </template>
 
 <style scoped>
 .qview { max-width: 60rem; margin: 0 auto; padding: 0.5rem 1rem 4rem; }
+.qloading { max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: var(--muted); }
 .crumbs { font-size: 0.8rem; color: var(--muted); padding: 0.6rem 0; }
 .crumbs a { color: var(--muted); text-decoration: none; }
 .crumbs a:hover { color: var(--text); text-decoration: underline; }

@@ -1,9 +1,10 @@
 <script setup>
 /**
- * Data Studio — project overview. Lists the project's queries (each opens the
- * single-query editor) and the entry point to the project's plot builder.
+ * Data Studio — project overview. Server-backed. Inline-editable project name
+ * (autosaves), the project's queries (open the editor) and its saved plots
+ * (open the plot builder). No browser prompts.
  */
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
 import { engine } from '../composables/studioEngines.js'
@@ -13,22 +14,31 @@ const router = useRouter()
 const studio = useStudio()
 
 const project = ref(null)
-function hydrate() {
+const nameEl = ref(null)
+
+async function hydrate() {
+  await studio.ensureLoaded()
   project.value = studio.getProject(route.params.projectId)
-  if (!project.value) router.replace('/studio')
+  if (!project.value) { router.replace('/studio'); return }
+  if (route.query.new) nextTick(() => { nameEl.value?.focus(); nameEl.value?.select() })
 }
-hydrate()
+onMounted(hydrate)
 watch(() => route.params.projectId, hydrate)
 
-const name = computed({
-  get: () => project.value?.name || '',
-  set: (v) => studio.renameProject(route.params.projectId, v),
-})
-const queries = computed(() => project.value?.queries || [])
+let renameTimer = null
+function onName(e) {
+  if (!project.value) return
+  project.value.name = e.target.value
+  clearTimeout(renameTimer)
+  renameTimer = setTimeout(() => studio.renameProject(route.params.projectId, project.value.name.trim() || 'Untitled project'), 400)
+}
 
-function newQuery() {
-  const q = studio.createQuery(route.params.projectId, {})
-  if (q) router.push(`/studio/p/${route.params.projectId}/q/${q.id}`)
+const queries = computed(() => project.value?.queries || [])
+const plots = computed(() => project.value?.plots || [])
+
+async function newQuery() {
+  const q = await studio.createQuery(route.params.projectId, {})
+  router.push(`/studio/p/${route.params.projectId}/q/${q.id}`)
 }
 function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(empty)' }
 </script>
@@ -36,7 +46,7 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 <template>
   <div v-if="project" class="pview" data-testid="studio-project-view">
     <nav class="crumbs"><router-link to="/studio">Studio</router-link></nav>
-    <input v-model="name" class="pname" data-testid="project-name" spellcheck="false" aria-label="Project name" />
+    <input ref="nameEl" :value="project.name" class="pname" data-testid="project-name" spellcheck="false" aria-label="Project name" @input="onName" />
 
     <section class="grp">
       <div class="grp-head">
@@ -56,9 +66,19 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
     </section>
 
     <section class="grp">
-      <div class="grp-head"><h2 class="grp-title">Plots</h2></div>
-      <router-link :to="`/studio/p/${project.id}/plot`" class="sbtn" data-testid="project-open-plot">Combine &amp; plot →</router-link>
-      <p class="hint">Combine this project's queries in the browser (DuckDB) and chart the result.</p>
+      <div class="grp-head">
+        <h2 class="grp-title">Plots</h2>
+        <router-link :to="`/studio/p/${project.id}/plot`" class="sbtn sbtn--primary" data-testid="project-new-plot">+ New plot</router-link>
+      </div>
+      <p v-if="!plots.length" class="empty">No plots yet. Combine your queries and chart the result.</p>
+      <ul v-else class="qlist">
+        <li v-for="pl in plots" :key="pl.id">
+          <router-link :to="`/studio/p/${project.id}/plot/${pl.id}`" class="qrow" data-testid="project-plot">
+            <span class="qbadge">{{ (pl.spec && pl.spec.chart) || 'chart' }}</span>
+            <span class="qrow-name">{{ pl.name }}</span>
+          </router-link>
+        </li>
+      </ul>
     </section>
   </div>
 </template>
@@ -75,7 +95,6 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 .grp-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; margin-bottom: 0.7rem; }
 .grp-title { font-size: 1rem; font-weight: 700; margin: 0; }
 .empty { color: var(--muted); font-size: 0.88rem; }
-.hint { color: var(--muted); font-size: 0.78rem; margin: 0.5rem 0 0; }
 .qlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .qrow { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); background: var(--surface); }
 .qrow:hover { border-color: var(--accent); }

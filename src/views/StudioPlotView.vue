@@ -1,12 +1,14 @@
 <script setup>
 /**
- * Data Studio — combine & plot. Pick queries from the project, run them, and
- * COMBINE their results with a DuckDB SQL transform that runs client-side
- * (DuckDB-WASM, browser sandbox). Selected queries get short aliases (q1, q2…)
- * to reference in the transform. Chart the result and pocket it as a live
- * pipeline recipe — no data stored.
+ * Data Studio — combine & plot, saved as a first-class project artifact.
+ *
+ * New plot (/studio/p/:pid/plot): pick queries from the project, combine them
+ * client-side in DuckDB-WASM, chart the result, and Save — the plot is stored on
+ * the project (its recipe: denormalized source queries + transform + chart).
+ * Edit plot (/studio/p/:pid/plot/:plotId): re-runs the stored recipe; tweak the
+ * transform/chart and Save. Either can be pocketed into a report (live recipe).
  */
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChartSpec from '../components/charts/ChartSpec.vue'
 import { useStudio } from '../composables/useStudio.js'
@@ -23,45 +25,71 @@ const { runTransform } = useDuckDB()
 const { save: pocketSave } = usePocket()
 
 const project = ref(null)
-function hydrate() {
-  project.value = studio.getProject(route.params.projectId)
-  if (!project.value) router.replace('/studio')
-}
-hydrate()
-watch(() => route.params.projectId, hydrate)
+const ready = ref(false)
+const editMode = computed(() => !!route.params.plotId)
 
-const selection = ref([]) // query ids, in selection order
-const selected = computed(() => selection.value
-  .map((id, idx) => ({ alias: `q${idx + 1}`, q: (project.value?.queries || []).find((x) => x.id === id) }))
-  .filter((x) => x.q))
+const plotName = ref('Untitled plot')
+const selection = ref([])          // new mode: selected query ids (ordered)
+const storedSources = ref([])      // edit mode: recipe sources from the saved plot
+const transformSql = ref('')
+const combine = reactive({ result: null, error: null, loading: false })
+const plot = reactive({ chart: 'bar_h', x: '', y: '' })
+const saved = ref(false)
+const pocketed = ref(false)
+
+async function hydrate() {
+  ready.value = false
+  await studio.ensureLoaded()
+  const pid = route.params.projectId
+  project.value = studio.getProject(pid)
+  if (!project.value) { router.replace('/studio'); return }
+  if (editMode.value) {
+    const pl = studio.getPlot(pid, route.params.plotId)
+    if (!pl) { router.replace(`/studio/p/${pid}`); return }
+    const spec = pl.spec || {}
+    plotName.value = pl.name
+    storedSources.value = (spec.sources || []).map((s) => ({ ...s }))
+    transformSql.value = spec.transform || ''
+    plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''
+  } else {
+    plotName.value = 'Untitled plot'
+    selection.value = []; transformSql.value = ''
+    plot.chart = 'bar_h'; plot.x = ''; plot.y = ''
+  }
+  combine.result = null; combine.error = null
+  ready.value = true
+}
+onMounted(hydrate)
+watch(() => route.params.plotId, hydrate)
 
 function toggle(id) {
   const i = selection.value.indexOf(id)
   if (i >= 0) selection.value.splice(i, 1)
   else selection.value.push(id)
 }
-function aliasOf(id) {
-  const i = selection.value.indexOf(id)
-  return i >= 0 ? `q${i + 1}` : ''
-}
+const aliasOf = (id) => { const i = selection.value.indexOf(id); return i >= 0 ? `q${i + 1}` : '' }
 
-const transformSql = ref('')
-const combine = reactive({ result: null, error: null, loading: false })
-const plot = reactive({ chart: 'bar_h', x: '', y: '' })
-const lastSources = ref([])
+// The recipe sources to combine: stored (edit) or aliased picks (new).
+const activeSources = computed(() => {
+  if (editMode.value) return storedSources.value
+  return selection.value
+    .map((id, i) => {
+      const q = (project.value?.queries || []).find((x) => x.id === id)
+      return q ? { name: `q${i + 1}`, lang: q.lang, query: q.query } : null
+    })
+    .filter(Boolean)
+})
 
 async function runCombine() {
   combine.loading = true; combine.error = null; combine.result = null
   try {
-    const sel = selected.value
-    if (!sel.length) throw new Error('Select at least one query to combine')
-    const inputs = []; const sources = []
-    for (const { alias, q } of sel) {
-      const r = await runSource(q.lang, q.query)
-      inputs.push({ name: alias, columns: r.columns, rows: r.rows })
-      sources.push({ name: alias, lang: q.lang, query: q.query })
+    const sources = activeSources.value
+    if (!sources.length) throw new Error('Pick at least one query to combine')
+    const inputs = []
+    for (const s of sources) {
+      const r = await runSource(s.lang, s.query)
+      inputs.push({ name: s.name, columns: r.columns, rows: r.rows })
     }
-    lastSources.value = sources
     const sql = transformSql.value.trim() || `SELECT * FROM ${inputs[0].name}`
     combine.result = await runTransform(inputs, sql)
     const cols = combine.result.columns
@@ -71,46 +99,81 @@ async function runCombine() {
 }
 
 const chartProps = computed(() => buildChartProps(combine.result, plot))
-const pocketed = ref(false)
+const currentSpec = () => ({
+  sources: activeSources.value.map((s) => ({ name: s.name, lang: s.lang, query: s.query })),
+  transform: transformSql.value,
+  chart: plot.chart, x: plot.x, y: plot.y,
+})
+
+async function savePlot() {
+  const pid = route.params.projectId
+  const name = plotName.value.trim() || 'Untitled plot'
+  if (editMode.value) {
+    await studio.updatePlot(pid, route.params.plotId, { name, spec: currentSpec() })
+  } else {
+    const pl = await studio.createPlot(pid, { name, spec: currentSpec() })
+    router.replace(`/studio/p/${pid}/plot/${pl.id}`)
+  }
+  saved.value = true
+  setTimeout(() => { saved.value = false }, 2000)
+}
+
 function pocket() {
   pocketSave('pipeline', {
-    data_params: { sources: lastSources.value, transform: transformSql.value },
+    data_params: { sources: currentSpec().sources, transform: transformSql.value },
     ui_params: { chart: plot.chart, x: plot.x, y: plot.y },
-  }, `${project.value?.name || 'Studio'} · ${plot.y || 'plot'}`)
+  }, `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
   pocketed.value = true
-  setTimeout(() => { pocketed.value = false }, 2500)
+  setTimeout(() => { pocketed.value = false }, 2000)
 }
 </script>
 
 <template>
-  <div v-if="project" class="plotview" data-testid="studio-plot-view">
+  <div v-if="ready && project" class="plotview" data-testid="studio-plot-view">
     <nav class="crumbs">
       <router-link to="/studio">Studio</router-link><span class="sep">/</span>
       <router-link :to="`/studio/p/${project.id}`">{{ project.name }}</router-link>
     </nav>
-    <h1 class="ptitle">Combine &amp; plot</h1>
 
+    <div class="phead">
+      <input v-model="plotName" class="pname" data-testid="plot-name" spellcheck="false" aria-label="Plot name" />
+      <div class="pactions">
+        <button type="button" class="sbtn sbtn--primary" data-testid="plot-save" :disabled="!activeSources.length" @click="savePlot">{{ saved ? 'Saved ✓' : 'Save plot' }}</button>
+        <button type="button" class="sbtn" data-testid="plot-pocket" :disabled="!combine.result" @click="pocket">{{ pocketed ? 'Pocketed ✓' : 'Pocket' }}</button>
+      </div>
+    </div>
+
+    <!-- New: pick project queries. Edit: show the saved recipe's sources. -->
     <section class="grp">
-      <h2 class="grp-title">1 · Pick queries</h2>
-      <p v-if="!project.queries.length" class="empty">This project has no queries yet.</p>
+      <h2 class="grp-title">1 · Sources</h2>
+      <template v-if="!editMode">
+        <p v-if="!project.queries.length" class="empty">This project has no queries yet.</p>
+        <ul v-else class="picks">
+          <li v-for="q in project.queries" :key="q.id">
+            <label class="pick" data-testid="plot-query-toggle">
+              <input type="checkbox" :checked="selection.includes(q.id)" @change="toggle(q.id)" />
+              <span class="pick-name">{{ q.name }}</span>
+              <code v-if="aliasOf(q.id)" class="pick-alias">{{ aliasOf(q.id) }}</code>
+            </label>
+          </li>
+        </ul>
+      </template>
       <ul v-else class="picks">
-        <li v-for="q in project.queries" :key="q.id">
-          <label class="pick" data-testid="plot-query-toggle">
-            <input type="checkbox" :checked="selection.includes(q.id)" @change="toggle(q.id)" />
-            <span class="pick-name">{{ q.name }}</span>
-            <code v-if="aliasOf(q.id)" class="pick-alias">{{ aliasOf(q.id) }}</code>
-          </label>
+        <li v-for="s in storedSources" :key="s.name" class="pick pick--static" data-testid="plot-source">
+          <code class="pick-alias">{{ s.name }}</code>
+          <span class="pick-name">{{ s.lang }}</span>
+          <code class="qsnip">{{ (s.query || '').split('\n')[0].slice(0, 60) }}</code>
         </li>
       </ul>
     </section>
 
     <section class="grp">
-      <h2 class="grp-title">2 · Combine <span class="hint">— DuckDB SQL over {{ selected.map((s) => s.alias).join(', ') || 'your selected queries' }} (runs in your browser)</span></h2>
+      <h2 class="grp-title">2 · Combine <span class="hint">— DuckDB SQL over {{ activeSources.map((s) => s.name).join(', ') || 'your sources' }} (runs in your browser)</span></h2>
       <textarea
 v-model="transformSql" class="editor" data-testid="plot-transform-sql" rows="4" spellcheck="false"
         placeholder="SELECT q1.country, q1.value AS a, q2.value AS b&#10;FROM q1 JOIN q2 ON q1.country = q2.country" />
       <div class="row">
-        <button type="button" class="sbtn sbtn--primary" data-testid="plot-combine" :disabled="combine.loading || !selected.length" @click="runCombine">
+        <button type="button" class="sbtn sbtn--primary" data-testid="plot-combine" :disabled="combine.loading || !activeSources.length" @click="runCombine">
           {{ combine.loading ? 'Combining…' : 'Run & combine' }}
         </button>
         <span v-if="combine.result" class="meta">{{ combine.result.rows.length }} rows</span>
@@ -132,26 +195,34 @@ v-model="transformSql" class="editor" data-testid="plot-transform-sql" rows="4" 
         <label>Y <select v-model="plot.y" data-testid="plot-y"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
       </div>
       <div v-if="chartProps" class="pchart"><ChartSpec :chart="plot.chart" :chart-props="chartProps" /></div>
-      <div class="row"><button type="button" class="sbtn sbtn--primary" data-testid="plot-pocket" @click="pocket">{{ pocketed ? 'Pocketed ✓' : 'Pocket this plot' }}</button></div>
     </section>
   </div>
+  <p v-else class="ploading" data-testid="plot-loading">Loading…</p>
 </template>
 
 <style scoped>
 .plotview { max-width: 60rem; margin: 0 auto; padding: 0.5rem 1rem 4rem; }
+.ploading { max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: var(--muted); }
 .crumbs { font-size: 0.8rem; color: var(--muted); padding: 0.6rem 0; }
 .crumbs a { color: var(--muted); text-decoration: none; }
 .crumbs a:hover { color: var(--text); text-decoration: underline; }
 .sep { margin: 0 0.4rem; }
-.ptitle { font-size: 1.3rem; font-weight: 800; margin: 0 0 0.5rem; }
+.phead { display: flex; align-items: center; gap: 1rem; justify-content: space-between; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.pname { font-size: 1.3rem; font-weight: 800; border: 1px solid transparent; border-radius: 8px; padding: 0.3rem 0.5rem; background: transparent; color: var(--text); flex: 1; min-width: 12rem; }
+.pname:hover { border-color: var(--border); }
+.pname:focus { border-color: var(--accent); outline: none; background: var(--bg); }
+.pactions { display: flex; gap: 0.4rem; }
 .grp { margin: 1.4rem 0; }
 .grp-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.6rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
 .hint { font-weight: 400; font-size: 0.78rem; color: var(--muted); }
 .empty { color: var(--muted); font-size: 0.88rem; }
 .picks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
 .pick { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0.5rem; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
+.pick--static { cursor: default; }
 .pick-name { font-size: 0.88rem; }
-.pick-alias { margin-left: auto; font-size: 0.74rem; font-weight: 700; color: var(--accent); font-family: ui-monospace, monospace; }
+.pick-alias { font-size: 0.74rem; font-weight: 700; color: var(--accent); font-family: ui-monospace, monospace; }
+.pick:not(.pick--static) .pick-alias { margin-left: auto; }
+.qsnip { color: var(--muted); font-size: 0.74rem; font-family: ui-monospace, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .editor { width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; font-size: 0.83rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; background: var(--bg); color: var(--text); resize: vertical; }
 .row { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.6rem; flex-wrap: wrap; }
 .meta { font-size: 0.78rem; color: var(--muted); font-family: ui-monospace, monospace; }

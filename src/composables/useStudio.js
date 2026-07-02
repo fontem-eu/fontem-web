@@ -1,96 +1,104 @@
 /**
- * Data Studio store — browser-local (localStorage) persistence for data
- * projects and their queries. A project groups queries (and, later, plots);
- * each query is a { lang, query } recipe against a read-only proxy.
- *
- * Client-side for now (mirrors usePocket); the API surface is deliberately
- * store-shaped so a future server-backed sync can slot in behind it without
- * touching the views. No query *results* are persisted — only the recipe.
+ * Data Studio store — server-backed (per-user, /capi/studio). Projects, queries
+ * and plots persist to the user's account; only the DuckDB *runtime* stays in
+ * the browser. A reactive cache mirrors the server so views read synchronously;
+ * mutations call the API then patch the cache. No query results are stored.
  */
 import { ref } from 'vue'
+import * as api from '../api/studio.js'
 
-const KEY = 'fontem-studio'
+const projects = ref([])
+const loaded = ref(false)
+const loading = ref(false)
+const error = ref(null)
+let _loadPromise = null
 
-function load() {
-  try {
-    const d = JSON.parse(localStorage.getItem(KEY) || '{}')
-    return Array.isArray(d.projects) ? d.projects : []
-  } catch { return [] }
+async function ensureLoaded(force = false) {
+  if (loaded.value && !force) return projects.value
+  if (_loadPromise) return _loadPromise
+  loading.value = true
+  error.value = null
+  _loadPromise = api.listProjects()
+    .then((list) => { projects.value = list || []; loaded.value = true; return projects.value })
+    .catch((e) => { error.value = e.message; return [] })
+    .finally(() => { loading.value = false; _loadPromise = null })
+  return _loadPromise
 }
 
-// Module-scoped so every useStudio() caller shares one reactive store.
-const projects = ref(load())
+const _find = (id) => projects.value.find((p) => p.id === id) || null
+const getProject = (id) => _find(id)
+function getQuery(pid, qid) { const p = _find(pid); return p ? (p.queries.find((q) => q.id === qid) || null) : null }
+function getPlot(pid, plid) { const p = _find(pid); return p ? (p.plots.find((pl) => pl.id === plid) || null) : null }
 
-function persist() {
-  try { localStorage.setItem(KEY, JSON.stringify({ projects: projects.value })) } catch { /* quota */ }
-}
-
-const uid = () => crypto.randomUUID()
-const now = () => new Date().toISOString()
-
-function getProject(id) { return projects.value.find((p) => p.id === id) || null }
-function getQuery(pid, qid) {
-  const p = getProject(pid)
-  return p ? (p.queries.find((q) => q.id === qid) || null) : null
-}
-
-function createProject(name) {
-  const p = { id: uid(), name: (name || '').trim() || 'Untitled project', createdAt: now(), queries: [], plots: [] }
+// ── projects ────────────────────────────────────────────────────
+async function createProject(name) {
+  const p = await api.createProject(name)
   projects.value.unshift(p)
-  persist()
   return p
 }
-function renameProject(id, name) {
-  const p = getProject(id)
-  if (p && name?.trim()) { p.name = name.trim(); persist() }
+async function renameProject(id, name) {
+  const p = await api.renameProject(id, name)
+  const cur = _find(id)
+  if (cur) cur.name = p.name
+  return p
 }
-function deleteProject(id) {
+async function deleteProject(id) {
+  await api.deleteProject(id)
   projects.value = projects.value.filter((p) => p.id !== id)
-  persist()
 }
 
-function createQuery(pid, init = {}) {
-  const p = getProject(pid)
-  if (!p) return null
-  const q = {
-    id: uid(),
-    name: (init.name || '').trim() || `Query ${p.queries.length + 1}`,
-    lang: init.lang || 'cypher',
-    query: init.query || '',
-    updatedAt: now(),
-  }
-  p.queries.push(q)
-  persist()
+// ── queries ─────────────────────────────────────────────────────
+async function createQuery(pid, body = {}) {
+  const q = await api.createQuery(pid, body)
+  const p = _find(pid)
+  if (p) p.queries.push(q)
   return q
 }
-function updateQuery(pid, qid, patch) {
-  const q = getQuery(pid, qid)
-  if (q) { Object.assign(q, patch, { updatedAt: now() }); persist() }
+async function updateQuery(pid, qid, patch) {
+  const q = await api.updateQuery(pid, qid, patch)
+  const cur = getQuery(pid, qid)
+  if (cur) Object.assign(cur, q)
+  return q
 }
-function renameQuery(pid, qid, name) {
-  if (name?.trim()) updateQuery(pid, qid, { name: name.trim() })
+const renameQuery = (pid, qid, name) => updateQuery(pid, qid, { name })
+async function deleteQuery(pid, qid) {
+  await api.deleteQuery(pid, qid)
+  const p = _find(pid)
+  if (p) p.queries = p.queries.filter((q) => q.id !== qid)
 }
-function deleteQuery(pid, qid) {
-  const p = getProject(pid)
-  if (p) { p.queries = p.queries.filter((q) => q.id !== qid); persist() }
+async function duplicateQuery(pid, qid) {
+  const q = await api.duplicateQuery(pid, qid)
+  const p = _find(pid)
+  if (p) p.queries.push(q)
+  return q
 }
-function duplicateQuery(pid, qid) {
-  const p = getProject(pid)
-  const q = getQuery(pid, qid)
-  if (!p || !q) return null
-  const copy = { ...q, id: uid(), name: `${q.name} copy`, updatedAt: now() }
-  const i = p.queries.findIndex((x) => x.id === qid)
-  p.queries.splice(i + 1, 0, copy)
-  persist()
-  return copy
+
+// ── plots ───────────────────────────────────────────────────────
+async function createPlot(pid, body) {
+  const pl = await api.createPlot(pid, body)
+  const p = _find(pid)
+  if (p) p.plots.push(pl)
+  return pl
+}
+async function updatePlot(pid, plid, patch) {
+  const pl = await api.updatePlot(pid, plid, patch)
+  const cur = getPlot(pid, plid)
+  if (cur) Object.assign(cur, pl)
+  return pl
+}
+async function deletePlot(pid, plid) {
+  await api.deletePlot(pid, plid)
+  const p = _find(pid)
+  if (p) p.plots = p.plots.filter((pl) => pl.id !== plid)
 }
 
 export function useStudio() {
   return {
-    projects,
-    refresh: () => { projects.value = load() },
-    getProject, getQuery,
+    projects, loaded, loading, error, ensureLoaded,
+    getProject, getQuery, getPlot,
     createProject, renameProject, deleteProject,
     createQuery, updateQuery, renameQuery, deleteQuery, duplicateQuery,
+    createPlot, updatePlot, deletePlot,
+    reset: () => { projects.value = []; loaded.value = false },
   }
 }

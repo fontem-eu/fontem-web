@@ -19,7 +19,7 @@ function authHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
-async function request(method, path, body, { retries = 0, refreshed = false } = {}) {
+export async function request(method, path, body, { retries = 0, refreshed = false } = {}) {
   // Wait for the cold-boot session restore to settle before sending —
   // otherwise the first call on a freshly-loaded page can race ahead
   // of the cookie→token refresh and go out anonymous, which 404s any
