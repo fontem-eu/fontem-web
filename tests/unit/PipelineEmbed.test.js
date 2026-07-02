@@ -4,7 +4,7 @@ const runTransform = vi.fn()
 vi.mock('../../src/composables/useDuckDB.js', () => ({ useDuckDB: () => ({ runTransform, warmup: vi.fn() }) }))
 import PipelineEmbed from '../../src/widgets/PipelineEmbed.vue'
 
-const stubs = { ChartSpec: { props: ['chart', 'chartProps'], template: '<div class="cs" :data-chart="chart">{{ (chartProps&&chartProps.data||[]).length }}</div>' } }
+const stubs = { StudioMap: { props: ['rows','columns','geoCol','valueCol','level'], template: `<div class="smap" :data-geo="geoCol" :data-level="level"></div>` }, ChartSpec: { props: ['chart', 'chartProps'], template: '<div class="cs" :data-chart="chart">{{ (chartProps&&chartProps.data||[]).length }}</div>' } }
 const cfg = { data_params: { sources: [{ name: 'q1', lang: 'cypher', query: 'MATCH (n) RETURN n.country AS country, n.v AS value' }], transform: 'SELECT country, value*2 AS total FROM q1' }, ui_params: { chart: 'bar_h', x: 'country', y: 'total' } }
 const mountE = (config = cfg) => mount(PipelineEmbed, { props: { config }, global: { stubs, mocks: { $t: (k) => k } } })
 
@@ -29,5 +29,16 @@ describe('PipelineEmbed (pocketed studio pipeline)', () => {
     global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'boom' }) })
     const w = mountE(); await flushPromises()
     expect(w.find('[data-testid="viz-error"]').text()).toContain('boom')
+  })
+
+  it('renders a choropleth for an atlas_map pipeline', async () => {
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['geo', 'val'], rows: [['DE', 1]] }) })
+    runTransform.mockResolvedValue({ columns: ['geo', 'val'], rows: [['DE1', 10], ['DEA', 20]] })
+    const cfg2 = { data_params: { sources: [{ name: 'q1', lang: 'sql', query: 'SELECT 1' }], transform: 'SELECT * FROM q1' }, ui_params: { chart: 'atlas_map', x: 'geo', y: 'val', level: 1 } }
+    const w = mountE(cfg2); await flushPromises()
+    const map = w.find('.smap')
+    expect(map.exists()).toBe(true)
+    expect(map.attributes('data-geo')).toBe('geo')
+    expect(map.attributes('data-level')).toBe('1')
   })
 })

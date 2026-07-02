@@ -17,6 +17,7 @@ const QueryEditorStub = {
 const stubs = {
   RouterLink: { props: ['to'], template: '<a><slot /></a>' },
   QueryEditor: QueryEditorStub,
+  StudioMap: { props: ['rows', 'columns', 'geoCol', 'valueCol', 'level'], template: `<div data-testid="studio-map">map:{{geoCol}}/{{valueCol}}/L{{level}}</div>` },
   ChartSpec: { props: ['chart', 'chartProps'], template: '<div class="cs" :data-chart="chart">{{ (chartProps&&chartProps.data||[]).length }}</div>' },
 }
 function seedProject(plots = []) {
@@ -66,6 +67,21 @@ describe('StudioPlotView (server-backed, new + edit)', () => {
     await w.find('[data-testid="plot-combine"]').trigger('click'); await flushPromises()
     await w.find('[data-testid="plot-save"]').trigger('click'); await flushPromises()
     expect(api.updatePlot).toHaveBeenCalledWith('p1', 'pl1', expect.objectContaining({ spec: expect.any(Object) }))
+  })
+
+  it('Map chart type auto-detects the NUTS column + level and renders the choropleth', async () => {
+    seedProject()
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['country', 'value'], rows: [['X', 1]] }) })
+    runTransform.mockResolvedValue({ columns: ['geo', 'offences'], rows: [['DE1', 10], ['DEA', 20], ['FRB', 5]] })
+    const w = mount(StudioPlotView, { global: { stubs } }); await flushPromises()
+    await w.findAll('[data-testid="plot-query-toggle"] input')[0].setValue(true)
+    await w.find('[data-testid="plot-combine"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="plot-chart"]').setValue('atlas_map'); await flushPromises()
+    const map = w.find('[data-testid="studio-map"]')
+    expect(map.exists()).toBe(true)
+    // detected: geo=geo (all L1 codes -> level 1), value=offences
+    expect(map.text()).toContain('geo/offences/L1')
+    expect(w.find('[data-testid="plot-level"]').exists()).toBe(true)
   })
 
   it('pockets the combined plot as a live pipeline recipe', async () => {

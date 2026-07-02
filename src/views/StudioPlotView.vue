@@ -11,14 +11,16 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChartSpec from '../components/charts/ChartSpec.vue'
+import StudioMap from '../components/StudioMap.vue'
 import { useStudio } from '../composables/useStudio.js'
 import { runSource } from '../composables/studioEngines.js'
 import { useDuckDB } from '../composables/useDuckDB.js'
 import { buildChartProps } from '../composables/studioPlot.js'
+import { detectNuts } from '../composables/nutsDetect.js'
 import QueryEditor from '../components/QueryEditor.vue'
 import { usePocket } from '../composables/usePocket.js'
 
-const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'ts_line', label: 'Line' }, { key: 'stat', label: 'Stat' }]
+const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'ts_line', label: 'Line' }, { key: 'stat', label: 'Stat' }, { key: 'atlas_map', label: 'Map' }]
 const route = useRoute()
 const router = useRouter()
 const studio = useStudio()
@@ -34,7 +36,7 @@ const selection = ref([])          // new mode: selected query ids (ordered)
 const storedSources = ref([])      // edit mode: recipe sources from the saved plot
 const transformSql = ref('')
 const combine = reactive({ result: null, error: null, loading: false })
-const plot = reactive({ chart: 'bar_h', x: '', y: '' })
+const plot = reactive({ chart: 'bar_h', x: '', y: '', level: 0 })
 const saved = ref(false)
 const pocketed = ref(false)
 const qCols = reactive({})       // new mode: query id -> columns
@@ -58,7 +60,7 @@ async function hydrate() {
     storedSources.value.forEach(async (src) => {
       try { const r = await runSource(src.lang, src.query); editCols[src.name] = r.columns || [] } catch { editCols[src.name] = [] }
     })
-    plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''
+    plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''; plot.level = spec.level || 0
   } else {
     plotName.value = 'Untitled plot'
     selection.value = []; transformSql.value = ''; autoFilled.value = ''
@@ -151,11 +153,20 @@ async function runCombine() {
   } catch (e) { combine.error = e.message } finally { combine.loading = false }
 }
 
+// Pre-fill the map's geo/value/level from the result's value shapes when the
+// user picks the Map chart type (they can override via the selects).
+function applyMapDetection() {
+  if (!combine.result) return
+  const d = detectNuts(combine.result.columns, combine.result.rows)
+  if (d) { plot.x = d.geoCol; plot.y = d.valueCol; plot.level = d.level }
+}
+watch(() => plot.chart, (c) => { if (c === 'atlas_map') applyMapDetection() })
+
 const chartProps = computed(() => buildChartProps(combine.result, plot))
 const currentSpec = () => ({
   sources: activeSources.value.map((s) => ({ name: s.name, lang: s.lang, query: s.query })),
   transform: transformSql.value,
-  chart: plot.chart, x: plot.x, y: plot.y,
+  chart: plot.chart, x: plot.x, y: plot.y, level: plot.level,
 })
 
 async function savePlot() {
@@ -174,7 +185,7 @@ async function savePlot() {
 function pocket() {
   pocketSave('pipeline', {
     data_params: { sources: currentSpec().sources, transform: transformSql.value },
-    ui_params: { chart: plot.chart, x: plot.x, y: plot.y },
+    ui_params: { chart: plot.chart, x: plot.x, y: plot.y, level: plot.level },
   }, `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
   pocketed.value = true
   setTimeout(() => { pocketed.value = false }, 2000)
@@ -242,10 +253,18 @@ function pocket() {
       <h2 class="grp-title">3 · Plot</h2>
       <div class="pcontrols">
         <label>Chart <select v-model="plot.chart" data-testid="plot-chart"><option v-for="c in CHARTS" :key="c.key" :value="c.key">{{ c.label }}</option></select></label>
-        <label>X <select v-model="plot.x" data-testid="plot-x"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
-        <label>Y <select v-model="plot.y" data-testid="plot-y"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+        <template v-if="plot.chart === 'atlas_map'">
+          <label>NUTS column <select v-model="plot.x" data-testid="plot-geo"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>Value <select v-model="plot.y" data-testid="plot-value"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>Level <select v-model.number="plot.level" data-testid="plot-level"><option v-for="l in [0, 1, 2, 3]" :key="l" :value="l">NUTS {{ l }}</option></select></label>
+        </template>
+        <template v-else>
+          <label>X <select v-model="plot.x" data-testid="plot-x"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>Y <select v-model="plot.y" data-testid="plot-y"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+        </template>
       </div>
-      <div v-if="chartProps" class="pchart"><ChartSpec :chart="plot.chart" :chart-props="chartProps" /></div>
+      <StudioMap v-if="plot.chart === 'atlas_map'" :rows="combine.result.rows" :columns="combine.result.columns" :geo-col="plot.x" :value-col="plot.y" :level="plot.level" />
+      <div v-else-if="chartProps" class="pchart"><ChartSpec :chart="plot.chart" :chart-props="chartProps" /></div>
     </section>
   </div>
   <p v-else class="ploading" data-testid="plot-loading">Loading…</p>
