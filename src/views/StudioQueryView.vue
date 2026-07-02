@@ -9,6 +9,8 @@ import { ref, reactive, watch, computed, nextTick, onBeforeUnmount, onMounted } 
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
 import { ENGINES, engine, runSource } from '../composables/studioEngines.js'
+import QueryEditor from '../components/QueryEditor.vue'
+import SchemaPanel from '../components/SchemaPanel.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -20,6 +22,7 @@ const project = ref(null)
 const query = ref(null)
 const ready = ref(false)
 const confirmDelete = ref(false)
+const showSchema = ref(true)
 
 async function hydrate() {
   ready.value = false
@@ -102,19 +105,23 @@ async function remove() {
         @click="pickLang(e.key)"
       >{{ e.label }}</button>
       <span class="qstore">→ {{ activeEngine.store }}</span>
+      <button type="button" class="sbtn schema-toggle" data-testid="schema-toggle" @click="showSchema = !showSchema">{{ showSchema ? 'Hide schema' : 'Schema' }}</button>
     </div>
 
-    <textarea v-model="draft.query" class="editor" data-testid="query-editor" rows="8" spellcheck="false" />
+    <div class="qbody">
+      <div class="qedit">
+        <QueryEditor v-model="draft.query" :lang="draft.lang" placeholder="Write your query — Ctrl/Cmd+Enter to run" @run="execute" />
 
-    <div class="qrun">
-      <button type="button" class="sbtn sbtn--primary" data-testid="query-run" :disabled="run.loading || !draft.query.trim()" @click="execute">
-        {{ run.loading ? 'Running…' : 'Run query' }}
-      </button>
-      <span v-if="run.result" class="qmeta" data-testid="query-meta">{{ run.result.rows.length }} rows · {{ run.result.columns.length }} cols</span>
-      <span v-if="run.error" class="qerr" data-testid="query-error">{{ run.error }}</span>
-    </div>
+        <div class="qrun">
+          <button type="button" class="sbtn sbtn--primary" data-testid="query-run" :disabled="run.loading || !draft.query.trim()" @click="execute">
+            {{ run.loading ? 'Running…' : 'Run query' }}
+          </button>
+          <span class="qhint">Ctrl/Cmd+Enter</span>
+          <span v-if="run.result" class="qmeta" data-testid="query-meta">{{ run.result.rows.length }} rows · {{ run.result.columns.length }} cols</span>
+          <span v-if="run.error" class="qerr" data-testid="query-error">{{ run.error }}</span>
+        </div>
 
-    <div v-if="run.result" class="qresult" data-testid="query-result">
+        <div v-if="run.result" class="qresult" data-testid="query-result">
       <div v-if="!run.result.rows.length" class="qempty">Query ran successfully — no rows returned.</div>
       <div v-else class="twrap">
         <table class="ttable">
@@ -127,6 +134,9 @@ async function remove() {
         </table>
         <div v-if="run.result.rows.length > 100" class="qtrunc">Showing first 100 of {{ run.result.rows.length }} rows.</div>
       </div>
+    </div>
+      </div>
+      <SchemaPanel v-if="showSchema" :lang="draft.lang" class="qschema" />
     </div>
   </div>
   <p v-else class="qloading" data-testid="query-loading">Loading…</p>
@@ -149,6 +159,12 @@ async function remove() {
 .lang.active { border-color: var(--accent); color: var(--text); background: color-mix(in srgb, var(--accent) 12%, var(--bg)); }
 .qstore { font-size: 0.76rem; color: var(--muted); font-family: ui-monospace, monospace; }
 .editor { width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.7rem; background: var(--bg); color: var(--text); resize: vertical; }
+.qbody { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 0.3rem; }
+@media (min-width: 900px) { .qbody { grid-template-columns: minmax(0, 1fr) 16rem; align-items: start; } }
+.qedit { min-width: 0; }
+.qschema { min-width: 0; }
+.schema-toggle { margin-left: auto; }
+.qhint { font-size: 0.7rem; color: var(--muted); font-family: ui-monospace, monospace; }
 .qrun { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; flex-wrap: wrap; }
 .qmeta { font-size: 0.78rem; color: var(--muted); font-family: ui-monospace, monospace; }
 .qerr { font-size: 0.82rem; color: #dc2626; }

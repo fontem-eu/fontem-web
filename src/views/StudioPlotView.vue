@@ -15,6 +15,7 @@ import { useStudio } from '../composables/useStudio.js'
 import { runSource } from '../composables/studioEngines.js'
 import { useDuckDB } from '../composables/useDuckDB.js'
 import { buildChartProps } from '../composables/studioPlot.js'
+import QueryEditor from '../components/QueryEditor.vue'
 import { usePocket } from '../composables/usePocket.js'
 
 const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'ts_line', label: 'Line' }, { key: 'stat', label: 'Stat' }]
@@ -169,9 +170,7 @@ function pocket() {
 
     <section class="grp">
       <h2 class="grp-title">2 · Combine <span class="hint">— DuckDB SQL over {{ activeSources.map((s) => s.name).join(', ') || 'your sources' }} (runs in your browser)</span></h2>
-      <textarea
-v-model="transformSql" class="editor" data-testid="plot-transform-sql" rows="4" spellcheck="false"
-        placeholder="SELECT q1.country, q1.value AS a, q2.value AS b&#10;FROM q1 JOIN q2 ON q1.country = q2.country" />
+      <QueryEditor v-model="transformSql" lang="sql" data-testid="plot-transform-sql" placeholder="SELECT q1.country, q1.value AS a, q2.value AS b FROM q1 JOIN q2 ON q1.country = q2.country" @run="runCombine" />
       <div class="row">
         <button type="button" class="sbtn sbtn--primary" data-testid="plot-combine" :disabled="combine.loading || !activeSources.length" @click="runCombine">
           {{ combine.loading ? 'Combining…' : 'Run & combine' }}

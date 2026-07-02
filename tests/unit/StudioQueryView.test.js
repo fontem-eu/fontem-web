@@ -7,7 +7,16 @@ import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
 import StudioQueryView from '../../src/views/StudioQueryView.vue'
 
-const stubs = { RouterLink: { props: ['to'], template: '<a><slot /></a>' } }
+const QueryEditorStub = {
+  props: ['modelValue', 'lang', 'placeholder'],
+  emits: ['update:modelValue', 'run'],
+  template: `<textarea data-testid="query-editor" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></textarea>`,
+}
+const stubs = {
+  RouterLink: { props: ['to'], template: '<a><slot /></a>' },
+  QueryEditor: QueryEditorStub,
+  SchemaPanel: { props: ['lang'], template: `<div data-testid="schema-panel"/>` },
+}
 function seedQuery(q = 'MATCH (c) RETURN c.name AS name', lang = 'cypher') {
   api.__seed([{ id: 'p1', name: 'P', created_by: 'u', plots: [],
     queries: [{ id: 'q1', name: 'Companies', lang, query: q }] }])

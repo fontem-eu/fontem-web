@@ -10,8 +10,13 @@ import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
 import StudioPlotView from '../../src/views/StudioPlotView.vue'
 
+const QueryEditorStub = {
+  props: ['modelValue', 'lang', 'placeholder'], emits: ['update:modelValue', 'run'],
+  template: `<textarea data-testid="plot-transform-sql" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></textarea>`,
+}
 const stubs = {
   RouterLink: { props: ['to'], template: '<a><slot /></a>' },
+  QueryEditor: QueryEditorStub,
   ChartSpec: { props: ['chart', 'chartProps'], template: '<div class="cs" :data-chart="chart">{{ (chartProps&&chartProps.data||[]).length }}</div>' },
 }
 function seedProject(plots = []) {
