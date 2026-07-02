@@ -37,6 +37,9 @@ const combine = reactive({ result: null, error: null, loading: false })
 const plot = reactive({ chart: 'bar_h', x: '', y: '' })
 const saved = ref(false)
 const pocketed = ref(false)
+const qCols = reactive({})       // new mode: query id -> columns
+const editCols = reactive({})    // edit mode: source name -> columns
+const autoFilled = ref('')       // last auto-generated transform (detects user edits)
 
 async function hydrate() {
   ready.value = false
@@ -51,10 +54,15 @@ async function hydrate() {
     plotName.value = pl.name
     storedSources.value = (spec.sources || []).map((s) => ({ ...s }))
     transformSql.value = spec.transform || ''
+    Object.keys(editCols).forEach((k) => delete editCols[k])
+    storedSources.value.forEach(async (src) => {
+      try { const r = await runSource(src.lang, src.query); editCols[src.name] = r.columns || [] } catch { editCols[src.name] = [] }
+    })
     plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''
   } else {
     plotName.value = 'Untitled plot'
-    selection.value = []; transformSql.value = ''
+    selection.value = []; transformSql.value = ''; autoFilled.value = ''
+    Object.keys(qCols).forEach((k) => delete qCols[k])
     plot.chart = 'bar_h'; plot.x = ''; plot.y = ''
   }
   combine.result = null; combine.error = null
@@ -66,9 +74,53 @@ watch(() => route.params.plotId, hydrate)
 function toggle(id) {
   const i = selection.value.indexOf(id)
   if (i >= 0) selection.value.splice(i, 1)
-  else selection.value.push(id)
+  else { selection.value.push(id); loadCols(id) }
+  syncAutoTransform()
 }
 const aliasOf = (id) => { const i = selection.value.indexOf(id); return i >= 0 ? `q${i + 1}` : '' }
+
+// Fetch a source query's columns so the transform editor can complete q1.<field>.
+async function loadCols(id) {
+  if (qCols[id]) return
+  const q = (project.value?.queries || []).find((x) => x.id === id)
+  if (!q) return
+  try { const r = await runSource(q.lang, q.query); qCols[id] = r.columns || [] } catch { qCols[id] = [] }
+  syncAutoTransform()
+}
+
+// Synthetic SQL schema of the selected sources (alias -> columns) for autocomplete.
+const transformSchema = computed(() => {
+  const tables = editMode.value
+    ? storedSources.value.map((sc) => ({ name: sc.name, columns: (editCols[sc.name] || []).map((c) => ({ name: c })) }))
+    : selection.value.map((id, i) => ({ name: `q${i + 1}`, columns: (qCols[id] || []).map((c) => ({ name: c })) }))
+  return { lang: 'sql', tables }
+})
+
+// Default transform when the user hasn't written/edited one: SELECT * FROM the
+// selected aliases, joined on a shared column when the sources have one.
+function defaultTransform() {
+  const sels = selection.value
+  if (!sels.length) return ''
+  if (sels.length === 1) return `SELECT *\nFROM q1`
+  const cols0 = qCols[sels[0]] || []
+  const shared = cols0.find((c) => sels.every((id) => (qCols[id] || []).includes(c)))
+  let sql = `SELECT *\nFROM q1`
+  for (let i = 1; i < sels.length; i += 1) {
+    const a = `q${i + 1}`
+    sql += shared
+      ? `\nJOIN ${a} ON q1.${shared} = ${a}.${shared}`
+      : `\nJOIN ${a} ON q1.column = ${a}.column  -- edit the join keys`
+  }
+  return sql
+}
+function syncAutoTransform() {
+  if (editMode.value) return
+  if (transformSql.value === '' || transformSql.value === autoFilled.value) {
+    const def = defaultTransform()
+    transformSql.value = def
+    autoFilled.value = def
+  }
+}
 
 // The recipe sources to combine: stored (edit) or aliased picks (new).
 const activeSources = computed(() => {
@@ -170,7 +222,7 @@ function pocket() {
 
     <section class="grp">
       <h2 class="grp-title">2 · Combine <span class="hint">— DuckDB SQL over {{ activeSources.map((s) => s.name).join(', ') || 'your sources' }} (runs in your browser)</span></h2>
-      <QueryEditor v-model="transformSql" lang="sql" data-testid="plot-transform-sql" placeholder="SELECT q1.country, q1.value AS a, q2.value AS b FROM q1 JOIN q2 ON q1.country = q2.country" @run="runCombine" />
+      <QueryEditor v-model="transformSql" lang="sql" :schema="transformSchema" data-testid="plot-transform-sql" placeholder="SELECT q1.country, q1.value AS a, q2.value AS b FROM q1 JOIN q2 ON q1.country = q2.country" @run="runCombine" />
       <div class="row">
         <button type="button" class="sbtn sbtn--primary" data-testid="plot-combine" :disabled="combine.loading || !activeSources.length" @click="runCombine">
           {{ combine.loading ? 'Combining…' : 'Run & combine' }}

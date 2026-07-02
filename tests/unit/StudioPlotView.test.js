@@ -11,7 +11,7 @@ import { useStudio } from '../../src/composables/useStudio.js'
 import StudioPlotView from '../../src/views/StudioPlotView.vue'
 
 const QueryEditorStub = {
-  props: ['modelValue', 'lang', 'placeholder'], emits: ['update:modelValue', 'run'],
+  props: ['modelValue', 'lang', 'placeholder', 'schema'], emits: ['update:modelValue', 'run'],
   template: `<textarea data-testid="plot-transform-sql" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></textarea>`,
 }
 const stubs = {
@@ -38,7 +38,9 @@ describe('StudioPlotView (server-backed, new + edit)', () => {
     const toggles = w.findAll('[data-testid="plot-query-toggle"] input')
     await toggles[0].setValue(true); await toggles[1].setValue(true)
     await w.find('[data-testid="plot-combine"]').trigger('click'); await flushPromises()
-    expect(global.fetch).toHaveBeenCalledTimes(2)
+    // sources are fetched (columns on tick + the combine run); the combine gets both
+    expect(global.fetch).toHaveBeenCalled()
+    expect(runTransform.mock.calls[0][0].map((i) => i.name)).toEqual(['q1', 'q2'])
     expect(w.find('[data-testid="plot-result"] table').text()).toContain('total')
     expect(w.find('.cs').exists()).toBe(true)
     // save → createPlot with denormalized aliased sources

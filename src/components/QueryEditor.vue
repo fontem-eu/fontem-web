@@ -25,12 +25,14 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   lang: { type: String, default: 'cypher' },
   placeholder: { type: String, default: '' },
+  schema: { type: Object, default: null },  // explicit override (e.g. the plot transform's source aliases)
 })
 const emit = defineEmits(['update:modelValue', 'run'])
 
 const el = ref(null)
 const view = shallowRef(null)
 const qs = useQuerySchema()
+const effectiveSchema = () => props.schema || qs.cache[props.lang]
 
 const hl = HighlightStyle.define([
   { tag: [t.keyword, t.operatorKeyword, t.modifier], color: 'var(--cm-kw)', fontWeight: '600' },
@@ -71,7 +73,7 @@ function complExt(lang, schema) {
 
 function reconfigure() {
   if (!view.value) return
-  const schema = qs.cache[props.lang]
+  const schema = effectiveSchema()
   view.value.dispatch({ effects: [
     langC.reconfigure(langExt(props.lang, schema)),
     complC.reconfigure(complExt(props.lang, schema)),
@@ -88,8 +90,8 @@ onMounted(() => {
         highlightActiveLine(), EditorView.lineWrapping,
         cmPlaceholder(props.placeholder),
         syntaxHighlighting(hl),
-        langC.of(langExt(props.lang, qs.cache[props.lang])),
-        complC.of(complExt(props.lang, qs.cache[props.lang])),
+        langC.of(langExt(props.lang, effectiveSchema())),
+        complC.of(complExt(props.lang, effectiveSchema())),
         keymap.of([
           { key: 'Mod-Enter', run: () => { emit('run'); return true }, preventDefault: true },
           ...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, ...completionKeymap, indentWithTab,
@@ -101,7 +103,8 @@ onMounted(() => {
       ],
     }),
   })
-  qs.loadSchema(props.lang).then(reconfigure)
+  if (!props.schema) qs.loadSchema(props.lang).then(reconfigure)
+  else reconfigure()
 })
 
 onBeforeUnmount(() => { view.value?.destroy(); view.value = null })
@@ -113,6 +116,9 @@ watch(() => props.modelValue, (val) => {
     v.dispatch({ changes: { from: 0, to: v.state.doc.length, insert: val || '' } })
   }
 })
+
+// Explicit schema changes (e.g. the plot transform gains a source) → reconfigure.
+watch(() => props.schema, reconfigure, { deep: true })
 
 // Language switch → reconfigure highlighting + completion, load its schema.
 watch(() => props.lang, async (lang) => {
