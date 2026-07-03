@@ -42,7 +42,7 @@ defineExpose({ storeState })
   <div class="viz-embed" data-testid="widget-viz">
     <div v-if="loading" class="viz-msg">{{ $t('app.loading') }}</div>
     <div v-else-if="error" class="viz-msg viz-error" data-testid="viz-error">{{ error }}</div>
-    <StudioMap v-else-if="result && up.chart === 'atlas_map'" :rows="result.rows" :columns="result.columns" :geo-col="up.x" :value-col="up.y" :level="up.level || 0" />
+    <StudioMap v-else-if="result && up.chart === 'atlas_map'" :rows="result.rows" :columns="result.columns" :geo-col="up.x" :value-col="up.y" :value2-col="up.y2" :bivariate="up.bivariate || 'none'" :level="up.level || 0" />
     <ChartSpec v-else-if="result && chartProps" :chart="up.chart || 'bar_h'" :chart-props="chartProps" />
   </div>
 </template>

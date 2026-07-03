@@ -11,6 +11,8 @@ import HorizontalBarChart from './HorizontalBarChart.vue'
 import GaugeChart from './GaugeChart.vue'
 import ZoomableBarChart from './ZoomableBarChart.vue'
 import ZoomableLineChart from './ZoomableLineChart.vue'
+import MultiLineChart from './MultiLineChart.vue'
+import CorrMatrix from './CorrMatrix.vue'
 import { resolveFormatter } from '../../widgets/chartSnapshot.js'
 
 const props = defineProps({
@@ -24,6 +26,8 @@ const COMPONENTS = {
   gauge: GaugeChart,
   ts_bar: ZoomableBarChart,
   ts_line: ZoomableLineChart,
+  line: MultiLineChart,
+  corr_matrix: CorrMatrix,
 }
 
 const component = computed(() => COMPONENTS[props.chart] || null)

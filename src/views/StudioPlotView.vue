@@ -20,7 +20,7 @@ import { detectNuts } from '../composables/nutsDetect.js'
 import QueryEditor from '../components/QueryEditor.vue'
 import { usePocket } from '../composables/usePocket.js'
 
-const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'ts_line', label: 'Line' }, { key: 'stat', label: 'Stat' }, { key: 'atlas_map', label: 'Map' }]
+const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'line', label: 'Line' }, { key: 'corr_matrix', label: 'Correlation' }, { key: 'stat', label: 'Stat' }, { key: 'atlas_map', label: 'Map' }]
 const route = useRoute()
 const router = useRouter()
 const studio = useStudio()
@@ -37,7 +37,7 @@ const selection = ref([])          // new mode: selected query ids (ordered)
 const storedSources = ref([])      // edit mode: recipe sources from the saved plot
 const transformSql = ref('')
 const combine = reactive({ result: null, error: null, loading: false })
-const plot = reactive({ chart: 'bar_h', x: '', y: '', level: 0 })
+const plot = reactive({ chart: 'bar_h', x: '', y: '', y2: '', level: 0, bivariate: 'none', series: [], corrCols: [] })
 const saved = ref(false)
 const pocketed = ref(false)
 const qCols = reactive({})       // new mode: query id -> columns
@@ -76,11 +76,15 @@ async function hydrate() {
       try { const r = await runSource(src.lang, src.query); editCols[src.name] = r.columns || [] } catch { editCols[src.name] = [] }
     })
     plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''; plot.level = spec.level || 0
+    plot.y2 = spec.y2 || ''; plot.bivariate = spec.bivariate || 'none'
+    plot.series = Array.isArray(spec.series) ? [...spec.series] : []
+    plot.corrCols = Array.isArray(spec.corrCols) ? [...spec.corrCols] : []
   } else {
     plotName.value = 'Untitled plot'
     selection.value = []; transformSql.value = ''; autoFilled.value = ''
     Object.keys(qCols).forEach((k) => delete qCols[k])
     plot.chart = 'bar_h'; plot.x = ''; plot.y = ''
+    plot.y2 = ''; plot.bivariate = 'none'; plot.series = []; plot.corrCols = []
   }
   combine.result = null; combine.error = null
   if (editMode.value) loadCachedRun()  // render the saved plot immediately
@@ -166,6 +170,9 @@ async function runCombine() {
     const cols = combine.result.columns
     if (!plot.x || !cols.includes(plot.x)) plot.x = cols[0] || ''
     if (!plot.y || !cols.includes(plot.y)) plot.y = cols.find((c) => c !== plot.x) || cols[0] || ''
+    if (!plot.series.length) plot.series = plot.y ? [plot.y] : []
+    if (plot.corrCols.length < 2) plot.corrCols = numericCols.value.slice(0, 3)
+    if (!plot.y2 || !cols.includes(plot.y2)) plot.y2 = numericCols.value.find((c) => c !== plot.y) || ''
     saveRun()
   } catch (e) { combine.error = e.message } finally { combine.loading = false }
 }
@@ -179,11 +186,23 @@ function applyMapDetection() {
 }
 watch(() => plot.chart, (c) => { if (c === 'atlas_map') applyMapDetection() })
 
+// Columns whose values are numeric (for line series + correlation + 2nd map value).
+const numericCols = computed(() => {
+  const r = combine.result
+  if (!r) return []
+  return r.columns.filter((c) => {
+    const ci = r.columns.indexOf(c)
+    return r.rows.some((row) => Number.isFinite(Number(row[ci])))
+      && r.rows.every((row) => row[ci] == null || row[ci] === '' || Number.isFinite(Number(row[ci])))
+  })
+})
+
 const chartProps = computed(() => buildChartProps(combine.result, plot))
 const currentSpec = () => ({
   sources: activeSources.value.map((s) => ({ name: s.name, lang: s.lang, query: s.query })),
   transform: transformSql.value,
-  chart: plot.chart, x: plot.x, y: plot.y, level: plot.level,
+  chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level,
+  bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols],
 })
 
 async function savePlot() {
@@ -205,7 +224,7 @@ async function savePlot() {
 function pocket() {
   pocketSave('pipeline', {
     data_params: { sources: currentSpec().sources, transform: transformSql.value },
-    ui_params: { chart: plot.chart, x: plot.x, y: plot.y, level: plot.level },
+    ui_params: { chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level, bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols] },
   }, `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
   pocketed.value = true
   setTimeout(() => { pocketed.value = false }, 2000)
@@ -276,14 +295,29 @@ function pocket() {
         <template v-if="plot.chart === 'atlas_map'">
           <label>NUTS column <select v-model="plot.x" data-testid="plot-geo"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
           <label>Value <select v-model="plot.y" data-testid="plot-value"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>Bivariate <select v-model="plot.bivariate" data-testid="plot-bivariate"><option value="none">Off</option><option value="alpha">Colour + opacity</option><option value="choropleth">2-colour matrix</option></select></label>
+          <label v-if="plot.bivariate !== 'none'">2nd value <select v-model="plot.y2" data-testid="plot-value2"><option v-for="c in numericCols" :key="c" :value="c">{{ c }}</option></select></label>
           <label>Level <select v-model.number="plot.level" data-testid="plot-level"><option v-for="l in [0, 1, 2, 3]" :key="l" :value="l">NUTS {{ l }}</option></select></label>
+        </template>
+        <template v-else-if="plot.chart === 'line'">
+          <label>X <select v-model="plot.x" data-testid="plot-x"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <div class="pmulti" data-testid="plot-series">
+            <span class="pmulti-lbl">Series</span>
+            <label v-for="c in numericCols" :key="c" class="pmulti-opt"><input v-model="plot.series" type="checkbox" :value="c" /> {{ c }}</label>
+          </div>
+        </template>
+        <template v-else-if="plot.chart === 'corr_matrix'">
+          <div class="pmulti" data-testid="plot-corrcols">
+            <span class="pmulti-lbl">Columns</span>
+            <label v-for="c in numericCols" :key="c" class="pmulti-opt"><input v-model="plot.corrCols" type="checkbox" :value="c" /> {{ c }}</label>
+          </div>
         </template>
         <template v-else>
           <label>X <select v-model="plot.x" data-testid="plot-x"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
           <label>Y <select v-model="plot.y" data-testid="plot-y"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
         </template>
       </div>
-      <StudioMap v-if="plot.chart === 'atlas_map'" :rows="combine.result.rows" :columns="combine.result.columns" :geo-col="plot.x" :value-col="plot.y" :level="plot.level" />
+      <StudioMap v-if="plot.chart === 'atlas_map'" :rows="combine.result.rows" :columns="combine.result.columns" :geo-col="plot.x" :value-col="plot.y" :value2-col="plot.y2" :bivariate="plot.bivariate" :level="plot.level" />
       <div v-else-if="chartProps" class="pchart"><ChartSpec :chart="plot.chart" :chart-props="chartProps" /></div>
     </section>
   </div>
@@ -293,6 +327,9 @@ function pocket() {
 <style scoped>
 .plotview { max-width: 60rem; margin: 0 auto; padding: 0.5rem 1rem 4rem; }
 .ploading { max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: var(--muted); }
+.pmulti { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; }
+.pmulti-lbl { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+.pmulti-opt { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.8rem; }
 .crumbs { font-size: 0.8rem; color: var(--muted); padding: 0.6rem 0; }
 .crumbs a { color: var(--muted); text-decoration: none; }
 .crumbs a:hover { color: var(--text); text-decoration: underline; }

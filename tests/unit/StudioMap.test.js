@@ -51,4 +51,38 @@ describe('StudioMap (studio choropleth)', () => {
     expect(fetchBoundaries).toHaveBeenCalledWith(2)
     expect(w.find('[data-testid="map-coverage"]').text()).toContain('wrong column/level')
   })
+
+  it('bivariate choropleth renders the 3×3 key from a 2nd value column', async () => {
+    fetchBoundaries.mockResolvedValue({ type: 'FeatureCollection', features: [
+      { properties: { nuts_code: 'DE' } }, { properties: { nuts_code: 'FR' } },
+      { properties: { nuts_code: 'ES' } }, { properties: { nuts_code: 'IT' } },
+    ] })
+    const w = mount(StudioMap, { props: {
+      rows: [['DE', 10, 1], ['FR', 20, 5], ['ES', 30, 9], ['IT', 40, 3]],
+      columns: ['region', 'rate', 'volume'], geoCol: 'region', valueCol: 'rate',
+      value2Col: 'volume', bivariate: 'choropleth', level: 0,
+    } })
+    await flushPromises()
+    const key = w.find('[data-testid="map-legend-biv"]')
+    expect(key.exists()).toBe(true)
+    expect(key.findAll('.biv-cell').length).toBe(9)
+    expect(key.text()).toContain('rate')
+    expect(key.text()).toContain('volume')
+    expect(w.find('[data-testid="map-coverage"]').text()).toContain('matched 4 of 4')
+  })
+
+  it('value-by-alpha mode shows the diverging colour + opacity legend', async () => {
+    fetchBoundaries.mockResolvedValue({ type: 'FeatureCollection', features: [
+      { properties: { nuts_code: 'DE' } }, { properties: { nuts_code: 'FR' } }, { properties: { nuts_code: 'ES' } },
+    ] })
+    const w = mount(StudioMap, { props: {
+      rows: [['DE', 10, 1], ['FR', 20, 5], ['ES', 30, 9]],
+      columns: ['region', 'rate', 'volume'], geoCol: 'region', valueCol: 'rate',
+      value2Col: 'volume', bivariate: 'alpha', level: 0,
+    } })
+    await flushPromises()
+    const leg = w.find('[data-testid="map-legend-alpha"]')
+    expect(leg.exists()).toBe(true)
+    expect(leg.text()).toContain('opacity = volume')
+  })
 })
