@@ -16,6 +16,11 @@
  * civic codes ("047", NUTS ids) stay VARCHAR instead of being guessed numeric.
  */
 let _dbPromise = null
+// DuckDB-WASM is a single shared worker; serialise transforms so concurrent
+// PipelineEmbeds (e.g. several plots on one investigation page) don't clobber
+// each other's registered CSV files / tables. Without this, sources all named
+// q1/q2 race on the global 'q1.csv' and only some plots render.
+let _txLock = Promise.resolve()
 
 async function _init() {
   const duckdb = await import('@duckdb/duckdb-wasm')
@@ -97,7 +102,7 @@ export function useDuckDB() {
    * sources: [{ name, columns, rows }] (rows = array-of-arrays)
    * sql: the transform SELECT. Returns { columns, rows }.
    */
-  async function runTransform(sources, sql) {
+  async function _doTransform(sources, sql) {
     const db = await _ensure()
     const conn = await db.connect()
     try {
@@ -117,6 +122,13 @@ export function useDuckDB() {
     } finally {
       await conn.close()
     }
+  }
+
+  // Serialise on the shared worker so concurrent embeds don't race.
+  function runTransform(sources, sql) {
+    const result = _txLock.then(() => _doTransform(sources, sql))
+    _txLock = result.then(() => {}, () => {})
+    return result
   }
   return { runTransform, warmup: _ensure }
 }
