@@ -68,7 +68,10 @@ function plotConfig(spec) {
   const sp = spec || {}
   return {
     data_params: { sources: sp.sources || [], transform: sp.transform || '' },
-    ui_params: { chart: sp.chart || 'bar_h', x: sp.x, y: sp.y, level: sp.level || 0 },
+    ui_params: {
+      chart: sp.chart || 'bar_h', x: sp.x, y: sp.y, y2: sp.y2, level: sp.level || 0,
+      bivariate: sp.bivariate || 'none', series: sp.series || [], corrCols: sp.corrCols || [],
+    },
   }
 }
 

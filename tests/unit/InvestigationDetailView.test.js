@@ -166,6 +166,12 @@ describe('InvestigationDetailView — viz list + delete', () => {
     expect(w.find('[data-testid="inv-dp-open-dp1"]').attributes('href')).toContain('/studio/p/dp1')
     // the saved plot is rendered inline via the pipeline embed
     expect(w.find('[data-testid="inv-dp-plot-pl1"]').exists()).toBe(true)
+    // the pocket config forwards the full spec (line/corr/bivariate fields), not just chart/x/y
+    const embed = w.findComponent({ name: 'PipelineEmbed' })
+    const up = embed.props('config').ui_params
+    expect(up).toMatchObject({ chart: 'bar_h', bivariate: 'none' })
+    expect(up).toHaveProperty('series')
+    expect(up).toHaveProperty('corrCols')
     // a contributor can detach it
     await w.find('[data-testid="inv-dp-detach-dp1"]').trigger('click'); await flushPromises()
     expect(detachProject).toHaveBeenCalledWith('dp1')
