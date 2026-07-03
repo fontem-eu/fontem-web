@@ -19,7 +19,7 @@ describe('useStudio (server-backed store)', () => {
   it('creates a project via the API and prepends it to the cache', async () => {
     await s.ensureLoaded()
     const p = await s.createProject('Corruption')
-    expect(api.createProject).toHaveBeenCalledWith('Corruption')
+    expect(api.createProject).toHaveBeenCalledWith('Corruption', null)
     expect(s.projects.value[0].name).toBe('Corruption')
     expect(p.id).toBeTruthy()
   })

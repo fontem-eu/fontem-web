@@ -38,7 +38,7 @@ describe('StudioNav (server-backed drawer tree)', () => {
   it('new project creates via API and navigates (no prompt)', async () => {
     const w = mount(StudioNav); await flushPromises()
     await w.find('[data-testid="nav-new-project"]').trigger('click'); await flushPromises()
-    expect(api.createProject).toHaveBeenCalledWith('Untitled project')
+    expect(api.createProject).toHaveBeenCalledWith('Untitled project', null)
     expect(push).toHaveBeenCalledWith(expect.stringMatching(/^\/studio\/p\//))
   })
 

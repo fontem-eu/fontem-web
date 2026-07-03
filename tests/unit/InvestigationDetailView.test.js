@@ -16,6 +16,11 @@ vi.mock('../../src/api/community.js', () => ({
   deleteInvestigation: vi.fn(),
 }))
 
+vi.mock('../../src/api/studio.js', () => ({
+  listProjectsForInvestigation: vi.fn(),
+  detachProject: vi.fn(),
+}))
+
 import InvestigationDetailView from '../../src/views/InvestigationDetailView.vue'
 import {
   getInvestigation, listInvestigationMembers,
@@ -23,6 +28,7 @@ import {
   listInvestigationStories, removeInvestigationStory,
   listVisualizations, deleteInvestigation,
 } from '../../src/api/community.js'
+import { listProjectsForInvestigation, detachProject } from '../../src/api/studio.js'
 
 const MEMBERS = [
   { user_id: 'u1', email: 'owner@x.io', role: 'owner' },
@@ -34,6 +40,7 @@ async function mountDetail(membership) {
   listInvestigationMembers.mockResolvedValue(MEMBERS)
   if (!listInvestigationStories.getMockImplementation()) listInvestigationStories.mockResolvedValue([])
   if (!listVisualizations.getMockImplementation()) listVisualizations.mockResolvedValue([])
+  if (!listProjectsForInvestigation.getMockImplementation()) listProjectsForInvestigation.mockResolvedValue([])
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
@@ -44,13 +51,13 @@ async function mountDetail(membership) {
   })
   await router.push('/investigations/i1')
   await router.isReady()
-  const w = mount(InvestigationDetailView, { global: { plugins: [router, makeTestI18n()] } })
+  const w = mount(InvestigationDetailView, { global: { plugins: [router, makeTestI18n()], stubs: { PipelineEmbed: true } } })
   await flushPromises()
   return w
 }
 
 beforeEach(() => {
-  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory, listVisualizations, deleteInvestigation]) m.mockReset()
+  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory, listVisualizations, deleteInvestigation, listProjectsForInvestigation, detachProject]) m.mockReset()
 })
 
 describe('InvestigationDetailView', () => {
@@ -146,4 +153,22 @@ describe('InvestigationDetailView — viz list + delete', () => {
     await flushPromises()
     expect(deleteInvestigation).toHaveBeenCalledWith('i1', 'orphan')
   })
+  it('lists shared data projects and renders their plots inline', async () => {
+    listProjectsForInvestigation.mockResolvedValue([
+      { id: 'dp1', name: 'Single-bidder', investigation_id: 'i1',
+        queries: [{ id: 'q1' }],
+        plots: [{ id: 'pl1', name: 'By country', spec: { sources: [], transform: '', chart: 'bar_h' } }] },
+    ])
+    const w = await mountDetail({ role: 'contributor' })
+    const sec = w.find('[data-testid="investigation-data-projects"]')
+    expect(sec.exists()).toBe(true)
+    expect(w.find('[data-testid="inv-dp-dp1"]').text()).toContain('Single-bidder')
+    expect(w.find('[data-testid="inv-dp-open-dp1"]').attributes('href')).toContain('/studio/p/dp1')
+    // the saved plot is rendered inline via the pipeline embed
+    expect(w.find('[data-testid="inv-dp-plot-pl1"]').exists()).toBe(true)
+    // a contributor can detach it
+    await w.find('[data-testid="inv-dp-detach-dp1"]').trigger('click'); await flushPromises()
+    expect(detachProject).toHaveBeenCalledWith('dp1')
+  })
+
 })

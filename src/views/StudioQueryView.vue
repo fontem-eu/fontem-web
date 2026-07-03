@@ -23,12 +23,13 @@ const query = ref(null)
 const ready = ref(false)
 const confirmDelete = ref(false)
 const showSchema = ref(true)
+const canEdit = computed(() => project.value?.my_access?.can_edit !== false)
 
 async function hydrate() {
   ready.value = false
   await studio.ensureLoaded()
   const { projectId, queryId } = route.params
-  project.value = studio.getProject(projectId)
+  project.value = await studio.ensureProject(projectId)
   query.value = studio.getQuery(projectId, queryId)
   if (!project.value) { router.replace('/studio'); return }
   if (!query.value) { router.replace(`/studio/p/${projectId}`); return }
@@ -44,6 +45,7 @@ watch(() => route.params.queryId, hydrate)
 
 let saveTimer = null
 function persist() {
+  if (!canEdit.value) return
   studio.updateQuery(route.params.projectId, route.params.queryId,
     { name: draft.name.trim() || 'Untitled', lang: draft.lang, query: draft.query })
 }
@@ -91,10 +93,10 @@ async function remove() {
     </nav>
 
     <div class="qhead">
-      <input v-model="draft.name" class="qname" data-testid="query-name" spellcheck="false" aria-label="Query name" />
+      <input v-model="draft.name" class="qname" data-testid="query-name" spellcheck="false" aria-label="Query name" :readonly="!canEdit" />
       <div class="qactions">
-        <button type="button" class="sbtn" data-testid="query-duplicate" @click="duplicate">Duplicate</button>
-        <button type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">{{ confirmDelete ? 'Confirm delete' : 'Delete' }}</button>
+        <button v-if="canEdit" type="button" class="sbtn" data-testid="query-duplicate" @click="duplicate">Duplicate</button>
+        <button v-if="canEdit" type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">{{ confirmDelete ? 'Confirm delete' : 'Delete' }}</button>
       </div>
     </div>
 

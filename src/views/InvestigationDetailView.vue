@@ -15,6 +15,8 @@ import {
   listInvestigationStories, removeInvestigationStory,
   listVisualizations, deleteInvestigation,
 } from '../api/community.js'
+import { listProjectsForInvestigation, detachProject } from '../api/studio.js'
+import PipelineEmbed from '../widgets/PipelineEmbed.vue'
 import { roleLabel, roleAtLeast, ROLES } from '../utils/investigationRole.js'
 
 const route = useRoute()
@@ -25,6 +27,7 @@ const inv = ref(null)
 const members = ref([])
 const stories = ref([])
 const viz = ref([])
+const dataProjects = ref([])
 const showDelete = ref(false)
 const loading = ref(true)
 const error = ref(null)
@@ -51,6 +54,7 @@ async function load() {
     members.value = (await listInvestigationMembers(id)) || []
     stories.value = (await listInvestigationStories(id)) || []
     viz.value = (await listVisualizations(id)) || []
+    dataProjects.value = (await listProjectsForInvestigation(id)) || []
   } catch (e) {
     error.value = e.message
   } finally {
@@ -58,6 +62,21 @@ async function load() {
   }
 }
 onMounted(load)
+
+// A saved plot's recipe -> the PipelineEmbed config that re-runs it live.
+function plotConfig(spec) {
+  const sp = spec || {}
+  return {
+    data_params: { sources: sp.sources || [], transform: sp.transform || '' },
+    ui_params: { chart: sp.chart || 'bar_h', x: sp.x, y: sp.y, level: sp.level || 0 },
+  }
+}
+
+async function detachDataProject(pid) {
+  error.value = null
+  try { await detachProject(pid); dataProjects.value = (await listProjectsForInvestigation(id)) || [] }
+  catch (e) { error.value = e.message }
+}
 
 async function removeStory(s) {
   error.value = null
@@ -210,6 +229,26 @@ async function deleteInv(content) {
           </li>
         </ul>
       </section>
+
+      <section class="invd-section" data-testid="investigation-data-projects">
+        <h2>Data projects</h2>
+        <p v-if="!dataProjects.length" class="invd-empty">No data projects shared with this investigation yet.</p>
+        <div v-else class="invd-dps">
+          <div v-for="p in dataProjects" :key="p.id" class="invd-dp" :data-testid="'inv-dp-' + p.id">
+            <div class="invd-dp-head">
+              <router-link :to="`/studio/p/${p.id}`" class="invd-dp-link" :data-testid="'inv-dp-open-' + p.id">{{ p.name }}</router-link>
+              <span class="invd-dp-meta">{{ (p.queries || []).length }} queries · {{ (p.plots || []).length }} plots</span>
+              <button v-if="canWrite" type="button" class="invd-dp-detach" :data-testid="'inv-dp-detach-' + p.id" @click="detachDataProject(p.id)">Detach</button>
+            </div>
+            <div v-if="(p.plots || []).length" class="invd-dp-plots">
+              <figure v-for="pl in p.plots" :key="pl.id" class="invd-dp-plot" :data-testid="'inv-dp-plot-' + pl.id">
+                <figcaption class="invd-dp-plot-title">{{ pl.name }}</figcaption>
+                <PipelineEmbed :config="plotConfig(pl.spec)" />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
     </template>
   </div>
 </template>
@@ -243,4 +282,15 @@ async function deleteInv(content) {
 .invd-danger { background: #dc2626; color: #fff; border: none; border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.82rem; }
 .invd-cancel { border: none; background: none; color: var(--muted); cursor: pointer; font-size: 0.82rem; }
 .invd-viz-type { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-right: 0.4rem; }
+.invd-dps { display: flex; flex-direction: column; gap: 1.1rem; }
+.invd-dp { border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem; background: var(--surface); }
+.invd-dp-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+.invd-dp-link { font-weight: 700; color: var(--text); text-decoration: none; }
+.invd-dp-link:hover { color: var(--accent); text-decoration: underline; }
+.invd-dp-meta { font-size: 0.76rem; color: var(--muted); flex: 1; }
+.invd-dp-detach { background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); font-size: 0.75rem; padding: 0.15rem 0.5rem; cursor: pointer; }
+.invd-dp-detach:hover { color: #dc2626; border-color: #dc262655; }
+.invd-dp-plots { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.8rem; }
+.invd-dp-plot { margin: 0; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; background: var(--bg); }
+.invd-dp-plot-title { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--text); }
 </style>

@@ -28,6 +28,7 @@ const { runTransform } = useDuckDB()
 const { save: pocketSave } = usePocket()
 
 const project = ref(null)
+const canEdit = computed(() => project.value?.my_access?.can_edit !== false)
 const ready = ref(false)
 const editMode = computed(() => !!route.params.plotId)
 
@@ -61,7 +62,7 @@ async function hydrate() {
   ready.value = false
   await studio.ensureLoaded()
   const pid = route.params.projectId
-  project.value = studio.getProject(pid)
+  project.value = await studio.ensureProject(pid)
   if (!project.value) { router.replace('/studio'); return }
   if (editMode.value) {
     const pl = studio.getPlot(pid, route.params.plotId)
@@ -186,6 +187,7 @@ const currentSpec = () => ({
 })
 
 async function savePlot() {
+  if (!canEdit.value) return
   const pid = route.params.projectId
   const name = plotName.value.trim() || 'Untitled plot'
   if (editMode.value) {
@@ -218,9 +220,9 @@ function pocket() {
     </nav>
 
     <div class="phead">
-      <input v-model="plotName" class="pname" data-testid="plot-name" spellcheck="false" aria-label="Plot name" />
+      <input v-model="plotName" class="pname" data-testid="plot-name" spellcheck="false" aria-label="Plot name" :readonly="!canEdit" />
       <div class="pactions">
-        <button type="button" class="sbtn sbtn--primary" data-testid="plot-save" :disabled="!activeSources.length" @click="savePlot">{{ saved ? 'Saved ✓' : 'Save plot' }}</button>
+        <button v-if="canEdit" type="button" class="sbtn sbtn--primary" data-testid="plot-save" :disabled="!activeSources.length" @click="savePlot">{{ saved ? 'Saved ✓' : 'Save plot' }}</button>
         <button type="button" class="sbtn" data-testid="plot-pocket" :disabled="!combine.result" @click="pocket">{{ pocketed ? 'Pocketed ✓' : 'Pocket' }}</button>
       </div>
     </div>

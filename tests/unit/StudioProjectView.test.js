@@ -48,4 +48,34 @@ describe('StudioProjectView (server-backed)', () => {
     expect(api.renameProject).toHaveBeenCalledWith('p1', 'Renamed project')
     vi.useRealTimers()
   })
+
+  it('renders read-only for a viewer (my_access)', async () => {
+    api.__seed([{ id: 'p1', name: 'Shared', created_by: 'other',
+      my_access: { level: 'viewer', can_edit: false, can_delete: false, can_share: false },
+      queries: [{ id: 'q1', name: 'q', lang: 'cypher', query: 'x' }], plots: [] }])
+    const w = mount(StudioProjectView, { global: { stubs } }); await flushPromises()
+    expect(w.find('[data-testid="project-readonly"]').exists()).toBe(true)
+    expect(w.find('[data-testid="project-new-query"]').exists()).toBe(false)
+    expect(w.find('[data-testid="project-new-plot"]').exists()).toBe(false)
+    expect(w.find('[data-testid="project-share"]').exists()).toBe(false)
+    expect(w.find('[data-testid="project-access"]').text()).toBe('viewer')
+    // typing the name does not autosave for a viewer (even past the debounce)
+    vi.useFakeTimers()
+    api.renameProject.mockClear()
+    await w.find('[data-testid="project-name"]').setValue('hijack')
+    vi.advanceTimersByTime(500); await flushPromises()
+    expect(api.renameProject).not.toHaveBeenCalled()
+    vi.useRealTimers()
+  })
+
+  it('shows Share + edit affordances for an owner', async () => {
+    api.__seed([{ id: 'p1', name: 'Mine', created_by: 'u',
+      my_access: { level: 'owner', can_edit: true, can_delete: true, can_share: true },
+      queries: [], plots: [] }])
+    const w = mount(StudioProjectView, { global: { stubs } }); await flushPromises()
+    expect(w.find('[data-testid="project-share"]').exists()).toBe(true)
+    expect(w.find('[data-testid="project-new-query"]').exists()).toBe(true)
+    expect(w.find('[data-testid="project-readonly"]').exists()).toBe(false)
+    expect(w.find('[data-testid="project-access"]').text()).toBe('owner')
+  })
 })

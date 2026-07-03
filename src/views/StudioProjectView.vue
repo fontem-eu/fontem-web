@@ -8,6 +8,7 @@ import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
 import { engine } from '../composables/studioEngines.js'
+import StudioShareModal from '../components/StudioShareModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,10 +16,13 @@ const studio = useStudio()
 
 const project = ref(null)
 const nameEl = ref(null)
+const showShare = ref(false)
+const access = computed(() => project.value?.my_access
+  || { level: 'owner', can_edit: true, can_delete: true, can_share: true })
 
 async function hydrate() {
   await studio.ensureLoaded()
-  project.value = studio.getProject(route.params.projectId)
+  project.value = await studio.ensureProject(route.params.projectId)
   if (!project.value) { router.replace('/studio'); return }
   if (route.query.new) nextTick(() => { nameEl.value?.focus(); nameEl.value?.select() })
 }
@@ -27,7 +31,7 @@ watch(() => route.params.projectId, hydrate)
 
 let renameTimer = null
 function onName(e) {
-  if (!project.value) return
+  if (!project.value || !access.value.can_edit) return
   project.value.name = e.target.value
   clearTimeout(renameTimer)
   renameTimer = setTimeout(() => studio.renameProject(route.params.projectId, project.value.name.trim() || 'Untitled project'), 400)
@@ -46,12 +50,19 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 <template>
   <div v-if="project" class="pview" data-testid="studio-project-view">
     <nav class="crumbs"><router-link to="/studio">Studio</router-link></nav>
-    <input ref="nameEl" :value="project.name" class="pname" data-testid="project-name" spellcheck="false" aria-label="Project name" @input="onName" />
+    <div class="phead">
+      <input ref="nameEl" :value="project.name" class="pname" data-testid="project-name" spellcheck="false" aria-label="Project name" :readonly="!access.can_edit" @input="onName" />
+      <div class="pmeta">
+        <span class="acc-badge" :class="`acc-badge--${access.level}`" data-testid="project-access">{{ access.level }}</span>
+        <button v-if="access.can_share" type="button" class="sbtn" data-testid="project-share" @click="showShare = true">Share</button>
+      </div>
+    </div>
+    <p v-if="!access.can_edit" class="ro-note" data-testid="project-readonly">You have view-only access to this shared project.</p>
 
     <section class="grp">
       <div class="grp-head">
         <h2 class="grp-title">Queries</h2>
-        <button type="button" class="sbtn sbtn--primary" data-testid="project-new-query" @click="newQuery">+ New query</button>
+        <button v-if="access.can_edit" type="button" class="sbtn sbtn--primary" data-testid="project-new-query" @click="newQuery">+ New query</button>
       </div>
       <p v-if="!queries.length" class="empty">No queries yet. Create one to start pulling data.</p>
       <ul v-else class="qlist">
@@ -68,7 +79,7 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
     <section class="grp">
       <div class="grp-head">
         <h2 class="grp-title">Plots</h2>
-        <router-link :to="`/studio/p/${project.id}/plot`" class="sbtn sbtn--primary" data-testid="project-new-plot">+ New plot</router-link>
+        <router-link v-if="access.can_edit" :to="`/studio/p/${project.id}/plot`" class="sbtn sbtn--primary" data-testid="project-new-plot">+ New plot</router-link>
       </div>
       <p v-if="!plots.length" class="empty">No plots yet. Combine your queries and chart the result.</p>
       <ul v-else class="qlist">
@@ -80,6 +91,8 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
         </li>
       </ul>
     </section>
+
+    <StudioShareModal v-if="showShare" :project="project" @close="showShare = false" />
   </div>
 </template>
 
@@ -91,6 +104,13 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 .pname { font-size: 1.4rem; font-weight: 800; border: 1px solid transparent; border-radius: 8px; padding: 0.3rem 0.5rem; background: transparent; color: var(--text); width: 100%; box-sizing: border-box; margin-bottom: 1rem; }
 .pname:hover { border-color: var(--border); }
 .pname:focus { border-color: var(--accent); outline: none; background: var(--bg); }
+.phead { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; }
+.phead .pname { margin-bottom: 0; }
+.pmeta { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.acc-badge { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 5px; padding: 0.12rem 0.4rem; border: 1px solid var(--border); color: var(--muted); }
+.acc-badge--owner { color: var(--accent); border-color: var(--accent); }
+.acc-badge--editor { color: #b45309; border-color: #b4530955; }
+.ro-note { color: var(--muted); font-size: 0.8rem; margin: 0 0 1rem; font-style: italic; }
 .grp { margin: 1.5rem 0; }
 .grp-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; margin-bottom: 0.7rem; }
 .grp-title { font-size: 1rem; font-weight: 700; margin: 0; }

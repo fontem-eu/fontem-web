@@ -8,10 +8,24 @@ import { request } from './community.js'
 
 // ── projects ────────────────────────────────────────────────────
 export const listProjects = () => request('GET', '/studio/projects')
-export const createProject = (name) => request('POST', '/studio/projects', { name })
+export const createProject = (name, investigationId = null) =>
+  request('POST', '/studio/projects', { name, investigation_id: investigationId })
 export const getProject = (id) => request('GET', `/studio/projects/${id}`)
 export const renameProject = (id, name) => request('PUT', `/studio/projects/${id}`, { name })
 export const deleteProject = (id) => request('DELETE', `/studio/projects/${id}`)
+
+// ── investigation attach + per-user sharing ──
+export const listProjectsForInvestigation = (iid) =>
+  request('GET', `/studio/projects?investigation_id=${encodeURIComponent(iid)}`)
+export const attachProject = (id, investigationId) =>
+  request('POST', `/studio/projects/${id}/attach`, { investigation_id: investigationId })
+export const detachProject = (id) => request('POST', `/studio/projects/${id}/detach`)
+export const listProjectAccess = (id) => request('GET', `/studio/projects/${id}/access`)
+export const shareProject = (id, data) => request('POST', `/studio/projects/${id}/access`, data)
+export const revokeProjectAccess = (id, uid) =>
+  request('DELETE', `/studio/projects/${id}/access/${uid}`)
+export const projectEffectiveAccess = (id) =>
+  request('GET', `/studio/projects/${id}/effective-access`)
 
 // ── queries ─────────────────────────────────────────────────────
 export const createQuery = (pid, body) => request('POST', `/studio/projects/${pid}/queries`, body)
