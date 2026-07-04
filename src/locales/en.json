@@ -787,5 +787,16 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & Investment Funds",
+    "subtitle": "Listings enrichment — security types, operating companies vs pooled vehicles",
+    "by_security_type": "Listings by Security Type",
+    "funds_by_type": "Funds by Vehicle Type"
+  },
+  "prices_d_q": {
+    "title": "Stock Prices",
+    "subtitle": "EOD price layer — fetcher index freshness vs the graph-exported universe",
+    "detail": "Coverage Detail"
   }
 }

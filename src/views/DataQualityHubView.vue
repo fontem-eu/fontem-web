@@ -23,6 +23,8 @@ const pipelines = [
   { id: 'dedup', title: 'Deduplication', desc: 'SAME_AS queue — pending review, auto-merged, resolution rate.', icon: '🔍', theme: 'analytical'  },
   { id: 'sanctions', title: 'Sanctions', desc: 'Sanctioned entities — persons vs organisations, regime coverage, company matching.', icon: '🚫', theme: 'influence'  },
   { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋', theme: 'securities'  },
+  { id: 'openfigi', title: 'OpenFIGI & Funds', desc: 'Listings enrichment — security types, companies vs investment funds, unit listings.', icon: '🏦', theme: 'securities'  },
+  { id: 'prices', title: 'Stock Prices', desc: 'EOD price layer — index freshness, graph-universe coverage, fetch backlog.', icon: '📈', theme: 'securities'  },
   { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍', theme: 'climate'  },
   { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺', theme: 'geography'  },
   { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺', theme: 'influence'  },

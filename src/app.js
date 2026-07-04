@@ -40,6 +40,8 @@ import OverviewDQView from './views/dq/OverviewDQView.vue'
 import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
 import TriplesDQView from './views/dq/TriplesDQView.vue'
 import EtlRunsDQView from './views/dq/EtlRunsDQView.vue'
+import OpenFigiDQView from './views/dq/OpenFigiDQView.vue'
+import PricesDQView from './views/dq/PricesDQView.vue'
 import ProcurementThemeView from './views/themes/ProcurementThemeView.vue'
 import ThemeScaffoldView from './views/themes/ThemeScaffoldView.vue'
 import FeedView from './views/FeedView.vue'
@@ -119,6 +121,8 @@ const ROUTES = [
   { path: '/data-quality/eu-knowledge-graph', component: EuKnowledgeGraphDQView },
   { path: '/data-quality/connectedness', component: ConnectednessDQView },
   { path: '/data-quality/triples', component: TriplesDQView },
+  { path: '/data-quality/openfigi', component: OpenFigiDQView },
+  { path: '/data-quality/prices', component: PricesDQView },
   { path: '/data-quality/etl-runs', component: EtlRunsDQView },
   { path: '/admin/data-quality/:page*', redirect: (to) => `/data-quality/${to.params.page || ''}` },
 
