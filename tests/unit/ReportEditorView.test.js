@@ -124,6 +124,7 @@ describe('ReportEditorView — unified editor', () => {
       title: 'Test Report',
       abstract: 'Test abstract',
       visibility: 'private',
+      language: 'en',
     })
     expect(communityApi.saveDocument).toHaveBeenCalledWith('r1', expect.any(Object))
   })

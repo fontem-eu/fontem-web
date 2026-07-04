@@ -152,6 +152,13 @@
     "self": "ta sama zmienna",
     "hint": "Najedź kursorem lub dotknij komórki, aby zobaczyć dokładną wartość."
   },
+  "translations": {
+    "label": "Tłumaczenia",
+    "original": "Oryginał",
+    "outdated": "To tłumaczenie może być nieaktualne — oryginał został później zmieniony.",
+    "outdated_short": "możliwie nieaktualne",
+    "resolve": "Oznacz jako aktualne"
+  },
   "balance": {
     "capital_structure": "Struktura kapitału"
   },

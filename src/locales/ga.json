@@ -152,6 +152,13 @@
     "self": "an athróg chéanna",
     "hint": "Ainligh nó tapáil cill chun an luach beacht a fheiceáil."
   },
+  "translations": {
+    "label": "Aistriúcháin",
+    "original": "Bunleagan",
+    "outdated": "Seans go bhfuil an t-aistriúchán seo as dáta — cuireadh an bunleagan in eagar ina dhiaidh.",
+    "outdated_short": "b’fhéidir as dáta",
+    "resolve": "Marcáil mar chothrom le dáta"
+  },
   "balance": {
     "capital_structure": "Struchtúr caipitil"
   },

@@ -152,6 +152,13 @@
     "self": "stejná proměnná",
     "hint": "Najetím nebo klepnutím na buňku zobrazíte přesnou hodnotu."
   },
+  "translations": {
+    "label": "Překlady",
+    "original": "Originál",
+    "outdated": "Tento překlad může být zastaralý — originál byl po jeho vzniku upraven.",
+    "outdated_short": "možná zastaralý",
+    "resolve": "Označit jako aktuální"
+  },
   "balance": {
     "capital_structure": "Kapitálová struktura"
   },

@@ -152,6 +152,13 @@
     "self": "sama muuttuja",
     "hint": "Näet tarkan arvon viemällä osoittimen soluun tai napauttamalla sitä."
   },
+  "translations": {
+    "label": "Käännökset",
+    "original": "Alkuperäinen",
+    "outdated": "Tämä käännös voi olla vanhentunut — alkuperäistä on muokattu käännöksen jälkeen.",
+    "outdated_short": "mahdollisesti vanhentunut",
+    "resolve": "Merkitse ajantasaiseksi"
+  },
   "balance": {
     "capital_structure": "Pääomarakenne"
   },

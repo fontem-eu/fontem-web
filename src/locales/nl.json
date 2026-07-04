@@ -152,6 +152,13 @@
     "self": "zelfde variabele",
     "hint": "Beweeg de muis over een cel of tik erop voor de exacte waarde."
   },
+  "translations": {
+    "label": "Vertalingen",
+    "original": "Origineel",
+    "outdated": "Deze vertaling is mogelijk verouderd — het origineel is naderhand bewerkt.",
+    "outdated_short": "mogelijk verouderd",
+    "resolve": "Markeren als actueel"
+  },
   "balance": {
     "capital_structure": "Kapitaalstructuur"
   },

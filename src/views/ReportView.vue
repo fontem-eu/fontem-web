@@ -17,8 +17,9 @@ import { EntityMention } from '../extensions/EntityMention.js'
 import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 import ChapterRail from '../components/ChapterRail.vue'
 import FlowerButton from '../components/FlowerButton.vue'
+import TranslationBar from '../components/TranslationBar.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
-import { getReport } from '../api/community.js'
+import { getReport, getTranslation } from '../api/community.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -40,6 +41,39 @@ const bodyRef = ref(null)
 const bodyVersion = ref(0)
 
 const hasToken = computed(() => isAuthed.value)
+
+// ── translations ────────────────────────────────────────────
+// '' = the original text; otherwise the active translation object
+// {lang, title, abstract, content_doc, outdated}. Swapping languages
+// re-points the read-only editor at the corresponding document.
+const activeLang = ref('')
+const activeTranslation = ref(null)
+const displayTitle = computed(() => activeTranslation.value?.title || report.value?.title)
+const displayAbstract = computed(() =>
+  activeLang.value ? activeTranslation.value?.abstract : report.value?.abstract)
+
+async function switchLanguage(lang) {
+  if (lang === activeLang.value) return
+  try {
+    if (!lang) {
+      activeTranslation.value = null
+      activeLang.value = ''
+      if (readOnlyEditor && report.value.content_doc?.version === 2) {
+        readOnlyEditor.commands.setContent(report.value.content_doc.tiptap)
+      }
+    } else {
+      const t = await getTranslation(reportId, lang)
+      activeTranslation.value = t
+      activeLang.value = lang
+      if (readOnlyEditor && t.content_doc?.version === 2) {
+        readOnlyEditor.commands.setContent(t.content_doc.tiptap)
+      }
+    }
+    requestAnimationFrame(() => { bodyVersion.value += 1 })
+  } catch (err) {
+    error.value = err.message
+  }
+}
 
 onMounted(async () => {
   try {
@@ -195,7 +229,7 @@ function parseSectionContent(content) {
         >{{ $t('report.edit') }}</router-link>
       </div>
 
-      <h1 class="report-title" data-testid="story-title">{{ report.title }}</h1>
+      <h1 class="report-title" data-testid="story-title">{{ displayTitle }}</h1>
 
       <div class="report-meta" data-testid="story-meta">
         <span v-if="report.author">{{ report.author.name || report.author }}</span>
@@ -208,8 +242,15 @@ function parseSectionContent(content) {
         </span>
       </div>
 
-      <p v-if="report.abstract" class="report-abstract" data-testid="story-abstract">
-        {{ report.abstract }}
+      <TranslationBar
+        :language="report.language || 'en'"
+        :translations="report.translations || []"
+        :current="activeLang"
+        @switch="switchLanguage"
+      />
+
+      <p v-if="displayAbstract" class="report-abstract" data-testid="story-abstract">
+        {{ displayAbstract }}
       </p>
 
       <!-- Two-column layout: chapter rail + story body. Rail

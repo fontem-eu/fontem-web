@@ -180,6 +180,13 @@
     "self": "same variable",
     "hint": "Hover or tap a cell for the exact value."
   },
+  "translations": {
+    "label": "Translations",
+    "original": "Original",
+    "outdated": "This translation may be outdated — the original was edited after it was written.",
+    "outdated_short": "possibly outdated",
+    "resolve": "Mark as up to date"
+  },
   "balance": {
     "capital_structure": "Capital Structure"
   },

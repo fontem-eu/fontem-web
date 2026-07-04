@@ -152,6 +152,13 @@
     "self": "sama muutuja",
     "hint": "Täpse väärtuse nägemiseks liigu hiirega või puuduta lahtrit."
   },
+  "translations": {
+    "label": "Tõlked",
+    "original": "Originaal",
+    "outdated": "See tõlge võib olla aegunud — originaali muudeti pärast tõlke valmimist.",
+    "outdated_short": "võib olla aegunud",
+    "resolve": "Märgi ajakohaseks"
+  },
   "balance": {
     "capital_structure": "Kapitali struktuur"
   },

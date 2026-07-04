@@ -152,6 +152,13 @@
     "self": "même variable",
     "hint": "Survolez ou touchez une cellule pour la valeur exacte."
   },
+  "translations": {
+    "label": "Traductions",
+    "original": "Original",
+    "outdated": "Cette traduction est peut-être obsolète — l’original a été modifié après sa rédaction.",
+    "outdated_short": "peut-être obsolète",
+    "resolve": "Marquer comme à jour"
+  },
   "balance": {
     "capital_structure": "Structure du capital"
   },

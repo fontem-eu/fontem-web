@@ -152,6 +152,13 @@
     "self": "l-istess varjabbli",
     "hint": "Għaddi l-maws jew missu ċellola għall-valur eżatt."
   },
+  "translations": {
+    "label": "Traduzzjonijiet",
+    "original": "Oriġinal",
+    "outdated": "Din it-traduzzjoni tista’ tkun skaduta — l-oriġinal ġie editjat wara li nkitbet.",
+    "outdated_short": "possibbilment skaduta",
+    "resolve": "Immarka bħala aġġornata"
+  },
   "balance": {
     "capital_structure": "Struttura tal-kapital"
   },

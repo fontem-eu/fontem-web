@@ -152,6 +152,13 @@
     "self": "samme variabel",
     "hint": "Hold musen over eller tryk på en celle for den præcise værdi."
   },
+  "translations": {
+    "label": "Oversættelser",
+    "original": "Original",
+    "outdated": "Denne oversættelse kan være forældet — originalen er redigeret efter den blev skrevet.",
+    "outdated_short": "muligvis forældet",
+    "resolve": "Markér som opdateret"
+  },
   "balance": {
     "capital_structure": "Kapitalstruktur"
   },

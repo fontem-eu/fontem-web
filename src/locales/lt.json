@@ -152,6 +152,13 @@
     "self": "tas pats kintamasis",
     "hint": "Užveskite pelę arba palieskite langelį, kad pamatytumėte tikslią reikšmę."
   },
+  "translations": {
+    "label": "Vertimai",
+    "original": "Originalas",
+    "outdated": "Šis vertimas gali būti pasenęs — originalas buvo redaguotas vėliau.",
+    "outdated_short": "galbūt pasenęs",
+    "resolve": "Pažymėti kaip aktualų"
+  },
   "balance": {
     "capital_structure": "Kapitalo struktūra"
   },

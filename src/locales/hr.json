@@ -152,6 +152,13 @@
     "self": "ista varijabla",
     "hint": "Prijeđite mišem ili dodirnite ćeliju za točnu vrijednost."
   },
+  "translations": {
+    "label": "Prijevodi",
+    "original": "Izvornik",
+    "outdated": "Ovaj prijevod možda je zastario — izvornik je uređen nakon što je prijevod napisan.",
+    "outdated_short": "možda zastario",
+    "resolve": "Označi kao ažuran"
+  },
   "balance": {
     "capital_structure": "Struktura kapitala"
   },

@@ -43,9 +43,13 @@ import {
   listInvestigations,
   addInvestigationStory,
   listVisualizations,
+  getTranslation,
+  saveTranslation,
+  resolveTranslation,
 } from '../api/community.js'
 import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
+import TranslationControls from '../components/TranslationControls.vue'
 
 const route = useRoute()
 const reportId = route.params.id
@@ -104,6 +108,56 @@ const abstract = ref('')
 const visibility = ref('private')
 const tags = ref([])
 const saving = ref(false)
+
+// ── translations ────────────────────────────────────────────
+// transLang '' = editing the original. Switching languages swaps the
+// title/abstract/body in place; per-language drafts are cached so a
+// round-trip doesn't destroy unsaved work. A missing translation
+// prefills from the original so the translator starts from the text.
+const storyLanguage = ref('en')
+const translations = ref([])          // [{lang, outdated}]
+const transLang = ref('')
+const draftCache = new Map()          // lang ('' = original) -> {title, abstract, doc}
+
+function snapshotCurrent() {
+  draftCache.set(transLang.value, {
+    title: title.value, abstract: abstract.value, doc: editor ? editor.getJSON() : null,
+  })
+}
+
+async function switchTranslation(lang) {
+  if (lang === transLang.value) return
+  snapshotCurrent()
+  let draft = draftCache.get(lang)
+  if (!draft && lang) {
+    try {
+      const t = await getTranslation(reportId, lang)
+      draft = { title: t.title, abstract: t.abstract || '', doc: t.content_doc?.tiptap || null }
+    } catch {
+      // No translation yet — prefill from the original so the
+      // translator has the full text to work over.
+      const base = draftCache.get('') || {}
+      draft = { title: base.title || '', abstract: base.abstract || '', doc: base.doc || null }
+    }
+  }
+  if (!draft) draft = { title: '', abstract: '', doc: null }
+  transLang.value = lang
+  title.value = draft.title
+  abstract.value = draft.abstract
+  if (editor && draft.doc) editor.commands.setContent(draft.doc)
+  requestAnimationFrame(() => { bodyVersion.value += 1 })
+}
+
+async function resolveOutdated() {
+  try {
+    await resolveTranslation(reportId, transLang.value)
+    translations.value = translations.value.map((t) =>
+      (t.lang === transLang.value ? { ...t, outdated: false } : t))
+    toast.success('Translation marked up to date')
+  } catch (err) {
+    error.value = err.message
+  }
+}
 const error = ref(null)
 const loading = ref(true)
 
@@ -294,6 +348,13 @@ async function loadReport() {
     visibility.value = report.visibility || 'private'
     tags.value = Array.isArray(report.tags) ? report.tags : []
     articleInvestigationId.value = report.investigation_id || null
+    storyLanguage.value = report.language || 'en'
+    translations.value = Array.isArray(report.translations) ? report.translations : []
+    draftCache.set('', {
+      title: report.title || '',
+      abstract: report.abstract || '',
+      doc: report.content_doc?.version === 2 ? report.content_doc.tiptap : null,
+    })
 
     if (editor) editor.destroy()
 
@@ -330,11 +391,37 @@ onBeforeUnmount(() => {
 async function save() {
   saving.value = true
   error.value = null
+  // Translation mode: persist only the active language's text. Saving
+  // pins the translation to the original's current version (the
+  // outdated flag clears server-side; mirror it locally).
+  if (transLang.value) {
+    try {
+      await saveTranslation(reportId, transLang.value, {
+        title: title.value,
+        abstract: abstract.value,
+        tiptap: editor.getJSON(),
+      })
+      const lang = transLang.value
+      const known = translations.value.some((t) => t.lang === lang)
+      translations.value = known
+        ? translations.value.map((t) => (t.lang === lang ? { ...t, outdated: false } : t))
+        : [...translations.value, { lang, outdated: false }]
+      draftCache.delete(lang)
+      toast.success('Translation saved')
+    } catch (err) {
+      error.value = err.message
+      toast.error(`Save failed: ${err.message}`, { durationMs: 0 })
+    } finally {
+      saving.value = false
+    }
+    return
+  }
   try {
     await updateReport(reportId, {
       title: title.value,
       abstract: abstract.value,
       visibility: visibility.value,
+      language: storyLanguage.value,
     })
     // Tags persist via a separate endpoint (owner-only PUT). Server
     // re-normalises on its side, so the response here is the
@@ -342,6 +429,10 @@ async function save() {
     const tagResp = await setStoryTags(reportId, tags.value)
     if (Array.isArray(tagResp?.tags)) tags.value = tagResp.tags
     await saveDocument(reportId, editor.getJSON())
+    // The document save bumped content_version — every translation is
+    // now potentially outdated until reviewed. Keep the local list honest.
+    translations.value = translations.value.map((t) => ({ ...t, outdated: true }))
+    draftCache.set('', { title: title.value, abstract: abstract.value, doc: editor.getJSON() })
     toast.success('Story saved')
   } catch (err) {
     error.value = err.message
@@ -363,6 +454,13 @@ async function save() {
         {{ $t('nav.back_my_stories') }}
       </router-link>
       <div class="header-actions">
+        <TranslationControls
+          :story-language="storyLanguage"
+          :translations="translations"
+          :current="transLang"
+          @switch="switchTranslation"
+          @resolve="resolveOutdated"
+        />
         <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
           <option value="private">{{ $t('report_editor.private_only_me') }}</option>
           <option value="public_auth">{{ $t('report_editor.signed_in_users') }}</option>

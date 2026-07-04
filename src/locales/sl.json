@@ -152,6 +152,13 @@
     "self": "ista spremenljivka",
     "hint": "Za natančno vrednost se z miško pomaknite na celico ali se je dotaknite."
   },
+  "translations": {
+    "label": "Prevodi",
+    "original": "Izvirnik",
+    "outdated": "Ta prevod je morda zastarel — izvirnik je bil po nastanku prevoda spremenjen.",
+    "outdated_short": "morda zastarel",
+    "resolve": "Označi kot ažuren"
+  },
   "balance": {
     "capital_structure": "Kapitalska struktura"
   },

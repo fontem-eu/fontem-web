@@ -152,6 +152,13 @@
     "self": "aceeași variabilă",
     "hint": "Treceți cursorul sau atingeți o celulă pentru valoarea exactă."
   },
+  "translations": {
+    "label": "Traduceri",
+    "original": "Original",
+    "outdated": "Această traducere poate fi învechită — originalul a fost editat ulterior.",
+    "outdated_short": "posibil învechită",
+    "resolve": "Marchează ca actualizată"
+  },
   "balance": {
     "capital_structure": "Structura capitalului"
   },

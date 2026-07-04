@@ -152,6 +152,13 @@
     "self": "tas pats mainīgais",
     "hint": "Norādiet ar peli vai pieskarieties šūnai, lai redzētu precīzu vērtību."
   },
+  "translations": {
+    "label": "Tulkojumi",
+    "original": "Oriģināls",
+    "outdated": "Šis tulkojums var būt novecojis — oriģināls tika rediģēts pēc tā tapšanas.",
+    "outdated_short": "iespējams novecojis",
+    "resolve": "Atzīmēt kā aktuālu"
+  },
   "balance": {
     "capital_structure": "Kapitāla struktūra"
   },

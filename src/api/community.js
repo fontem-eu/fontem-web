@@ -88,6 +88,35 @@ export function deleteReport(id) {
   return request('DELETE', `/data-stories/${encodeURIComponent(id)}`)
 }
 
+// ── Translations ────────────────────────────────────────────────
+//
+// A story has one original (title/abstract/document in `language`)
+// and per-language translations. Saving a translation pins it to the
+// original's current content_version; edits to the original flip
+// `outdated` on every translation until re-saved or resolved.
+
+export function listTranslations(id) {
+  return request('GET', `/data-stories/${encodeURIComponent(id)}/translations`)
+}
+
+export function getTranslation(id, lang) {
+  return request('GET', `/data-stories/${encodeURIComponent(id)}/translations/${encodeURIComponent(lang)}`)
+}
+
+export function saveTranslation(id, lang, { title, abstract, tiptap }) {
+  return request('PUT', `/data-stories/${encodeURIComponent(id)}/translations/${encodeURIComponent(lang)}`, {
+    title, abstract, tiptap, version: 2,
+  })
+}
+
+export function resolveTranslation(id, lang) {
+  return request('POST', `/data-stories/${encodeURIComponent(id)}/translations/${encodeURIComponent(lang)}/resolve`)
+}
+
+export function deleteTranslation(id, lang) {
+  return request('DELETE', `/data-stories/${encodeURIComponent(id)}/translations/${encodeURIComponent(lang)}`)
+}
+
 // ── Tags ────────────────────────────────────────────────────────
 //
 // Story tags (PUT) is owner-only. The server normalises whatever

@@ -152,6 +152,13 @@
     "self": "azonos változó",
     "hint": "A pontos értékhez vigye az egeret a cellára, vagy koppintson rá."
   },
+  "translations": {
+    "label": "Fordítások",
+    "original": "Eredeti",
+    "outdated": "Ez a fordítás elavult lehet — az eredetit a fordítás elkészülte után szerkesztették.",
+    "outdated_short": "talán elavult",
+    "resolve": "Megjelölés naprakészként"
+  },
   "balance": {
     "capital_structure": "Tőkeszerkezet"
   },
