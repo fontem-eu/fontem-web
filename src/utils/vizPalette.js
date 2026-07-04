@@ -47,6 +47,29 @@ function hexToRgb(h) {
 const rgbToHex = (r, g, b) =>
   '#' + [r, g, b].map((v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('')
 
+function relLuminance(hex) {
+  const [r, g, b] = hexToRgb(hex).map((v) => {
+    const s = v / 255
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
+  })
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+/** WCAG contrast ratio (1..21) between two hex colours. */
+export function contrast(a, b) {
+  const la = relLuminance(a)
+  const lb = relLuminance(b)
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
+}
+
+/** Ink (text) colour to paint on a filled swatch: dark or white, whichever
+ *  contrasts more. Palette fills are theme-independent, so ink must derive
+ *  from the fill - a theme token like var(--text) inverts in dark mode and
+ *  goes invisible on light fills. */
+export function inkFor(fill) {
+  return contrast(fill, '#000000') >= contrast(fill, '#ffffff') ? '#000000' : '#ffffff'
+}
+
 /** Linear blend between two hex colours (t in 0..1). */
 export function lerpColor(a, b, t) {
   const A = hexToRgb(a); const B = hexToRgb(b)

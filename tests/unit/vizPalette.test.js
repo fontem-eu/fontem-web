@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   categorical, lerpColor, divergingColor, pearson, tercileBreaks, tercileClass, DIVERGING,
+  contrast, inkFor,
 } from '../../src/utils/vizPalette.js'
 
 describe('vizPalette', () => {
@@ -21,6 +22,20 @@ describe('vizPalette', () => {
     expect(divergingColor(-1, -1, 1, 0)).toBe(DIVERGING.low)
     expect(divergingColor(1, -1, 1, 0)).toBe(DIVERGING.high)
     expect(divergingColor(NaN, -1, 1)).toBe(DIVERGING.mid)
+  })
+
+  it('contrast + inkFor: readable ink on any fill, both themes', () => {
+    expect(contrast('#000000', '#ffffff')).toBeCloseTo(21, 0)
+    expect(contrast('#e9e7e2', '#e9e7e2')).toBeCloseTo(1, 5)
+    // the diverging midpoint is light: ink must be dark, not the theme text
+    expect(inkFor(DIVERGING.mid)).toBe('#000000')
+    // a deep saturated fill takes white ink
+    expect(inkFor('#1e3a8a')).toBe('#ffffff')
+    // whichever ink is chosen, it clears 4.5:1 on every diverging fill
+    for (let r = -1; r <= 1.001; r += 0.1) {
+      const fill = divergingColor(r, -1, 1, 0)
+      expect(contrast(fill, inkFor(fill))).toBeGreaterThanOrEqual(4.5)
+    }
   })
 
   it('pearson: +1 / -1 / null on constant', () => {

@@ -9,7 +9,7 @@
  * Props: vars: [name], matrix: [[r|null]] (square), formatN?: (r)=>string
  */
 import { ref, computed } from 'vue'
-import { divergingColor } from '../../utils/vizPalette.js'
+import { divergingColor, inkFor } from '../../utils/vizPalette.js'
 
 const props = defineProps({
   vars: { type: Array, default: () => [] },
@@ -24,7 +24,9 @@ const W = computed(() => LABEL + k.value * CELL + PAD)
 const H = computed(() => LABEL + k.value * CELL + PAD + 26)
 
 const cellColor = (r) => (r == null ? 'var(--surface)' : divergingColor(r, -1, 1, 0))
-const textColor = (r) => (r != null && Math.abs(r) >= 0.6 ? '#fff' : 'var(--text)')
+// Ink derives from the cell fill (theme-independent), never from var(--text):
+// the dark theme's near-white text vanishes on the light diverging midpoint.
+const textColor = (r) => (r == null ? 'var(--text)' : inkFor(cellColor(r)))
 const fmtR = (r) => {
   if (r == null) return '—'
   const sign = r < 0 ? '−' : ''
