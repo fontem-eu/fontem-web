@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Odpri v Atlasu →"
   },
+  "corr_matrix": {
+    "none": "brez",
+    "mild": "šibka",
+    "moderate": "zmerna",
+    "strong": "močna",
+    "inverse": "obratna",
+    "self": "ista spremenljivka",
+    "hint": "Za natančno vrednost se z miško pomaknite na celico ali se je dotaknite."
+  },
   "balance": {
     "capital_structure": "Kapitalska struktura"
   },

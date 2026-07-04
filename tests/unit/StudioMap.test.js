@@ -2,10 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 
 // maplibre needs a real GL context — fake the map; call the load handler so render() runs.
+const layerHandlers = {}
 vi.mock('maplibre-gl', () => {
   const makeMap = () => ({
-    addControl() {}, on(evt, cb) { if (evt === 'load') cb() }, once(evt, cb) { if (evt === 'load') cb() },
+    addControl() {},
+    on(evt, layerOrCb, cb) {
+      if (evt === 'load' && typeof layerOrCb === 'function') { layerOrCb(); return }
+      if (typeof cb === 'function') layerHandlers[`${evt}:${layerOrCb}`] = cb
+    },
+    once(evt, cb) { if (evt === 'load') cb() },
     isStyleLoaded: () => true, getSource: () => null, addSource() {}, addLayer() {}, setPaintProperty() {}, remove() {},
+    getCanvas: () => ({ style: {} }),
   })
   return { default: { Map: vi.fn(makeMap), NavigationControl: vi.fn(() => ({})) } }
 })
@@ -84,5 +91,29 @@ describe('StudioMap (studio choropleth)', () => {
     const leg = w.find('[data-testid="map-legend-alpha"]')
     expect(leg.exists()).toBe(true)
     expect(leg.text()).toContain('opacity = volume')
+  })
+
+  it('hover/tap readout shows the region and its values', async () => {
+    fetchBoundaries.mockResolvedValue({ features: [
+      { properties: { nuts_code: 'FR', country_a3: 'FRA', name: 'France' } },
+    ] })
+    const w = mount(StudioMap, { props: {
+      rows: [['FR', 65.9, 8.8]], columns: ['country', 'rape_100k', 'foreign_pct'],
+      geoCol: 'country', valueCol: 'rape_100k', value2Col: 'foreign_pct', bivariate: 'alpha', level: 0,
+    } })
+    await flushPromises()
+    // the same handler is registered for mousemove (hover) and click (tap)
+    expect(typeof layerHandlers['mousemove:nuts-fill']).toBe('function')
+    expect(typeof layerHandlers['click:nuts-fill']).toBe('function')
+    layerHandlers['click:nuts-fill']({ features: [{ properties: {
+      name: 'France', nuts_code: 'FR', value: 65.9, value2: 8.8, hasData: 1,
+    } }] })
+    await w.vm.$nextTick()
+    const ro = w.find('[data-testid="map-hover-readout"]')
+    expect(ro.exists()).toBe(true)
+    expect(ro.text()).toContain('France')
+    expect(ro.text()).toContain('rape_100k: 65.9')
+    expect(ro.text()).toContain('foreign_pct: 8.8')
+    w.unmount()
   })
 })

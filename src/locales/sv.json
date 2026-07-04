@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Öppna i Atlas →"
   },
+  "corr_matrix": {
+    "none": "ingen",
+    "mild": "svag",
+    "moderate": "måttlig",
+    "strong": "stark",
+    "inverse": "omvänd",
+    "self": "samma variabel",
+    "hint": "Hovra över eller tryck på en cell för det exakta värdet."
+  },
   "balance": {
     "capital_structure": "Kapitalstruktur"
   },

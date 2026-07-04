@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   categorical, lerpColor, divergingColor, pearson, tercileBreaks, tercileClass, DIVERGING,
-  contrast, inkFor,
+  contrast, inkFor, corrStrength,
 } from '../../src/utils/vizPalette.js'
 
 describe('vizPalette', () => {
@@ -36,6 +36,19 @@ describe('vizPalette', () => {
       const fill = divergingColor(r, -1, 1, 0)
       expect(contrast(fill, inkFor(fill))).toBeGreaterThanOrEqual(4.5)
     }
+  })
+
+  it('corrStrength buckets |r| into four plain-language bands', () => {
+    expect(corrStrength(0.01)).toBe('none')
+    expect(corrStrength(-0.19)).toBe('none')
+    expect(corrStrength(0.2)).toBe('mild')
+    expect(corrStrength(-0.39)).toBe('mild')
+    expect(corrStrength(0.4)).toBe('moderate')
+    expect(corrStrength(-0.69)).toBe('moderate')
+    expect(corrStrength(0.7)).toBe('strong')
+    expect(corrStrength(-1)).toBe('strong')
+    expect(corrStrength(null)).toBeNull()
+    expect(corrStrength(NaN)).toBeNull()
   })
 
   it('pearson: +1 / -1 / null on constant', () => {

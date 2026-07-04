@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Avaa Atlasissa →"
   },
+  "corr_matrix": {
+    "none": "ei mitään",
+    "mild": "heikko",
+    "moderate": "kohtalainen",
+    "strong": "vahva",
+    "inverse": "käänteinen",
+    "self": "sama muuttuja",
+    "hint": "Näet tarkan arvon viemällä osoittimen soluun tai napauttamalla sitä."
+  },
   "balance": {
     "capital_structure": "Pääomarakenne"
   },

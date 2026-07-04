@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Atvērt Atlas →"
   },
+  "corr_matrix": {
+    "none": "nav",
+    "mild": "vāja",
+    "moderate": "mērena",
+    "strong": "spēcīga",
+    "inverse": "apgriezta",
+    "self": "tas pats mainīgais",
+    "hint": "Norādiet ar peli vai pieskarieties šūnai, lai redzētu precīzu vērtību."
+  },
   "balance": {
     "capital_structure": "Kapitāla struktūra"
   },

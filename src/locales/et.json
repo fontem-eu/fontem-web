@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Ava Atlases →"
   },
+  "corr_matrix": {
+    "none": "puudub",
+    "mild": "nõrk",
+    "moderate": "mõõdukas",
+    "strong": "tugev",
+    "inverse": "pöördvõrdeline",
+    "self": "sama muutuja",
+    "hint": "Täpse väärtuse nägemiseks liigu hiirega või puuduta lahtrit."
+  },
   "balance": {
     "capital_structure": "Kapitali struktuur"
   },

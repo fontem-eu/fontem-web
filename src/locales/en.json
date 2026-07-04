@@ -171,6 +171,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Open in Atlas →"
   },
+  "corr_matrix": {
+    "none": "none",
+    "mild": "mild",
+    "moderate": "moderate",
+    "strong": "strong",
+    "inverse": "inverse",
+    "self": "same variable",
+    "hint": "Hover or tap a cell for the exact value."
+  },
   "balance": {
     "capital_structure": "Capital Structure"
   },

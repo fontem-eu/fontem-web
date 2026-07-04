@@ -465,6 +465,9 @@ async function _renderChoropleth() {
       map.on('mousemove', 'atlas-fill-null', onMove)
       map.on('mouseleave', 'atlas-fill-data', onLeave)
       map.on('mouseleave', 'atlas-fill-null', onLeave)
+      // touch devices get no mousemove — tap selects the region instead
+      map.on('click', 'atlas-fill-data', onMove)
+      map.on('click', 'atlas-fill-null', onMove)
     }
   }
   if (map.isStyleLoaded()) apply()

@@ -103,6 +103,9 @@ function alphaOpacity(values2) {
 
 const legend = ref({ mode: 'none', breaksA: [0, 0], breaksB: [0, 0] })
 
+// Region readout — populated on hover (desktop) or tap (touch devices).
+const hovered = ref(null)
+
 async function render() {
   if (!map || !props.geoCol || !props.valueCol) return
   loading.value = true; error.value = null
@@ -153,6 +156,18 @@ async function render() {
         map.addSource('nuts', { type: 'geojson', data: geojson })
         map.addLayer({ id: 'nuts-fill', type: 'fill', source: 'nuts', paint: { 'fill-color': fillColor, 'fill-opacity': fillOpacity } })
         map.addLayer({ id: 'nuts-line', type: 'line', source: 'nuts', paint: { 'line-color': '#334155', 'line-width': 0.4 } })
+        const onMove = (e) => {
+          if (!e.features?.length) return
+          map.getCanvas().style.cursor = 'pointer'
+          hovered.value = e.features[0].properties
+        }
+        map.on('mousemove', 'nuts-fill', onMove)
+        // touch devices get no mousemove — tap selects the region instead
+        map.on('click', 'nuts-fill', onMove)
+        map.on('mouseleave', 'nuts-fill', () => {
+          map.getCanvas().style.cursor = ''
+          hovered.value = null
+        })
       }
       map.setPaintProperty('nuts-fill', 'fill-color', fillColor)
       map.setPaintProperty('nuts-fill', 'fill-opacity', fillOpacity)
@@ -191,6 +206,16 @@ const DIVERGING_STOPS = [DIVERGING.low, DIVERGING.mid, DIVERGING.high]
       <span v-else class="cov" data-testid="map-coverage">
         matched {{ coverage.matched }} of {{ coverage.total }} regions
         <span v-if="coverage.total && coverage.matched === 0" class="warn">— wrong column/level?</span>
+      </span>
+
+      <!-- hover / tap readout: which region, what values -->
+      <span v-if="hovered" class="hovbox" data-testid="map-hover-readout">
+        <strong>{{ hovered.name || hovered.nuts_code }}</strong>
+        <template v-if="hovered.hasData">
+          <span>{{ valueCol }}: {{ Number(hovered.value).toLocaleString(undefined, { maximumFractionDigits: 2 }) }}</span>
+          <span v-if="value2Col && bivariate !== 'none'">· {{ value2Col }}: {{ Number(hovered.value2).toLocaleString(undefined, { maximumFractionDigits: 2 }) }}</span>
+        </template>
+        <span v-else class="muted">—</span>
       </span>
 
       <!-- single-variable legend -->
@@ -232,6 +257,7 @@ const DIVERGING_STOPS = [DIVERGING.low, DIVERGING.mid, DIVERGING.high]
 .err { color: #dc2626; }
 .warn { color: #d97706; }
 .cov { font-weight: 600; }
+.hovbox { display: flex; align-items: center; gap: 0.4rem; }
 .legend { display: flex; align-items: center; gap: 0.25rem; margin-left: auto; }
 .sw { width: 0.9rem; height: 0.7rem; border-radius: 2px; display: inline-block; }
 .biv-sep { margin-left: 0.4rem; }

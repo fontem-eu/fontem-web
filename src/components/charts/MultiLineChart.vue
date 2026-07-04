@@ -140,7 +140,7 @@ const tooltipLeftPct = computed(() => (hover.value ? (hover.value.px / W) * 100 
     <div v-else class="mlc-wrap">
       <svg
 ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMidYMid meet"
-           @mousemove="onMove" @mouseleave="hover = null">
+           @pointermove="onMove" @pointerdown="onMove" @mouseleave="hover = null">
         <g class="mlc-grid">
           <template v-for="t in yTicks" :key="'y' + t">
             <line :x1="M.left" :x2="W - M.right" :y1="yPos(t)" :y2="yPos(t)" />
@@ -181,7 +181,7 @@ ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMi
 .mlc-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 .mlc-empty { color: var(--muted); font-size: 0.85rem; padding: 1rem; }
 .mlc-wrap { position: relative; }
-.mlc-svg { width: 100%; height: auto; display: block; }
+.mlc-svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
 .mlc-grid line { stroke: var(--border); stroke-width: 0.5; }
 .mlc-tick { fill: var(--muted); font-size: 10px; }
 .mlc-axislabel { fill: var(--muted); font-size: 11px; font-weight: 600; }

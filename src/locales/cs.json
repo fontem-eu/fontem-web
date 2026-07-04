@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Otevřít v Atlasu →"
   },
+  "corr_matrix": {
+    "none": "žádná",
+    "mild": "slabá",
+    "moderate": "střední",
+    "strong": "silná",
+    "inverse": "inverzní",
+    "self": "stejná proměnná",
+    "hint": "Najetím nebo klepnutím na buňku zobrazíte přesnou hodnotu."
+  },
   "balance": {
     "capital_structure": "Kapitálová struktura"
   },

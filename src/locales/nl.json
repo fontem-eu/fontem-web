@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Open in Atlas →"
   },
+  "corr_matrix": {
+    "none": "geen",
+    "mild": "zwak",
+    "moderate": "matig",
+    "strong": "sterk",
+    "inverse": "invers",
+    "self": "zelfde variabele",
+    "hint": "Beweeg de muis over een cel of tik erop voor de exacte waarde."
+  },
   "balance": {
     "capital_structure": "Kapitaalstructuur"
   },

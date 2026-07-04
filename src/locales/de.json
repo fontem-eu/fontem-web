@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "In Atlas öffnen →"
   },
+  "corr_matrix": {
+    "none": "keine",
+    "mild": "schwach",
+    "moderate": "mittel",
+    "strong": "stark",
+    "inverse": "invers",
+    "self": "gleiche Variable",
+    "hint": "Für den genauen Wert eine Zelle berühren oder mit der Maus darüberfahren."
+  },
   "balance": {
     "capital_structure": "Kapitalstruktur"
   },

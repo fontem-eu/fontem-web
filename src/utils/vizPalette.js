@@ -70,6 +70,19 @@ export function inkFor(fill) {
   return contrast(fill, '#000000') >= contrast(fill, '#ffffff') ? '#000000' : '#ffffff'
 }
 
+/** Plain-language strength bucket for a correlation coefficient. Thresholds
+ *  follow the common social-science reading (Evans 1996, collapsed to four
+ *  bands): |r| < 0.2 none, < 0.4 mild, < 0.7 moderate, else strong.
+ *  Returns a key — the UI translates it. Null/NaN -> null. */
+export function corrStrength(r) {
+  if (r == null || !Number.isFinite(Number(r))) return null
+  const a = Math.abs(Number(r))
+  if (a < 0.2) return 'none'
+  if (a < 0.4) return 'mild'
+  if (a < 0.7) return 'moderate'
+  return 'strong'
+}
+
 /** Linear blend between two hex colours (t in 0..1). */
 export function lerpColor(a, b, t) {
   const A = hexToRgb(a); const B = hexToRgb(b)

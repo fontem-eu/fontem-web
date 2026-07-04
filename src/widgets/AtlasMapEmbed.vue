@@ -184,6 +184,9 @@ async function renderMap() {
       map.on('mousemove', 'atlas-embed-null', onMove)
       map.on('mouseleave', 'atlas-embed-fill', onLeave)
       map.on('mouseleave', 'atlas-embed-null', onLeave)
+      // touch devices get no mousemove — tap selects the region instead
+      map.on('click', 'atlas-embed-fill', onMove)
+      map.on('click', 'atlas-embed-null', onMove)
     }
   }
   if (map.isStyleLoaded()) apply()

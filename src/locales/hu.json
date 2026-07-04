@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Megnyitás Atlasban →"
   },
+  "corr_matrix": {
+    "none": "nincs",
+    "mild": "gyenge",
+    "moderate": "közepes",
+    "strong": "erős",
+    "inverse": "fordított",
+    "self": "azonos változó",
+    "hint": "A pontos értékhez vigye az egeret a cellára, vagy koppintson rá."
+  },
   "balance": {
     "capital_structure": "Tőkeszerkezet"
   },

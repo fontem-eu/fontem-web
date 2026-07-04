@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Oscail in Atlas →"
   },
+  "corr_matrix": {
+    "none": "ar bith",
+    "mild": "lag",
+    "moderate": "measartha",
+    "strong": "láidir",
+    "inverse": "inbhéartach",
+    "self": "an athróg chéanna",
+    "hint": "Ainligh nó tapáil cill chun an luach beacht a fheiceáil."
+  },
   "balance": {
     "capital_structure": "Struchtúr caipitil"
   },

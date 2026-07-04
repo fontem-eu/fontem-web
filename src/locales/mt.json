@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Iftaħ f'Atlas →"
   },
+  "corr_matrix": {
+    "none": "xejn",
+    "mild": "ħafifa",
+    "moderate": "moderata",
+    "strong": "qawwija",
+    "inverse": "inversa",
+    "self": "l-istess varjabbli",
+    "hint": "Għaddi l-maws jew missu ċellola għall-valur eżatt."
+  },
   "balance": {
     "capital_structure": "Struttura tal-kapital"
   },

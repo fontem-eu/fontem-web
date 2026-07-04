@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Deschide în Atlas →"
   },
+  "corr_matrix": {
+    "none": "niciuna",
+    "mild": "slabă",
+    "moderate": "moderată",
+    "strong": "puternică",
+    "inverse": "inversă",
+    "self": "aceeași variabilă",
+    "hint": "Treceți cursorul sau atingeți o celulă pentru valoarea exactă."
+  },
   "balance": {
     "capital_structure": "Structura capitalului"
   },

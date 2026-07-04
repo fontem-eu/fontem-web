@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Atidaryti Atlas →"
   },
+  "corr_matrix": {
+    "none": "nėra",
+    "mild": "silpna",
+    "moderate": "vidutinė",
+    "strong": "stipri",
+    "inverse": "atvirkštinė",
+    "self": "tas pats kintamasis",
+    "hint": "Užveskite pelę arba palieskite langelį, kad pamatytumėte tikslią reikšmę."
+  },
   "balance": {
     "capital_structure": "Kapitalo struktūra"
   },

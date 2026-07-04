@@ -143,6 +143,15 @@
   "atlas_map_embed": {
     "open_in_atlas": "Otwórz w Atlasie →"
   },
+  "corr_matrix": {
+    "none": "brak",
+    "mild": "słaba",
+    "moderate": "umiarkowana",
+    "strong": "silna",
+    "inverse": "odwrotna",
+    "self": "ta sama zmienna",
+    "hint": "Najedź kursorem lub dotknij komórki, aby zobaczyć dokładną wartość."
+  },
   "balance": {
     "capital_structure": "Struktura kapitału"
   },
