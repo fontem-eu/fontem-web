@@ -20,6 +20,8 @@ import FlowerButton from '../components/FlowerButton.vue'
 import TranslationBar from '../components/TranslationBar.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import { getReport, getTranslation } from '../api/community.js'
+import { useLang } from '../composables/useLang.js'
+import { defaultTranslationFor } from '../utils/translationDefault.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -41,6 +43,7 @@ const bodyRef = ref(null)
 const bodyVersion = ref(0)
 
 const hasToken = computed(() => isAuthed.value)
+const { lang: uiLang } = useLang()
 
 // ── translations ────────────────────────────────────────────
 // '' = the original text; otherwise the active translation object
@@ -102,6 +105,11 @@ onMounted(async () => {
         content: report.value.content_doc.tiptap,
       })
     }
+    // Open in the reader's UI language when that translation exists;
+    // fall back to the original otherwise.
+    const preferred = defaultTranslationFor(
+      uiLang.value, report.value.language || 'en', report.value.translations)
+    if (preferred) await switchLanguage(preferred)
     // Defer one tick so the body element exists in the DOM before
     // ChapterRail's `onMounted` runs. The rail reads h2/h3 nodes
     // synchronously; without the bump it would see an empty body.

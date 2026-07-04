@@ -1,28 +1,35 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TranslationBar from '../../src/components/TranslationBar.vue'
+import { defaultTranslationFor } from '../../src/utils/translationDefault.js'
 
-describe('TranslationBar (story page language switcher)', () => {
+describe('TranslationBar (story page language picker)', () => {
   it('hides entirely when the story has no translations', () => {
     const w = mount(TranslationBar, { props: { language: 'en', translations: [] } })
     expect(w.find('[data-testid="translation-bar"]').exists()).toBe(false)
   })
 
-  it('renders one chip per language, original first', () => {
+  it('renders one select with the translate icon: original first, then translations', () => {
     const w = mount(TranslationBar, {
-      props: { language: 'en', translations: [{ lang: 'pt', outdated: false }, { lang: 'hu', outdated: false }] },
+      props: { language: 'en', translations: [{ lang: 'pt', outdated: false }, { lang: 'hu', outdated: true }] },
     })
-    expect(w.find('[data-testid="translation-original"]').text()).toContain('English')
-    expect(w.find('[data-testid="translation-chip-pt"]').text()).toContain('Português')
-    expect(w.find('[data-testid="translation-chip-hu"]').text()).toContain('Magyar')
+    expect(w.find('.tbar-icon svg').exists()).toBe(true)
+    const opts = w.findAll('[data-testid="translation-picker"] option')
+    expect(opts.length).toBe(3)
+    expect(opts[0].text()).toContain('English')
+    expect(opts[0].text()).toContain('Original')
+    expect(opts[1].text()).toContain('Português')
+    expect(opts[2].text()).toContain('Magyar')
+    expect(opts[2].text()).toContain('⚠') // outdated marker in the list
   })
 
   it('emits switch with the lang ("" for original)', async () => {
     const w = mount(TranslationBar, {
-      props: { language: 'en', current: 'pt', translations: [{ lang: 'pt', outdated: false }] },
+      props: { language: 'en', current: '', translations: [{ lang: 'pt', outdated: false }] },
     })
-    await w.find('[data-testid="translation-chip-pt"]').trigger('click')
-    await w.find('[data-testid="translation-original"]').trigger('click')
+    await w.find('[data-testid="translation-picker"]').setValue('pt')
+    await w.setProps({ current: 'pt' })
+    await w.find('[data-testid="translation-picker"]').setValue('')
     expect(w.emitted('switch')).toEqual([['pt'], ['']])
   })
 
@@ -30,7 +37,6 @@ describe('TranslationBar (story page language switcher)', () => {
     const w = mount(TranslationBar, {
       props: { language: 'en', current: '', translations: [{ lang: 'pt', outdated: true }] },
     })
-    // original active -> no badge (but the chip carries a dot marker)
     expect(w.find('[data-testid="translation-outdated-badge"]').exists()).toBe(false)
     await w.setProps({ current: 'pt' })
     const badge = w.find('[data-testid="translation-outdated-badge"]')
@@ -43,5 +49,24 @@ describe('TranslationBar (story page language switcher)', () => {
       props: { language: 'en', current: 'pt', translations: [{ lang: 'pt', outdated: false }] },
     })
     expect(w.find('[data-testid="translation-outdated-badge"]').exists()).toBe(false)
+  })
+})
+
+describe('defaultTranslationFor (which text a story opens in)', () => {
+  const tr = [{ lang: 'pt', outdated: false }, { lang: 'fr', outdated: true }]
+  it('prefers the translation matching the UI language', () => {
+    expect(defaultTranslationFor('pt', 'en', tr)).toBe('pt')
+    expect(defaultTranslationFor('fr', 'en', tr)).toBe('fr') // outdated still preferred (badge warns)
+  })
+  it('falls back to the original when no translation matches', () => {
+    expect(defaultTranslationFor('de', 'en', tr)).toBe('')
+  })
+  it('uses the original when the UI language IS the original', () => {
+    expect(defaultTranslationFor('en', 'en', tr)).toBe('')
+  })
+  it('handles unset UI language and empty translation lists', () => {
+    expect(defaultTranslationFor('', 'en', tr)).toBe('')
+    expect(defaultTranslationFor('pt', 'en', [])).toBe('')
+    expect(defaultTranslationFor('pt', 'en', undefined)).toBe('')
   })
 })
