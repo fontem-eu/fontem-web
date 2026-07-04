@@ -7,7 +7,7 @@ onMounted(() => { document.title = 'Stock Prices Data Quality — Fontem' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {
-  try { const r = await fetch('/api/data-quality/prices'); if (r.ok) data.value = await r.json() } catch { /* */ }
+  try { const r = await fetch('/api/data-quality/price-layer'); if (r.ok) data.value = await r.json() } catch { /* */ }
   loading.value = false
 })
 const freshPct = computed(() => data.value ? Math.round(data.value.fresh_ratio * 100) : 0)
