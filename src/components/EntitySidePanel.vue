@@ -117,11 +117,16 @@ onBeforeUnmount(() => {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.18);
-  z-index: 40;
+  /* Above the sticky app header (z-index 70): the panel is a modal
+     overlay — at 40 its close button rendered UNDER the header's
+     avatar and clicks were intercepted whenever a short entity label
+     kept the button inside the top 3.25rem. */
+  z-index: 80;
 }
 
 .side-panel {
   position: fixed;
+  z-index: 81;
   top: 0; right: 0; bottom: 0;
   left: auto;
   margin: 0;
