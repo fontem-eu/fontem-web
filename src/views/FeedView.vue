@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
+import { useLang } from '../composables/useLang.js'
 import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
@@ -8,6 +9,7 @@ import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
 const router = useRouter()
 const route = useRoute()
 
+const { lang: uiLang } = useLang()
 const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
@@ -76,6 +78,9 @@ onMounted(async () => {
 
 // Re-fetch the story list whenever the URL's `?tag=` flips.
 watch(activeTag, () => { loadStories() })
+// Language switch re-requests the feed so cards arrive with
+// translated titles/abstracts (the API call carries ?lang=).
+watch(uiLang, () => { loadStories() })
 
 function setTag(tag) {
   router.replace({ path: route.path, query: { ...route.query, tag } })

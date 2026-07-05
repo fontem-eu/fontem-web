@@ -100,3 +100,84 @@ describe('useLang', () => {
     expect(currentLang()).toBe('it')
   })
 })
+
+describe('useLang — IP-geo detection', () => {
+  beforeEach(() => {
+    _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
+    document.documentElement.lang = ''
+  })
+  afterEach(() => {
+    _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
+    vi.restoreAllMocks(); vi.resetModules()
+  })
+
+  const geoFetch = (lang) => vi.fn(async (url) => {
+    expect(String(url)).toContain('/api/geo/client-language')
+    return { ok: true, json: async () => ({ country: 'FR', lang }) }
+  })
+
+  it('with nothing stored, the IP-country hint overrides the browser language', async () => {
+    Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
+    vi.stubGlobal('fetch', geoFetch('fr'))
+    vi.resetModules()
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const { init, lang } = useLang()
+    init()
+    expect(lang.value).toBe('en') // provisional paint from the browser
+    await vi.waitFor(() => expect(lang.value).toBe('fr')) // geo wins
+    // detection is NOT persisted — only explicit picks are
+    expect(localStorage.getItem('gmr-lang')).toBeNull()
+    expect(sessionStorage.getItem('gmr-geo-lang')).toBe('fr')
+  })
+
+  it('a stored explicit choice beats the IP hint (no lookup needed)', async () => {
+    localStorage.setItem('gmr-lang', 'de')
+    const f = geoFetch('fr'); vi.stubGlobal('fetch', f)
+    vi.resetModules()
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const { init, lang } = useLang()
+    init()
+    await new Promise((r) => setTimeout(r, 20))
+    expect(lang.value).toBe('de')
+    expect(f).not.toHaveBeenCalled()
+  })
+
+  it('geo failure or null hint leaves the browser fallback in place', async () => {
+    Object.defineProperty(navigator, 'language', { value: 'pl-PL', configurable: true })
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ country: 'JP', lang: null }) })))
+    vi.resetModules()
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const { init, lang } = useLang()
+    init()
+    await new Promise((r) => setTimeout(r, 20))
+    expect(lang.value).toBe('pl')
+  })
+
+  it('an explicit pick made while the lookup is in flight wins', async () => {
+    Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
+    let resolveFetch
+    vi.stubGlobal('fetch', vi.fn(() => new Promise((r) => { resolveFetch = r })))
+    vi.resetModules()
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const { init, setLang, lang } = useLang()
+    init()
+    setLang('pt') // user clicks the picker before the geo response lands
+    resolveFetch({ ok: true, json: async () => ({ country: 'FR', lang: 'fr' }) })
+    await new Promise((r) => setTimeout(r, 20))
+    expect(lang.value).toBe('pt') // geo did not clobber the explicit pick
+    expect(localStorage.getItem('gmr-lang')).toBe('pt')
+  })
+
+  it('caches the hint per session (second init does not refetch)', async () => {
+    Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
+    sessionStorage.setItem('gmr-geo-lang', 'fr')
+    const f = vi.fn()
+    vi.stubGlobal('fetch', f)
+    vi.resetModules()
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const { init, lang } = useLang()
+    init()
+    await vi.waitFor(() => expect(lang.value).toBe('fr'))
+    expect(f).not.toHaveBeenCalled()
+  })
+})

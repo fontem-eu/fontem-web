@@ -22,13 +22,16 @@ import { activateLocale } from '../i18n.js'
 const lang = ref('')
 let i18nInstance = null
 
-function applyLang(code) {
+function applyLang(code, { persist = false } = {}) {
   const next = normaliseLang(code) || DEFAULT_LANG
   lang.value = next
   if (typeof document !== 'undefined') {
     document.documentElement.lang = next
   }
-  if (typeof localStorage !== 'undefined') {
+  // Only an EXPLICIT user pick persists. Detected values (browser,
+  // IP-geo) stay ephemeral so tomorrow's detection can differ and a
+  // stored value always means "the user chose this".
+  if (persist && typeof localStorage !== 'undefined') {
     localStorage.setItem('gmr-lang', next)
   }
   // Kick the locale swap (async; we don't await — applyLang has
@@ -48,7 +51,7 @@ export function currentLang() {
 
 function setLang(code) {
   const normalised = normaliseLang(code)
-  if (normalised) applyLang(normalised)
+  if (normalised) applyLang(normalised, { persist: true })
 }
 
 /**
@@ -65,18 +68,46 @@ function init(i18n = null) {
   if (typeof localStorage !== 'undefined') {
     const saved = normaliseLang(localStorage.getItem('gmr-lang'))
     if (saved) {
-      applyLang(saved)
+      applyLang(saved, { persist: true })
       return
     }
   }
+  // No stored choice: paint with the browser's language immediately,
+  // then let the server's IP-country hint override — a visitor from
+  // France gets French even on an en-US browser. Their first explicit
+  // pick beats both, permanently.
   if (typeof navigator !== 'undefined' && navigator.language) {
     const detected = normaliseLang(navigator.language)
-    if (detected) {
-      applyLang(detected)
-      return
-    }
+    if (detected) applyLang(detected)
+    else applyLang(DEFAULT_LANG)
+  } else {
+    applyLang(DEFAULT_LANG)
   }
-  applyLang(DEFAULT_LANG)
+  detectGeoLang()
+}
+
+/**
+ * IP-country language hint (GET /api/geo/client-language, resolved
+ * server-side against a local database — the IP never leaves the
+ * platform). Session-cached so one visit costs one lookup. Fire and
+ * forget: failures leave the browser-language fallback in place, and
+ * an explicit pick made while the request is in flight wins.
+ */
+async function detectGeoLang() {
+  if (typeof fetch === 'undefined' || typeof sessionStorage === 'undefined') return
+  try {
+    let hint = normaliseLang(sessionStorage.getItem('gmr-geo-lang'))
+    if (!hint) {
+      const res = await fetch('/api/geo/client-language')
+      if (!res.ok) return
+      const data = await res.json()
+      hint = normaliseLang(data.lang)
+      if (hint) sessionStorage.setItem('gmr-geo-lang', hint)
+    }
+    // Bail if the user picked explicitly while we were looking up.
+    if (typeof localStorage !== 'undefined' && normaliseLang(localStorage.getItem('gmr-lang'))) return
+    if (hint && hint !== lang.value) applyLang(hint)
+  } catch { /* no hint — the browser-language fallback stands */ }
 }
 
 export function useLang() {

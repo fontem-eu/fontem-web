@@ -1,10 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useLang } from '../composables/useLang.js'
 import { useRouter } from 'vue-router'
 import { listReports, createReport, listDossiers, createDossier } from '../api/community.js'
 
 const router = useRouter()
 
+const { lang: uiLang } = useLang()
 const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
@@ -13,7 +15,7 @@ const dossiers = ref([])
 const showCreateMenu = ref(false)
 const creatingDossier = ref(false)
 
-onMounted(async () => {
+async function loadMine() {
   try {
     const data = await listReports({ scope: 'mine' })
     stories.value = data.stories || data.reports || data || []
@@ -23,7 +25,12 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(loadMine)
+// Language switch re-requests the list so cards arrive with translated
+// titles/abstracts (the API call carries ?lang=).
+watch(uiLang, loadMine)
 
 async function startNewStory() {
   creating.value = true
