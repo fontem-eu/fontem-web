@@ -1,4 +1,4 @@
-import { pearson } from '../utils/vizPalette.js'
+import { pearson, toFiniteOrNaN } from '../utils/vizPalette.js'
 
 // Correlation matrix: pairwise Pearson r across the chosen numeric columns.
 function buildCorrProps(result, corrCols) {
@@ -6,7 +6,9 @@ function buildCorrProps(result, corrCols) {
   if (cols.length < 2) return { vars: cols, matrix: [] }
   const series = cols.map((c) => {
     const ci = result.columns.indexOf(c)
-    return result.rows.map((r) => Number(r[ci]))
+    // Preserve missing as NaN — Number(null) is 0, which would enter
+    // the correlation as a real value (see pearson()).
+    return result.rows.map((r) => toFiniteOrNaN(r[ci]))
   })
   const matrix = series.map((a, i) => series.map((b, j) => (i === j ? 1 : pearson(a, b))))
   return { vars: cols, matrix }

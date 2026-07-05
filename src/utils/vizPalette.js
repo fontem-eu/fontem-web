@@ -102,12 +102,22 @@ export function divergingColor(v, min, max, mid = (min + max) / 2) {
 }
 
 // ── stats ───────────────────────────────────────────────────────
+/** Number(v), except that missing values (null/undefined/'') stay
+ *  missing (NaN) instead of coercing to 0. */
+export function toFiniteOrNaN(v) {
+  if (v == null || v === '') return Number.NaN
+  return Number(v)
+}
+
 /** Pearson correlation of two equal-length numeric arrays (pairwise-complete).
- *  Returns null when fewer than 2 finite pairs or zero variance in either. */
+ *  Returns null when fewer than 2 finite pairs or zero variance in either.
+ *  Missing values (null/undefined/'') are excluded pairwise — they must
+ *  never be coerced: Number(null) === 0 passes the isFinite guard and
+ *  silently drags r toward whatever zero correlates with. */
 export function pearson(xs, ys) {
   const px = []; const py = []
   for (let i = 0; i < xs.length; i += 1) {
-    const a = Number(xs[i]); const b = Number(ys[i])
+    const a = toFiniteOrNaN(xs[i]); const b = toFiniteOrNaN(ys[i])
     if (Number.isFinite(a) && Number.isFinite(b)) { px.push(a); py.push(b) }
   }
   const n = px.length

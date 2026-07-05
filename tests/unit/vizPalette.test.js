@@ -60,6 +60,19 @@ describe('vizPalette', () => {
     expect(pearson([1, 2, 3, NaN], [2, 4, 6, 9])).toBeCloseTo(1, 6)
   })
 
+  it('pearson: SQL NULLs are missing, never zero', () => {
+    // Regression (#272): Number(null) === 0 passed the isFinite guard,
+    // so a missing country entered the correlation as a real 0.
+    // A null pair must not change r at all...
+    expect(pearson([1, 2, 3, null], [2, 4, 6, 9])).toBeCloseTo(1, 6)
+    expect(pearson([1, 2, 3, null], [2, 4, 6, null])).toBeCloseTo(1, 6)
+    expect(pearson(['', 1, 2, 3], [9, 2, 4, 6])).toBeCloseTo(1, 6)
+    // ...whereas the old behaviour (null→0) broke the perfect fit:
+    expect(pearson([1, 2, 3, 0], [2, 4, 6, 9])).not.toBeCloseTo(1, 6)
+    // numeric strings from SQL still parse
+    expect(pearson(['1', '2', '3'], [2, 4, 6])).toBeCloseTo(1, 6)
+  })
+
   it('terciles bucket a range into 0/1/2', () => {
     const b = tercileBreaks([0, 1, 2, 3, 4, 5, 6, 7, 8])
     expect(tercileClass(0, b)).toBe(0)

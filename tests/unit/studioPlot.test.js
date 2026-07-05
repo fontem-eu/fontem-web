@@ -39,6 +39,16 @@ describe('buildChartProps', () => {
     expect(p.matrix[0][1]).toBeLessThan(-0.9)
   })
 
+  it('corr_matrix: null cells excluded pairwise, not coerced to 0', () => {
+    const t = {
+      columns: ['country', 'a', 'b'],
+      rows: [['FR', 1, 2], ['DE', 2, 4], ['PL', 3, 6], ['IE', null, 9]],
+    }
+    const p = buildChartProps(t, { chart: 'corr_matrix', corrCols: ['a', 'b'] })
+    // IE lacks `a`: the pair must be dropped, leaving a perfect fit.
+    expect(p.matrix[0][1]).toBeCloseTo(1, 6)
+  })
+
   it('corr_matrix with <2 cols returns empty matrix', () => {
     const p = buildChartProps(table, { chart: 'corr_matrix', corrCols: ['rape'] })
     expect(p.matrix).toEqual([])
