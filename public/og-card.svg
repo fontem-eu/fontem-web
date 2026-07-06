@@ -8,8 +8,8 @@
       .bg     { fill: #faf3e6; }
       .text   { fill: #3e2b1f; }
       .muted  { fill: #8c6f58; }
-      .rose   { fill: #b45a7a; }
-      .plum   { fill: #6b4f8f; }
+      .rose   { fill: #1d4e9e; }  /* lapis (class name kept for diff-noise) */
+      .plum   { fill: #7a4a28; }  /* umber drawing stone */
       .border { fill: #e6d3b8; }
     </style>
   </defs>

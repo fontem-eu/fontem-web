@@ -38,7 +38,7 @@ afterEach(() => {
 })
 
 describe('FlowerButton — render + initial load', () => {
-  it('renders the button + total + a lavender icon', async () => {
+  it('renders the button + total + an accent-tinted icon', async () => {
     const w = mountBtn()
     await flushPromises()
     expect(w.find('[data-testid="flower-button"]').exists()).toBe(true)
