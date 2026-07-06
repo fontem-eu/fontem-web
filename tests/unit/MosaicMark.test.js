@@ -2,29 +2,32 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MosaicMark from '../../src/components/MosaicMark.vue'
 
-// The mark tiles a low-res Europe silhouette; the grid has 82 land cells.
-const LAND = 82
+// The mark beads a spiral thread; the deterministic geometry yields 37 beads.
+const BEADS = 37
 
-describe('MosaicMark', () => {
-  it('tiles the Europe silhouette in tesserae, decorative by default', () => {
+describe('MosaicMark (the Spun Thread)', () => {
+  it('draws the thread + beads it with tesserae, decorative by default', () => {
     const w = mount(MosaicMark)
     const svg = w.find('svg')
-    expect(svg.exists()).toBe(true)
     expect(svg.attributes('aria-hidden')).toBe('true')
-    expect(w.findAll('rect').length).toBe(LAND)
+    expect(w.find('path.mm-thread').exists()).toBe(true) // the thread
+    expect(w.find('path.mm-thread').attributes('d')).toMatch(/^M/)
+    expect(w.findAll('rect').length).toBe(BEADS) // the records on it
   })
 
-  it('marks a single gold source tile — fontem, the spring', () => {
+  it('anchors a gold source-point — fontem, the spring', () => {
     const w = mount(MosaicMark)
-    const src = w.findAll('rect.mm-src')
-    expect(src.length).toBe(1)
-    expect(src[0].attributes('fill')).toBe('#c9a227')
+    const circles = w.findAll('circle')
+    // a filled gold disc + its lapis ring, both at the spiral centre
+    expect(circles.length).toBe(2)
+    expect(circles[0].attributes('fill')).toBe('#c9a227')
+    expect(circles.every((c) => c.attributes('cx') === '32' && c.attributes('cy') === '32')).toBe(true)
   })
 
-  it('weaves the dark drawing stones through the figure', () => {
+  it('weaves the dark drawing stones through the thread', () => {
     const w = mount(MosaicMark)
     const draw = w.findAll('rect.mm-draw')
-    expect(draw.length).toBeGreaterThanOrEqual(10)
+    expect(draw.length).toBeGreaterThanOrEqual(5)
     const fills = draw.map((r) => r.attributes('fill'))
     expect(fills).toContain('#2e1d10') // onyx
     expect(fills).toContain('#7a4a28') // umber

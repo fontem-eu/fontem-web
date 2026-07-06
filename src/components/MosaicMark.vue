@@ -1,16 +1,17 @@
 <script setup>
 /**
- * The Fontem mark — the Mosaic of Europe. Tesserae of the platform's
- * eight categorical chart hues tile the silhouette of the continent
- * (the grid below is rasterised from Fontem's own NUTS-0 boundaries).
- * Onyx and umber "drawing stones" are woven through — in the mosaic
- * craft the dark stones draw the figure, so it doesn't hold together
- * without them, and neither does Europe. A single gold tessera near
- * the centre is the source: fontem, the spring. On dark grounds the
- * drawing stones take a thin gold-glass rim (the Byzantine trick) so
- * they stay legible against dusk.
+ * The Fontem mark — the Spun Thread. A single thread unspools from a
+ * gold source-point (fontem, the spring) and spirals outward, beaded
+ * with tesserae of the platform's eight categorical chart hues: each
+ * bead is a record strung on the line you follow — following the money.
+ * Onyx and umber "drawing stones" are woven through (the dark stones
+ * draw the figure). The spiral is the spindle-whorl and the spun thread
+ * of the Fates — following a thread, and spinning it, are the oldest
+ * women's knowledge in Europe. On dark grounds the thread lifts and the
+ * drawing stones take a gold-glass rim (the Byzantine trick).
  *
- * Decorative by default (aria-hidden); the surrounding button/link
+ * The geometry is computed (one source of truth, matching the favicon),
+ * decorative by default (aria-hidden); the surrounding button/link
  * carries the accessible name.
  */
 import { computed } from 'vue'
@@ -20,58 +21,61 @@ defineProps({
   size: { type: [Number, String], default: 28 },
 })
 
-// Europe as a low-res mask — one string per row, '#' = land. Rasterised
-// from the NUTS-0 country outlines the platform already serves.
-const GRID = [
-  '.........###', '........####', '.......###.#', '.....####.##',
-  '.....####..#', '.#.....##.##', '#.#...#.###.', '..#.#######.',
-  '...#######..', '...#########', '...####.####', '####...#.###',
-  '###.....#.##', '.##.......#.',
-]
-const COLS = 12
-const GOLD_C = 7
-const GOLD_R = 7
 const HUES = ['#2a78d6', '#1baf7a', '#eda100', '#008300', '#4a3aa7', '#e34948', '#e87ba4', '#eb6834']
 const ONYX = '#2e1d10'
 const UMBER = '#7a4a28'
-const GOLD = '#c9a227'
 
-// Fit the grid into the 64-unit viewBox with a small margin.
-const AVAIL = 58
-const CELL = AVAIL / Math.max(COLS, GRID.length)
-const OX = (64 - COLS * CELL) / 2
-const OY = (64 - GRID.length * CELL) / 2
+// Archimedean spiral r = rIn + b·θ, sampled finely for the thread stroke;
+// tesserae are dropped along it at roughly equal arc length.
+const CX = 32
+const TURNS = 2.55
+const THETA_MAX = TURNS * 2 * Math.PI
+const R_IN = 3.6
+const R_OUT = 25.5
+const B = (R_OUT - R_IN) / THETA_MAX
+const SPACING = 6
 
-const tesserae = computed(() => {
-  const out = []
+const mark = computed(() => {
+  const pts = []
+  for (let th = 0; th <= THETA_MAX; th += 0.05) {
+    const r = R_IN + B * th
+    pts.push([CX + r * Math.cos(th), CX + r * Math.sin(th), th])
+  }
+  const threadD = pts.reduce(
+    (d, p, i) => d + `${i ? ' L' : 'M'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`, '')
+
+  const beads = []
+  let acc = SPACING
   let hue = 0
-  let idx = 0
-  GRID.forEach((row, r) => {
-    for (let c = 0; c < COLS; c += 1) {
-      if (row[c] === '#') {
-        const s = CELL * 0.84
-        let fill
-        let kind = ''
-        if (c === GOLD_C && r === GOLD_R) {
-          fill = GOLD; kind = 'src'
-        } else if (idx % 5 === 2) {
-          fill = idx % 10 === 2 ? ONYX : UMBER; kind = 'draw'
-        } else {
-          fill = HUES[hue % HUES.length]; hue += 3
-        }
-        idx += 1
-        out.push({
-          x: +(OX + c * CELL).toFixed(2),
-          y: +(OY + r * CELL).toFixed(2),
-          s: +s.toFixed(2),
-          rx: +Math.max(0.4, s * 0.22).toFixed(2),
-          fill,
-          kind,
-        })
+  let k = 0
+  let prev = null
+  pts.forEach((p) => {
+    if (prev) acc += Math.hypot(p[0] - prev[0], p[1] - prev[1])
+    prev = p
+    if (acc >= SPACING && p[2] > 0.35) {
+      acc = 0
+      const s = 3.2 + (p[2] / THETA_MAX) * 2.4
+      const draw = k % 5 === 2
+      let fill
+      if (draw) {
+        fill = k % 10 === 2 ? ONYX : UMBER
+      } else {
+        fill = HUES[hue % HUES.length]
+        hue += 3
       }
+      k += 1
+      beads.push({
+        x: +(p[0] - s / 2).toFixed(2),
+        y: +(p[1] - s / 2).toFixed(2),
+        s: +s.toFixed(2),
+        rx: +(s * 0.24).toFixed(2),
+        rot: `rotate(${((p[2] * 180) / Math.PI + 45).toFixed(1)} ${p[0].toFixed(2)} ${p[1].toFixed(2)})`,
+        fill,
+        draw,
+      })
     }
   })
-  return out
+  return { threadD, beads }
 })
 </script>
 
@@ -80,22 +84,36 @@ const tesserae = computed(() => {
     class="mosaic-mark" :width="size" :height="size" viewBox="0 0 64 64"
     aria-hidden="true" focusable="false"
   >
-    <rect
-      v-for="(t, i) in tesserae" :key="i"
-      :class="{ 'mm-draw': t.kind === 'draw', 'mm-src': t.kind === 'src' }"
-      :x="t.x" :y="t.y" :width="t.s" :height="t.s" :rx="t.rx" :fill="t.fill"
+    <path
+      class="mm-thread" :d="mark.threadD" fill="none"
+      stroke-width="1.5" stroke-linecap="round" opacity="0.55"
     />
+    <rect
+      v-for="(t, i) in mark.beads" :key="i"
+      :class="{ 'mm-draw': t.draw }"
+      :x="t.x" :y="t.y" :width="t.s" :height="t.s" :rx="t.rx"
+      :fill="t.fill" :transform="t.rot"
+    />
+    <circle cx="32" cy="32" r="4.6" fill="#c9a227" />
+    <circle class="mm-ring" cx="32" cy="32" r="4.6" fill="none" stroke-width="1.1" />
   </svg>
 </template>
 
 <style scoped>
 .mosaic-mark { display: block; }
-/* Drawing stones read on light grounds; on the dusk chrome of dark mode
-   they take the Byzantine gold-glass rim so the figure stays legible. */
+/* The thread + source ring are lapis; on dusk they lift so the mark
+   reads on dark chrome. The drawing stones take the Byzantine
+   gold-glass rim in dark, same as the favicon. */
+.mm-thread, .mm-ring { stroke: #1d4e9e; }
 .mosaic-mark .mm-draw { stroke: none; }
-:global(html.dark) .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.5; }
+:global(html.dark) .mm-thread,
+:global(html.dark) .mm-ring { stroke: #8fb0ea; }
+:global(html.dark) .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.6; }
 @media (prefers-color-scheme: dark) {
-  .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.5; }
+  .mm-thread, .mm-ring { stroke: #8fb0ea; }
+  .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.6; }
 }
+:global(html:not(.dark)) .mm-thread,
+:global(html:not(.dark)) .mm-ring { stroke: #1d4e9e; }
 :global(html:not(.dark)) .mosaic-mark .mm-draw { stroke: none; }
 </style>
