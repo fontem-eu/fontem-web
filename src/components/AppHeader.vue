@@ -3,17 +3,29 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
 import ProfileMenu from './ProfileMenu.vue'
-import Wordmark from './Wordmark.vue'
+import MosaicMark from './MosaicMark.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
 const router = useRouter()
 const route = useRoute()
-const { toggleMobile } = useSidebar()
+const { toggleMobile, toggleCollapsed, mobileOpen } = useSidebar()
 
 /* Login has no search; the Spending tab has its own centered search
  * card so the header search is redundant there. */
 const showSearch = computed(() => route.path !== '/login' && route.path !== '/spending')
-const showNavToggle = computed(() => route.path !== '/login')
+const hasNav = computed(() => route.path !== '/login')
+
+// The mark IS the menu control. Below the desktop breakpoint (the rail
+// is persistent from 900px up) a click opens the mobile drawer; above
+// it, a click collapses/expands the persistent rail. On /login there's
+// no nav, so the mark just goes home.
+function onBrandClick() {
+  if (!hasNav.value) { router.push('/'); return }
+  const mm = typeof globalThis !== 'undefined' && globalThis.matchMedia
+  const wide = typeof mm === 'function' && mm('(min-width: 900px)').matches
+  if (wide) toggleCollapsed()
+  else toggleMobile()
+}
 
 function onTickerSelect(symbol) {
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(symbol)
@@ -26,19 +38,16 @@ function onTickerSelect(symbol) {
 <template>
   <header class="app-header" data-testid="app-header">
     <button
-      v-if="showNavToggle"
       type="button"
-      class="header-burger"
+      class="header-brand"
       data-testid="nav-toggle"
-      :aria-label="$t('nav.menu')"
-      @click="toggleMobile"
+      :aria-label="hasNav ? $t('nav.menu') : $t('wordmark.fontem')"
+      :aria-expanded="hasNav ? String(mobileOpen) : undefined"
+      @click="onBrandClick"
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+      <MosaicMark :size="30" />
     </button>
-
-    <h1 class="header-logo" @click="router.push('/')">
-      <Wordmark size="sm" />
-    </h1>
+    <h1 class="header-title">{{ $t('wordmark.fontem') }}</h1>
 
     <div v-if="showSearch" class="header-search">
       <TickerSearch :compact="true" @select="onTickerSelect" />
@@ -65,16 +74,31 @@ function onTickerSelect(symbol) {
 }
 @media (min-width: 640px) { .app-header { padding: 0 1rem; gap: 0.9rem; } }
 
-.header-burger {
+/* The mark is the menu control. It reads as a button — a soft hover
+   plate + a clear keyboard focus ring — because a logo that also opens
+   the menu isn't a convention users assume; the affordance has to be
+   explicit. Present on every breakpoint (mobile: opens the drawer;
+   desktop: collapses the persistent rail). */
+.header-brand {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 2.1rem; height: 2.1rem; flex-shrink: 0;
-  border: 0; background: transparent; color: var(--text); cursor: pointer; border-radius: 8px;
+  width: 2.4rem; height: 2.4rem; flex-shrink: 0; padding: 0;
+  border: 0; background: transparent; cursor: pointer; border-radius: 9px;
+  transition: background 120ms ease;
 }
-.header-burger:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
-/* The rail is persistent on desktop, so the burger is a mobile affordance. */
-@media (min-width: 900px) { .header-burger { display: none; } }
-
-.header-logo { flex-shrink: 0; cursor: pointer; font-size: 1.2rem; font-weight: 700; line-height: 1; }
+.header-brand:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.header-brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.header-brand :deep(.mosaic-mark) { transition: transform 140ms ease; }
+.header-brand:hover :deep(.mosaic-mark) { transform: rotate(8deg); }
+@media (prefers-reduced-motion: reduce) {
+  .header-brand :deep(.mosaic-mark) { transition: none; }
+  .header-brand:hover :deep(.mosaic-mark) { transform: none; }
+}
+/* The wordmark still exists for SEO + screen readers, but the name now
+   lives inside the menu (rail head), not the top bar. */
+.header-title {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 .header-search { flex: 1; min-width: 0; max-width: 36rem; }
 .header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; margin-left: auto; }
 </style>

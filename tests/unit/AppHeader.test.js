@@ -18,7 +18,7 @@ async function mountAt(path = '/') {
 
 describe('AppHeader (bezel bar)', () => {
   beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
-  afterEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks() })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks(); vi.unstubAllGlobals() })
 
   it('renders the Fontem wordmark', async () => {
     const { wrapper } = await mountAt('/')
@@ -28,16 +28,34 @@ describe('AppHeader (bezel bar)', () => {
     const { wrapper } = await mountAt('/')
     expect(wrapper.find('[data-testid="nav-toggle"]').exists()).toBe(true)
   })
-  it('hides the nav-toggle on /login', async () => {
-    const { wrapper } = await mountAt('/login')
-    expect(wrapper.find('[data-testid="nav-toggle"]').exists()).toBe(false)
+  it('on /login the mark is a home link, not a menu toggle', async () => {
+    const { wrapper, router } = await mountAt('/login')
+    const btn = wrapper.find('[data-testid="nav-toggle"]')
+    expect(btn.exists()).toBe(true)
+    const pushSpy = vi.spyOn(router, 'push')
+    await btn.trigger('click')
+    expect(pushSpy).toHaveBeenCalledWith('/')
   })
-  it('the hamburger toggles the mobile sidebar drawer', async () => {
+  it('below the desktop breakpoint the mark opens the mobile drawer', async () => {
+    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false }))) // narrow
     const { wrapper } = await mountAt('/')
     const { useSidebar } = await import('../../src/composables/useSidebar.js')
     const s = useSidebar(); s.closeMobile()
     await wrapper.find('[data-testid="nav-toggle"]').trigger('click')
-    expect(s.mobileOpen.value).toBe(true); s.closeMobile()
+    expect(s.mobileOpen.value).toBe(true)
+    s.closeMobile()
+  })
+  it('at the desktop breakpoint the mark collapses the persistent rail', async () => {
+    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true }))) // wide
+    const { wrapper } = await mountAt('/')
+    const { useSidebar } = await import('../../src/composables/useSidebar.js')
+    const s = useSidebar()
+    s.closeMobile()
+    const before = s.collapsed.value
+    await wrapper.find('[data-testid="nav-toggle"]').trigger('click')
+    expect(s.collapsed.value).toBe(!before) // toggled the rail, not the drawer
+    expect(s.mobileOpen.value).toBe(false)
+    if (s.collapsed.value !== before) s.toggleCollapsed() // restore
   })
   it('shows the profile/login surface (login when anon)', async () => {
     const { wrapper } = await mountAt('/')

@@ -9,6 +9,8 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { isAuthed, currentUser } from '../api/session.js'
 import UserAvatar from './UserAvatar.vue'
+import MosaicMark from './MosaicMark.vue'
+import Wordmark from './Wordmark.vue'
 import RailIcon from './RailIcon.vue'
 import StudioNav from './StudioNav.vue'
 import { useSidebar } from '../composables/useSidebar.js'
@@ -46,6 +48,11 @@ function isActive(path) {
     :class="{ 'rail--collapsed': collapsed, 'rail--mobile-open': mobileOpen }"
     data-testid="app-sidebar"
   >
+    <router-link to="/" class="rail-head" data-testid="rail-home" @click="closeMobile">
+      <MosaicMark :size="30" class="rail-head-mark" />
+      <Wordmark v-if="!collapsed" size="sm" class="rail-head-wm" />
+    </router-link>
+
     <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.stories')">
       <template v-for="item in navItems" :key="item.key">
         <router-link
@@ -93,6 +100,16 @@ function isActive(path) {
 </template>
 
 <style scoped>
+.rail-head {
+  display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
+  padding: 0.55rem 0.7rem; margin-bottom: 0.35rem; border-radius: 8px;
+  color: var(--text);
+}
+.rail-head:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.rail-head:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rail-head-mark { flex: none; }
+.rail--collapsed .rail-head { justify-content: center; padding-inline: 0; }
+
 .rail {
   display: flex;
   flex-direction: column;
