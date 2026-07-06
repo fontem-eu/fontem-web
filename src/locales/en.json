@@ -277,7 +277,25 @@
     "relationships": "Relationships",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Top Procurement Sectors (CPV)"
+    "top_procurement_sectors_cpv": "Top Procurement Sectors (CPV)",
+    "modal_title": "Data confidence",
+    "level_withheld": "Value withheld — bad source data",
+    "level_low_confidence": "Low confidence",
+    "level_caveat": "Caveat",
+    "detail_reason": "Reason",
+    "detail_confidence": "Confidence score",
+    "detail_status": "Status",
+    "status_in_review": "In the human review queue",
+    "status_auto_withheld": "Withheld automatically",
+    "status_confirmed_bogus": "Reviewed: confirmed unreliable",
+    "withheld_audit_note": "The published number was removed from the platform because it failed hard sanity checks. The original claim is preserved in the audit log and the review queue; if a reviewer establishes the true value it will appear here.",
+    "explain_implausible_magnitude": "The published value is orders of magnitude beyond any plausible public contract — usually a currency or price-per-unit error in the source notice.",
+    "explain_concession_negative": "The notice published a negative value — an accounting artifact of how the form was filled in, not a price.",
+    "explain_unverified": "Only one uncorroborated money field was published, at a magnitude that made it suspect, with nothing to cross-check it against.",
+    "explain_zero_value": "The notice published a value of exactly zero — non-disclosure wearing a number. Treated as an undisclosed value.",
+    "explain_confirmed_bogus": "A human reviewer examined the published value and confirmed it is unreliable. No trustworthy value is available for this contract.",
+    "explain_withheld_generic": "The published value failed the platform's sanity checks and was withheld.",
+    "explain_low_confidence_generic": "The value is shown, but the published money fields are weakly evidenced; it is excluded from default totals and rankings."
   },
   "data_quality_hub": {
     "data_freshness": "Data freshness",
@@ -798,5 +816,19 @@
     "title": "Stock Prices",
     "subtitle": "EOD price layer — fetcher index freshness vs the graph-exported universe",
     "detail": "Coverage Detail"
+  },
+  "value_review": {
+    "title": "Contract value review",
+    "subtitle": "Values the platform withheld because the published number failed hard sanity checks. Enter the corrected EUR value, or confirm the claim is bogus — either decision is emitted as a corrective event and survives re-ingests.",
+    "empty": "Queue is empty — nothing awaiting review.",
+    "load_error": "Could not load the review queue.",
+    "col_contract": "Contract",
+    "col_reason": "Why withheld",
+    "col_claimed": "Claimed value",
+    "col_estimate": "Claimed estimate",
+    "col_decision": "Decision",
+    "corrected_placeholder": "Corrected € value",
+    "action_correct": "Correct",
+    "action_bogus": "Bogus"
   }
 }

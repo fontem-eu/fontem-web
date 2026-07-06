@@ -38,3 +38,69 @@ export function contractValueConcerns(c) {
   }
   return concerns
 }
+
+
+/**
+ * Structured "how bad is this datum" descriptor for the clickable
+ * DataConfidenceIcon + modal — the value-side sibling of the contract
+ * red flags. Three levels:
+ *   3 withheld — the platform removed the value (quarantine): the
+ *                published number failed hard sanity checks. The claim
+ *                survives in the audit log / review queue.
+ *   2 low      — the value is shown but weakly evidenced; excluded
+ *                from default aggregates.
+ *   1 caveat   — value trusted, one signal disagreed (payable).
+ * Returns null when there is nothing to say.
+ */
+const REASON_EXPLANATION_KEY = {
+  implausible_magnitude: 'data_quality.explain_implausible_magnitude',
+  concession_negative: 'data_quality.explain_concession_negative',
+  unverified_single_signal: 'data_quality.explain_unverified',
+  zero_value: 'data_quality.explain_zero_value',
+  confirmed_bogus: 'data_quality.explain_confirmed_bogus',
+}
+const REVIEWED_REASONS = new Set([
+  'implausible_magnitude', 'concession_negative', 'unverified_single_signal',
+])
+
+export function contractValueBadness(c) {
+  if (!c) return null
+  if (c.value_quarantined) {
+    const reason = c.value_quarantine_reason || ''
+    let statusKey = 'data_quality.status_auto_withheld'
+    if (REVIEWED_REASONS.has(reason)) statusKey = 'data_quality.status_in_review'
+    if (reason === 'confirmed_bogus') statusKey = 'data_quality.status_confirmed_bogus'
+    return {
+      level: 3,
+      levelKey: 'data_quality.level_withheld',
+      explanationKey:
+        REASON_EXPLANATION_KEY[reason] || 'data_quality.explain_withheld_generic',
+      reason,
+      statusKey,
+      confidence: null,
+    }
+  }
+  if (c.value_low_confidence) {
+    return {
+      level: 2,
+      levelKey: 'data_quality.level_low_confidence',
+      explanationKey:
+        REASON_EXPLANATION_KEY[c.value_quality_flag]
+        || 'data_quality.explain_low_confidence_generic',
+      reason: c.value_quality_flag || null,
+      statusKey: null,
+      confidence: typeof c.value_confidence === 'number' ? c.value_confidence : null,
+    }
+  }
+  if (c.value_payable_discrepancy) {
+    return {
+      level: 1,
+      levelKey: 'data_quality.level_caveat',
+      explanationKey: 'data_quality.concern_payable_discrepancy',
+      reason: 'payable_discrepancy',
+      statusKey: null,
+      confidence: typeof c.value_confidence === 'number' ? c.value_confidence : null,
+    }
+  }
+  return null
+}

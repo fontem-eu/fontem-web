@@ -22,6 +22,7 @@ import AboutView from './views/AboutView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
+import ValueReviewView from './views/ValueReviewView.vue'
 import AdminView from './views/AdminView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
 import ContractsDQView from './views/dq/ContractsDQView.vue'
@@ -93,6 +94,7 @@ const ROUTES = [
   // Admin area — auth-guarded (see AUTH_REQUIRED below).
   { path: '/admin', component: AdminView },
   { path: '/admin/entity-resolution', component: EntityResolutionView },
+  { path: '/admin/value-review', component: ValueReviewView },
   { path: '/admin/moderation', component: ModerationView },
 
   // Explore — top-level hub that groups the data-quality, SPARQL,
