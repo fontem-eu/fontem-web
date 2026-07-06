@@ -3,10 +3,10 @@ import { mount } from '@vue/test-utils'
 import MosaicMark from '../../src/components/MosaicMark.vue'
 
 describe('MosaicMark (Ariadne\'s Labyrinth)', () => {
-  it('draws the four labyrinth walls + the gold Ariadne thread', () => {
+  it('draws three labyrinth walls + the gold Ariadne thread', () => {
     const w = mount(MosaicMark)
     expect(w.find('svg').attributes('aria-hidden')).toBe('true')
-    expect(w.findAll('polyline.mm-wall').length).toBe(4)
+    expect(w.findAll('polyline.mm-wall').length).toBe(3)
     const thread = w.find('polyline.mm-thread')
     expect(thread.exists()).toBe(true)
     expect(thread.attributes('stroke')).toBe('#c9a227') // gold thread
@@ -14,8 +14,9 @@ describe('MosaicMark (Ariadne\'s Labyrinth)', () => {
 
   it('beads the thread with tesserae and anchors a gold source at the centre', () => {
     const w = mount(MosaicMark)
-    expect(w.findAll('circle').length).toBe(15) // 14 record-beads + 1 source
-    const source = w.findAll('circle').at(-1)
+    const circles = w.findAll('circle')
+    expect(circles.length).toBe(11) // 10 record-beads + 1 source
+    const source = circles.at(-1)
     expect(source.attributes('cx')).toBe('32')
     expect(source.attributes('cy')).toBe('32')
     expect(source.attributes('fill')).toBe('#c9a227')
