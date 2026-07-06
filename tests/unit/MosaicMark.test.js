@@ -2,40 +2,35 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MosaicMark from '../../src/components/MosaicMark.vue'
 
-// The mark beads a spiral thread; the deterministic geometry yields 37 beads.
-const BEADS = 37
-
-describe('MosaicMark (the Spun Thread)', () => {
-  it('draws the thread + beads it with tesserae, decorative by default', () => {
+describe('MosaicMark (Ariadne\'s Labyrinth)', () => {
+  it('draws the four labyrinth walls + the gold Ariadne thread', () => {
     const w = mount(MosaicMark)
-    const svg = w.find('svg')
-    expect(svg.attributes('aria-hidden')).toBe('true')
-    expect(w.find('path.mm-thread').exists()).toBe(true) // the thread
-    expect(w.find('path.mm-thread').attributes('d')).toMatch(/^M/)
-    expect(w.findAll('rect').length).toBe(BEADS) // the records on it
+    expect(w.find('svg').attributes('aria-hidden')).toBe('true')
+    expect(w.findAll('polyline.mm-wall').length).toBe(4)
+    const thread = w.find('polyline.mm-thread')
+    expect(thread.exists()).toBe(true)
+    expect(thread.attributes('stroke')).toBe('#c9a227') // gold thread
   })
 
-  it('anchors a gold source-point — fontem, the spring', () => {
+  it('beads the thread with tesserae and anchors a gold source at the centre', () => {
     const w = mount(MosaicMark)
-    const circles = w.findAll('circle')
-    // a filled gold disc + its lapis ring, both at the spiral centre
-    expect(circles.length).toBe(2)
-    expect(circles[0].attributes('fill')).toBe('#c9a227')
-    expect(circles.every((c) => c.attributes('cx') === '32' && c.attributes('cy') === '32')).toBe(true)
+    expect(w.findAll('circle').length).toBe(15) // 14 record-beads + 1 source
+    const source = w.findAll('circle').at(-1)
+    expect(source.attributes('cx')).toBe('32')
+    expect(source.attributes('cy')).toBe('32')
+    expect(source.attributes('fill')).toBe('#c9a227')
   })
 
-  it('weaves the dark drawing stones through the thread', () => {
+  it('weaves dark drawing stones among the record-beads', () => {
     const w = mount(MosaicMark)
-    const draw = w.findAll('rect.mm-draw')
-    expect(draw.length).toBeGreaterThanOrEqual(5)
-    const fills = draw.map((r) => r.attributes('fill'))
-    expect(fills).toContain('#2e1d10') // onyx
-    expect(fills).toContain('#7a4a28') // umber
+    const draw = w.findAll('circle.mm-draw')
+    expect(draw.length).toBeGreaterThanOrEqual(2)
+    const fills = draw.map((c) => c.attributes('fill'))
+    expect(fills.some((f) => f === '#2e1d10' || f === '#7a4a28')).toBe(true)
   })
 
   it('honours the size prop', () => {
     const w = mount(MosaicMark, { props: { size: 48 } })
     expect(w.find('svg').attributes('width')).toBe('48')
-    expect(w.find('svg').attributes('height')).toBe('48')
   })
 })

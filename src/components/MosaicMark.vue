@@ -1,82 +1,49 @@
 <script setup>
 /**
- * The Fontem mark — the Spun Thread. A single thread unspools from a
- * gold source-point (fontem, the spring) and spirals outward, beaded
- * with tesserae of the platform's eight categorical chart hues: each
- * bead is a record strung on the line you follow — following the money.
- * Onyx and umber "drawing stones" are woven through (the dark stones
- * draw the figure). The spiral is the spindle-whorl and the spun thread
- * of the Fates — following a thread, and spinning it, are the oldest
- * women's knowledge in Europe. On dark grounds the thread lifts and the
- * drawing stones take a gold-glass rim (the Byzantine trick).
+ * The Fontem mark - Ariadne's Labyrinth. Four lapis walls form a
+ * unicursal maze (one path, no dead ends): the tangle of shell
+ * companies and intermediaries you have to get through. A single gold
+ * thread - Ariadne's, the method a woman gave for escaping the
+ * labyrinth - runs from the source at the centre out to the world,
+ * beaded with tesserae of the platform's eight categorical hues
+ * (records found as you follow the money), onyx and umber drawing
+ * stones woven in. Truth has one route. On dark grounds the walls lift
+ * and the drawing stones take the Byzantine gold-glass rim.
  *
- * The geometry is computed (one source of truth, matching the favicon),
- * decorative by default (aria-hidden); the surrounding button/link
+ * Geometry is baked (one source of truth, matching the favicon);
+ * decorative by default (aria-hidden) - the surrounding button/link
  * carries the accessible name.
  */
-import { computed } from 'vue'
-
 defineProps({
   /** Rendered pixel size. */
   size: { type: [Number, String], default: 28 },
 })
 
-const HUES = ['#2a78d6', '#1baf7a', '#eda100', '#008300', '#4a3aa7', '#e34948', '#e87ba4', '#eb6834']
-const ONYX = '#2e1d10'
-const UMBER = '#7a4a28'
-
-// Archimedean spiral r = rIn + b·θ, sampled finely for the thread stroke;
-// tesserae are dropped along it at roughly equal arc length.
-const CX = 32
-const TURNS = 2.55
-const THETA_MAX = TURNS * 2 * Math.PI
-const R_IN = 3.6
-const R_OUT = 25.5
-const B = (R_OUT - R_IN) / THETA_MAX
-const SPACING = 6
-
-const mark = computed(() => {
-  const pts = []
-  for (let th = 0; th <= THETA_MAX; th += 0.05) {
-    const r = R_IN + B * th
-    pts.push([CX + r * Math.cos(th), CX + r * Math.sin(th), th])
-  }
-  const threadD = pts.reduce(
-    (d, p, i) => d + `${i ? ' L' : 'M'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`, '')
-
-  const beads = []
-  let acc = SPACING
-  let hue = 0
-  let k = 0
-  let prev = null
-  pts.forEach((p) => {
-    if (prev) acc += Math.hypot(p[0] - prev[0], p[1] - prev[1])
-    prev = p
-    if (acc >= SPACING && p[2] > 0.35) {
-      acc = 0
-      const s = 3.2 + (p[2] / THETA_MAX) * 2.4
-      const draw = k % 5 === 2
-      let fill
-      if (draw) {
-        fill = k % 10 === 2 ? ONYX : UMBER
-      } else {
-        fill = HUES[hue % HUES.length]
-        hue += 3
-      }
-      k += 1
-      beads.push({
-        x: +(p[0] - s / 2).toFixed(2),
-        y: +(p[1] - s / 2).toFixed(2),
-        s: +s.toFixed(2),
-        rx: +(s * 0.24).toFixed(2),
-        rot: `rotate(${((p[2] * 180) / Math.PI + 45).toFixed(1)} ${p[0].toFixed(2)} ${p[1].toFixed(2)})`,
-        fill,
-        draw,
-      })
-    }
-  })
-  return { threadD, beads }
-})
+// Unicursal labyrinth walls (polyline point strings) + Ariadne's thread
+// + the tesserae strung along it. Rasterised once; see the favicon.
+const WALLS = [
+  '35.51,20.52 36.31,20.80 37.08,21.13 37.83,21.51 38.55,21.95 39.24,22.43 39.90,22.96 40.51,23.54 41.08,24.16 41.61,24.82 42.09,25.51 42.52,26.23 42.90,26.98 43.23,27.76 43.50,28.56 43.71,29.38 43.86,30.20 43.96,31.04 44.00,31.88 43.98,32.73 43.90,33.57 43.76,34.40 43.56,35.22 43.31,36.02 43.00,36.80 42.63,37.56 42.22,38.30 41.75,39.00 41.23,39.66 40.67,40.29 40.07,40.88 39.43,41.43 38.75,41.92 38.03,42.37 37.29,42.77 36.52,43.12 35.73,43.41 34.92,43.64 34.10,43.82 33.26,43.93 32.42,43.99 31.58,43.99 30.74,43.93 29.90,43.82 29.08,43.64 28.27,43.41 27.48,43.12 26.71,42.77 25.97,42.37 25.25,41.92 24.57,41.43 23.93,40.88 23.33,40.29 22.77,39.66 22.25,39.00 21.78,38.30 21.37,37.56 21.00,36.80 20.69,36.02 20.44,35.22 20.24,34.40 20.10,33.57 20.02,32.73 20.00,31.88 20.04,31.04 20.14,30.20 20.29,29.38 20.50,28.56 20.77,27.76 21.10,26.98 21.48,26.23 21.91,25.51 22.39,24.82 22.92,24.16 23.49,23.54 24.10,22.96 24.76,22.43 25.45,21.95 26.17,21.51 26.92,21.13 27.69,20.80 28.49,20.52',
+  '26.74,49.21 25.54,48.80 24.38,48.31 23.25,47.73 22.17,47.08 21.14,46.35 20.16,45.55 19.23,44.69 18.37,43.76 17.58,42.78 16.86,41.74 16.22,40.65 15.65,39.52 15.16,38.36 14.76,37.16 14.44,35.94 14.20,34.69 14.06,33.44 14.00,32.17 14.03,30.91 14.15,29.65 14.36,28.41 14.66,27.18 15.04,25.97 15.50,24.80 16.05,23.66 16.68,22.56 17.38,21.50 18.15,20.50 18.99,19.56 19.90,18.68 20.86,17.86 21.88,17.11 22.95,16.44 24.06,15.84 25.22,15.33 26.40,14.89 27.62,14.54 28.86,14.28 30.11,14.10 31.37,14.01 32.63,14.01 33.89,14.10 35.14,14.28 36.38,14.54 37.60,14.89 38.78,15.33 39.94,15.84 41.05,16.44 42.12,17.11 43.14,17.86 44.10,18.68 45.01,19.56 45.85,20.50 46.62,21.50 47.32,22.56 47.95,23.66 48.50,24.80 48.96,25.97 49.34,27.18 49.64,28.41 49.85,29.65 49.97,30.91 50.00,32.17 49.94,33.44 49.80,34.69 49.56,35.94 49.24,37.16 48.84,38.36 48.35,39.52 47.78,40.65 47.14,41.74 46.42,42.78 45.63,43.76 44.77,44.69 43.84,45.55 42.86,46.35 41.83,47.08 40.75,47.73 39.62,48.31 38.46,48.80 37.26,49.21',
+  '39.02,9.05 40.61,9.60 42.16,10.26 43.66,11.02 45.11,11.89 46.48,12.86 47.79,13.93 49.02,15.08 50.17,16.32 51.22,17.63 52.18,19.02 53.05,20.46 53.80,21.97 54.45,23.52 54.99,25.12 55.42,26.75 55.73,28.41 55.92,30.08 56.00,31.77 55.96,33.45 55.80,35.13 55.52,36.79 55.12,38.43 54.61,40.04 53.99,41.61 53.27,43.13 52.43,44.59 51.50,45.99 50.47,47.33 49.35,48.59 48.14,49.76 46.85,50.85 45.49,51.85 44.07,52.75 42.58,53.54 41.04,54.23 39.46,54.81 37.84,55.28 36.19,55.63 34.52,55.87 32.84,55.99 31.16,55.99 29.48,55.87 27.81,55.63 26.16,55.28 24.54,54.81 22.96,54.23 21.42,53.54 19.93,52.75 18.51,51.85 17.15,50.85 15.86,49.76 14.65,48.59 13.53,47.33 12.50,45.99 11.57,44.59 10.73,43.13 10.01,41.61 9.39,40.04 8.88,38.43 8.48,36.79 8.20,35.13 8.04,33.45 8.00,31.77 8.08,30.08 8.27,28.41 8.58,26.75 9.01,25.12 9.55,23.52 10.20,21.97 10.95,20.46 11.82,19.02 12.78,17.63 13.83,16.32 14.98,15.08 16.21,13.93 17.52,12.86 18.89,11.89 20.34,11.02 21.84,10.26 23.39,9.60 24.98,9.05',
+  '23.23,60.69 21.24,60.00 19.30,59.18 17.42,58.22 15.62,57.13 13.89,55.92 12.26,54.59 10.72,53.15 9.29,51.60 7.97,49.96 6.77,48.23 5.69,46.42 4.75,44.54 3.93,42.59 3.26,40.60 2.73,38.56 2.34,36.49 2.10,34.40 2.00,32.29 2.05,30.18 2.26,28.09 2.60,26.01 3.10,23.96 3.73,21.95 4.51,19.99 5.42,18.09 6.46,16.26 7.63,14.51 8.92,12.84 10.32,11.27 11.83,9.80 13.43,8.44 15.13,7.19 16.92,6.07 18.77,5.07 20.70,4.21 22.67,3.49 24.70,2.90 26.76,2.46 28.84,2.17 30.95,2.02 33.05,2.02 35.16,2.17 37.24,2.46 39.30,2.90 41.33,3.49 43.30,4.21 45.23,5.07 47.08,6.07 48.87,7.19 50.57,8.44 52.17,9.80 53.68,11.27 55.08,12.84 56.37,14.51 57.54,16.26 58.58,18.09 59.49,19.99 60.27,21.95 60.90,23.96 61.40,26.01 61.74,28.09 61.95,30.18 62.00,32.29 61.90,34.40 61.66,36.49 61.27,38.56 60.74,40.60 60.07,42.59 59.25,44.54 58.31,46.42 57.23,48.23 56.03,49.96 54.71,51.60 53.28,53.15 51.74,54.59 50.11,55.92 48.38,57.13 46.58,58.22 44.70,59.18 42.76,60.00 40.77,60.69',
+]
+const THREAD = '32.00,32.00 32.00,17.00 32.00,17.00 33.57,17.08 35.12,17.33 36.64,17.73 38.10,18.30 39.50,19.01 40.82,19.86 42.04,20.85 43.15,21.96 44.14,23.18 44.99,24.50 45.70,25.90 46.27,27.36 46.67,28.88 46.92,30.43 47.00,32.00 46.92,33.57 46.67,35.12 46.27,36.64 45.70,38.10 44.99,39.50 44.14,40.82 43.15,42.04 42.04,43.15 40.82,44.14 39.50,44.99 38.10,45.70 36.64,46.27 35.12,46.67 33.57,46.92 32.00,47.00 32.00,53.00 32.00,53.00 29.80,52.88 27.63,52.54 25.51,51.97 23.46,51.18 21.50,50.19 19.66,48.99 17.95,47.61 16.39,46.05 15.01,44.34 13.81,42.50 12.82,40.54 12.03,38.49 11.46,36.37 11.12,34.20 11.00,32.00 11.12,29.80 11.46,27.63 12.03,25.51 12.82,23.46 13.81,21.50 15.01,19.66 16.39,17.95 17.95,16.39 19.66,15.01 21.50,13.81 23.46,12.82 25.51,12.03 27.63,11.46 29.80,11.12 32.00,11.00 32.00,5.00 32.00,5.00 34.82,5.15 37.61,5.59 40.34,6.32 42.98,7.33 45.50,8.62 47.87,10.16 50.07,11.94 52.06,13.93 53.84,16.13 55.38,18.50 56.67,21.02 57.68,23.66 58.41,26.39 58.85,29.18 59.00,32.00 58.85,34.82 58.41,37.61 57.68,40.34 56.67,42.98 55.38,45.50 53.84,47.87 52.06,50.07 50.07,52.06 47.87,53.84 45.50,55.38 42.98,56.67 40.34,57.68 37.61,58.41 34.82,58.85 32.00,59.00 32.00,64.00'
+const BEADS = [
+  { x: 32, y: 17, fill: '#2a78d6', draw: false },
+  { x: 44.99, y: 24.5, fill: '#008300', draw: false },
+  { x: 44.99, y: 39.5, fill: '#2e1d10', draw: true },
+  { x: 32, y: 47, fill: '#e87ba4', draw: false },
+  { x: 21.5, y: 50.19, fill: '#1baf7a', draw: false },
+  { x: 12.03, y: 38.49, fill: '#4a3aa7', draw: false },
+  { x: 12.82, y: 23.46, fill: '#7a4a28', draw: true },
+  { x: 23.46, y: 12.82, fill: '#eb6834', draw: false },
+  { x: 34.82, y: 5.15, fill: '#eda100', draw: false },
+  { x: 50.07, y: 11.94, fill: '#e34948', draw: false },
+  { x: 58.41, y: 26.39, fill: '#2e1d10', draw: true },
+  { x: 56.67, y: 42.98, fill: '#2a78d6', draw: false },
+  { x: 45.5, y: 55.38, fill: '#008300', draw: false },
+  { x: 32, y: 64, fill: '#e87ba4', draw: false },
+]
 </script>
 
 <template>
@@ -84,36 +51,35 @@ const mark = computed(() => {
     class="mosaic-mark" :width="size" :height="size" viewBox="0 0 64 64"
     aria-hidden="true" focusable="false"
   >
-    <path
-      class="mm-thread" :d="mark.threadD" fill="none"
-      stroke-width="1.5" stroke-linecap="round" opacity="0.55"
+    <polyline
+      v-for="(w, i) in WALLS" :key="'w' + i" class="mm-wall" :points="w"
+      fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
     />
-    <rect
-      v-for="(t, i) in mark.beads" :key="i"
-      :class="{ 'mm-draw': t.draw }"
-      :x="t.x" :y="t.y" :width="t.s" :height="t.s" :rx="t.rx"
-      :fill="t.fill" :transform="t.rot"
+    <polyline
+      class="mm-thread" :points="THREAD" fill="none" stroke="#c9a227"
+      stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
     />
-    <circle cx="32" cy="32" r="4.6" fill="#c9a227" />
-    <circle class="mm-ring" cx="32" cy="32" r="4.6" fill="none" stroke-width="1.1" />
+    <circle
+      v-for="(b, i) in BEADS" :key="'b' + i" :class="{ 'mm-draw': b.draw }"
+      :cx="b.x" :cy="b.y" r="2.6" :fill="b.fill"
+    />
+    <circle cx="32" cy="32" r="3.4" fill="#c9a227" />
   </svg>
 </template>
 
 <style scoped>
 .mosaic-mark { display: block; }
-/* The thread + source ring are lapis; on dusk they lift so the mark
-   reads on dark chrome. The drawing stones take the Byzantine
-   gold-glass rim in dark, same as the favicon. */
-.mm-thread, .mm-ring { stroke: #1d4e9e; }
+/* Walls are lapis; on dusk they lift so the maze reads on dark chrome.
+   The gold thread + source stay gold in both themes; the drawing stones
+   take the Byzantine gold-glass rim in dark. */
+.mm-wall { stroke: #1d4e9e; }
 .mosaic-mark .mm-draw { stroke: none; }
-:global(html.dark) .mm-thread,
-:global(html.dark) .mm-ring { stroke: #8fb0ea; }
+:global(html.dark) .mm-wall { stroke: #8fb0ea; }
 :global(html.dark) .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.6; }
 @media (prefers-color-scheme: dark) {
-  .mm-thread, .mm-ring { stroke: #8fb0ea; }
+  .mm-wall { stroke: #8fb0ea; }
   .mosaic-mark .mm-draw { stroke: #c9a227; stroke-width: 0.6; }
 }
-:global(html:not(.dark)) .mm-thread,
-:global(html:not(.dark)) .mm-ring { stroke: #1d4e9e; }
+:global(html:not(.dark)) .mm-wall { stroke: #1d4e9e; }
 :global(html:not(.dark)) .mosaic-mark .mm-draw { stroke: none; }
 </style>
