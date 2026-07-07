@@ -138,10 +138,31 @@
     "notes": "Anmerkungen",
     "time_unit": "Zeiteinheit",
     "updated": "Aktualisiert",
-    "value_scale": "Werteskala"
+    "value_scale": "Werteskala",
+    "map_view_of_the_curated_eurostat_datasets": "Kartenansicht der kuratierten Eurostat-Datensätze. Wählen Sie eine Kennzahl, eine NUTS-Ebene und ein Jahr.",
+    "no_datasets_registered_yet": "Noch keine Datensätze registriert — der Statistikspeicher ist online, aber die Seed-Daten wurden nicht geladen. Führen Sie",
+    "to_populate_the_catalog": "aus, um den Katalog zu befüllen.",
+    "pick_a_dataset": "— Datensatz auswählen —",
+    "the_dataset_has": "Der Datensatz hat",
+    "dimension_combinations_largest_slice_is_shown_by_default": "Dimensionskombinationen. Standardmäßig wird der größte Ausschnitt angezeigt.",
+    "backend_hasnt_computed_slice_stats": "Das Backend hat für diesen Datensatz noch keine Ausschnitts-Statistiken berechnet — es wird auf die automatische Skalierung pro Jahr zurückgegriffen.",
+    "unavailable": "(nicht verfügbar)",
+    "suggested": "(vorgeschlagen)",
+    "hidden": "ausgeblendet",
+    "fetching_observations": "Beobachtungen werden abgerufen…",
+    "no_data": "keine Daten",
+    "pause_year_animation": "Jahresanimation pausieren",
+    "play_year_animation": "Jahresanimation abspielen",
+    "year": "Jahr",
+    "looping_enabled": "Endlosschleife aktiviert",
+    "looping_disabled_stops_at_the_last_year": "Endlosschleife deaktiviert — stoppt beim letzten Jahr",
+    "loop": "Schleife"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "In Atlas öffnen →"
+    "open_in_atlas": "In Atlas öffnen →",
+    "atlas_map": "Atlas-Karte",
+    "loading_map_data": "Kartendaten werden geladen…",
+    "no_data": "keine Daten"
   },
   "corr_matrix": {
     "none": "keine",
@@ -150,7 +171,9 @@
     "strong": "stark",
     "inverse": "invers",
     "self": "gleiche Variable",
-    "hint": "Für den genauen Wert eine Zelle berühren oder mit der Maus darüberfahren."
+    "hint": "Für den genauen Wert eine Zelle berühren oder mit der Maus darüberfahren.",
+    "pick_at_least_two_numeric_columns": "Wählen Sie mindestens zwei numerische Spalten zur Korrelation aus.",
+    "pearson_r": "Pearson r"
   },
   "translations": {
     "label": "Übersetzungen",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Auftragsdaten werden geladen...",
     "missing_fields_of_contracts": "Fehlende Felder (% der Aufträge)",
     "ted_contracts": "TED-Aufträge",
-    "total_eur_by_country_top_15": "Summe EUR nach Land (Top 15)"
+    "total_eur_by_country_top_15": "Summe EUR nach Land (Top 15)",
+    "tender_integrity": "Integrität der Ausschreibung",
+    "single_bidder_rate_and_red_flag_indicators": "Einzelbieter-Quote und Warnsignal-Indikatoren gemäß der Methodik des EC Single Market Scoreboard / ECA CRI — ein Warnsignal ist ein Anlass zur Prüfung, kein Beweis für Fehlverhalten.",
+    "red_flags_by_type": "Warnsignale nach Typ",
+    "red_flag_count_distribution": "Verteilung der Warnsignal-Anzahl",
+    "scroll_to_zoom_in_out": "Scrollen zum Ein-/Auszoomen. Balken aggregieren: täglich → wöchentlich → monatlich → jährlich.",
+    "distribution_of_original_currencies": "Verteilung der ursprünglichen Währungen. EUR dominiert, aber viele Verträge in EU-Mitgliedstaaten verwenden die Landeswährung."
   },
   "cookie_consent_banner": {
     "accept": "Akzeptieren",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Die Bekanntmachung veröffentlichte einen Wert von genau null — eine Nichtoffenlegung im Gewand einer Zahl. Wird als nicht offengelegter Wert behandelt.",
     "explain_confirmed_bogus": "Eine Prüfperson hat den veröffentlichten Wert geprüft und als unzuverlässig bestätigt. Für diesen Auftrag liegt kein vertrauenswürdiger Wert vor.",
     "explain_withheld_generic": "Der veröffentlichte Wert hat die Plausibilitätsprüfungen der Plattform nicht bestanden und wurde zurückgehalten.",
-    "explain_low_confidence_generic": "Der Wert wird angezeigt, doch die veröffentlichten Geldfelder sind nur schwach belegt; er ist von den Standardsummen und Ranglisten ausgeschlossen."
+    "explain_low_confidence_generic": "Der Wert wird angezeigt, doch die veröffentlichten Geldfelder sind nur schwach belegt; er ist von den Standardsummen und Ranglisten ausgeschlossen.",
+    "the_eus_official_public_procurement_database_financial_data": ", der offiziellen Datenbank der EU für die öffentliche Auftragsvergabe. Finanzdaten stammen aus",
+    "company_identifiers_and": "(Unternehmenskennungen) und",
+    "financial_statements": "(Jahresabschlüsse).",
+    "this_dashboard_shows_the_current_state": "Dieses Dashboard zeigt den aktuellen Stand des Wissensgraphen. Die Daten werden täglich aus TED geladen und regelmäßig aus GLEIF aktualisiert. Alle Datensätze sind über TED-Bekanntmachungs-IDs und LEI-Nummern auf ihre Quelle zurückverfolgbar."
   },
   "data_quality_hub": {
     "data_freshness": "Datenaktualität",
     "data_quality": "Datenqualität",
     "latest_contract_load": "Letzter Auftragsimport",
-    "loading_overview": "Übersicht wird geladen..."
+    "loading_overview": "Übersicht wird geladen...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Dashboards je Pipeline — analysieren Sie jede ETL im Detail, um Lücken, Trends und Anomalien zu erkennen.",
+    "themes": "Themen"
   },
   "data_view_selector": {
     "data_view": "Datenansicht",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Deduplizierung",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS-Warteschlange — Auflösungsstatus für doppelte Entitäten",
-    "use_the": "Verwenden Sie das"
+    "use_the": "Verwenden Sie das",
+    "reviewed": "Geprüft",
+    "pending": "Ausstehend",
+    "tool_to_review_pending_duplicates": "Werkzeug zur Prüfung ausstehender Duplikate."
   },
   "donate": {
     "backers": "Unterstützer",
@@ -310,7 +348,17 @@
     "remove_mention": "Erwähnung entfernen"
   },
   "entity_nuts_map": {
-    "contracts_count": "Aufträge (Anzahl)"
+    "contracts_count": "Aufträge (Anzahl)",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region": "1 — Makroregion",
+    "level_2_region": "2 — Region",
+    "level_3_small_region": "3 — Kleinregion",
+    "select": "— auswählen —",
+    "loading_map": "Karte wird geladen…",
+    "select_a": "Wählen Sie eine",
+    "above_to_load_the_map": "oben aus, um die Karte zu laden.",
+    "contracts": "Verträge",
+    "no_known_contracts": "keine bekannten Verträge"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Alle gemeldeten Paare wurden aufgelöst.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Zusammenführen — B behalten (A wird entfernt)",
     "no_pairs_pending_review": "Keine Paare zur Prüfung ausstehend.",
     "review_and_decide_on_flagged_candidates": "Gemeldete Kandidaten prüfen und entscheiden",
-    "why_flagged": "Warum gemeldet"
+    "why_flagged": "Warum gemeldet",
+    "reviewer": "Prüfer:",
+    "your_name": "Ihr Name",
+    "pending": "Ausstehend",
+    "rules": "Regeln",
+    "conflict": "Konflikt",
+    "one_or_more_rules_reported_a_hard_conflic": "Eine oder mehrere Regeln haben einen harten Konflikt bei diesem Paar gemeldet (z. B. abweichende LEI / USt-IdNr.). Prüfen Sie sorgfältig, bevor Sie zusammenführen.",
+    "accept_lobbyist_represents_company": "Akzeptieren — Lobbyist vertritt Unternehmen",
+    "accept_company_is_sanctioned": "Akzeptieren — Unternehmen ist sanktioniert",
+    "accept_relationship": "Beziehung akzeptieren",
+    "reject_relationship_is_wrong": "Ablehnen — Beziehung ist falsch"
   },
   "entity_side": {
     "entity_details": "Entitätsdetails"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Unternehmen",
     "connected_to_3": "Verbunden mit (α-3)",
-    "parent_nuts_1": "Übergeordnete NUTS-1"
+    "parent_nuts_1": "Übergeordnete NUTS-1",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region_coming_soon": "1 — Makroregion (in Kürze verfügbar)",
+    "level_2_region_coming_soon": "2 — Region (in Kürze verfügbar)",
+    "level_3_small_region_coming_soon": "3 — Kleinregion (in Kürze verfügbar)",
+    "eg_rus": "z. B. RUS",
+    "eg_de1": "z. B. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Unternehmen nach Land (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Ansicht speichern",
     "search_entity_name": "Entitätsnamen suchen...",
     "set_as_center": "Als Zentrum setzen",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 Mon.",
+    "3_yr": "3 J.",
+    "5_yr": "5 J.",
+    "nodes": "Knoten",
+    "edges": "Kanten",
+    "exit_path_mode": "✕ Pfadmodus verlassen",
+    "find_path_to_2": "Pfad finden zu…",
+    "timeline": "Zeitachse",
+    "timeline_2": "✕ Zeitachse",
+    "saved": "Gespeichert",
+    "depth_2": "Tiefe",
+    "path": "Pfad",
+    "found": "gefunden.",
+    "shortest": "Kürzester:",
+    "hop": "Sprung",
+    "path_2": "Pfad",
+    "contracts": "Verträge",
+    "directors": "Direktoren",
+    "companies": "Unternehmen",
+    "nodes_2": "Knoten",
+    "edges_2": "Kanten",
+    "showing": "Anzeige von",
+    "of": "von",
+    "truncated": "(gekürzt)",
+    "country": "Land:",
+    "value": "Wert:",
+    "collapse": "▼ Einklappen",
+    "expand": "▶ Ausklappen"
   },
   "income": {
     "revenue_amp_net_income": "Umsatz &amp; Nettogewinn"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Verteilung der Lobbykosten",
     "registrations_over_time": "Registrierungen im Zeitverlauf",
     "top_countries": "Top-Länder",
-    "transparency_register_lobbyist_registrat": "Transparenzregister — Lobbyisten-Registrierungen, EP-Zugang, Ausgaben"
+    "transparency_register_lobbyist_registrat": "Transparenzregister — Lobbyisten-Registrierungen, EP-Zugang, Ausgaben",
+    "most_represented_companies": "Am häufigsten vertretene Unternehmen",
+    "registrants_resolved_to_a_known_company": "Registranten, die über den Konsolidierer einem bekannten Unternehmen zugeordnet wurden (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Kategorienmix der Registranten",
+    "top_declared_spenders": "Top-Ausgaben laut Angaben",
+    "by_declared_annual_lobbying_cost_ceiling": "Nach der angegebenen jährlichen Lobbying-Kostenobergrenze."
   },
   "login": {
     "go_to_home": "Zur Startseite",
     "you_already_have_an_active_session": "Sie haben bereits eine aktive Sitzung.",
-    "youre_signed_in": "Sie sind angemeldet"
+    "youre_signed_in": "Sie sind angemeldet",
+    "sign_in_to_fontem": "Bei Fontem anmelden",
+    "sign_in_to_start_creating_data_stories": "Melden Sie sich an, um Datengeschichten zu erstellen, Anliegen zu melden und mit der Community zusammenzuarbeiten.",
+    "signing_in": "Anmeldung läuft...",
+    "sign_in": "Anmelden",
+    "create_account": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgot_your_password": "Passwort vergessen?",
+    "full_name": "Vollständiger Name",
+    "password_min_8_chars": "Passwort (mind. 8 Zeichen)",
+    "confirm_password": "Passwort bestätigen",
+    "passwords_dont_match": "Passwörter stimmen nicht überein",
+    "creating_account": "Konto wird erstellt...",
+    "or_continue_with": "oder fortfahren mit",
+    "sign_in_with_token": "Mit Token anmelden",
+    "paste_a_jwt_token": "JWT-Token einfügen",
+    "go": "Los"
   },
   "mention_autocomplete": {
     "entity_mentions": "Entitätserwähnungen",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Datenqualitäts-Übersicht",
     "listings": "Listings",
     "lobby": "Lobby",
-    "top_alpha_2_codes": "Top Alpha-2-Codes"
+    "top_alpha_2_codes": "Top Alpha-2-Codes",
+    "how_many_entities_appear_in_multiple_data_sources": "Wie viele Einheiten in mehreren Datenquellen erscheinen — ein Maß für die Vernetzung des Graphen.",
+    "companies_still_use_alpha_2_country_codes": "Unternehmen verwenden weiterhin Alpha-2-Ländercodes anstelle von ISO 3166-1 Alpha-2/Alpha-3.",
+    "field_completeness": "Feldvollständigkeit",
+    "coverage_percentage_per_field": "Abdeckungsgrad in Prozent pro Feld. Grün = >90 %, gelb = 50-90 %, rot = <50 %.",
+    "sanctions": "Sanktionen",
+    "entities": "Einheiten",
+    "cohesion_projects": "Kohäsionsprojekte",
+    "projects": "Projekte",
+    "companies": "Unternehmen",
+    "companies_2": "Unternehmen"
   },
   "pocket_button": {
     "name_this_snapshot": "Diesen Snapshot benennen",
@@ -559,7 +683,12 @@
     "clear_ai_history": "KI-Verlauf löschen",
     "delete_account": "Konto löschen",
     "display": "Anzeige",
-    "preferences": "Einstellungen"
+    "preferences": "Einstellungen",
+    "sequential": "Sequenziell",
+    "diverging": "Divergierend",
+    "signing_out": "Abmeldung läuft…",
+    "sign_out_all_devices": "Von allen Geräten abmelden",
+    "sign_in": "Anmelden"
   },
   "privacy": {
     "access": "Zugriff",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Um diese Rechte auszuüben, kontaktieren Sie uns unter",
     "under_the_gdpr_you_have_the_right_to": "Nach DSGVO haben Sie das Recht:",
     "when_you_sign_in_we_collect_and_store": "Bei der Anmeldung erfassen und speichern wir:",
-    "your": "Ihre"
+    "your": "Ihre",
+    "what_fontem_is": "1. Was Fontem ist",
+    "fontem_is_a_civic_transparency_platform": "Fontem ist eine Plattform für zivilgesellschaftliche Transparenz, die Daten zur öffentlichen Auftragsvergabe der EU, Register über Unternehmenseigentum und Fördermittel der Kohäsionspolitik in einem einzigen Wissensgraphen verbindet. Ziel ist es, öffentliche Ausgaben und Unternehmensstrukturen leichter erkundbar und verständlich zu machen.",
+    "data_in_the_knowledge_graph": "2. Daten im Wissensgraphen",
+    "legal_entities": "juristische Personen",
+    "companies_public_authorities_and_organis": "(Unternehmen, Behörden und Organisationen) — keine natürlichen Personen. Wir aggregieren öffentlich verfügbare Daten aus den folgenden Quellen:",
+    "global_lei_foundation_company_registry": "— Unternehmensregisterdaten der Global LEI Foundation",
+    "eu_public_procurement_notices": "— EU-Bekanntmachungen zur öffentlichen Auftragsvergabe und Zuschläge",
+    "eu_cohesion_policy_project_funding": "— Projektförderung im Rahmen der EU-Kohäsionspolitik",
+    "lobbying_organisations_registered_with_eu": "— bei der EU registrierte Lobbyorganisationen",
+    "sanctioned_entities_only": "— ausschließlich sanktionierte Einheiten",
+    "your_account_data": "3. Ihre Kontodaten",
+    "email_address": "E-Mail-Adresse",
+    "name": "Name",
+    "and": ", und",
+    "profile_picture": "Profilbild",
+    "provided_by_google_oauth": "(bereitgestellt durch Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Diese Daten werden ausschließlich zur Authentifizierung und Personalisierung Ihres Erlebnisses verwendet (z. B. zur Anzeige Ihres Namens in der Benutzeroberfläche).",
+    "performance_of_a_contract": "Erfüllung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO) — wir benötigen diese Daten, um Ihnen ein Konto und die von Ihnen genutzten Dienste bereitzustellen.",
+    "you_can_delete_your_account": "Sie können Ihr Konto und alle damit verbundenen Daten jederzeit löschen, indem Sie uns unter der unten angegebenen Adresse kontaktieren.",
+    "ai_assistant": "4. KI-Assistent",
+    "when_you_use_the_ai_assistant": "Wenn Sie den KI-Assistenten nutzen, werden Ihre Konversationen gespeichert, um den Chatverlauf bereitzustellen und Nutzungskennzahlen zu berechnen.",
+    "you_can_delete_your_entire_conversation": "Sie können Ihren gesamten Konversationsverlauf jederzeit über das Profilmenü löschen.",
+    "your_rights": "5. Ihre Rechte",
+    "the_personal_data_we_hold_about_you": "die personenbezogenen Daten, die wir über Sie speichern",
+    "inaccurate_data": "unrichtige Daten",
+    "your_data_right_to_be_forgotten": "Ihrer Daten (\"Recht auf Vergessenwerden\")",
+    "your_data_to_another_service": "Ihrer Daten an einen anderen Dienst",
+    "you_also_have_the_right_to_lodge": "Sie haben zudem das Recht, bei einer Aufsichtsbehörde in Ihrem Wohnsitzland Beschwerde einzulegen.",
+    "cookies": "6. Cookies",
+    "we_only_use_strictly_necessary_cookies": "Wir verwenden ausschließlich unbedingt erforderliche Sitzungs-Cookies zur Authentifizierung. Wir verwenden keine Tracking-Cookies, Werbe-Cookies oder Analyse-Cookies von Drittanbietern.",
+    "changes_to_this_policy": "7. Änderungen dieser Richtlinie",
+    "we_may_update_this_policy": "Wir können diese Richtlinie von Zeit zu Zeit aktualisieren. In diesem Fall überarbeiten wir das Datum der \"letzten Aktualisierung\" oben auf dieser Seite. Die fortgesetzte Nutzung von Fontem nach Änderungen gilt als Annahme der aktualisierten Richtlinie."
   },
   "profile": {
     "avg_net_margin": "Ø Nettomarge",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Suche EU-Unternehmen, Vergabestellen, Lobbyisten und EU-geförderte Projekte. Oder schau, was in deinem Land groß ist.",
-    "public_spending": "Öffentliche Ausgaben"
+    "public_spending": "Öffentliche Ausgaben",
+    "showing_top_in": "Anzeige der Top-Ergebnisse in",
+    "pick_a_country_to_see_top_companies": "Wählen Sie ein Land, um die Top-Unternehmen und -Behörden zu sehen:",
+    "pick_a_country": "— Land auswählen —",
+    "top_companies_in": "Top-Unternehmen in",
+    "by_total_eu_procurement_contract_value_won": "Nach dem gesamten gewonnenen EU-Auftragswert.",
+    "contracts": "Verträge",
+    "loading": "Wird geladen…",
+    "no_companies_found_for": "Keine Unternehmen gefunden für",
+    "top_authorities_in": "Top-Behörden in",
+    "by_total_contract_value_awarded": "Nach dem gesamten vergebenen Auftragswert.",
+    "no_authorities_found_for": "Keine Behörden gefunden für"
   },
   "recently_published_carousel": {
     "carousel_position": "Karussell-Position",
@@ -619,7 +791,12 @@
     "private_only_me": "Privat — nur ich",
     "public_anyone": "Öffentlich — alle",
     "signed_in_users": "Angemeldete Benutzer",
-    "story_title": "Titel der Geschichte"
+    "story_title": "Titel der Geschichte",
+    "saving": "Wird gespeichert...",
+    "save": "Speichern",
+    "insert_widget": "Widget einfügen",
+    "your_pocket_is_empty": "Ihre Merkliste ist leer. Speichern Sie zunächst Visualisierungen über die Schaltfläche „Merken\".",
+    "close": "Schließen"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionierte Entitäten — Personen, Organisationen, Regimeabdeckung und Unternehmenszuordnung",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Strg + Enter zum Ausführen",
     "sparql_11_json_results_envelope": "SPARQL-1.1-JSON-Ergebnishülle:",
     "sparql_endpoint": "SPARQL-Endpunkt",
-    "try_a_query": "Abfrage ausprobieren"
+    "try_a_query": "Abfrage ausprobieren",
+    "no_rows": "Keine Zeilen.",
+    "query_returned_no_projected_columns": "Die Abfrage hat keine projizierten Spalten zurückgegeben.",
+    "example_queries": "Beispielabfragen",
+    "click": "Klicken Sie auf",
+    "use_this_query": "Diese Abfrage verwenden",
+    "drop_query_into_editor_hint": ", um eine in den Editor oben einzufügen. Das Vokabular mischt",
+    "with_the_eu": "mit der EU-",
+    "eprocurement_ontology": "eProcurement-Ontologie",
+    "where_schemaorg_has_gaps": "dort, wo schema.org Lücken aufweist.",
+    "row": "Zeile"
   },
   "story_editor_toolbar": {
     "blockquote": "Blockzitat",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Finanzdaten schließen",
     "history": "Verlauf",
-    "taking_longer_than_expected": "Dauert länger als erwartet…"
+    "taking_longer_than_expected": "Dauert länger als erwartet…",
+    "data_as_of": "Datenstand",
+    "link_copied": "Link kopiert",
+    "copy_link": "Link kopieren",
+    "copied": "Kopiert!",
+    "copy_link_to_this_view": "Link zu dieser Ansicht kopieren",
+    "could_not_load_data_for": "Daten konnten nicht geladen werden für",
+    "this_entity": "diese Einheit",
+    "annual_data": "Jahresdaten",
+    "metric": "Kennzahl",
+    "averages": "Durchschnittswerte",
+    "per_year": "Pro Jahr"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Keine Tickersymbole gefunden für &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialisierte Behörde-Unternehmen-Handelsbeziehungen aus Aufträgen",
-    "trade_edges": "Handelskanten"
+    "trade_edges": "Handelskanten",
+    "counts_derive_live": "Die Anzahlen werden live aus der pro Vertrag ermittelten",
+    "chain_no_materialised_cache": "Kette abgeleitet. Kein materialisierter Cache; die Zahlen spiegeln stets den aktuellen Graphen wider."
   },
   "triples_d_q": {
     "chart_view": "Diagrammansicht",
@@ -730,7 +930,12 @@
     "triple_store": "Triple Store",
     "triples_per_named_graph": "Tripel pro benanntem Graphen",
     "virtuoso_not_configured_in_this_environm": "Virtuoso ist in dieser Umgebung nicht konfiguriert",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF-Bestand im Virtuoso-Speicher — Gesamtzahlen, Anzahlen pro benanntem Graphen sowie die Klassen-/Prädikatstruktur jedes Graphen. Bezogen per SPARQL gegen",
+    "could_not_load_triple_store_stats": "Statistiken des Triple-Stores konnten nicht geladen werden:",
+    "this_environment_has_no_rdf_store": "In dieser Umgebung ist kein RDF-Speicher eingebunden — die Sanktions-, Meldungs- und anderen RDF-Graphen der Phase 2 existieren nur dort, wo",
+    "is_set_on_the_gmr_api_deployment": "im gmr-api-Deployment gesetzt ist. Prüfen Sie das Staging- oder Prod-Dashboard für aktuelle Zahlen.",
+    "assertions_in_this_graph": "Aussagen in diesem Graphen."
   },
   "valuation": {
     "averages": "Mittelwerte"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Korrigierter €-Wert",
     "action_correct": "Korrigieren",
     "action_bogus": "Fehlerhaft"
+  },
+  "issue_create_modal": {
+    "eg_company": "z. B. Unternehmen",
+    "eg_gmr_id_or_ticker": "z. B. gmr_id oder Ticker"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Keine Datenreihe zum Darstellen."
+  },
+  "studio_share_modal": {
+    "share": "Teilen",
+    "investigation": "Untersuchung",
+    "shared_with": "Geteilt mit",
+    "an_investigation": "einer Untersuchung",
+    "its_members_inherit_access_by_role": "— ihre Mitglieder erben den Zugriff je nach Rolle.",
+    "detach": "Trennen",
+    "add_to_an_investigation": "Zu einer Untersuchung hinzufügen",
+    "add_to_an_investigation_2": "Zu einer Untersuchung hinzufügen…",
+    "attach": "Anhängen",
+    "you_need_a_contributor_seat_on_an_investigation": "Sie benötigen einen Mitwirkenden-Platz (oder höher) in einer Untersuchung, um ein Projekt anzuhängen.",
+    "who_has_access": "Wer Zugriff hat",
+    "add_a_person": "Person hinzufügen",
+    "email_address": "E-Mail-Adresse",
+    "email_address_to_share_with": "E-Mail-Adresse zum Teilen",
+    "access_level": "Zugriffsebene",
+    "add": "Hinzufügen",
+    "people_with_direct_access": "Personen mit direktem Zugriff",
+    "no_direct_shares_yet": "Noch keine direkten Freigaben.",
+    "remove": "Entfernen"
+  },
+  "verify_email": {
+    "confirming_your_email": "Ihre E-Mail-Adresse wird bestätigt…",
+    "one_moment": "Einen Moment.",
+    "email_confirmed": "E-Mail-Adresse bestätigt",
+    "your_account_is_verified": "Ihr Konto ist verifiziert. Sie können nun Beiträge veröffentlichen, kommentieren und Themen folgen.",
+    "continue_to_fontem": "Weiter zu Fontem",
+    "the_link_may_have_expired": "Der Link ist möglicherweise abgelaufen oder wurde bereits verwendet. Melden Sie sich an und fordern Sie über das Banner oben eine neue Bestätigungs-E-Mail an.",
+    "go_to_fontem": "Zu Fontem",
+    "couldnt_confirm_your_email": "E-Mail-Adresse konnte nicht bestätigt werden"
+  },
+  "studio_plot": {
+    "studio": "Studio",
+    "plot_name": "Diagrammname",
+    "saved": "Gespeichert ✓",
+    "save_plot": "Diagramm speichern",
+    "pocketed": "Gemerkt ✓",
+    "pocket": "Merken",
+    "step_1_sources": "1 · Quellen",
+    "this_project_has_no_queries_yet": "Dieses Projekt enthält noch keine Abfragen.",
+    "step_2_combine": "2 · Kombinieren",
+    "duckdb_sql_over": "— DuckDB-SQL über",
+    "your_sources": "Ihre Quellen",
+    "runs_in_your_browser": "(läuft in Ihrem Browser)",
+    "combining": "Wird kombiniert…",
+    "run_combine": "Ausführen & kombinieren",
+    "rows": "Zeilen",
+    "step_3_plot": "3 · Diagramm",
+    "chart": "Diagramm",
+    "nuts_column": "NUTS-Spalte",
+    "value": "Wert",
+    "bivariate": "Bivariat",
+    "off": "Aus",
+    "colour_opacity": "Farbe + Deckkraft",
+    "two_colour_matrix": "2-Farben-Matrix",
+    "second_value": "2. Wert",
+    "level": "Ebene",
+    "series": "Datenreihe",
+    "columns": "Spalten",
+    "loading": "Wird geladen…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Öffentliche Auftragsvergabe",
+    "where_eu_public_money_goes": "Wohin öffentliche EU-Gelder fließen — Zuschläge, Wertströme und die Datenqualität hinter jeder Schlagzeile.",
+    "loading_procurement_data": "Vergabedaten werden geladen…",
+    "contracts": "Verträge",
+    "trusted_value": "Verlässlicher Wert",
+    "values_trusted": "Als verlässlich eingestufte Werte",
+    "countries": "Länder",
+    "spend_by_country_confidence_gated": "Ausgaben nach Land (nach Konfidenz gefiltert)",
+    "low_confidence_values_excluded": "Werte mit geringer Konfidenz werden ausgeschlossen — siehe das Datenqualitäts-Panel unten.",
+    "data_quality_values_held_back": "Datenqualität — aus Gesamtsummen zurückgehaltene Werte",
+    "contracts_2": "Verträge",
+    "are_flagged_and_excluded_from_figures": "sind markiert und aus den obigen Zahlen ausgeschlossen.",
+    "corporate_group_rollup": "Konzernaggregation",
+    "coming_soon": "in Kürze verfügbar",
+    "winners_rolled_up_to_parent": "Auftragnehmer werden auf ihre oberste Muttergesellschaft aggregiert — so wird aus „Unternehmen X hat 2 Mio. € gewonnen\" die Aussage „Konzern Y hat 400 Mio. € über 30 Tochtergesellschaften gewonnen\". Verfügbar, sobald die erneute Erfassung des Eigentümergraphen abgeschlossen ist.",
+    "source_and_pipeline": "Quelle & Pipeline",
+    "ted_contracts_pipeline_health": "TED-Verträge — Pipeline-Zustand",
+    "open_operational_ted_dashboard": "Operatives TED-Verträge-Dashboard öffnen →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Unbekanntes Thema",
+    "questions_this_answers": "Fragen, die dies beantwortet",
+    "sources_and_pipeline_health": "Quellen & Pipeline-Zustand",
+    "open_the": "Öffnen Sie das",
+    "dashboard_arrow": "Dashboard →",
+    "no_dedicated_dashboard_yet": "Noch kein eigenes Dashboard.",
+    "deeper_insights": "Tiefere Einblicke",
+    "coming_soon": "in Kürze verfügbar",
+    "no_configuration_yet": "Dieses Thema hat noch keine Konfiguration."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "EU-Kohäsionsförderungen",
+    "grant": "Förderung",
+    "attained": "erhalten",
+    "eu_contribution": "EU-Beitrag",
+    "project": "Projekt",
+    "fund": "Fonds",
+    "programme": "Programm",
+    "eu_euro": "EU €",
+    "period": "Zeitraum"
+  },
+  "forgot_password": {
+    "reset_your_password": "Passwort zurücksetzen",
+    "enter_your_email_send_link": "Geben Sie Ihre E-Mail-Adresse ein, und wir senden Ihnen einen Link zum Festlegen eines neuen Passworts.",
+    "you_example_com": "sie@beispiel.de",
+    "sending": "Wird gesendet…",
+    "send_reset_link": "Link zum Zurücksetzen senden",
+    "check_your_email": "Prüfen Sie Ihre E-Mails",
+    "if_account_exists_sent_link": "Falls ein Konto für diese Adresse existiert, haben wir einen Link zum Zurücksetzen Ihres Passworts gesendet. Er läuft in einer Stunde ab."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlas-Legende",
+    "logarithmic_scale": "logarithmische Skala",
+    "log": "log",
+    "no_data": "keine Daten"
+  },
+  "studio_nav": {
+    "project_actions": "Projektaktionen",
+    "query_actions": "Abfrageaktionen",
+    "plot_actions": "Diagrammaktionen",
+    "rename": "Umbenennen",
+    "delete": "Löschen",
+    "confirm_delete": "Löschen bestätigen",
+    "new_query": "Neue Abfrage",
+    "duplicate": "Duplizieren",
+    "queries": "Abfragen",
+    "plots": "Diagramme",
+    "new_plot": "Neues Diagramm",
+    "new_project": "Neues Projekt"
+  },
+  "studio_home": {
+    "data_studio": "Daten-Studio",
+    "pull_data_with_read_only_queries": "Rufen Sie Daten mit schreibgeschützten Abfragen ab, kombinieren Sie sie in Ihrem Browser und stellen Sie sie grafisch dar.",
+    "new_project": "Neues Projekt",
+    "loading_your_projects": "Ihre Projekte werden geladen…",
+    "no_data_projects_yet": "Noch keine Datenprojekte. Erstellen Sie Ihr erstes Projekt, um zu beginnen.",
+    "query": "Abfrage",
+    "queries": "Abfragen",
+    "plot": "Diagramm",
+    "plots": "Diagramme"
+  },
+  "profile_panel": {
+    "entities": "Einheiten",
+    "show_all": "Alle anzeigen",
+    "contracts": "Verträge",
+    "former": "(ehemals)"
+  },
+  "studio_project": {
+    "studio": "Studio",
+    "project_name": "Projektname",
+    "share": "Teilen",
+    "view_only_access": "Sie haben nur Lesezugriff auf dieses geteilte Projekt.",
+    "queries": "Abfragen",
+    "new_query": "+ Neue Abfrage",
+    "no_queries_yet": "Noch keine Abfragen. Erstellen Sie eine, um mit dem Abrufen von Daten zu beginnen.",
+    "plots": "Diagramme",
+    "new_plot": "+ Neues Diagramm",
+    "no_plots_yet": "Noch keine Diagramme. Kombinieren Sie Ihre Abfragen und stellen Sie das Ergebnis grafisch dar."
+  },
+  "schema_panel": {
+    "schema": "Schema",
+    "loading_schema": "Schema wird geladen…",
+    "schema_unavailable": "Schema nicht verfügbar.",
+    "node_labels": "Knotenbezeichnungen",
+    "no_recorded_properties": "keine erfassten Eigenschaften",
+    "relationships": "Beziehungen",
+    "tables": "Tabellen",
+    "classes": "Klassen",
+    "predicates": "Prädikate"
+  },
+  "reset_password": {
+    "set_a_new_password": "Neues Passwort festlegen",
+    "new_password": "Neues Passwort",
+    "confirm_new_password": "Neues Passwort bestätigen",
+    "passwords_dont_match": "Passwörter stimmen nicht überein.",
+    "saving": "Wird gespeichert…",
+    "set_new_password": "Neues Passwort festlegen",
+    "password_updated": "Passwort aktualisiert",
+    "password_changed_redirecting": "Ihr Passwort wurde geändert und alle Sitzungen wurden abgemeldet. Sie werden zur Anmeldung weitergeleitet…"
+  },
+  "investigation_detail": {
+    "untitled": "Ohne Titel",
+    "data_projects": "Datenprojekte",
+    "no_data_projects": "Noch keine Datenprojekte mit dieser Untersuchung geteilt.",
+    "queries": "Abfragen",
+    "plots": "Diagramme",
+    "detach": "Trennen"
+  },
+  "tree_node": {
+    "untitled": "Ohne Titel",
+    "add_sub_article": "Unterartikel hinzufügen",
+    "remove": "Entfernen"
+  },
+  "contract_detail": {
+    "public_spending": "Öffentliche Ausgaben",
+    "loading": "Wird geladen…",
+    "contract_not_found": "Vertrag nicht gefunden.",
+    "couldnt_load_this_contract": "Dieser Vertrag konnte nicht geladen werden.",
+    "untitled_contract": "(Vertrag ohne Titel)",
+    "red_flag": "Warnsignal",
+    "bidder_s": "Bieter",
+    "risk_indicators_note": "Risikoindikatoren gemäß der Methodik des EC Single Market Scoreboard / ECA CRI — ein Warnsignal ist ein Anlass zur Prüfung, kein Beweis für Fehlverhalten.",
+    "value": "Wert",
+    "procedure": "Verfahren",
+    "award_criteria": "Zuschlagskriterien",
+    "eu_funded": "EU-gefördert",
+    "yes": "Ja",
+    "buyer": "Auftraggeber",
+    "contractor": "Auftragnehmer",
+    "award_date": "Zuschlagsdatum",
+    "view_original_notice_on_ted": "Ursprüngliche Bekanntmachung auf TED ansehen"
+  },
+  "studio_query": {
+    "studio": "Studio",
+    "query_name": "Abfragename",
+    "duplicate": "Duplizieren",
+    "confirm_delete": "Löschen bestätigen",
+    "delete": "Löschen",
+    "query_language": "Abfragesprache",
+    "hide_schema": "Schema ausblenden",
+    "schema": "Schema",
+    "write_your_query_shortcut": "Schreiben Sie Ihre Abfrage — Strg/Cmd+Enter zum Ausführen",
+    "running": "Wird ausgeführt…",
+    "run_query": "Abfrage ausführen",
+    "rows": "Zeilen",
+    "cols": "Spalten",
+    "query_ran_no_rows": "Abfrage erfolgreich ausgeführt — keine Zeilen zurückgegeben.",
+    "showing_first_100_of": "Anzeige der ersten 100 von",
+    "rows_2": "Zeilen.",
+    "loading": "Wird geladen…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Pipeline-Kennzahlen nicht verfügbar.",
+    "no_events_recorded_in_the_window": "Keine Ereignisse im Zeitfenster erfasst."
+  },
+  "studio_map": {
+    "loading_boundaries": "Grenzen werden geladen…",
+    "matched": "zugeordnet",
+    "of": "von",
+    "regions": "Regionen",
+    "wrong_column_level": "— falsche Spalte/Ebene?",
+    "opacity": "Deckkraft"
   }
 }

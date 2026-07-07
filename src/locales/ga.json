@@ -138,10 +138,31 @@
     "notes": "Nótaí",
     "time_unit": "Aonad ama",
     "updated": "Nuashonraithe",
-    "value_scale": "Scála luachanna"
+    "value_scale": "Scála luachanna",
+    "map_view_of_the_curated_eurostat_datasets": "Amharc léarscáile ar na tacair sonraí Eurostat coimeádaithe. Roghnaigh méadrach, leibhéal NUTS, agus bliain.",
+    "no_datasets_registered_yet": "Níl aon tacar sonraí cláraithe fós — tá an stór staitisticí ar líne ach níor luchtaíodh an síol. Rith",
+    "to_populate_the_catalog": "chun an catalóg a líonadh.",
+    "pick_a_dataset": "— roghnaigh tacar sonraí —",
+    "the_dataset_has": "Tá ag an tacar sonraí",
+    "dimension_combinations_largest_slice_is_shown_by_default": "teaglaim toisí. Taispeántar an slis is mó de réir réamhshocraithe.",
+    "backend_hasnt_computed_slice_stats": "Níor ríomh an cúlchóras staitisticí slise don tacar sonraí seo fós — titeann sé ar ais go huathscála in aghaidh na bliana.",
+    "unavailable": "(nach bhfuil ar fáil)",
+    "suggested": "(molta)",
+    "hidden": "folaithe",
+    "fetching_observations": "Breathnuithe á bhfáil…",
+    "no_data": "gan sonraí",
+    "pause_year_animation": "Cuir beochan na bliana ar sos",
+    "play_year_animation": "Seinn beochan na bliana",
+    "year": "Bliain",
+    "looping_enabled": "Lúbadh cumasaithe",
+    "looping_disabled_stops_at_the_last_year": "Lúbadh díchumasaithe — stopann ag an mbliain dheireanach",
+    "loop": "lúb"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Oscail in Atlas →"
+    "open_in_atlas": "Oscail in Atlas →",
+    "atlas_map": "Léarscáil Atlas",
+    "loading_map_data": "Sonraí léarscáile á luchtú…",
+    "no_data": "gan sonraí"
   },
   "corr_matrix": {
     "none": "ar bith",
@@ -150,7 +171,9 @@
     "strong": "láidir",
     "inverse": "inbhéartach",
     "self": "an athróg chéanna",
-    "hint": "Ainligh nó tapáil cill chun an luach beacht a fheiceáil."
+    "hint": "Ainligh nó tapáil cill chun an luach beacht a fheiceáil.",
+    "pick_at_least_two_numeric_columns": "Roghnaigh dhá cholún uimhriúla ar a laghad chun comhghaolú.",
+    "pearson_r": "r Pearson"
   },
   "translations": {
     "label": "Aistriúcháin",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Sonraí conartha á luchtú...",
     "missing_fields_of_contracts": "Réimsí ar iarraidh (% de chonarthaí)",
     "ted_contracts": "Conarthaí TED",
-    "total_eur_by_country_top_15": "EUR iomlán de réir tíre (Top 15)"
+    "total_eur_by_country_top_15": "EUR iomlán de réir tíre (Top 15)",
+    "tender_integrity": "Ionracas Tairisceana",
+    "single_bidder_rate_and_red_flag_indicators": "Ráta tairgeora aonair agus táscairí bratach dhearg de réir mhodheolaíocht Scórchlár an Mhargaidh Aonair an CE / CRI an CIE — is leid é bratach le breathnú, ní cruthúnas ar mhí-iompar é.",
+    "red_flags_by_type": "Bratacha dearga de réir cineáil",
+    "red_flag_count_distribution": "Dáileadh líon na mbratach dearg",
+    "scroll_to_zoom_in_out": "Scrollaigh chun zúmáil isteach/amach. Comhbhailíonn na barraí: laethúil → seachtainiúil → míosúil → bliantúil.",
+    "distribution_of_original_currencies": "Dáileadh na n-airgeadraí bunaidh. Tá an ceannas ag EUR ach úsáideann go leor conarthaí ballstáit an AE airgeadra áitiúil."
   },
   "cookie_consent_banner": {
     "accept": "Glac",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Foilsíodh luach díreach nialasach san fhógra — neamh-nochtadh faoi chulaith uimhreach. Caitear leis mar luach nach nochtadh.",
     "explain_confirmed_bogus": "Scrúdaigh athbhreithneoir daonna an luach foilsithe agus dheimhnigh sé go bhfuil sé neamhiontaofa. Níl aon luach iontaofa ar fáil don chonradh seo.",
     "explain_withheld_generic": "Theip ar an luach foilsithe seiceálacha ciallmhaireachta an ardáin agus coinníodh siar é.",
-    "explain_low_confidence_generic": "Taispeántar an luach, ach níl fianaise láidir taobh thiar de na réimsí airgid foilsithe; fágtar as na suimeanna agus ranguithe réamhshocraithe é."
+    "explain_low_confidence_generic": "Taispeántar an luach, ach níl fianaise láidir taobh thiar de na réimsí airgid foilsithe; fágtar as na suimeanna agus ranguithe réamhshocraithe é.",
+    "the_eus_official_public_procurement_database_financial_data": ", bunachar sonraí soláthair phoiblí oifigiúil an AE. Tagann sonraí airgeadais ó",
+    "company_identifiers_and": "(aitheantóirí cuideachta) agus",
+    "financial_statements": "(ráitis airgeadais).",
+    "this_dashboard_shows_the_current_state": "Taispeánann an deais seo staid reatha an ghraif eolais. Luchtaítear sonraí go laethúil ó TED agus déantar iad a athnuachan go tréimhsiúil ó GLEIF. Tá gach taifead inrianaithe chuig a fhoinse trí aitheantóirí fógra TED agus uimhreacha LEI."
   },
   "data_quality_hub": {
     "data_freshness": "Úire na sonraí",
     "data_quality": "Cáilíocht sonraí",
     "latest_contract_load": "Luchtú conartha is déanaí",
-    "loading_overview": "Forléargas á luchtú..."
+    "loading_overview": "Forléargas á luchtú...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Deaiseanna in aghaidh na píblíne — druileáil isteach i ngach ETL chun bearnaí, treochtaí, agus aimhrialtachtaí a aithint.",
+    "themes": "Téamaí"
   },
   "data_view_selector": {
     "data_view": "Amharc sonraí",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Dí-dhúblú",
     "same_as_queue_duplicate_entity_resolutio": "Scuaine SAME_AS — stádas réiteach aonán dúblach",
-    "use_the": "Úsáid"
+    "use_the": "Úsáid",
+    "reviewed": "Athbhreithnithe",
+    "pending": "Ar feitheamh",
+    "tool_to_review_pending_duplicates": "uirlis chun dúblaigh atá ar feitheamh a athbhreithniú."
   },
   "donate": {
     "backers": "Tacadóirí",
@@ -310,7 +348,17 @@
     "remove_mention": "Bain an lua"
   },
   "entity_nuts_map": {
-    "contracts_count": "Conarthaí (líon)"
+    "contracts_count": "Conarthaí (líon)",
+    "level_0_country": "0 — Tír",
+    "level_1_macro_region": "1 — Macra-réigiún",
+    "level_2_region": "2 — Réigiún",
+    "level_3_small_region": "3 — Réigiún beag",
+    "select": "— roghnaigh —",
+    "loading_map": "Léarscáil á luchtú…",
+    "select_a": "Roghnaigh",
+    "above_to_load_the_map": "thuas chun an léarscáil a luchtú.",
+    "contracts": "conarthaí",
+    "no_known_contracts": "gan conarthaí aitheanta"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Réitíodh gach péire bratach.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Cumaisc — coinnigh B (baintear A)",
     "no_pairs_pending_review": "Níl aon phéirí ag fanacht le hathbhreithniú.",
     "review_and_decide_on_flagged_candidates": "Athbhreithnigh agus déan cinneadh maidir le hiarrthóirí bratacha",
-    "why_flagged": "Cén fáth bratach"
+    "why_flagged": "Cén fáth bratach",
+    "reviewer": "athbhreithneoir:",
+    "your_name": "d'ainm",
+    "pending": "Ar feitheamh",
+    "rules": "rialacha",
+    "conflict": "coinbhleacht",
+    "one_or_more_rules_reported_a_hard_conflic": "Thuairiscigh riail amháin nó níos mó coinbhleacht chrua ar an bpéire seo (m.sh. LEI / VAT neamhréireach). Déan athbhreithniú cúramach roimh chumasc.",
+    "accept_lobbyist_represents_company": "Glac leis — Déanann Stocaire ionadaíocht ar Chuideachta",
+    "accept_company_is_sanctioned": "Glac leis — Tá Cuideachta smachtbhannaithe",
+    "accept_relationship": "Glac leis an ngaol",
+    "reject_relationship_is_wrong": "Diúltaigh — tá an gaol mícheart"
   },
   "entity_side": {
     "entity_details": "Sonraí an aonáin"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Comhlachtaí",
     "connected_to_3": "Nasctha le (α-3)",
-    "parent_nuts_1": "Tuismitheoir NUTS 1"
+    "parent_nuts_1": "Tuismitheoir NUTS 1",
+    "level_0_country": "0 — Tír",
+    "level_1_macro_region_coming_soon": "1 — Macra-réigiún (ag teacht go luath)",
+    "level_2_region_coming_soon": "2 — Réigiún (ag teacht go luath)",
+    "level_3_small_region_coming_soon": "3 — Réigiún beag (ag teacht go luath)",
+    "eg_rus": "m.sh. RUS",
+    "eg_de1": "m.sh. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Comhlachtaí de réir tíre (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Sábháil an amharc",
     "search_entity_name": "Cuardaigh ainm an aonáin...",
     "set_as_center": "Socraigh mar lár",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 mhí",
+    "3_yr": "3 bliana",
+    "5_yr": "5 bliana",
+    "nodes": "Nóid",
+    "edges": "Imill",
+    "exit_path_mode": "✕ Scoir den mhód conaire",
+    "find_path_to_2": "Aimsigh conair chuig…",
+    "timeline": "Amlíne",
+    "timeline_2": "✕ Amlíne",
+    "saved": "Sábháilte",
+    "depth_2": "doimhneacht",
+    "path": "conair",
+    "found": "aimsithe.",
+    "shortest": "Is giorra:",
+    "hop": "léim",
+    "path_2": "Conair",
+    "contracts": "conarthaí",
+    "directors": "stiúrthóirí",
+    "companies": "cuideachtaí",
+    "nodes_2": "nóid",
+    "edges_2": "imill",
+    "showing": "Ag taispeáint",
+    "of": "de",
+    "truncated": "(teasctha)",
+    "country": "Tír:",
+    "value": "Luach:",
+    "collapse": "▼ Laghdaigh",
+    "expand": "▶ Leathnaigh"
   },
   "income": {
     "revenue_amp_net_income": "Ioncam &amp; ioncam glan"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Dáileadh costais brústocaireachta",
     "registrations_over_time": "Cláruithe thar am",
     "top_countries": "Príomhthíortha",
-    "transparency_register_lobbyist_registrat": "Clár trédhearcachta — cláruithe brústocairí, rochtain PE, caiteachas"
+    "transparency_register_lobbyist_registrat": "Clár trédhearcachta — cláruithe brústocairí, rochtain PE, caiteachas",
+    "most_represented_companies": "Na cuideachtaí is mó ionadaíochta",
+    "registrants_resolved_to_a_known_company": "Cláraitheoirí réitithe le cuideachta aitheanta tríd an gcomhdhlúthaitheoir (Nochtadh→FILED_BY→Cuideachta).",
+    "registrant_category_mix": "Meascán catagóirí cláraitheora",
+    "top_declared_spenders": "Na caiteoirí dearbhaithe is airde",
+    "by_declared_annual_lobbying_cost_ceiling": "De réir uasteorainn dhearbhaithe an chostais stocaireachta bhliantúil."
   },
   "login": {
     "go_to_home": "Téigh abhaile",
     "you_already_have_an_active_session": "Tá seisiún gníomhach agat cheana féin.",
-    "youre_signed_in": "Tá tú sínithe isteach"
+    "youre_signed_in": "Tá tú sínithe isteach",
+    "sign_in_to_fontem": "Sínigh isteach i Fontem",
+    "sign_in_to_start_creating_data_stories": "Sínigh isteach chun tosú ar scéalta sonraí a chruthú, saincheisteanna a ardú, agus comhoibriú leis an bpobal.",
+    "signing_in": "Ag síniú isteach...",
+    "sign_in": "Sínigh isteach",
+    "create_account": "Cruthaigh cuntas",
+    "email": "Ríomhphost",
+    "password": "Pasfhocal",
+    "forgot_your_password": "Dearmad déanta ar do phasfhocal?",
+    "full_name": "Ainm iomlán",
+    "password_min_8_chars": "Pasfhocal (íosmhéid 8 gcarachtar)",
+    "confirm_password": "Deimhnigh an pasfhocal",
+    "passwords_dont_match": "Ní mheaitseálann na pasfhocail",
+    "creating_account": "Ag cruthú cuntais...",
+    "or_continue_with": "nó lean ar aghaidh le",
+    "sign_in_with_token": "Sínigh isteach le token",
+    "paste_a_jwt_token": "Greamaigh token JWT",
+    "go": "Téigh"
   },
   "mention_autocomplete": {
     "entity_mentions": "Luaí aonán",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Forléargas cáilíochta sonraí",
     "listings": "Liostuithe",
     "lobby": "Brústocaireacht",
-    "top_alpha_2_codes": "Príomhchóid Alpha-2"
+    "top_alpha_2_codes": "Príomhchóid Alpha-2",
+    "how_many_entities_appear_in_multiple_data_sources": "Cé mhéad eintiteas a fheictear i bhfoinsí sonraí iomadúla — tomhas ar nascacht an ghraif.",
+    "companies_still_use_alpha_2_country_codes": "úsáideann cuideachtaí cóid tíre alfa-2 fós in ionad ISO 3166-1 alfa-2/alfa-3.",
+    "field_completeness": "Iomláine Réimse",
+    "coverage_percentage_per_field": "Céatadán clúdaigh in aghaidh an réimse. Glas = >90%, buí = 50-90%, dearg = <50%.",
+    "sanctions": "Smachtbhannaí",
+    "entities": "eintitis",
+    "cohesion_projects": "Tionscadail Chomhtháthaithe",
+    "projects": "tionscadail",
+    "companies": "Cuideachtaí",
+    "companies_2": "cuideachtaí"
   },
   "pocket_button": {
     "name_this_snapshot": "Ainmnigh an seat seo",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Glan stair na hintleachta saorga",
     "delete_account": "Scrios cuntas",
     "display": "Taispeáin",
-    "preferences": "Sainroghanna"
+    "preferences": "Sainroghanna",
+    "sequential": "Seicheamhach",
+    "diverging": "Éagsúlaitheach",
+    "signing_out": "Ag síniú amach…",
+    "sign_out_all_devices": "Sínigh amach as gach gléas",
+    "sign_in": "Sínigh isteach"
   },
   "privacy": {
     "access": "Rochtain",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Chun aon cheann de na cearta seo a fheidhmiú, déan teagmháil linn ag",
     "under_the_gdpr_you_have_the_right_to": "Faoin GDPR tá an ceart agat:",
     "when_you_sign_in_we_collect_and_store": "Nuair a shíníonn tú isteach, bailímid agus stórálaimid:",
-    "your": "Do"
+    "your": "Do",
+    "what_fontem_is": "1. Cad é Fontem",
+    "fontem_is_a_civic_transparency_platform": "Is ardán trédhearcachta sibhialta é Fontem a nascann sonraí soláthair phoiblí an AE, cláir úinéireachta corparáidí, agus maoiniú beartais comhtháthaithe le chéile i ngraf eolais aonair. Is é an sprioc atá aige ná caiteachas poiblí agus struchtúir chorparáideacha a dhéanamh níos éasca le fiosrú agus le tuiscint.",
+    "data_in_the_knowledge_graph": "2. Sonraí sa ghraf eolais",
+    "legal_entities": "eintitis dhlíthiúla",
+    "companies_public_authorities_and_organis": "(cuideachtaí, údaráis phoiblí, agus eagraíochtaí) — ní daoine nádúrtha iad. Comhbhailímid sonraí atá ar fáil go poiblí ó na foinsí seo a leanas:",
+    "global_lei_foundation_company_registry": "— sonraí chlár cuideachtaí an Global LEI Foundation",
+    "eu_public_procurement_notices": "— fógraí soláthair phoiblí an AE agus dámhachtainí conartha",
+    "eu_cohesion_policy_project_funding": "— maoiniú tionscadal beartais comhtháthaithe an AE",
+    "lobbying_organisations_registered_with_eu": "— eagraíochtaí stocaireachta atá cláraithe leis an AE",
+    "sanctioned_entities_only": "— eintitis smachtbhannaithe amháin",
+    "your_account_data": "3. Sonraí do chuntais",
+    "email_address": "seoladh ríomhphoist",
+    "name": "ainm",
+    "and": ", agus",
+    "profile_picture": "pictiúr próifíle",
+    "provided_by_google_oauth": "(soláthraithe ag Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Úsáidtear na sonraí seo chun fíordheimhnithe agus chun pearsantú do thaithí amháin (m.sh. d'ainm a thaispeáint sa chomhéadan).",
+    "performance_of_a_contract": "comhlíonadh conartha (Airt. 6(1)(b) GDPR) — teastaíonn na sonraí seo uainn chun cuntas agus na seirbhísí a chláraigh tú dóibh a sholáthar duit.",
+    "you_can_delete_your_account": "Is féidir leat do chuntas agus na sonraí gaolmhara go léir a scriosadh am ar bith ach teagmháil a dhéanamh linn ag an seoladh thíos.",
+    "ai_assistant": "4. Cúntóir intleachta saorga",
+    "when_you_use_the_ai_assistant": "Nuair a úsáideann tú an cúntóir intleachta saorga, stóráiltear do chomhráite chun stair chomhrá a sholáthar agus chun méadraigh úsáide a ríomh.",
+    "you_can_delete_your_entire_conversation": "Is féidir leat do stair chomhrá iomlán a scriosadh ón roghchlár próifíle am ar bith.",
+    "your_rights": "5. Do chearta",
+    "the_personal_data_we_hold_about_you": "na sonraí pearsanta atá i seilbh againn fút",
+    "inaccurate_data": "sonraí míchruinne",
+    "your_data_right_to_be_forgotten": "do chuid sonraí (\"an ceart chun go ndéanfaí dearmad ort\")",
+    "your_data_to_another_service": "do chuid sonraí chuig seirbhís eile",
+    "you_also_have_the_right_to_lodge": "Tá sé de cheart agat freisin gearán a dhéanamh le húdarás maoirseachta i do thír chónaithe.",
+    "cookies": "6. Fianáin",
+    "we_only_use_strictly_necessary_cookies": "Ní úsáidimid ach fianáin seisiúin atá fíor-riachtanach chun fíordheimhnithe. Ní úsáidimid fianáin rianaithe, fianáin fógraíochta, ná fianáin anailísíochta tríú páirtí.",
+    "changes_to_this_policy": "7. Athruithe ar an mbeartas seo",
+    "we_may_update_this_policy": "Féadfaimid an beartas seo a nuashonrú ó am go ham. Nuair a dhéanaimid, athróimid an dáta \"nuashonraithe go deireanach\" ag barr an leathanaigh seo. Is ionann leanúint d'úsáid Fontem tar éis athruithe agus glacadh leis an mbeartas nuashonraithe."
   },
   "profile": {
     "avg_net_margin": "Meán-chorrlach glan",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail arna maoiniú ag an AE. Nó féach cad atá mór i do thír.",
-    "public_spending": "Caiteachas poiblí"
+    "public_spending": "Caiteachas poiblí",
+    "showing_top_in": "Ag taispeáint an bharr i",
+    "pick_a_country_to_see_top_companies": "Roghnaigh tír chun na cuideachtaí agus na húdaráis is fearr a fheiceáil:",
+    "pick_a_country": "— roghnaigh tír —",
+    "top_companies_in": "Na cuideachtaí is fearr i",
+    "by_total_eu_procurement_contract_value_won": "De réir iomlán luach conartha soláthair an AE a buadh.",
+    "contracts": "conarthaí",
+    "loading": "Á luchtú…",
+    "no_companies_found_for": "Níor aimsíodh aon chuideachta le haghaidh",
+    "top_authorities_in": "Na húdaráis is fearr i",
+    "by_total_contract_value_awarded": "De réir iomlán luach conartha a dámhadh.",
+    "no_authorities_found_for": "Níor aimsíodh aon údarás le haghaidh"
   },
   "recently_published_carousel": {
     "carousel_position": "Suíomh sa charasal",
@@ -619,7 +791,12 @@
     "private_only_me": "Príobháideach — mise amháin",
     "public_anyone": "Poiblí — duine ar bith",
     "signed_in_users": "Úsáideoirí sínithe isteach",
-    "story_title": "Teideal an scéil"
+    "story_title": "Teideal an scéil",
+    "saving": "Ag sábháil...",
+    "save": "Sábháil",
+    "insert_widget": "Ionsáigh Giuirléid",
+    "your_pocket_is_empty": "Tá do phóca folamh. Sábháil léirshamhluithe leis an gcnaipe Póca ar dtús.",
+    "close": "Dún"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Aonáin smachtbhannacha — daoine, eagraíochtaí, clúdach réimis agus meaitseáil chomhlachtaí",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter chun rith",
     "sparql_11_json_results_envelope": "Clúdach torthaí SPARQL 1.1 JSON:",
     "sparql_endpoint": "Críochphointe SPARQL",
-    "try_a_query": "Bain triail as ceist"
+    "try_a_query": "Bain triail as ceist",
+    "no_rows": "Gan rónna.",
+    "query_returned_no_projected_columns": "Níor aisíoc an t-iarratas aon cholún teilgthe.",
+    "example_queries": "Iarratais shamplacha",
+    "click": "Cliceáil",
+    "use_this_query": "Úsáid an t-iarratas seo",
+    "drop_query_into_editor_hint": "chun ceann a chur san eagarthóir thuas. Meascann an stór focal",
+    "with_the_eu": "le heointeolaíocht",
+    "eprocurement_ontology": "eSoláthair an AE",
+    "where_schemaorg_has_gaps": "sa áit a bhfuil bearnaí ag schema.org.",
+    "row": "ró"
   },
   "story_editor_toolbar": {
     "blockquote": "Bloc-luachan",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Dún airgeadas",
     "history": "Stair",
-    "taking_longer_than_expected": "Á thógáil níos faide ná mar a bhíothas ag súil…"
+    "taking_longer_than_expected": "Á thógáil níos faide ná mar a bhíothas ag súil…",
+    "data_as_of": "sonraí amhail",
+    "link_copied": "Nasc cóipeáilte",
+    "copy_link": "Cóipeáil an nasc",
+    "copied": "Cóipeáilte!",
+    "copy_link_to_this_view": "Cóipeáil nasc chuig an amharc seo",
+    "could_not_load_data_for": "Níorbh fhéidir sonraí a luchtú le haghaidh",
+    "this_entity": "an eintiteas seo",
+    "annual_data": "Sonraí Bliantúla",
+    "metric": "Méadrach",
+    "averages": "Meáin",
+    "per_year": "In Aghaidh na Bliana"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Níor aimsíodh ticéirí do &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Caidrimh thrádála údarás-comhlachtaí ábharaithe ó chonarthaí",
-    "trade_edges": "Imill thrádála"
+    "trade_edges": "Imill thrádála",
+    "counts_derive_live": "Faightear na comhaireamh go beo ón",
+    "chain_no_materialised_cache": "slabhra in aghaidh an chonartha. Gan taisce ábharaithe; léiríonn na huimhreacha an graf reatha i gcónaí."
   },
   "triples_d_q": {
     "chart_view": "Amharc cairte",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Trí-fhocail in aghaidh graif ainmnithe",
     "virtuoso_not_configured_in_this_environm": "Níl Virtuoso cumraithe sa timpeallacht seo",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "Fardal RDF sa stór Virtuoso — iomláin, líonta in aghaidh an ghraif ainmnithe, agus cruth aicme/tuarthóra gach graif. Foinsithe ag SPARQL i gcoinne",
+    "could_not_load_triple_store_stats": "Níorbh fhéidir staitisticí an stóir triarach a luchtú:",
+    "this_environment_has_no_rdf_store": "Níl aon stór RDF sreangaithe suas ag an timpeallacht seo — níl na graif RDF Chéim 2 do smachtbhannaí, comhdúcháin, agus eile ann ach amháin sa áit ina bhfuil",
+    "is_set_on_the_gmr_api_deployment": "socraithe ar imscaradh gmr-api. Seiceáil an deais staging nó prod le haghaidh figiúirí beo.",
+    "assertions_in_this_graph": "dearbhuithe sa ghraf seo."
   },
   "valuation": {
     "averages": "Meánaibh"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Luach € ceartaithe",
     "action_correct": "Ceartaigh",
     "action_bogus": "Bréagach"
+  },
+  "issue_create_modal": {
+    "eg_company": "m.sh. cuideachta",
+    "eg_gmr_id_or_ticker": "m.sh. gmr_id nó ticéad"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Níl aon tsraith le breacadh."
+  },
+  "studio_share_modal": {
+    "share": "Comhroinn",
+    "investigation": "Imscrúdú",
+    "shared_with": "Comhroinnte le",
+    "an_investigation": "imscrúdú",
+    "its_members_inherit_access_by_role": "— faigheann a bhaill rochtain trí oidhreacht de réir róil.",
+    "detach": "Dícheangail",
+    "add_to_an_investigation": "Cuir le himscrúdú",
+    "add_to_an_investigation_2": "Cuir le himscrúdú…",
+    "attach": "Ceangail",
+    "you_need_a_contributor_seat_on_an_investigation": "Teastaíonn suíochán rannpháirtí+ ar imscrúdú uait chun tionscadal a cheangal.",
+    "who_has_access": "Cé aige a bhfuil rochtain",
+    "add_a_person": "Cuir duine leis",
+    "email_address": "Seoladh ríomhphoist",
+    "email_address_to_share_with": "Seoladh ríomhphoist le comhroinnt leis",
+    "access_level": "Leibhéal rochtana",
+    "add": "Cuir leis",
+    "people_with_direct_access": "Daoine a bhfuil rochtain dhíreach acu",
+    "no_direct_shares_yet": "Níl aon chomhroinnt dhíreach ann fós.",
+    "remove": "Bain"
+  },
+  "verify_email": {
+    "confirming_your_email": "Do ríomhphost á dhearbhú…",
+    "one_moment": "Nóiméad amháin.",
+    "email_confirmed": "Ríomhphost dearbhaithe",
+    "your_account_is_verified": "Tá do chuntas fíoraithe. Is féidir leat scéalta a fhoilsiú, tráchtanna a dhéanamh, agus topaicí a leanúint anois.",
+    "continue_to_fontem": "Lean ar aghaidh chuig Fontem",
+    "the_link_may_have_expired": "Seans go bhfuil an nasc imithe as feidhm nó gur baineadh úsáid as cheana. Sínigh isteach agus iarr ríomhphost fíoraithe nua ón mbratach ag an mbarr.",
+    "go_to_fontem": "Téigh chuig Fontem",
+    "couldnt_confirm_your_email": "Níorbh fhéidir do ríomhphost a dhearbhú"
+  },
+  "studio_plot": {
+    "studio": "Stiúideo",
+    "plot_name": "Ainm an bhreactha",
+    "saved": "Sábháilte ✓",
+    "save_plot": "Sábháil an breacadh",
+    "pocketed": "Curtha i bpóca ✓",
+    "pocket": "Póca",
+    "step_1_sources": "1 · Foinsí",
+    "this_project_has_no_queries_yet": "Níl aon iarratas ag an tionscadal seo fós.",
+    "step_2_combine": "2 · Comhcheangail",
+    "duckdb_sql_over": "— DuckDB SQL thar",
+    "your_sources": "do chuid foinsí",
+    "runs_in_your_browser": "(ritheann i do bhrabhsálaí)",
+    "combining": "Ag comhcheangal…",
+    "run_combine": "Rith & comhcheangail",
+    "rows": "rónna",
+    "step_3_plot": "3 · Breacadh",
+    "chart": "Cairt",
+    "nuts_column": "Colún NUTS",
+    "value": "Luach",
+    "bivariate": "Défhoinseach",
+    "off": "As",
+    "colour_opacity": "Dath + teimhneacht",
+    "two_colour_matrix": "Maitrís 2-dhath",
+    "second_value": "2ú luach",
+    "level": "Leibhéal",
+    "series": "Sraith",
+    "columns": "Colúin",
+    "loading": "Á luchtú…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Soláthar Poiblí",
+    "where_eu_public_money_goes": "Cá dtéann airgead poiblí an AE — dámhachtainí conartha, sreabha luacha, agus an cháilíocht sonraí taobh thiar de gach figiúr ceannlíne.",
+    "loading_procurement_data": "Sonraí soláthair á luchtú…",
+    "contracts": "Conarthaí",
+    "trusted_value": "Luach iontaofa",
+    "values_trusted": "Luachanna iontaofa",
+    "countries": "Tíortha",
+    "spend_by_country_confidence_gated": "Caiteachas de réir tíre (geata muiníne)",
+    "low_confidence_values_excluded": "Fágtar luachanna muiníne ísle as an áireamh — féach an painéal cáilíochta sonraí thíos.",
+    "data_quality_values_held_back": "Cáilíocht sonraí — luachanna coinnithe siar ó iomláin",
+    "contracts_2": "conarthaí",
+    "are_flagged_and_excluded_from_figures": "bratacha orthu agus fágtar as na figiúirí thuas iad.",
+    "corporate_group_rollup": "Rolladh suas grúpa corparáideach",
+    "coming_soon": "ag teacht go luath",
+    "winners_rolled_up_to_parent": "Buaiteoirí rollta suas chuig a máthairchuideachta deiridh — mar sin déantar \"Bhuaigh Cuideachta X €2M\" as \"Bhuaigh Grúpa Y €400M thar 30 fochuideachta\". Tagann sé nuair a thagann athionghabháil an ghraif úinéireachta.",
+    "source_and_pipeline": "Foinse & píblíne",
+    "ted_contracts_pipeline_health": "Conarthaí TED — sláinte na píblíne",
+    "open_operational_ted_dashboard": "Oscail deais oibríochtúil Conarthaí TED →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Téama anaithnid",
+    "questions_this_answers": "Ceisteanna a fhreagraíonn sé seo",
+    "sources_and_pipeline_health": "Foinsí & sláinte na píblíne",
+    "open_the": "Oscail an",
+    "dashboard_arrow": "deais →",
+    "no_dedicated_dashboard_yet": "Níl aon deais tiomnaithe ann fós.",
+    "deeper_insights": "Léargais níos doimhne",
+    "coming_soon": "ag teacht go luath",
+    "no_configuration_yet": "Níl aon chumraíocht ag an téama seo fós."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "Deontais Chomhtháthaithe an AE",
+    "grant": "deontas",
+    "attained": "bainte amach",
+    "eu_contribution": "Ranníocaíocht an AE",
+    "project": "Tionscadal",
+    "fund": "Ciste",
+    "programme": "Clár",
+    "eu_euro": "AE €",
+    "period": "Tréimhse"
+  },
+  "forgot_password": {
+    "reset_your_password": "Athshocraigh do phasfhocal",
+    "enter_your_email_send_link": "Cuir isteach do ríomhphost agus seolfaimid nasc chugat chun pasfhocal nua a shocrú.",
+    "you_example_com": "tusa@sampla.com",
+    "sending": "Ag seoladh…",
+    "send_reset_link": "Seol nasc athshocraithe",
+    "check_your_email": "Seiceáil do ríomhphost",
+    "if_account_exists_sent_link": "Má tá cuntas ann don seoladh sin, sheolamar nasc chun do phasfhocal a athshocrú. Rachaidh sé as feidhm i gceann uair an chloig."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Eochair Atlas",
+    "logarithmic_scale": "scála logartamach",
+    "log": "log",
+    "no_data": "gan sonraí"
+  },
+  "studio_nav": {
+    "project_actions": "Gníomhartha tionscadail",
+    "query_actions": "Gníomhartha iarratais",
+    "plot_actions": "Gníomhartha breactha",
+    "rename": "Athainmnigh",
+    "delete": "Scrios",
+    "confirm_delete": "Deimhnigh scriosadh",
+    "new_query": "Iarratas nua",
+    "duplicate": "Dúblaigh",
+    "queries": "Iarratais",
+    "plots": "Breacthaí",
+    "new_plot": "Breacadh nua",
+    "new_project": "Tionscadal nua"
+  },
+  "studio_home": {
+    "data_studio": "Stiúideo Sonraí",
+    "pull_data_with_read_only_queries": "Tarraing sonraí le hiarratais inléite amháin, comhcheangail i do bhrabhsálaí iad, agus cairtigh iad.",
+    "new_project": "Tionscadal nua",
+    "loading_your_projects": "Do thionscadail á luchtú…",
+    "no_data_projects_yet": "Níl aon tionscadal sonraí ann fós. Cruthaigh do chéad cheann chun tosú.",
+    "query": "iarratas",
+    "queries": "iarratais",
+    "plot": "breacadh",
+    "plots": "breacthaí"
+  },
+  "profile_panel": {
+    "entities": "eintitis",
+    "show_all": "Taispeáin gach ceann",
+    "contracts": "conarthaí",
+    "former": "(iar)"
+  },
+  "studio_project": {
+    "studio": "Stiúideo",
+    "project_name": "Ainm an tionscadail",
+    "share": "Comhroinn",
+    "view_only_access": "Tá rochtain amhairc amháin agat ar an tionscadal comhroinnte seo.",
+    "queries": "Iarratais",
+    "new_query": "+ Iarratas nua",
+    "no_queries_yet": "Níl aon iarratas ann fós. Cruthaigh ceann chun tosú ar shonraí a tharraingt.",
+    "plots": "Breacthaí",
+    "new_plot": "+ Breacadh nua",
+    "no_plots_yet": "Níl aon bhreacadh ann fós. Comhcheangail d'iarratais agus cairtigh an toradh."
+  },
+  "schema_panel": {
+    "schema": "Scéimre",
+    "loading_schema": "Scéimre á luchtú…",
+    "schema_unavailable": "Scéimre nach bhfuil ar fáil.",
+    "node_labels": "Lipéid nóid",
+    "no_recorded_properties": "gan airíonna taifeadta",
+    "relationships": "Gaolta",
+    "tables": "Táblaí",
+    "classes": "Aicmí",
+    "predicates": "Tuarthóirí"
+  },
+  "reset_password": {
+    "set_a_new_password": "Socraigh pasfhocal nua",
+    "new_password": "Pasfhocal nua",
+    "confirm_new_password": "Deimhnigh an pasfhocal nua",
+    "passwords_dont_match": "Ní mheaitseálann na pasfhocail.",
+    "saving": "Ag sábháil…",
+    "set_new_password": "Socraigh pasfhocal nua",
+    "password_updated": "Pasfhocal nuashonraithe",
+    "password_changed_redirecting": "Athraíodh do phasfhocal agus síníodh amach as gach seisiún. Á d'atreorú chuig síniú isteach…"
+  },
+  "investigation_detail": {
+    "untitled": "Gan teideal",
+    "data_projects": "Tionscadail sonraí",
+    "no_data_projects": "Níl aon tionscadal sonraí comhroinnte leis an imscrúdú seo fós.",
+    "queries": "iarratais",
+    "plots": "breacthaí",
+    "detach": "Dícheangail"
+  },
+  "tree_node": {
+    "untitled": "Gan teideal",
+    "add_sub_article": "Cuir fo-alt leis",
+    "remove": "Bain"
+  },
+  "contract_detail": {
+    "public_spending": "Caiteachas poiblí",
+    "loading": "Á luchtú…",
+    "contract_not_found": "Conradh gan aimsiú.",
+    "couldnt_load_this_contract": "Níorbh fhéidir an conradh seo a luchtú.",
+    "untitled_contract": "(conradh gan teideal)",
+    "red_flag": "bratach dhearg",
+    "bidder_s": "tairgeoir(í)",
+    "risk_indicators_note": "Táscairí riosca de réir mhodheolaíocht Scórchlár an Mhargaidh Aonair an CE / CRI an CIE — is leid é bratach le breathnú, ní cruthúnas ar mhí-iompar é.",
+    "value": "Luach",
+    "procedure": "Nós imeachta",
+    "award_criteria": "Critéir dhámhachtana",
+    "eu_funded": "Maoinithe ag an AE",
+    "yes": "Tá",
+    "buyer": "Ceannaitheoir",
+    "contractor": "Conraitheoir",
+    "award_date": "Dáta dámhachtana",
+    "view_original_notice_on_ted": "Féach an fógra bunaidh ar TED"
+  },
+  "studio_query": {
+    "studio": "Stiúideo",
+    "query_name": "Ainm an iarratais",
+    "duplicate": "Dúblaigh",
+    "confirm_delete": "Deimhnigh scriosadh",
+    "delete": "Scrios",
+    "query_language": "Teanga iarratais",
+    "hide_schema": "Folaigh an scéimre",
+    "schema": "Scéimre",
+    "write_your_query_shortcut": "Scríobh d'iarratas — Ctrl/Cmd+Enter chun rith",
+    "running": "Ag rith…",
+    "run_query": "Rith an t-iarratas",
+    "rows": "rónna",
+    "cols": "colúin",
+    "query_ran_no_rows": "Rith an t-iarratas go rathúil — níor aisíocadh aon ró.",
+    "showing_first_100_of": "Ag taispeáint an chéad 100 as",
+    "rows_2": "rónna.",
+    "loading": "Á luchtú…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Méadraigh phíblíne nach bhfuil ar fáil.",
+    "no_events_recorded_in_the_window": "Níor taifeadadh aon imeacht san fhuinneog."
+  },
+  "studio_map": {
+    "loading_boundaries": "Teorainneacha á luchtú…",
+    "matched": "meaitseáilte",
+    "of": "de",
+    "regions": "réigiúin",
+    "wrong_column_level": "— colún/leibhéal mícheart?",
+    "opacity": "teimhneacht"
   }
 }

@@ -138,10 +138,31 @@
     "notes": "Σημειώσεις",
     "time_unit": "Μονάδα χρόνου",
     "updated": "Ενημερώθηκε",
-    "value_scale": "Κλίμακα αξίας"
+    "value_scale": "Κλίμακα αξίας",
+    "map_view_of_the_curated_eurostat_datasets": "Προβολή χάρτη των επιμελημένων συνόλων δεδομένων Eurostat. Επιλέξτε μια μετρική, ένα επίπεδο NUTS και ένα έτος.",
+    "no_datasets_registered_yet": "Δεν έχουν καταχωριστεί ακόμη σύνολα δεδομένων — ο χώρος αποθήκευσης στατιστικών είναι σε λειτουργία, αλλά τα αρχικά δεδομένα δεν έχουν φορτωθεί. Εκτελέστε",
+    "to_populate_the_catalog": "για να συμπληρώσετε τον κατάλογο.",
+    "pick_a_dataset": "— επιλέξτε ένα σύνολο δεδομένων —",
+    "the_dataset_has": "Το σύνολο δεδομένων έχει",
+    "dimension_combinations_largest_slice_is_shown_by_default": "συνδυασμούς διαστάσεων. Η μεγαλύτερη φέτα εμφανίζεται από προεπιλογή.",
+    "backend_hasnt_computed_slice_stats": "Το backend δεν έχει υπολογίσει ακόμη στατιστικά φέτας για αυτό το σύνολο δεδομένων — γίνεται επιστροφή σε αυτόματη κλιμάκωση ανά έτος.",
+    "unavailable": "(μη διαθέσιμο)",
+    "suggested": "(προτεινόμενο)",
+    "hidden": "κρυφό",
+    "fetching_observations": "Ανάκτηση παρατηρήσεων…",
+    "no_data": "δεν υπάρχουν δεδομένα",
+    "pause_year_animation": "Παύση κινούμενης εικόνας ετών",
+    "play_year_animation": "Αναπαραγωγή κινούμενης εικόνας ετών",
+    "year": "Έτος",
+    "looping_enabled": "Επανάληψη ενεργοποιημένη",
+    "looping_disabled_stops_at_the_last_year": "Επανάληψη απενεργοποιημένη — σταματά στο τελευταίο έτος",
+    "loop": "επανάληψη"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Άνοιγμα στον Άτλαντα →"
+    "open_in_atlas": "Άνοιγμα στον Άτλαντα →",
+    "atlas_map": "Χάρτης Atlas",
+    "loading_map_data": "Φόρτωση δεδομένων χάρτη…",
+    "no_data": "δεν υπάρχουν δεδομένα"
   },
   "corr_matrix": {
     "none": "καμία",
@@ -150,7 +171,9 @@
     "strong": "ισχυρή",
     "inverse": "αντίστροφη",
     "self": "ίδια μεταβλητή",
-    "hint": "Περάστε τον δείκτη ή αγγίξτε ένα κελί για την ακριβή τιμή."
+    "hint": "Περάστε τον δείκτη ή αγγίξτε ένα κελί για την ακριβή τιμή.",
+    "pick_at_least_two_numeric_columns": "Επιλέξτε τουλάχιστον δύο αριθμητικές στήλες για συσχέτιση.",
+    "pearson_r": "Pearson r"
   },
   "translations": {
     "label": "Μεταφράσεις",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Φόρτωση δεδομένων σύμβασης...",
     "missing_fields_of_contracts": "Πεδία που λείπουν (% συμβάσεων)",
     "ted_contracts": "Συμβάσεις TED",
-    "total_eur_by_country_top_15": "Σύνολο EUR ανά χώρα (Top 15)"
+    "total_eur_by_country_top_15": "Σύνολο EUR ανά χώρα (Top 15)",
+    "tender_integrity": "Ακεραιότητα Διαγωνισμών",
+    "single_bidder_rate_and_red_flag_indicators": "Ποσοστό μοναδικού προσφέροντος και δείκτες προειδοποιητικής σήμανσης σύμφωνα με τη μεθοδολογία EC Single Market Scoreboard / ECA CRI — μια σήμανση είναι μια προτροπή για διερεύνηση, όχι απόδειξη παρανομίας.",
+    "red_flags_by_type": "Προειδοποιητικές σημάνσεις ανά τύπο",
+    "red_flag_count_distribution": "Κατανομή πλήθους προειδοποιητικών σημάνσεων",
+    "scroll_to_zoom_in_out": "Κάντε κύλιση για μεγέθυνση/σμίκρυνση. Οι ράβδοι συγκεντρώνουν: ημερήσια → εβδομαδιαία → μηνιαία → ετήσια.",
+    "distribution_of_original_currencies": "Κατανομή των αρχικών νομισμάτων. Το EUR κυριαρχεί, αλλά πολλές συμβάσεις κρατών μελών της ΕΕ χρησιμοποιούν τοπικό νόμισμα."
   },
   "cookie_consent_banner": {
     "accept": "Αποδοχή",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Η γνωστοποίηση δημοσίευσε αξία ακριβώς μηδέν — μη γνωστοποίηση μεταμφιεσμένη σε αριθμό. Αντιμετωπίζεται ως μη γνωστοποιημένη αξία.",
     "explain_confirmed_bogus": "Ένας ανθρώπινος ελεγκτής εξέτασε τη δημοσιευμένη αξία και επιβεβαίωσε ότι είναι αναξιόπιστη. Δεν υπάρχει αξιόπιστη αξία για αυτήν τη σύμβαση.",
     "explain_withheld_generic": "Η δημοσιευμένη αξία απέτυχε στους ελέγχους ευλογοφάνειας της πλατφόρμας και αποκρύφθηκε.",
-    "explain_low_confidence_generic": "Η αξία εμφανίζεται, αλλά τα δημοσιευμένα χρηματικά πεδία είναι ασθενώς τεκμηριωμένα· εξαιρείται από τα προεπιλεγμένα σύνολα και τις κατατάξεις."
+    "explain_low_confidence_generic": "Η αξία εμφανίζεται, αλλά τα δημοσιευμένα χρηματικά πεδία είναι ασθενώς τεκμηριωμένα· εξαιρείται από τα προεπιλεγμένα σύνολα και τις κατατάξεις.",
+    "the_eus_official_public_procurement_database_financial_data": ", η επίσημη βάση δεδομένων δημόσιων συμβάσεων της ΕΕ. Τα χρηματοοικονομικά δεδομένα προέρχονται από",
+    "company_identifiers_and": "(αναγνωριστικά εταιρειών) και",
+    "financial_statements": "(χρηματοοικονομικές καταστάσεις).",
+    "this_dashboard_shows_the_current_state": "Αυτός ο πίνακας ελέγχου εμφανίζει την τρέχουσα κατάσταση του γράφου γνώσης. Τα δεδομένα φορτώνονται καθημερινά από το TED και ανανεώνονται περιοδικά από το GLEIF. Όλες οι εγγραφές είναι ιχνηλάσιμες στην πηγή τους μέσω των αναγνωριστικών προκηρύξεων TED και των αριθμών LEI."
   },
   "data_quality_hub": {
     "data_freshness": "Φρεσκάδα δεδομένων",
     "data_quality": "Ποιότητα δεδομένων",
     "latest_contract_load": "Τελευταία φόρτωση συμβάσεων",
-    "loading_overview": "Φόρτωση επισκόπησης..."
+    "loading_overview": "Φόρτωση επισκόπησης...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Πίνακες ελέγχου ανά ροή — εμβαθύνετε σε κάθε ETL για να εντοπίσετε κενά, τάσεις και ανωμαλίες.",
+    "themes": "Θέματα"
   },
   "data_view_selector": {
     "data_view": "Προβολή δεδομένων",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Απαλοιφή διπλοτύπων",
     "same_as_queue_duplicate_entity_resolutio": "Ουρά SAME_AS — κατάσταση επίλυσης διπλών οντοτήτων",
-    "use_the": "Χρησιμοποιήστε το"
+    "use_the": "Χρησιμοποιήστε το",
+    "reviewed": "Αξιολογήθηκε",
+    "pending": "Σε εκκρεμότητα",
+    "tool_to_review_pending_duplicates": "εργαλείο για την αξιολόγηση εκκρεμών διπλότυπων."
   },
   "donate": {
     "backers": "Υποστηρικτές",
@@ -310,7 +348,17 @@
     "remove_mention": "Αφαίρεση αναφοράς"
   },
   "entity_nuts_map": {
-    "contracts_count": "Συμβάσεις (πλήθος)"
+    "contracts_count": "Συμβάσεις (πλήθος)",
+    "level_0_country": "0 — Χώρα",
+    "level_1_macro_region": "1 — Μακρο-περιφέρεια",
+    "level_2_region": "2 — Περιφέρεια",
+    "level_3_small_region": "3 — Μικρή περιφέρεια",
+    "select": "— επιλέξτε —",
+    "loading_map": "Φόρτωση χάρτη…",
+    "select_a": "Επιλέξτε",
+    "above_to_load_the_map": "παραπάνω για να φορτώσετε τον χάρτη.",
+    "contracts": "συμβάσεις",
+    "no_known_contracts": "καμία γνωστή σύμβαση"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Όλα τα επισημασμένα ζεύγη έχουν επιλυθεί.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Συγχώνευση — κρατήστε Β (το Α αφαιρείται)",
     "no_pairs_pending_review": "Δεν εκκρεμούν ζεύγη προς έλεγχο.",
     "review_and_decide_on_flagged_candidates": "Έλεγχος και απόφαση για επισημασμένους υποψηφίους",
-    "why_flagged": "Γιατί επισημάνθηκε"
+    "why_flagged": "Γιατί επισημάνθηκε",
+    "reviewer": "αξιολογητής:",
+    "your_name": "το όνομά σας",
+    "pending": "Σε εκκρεμότητα",
+    "rules": "κανόνες",
+    "conflict": "σύγκρουση",
+    "one_or_more_rules_reported_a_hard_conflic": "Ένας ή περισσότεροι κανόνες ανέφεραν ισχυρή σύγκρουση σε αυτό το ζεύγος (π.χ. αναντιστοιχία LEI / ΑΦΜ). Ελέγξτε προσεκτικά πριν από τη συγχώνευση.",
+    "accept_lobbyist_represents_company": "Αποδοχή — Ο lobbyist εκπροσωπεί την Εταιρεία",
+    "accept_company_is_sanctioned": "Αποδοχή — Η Εταιρεία είναι κυρωμένη",
+    "accept_relationship": "Αποδοχή σχέσης",
+    "reject_relationship_is_wrong": "Απόρριψη — η σχέση είναι εσφαλμένη"
   },
   "entity_side": {
     "entity_details": "Λεπτομέρειες οντότητας"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Εταιρείες",
     "connected_to_3": "Συνδεδεμένο με (α-3)",
-    "parent_nuts_1": "Γονικό NUTS 1"
+    "parent_nuts_1": "Γονικό NUTS 1",
+    "level_0_country": "0 — Χώρα",
+    "level_1_macro_region_coming_soon": "1 — Μακρο-περιφέρεια (προσεχώς)",
+    "level_2_region_coming_soon": "2 — Περιφέρεια (προσεχώς)",
+    "level_3_small_region_coming_soon": "3 — Μικρή περιφέρεια (προσεχώς)",
+    "eg_rus": "π.χ. RUS",
+    "eg_de1": "π.χ. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Εταιρείες ανά χώρα (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Αποθήκευση προβολής",
     "search_entity_name": "Αναζήτηση ονόματος οντότητας...",
     "set_as_center": "Ορισμός ως κέντρου",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 μήνες",
+    "3_yr": "3 έτη",
+    "5_yr": "5 έτη",
+    "nodes": "Κόμβοι",
+    "edges": "Ακμές",
+    "exit_path_mode": "✕ Έξοδος από λειτουργία διαδρομής",
+    "find_path_to_2": "Εύρεση διαδρομής προς…",
+    "timeline": "Χρονολόγιο",
+    "timeline_2": "✕ Χρονολόγιο",
+    "saved": "Αποθηκεύτηκε",
+    "depth_2": "βάθος",
+    "path": "διαδρομή",
+    "found": "βρέθηκε.",
+    "shortest": "Συντομότερη:",
+    "hop": "άλμα",
+    "path_2": "Διαδρομή",
+    "contracts": "συμβάσεις",
+    "directors": "διευθυντές",
+    "companies": "εταιρείες",
+    "nodes_2": "κόμβοι",
+    "edges_2": "ακμές",
+    "showing": "Εμφάνιση",
+    "of": "από",
+    "truncated": "(περικομμένο)",
+    "country": "Χώρα:",
+    "value": "Αξία:",
+    "collapse": "▼ Σύμπτυξη",
+    "expand": "▶ Ανάπτυξη"
   },
   "income": {
     "revenue_amp_net_income": "Έσοδα &amp; καθαρό εισόδημα"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Κατανομή κόστους λόμπι",
     "registrations_over_time": "Εγγραφές στο χρόνο",
     "top_countries": "Κορυφαίες χώρες",
-    "transparency_register_lobbyist_registrat": "Μητρώο διαφάνειας — εγγραφές λομπίστες, πρόσβαση στο ΕΚ, δαπάνες"
+    "transparency_register_lobbyist_registrat": "Μητρώο διαφάνειας — εγγραφές λομπίστες, πρόσβαση στο ΕΚ, δαπάνες",
+    "most_represented_companies": "Εταιρείες με τη μεγαλύτερη εκπροσώπηση",
+    "registrants_resolved_to_a_known_company": "Εγγεγραμμένοι που αντιστοιχίστηκαν σε γνωστή εταιρεία μέσω του consolidator (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Σύνθεση κατηγοριών εγγεγραμμένων",
+    "top_declared_spenders": "Κορυφαίοι δηλωμένοι δαπανητές",
+    "by_declared_annual_lobbying_cost_ceiling": "Βάσει του δηλωμένου ετήσιου ανώτατου ορίου κόστους άσκησης πίεσης."
   },
   "login": {
     "go_to_home": "Στην αρχική",
     "you_already_have_an_active_session": "Έχετε ήδη ενεργή συνεδρία.",
-    "youre_signed_in": "Έχετε συνδεθεί"
+    "youre_signed_in": "Έχετε συνδεθεί",
+    "sign_in_to_fontem": "Σύνδεση στο Fontem",
+    "sign_in_to_start_creating_data_stories": "Συνδεθείτε για να αρχίσετε να δημιουργείτε ιστορίες δεδομένων, να εγείρετε ζητήματα και να συνεργάζεστε με την κοινότητα.",
+    "signing_in": "Σύνδεση...",
+    "sign_in": "Σύνδεση",
+    "create_account": "Δημιουργία λογαριασμού",
+    "email": "Email",
+    "password": "Κωδικός πρόσβασης",
+    "forgot_your_password": "Ξεχάσατε τον κωδικό σας;",
+    "full_name": "Πλήρες όνομα",
+    "password_min_8_chars": "Κωδικός πρόσβασης (τουλάχιστον 8 χαρακτήρες)",
+    "confirm_password": "Επιβεβαίωση κωδικού πρόσβασης",
+    "passwords_dont_match": "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
+    "creating_account": "Δημιουργία λογαριασμού...",
+    "or_continue_with": "ή συνεχίστε με",
+    "sign_in_with_token": "Σύνδεση με token",
+    "paste_a_jwt_token": "Επικολλήστε ένα JWT token",
+    "go": "Μετάβαση"
   },
   "mention_autocomplete": {
     "entity_mentions": "Αναφορές οντοτήτων",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Επισκόπηση ποιότητας δεδομένων",
     "listings": "Εισαγωγές",
     "lobby": "Λόμπι",
-    "top_alpha_2_codes": "Κορυφαίοι κωδικοί Alpha-2"
+    "top_alpha_2_codes": "Κορυφαίοι κωδικοί Alpha-2",
+    "how_many_entities_appear_in_multiple_data_sources": "Πόσες οντότητες εμφανίζονται σε πολλαπλές πηγές δεδομένων — ένα μέτρο της συνδεσιμότητας του γράφου.",
+    "companies_still_use_alpha_2_country_codes": "εταιρείες εξακολουθούν να χρησιμοποιούν κωδικούς χωρών alpha-2 αντί για ISO 3166-1 alpha-2/alpha-3.",
+    "field_completeness": "Πληρότητα Πεδίων",
+    "coverage_percentage_per_field": "Ποσοστό κάλυψης ανά πεδίο. Πράσινο = >90%, κίτρινο = 50-90%, κόκκινο = <50%.",
+    "sanctions": "Κυρώσεις",
+    "entities": "οντότητες",
+    "cohesion_projects": "Έργα Συνοχής",
+    "projects": "έργα",
+    "companies": "Εταιρείες",
+    "companies_2": "εταιρείες"
   },
   "pocket_button": {
     "name_this_snapshot": "Ονόμασε αυτό το στιγμιότυπο",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Καθαρισμός ιστορικού ΑΙ",
     "delete_account": "Διαγραφή λογαριασμού",
     "display": "Εμφάνιση",
-    "preferences": "Προτιμήσεις"
+    "preferences": "Προτιμήσεις",
+    "sequential": "Διαδοχική",
+    "diverging": "Αποκλίνουσα",
+    "signing_out": "Αποσύνδεση…",
+    "sign_out_all_devices": "Αποσύνδεση από όλες τις συσκευές",
+    "sign_in": "Σύνδεση"
   },
   "privacy": {
     "access": "Πρόσβαση",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Για την άσκηση αυτών των δικαιωμάτων επικοινωνήστε μαζί μας στο",
     "under_the_gdpr_you_have_the_right_to": "Υπό το GDPR έχετε δικαίωμα:",
     "when_you_sign_in_we_collect_and_store": "Όταν συνδέεστε, συλλέγουμε και αποθηκεύουμε:",
-    "your": "Σας"
+    "your": "Σας",
+    "what_fontem_is": "1. Τι είναι το Fontem",
+    "fontem_is_a_civic_transparency_platform": "Το Fontem είναι μια πλατφόρμα διαφάνειας των πολιτών που συνδέει δεδομένα δημόσιων συμβάσεων της ΕΕ, μητρώα εταιρικής ιδιοκτησίας και χρηματοδότηση της πολιτικής συνοχής σε έναν ενιαίο γράφο γνώσης. Στόχος του είναι να καταστήσει τις δημόσιες δαπάνες και τις εταιρικές δομές πιο εύκολα προσβάσιμες και κατανοητές.",
+    "data_in_the_knowledge_graph": "2. Δεδομένα στον γράφο γνώσης",
+    "legal_entities": "νομικές οντότητες",
+    "companies_public_authorities_and_organis": "(εταιρείες, δημόσιες αρχές και οργανισμούς) — όχι φυσικά πρόσωπα. Συγκεντρώνουμε δημοσίως διαθέσιμα δεδομένα από τις ακόλουθες πηγές:",
+    "global_lei_foundation_company_registry": "— δεδομένα μητρώου εταιρειών του Global LEI Foundation",
+    "eu_public_procurement_notices": "— προκηρύξεις δημόσιων συμβάσεων της ΕΕ και αναθέσεις συμβάσεων",
+    "eu_cohesion_policy_project_funding": "— χρηματοδότηση έργων πολιτικής συνοχής της ΕΕ",
+    "lobbying_organisations_registered_with_eu": "— οργανισμοί άσκησης πίεσης (lobbying) εγγεγραμμένοι στην ΕΕ",
+    "sanctioned_entities_only": "— μόνο κυρωμένες οντότητες",
+    "your_account_data": "3. Δεδομένα του λογαριασμού σας",
+    "email_address": "διεύθυνση email",
+    "name": "όνομα",
+    "and": ", και",
+    "profile_picture": "εικόνα προφίλ",
+    "provided_by_google_oauth": "(παρέχεται από το Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Αυτά τα δεδομένα χρησιμοποιούνται αποκλειστικά για την ταυτοποίηση και την εξατομίκευση της εμπειρίας σας (π.χ. εμφάνιση του ονόματός σας στη διεπαφή).",
+    "performance_of_a_contract": "εκτέλεση σύμβασης (Άρθρο 6(1)(β) ΓΚΠΔ) — χρειαζόμαστε αυτά τα δεδομένα για να σας παρέχουμε λογαριασμό και τις υπηρεσίες για τις οποίες εγγραφήκατε.",
+    "you_can_delete_your_account": "Μπορείτε να διαγράψετε τον λογαριασμό σας και όλα τα συνδεδεμένα δεδομένα ανά πάσα στιγμή, επικοινωνώντας μαζί μας στη διεύθυνση παρακάτω.",
+    "ai_assistant": "4. Βοηθός τεχνητής νοημοσύνης",
+    "when_you_use_the_ai_assistant": "Όταν χρησιμοποιείτε τον βοηθό τεχνητής νοημοσύνης, οι συνομιλίες σας αποθηκεύονται για την παροχή ιστορικού συνομιλιών και τον υπολογισμό μετρικών χρήσης.",
+    "you_can_delete_your_entire_conversation": "Μπορείτε να διαγράψετε ολόκληρο το ιστορικό συνομιλιών σας από το μενού προφίλ ανά πάσα στιγμή.",
+    "your_rights": "5. Τα δικαιώματά σας",
+    "the_personal_data_we_hold_about_you": "τα προσωπικά δεδομένα που διατηρούμε για εσάς",
+    "inaccurate_data": "ανακριβή δεδομένα",
+    "your_data_right_to_be_forgotten": "τα δεδομένα σας (\"δικαίωμα στη λήθη\")",
+    "your_data_to_another_service": "τα δεδομένα σας σε άλλη υπηρεσία",
+    "you_also_have_the_right_to_lodge": "Έχετε επίσης το δικαίωμα να υποβάλετε καταγγελία σε εποπτική αρχή στη χώρα διαμονής σας.",
+    "cookies": "6. Cookies",
+    "we_only_use_strictly_necessary_cookies": "Χρησιμοποιούμε μόνο αυστηρώς απαραίτητα cookies συνεδρίας για την ταυτοποίηση. Δεν χρησιμοποιούμε cookies παρακολούθησης, διαφημιστικά cookies ή cookies ανάλυσης τρίτων.",
+    "changes_to_this_policy": "7. Αλλαγές στην παρούσα πολιτική",
+    "we_may_update_this_policy": "Ενδέχεται να επικαιροποιούμε την παρούσα πολιτική κατά καιρούς. Όταν το κάνουμε, θα αναθεωρούμε την ημερομηνία \"τελευταία ενημέρωση\" στην κορυφή αυτής της σελίδας. Η συνεχής χρήση του Fontem μετά από αλλαγές συνιστά αποδοχή της επικαιροποιημένης πολιτικής."
   },
   "profile": {
     "avg_net_margin": "Μ.Ο. καθαρού περιθωρίου",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Αναζήτησε εταιρείες της ΕΕ, αναθέτουσες αρχές, εκπροσώπους και έργα χρηματοδοτούμενα από την ΕΕ. Ή δες τι είναι μεγάλο στη χώρα σου.",
-    "public_spending": "Δημόσιες δαπάνες"
+    "public_spending": "Δημόσιες δαπάνες",
+    "showing_top_in": "Εμφάνιση κορυφαίων σε",
+    "pick_a_country_to_see_top_companies": "Επιλέξτε μια χώρα για να δείτε τις κορυφαίες εταιρείες και αρχές:",
+    "pick_a_country": "— επιλέξτε μια χώρα —",
+    "top_companies_in": "Κορυφαίες εταιρείες σε",
+    "by_total_eu_procurement_contract_value_won": "Βάσει της συνολικής αξίας συμβάσεων δημόσιων συμβάσεων της ΕΕ που κατακτήθηκε.",
+    "contracts": "συμβάσεις",
+    "loading": "Φόρτωση…",
+    "no_companies_found_for": "Δεν βρέθηκαν εταιρείες για",
+    "top_authorities_in": "Κορυφαίες αρχές σε",
+    "by_total_contract_value_awarded": "Βάσει της συνολικής αξίας συμβάσεων που ανατέθηκε.",
+    "no_authorities_found_for": "Δεν βρέθηκαν αρχές για"
   },
   "recently_published_carousel": {
     "carousel_position": "Θέση στο carousel",
@@ -619,7 +791,12 @@
     "private_only_me": "Ιδιωτικό — μόνο εγώ",
     "public_anyone": "Δημόσιο — οποιοσδήποτε",
     "signed_in_users": "Συνδεδεμένοι χρήστες",
-    "story_title": "Τίτλος ιστορίας"
+    "story_title": "Τίτλος ιστορίας",
+    "saving": "Αποθήκευση...",
+    "save": "Αποθήκευση",
+    "insert_widget": "Εισαγωγή Widget",
+    "your_pocket_is_empty": "Η τσέπη σας είναι άδεια. Αποθηκεύστε πρώτα οπτικοποιήσεις χρησιμοποιώντας το κουμπί Τσέπη.",
+    "close": "Κλείσιμο"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Οντότητες υπό κυρώσεις — πρόσωπα, οργανισμοί, κάλυψη καθεστώτος και αντιστοίχιση εταιρειών",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter για εκτέλεση",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON envelope αποτελεσμάτων:",
     "sparql_endpoint": "SPARQL endpoint",
-    "try_a_query": "Δοκιμάστε ένα ερώτημα"
+    "try_a_query": "Δοκιμάστε ένα ερώτημα",
+    "no_rows": "Δεν υπάρχουν γραμμές.",
+    "query_returned_no_projected_columns": "Το ερώτημα δεν επέστρεψε προβαλλόμενες στήλες.",
+    "example_queries": "Παραδείγματα ερωτημάτων",
+    "click": "Κάντε κλικ",
+    "use_this_query": "Χρήση αυτού του ερωτήματος",
+    "drop_query_into_editor_hint": "για να τοποθετήσετε ένα στον παραπάνω επεξεργαστή. Το λεξιλόγιο συνδυάζει",
+    "with_the_eu": "με την οντολογία",
+    "eprocurement_ontology": "eProcurement της ΕΕ",
+    "where_schemaorg_has_gaps": "όπου το schema.org έχει κενά.",
+    "row": "γραμμή"
   },
   "story_editor_toolbar": {
     "blockquote": "Παράθεμα",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Κλείσιμο οικονομικών",
     "history": "Ιστορικό",
-    "taking_longer_than_expected": "Διαρκεί περισσότερο από το αναμενόμενο…"
+    "taking_longer_than_expected": "Διαρκεί περισσότερο από το αναμενόμενο…",
+    "data_as_of": "δεδομένα από",
+    "link_copied": "Ο σύνδεσμος αντιγράφηκε",
+    "copy_link": "Αντιγραφή συνδέσμου",
+    "copied": "Αντιγράφηκε!",
+    "copy_link_to_this_view": "Αντιγραφή συνδέσμου σε αυτήν την προβολή",
+    "could_not_load_data_for": "Δεν ήταν δυνατή η φόρτωση δεδομένων για",
+    "this_entity": "αυτήν την οντότητα",
+    "annual_data": "Ετήσια Δεδομένα",
+    "metric": "Μετρική",
+    "averages": "Μέσοι όροι",
+    "per_year": "Ανά Έτος"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Δεν βρέθηκαν tickers για &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Υλοποιημένες εμπορικές σχέσεις αρχής-εταιρείας από συμβάσεις",
-    "trade_edges": "Εμπορικές ακμές"
+    "trade_edges": "Εμπορικές ακμές",
+    "counts_derive_live": "Τα πλήθη προκύπτουν ζωντανά από την ανά σύμβαση",
+    "chain_no_materialised_cache": "αλυσίδα. Δεν υπάρχει υλοποιημένη προσωρινή μνήμη· οι αριθμοί αντικατοπτρίζουν πάντα τον τρέχοντα γράφο."
   },
   "triples_d_q": {
     "chart_view": "Προβολή γραφήματος",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Τριάδες ανά ονομασμένο γράφο",
     "virtuoso_not_configured_in_this_environm": "Το Virtuoso δεν έχει διαμορφωθεί σε αυτό το περιβάλλον",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "Απόθεμα RDF στον χώρο αποθήκευσης Virtuoso — σύνολα, πλήθη ανά ονομασμένο γράφο και το σχήμα κλάσης/κατηγορήματος κάθε γράφου. Προέρχεται μέσω SPARQL έναντι",
+    "could_not_load_triple_store_stats": "Δεν ήταν δυνατή η φόρτωση στατιστικών του triple-store:",
+    "this_environment_has_no_rdf_store": "Αυτό το περιβάλλον δεν έχει συνδεδεμένο χώρο αποθήκευσης RDF — οι γράφοι RDF Φάσης 2 για κυρώσεις, καταθέσεις και άλλα υπάρχουν μόνο όπου το",
+    "is_set_on_the_gmr_api_deployment": "έχει οριστεί στην ανάπτυξη gmr-api. Ελέγξτε τον πίνακα ελέγχου staging ή prod για ζωντανούς αριθμούς.",
+    "assertions_in_this_graph": "ισχυρισμοί σε αυτόν τον γράφο."
   },
   "valuation": {
     "averages": "Μέσοι όροι"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Διορθωμένη αξία €",
     "action_correct": "Διόρθωση",
     "action_bogus": "Εσφαλμένη"
+  },
+  "issue_create_modal": {
+    "eg_company": "π.χ. εταιρεία",
+    "eg_gmr_id_or_ticker": "π.χ. gmr_id ή ticker"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Δεν υπάρχουν σειρές για σχεδίαση."
+  },
+  "studio_share_modal": {
+    "share": "Κοινοποίηση",
+    "investigation": "Έρευνα",
+    "shared_with": "Κοινοποιήθηκε με",
+    "an_investigation": "μια έρευνα",
+    "its_members_inherit_access_by_role": "— τα μέλη της κληρονομούν πρόσβαση ανάλογα με τον ρόλο.",
+    "detach": "Αποσύνδεση",
+    "add_to_an_investigation": "Προσθήκη σε έρευνα",
+    "add_to_an_investigation_2": "Προσθήκη σε έρευνα…",
+    "attach": "Σύνδεση",
+    "you_need_a_contributor_seat_on_an_investigation": "Χρειάζεστε θέση συνεισφέροντα+ σε μια έρευνα για να συνδέσετε ένα έργο.",
+    "who_has_access": "Ποιος έχει πρόσβαση",
+    "add_a_person": "Προσθήκη ατόμου",
+    "email_address": "Διεύθυνση email",
+    "email_address_to_share_with": "Διεύθυνση email για κοινοποίηση",
+    "access_level": "Επίπεδο πρόσβασης",
+    "add": "Προσθήκη",
+    "people_with_direct_access": "Άτομα με άμεση πρόσβαση",
+    "no_direct_shares_yet": "Δεν υπάρχουν ακόμη άμεσες κοινοποιήσεις.",
+    "remove": "Αφαίρεση"
+  },
+  "verify_email": {
+    "confirming_your_email": "Επιβεβαίωση του email σας…",
+    "one_moment": "Μια στιγμή.",
+    "email_confirmed": "Το email επιβεβαιώθηκε",
+    "your_account_is_verified": "Ο λογαριασμός σας επαληθεύτηκε. Μπορείτε τώρα να δημοσιεύετε ιστορίες, να σχολιάζετε και να ακολουθείτε θέματα.",
+    "continue_to_fontem": "Συνέχεια στο Fontem",
+    "the_link_may_have_expired": "Ο σύνδεσμος μπορεί να έχει λήξει ή να έχει ήδη χρησιμοποιηθεί. Συνδεθείτε και ζητήστε ένα νέο email επαλήθευσης από το banner στην κορυφή.",
+    "go_to_fontem": "Μετάβαση στο Fontem",
+    "couldnt_confirm_your_email": "Δεν ήταν δυνατή η επιβεβαίωση του email σας"
+  },
+  "studio_plot": {
+    "studio": "Studio",
+    "plot_name": "Όνομα γραφήματος",
+    "saved": "Αποθηκεύτηκε ✓",
+    "save_plot": "Αποθήκευση γραφήματος",
+    "pocketed": "Αποθηκεύτηκε στην τσέπη ✓",
+    "pocket": "Τσέπη",
+    "step_1_sources": "1 · Πηγές",
+    "this_project_has_no_queries_yet": "Αυτό το έργο δεν έχει ακόμη ερωτήματα.",
+    "step_2_combine": "2 · Συνδυασμός",
+    "duckdb_sql_over": "— DuckDB SQL πάνω σε",
+    "your_sources": "τις πηγές σας",
+    "runs_in_your_browser": "(εκτελείται στο πρόγραμμα περιήγησής σας)",
+    "combining": "Συνδυασμός…",
+    "run_combine": "Εκτέλεση & συνδυασμός",
+    "rows": "γραμμές",
+    "step_3_plot": "3 · Γράφημα",
+    "chart": "Διάγραμμα",
+    "nuts_column": "Στήλη NUTS",
+    "value": "Τιμή",
+    "bivariate": "Διμεταβλητό",
+    "off": "Ανενεργό",
+    "colour_opacity": "Χρώμα + αδιαφάνεια",
+    "two_colour_matrix": "Μήτρα 2 χρωμάτων",
+    "second_value": "2η τιμή",
+    "level": "Επίπεδο",
+    "series": "Σειρά",
+    "columns": "Στήλες",
+    "loading": "Φόρτωση…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Δημόσιες Συμβάσεις",
+    "where_eu_public_money_goes": "Πού πηγαίνουν τα δημόσια χρήματα της ΕΕ — αναθέσεις συμβάσεων, ροές αξίας και η ποιότητα δεδομένων πίσω από κάθε βασικό αριθμό.",
+    "loading_procurement_data": "Φόρτωση δεδομένων δημόσιων συμβάσεων…",
+    "contracts": "Συμβάσεις",
+    "trusted_value": "Αξιόπιστη αξία",
+    "values_trusted": "Αξιόπιστες τιμές",
+    "countries": "Χώρες",
+    "spend_by_country_confidence_gated": "Δαπάνες ανά χώρα (με φραγή εμπιστοσύνης)",
+    "low_confidence_values_excluded": "Οι τιμές χαμηλής εμπιστοσύνης εξαιρούνται — δείτε τον πίνακα ποιότητας δεδομένων παρακάτω.",
+    "data_quality_values_held_back": "Ποιότητα δεδομένων — τιμές που αποκλείονται από τα σύνολα",
+    "contracts_2": "συμβάσεις",
+    "are_flagged_and_excluded_from_figures": "έχουν επισημανθεί και εξαιρεθεί από τους παραπάνω αριθμούς.",
+    "corporate_group_rollup": "Συγκέντρωση εταιρικού ομίλου",
+    "coming_soon": "προσεχώς",
+    "winners_rolled_up_to_parent": "Οι νικητές συγκεντρώνονται στην τελική μητρική τους — έτσι το \"Η Εταιρεία X κέρδισε €2 εκατ.\" γίνεται \"Ο Όμιλος Y κέρδισε €400 εκατ. σε 30 θυγατρικές\". Φτάνει καθώς ολοκληρώνεται η εκ νέου εισαγωγή του γράφου ιδιοκτησίας.",
+    "source_and_pipeline": "Πηγή & ροή",
+    "ted_contracts_pipeline_health": "TED Contracts — υγεία ροής",
+    "open_operational_ted_dashboard": "Άνοιγμα του λειτουργικού πίνακα ελέγχου TED Contracts →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Άγνωστο θέμα",
+    "questions_this_answers": "Ερωτήσεις που απαντά",
+    "sources_and_pipeline_health": "Πηγές & υγεία ροής",
+    "open_the": "Άνοιγμα του",
+    "dashboard_arrow": "πίνακα ελέγχου →",
+    "no_dedicated_dashboard_yet": "Δεν υπάρχει ακόμη ειδικός πίνακας ελέγχου.",
+    "deeper_insights": "Βαθύτερες γνώσεις",
+    "coming_soon": "προσεχώς",
+    "no_configuration_yet": "Αυτό το θέμα δεν έχει ακόμη διαμόρφωση."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "Επιχορηγήσεις Συνοχής ΕΕ",
+    "grant": "επιχορήγηση",
+    "attained": "επιτεύχθηκε",
+    "eu_contribution": "Συνεισφορά ΕΕ",
+    "project": "Έργο",
+    "fund": "Ταμείο",
+    "programme": "Πρόγραμμα",
+    "eu_euro": "ΕΕ €",
+    "period": "Περίοδος"
+  },
+  "forgot_password": {
+    "reset_your_password": "Επαναφορά του κωδικού σας",
+    "enter_your_email_send_link": "Εισαγάγετε το email σας και θα σας στείλουμε έναν σύνδεσμο για να ορίσετε νέο κωδικό πρόσβασης.",
+    "you_example_com": "you@example.com",
+    "sending": "Αποστολή…",
+    "send_reset_link": "Αποστολή συνδέσμου επαναφοράς",
+    "check_your_email": "Ελέγξτε το email σας",
+    "if_account_exists_sent_link": "Εάν υπάρχει λογαριασμός για αυτήν τη διεύθυνση, σας έχουμε στείλει έναν σύνδεσμο για την επαναφορά του κωδικού σας. Λήγει σε μία ώρα."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Υπόμνημα Atlas",
+    "logarithmic_scale": "λογαριθμική κλίμακα",
+    "log": "log",
+    "no_data": "δεν υπάρχουν δεδομένα"
+  },
+  "studio_nav": {
+    "project_actions": "Ενέργειες έργου",
+    "query_actions": "Ενέργειες ερωτήματος",
+    "plot_actions": "Ενέργειες γραφήματος",
+    "rename": "Μετονομασία",
+    "delete": "Διαγραφή",
+    "confirm_delete": "Επιβεβαίωση διαγραφής",
+    "new_query": "Νέο ερώτημα",
+    "duplicate": "Αντιγραφή",
+    "queries": "Ερωτήματα",
+    "plots": "Γραφήματα",
+    "new_plot": "Νέο γράφημα",
+    "new_project": "Νέο έργο"
+  },
+  "studio_home": {
+    "data_studio": "Data Studio",
+    "pull_data_with_read_only_queries": "Αντλήστε δεδομένα με ερωτήματα μόνο για ανάγνωση, συνδυάστε τα στο πρόγραμμα περιήγησής σας και δημιουργήστε γραφήματα.",
+    "new_project": "Νέο έργο",
+    "loading_your_projects": "Φόρτωση των έργων σας…",
+    "no_data_projects_yet": "Δεν υπάρχουν ακόμη έργα δεδομένων. Δημιουργήστε το πρώτο σας για να ξεκινήσετε.",
+    "query": "ερώτημα",
+    "queries": "ερωτήματα",
+    "plot": "γράφημα",
+    "plots": "γραφήματα"
+  },
+  "profile_panel": {
+    "entities": "οντότητες",
+    "show_all": "Εμφάνιση όλων",
+    "contracts": "συμβάσεις",
+    "former": "(πρώην)"
+  },
+  "studio_project": {
+    "studio": "Studio",
+    "project_name": "Όνομα έργου",
+    "share": "Κοινοποίηση",
+    "view_only_access": "Έχετε πρόσβαση μόνο για προβολή σε αυτό το κοινοποιημένο έργο.",
+    "queries": "Ερωτήματα",
+    "new_query": "+ Νέο ερώτημα",
+    "no_queries_yet": "Δεν υπάρχουν ακόμη ερωτήματα. Δημιουργήστε ένα για να αρχίσετε να αντλείτε δεδομένα.",
+    "plots": "Γραφήματα",
+    "new_plot": "+ Νέο γράφημα",
+    "no_plots_yet": "Δεν υπάρχουν ακόμη γραφήματα. Συνδυάστε τα ερωτήματά σας και σχεδιάστε το αποτέλεσμα."
+  },
+  "schema_panel": {
+    "schema": "Σχήμα",
+    "loading_schema": "Φόρτωση σχήματος…",
+    "schema_unavailable": "Το σχήμα δεν είναι διαθέσιμο.",
+    "node_labels": "Ετικέτες κόμβων",
+    "no_recorded_properties": "καμία καταγεγραμμένη ιδιότητα",
+    "relationships": "Σχέσεις",
+    "tables": "Πίνακες",
+    "classes": "Κλάσεις",
+    "predicates": "Κατηγορήματα"
+  },
+  "reset_password": {
+    "set_a_new_password": "Ορίστε νέο κωδικό πρόσβασης",
+    "new_password": "Νέος κωδικός πρόσβασης",
+    "confirm_new_password": "Επιβεβαίωση νέου κωδικού πρόσβασης",
+    "passwords_dont_match": "Οι κωδικοί πρόσβασης δεν ταιριάζουν.",
+    "saving": "Αποθήκευση…",
+    "set_new_password": "Ορισμός νέου κωδικού πρόσβασης",
+    "password_updated": "Ο κωδικός πρόσβασης ενημερώθηκε",
+    "password_changed_redirecting": "Ο κωδικός πρόσβασής σας άλλαξε και έγινε αποσύνδεση από όλες τις συνεδρίες. Ανακατεύθυνση στη σύνδεση…"
+  },
+  "investigation_detail": {
+    "untitled": "Χωρίς τίτλο",
+    "data_projects": "Έργα δεδομένων",
+    "no_data_projects": "Δεν έχουν κοινοποιηθεί ακόμη έργα δεδομένων με αυτήν την έρευνα.",
+    "queries": "ερωτήματα",
+    "plots": "γραφήματα",
+    "detach": "Αποσύνδεση"
+  },
+  "tree_node": {
+    "untitled": "Χωρίς τίτλο",
+    "add_sub_article": "Προσθήκη υπο-άρθρου",
+    "remove": "Αφαίρεση"
+  },
+  "contract_detail": {
+    "public_spending": "Δημόσιες δαπάνες",
+    "loading": "Φόρτωση…",
+    "contract_not_found": "Η σύμβαση δεν βρέθηκε.",
+    "couldnt_load_this_contract": "Δεν ήταν δυνατή η φόρτωση αυτής της σύμβασης.",
+    "untitled_contract": "(σύμβαση χωρίς τίτλο)",
+    "red_flag": "προειδοποιητική σήμανση",
+    "bidder_s": "προσφέρων(-οντες)",
+    "risk_indicators_note": "Δείκτες κινδύνου σύμφωνα με τη μεθοδολογία EC Single Market Scoreboard / ECA CRI — μια σήμανση είναι μια προτροπή για διερεύνηση, όχι απόδειξη παρανομίας.",
+    "value": "Αξία",
+    "procedure": "Διαδικασία",
+    "award_criteria": "Κριτήρια ανάθεσης",
+    "eu_funded": "Χρηματοδοτούμενο από την ΕΕ",
+    "yes": "Ναι",
+    "buyer": "Αγοραστής",
+    "contractor": "Ανάδοχος",
+    "award_date": "Ημερομηνία ανάθεσης",
+    "view_original_notice_on_ted": "Προβολή της αρχικής προκήρυξης στο TED"
+  },
+  "studio_query": {
+    "studio": "Studio",
+    "query_name": "Όνομα ερωτήματος",
+    "duplicate": "Αντιγραφή",
+    "confirm_delete": "Επιβεβαίωση διαγραφής",
+    "delete": "Διαγραφή",
+    "query_language": "Γλώσσα ερωτήματος",
+    "hide_schema": "Απόκρυψη σχήματος",
+    "schema": "Σχήμα",
+    "write_your_query_shortcut": "Γράψτε το ερώτημά σας — Ctrl/Cmd+Enter για εκτέλεση",
+    "running": "Εκτέλεση…",
+    "run_query": "Εκτέλεση ερωτήματος",
+    "rows": "γραμμές",
+    "cols": "στήλες",
+    "query_ran_no_rows": "Το ερώτημα εκτελέστηκε επιτυχώς — δεν επιστράφηκαν γραμμές.",
+    "showing_first_100_of": "Εμφάνιση των πρώτων 100 από",
+    "rows_2": "γραμμές.",
+    "loading": "Φόρτωση…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Οι μετρικές ροής δεν είναι διαθέσιμες.",
+    "no_events_recorded_in_the_window": "Δεν καταγράφηκαν συμβάντα στο παράθυρο."
+  },
+  "studio_map": {
+    "loading_boundaries": "Φόρτωση ορίων…",
+    "matched": "αντιστοιχίστηκαν",
+    "of": "από",
+    "regions": "περιφέρειες",
+    "wrong_column_level": "— λάθος στήλη/επίπεδο;",
+    "opacity": "αδιαφάνεια"
   }
 }

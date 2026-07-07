@@ -138,10 +138,31 @@
     "notes": "Noter",
     "time_unit": "Tidsenhed",
     "updated": "Opdateret",
-    "value_scale": "Værdiskala"
+    "value_scale": "Værdiskala",
+    "map_view_of_the_curated_eurostat_datasets": "Kortvisning af de kuraterede Eurostat-datasæt. Vælg en måling, et NUTS-niveau og et år.",
+    "no_datasets_registered_yet": "Ingen datasæt registreret endnu — statistik-lageret er online, men seed'et er ikke indlæst. Kør",
+    "to_populate_the_catalog": "for at udfylde kataloget.",
+    "pick_a_dataset": "— vælg et datasæt —",
+    "the_dataset_has": "Datasættet har",
+    "dimension_combinations_largest_slice_is_shown_by_default": "dimensionskombinationer. Den største andel vises som standard.",
+    "backend_hasnt_computed_slice_stats": "Backenden har ikke beregnet andelsstatistik for dette datasæt endnu — falder tilbage til automatisk skalering pr. år.",
+    "unavailable": "(ikke tilgængelig)",
+    "suggested": "(foreslået)",
+    "hidden": "skjult",
+    "fetching_observations": "Henter observationer…",
+    "no_data": "ingen data",
+    "pause_year_animation": "Sæt årsanimation på pause",
+    "play_year_animation": "Afspil årsanimation",
+    "year": "År",
+    "looping_enabled": "Løkke aktiveret",
+    "looping_disabled_stops_at_the_last_year": "Løkke deaktiveret — stopper ved sidste år",
+    "loop": "løkke"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Åbn i Atlas →"
+    "open_in_atlas": "Åbn i Atlas →",
+    "atlas_map": "Atlas-kort",
+    "loading_map_data": "Indlæser kortdata…",
+    "no_data": "ingen data"
   },
   "corr_matrix": {
     "none": "ingen",
@@ -150,7 +171,9 @@
     "strong": "stærk",
     "inverse": "omvendt",
     "self": "samme variabel",
-    "hint": "Hold musen over eller tryk på en celle for den præcise værdi."
+    "hint": "Hold musen over eller tryk på en celle for den præcise værdi.",
+    "pick_at_least_two_numeric_columns": "Vælg mindst to numeriske kolonner at korrelere.",
+    "pearson_r": "Pearsons r"
   },
   "translations": {
     "label": "Oversættelser",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Indlæser kontraktdata...",
     "missing_fields_of_contracts": "Manglende felter (% af kontrakter)",
     "ted_contracts": "TED-kontrakter",
-    "total_eur_by_country_top_15": "Samlet EUR pr. land (Top 15)"
+    "total_eur_by_country_top_15": "Samlet EUR pr. land (Top 15)",
+    "tender_integrity": "Udbudsintegritet",
+    "single_bidder_rate_and_red_flag_indicators": "Andel af enkeltbyder-udbud og advarselsindikatorer efter EC's Single Market Scoreboard / ECA's CRI-metode — en markering er en opfordring til at se nærmere, ikke bevis på uregelmæssigheder.",
+    "red_flags_by_type": "Advarsler efter type",
+    "red_flag_count_distribution": "Fordeling af antal advarsler",
+    "scroll_to_zoom_in_out": "Rul for at zoome ind/ud. Søjler aggregeres: dagligt → ugentligt → månedligt → årligt.",
+    "distribution_of_original_currencies": "Fordeling af oprindelige valutaer. EUR dominerer, men mange kontrakter i EU-medlemslande bruger lokal valuta."
   },
   "cookie_consent_banner": {
     "accept": "Accepter",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Bekendtgørelsen offentliggjorde en værdi på præcis nul — manglende oplysning forklædt som et tal. Behandles som en ikke-oplyst værdi.",
     "explain_confirmed_bogus": "En gennemgangsansvarlig undersøgte den offentliggjorte værdi og bekræftede, at den er upålidelig. Der findes ingen troværdig værdi for denne kontrakt.",
     "explain_withheld_generic": "Den offentliggjorte værdi bestod ikke platformens rimelighedstjek og blev tilbageholdt.",
-    "explain_low_confidence_generic": "Værdien vises, men de offentliggjorte beløbsfelter er svagt underbyggede; den er ikke medregnet i standardsummer og -rangeringer."
+    "explain_low_confidence_generic": "Værdien vises, men de offentliggjorte beløbsfelter er svagt underbyggede; den er ikke medregnet i standardsummer og -rangeringer.",
+    "the_eus_official_public_procurement_database_financial_data": ", EU's officielle database over offentlige udbud. Finansielle data kommer fra",
+    "company_identifiers_and": "(virksomhedsidentifikatorer) og",
+    "financial_statements": "(regnskaber).",
+    "this_dashboard_shows_the_current_state": "Dette dashboard viser vidensgrafens aktuelle tilstand. Data indlæses dagligt fra TED og opdateres periodisk fra GLEIF. Alle poster kan spores til deres kilde via TED-bekendtgørelses-id'er og LEI-numre."
   },
   "data_quality_hub": {
     "data_freshness": "Datafriskhed",
     "data_quality": "Datakvalitet",
     "latest_contract_load": "Seneste kontraktindlæsning",
-    "loading_overview": "Indlæser oversigt..."
+    "loading_overview": "Indlæser oversigt...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Dashboards pr. pipeline — gå i dybden med hver ETL for at finde huller, tendenser og anomalier.",
+    "themes": "Temaer"
   },
   "data_view_selector": {
     "data_view": "Datavisning",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Deduplikering",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS-kø — status for opløsning af dubletter",
-    "use_the": "Brug"
+    "use_the": "Brug",
+    "reviewed": "Gennemgået",
+    "pending": "Afventer",
+    "tool_to_review_pending_duplicates": "værktøj til at gennemgå afventende dubletter."
   },
   "donate": {
     "backers": "Støtter",
@@ -310,7 +348,17 @@
     "remove_mention": "Fjern omtale"
   },
   "entity_nuts_map": {
-    "contracts_count": "Kontrakter (antal)"
+    "contracts_count": "Kontrakter (antal)",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region": "1 — Makroregion",
+    "level_2_region": "2 — Region",
+    "level_3_small_region": "3 — Delregion",
+    "select": "— vælg —",
+    "loading_map": "Indlæser kort…",
+    "select_a": "Vælg et",
+    "above_to_load_the_map": "ovenfor for at indlæse kortet.",
+    "contracts": "kontrakter",
+    "no_known_contracts": "ingen kendte kontrakter"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Alle markerede par er afgjort.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Flet — behold B (A fjernes)",
     "no_pairs_pending_review": "Ingen par afventer gennemgang.",
     "review_and_decide_on_flagged_candidates": "Gennemgå og træf afgørelse om markerede kandidater",
-    "why_flagged": "Hvorfor markeret"
+    "why_flagged": "Hvorfor markeret",
+    "reviewer": "gennemgået af:",
+    "your_name": "dit navn",
+    "pending": "Afventer",
+    "rules": "regler",
+    "conflict": "konflikt",
+    "one_or_more_rules_reported_a_hard_conflic": "En eller flere regler rapporterede en hård konflikt på dette par (f.eks. uoverensstemmende LEI/VAT). Gennemgå omhyggeligt før sammenlægning.",
+    "accept_lobbyist_represents_company": "Accepter — Lobbyist repræsenterer virksomhed",
+    "accept_company_is_sanctioned": "Accepter — Virksomhed er sanktioneret",
+    "accept_relationship": "Accepter relation",
+    "reject_relationship_is_wrong": "Afvis — relationen er forkert"
   },
   "entity_side": {
     "entity_details": "Entitetsdetaljer"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Selskaber",
     "connected_to_3": "Forbundet til (α-3)",
-    "parent_nuts_1": "Forælder NUTS 1"
+    "parent_nuts_1": "Forælder NUTS 1",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region_coming_soon": "1 — Makroregion (kommer snart)",
+    "level_2_region_coming_soon": "2 — Region (kommer snart)",
+    "level_3_small_region_coming_soon": "3 — Delregion (kommer snart)",
+    "eg_rus": "f.eks. RUS",
+    "eg_de1": "f.eks. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Selskaber pr. land (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Gem visning",
     "search_entity_name": "Søg entitetsnavn...",
     "set_as_center": "Indstil som center",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 mdr.",
+    "3_yr": "3 år",
+    "5_yr": "5 år",
+    "nodes": "Knuder",
+    "edges": "Kanter",
+    "exit_path_mode": "✕ Forlad stitilstand",
+    "find_path_to_2": "Find sti til…",
+    "timeline": "Tidslinje",
+    "timeline_2": "✕ Tidslinje",
+    "saved": "Gemt",
+    "depth_2": "dybde",
+    "path": "sti",
+    "found": "fundet.",
+    "shortest": "Korteste:",
+    "hop": "spring",
+    "path_2": "Sti",
+    "contracts": "kontrakter",
+    "directors": "direktører",
+    "companies": "virksomheder",
+    "nodes_2": "knuder",
+    "edges_2": "kanter",
+    "showing": "Viser",
+    "of": "af",
+    "truncated": "(afkortet)",
+    "country": "Land:",
+    "value": "Værdi:",
+    "collapse": "▼ Fold sammen",
+    "expand": "▶ Udfold"
   },
   "income": {
     "revenue_amp_net_income": "Omsætning &amp; nettoresultat"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Fordeling af lobbyomkostninger",
     "registrations_over_time": "Registreringer over tid",
     "top_countries": "Top-lande",
-    "transparency_register_lobbyist_registrat": "Åbenhedsregister — lobbyistregistreringer, EP-adgang, udgifter"
+    "transparency_register_lobbyist_registrat": "Åbenhedsregister — lobbyistregistreringer, EP-adgang, udgifter",
+    "most_represented_companies": "Mest repræsenterede virksomheder",
+    "registrants_resolved_to_a_known_company": "Registranter matchet til en kendt virksomhed via konsolidatoren (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Registrantkategorifordeling",
+    "top_declared_spenders": "Topangivne udgiftsafholdere",
+    "by_declared_annual_lobbying_cost_ceiling": "Efter angivet årligt loft for lobbyudgifter."
   },
   "login": {
     "go_to_home": "Gå til forsiden",
     "you_already_have_an_active_session": "Du har allerede en aktiv session.",
-    "youre_signed_in": "Du er logget ind"
+    "youre_signed_in": "Du er logget ind",
+    "sign_in_to_fontem": "Log ind på Fontem",
+    "sign_in_to_start_creating_data_stories": "Log ind for at begynde at skabe datahistorier, rejse sager og samarbejde med fællesskabet.",
+    "signing_in": "Logger ind...",
+    "sign_in": "Log ind",
+    "create_account": "Opret konto",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "forgot_your_password": "Har du glemt din adgangskode?",
+    "full_name": "Fulde navn",
+    "password_min_8_chars": "Adgangskode (min. 8 tegn)",
+    "confirm_password": "Bekræft adgangskode",
+    "passwords_dont_match": "Adgangskoderne stemmer ikke overens",
+    "creating_account": "Opretter konto...",
+    "or_continue_with": "eller fortsæt med",
+    "sign_in_with_token": "Log ind med token",
+    "paste_a_jwt_token": "Indsæt et JWT-token",
+    "go": "Kør"
   },
   "mention_autocomplete": {
     "entity_mentions": "Entitetsomtaler",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Datakvalitets-oversigt",
     "listings": "Notater",
     "lobby": "Lobby",
-    "top_alpha_2_codes": "Top alpha-2-koder"
+    "top_alpha_2_codes": "Top alpha-2-koder",
+    "how_many_entities_appear_in_multiple_data_sources": "Hvor mange enheder der optræder i flere datakilder — et mål for grafens forbundethed.",
+    "companies_still_use_alpha_2_country_codes": "virksomheder bruger stadig alpha-2-landekoder i stedet for ISO 3166-1 alpha-2/alpha-3.",
+    "field_completeness": "Feltfuldstændighed",
+    "coverage_percentage_per_field": "Dækningsprocent pr. felt. Grøn = >90 %, gul = 50-90 %, rød = <50 %.",
+    "sanctions": "Sanktioner",
+    "entities": "enheder",
+    "cohesion_projects": "Samhørighedsprojekter",
+    "projects": "projekter",
+    "companies": "Virksomheder",
+    "companies_2": "virksomheder"
   },
   "pocket_button": {
     "name_this_snapshot": "Navngiv dette snapshot",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Ryd AI-historik",
     "delete_account": "Slet konto",
     "display": "Visning",
-    "preferences": "Indstillinger"
+    "preferences": "Indstillinger",
+    "sequential": "Sekventiel",
+    "diverging": "Divergerende",
+    "signing_out": "Logger ud…",
+    "sign_out_all_devices": "Log ud af alle enheder",
+    "sign_in": "Log ind"
   },
   "privacy": {
     "access": "Adgang",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "For at udøve disse rettigheder kan du kontakte os på",
     "under_the_gdpr_you_have_the_right_to": "Under GDPR har du ret til at:",
     "when_you_sign_in_we_collect_and_store": "Når du logger ind, indsamler og opbevarer vi:",
-    "your": "Din"
+    "your": "Din",
+    "what_fontem_is": "1. Hvad Fontem er",
+    "fontem_is_a_civic_transparency_platform": "Fontem er en platform for borgergennemsigtighed, der forbinder data om EU's offentlige udbud, virksomhedsejerskabsregistre og finansiering under samhørighedspolitikken i én samlet vidensgraf. Formålet er at gøre offentlige udgifter og virksomhedsstrukturer lettere at udforske og forstå.",
+    "data_in_the_knowledge_graph": "2. Data i vidensgrafen",
+    "legal_entities": "juridiske enheder",
+    "companies_public_authorities_and_organis": "(virksomheder, offentlige myndigheder og organisationer) — ikke fysiske personer. Vi samler offentligt tilgængelige data fra følgende kilder:",
+    "global_lei_foundation_company_registry": "— virksomhedsregisterdata fra Global LEI Foundation",
+    "eu_public_procurement_notices": "— EU-udbudsbekendtgørelser og kontrakttildelinger",
+    "eu_cohesion_policy_project_funding": "— projektfinansiering under EU's samhørighedspolitik",
+    "lobbying_organisations_registered_with_eu": "— lobbyorganisationer registreret hos EU",
+    "sanctioned_entities_only": "— kun sanktionerede enheder",
+    "your_account_data": "3. Dine kontodata",
+    "email_address": "e-mailadresse",
+    "name": "navn",
+    "and": ", og",
+    "profile_picture": "profilbillede",
+    "provided_by_google_oauth": "(leveret af Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Disse data anvendes udelukkende til godkendelse og personalisering af din oplevelse (f.eks. visning af dit navn i grænsefladen).",
+    "performance_of_a_contract": "opfyldelse af en kontrakt (art. 6, stk. 1, litra b, i GDPR) — vi har brug for disse data for at kunne stille en konto og de tjenester, du har tilmeldt dig, til rådighed for dig.",
+    "you_can_delete_your_account": "Du kan til enhver tid slette din konto og alle tilknyttede data ved at kontakte os på nedenstående adresse.",
+    "ai_assistant": "4. AI-assistent",
+    "when_you_use_the_ai_assistant": "Når du bruger AI-assistenten, gemmes dine samtaler for at levere chathistorik og for at beregne forbrugsmålinger.",
+    "you_can_delete_your_entire_conversation": "Du kan til enhver tid slette hele din samtalehistorik fra profilmenuen.",
+    "your_rights": "5. Dine rettigheder",
+    "the_personal_data_we_hold_about_you": "de personoplysninger, vi opbevarer om dig",
+    "inaccurate_data": "unøjagtige data",
+    "your_data_right_to_be_forgotten": "dine data (\"retten til at blive glemt\")",
+    "your_data_to_another_service": "dine data til en anden tjeneste",
+    "you_also_have_the_right_to_lodge": "Du har også ret til at indgive en klage til en tilsynsmyndighed i dit bopælsland.",
+    "cookies": "6. Cookies",
+    "we_only_use_strictly_necessary_cookies": "Vi bruger kun strengt nødvendige sessionscookies til godkendelse. Vi bruger ikke sporingscookies, reklamecookies eller tredjeparts-analysecookies.",
+    "changes_to_this_policy": "7. Ændringer af denne politik",
+    "we_may_update_this_policy": "Vi kan opdatere denne politik fra tid til anden. Når vi gør det, ændrer vi datoen for \"senest opdateret\" øverst på denne side. Fortsat brug af Fontem efter ændringer udgør en accept af den opdaterede politik."
   },
   "profile": {
     "avg_net_margin": "Gns. nettomargin",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Eller bladr i hvad der er stort i dit land.",
-    "public_spending": "Offentlige udgifter"
+    "public_spending": "Offentlige udgifter",
+    "showing_top_in": "Viser top i",
+    "pick_a_country_to_see_top_companies": "Vælg et land for at se topvirksomheder og -myndigheder:",
+    "pick_a_country": "— vælg et land —",
+    "top_companies_in": "Topvirksomheder i",
+    "by_total_eu_procurement_contract_value_won": "Efter samlet værdi af vundne EU-udbudskontrakter.",
+    "contracts": "kontrakter",
+    "loading": "Indlæser…",
+    "no_companies_found_for": "Ingen virksomheder fundet for",
+    "top_authorities_in": "Topmyndigheder i",
+    "by_total_contract_value_awarded": "Efter samlet tildelt kontraktværdi.",
+    "no_authorities_found_for": "Ingen myndigheder fundet for"
   },
   "recently_published_carousel": {
     "carousel_position": "Karruselposition",
@@ -619,7 +791,12 @@
     "private_only_me": "Privat — kun mig",
     "public_anyone": "Offentlig — alle",
     "signed_in_users": "Loggede ind-brugere",
-    "story_title": "Fortællingens titel"
+    "story_title": "Fortællingens titel",
+    "saving": "Gemmer...",
+    "save": "Gem",
+    "insert_widget": "Indsæt widget",
+    "your_pocket_is_empty": "Din lomme er tom. Gem visualiseringer med Læg i lomme-knappen først.",
+    "close": "Luk"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionerede entiteter — personer, organisationer, regimedækning og selskabsmatchning",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter for at køre",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkonvolut:",
     "sparql_endpoint": "SPARQL-endpoint",
-    "try_a_query": "Prøv en forespørgsel"
+    "try_a_query": "Prøv en forespørgsel",
+    "no_rows": "Ingen rækker.",
+    "query_returned_no_projected_columns": "Forespørgslen returnerede ingen projicerede kolonner.",
+    "example_queries": "Eksempelforespørgsler",
+    "click": "Klik",
+    "use_this_query": "Brug denne forespørgsel",
+    "drop_query_into_editor_hint": "for at indsætte en i editoren ovenfor. Vokabularet blander",
+    "with_the_eu": "med EU's",
+    "eprocurement_ontology": "eProcurement-ontologi",
+    "where_schemaorg_has_gaps": "hvor schema.org har huller.",
+    "row": "række"
   },
   "story_editor_toolbar": {
     "blockquote": "Blokcitat",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Luk finansdata",
     "history": "Historik",
-    "taking_longer_than_expected": "Tager længere end forventet…"
+    "taking_longer_than_expected": "Tager længere end forventet…",
+    "data_as_of": "data pr.",
+    "link_copied": "Link kopieret",
+    "copy_link": "Kopiér link",
+    "copied": "Kopieret!",
+    "copy_link_to_this_view": "Kopiér link til denne visning",
+    "could_not_load_data_for": "Kunne ikke indlæse data for",
+    "this_entity": "denne enhed",
+    "annual_data": "Årlige data",
+    "metric": "Måling",
+    "averages": "Gennemsnit",
+    "per_year": "Pr. år"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Ingen tickers fundet for &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialiserede myndighed-selskab-handelsrelationer fra kontrakter",
-    "trade_edges": "Handelskanter"
+    "trade_edges": "Handelskanter",
+    "counts_derive_live": "Tællinger afledes live fra kæden pr. kontrakt",
+    "chain_no_materialised_cache": "kæde. Ingen materialiseret cache; tal afspejler altid den aktuelle graf."
   },
   "triples_d_q": {
     "chart_view": "Diagramvisning",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Tripler pr. navngivet graf",
     "virtuoso_not_configured_in_this_environm": "Virtuoso ikke konfigureret i dette miljø",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF-oversigt i Virtuoso-lageret — totaler, tællinger pr. navngiven graf og klasse-/prædikatstrukturen for hver graf. Hentet via SPARQL mod",
+    "could_not_load_triple_store_stats": "Kunne ikke indlæse statistik for triple-lageret:",
+    "this_environment_has_no_rdf_store": "Dette miljø har ikke noget RDF-lager konfigureret — RDF-graferne for sanktioner, indberetninger og andre Fase 2-grafer findes kun, hvor",
+    "is_set_on_the_gmr_api_deployment": "er sat på gmr-api-deploymentet. Tjek staging- eller prod-dashboardet for aktuelle tal.",
+    "assertions_in_this_graph": "assertioner i denne graf."
   },
   "valuation": {
     "averages": "Gennemsnit"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Korrigeret €-værdi",
     "action_correct": "Korriger",
     "action_bogus": "Ugyldig"
+  },
+  "issue_create_modal": {
+    "eg_company": "f.eks. virksomhed",
+    "eg_gmr_id_or_ticker": "f.eks. gmr_id eller ticker"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Ingen serier at afbilde."
+  },
+  "studio_share_modal": {
+    "share": "Del",
+    "investigation": "Undersøgelse",
+    "shared_with": "Delt med",
+    "an_investigation": "en undersøgelse",
+    "its_members_inherit_access_by_role": "— dens medlemmer arver adgang efter rolle.",
+    "detach": "Frakobl",
+    "add_to_an_investigation": "Føj til en undersøgelse",
+    "add_to_an_investigation_2": "Føj til en undersøgelse…",
+    "attach": "Tilknyt",
+    "you_need_a_contributor_seat_on_an_investigation": "Du skal have en bidragyder+-plads på en undersøgelse for at kunne tilknytte et projekt.",
+    "who_has_access": "Hvem har adgang",
+    "add_a_person": "Tilføj en person",
+    "email_address": "E-mailadresse",
+    "email_address_to_share_with": "E-mailadresse at dele med",
+    "access_level": "Adgangsniveau",
+    "add": "Tilføj",
+    "people_with_direct_access": "Personer med direkte adgang",
+    "no_direct_shares_yet": "Ingen direkte delinger endnu.",
+    "remove": "Fjern"
+  },
+  "verify_email": {
+    "confirming_your_email": "Bekræfter din e-mail…",
+    "one_moment": "Et øjeblik.",
+    "email_confirmed": "E-mail bekræftet",
+    "your_account_is_verified": "Din konto er verificeret. Du kan nu udgive historier, kommentere og følge emner.",
+    "continue_to_fontem": "Fortsæt til Fontem",
+    "the_link_may_have_expired": "Linket kan være udløbet eller allerede være brugt. Log ind, og anmod om en ny bekræftelses-e-mail fra banneret øverst.",
+    "go_to_fontem": "Gå til Fontem",
+    "couldnt_confirm_your_email": "Kunne ikke bekræfte din e-mail"
+  },
+  "studio_plot": {
+    "studio": "Studie",
+    "plot_name": "Plotnavn",
+    "saved": "Gemt ✓",
+    "save_plot": "Gem plot",
+    "pocketed": "Lagt i lomme ✓",
+    "pocket": "Læg i lomme",
+    "step_1_sources": "1 · Kilder",
+    "this_project_has_no_queries_yet": "Dette projekt har ingen forespørgsler endnu.",
+    "step_2_combine": "2 · Kombiner",
+    "duckdb_sql_over": "— DuckDB SQL over",
+    "your_sources": "dine kilder",
+    "runs_in_your_browser": "(kører i din browser)",
+    "combining": "Kombinerer…",
+    "run_combine": "Kør & kombiner",
+    "rows": "rækker",
+    "step_3_plot": "3 · Plot",
+    "chart": "Diagram",
+    "nuts_column": "NUTS-kolonne",
+    "value": "Værdi",
+    "bivariate": "Bivariat",
+    "off": "Fra",
+    "colour_opacity": "Farve + uigennemsigtighed",
+    "two_colour_matrix": "2-farvematrix",
+    "second_value": "2. værdi",
+    "level": "Niveau",
+    "series": "Serier",
+    "columns": "Kolonner",
+    "loading": "Indlæser…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Offentlige udbud",
+    "where_eu_public_money_goes": "Hvor EU's offentlige midler går hen — kontrakttildelinger, værdistrømme og datakvaliteten bag hvert overskriftstal.",
+    "loading_procurement_data": "Indlæser udbudsdata…",
+    "contracts": "Kontrakter",
+    "trusted_value": "Pålidelig værdi",
+    "values_trusted": "Værdier med tillid",
+    "countries": "Lande",
+    "spend_by_country_confidence_gated": "Udgifter pr. land (tillidsafgrænset)",
+    "low_confidence_values_excluded": "Værdier med lav tillid er udelukket — se datakvalitetspanelet nedenfor.",
+    "data_quality_values_held_back": "Datakvalitet — værdier holdt tilbage fra totaler",
+    "contracts_2": "kontrakter",
+    "are_flagged_and_excluded_from_figures": "er markeret og udelukket fra ovenstående tal.",
+    "corporate_group_rollup": "Sammenlægning af koncern",
+    "coming_soon": "kommer snart",
+    "winners_rolled_up_to_parent": "Vindere lagt sammen op til deres ultimative moderselskab — så \"Virksomhed X vandt 2 mio. €\" bliver til \"Koncern Y vandt 400 mio. € på tværs af 30 datterselskaber\". Ankommer, når genindlæsningen af ejerskabsgrafen lander.",
+    "source_and_pipeline": "Kilde & pipeline",
+    "ted_contracts_pipeline_health": "TED-kontrakter — pipeline-tilstand",
+    "open_operational_ted_dashboard": "Åbn det operationelle TED-kontrakter-dashboard →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Ukendt tema",
+    "questions_this_answers": "Spørgsmål dette besvarer",
+    "sources_and_pipeline_health": "Kilder & pipeline-tilstand",
+    "open_the": "Åbn",
+    "dashboard_arrow": "dashboardet →",
+    "no_dedicated_dashboard_yet": "Intet dedikeret dashboard endnu.",
+    "deeper_insights": "Dybere indsigter",
+    "coming_soon": "kommer snart",
+    "no_configuration_yet": "Dette tema har ingen konfiguration endnu."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "EU-samhørighedstilskud",
+    "grant": "tilskud",
+    "attained": "opnået",
+    "eu_contribution": "EU-bidrag",
+    "project": "Projekt",
+    "fund": "Fond",
+    "programme": "Program",
+    "eu_euro": "EU €",
+    "period": "Periode"
+  },
+  "forgot_password": {
+    "reset_your_password": "Nulstil din adgangskode",
+    "enter_your_email_send_link": "Indtast din e-mail, så sender vi dig et link til at oprette en ny adgangskode.",
+    "you_example_com": "dig@eksempel.com",
+    "sending": "Sender…",
+    "send_reset_link": "Send nulstillingslink",
+    "check_your_email": "Tjek din e-mail",
+    "if_account_exists_sent_link": "Hvis der findes en konto til den adresse, har vi sendt et link til at nulstille din adgangskode. Det udløber om én time."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlas-signaturforklaring",
+    "logarithmic_scale": "logaritmisk skala",
+    "log": "log",
+    "no_data": "ingen data"
+  },
+  "studio_nav": {
+    "project_actions": "Projekthandlinger",
+    "query_actions": "Forespørgselshandlinger",
+    "plot_actions": "Plothandlinger",
+    "rename": "Omdøb",
+    "delete": "Slet",
+    "confirm_delete": "Bekræft sletning",
+    "new_query": "Ny forespørgsel",
+    "duplicate": "Dubler",
+    "queries": "Forespørgsler",
+    "plots": "Plot",
+    "new_plot": "Nyt plot",
+    "new_project": "Nyt projekt"
+  },
+  "studio_home": {
+    "data_studio": "Datastudie",
+    "pull_data_with_read_only_queries": "Hent data med skrivebeskyttede forespørgsler, kombiner det i din browser, og lav diagrammer.",
+    "new_project": "Nyt projekt",
+    "loading_your_projects": "Indlæser dine projekter…",
+    "no_data_projects_yet": "Ingen dataprojekter endnu. Opret dit første for at komme i gang.",
+    "query": "forespørgsel",
+    "queries": "forespørgsler",
+    "plot": "plot",
+    "plots": "plot"
+  },
+  "profile_panel": {
+    "entities": "enheder",
+    "show_all": "Vis alle",
+    "contracts": "kontrakter",
+    "former": "(tidligere)"
+  },
+  "studio_project": {
+    "studio": "Studie",
+    "project_name": "Projektnavn",
+    "share": "Del",
+    "view_only_access": "Du har skrivebeskyttet adgang til dette delte projekt.",
+    "queries": "Forespørgsler",
+    "new_query": "+ Ny forespørgsel",
+    "no_queries_yet": "Ingen forespørgsler endnu. Opret en for at begynde at hente data.",
+    "plots": "Plot",
+    "new_plot": "+ Nyt plot",
+    "no_plots_yet": "Ingen plot endnu. Kombiner dine forespørgsler, og lav et diagram af resultatet."
+  },
+  "schema_panel": {
+    "schema": "Skema",
+    "loading_schema": "Indlæser skema…",
+    "schema_unavailable": "Skema ikke tilgængeligt.",
+    "node_labels": "Knudeetiketter",
+    "no_recorded_properties": "ingen registrerede egenskaber",
+    "relationships": "Relationer",
+    "tables": "Tabeller",
+    "classes": "Klasser",
+    "predicates": "Prædikater"
+  },
+  "reset_password": {
+    "set_a_new_password": "Angiv en ny adgangskode",
+    "new_password": "Ny adgangskode",
+    "confirm_new_password": "Bekræft ny adgangskode",
+    "passwords_dont_match": "Adgangskoderne stemmer ikke overens.",
+    "saving": "Gemmer…",
+    "set_new_password": "Angiv ny adgangskode",
+    "password_updated": "Adgangskode opdateret",
+    "password_changed_redirecting": "Din adgangskode er blevet ændret, og alle sessioner er logget ud. Omdirigerer dig til login…"
+  },
+  "investigation_detail": {
+    "untitled": "Uden titel",
+    "data_projects": "Dataprojekter",
+    "no_data_projects": "Ingen dataprojekter delt med denne undersøgelse endnu.",
+    "queries": "forespørgsler",
+    "plots": "plot",
+    "detach": "Frakobl"
+  },
+  "tree_node": {
+    "untitled": "Uden titel",
+    "add_sub_article": "Tilføj underartikel",
+    "remove": "Fjern"
+  },
+  "contract_detail": {
+    "public_spending": "Offentlige udgifter",
+    "loading": "Indlæser…",
+    "contract_not_found": "Kontrakt ikke fundet.",
+    "couldnt_load_this_contract": "Kunne ikke indlæse denne kontrakt.",
+    "untitled_contract": "(kontrakt uden titel)",
+    "red_flag": "advarsel",
+    "bidder_s": "byder(e)",
+    "risk_indicators_note": "Risikoindikatorer efter EC's Single Market Scoreboard / ECA's CRI-metode — en markering er en opfordring til at se nærmere, ikke bevis på uregelmæssigheder.",
+    "value": "Værdi",
+    "procedure": "Procedure",
+    "award_criteria": "Tildelingskriterier",
+    "eu_funded": "EU-finansieret",
+    "yes": "Ja",
+    "buyer": "Køber",
+    "contractor": "Kontrahent",
+    "award_date": "Tildelingsdato",
+    "view_original_notice_on_ted": "Se den oprindelige bekendtgørelse på TED"
+  },
+  "studio_query": {
+    "studio": "Studie",
+    "query_name": "Forespørgselsnavn",
+    "duplicate": "Dubler",
+    "confirm_delete": "Bekræft sletning",
+    "delete": "Slet",
+    "query_language": "Forespørgselssprog",
+    "hide_schema": "Skjul skema",
+    "schema": "Skema",
+    "write_your_query_shortcut": "Skriv din forespørgsel — Ctrl/Cmd+Enter for at køre",
+    "running": "Kører…",
+    "run_query": "Kør forespørgsel",
+    "rows": "rækker",
+    "cols": "kolonner",
+    "query_ran_no_rows": "Forespørgslen kørte uden fejl — ingen rækker returneret.",
+    "showing_first_100_of": "Viser de første 100 af",
+    "rows_2": "rækker.",
+    "loading": "Indlæser…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Pipeline-målinger ikke tilgængelige.",
+    "no_events_recorded_in_the_window": "Ingen hændelser registreret i vinduet."
+  },
+  "studio_map": {
+    "loading_boundaries": "Indlæser grænser…",
+    "matched": "matchet",
+    "of": "af",
+    "regions": "regioner",
+    "wrong_column_level": "— forkert kolonne/niveau?",
+    "opacity": "uigennemsigtighed"
   }
 }

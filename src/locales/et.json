@@ -138,10 +138,31 @@
     "notes": "Märkused",
     "time_unit": "Ajaühik",
     "updated": "Uuendatud",
-    "value_scale": "Väärtuste skaala"
+    "value_scale": "Väärtuste skaala",
+    "map_view_of_the_curated_eurostat_datasets": "Kureeritud Eurostati andmestike kaardivaade. Valige mõõdik, NUTS tase ja aasta.",
+    "no_datasets_registered_yet": "Ühtki andmestikku pole veel registreeritud — statistikahoidla on võrgus, kuid algandmed on laadimata. Käivitage",
+    "to_populate_the_catalog": "kataloogi täitmiseks.",
+    "pick_a_dataset": "— valige andmestik —",
+    "the_dataset_has": "Andmestikul on",
+    "dimension_combinations_largest_slice_is_shown_by_default": "mõõtmete kombinatsiooni. Vaikimisi kuvatakse suurim lõik.",
+    "backend_hasnt_computed_slice_stats": "Taustsüsteem pole selle andmestiku lõikude statistikat veel arvutanud — tagasilangus aastapõhisele automaatskaleerimisele.",
+    "unavailable": "(pole saadaval)",
+    "suggested": "(soovitatud)",
+    "hidden": "peidetud",
+    "fetching_observations": "Vaatluste toomine…",
+    "no_data": "andmed puuduvad",
+    "pause_year_animation": "Peata aasta animatsioon",
+    "play_year_animation": "Esita aasta animatsioon",
+    "year": "Aasta",
+    "looping_enabled": "Kordamine lubatud",
+    "looping_disabled_stops_at_the_last_year": "Kordamine keelatud — peatub viimasel aastal",
+    "loop": "kordus"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Ava Atlases →"
+    "open_in_atlas": "Ava Atlases →",
+    "atlas_map": "Atlase kaart",
+    "loading_map_data": "Kaardiandmete laadimine…",
+    "no_data": "andmed puuduvad"
   },
   "corr_matrix": {
     "none": "puudub",
@@ -150,7 +171,9 @@
     "strong": "tugev",
     "inverse": "pöördvõrdeline",
     "self": "sama muutuja",
-    "hint": "Täpse väärtuse nägemiseks liigu hiirega või puuduta lahtrit."
+    "hint": "Täpse väärtuse nägemiseks liigu hiirega või puuduta lahtrit.",
+    "pick_at_least_two_numeric_columns": "Korreleerimiseks valige vähemalt kaks arvulist veergu.",
+    "pearson_r": "Pearsoni r"
   },
   "translations": {
     "label": "Tõlked",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Lepinguandmeid laaditakse...",
     "missing_fields_of_contracts": "Puuduvad väljad (% lepingutest)",
     "ted_contracts": "TED-lepingud",
-    "total_eur_by_country_top_15": "EUR kokku riigi järgi (Top 15)"
+    "total_eur_by_country_top_15": "EUR kokku riigi järgi (Top 15)",
+    "tender_integrity": "Pakkumuse ausus",
+    "single_bidder_rate_and_red_flag_indicators": "Ühe pakkuja määr ja ohumärkide näitajad vastavalt EK ühtse turu tulemustabeli / Euroopa Kontrollikoja CRI metoodikale — märk on ajend uurimiseks, mitte tõend väärteost.",
+    "red_flags_by_type": "Ohumärgid tüübi järgi",
+    "red_flag_count_distribution": "Ohumärkide arvu jaotus",
+    "scroll_to_zoom_in_out": "Sisse-/väljasuumimiseks kerige. Tulbad koondavad: päev → nädal → kuu → aasta.",
+    "distribution_of_original_currencies": "Algsete valuutade jaotus. EUR domineerib, kuid paljud ELi liikmesriikide lepingud kasutavad kohalikku valuutat."
   },
   "cookie_consent_banner": {
     "accept": "Aktsepteeri",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Teade avaldas täpselt nullväärtuse — arvu taha peidetud avaldamata jätmine. Käsitletakse avaldamata väärtusena.",
     "explain_confirmed_bogus": "Inimülevaataja uuris avaldatud väärtust ja kinnitas selle ebausaldusväärsuse. Selle lepingu kohta usaldusväärset väärtust ei ole.",
     "explain_withheld_generic": "Avaldatud väärtus ei läbinud platvormi usutavuskontrolle ja jäeti varjatuks.",
-    "explain_low_confidence_generic": "Väärtus on kuvatud, kuid avaldatud rahaväljad on nõrgalt tõendatud; see on vaikimisi koondsummadest ja edetabelitest välja jäetud."
+    "explain_low_confidence_generic": "Väärtus on kuvatud, kuid avaldatud rahaväljad on nõrgalt tõendatud; see on vaikimisi koondsummadest ja edetabelitest välja jäetud.",
+    "the_eus_official_public_procurement_database_financial_data": ", ELi ametlik riigihangete andmebaas. Finantsandmed pärinevad allikast",
+    "company_identifiers_and": "(ettevõtete identifikaatorid) ja",
+    "financial_statements": "(finantsaruanded).",
+    "this_dashboard_shows_the_current_state": "See töölaud kuvab teadmusgraafi praeguse seisu. Andmed laaditakse iga päev TEDist ja värskendatakse perioodiliselt GLEIFist. Kõik kirjed on jälgitavad nende algallikani TED-i teate ID-de ja LEI-numbrite kaudu."
   },
   "data_quality_hub": {
     "data_freshness": "Andmete värskus",
     "data_quality": "Andmekvaliteet",
     "latest_contract_load": "Viimane lepingute laadimine",
-    "loading_overview": "Ülevaadet laaditakse..."
+    "loading_overview": "Ülevaadet laaditakse...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Konveieripõhised töölauad — süvenege igasse ETL-i, et märgata lünki, suundumusi ja kõrvalekaldeid.",
+    "themes": "Teemad"
   },
   "data_view_selector": {
     "data_view": "Andmevaade",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Duplikaatide eemaldamine",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS järjekord — duplikaatolemite lahendamise olek",
-    "use_the": "Kasuta"
+    "use_the": "Kasuta",
+    "reviewed": "Läbi vaadatud",
+    "pending": "Ootel",
+    "tool_to_review_pending_duplicates": "tööriist ootel duplikaatide läbivaatamiseks."
   },
   "donate": {
     "backers": "Toetajad",
@@ -310,7 +348,17 @@
     "remove_mention": "Eemalda mainimine"
   },
   "entity_nuts_map": {
-    "contracts_count": "Lepingud (arv)"
+    "contracts_count": "Lepingud (arv)",
+    "level_0_country": "0 — Riik",
+    "level_1_macro_region": "1 — Makropiirkond",
+    "level_2_region": "2 — Piirkond",
+    "level_3_small_region": "3 — Väikepiirkond",
+    "select": "— valige —",
+    "loading_map": "Kaardi laadimine…",
+    "select_a": "Valige",
+    "above_to_load_the_map": "ülal kaardi laadimiseks.",
+    "contracts": "lepingud",
+    "no_known_contracts": "teadaolevad lepingud puuduvad"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Kõik märgitud paarid on lahendatud.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Liida — säilita B (A eemaldatakse)",
     "no_pairs_pending_review": "Ühtegi paari ei oota läbivaatamist.",
     "review_and_decide_on_flagged_candidates": "Vaata märgitud kandidaadid üle ja otsusta",
-    "why_flagged": "Miks märgistatud"
+    "why_flagged": "Miks märgistatud",
+    "reviewer": "läbivaataja:",
+    "your_name": "teie nimi",
+    "pending": "Ootel",
+    "rules": "reeglid",
+    "conflict": "vastuolu",
+    "one_or_more_rules_reported_a_hard_conflic": "Üks või mitu reeglit teatas selle paari puhul tõsisest vastuolust (nt mittevastavad LEI / käibemaksukohustuslasena registreerimise number). Enne ühendamist vaadake hoolikalt läbi.",
+    "accept_lobbyist_represents_company": "Nõustu — Lobist esindab ettevõtet",
+    "accept_company_is_sanctioned": "Nõustu — Ettevõte on sanktsioneeritud",
+    "accept_relationship": "Nõustu seosega",
+    "reject_relationship_is_wrong": "Lükka tagasi — seos on väär"
   },
   "entity_side": {
     "entity_details": "Olemi üksikasjad"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Ettevõtted",
     "connected_to_3": "Ühendatud (α-3)",
-    "parent_nuts_1": "Vanem NUTS 1"
+    "parent_nuts_1": "Vanem NUTS 1",
+    "level_0_country": "0 — Riik",
+    "level_1_macro_region_coming_soon": "1 — Makropiirkond (tulekul)",
+    "level_2_region_coming_soon": "2 — Piirkond (tulekul)",
+    "level_3_small_region_coming_soon": "3 — Väikepiirkond (tulekul)",
+    "eg_rus": "nt RUS",
+    "eg_de1": "nt DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Ettevõtted riigi järgi (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Salvesta vaade",
     "search_entity_name": "Otsi olemi nime...",
     "set_as_center": "Sea keskmeks",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 kuud",
+    "3_yr": "3 a",
+    "5_yr": "5 a",
+    "nodes": "Sõlmed",
+    "edges": "Servad",
+    "exit_path_mode": "✕ Välju teerežiimist",
+    "find_path_to_2": "Leia tee kuni…",
+    "timeline": "Ajajoon",
+    "timeline_2": "✕ Ajajoon",
+    "saved": "Salvestatud",
+    "depth_2": "sügavus",
+    "path": "tee",
+    "found": "leitud.",
+    "shortest": "Lühim:",
+    "hop": "hüpe",
+    "path_2": "Tee",
+    "contracts": "lepingud",
+    "directors": "juhatuse liikmed",
+    "companies": "ettevõtted",
+    "nodes_2": "sõlme",
+    "edges_2": "serva",
+    "showing": "Kuvatakse",
+    "of": "/",
+    "truncated": "(kärbitud)",
+    "country": "Riik:",
+    "value": "Väärtus:",
+    "collapse": "▼ Ahenda",
+    "expand": "▶ Laienda"
   },
   "income": {
     "revenue_amp_net_income": "Tulu &amp; puhaskasum"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Lobikulude jaotus",
     "registrations_over_time": "Registreeringud aja jooksul",
     "top_countries": "Põhiriigid",
-    "transparency_register_lobbyist_registrat": "Läbipaistvusregister — lobistide registreerimised, EP-i juurdepääs, kulutused"
+    "transparency_register_lobbyist_registrat": "Läbipaistvusregister — lobistide registreerimised, EP-i juurdepääs, kulutused",
+    "most_represented_companies": "Enim esindatud ettevõtted",
+    "registrants_resolved_to_a_known_company": "Registreerujad, kes on konsolideerija kaudu seotud tuntud ettevõttega (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Registreerujate kategooriate jaotus",
+    "top_declared_spenders": "Suurimad deklareeritud kulutajad",
+    "by_declared_annual_lobbying_cost_ceiling": "Deklareeritud aastase lobitöökulude ülemmäära järgi."
   },
   "login": {
     "go_to_home": "Mine avalehele",
     "you_already_have_an_active_session": "Sul on juba aktiivne sessioon.",
-    "youre_signed_in": "Oled sisse logitud"
+    "youre_signed_in": "Oled sisse logitud",
+    "sign_in_to_fontem": "Logi Fontemisse sisse",
+    "sign_in_to_start_creating_data_stories": "Logige sisse, et hakata looma andmelugusid, tõstatama probleeme ja tegema koostööd kogukonnaga.",
+    "signing_in": "Sisselogimine...",
+    "sign_in": "Logi sisse",
+    "create_account": "Loo konto",
+    "email": "E-post",
+    "password": "Parool",
+    "forgot_your_password": "Unustasite parooli?",
+    "full_name": "Täisnimi",
+    "password_min_8_chars": "Parool (vähemalt 8 tähemärki)",
+    "confirm_password": "Kinnita parool",
+    "passwords_dont_match": "Paroolid ei ühti",
+    "creating_account": "Konto loomine...",
+    "or_continue_with": "või jätka teenusega",
+    "sign_in_with_token": "Logi sisse tokeniga",
+    "paste_a_jwt_token": "Kleebi JWT token",
+    "go": "Mine"
   },
   "mention_autocomplete": {
     "entity_mentions": "Olemi mainimised",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Andmekvaliteedi ülevaade",
     "listings": "Noteeringud",
     "lobby": "Lobi",
-    "top_alpha_2_codes": "Põhilised Alpha-2 koodid"
+    "top_alpha_2_codes": "Põhilised Alpha-2 koodid",
+    "how_many_entities_appear_in_multiple_data_sources": "Mitu üksust esineb mitmes andmeallikas — graafi seotuse mõõt.",
+    "companies_still_use_alpha_2_country_codes": "ettevõtted kasutavad endiselt alpha-2 riigikoode ISO 3166-1 alpha-2/alpha-3 asemel.",
+    "field_completeness": "Väljade täielikkus",
+    "coverage_percentage_per_field": "Katvuse protsent välja kohta. Roheline = >90%, kollane = 50–90%, punane = <50%.",
+    "sanctions": "Sanktsioonid",
+    "entities": "üksused",
+    "cohesion_projects": "Ühtekuuluvusprojektid",
+    "projects": "projektid",
+    "companies": "Ettevõtted",
+    "companies_2": "ettevõtted"
   },
   "pocket_button": {
     "name_this_snapshot": "Nimeta see hetktõmmis",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Tühjenda tehisintellekti ajalugu",
     "delete_account": "Kustuta konto",
     "display": "Kuva",
-    "preferences": "Eelistused"
+    "preferences": "Eelistused",
+    "sequential": "Järjestikune",
+    "diverging": "Lahknev",
+    "signing_out": "Väljalogimine…",
+    "sign_out_all_devices": "Logi välja kõigist seadmetest",
+    "sign_in": "Logi sisse"
   },
   "privacy": {
     "access": "Juurdepääs",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Nende õiguste kasutamiseks võta meiega ühendust aadressil",
     "under_the_gdpr_you_have_the_right_to": "GDPR-i alusel on sul õigus:",
     "when_you_sign_in_we_collect_and_store": "Sisselogimisel kogume ja salvestame:",
-    "your": "Sinu"
+    "your": "Sinu",
+    "what_fontem_is": "1. Mis on Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem on kodanikuühiskonna läbipaistvusplatvorm, mis koondab ELi riigihangete andmed, ettevõtete omandiregistrid ja ühtekuuluvuspoliitika rahastuse ühte teadmusgraafi. Selle eesmärk on muuta avaliku sektori kulutused ja ettevõtete struktuurid lihtsamini uuritavaks ja mõistetavaks.",
+    "data_in_the_knowledge_graph": "2. Andmed teadmusgraafis",
+    "legal_entities": "juriidilised isikud",
+    "companies_public_authorities_and_organis": "(ettevõtted, ametiasutused ja organisatsioonid) — mitte füüsilised isikud. Koondame avalikult kättesaadavaid andmeid järgmistest allikatest:",
+    "global_lei_foundation_company_registry": "— Global LEI Foundationi ettevõtete registriandmed",
+    "eu_public_procurement_notices": "— ELi riigihangete teated ja lepingute sõlmimised",
+    "eu_cohesion_policy_project_funding": "— ELi ühtekuuluvuspoliitika projektide rahastus",
+    "lobbying_organisations_registered_with_eu": "— ELis registreeritud lobiorganisatsioonid",
+    "sanctioned_entities_only": "— üksnes sanktsioneeritud üksused",
+    "your_account_data": "3. Teie kontoandmed",
+    "email_address": "e-posti aadress",
+    "name": "nimi",
+    "and": ", ja",
+    "profile_picture": "profiilipilt",
+    "provided_by_google_oauth": "(esitatud Google OAuthi kaudu)",
+    "this_data_is_used_solely_for_authenticat": "Neid andmeid kasutatakse üksnes autentimiseks ja teie kasutuskogemuse isikupärastamiseks (nt teie nime kuvamiseks liideses).",
+    "performance_of_a_contract": "lepingu täitmine (isikuandmete kaitse üldmääruse art 6 lg 1 p b) — vajame neid andmeid, et pakkuda teile kontot ja teenuseid, millega liitusite.",
+    "you_can_delete_your_account": "Võite oma konto ja kõik sellega seotud andmed igal ajal kustutada, võttes meiega ühendust allpool toodud aadressil.",
+    "ai_assistant": "4. Tehisintellekti abiline",
+    "when_you_use_the_ai_assistant": "Kui kasutate tehisintellekti abilist, salvestatakse teie vestlused vestlusajaloo pakkumiseks ja kasutusmõõdikute arvutamiseks.",
+    "you_can_delete_your_entire_conversation": "Võite oma kogu vestlusajaloo igal ajal profiilimenüüst kustutada.",
+    "your_rights": "5. Teie õigused",
+    "the_personal_data_we_hold_about_you": "teie kohta säilitatavad isikuandmed",
+    "inaccurate_data": "ebatäpsed andmed",
+    "your_data_right_to_be_forgotten": "oma andmed (\"õigus olla unustatud\")",
+    "your_data_to_another_service": "oma andmed teisele teenusele",
+    "you_also_have_the_right_to_lodge": "Teil on samuti õigus esitada kaebus oma elukohariigi järelevalveasutusele.",
+    "cookies": "6. Küpsised",
+    "we_only_use_strictly_necessary_cookies": "Kasutame üksnes rangelt vajalikke seansiküpsiseid autentimiseks. Me ei kasuta jälgimisküpsiseid, reklaamiküpsiseid ega kolmandate osapoolte analüütikaküpsiseid.",
+    "changes_to_this_policy": "7. Selle poliitika muudatused",
+    "we_may_update_this_policy": "Võime seda poliitikat aeg-ajalt ajakohastada. Seda tehes uuendame selle lehe ülaosas olevat kuupäeva \"viimati uuendatud\". Fontemi jätkuv kasutamine pärast muudatusi tähendab ajakohastatud poliitikaga nõustumist."
   },
   "profile": {
     "avg_net_margin": "Keskmine netomarginaal",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja EL-i rahastatud projekte. Või vaata, mis on sinu riigis suur.",
-    "public_spending": "Avalikud kulutused"
+    "public_spending": "Avalikud kulutused",
+    "showing_top_in": "Kuvatakse tipp riigis",
+    "pick_a_country_to_see_top_companies": "Valige riik, et näha tippettevõtteid ja -ametiasutusi:",
+    "pick_a_country": "— valige riik —",
+    "top_companies_in": "Tippettevõtted riigis",
+    "by_total_eu_procurement_contract_value_won": "Võidetud ELi hankelepingute koguväärtuse järgi.",
+    "contracts": "lepingud",
+    "loading": "Laadimine…",
+    "no_companies_found_for": "Ettevõtteid ei leitud riigile",
+    "top_authorities_in": "Tippametiasutused riigis",
+    "by_total_contract_value_awarded": "Sõlmitud lepingute koguväärtuse järgi.",
+    "no_authorities_found_for": "Ametiasutusi ei leitud riigile"
   },
   "recently_published_carousel": {
     "carousel_position": "Karusselli asukoht",
@@ -619,7 +791,12 @@
     "private_only_me": "Privaatne — ainult mina",
     "public_anyone": "Avalik — igaüks",
     "signed_in_users": "Sisselogitud kasutajad",
-    "story_title": "Loo pealkiri"
+    "story_title": "Loo pealkiri",
+    "saving": "Salvestamine...",
+    "save": "Salvesta",
+    "insert_widget": "Lisa vidin",
+    "your_pocket_is_empty": "Teie kogum on tühi. Salvestage esmalt visualiseeringud nupu Kogu abil.",
+    "close": "Sulge"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktsioneeritud olemid — isikud, organisatsioonid, režiimi kaetus ja ettevõtete sobitamine",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter käivitamiseks",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulemuste ümbrik:",
     "sparql_endpoint": "SPARQL-lõpp-punkt",
-    "try_a_query": "Proovi päringut"
+    "try_a_query": "Proovi päringut",
+    "no_rows": "Ridu pole.",
+    "query_returned_no_projected_columns": "Päring ei tagastanud ühtki projitseeritud veergu.",
+    "example_queries": "Näidispäringud",
+    "click": "Klõpsake",
+    "use_this_query": "Kasuta seda päringut",
+    "drop_query_into_editor_hint": "et lisada üks ülalolevasse redaktorisse. Sõnavara segab",
+    "with_the_eu": "ELi",
+    "eprocurement_ontology": "eProcurement ontoloogiaga",
+    "where_schemaorg_has_gaps": "seal, kus schema.org-il on lünki.",
+    "row": "rida"
   },
   "story_editor_toolbar": {
     "blockquote": "Plokktsitaat",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Sulge finantsandmed",
     "history": "Ajalugu",
-    "taking_longer_than_expected": "Võtab oodatust kauem aega…"
+    "taking_longer_than_expected": "Võtab oodatust kauem aega…",
+    "data_as_of": "andmed seisuga",
+    "link_copied": "Link kopeeritud",
+    "copy_link": "Kopeeri link",
+    "copied": "Kopeeritud!",
+    "copy_link_to_this_view": "Kopeeri link sellele vaatele",
+    "could_not_load_data_for": "Andmeid ei õnnestunud laadida objektile",
+    "this_entity": "see üksus",
+    "annual_data": "Aastaandmed",
+    "metric": "Mõõdik",
+    "averages": "Keskmised",
+    "per_year": "Aastas"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Tikkereid ei leitud otsingule &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Lepingutest materialiseeritud asutuse-ettevõtte kaubandussuhted",
-    "trade_edges": "Kaubandusservad"
+    "trade_edges": "Kaubandusservad",
+    "counts_derive_live": "Arvud tuletatakse reaalajas lepingupõhisest",
+    "chain_no_materialised_cache": "ahelast. Materialiseeritud vahemälu puudub; arvud kajastavad alati praegust graafi."
   },
   "triples_d_q": {
     "chart_view": "Diagrammi vaade",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Triplid nimetatud graafi kohta",
     "virtuoso_not_configured_in_this_environm": "Virtuoso pole selles keskkonnas seadistatud",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF-inventuur Virtuoso hoidlas — kogusummad, nimeliste graafide kaupa arvud ning iga graafi klassi/predikaadi kuju. Allikaks SPARQL päring vastu",
+    "could_not_load_triple_store_stats": "Kolmikhoidla statistikat ei õnnestunud laadida:",
+    "this_environment_has_no_rdf_store": "Sellel keskkonnal pole RDF-hoidlat ühendatud — sanktsioonide, esitiste ja muud 2. faasi RDF-graafid eksisteerivad üksnes seal, kus",
+    "is_set_on_the_gmr_api_deployment": "on gmr-api juurutuses määratud. Reaalajas arvude jaoks vaadake lava- või tootmiskeskkonna töölauda.",
+    "assertions_in_this_graph": "väidet selles graafis."
   },
   "valuation": {
     "averages": "Keskmised"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Parandatud € väärtus",
     "action_correct": "Paranda",
     "action_bogus": "Ekslik"
+  },
+  "issue_create_modal": {
+    "eg_company": "nt ettevõte",
+    "eg_gmr_id_or_ticker": "nt gmr_id või börsisümbol"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Puuduvad kuvatavad andmeread."
+  },
+  "studio_share_modal": {
+    "share": "Jaga",
+    "investigation": "Uurimine",
+    "shared_with": "Jagatud kasutajaga",
+    "an_investigation": "uurimine",
+    "its_members_inherit_access_by_role": "— selle liikmed pärivad juurdepääsu rolli alusel.",
+    "detach": "Eemalda",
+    "add_to_an_investigation": "Lisa uurimisele",
+    "add_to_an_investigation_2": "Lisa uurimisele…",
+    "attach": "Lisa",
+    "you_need_a_contributor_seat_on_an_investigation": "Projekti lisamiseks on teil vaja uurimises vähemalt kaastöötaja õigusi.",
+    "who_has_access": "Kellel on juurdepääs",
+    "add_a_person": "Lisa isik",
+    "email_address": "E-posti aadress",
+    "email_address_to_share_with": "E-posti aadress, kellega jagada",
+    "access_level": "Juurdepääsu tase",
+    "add": "Lisa",
+    "people_with_direct_access": "Otsese juurdepääsuga isikud",
+    "no_direct_shares_yet": "Otseseid jagamisi veel pole.",
+    "remove": "Eemalda"
+  },
+  "verify_email": {
+    "confirming_your_email": "Teie e-posti aadressi kinnitamine…",
+    "one_moment": "Üks hetk.",
+    "email_confirmed": "E-posti aadress kinnitatud",
+    "your_account_is_verified": "Teie konto on kinnitatud. Nüüd saate avaldada lugusid, kommenteerida ja teemasid jälgida.",
+    "continue_to_fontem": "Jätka Fontemisse",
+    "the_link_may_have_expired": "Link võib olla aegunud või juba kasutatud. Logige sisse ja taotlege ülal asuvalt ribalt uut kinnituskirja.",
+    "go_to_fontem": "Mine Fontemisse",
+    "couldnt_confirm_your_email": "Teie e-posti aadressi ei õnnestunud kinnitada"
+  },
+  "studio_plot": {
+    "studio": "Stuudio",
+    "plot_name": "Graafiku nimi",
+    "saved": "Salvestatud ✓",
+    "save_plot": "Salvesta graafik",
+    "pocketed": "Kogutud ✓",
+    "pocket": "Kogu",
+    "step_1_sources": "1 · Allikad",
+    "this_project_has_no_queries_yet": "Sellel projektil pole veel päringuid.",
+    "step_2_combine": "2 · Ühenda",
+    "duckdb_sql_over": "— DuckDB SQL üle",
+    "your_sources": "teie allikate",
+    "runs_in_your_browser": "(töötab teie brauseris)",
+    "combining": "Ühendamine…",
+    "run_combine": "Käivita ja ühenda",
+    "rows": "read",
+    "step_3_plot": "3 · Graafik",
+    "chart": "Diagramm",
+    "nuts_column": "NUTS veerg",
+    "value": "Väärtus",
+    "bivariate": "Kahemõõtmeline",
+    "off": "Väljas",
+    "colour_opacity": "Värv + läbipaistmatus",
+    "two_colour_matrix": "2-värvi maatriks",
+    "second_value": "2. väärtus",
+    "level": "Tase",
+    "series": "Andmerida",
+    "columns": "Veerud",
+    "loading": "Laadimine…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Riigihanked",
+    "where_eu_public_money_goes": "Kuhu läheb ELi avalik raha — lepingute sõlmimised, väärtuse liikumised ja andmekvaliteet iga esiletõstetud arvu taga.",
+    "loading_procurement_data": "Hankeandmete laadimine…",
+    "contracts": "Lepingud",
+    "trusted_value": "Usaldusväärne väärtus",
+    "values_trusted": "Usaldatud väärtused",
+    "countries": "Riigid",
+    "spend_by_country_confidence_gated": "Kulutused riigiti (usaldusväärsuse alusel piiratud)",
+    "low_confidence_values_excluded": "Madala usaldusväärsusega väärtused on välistatud — vaadake allpool asuvat andmekvaliteedi paneeli.",
+    "data_quality_values_held_back": "Andmekvaliteet — kogusummadest kõrvale jäetud väärtused",
+    "contracts_2": "lepingut",
+    "are_flagged_and_excluded_from_figures": "on märgistatud ja välistatud ülaltoodud arvudest.",
+    "corporate_group_rollup": "Kontserni koondamine",
+    "coming_soon": "tulekul",
+    "winners_rolled_up_to_parent": "Võitjad on koondatud oma lõpliku emaettevõtte alla — nii saab \"Ettevõte X võitis 2 mln €\" asemel \"Kontsern Y võitis 400 mln € 30 tütarettevõtte peale\". Ilmub, kui omandigraafi taasimport valmib.",
+    "source_and_pipeline": "Allikas ja konveier",
+    "ted_contracts_pipeline_health": "TED-lepingud — konveieri seisund",
+    "open_operational_ted_dashboard": "Ava operatiivne TED-lepingute töölaud →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Tundmatu teema",
+    "questions_this_answers": "Küsimused, millele see vastab",
+    "sources_and_pipeline_health": "Allikad ja konveieri seisund",
+    "open_the": "Ava",
+    "dashboard_arrow": "töölaud →",
+    "no_dedicated_dashboard_yet": "Pühendatud töölauda pole veel.",
+    "deeper_insights": "Sügavamad ülevaated",
+    "coming_soon": "tulekul",
+    "no_configuration_yet": "Sellel teemal pole veel konfiguratsiooni."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "ELi ühtekuuluvustoetused",
+    "grant": "toetus",
+    "attained": "saavutatud",
+    "eu_contribution": "ELi panus",
+    "project": "Projekt",
+    "fund": "Fond",
+    "programme": "Programm",
+    "eu_euro": "EL €",
+    "period": "Periood"
+  },
+  "forgot_password": {
+    "reset_your_password": "Lähtestage oma parool",
+    "enter_your_email_send_link": "Sisestage oma e-posti aadress ja saadame teile lingi uue parooli määramiseks.",
+    "you_example_com": "teie@näide.ee",
+    "sending": "Saatmine…",
+    "send_reset_link": "Saada lähtestamislink",
+    "check_your_email": "Kontrollige oma e-posti",
+    "if_account_exists_sent_link": "Kui sellele aadressile on olemas konto, oleme saatnud lingi teie parooli lähtestamiseks. See aegub ühe tunni pärast."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlase legend",
+    "logarithmic_scale": "logaritmiline skaala",
+    "log": "log",
+    "no_data": "andmed puuduvad"
+  },
+  "studio_nav": {
+    "project_actions": "Projekti toimingud",
+    "query_actions": "Päringu toimingud",
+    "plot_actions": "Graafiku toimingud",
+    "rename": "Nimeta ümber",
+    "delete": "Kustuta",
+    "confirm_delete": "Kinnita kustutamine",
+    "new_query": "Uus päring",
+    "duplicate": "Dubleeri",
+    "queries": "Päringud",
+    "plots": "Graafikud",
+    "new_plot": "Uus graafik",
+    "new_project": "Uus projekt"
+  },
+  "studio_home": {
+    "data_studio": "Andmestuudio",
+    "pull_data_with_read_only_queries": "Tõmmake andmeid kirjutuskaitstud päringutega, ühendage need oma brauseris ja koostage graafik.",
+    "new_project": "Uus projekt",
+    "loading_your_projects": "Teie projektide laadimine…",
+    "no_data_projects_yet": "Andmeprojekte pole veel. Alustamiseks looge oma esimene.",
+    "query": "päring",
+    "queries": "päringut",
+    "plot": "graafik",
+    "plots": "graafikut"
+  },
+  "profile_panel": {
+    "entities": "üksused",
+    "show_all": "Näita kõiki",
+    "contracts": "lepingud",
+    "former": "(endine)"
+  },
+  "studio_project": {
+    "studio": "Stuudio",
+    "project_name": "Projekti nimi",
+    "share": "Jaga",
+    "view_only_access": "Teil on sellele jagatud projektile üksnes vaatamisõigus.",
+    "queries": "Päringud",
+    "new_query": "+ Uus päring",
+    "no_queries_yet": "Päringuid pole veel. Andmete tõmbamise alustamiseks looge üks.",
+    "plots": "Graafikud",
+    "new_plot": "+ Uus graafik",
+    "no_plots_yet": "Graafikuid pole veel. Ühendage oma päringud ja koostage tulemusest graafik."
+  },
+  "schema_panel": {
+    "schema": "Skeem",
+    "loading_schema": "Skeemi laadimine…",
+    "schema_unavailable": "Skeem pole saadaval.",
+    "node_labels": "Sõlmesildid",
+    "no_recorded_properties": "salvestatud omadusi pole",
+    "relationships": "Seosed",
+    "tables": "Tabelid",
+    "classes": "Klassid",
+    "predicates": "Predikaadid"
+  },
+  "reset_password": {
+    "set_a_new_password": "Määra uus parool",
+    "new_password": "Uus parool",
+    "confirm_new_password": "Kinnita uus parool",
+    "passwords_dont_match": "Paroolid ei ühti.",
+    "saving": "Salvestamine…",
+    "set_new_password": "Määra uus parool",
+    "password_updated": "Parool uuendatud",
+    "password_changed_redirecting": "Teie parool on muudetud ja kõik seansid välja logitud. Suuname teid sisselogimisse…"
+  },
+  "investigation_detail": {
+    "untitled": "Pealkirjata",
+    "data_projects": "Andmeprojektid",
+    "no_data_projects": "Selle uurimisega pole veel andmeprojekte jagatud.",
+    "queries": "päringut",
+    "plots": "graafikut",
+    "detach": "Eemalda"
+  },
+  "tree_node": {
+    "untitled": "Pealkirjata",
+    "add_sub_article": "Lisa alamartikkel",
+    "remove": "Eemalda"
+  },
+  "contract_detail": {
+    "public_spending": "Avaliku sektori kulutused",
+    "loading": "Laadimine…",
+    "contract_not_found": "Lepingut ei leitud.",
+    "couldnt_load_this_contract": "Seda lepingut ei õnnestunud laadida.",
+    "untitled_contract": "(pealkirjata leping)",
+    "red_flag": "ohumärk",
+    "bidder_s": "pakkuja(d)",
+    "risk_indicators_note": "Riskinäitajad vastavalt EK ühtse turu tulemustabeli / Euroopa Kontrollikoja CRI metoodikale — märk on ajend uurimiseks, mitte tõend väärteost.",
+    "value": "Väärtus",
+    "procedure": "Menetlus",
+    "award_criteria": "Hindamiskriteeriumid",
+    "eu_funded": "ELi rahastatud",
+    "yes": "Jah",
+    "buyer": "Ostja",
+    "contractor": "Töövõtja",
+    "award_date": "Sõlmimise kuupäev",
+    "view_original_notice_on_ted": "Vaata algset teadet TEDis"
+  },
+  "studio_query": {
+    "studio": "Stuudio",
+    "query_name": "Päringu nimi",
+    "duplicate": "Dubleeri",
+    "confirm_delete": "Kinnita kustutamine",
+    "delete": "Kustuta",
+    "query_language": "Päringukeel",
+    "hide_schema": "Peida skeem",
+    "schema": "Skeem",
+    "write_your_query_shortcut": "Kirjutage oma päring — käivitamiseks Ctrl/Cmd+Enter",
+    "running": "Käivitamine…",
+    "run_query": "Käivita päring",
+    "rows": "read",
+    "cols": "veerud",
+    "query_ran_no_rows": "Päring õnnestus — ridu ei tagastatud.",
+    "showing_first_100_of": "Kuvatakse esimesed 100 kokku",
+    "rows_2": "reast.",
+    "loading": "Laadimine…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Konveieri mõõdikud pole saadaval.",
+    "no_events_recorded_in_the_window": "Aknas pole sündmusi salvestatud."
+  },
+  "studio_map": {
+    "loading_boundaries": "Piiride laadimine…",
+    "matched": "sobitatud",
+    "of": "/",
+    "regions": "piirkonda",
+    "wrong_column_level": "— vale veerg/tase?",
+    "opacity": "läbipaistmatus"
   }
 }
