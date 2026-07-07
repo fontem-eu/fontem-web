@@ -241,7 +241,33 @@
     "relationships": "Seosed",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Põhihangesektorid (CPV)"
+    "top_procurement_sectors_cpv": "Põhihangesektorid (CPV)",
+    "badge_aria": "Andmekvaliteedi märkus",
+    "concern_concession_negative": "Negatiivne (kontsessiooni) väärtus; koondsummadest välja jäetud.",
+    "concern_implausible_magnitude": "Väärtus on üksiku lepingu jaoks ebausutavalt suur; koondsummadest välja jäetud.",
+    "concern_low_confidence": "Madala usaldusväärsusega väärtus; kuni ülevaatuseni koondsummadest välja jäetud.",
+    "concern_no_value": "Kasutatavat lepingu maksumust ei avaldatud.",
+    "concern_payable_discrepancy": "Allikas esitas vastuolulise makstava summa (võimalik sisestusviga, näiteks ×1000 võimendus).",
+    "concern_unverified": "Väärtust ei õnnestunud eeldatava hinnanguga võrrelda.",
+    "concern_value_disagreement": "Sõlmimisväärtus ei ühti eelarvelise hinnanguga; koondsummadest välja jäetud.",
+    "modal_title": "Andmete usaldusväärsus",
+    "level_withheld": "Väärtus varjatud — vigased lähteandmed",
+    "level_low_confidence": "Madal usaldusväärsus",
+    "level_caveat": "Märkus",
+    "detail_reason": "Põhjus",
+    "detail_confidence": "Usaldusskoor",
+    "detail_status": "Olek",
+    "status_in_review": "Inimülevaatuse järjekorras",
+    "status_auto_withheld": "Automaatselt varjatud",
+    "status_confirmed_bogus": "Üle vaadatud: kinnitatult ebausaldusväärne",
+    "withheld_audit_note": "Avaldatud number eemaldati platvormilt, kuna see ei läbinud rangeid usutavuskontrolle. Algne väide säilib auditilogis ja ülevaatusjärjekorras; kui ülevaataja tuvastab tõese väärtuse, kuvatakse see siin.",
+    "explain_implausible_magnitude": "Avaldatud väärtus ületab suurusjärkude võrra iga usutava riigihanke — tavaliselt on tegu allikateate valuuta- või ühikuhinnaveaga.",
+    "explain_concession_negative": "Teade avaldas negatiivse väärtuse — vormi täitmisest tekkinud raamatupidamislik artefakt, mitte hind.",
+    "explain_unverified": "Avaldati vaid üks kinnitamata rahaväli, mille suurusjärk tekitas kahtlusi ja mida polnud millegagi võrrelda.",
+    "explain_zero_value": "Teade avaldas täpselt nullväärtuse — arvu taha peidetud avaldamata jätmine. Käsitletakse avaldamata väärtusena.",
+    "explain_confirmed_bogus": "Inimülevaataja uuris avaldatud väärtust ja kinnitas selle ebausaldusväärsuse. Selle lepingu kohta usaldusväärset väärtust ei ole.",
+    "explain_withheld_generic": "Avaldatud väärtus ei läbinud platvormi usutavuskontrolle ja jäeti varjatuks.",
+    "explain_low_confidence_generic": "Väärtus on kuvatud, kuid avaldatud rahaväljad on nõrgalt tõendatud; see on vaikimisi koondsummadest ja edetabelitest välja jäetud."
   },
   "data_quality_hub": {
     "data_freshness": "Andmete värskus",
@@ -471,7 +497,9 @@
     "my_stories": "Minu lood",
     "no_stories_yet_start_your_first_one_abov": "Lugusid veel pole. Alusta esimesega ülal.",
     "or_read_recent_public_stories": "Või loe viimaseid avalikke lugusid →",
-    "start_a_new_story": "Alusta uut lugu"
+    "start_a_new_story": "Alusta uut lugu",
+    "create": "Loo",
+    "story": "Lugu"
   },
   "nav": {
     "back_admin": "← Haldus",
@@ -484,7 +512,12 @@
     "map": "Kaart",
     "my_stories": "Minu lood",
     "spending": "Kulutused",
-    "stories": "Lood"
+    "stories": "Lood",
+    "account": "Konto",
+    "collapse": "Ahenda",
+    "log_in": "Logi sisse",
+    "menu": "Menüü",
+    "studio": "Stuudio"
   },
   "not_found": {
     "back_to_home": "Tagasi avalehele",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Salvesta Pocketisse",
     "save_to_pocket_tooltip": "Salvesta Pocketisse",
     "saved": "Salvestatud",
-    "saved_to_pocket_tooltip": "Salvestatud Pocketisse"
+    "saved_to_pocket_tooltip": "Salvestatud Pocketisse",
+    "add_to_investigation": "Lisa uurimisse",
+    "chart_actions": "Diagrammi toimingud",
+    "download_image": "Laadi alla pildina"
   },
   "preferences_menu": {
     "account": "Konto",
@@ -550,10 +586,22 @@
     "avg_roe": "Keskmine ROE",
     "corporate_group": "Kontsern",
     "current_price": "Praegune hind",
-    "directors_amp_officers": "Juhatus &amp; juhid",
+    "directors_amp_officers": "Juhatus & juhid",
     "financial_overview": "Finantsülevaade",
     "market_cap": "Turukapitalisatsioon",
-    "part_of": "Kuulub"
+    "part_of": "Kuulub",
+    "account_settings": "Konto seaded",
+    "activity": "Tegevus",
+    "ai_usage": "AI kasutus",
+    "confirm_delete_account": "Kustutada jäädavalt sinu konto ja KÕIK sellega seotud andmed? Seda ei saa tagasi võtta.",
+    "confirm_delete_ai": "Kustutada kõik sinu AI-assistendi vestlused?",
+    "confirm_sign_out_all": "Logida välja kõigist seadmetest, millel on juurdepääs sinu kontole?",
+    "delete_account": "Kustuta konto ja kõik andmed",
+    "delete_ai_data": "Kustuta minu AI-vestlused",
+    "log_in": "Logi sisse / Registreeru",
+    "menu": "Konto menüü",
+    "sign_out": "Logi välja",
+    "sign_out_all": "Logi välja kõigist seadmetest"
   },
   "public_spending": {
     "intro": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja EL-i rahastatud projekte. Või vaata, mis on sinu riigis suur.",
@@ -586,7 +634,8 @@
     "group_name": "Grupi nimi",
     "no_collaborators_yet": "Kaastöölisi veel pole.",
     "share_story": "Jaga lugu",
-    "visibility": "Nähtavus"
+    "visibility": "Nähtavus",
+    "who_has_access": "Kellel on juurdepääs"
   },
   "sparql": {
     "discoverable_json": "tagastab sama dokumentatsiooni JSON-ina.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Seda lepingut on muudetud — klõpsa, et näha muudatusi",
+    "modal_title": "Lepingu muudatus",
+    "subtitle": "Muutmisteates esitatud väärtused",
+    "field": "Väli",
+    "previous": "Varasem",
+    "new": "Uus",
+    "change": "Muutus",
+    "value": "Lepingu maksumus",
+    "modifies": "Muudab teadet",
+    "close": "Sulge",
+    "none": "Selle muudatuse kohta ei registreeritud ühtki väljataseme muutust."
+  },
+  "account": {
+    "account_data": "Konto ja andmed",
+    "activity_usage": "Tegevus ja kasutus",
+    "ai_usage_metrics": "AI kasutusnäitajad",
+    "dark": "Tume",
+    "language": "Keel",
+    "light": "Hele",
+    "map_palette": "Kaardi värvipalett",
+    "not_signed_in": "Sa ei ole sisse logitud.",
+    "preferences": "Eelistused",
+    "privacy": "Privaatsus ja andmepoliitika",
+    "theme": "Kujundus",
+    "title": "Konto ja seaded",
+    "your_activity": "Sinu tegevus"
+  },
+  "investigations": {
+    "add_people": "Lisa inimesi",
+    "add_to_dossier": "Lisa toimikusse",
+    "add_to_investigation": "Lisa uurimisse",
+    "back": "← Uurimised",
+    "back_stories": "← Minu lood",
+    "create": "Loo uurimine",
+    "delete": "Kustuta",
+    "delete_all": "Kustuta kõik",
+    "delete_confirm": "Kas kustutada see uurimine?",
+    "delete_keep": "Kustuta, säilita artiklid",
+    "description": "Kirjeldus",
+    "dossier": "Toimik",
+    "dossier_empty": "Artikleid veel ei ole.",
+    "empty": "Sa ei osale veel üheski uurimises.",
+    "from_this_investigation": "Sellest uurimisest",
+    "from_your_pocket": "Sinu taskust",
+    "invite": "Kutsu",
+    "invite_email": "Kutsu e-posti teel",
+    "level_editor": "Toimetaja",
+    "level_owner": "Omanik",
+    "level_viewer": "Vaataja",
+    "members": "Liikmed",
+    "name": "Nimi",
+    "new_article": "Uus artikkel",
+    "new_dossier": "Uus toimik",
+    "no_stories": "Lugusid veel ei ole.",
+    "no_viz": "Visualiseeringuid veel ei ole.",
+    "open_in_editor": "Ava redaktoris",
+    "role": "Roll",
+    "role_admin": "Administraator",
+    "role_contributor": "Kaastööline",
+    "role_owner": "Omanik",
+    "role_viewer": "Vaataja",
+    "select_article": "Vali puust artikkel.",
+    "share_dossier": "Jaga toimikut",
+    "stories": "Lood",
+    "title": "Uurimised",
+    "visualizations": "Visualiseeringud",
+    "who_has_access": "Kellel on juurdepääs"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI ja investeerimisfondid",
+    "subtitle": "Noteeringute rikastamine — väärtpaberiliigid, tegutsevad ettevõtted vs ühisinvesteerimisvahendid",
+    "by_security_type": "Noteeringud väärtpaberiliigi järgi",
+    "funds_by_type": "Fondid vahendi liigi järgi"
+  },
+  "prices_d_q": {
+    "title": "Aktsiahinnad",
+    "subtitle": "Päevalõpu hinnakiht — hankeindeksi värskus vs graafist eksporditud kogum",
+    "detail": "Katvuse üksikasjad"
+  },
+  "value_review": {
+    "title": "Lepingu maksumuse ülevaatus",
+    "subtitle": "Väärtused, mille platvorm varjas, kuna avaldatud number ei läbinud rangeid usutavuskontrolle. Sisesta parandatud EUR-väärtus või kinnita, et väide on ekslik — kumbki otsus salvestatakse parandusena ning püsib ka andmete taassisestamisel.",
+    "empty": "Järjekord on tühi — ülevaatust ei oota miski.",
+    "load_error": "Ülevaatusjärjekorda ei õnnestunud laadida.",
+    "col_contract": "Leping",
+    "col_reason": "Varjamise põhjus",
+    "col_claimed": "Väidetav väärtus",
+    "col_estimate": "Väidetav hinnang",
+    "col_decision": "Otsus",
+    "corrected_placeholder": "Parandatud € väärtus",
+    "action_correct": "Paranda",
+    "action_bogus": "Ekslik"
   }
 }

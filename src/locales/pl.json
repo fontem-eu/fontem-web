@@ -241,7 +241,33 @@
     "relationships": "Relacje",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Główne sektory zamówień (CPV)"
+    "top_procurement_sectors_cpv": "Główne sektory zamówień (CPV)",
+    "badge_aria": "Zastrzeżenie co do jakości danych",
+    "concern_concession_negative": "Wartość ujemna (koncesja); wyłączona z sum wartości.",
+    "concern_implausible_magnitude": "Wartość zbyt duża, by była wiarygodna dla pojedynczej umowy; wyłączona z sum.",
+    "concern_low_confidence": "Wartość o niskiej wiarygodności; wyłączona z sum do czasu weryfikacji.",
+    "concern_no_value": "Nie ujawniono użytecznej wartości umowy.",
+    "concern_payable_discrepancy": "Źródło podało sprzeczną kwotę do zapłaty (możliwy błąd we wprowadzeniu danych, np. zawyżenie ×1000).",
+    "concern_unverified": "Wartości nie udało się zweryfikować względem szacunku.",
+    "concern_value_disagreement": "Wartość udzielonego zamówienia jest niezgodna z szacowanym budżetem; wyłączona z sum.",
+    "modal_title": "Wiarygodność danych",
+    "level_withheld": "Wartość wstrzymana — błędne dane źródłowe",
+    "level_low_confidence": "Niska wiarygodność",
+    "level_caveat": "Zastrzeżenie",
+    "detail_reason": "Powód",
+    "detail_confidence": "Ocena wiarygodności",
+    "detail_status": "Status",
+    "status_in_review": "W kolejce do weryfikacji przez człowieka",
+    "status_auto_withheld": "Wstrzymana automatycznie",
+    "status_confirmed_bogus": "Zweryfikowano: potwierdzono niewiarygodność",
+    "withheld_audit_note": "Opublikowana liczba została usunięta z platformy, ponieważ nie przeszła rygorystycznych kontroli poprawności. Pierwotne dane są zachowane w dzienniku audytu i kolejce weryfikacji; jeśli weryfikator ustali prawdziwą wartość, pojawi się ona tutaj.",
+    "explain_implausible_magnitude": "Opublikowana wartość jest o rzędy wielkości większa niż jakakolwiek wiarygodna umowa publiczna — zwykle to błąd waluty lub ceny jednostkowej w ogłoszeniu źródłowym.",
+    "explain_concession_negative": "W ogłoszeniu podano wartość ujemną — artefakt księgowy wynikający ze sposobu wypełnienia formularza, a nie cena.",
+    "explain_unverified": "Opublikowano tylko jedno niepotwierdzone pole kwotowe, o wielkości budzącej wątpliwości, bez niczego, z czym można by je zweryfikować.",
+    "explain_zero_value": "W ogłoszeniu podano wartość dokładnie zero — nieujawnienie danych ubrane w liczbę. Traktowane jako wartość nieujawniona.",
+    "explain_confirmed_bogus": "Weryfikator zbadał opublikowaną wartość i potwierdził jej niewiarygodność. Dla tej umowy nie jest dostępna żadna wiarygodna wartość.",
+    "explain_withheld_generic": "Opublikowana wartość nie przeszła kontroli poprawności platformy i została wstrzymana.",
+    "explain_low_confidence_generic": "Wartość jest pokazywana, ale opublikowane pola kwotowe są słabo udokumentowane; jest wyłączona z domyślnych sum i rankingów."
   },
   "data_quality_hub": {
     "data_freshness": "Świeżość danych",
@@ -471,7 +497,9 @@
     "my_stories": "Moje historie",
     "no_stories_yet_start_your_first_one_abov": "Brak historii. Zacznij pierwszą powyżej.",
     "or_read_recent_public_stories": "Lub przeczytaj najnowsze historie publiczne →",
-    "start_a_new_story": "Zacznij nową historię"
+    "start_a_new_story": "Zacznij nową historię",
+    "create": "Utwórz",
+    "story": "Artykuł"
   },
   "nav": {
     "back_admin": "← Administracja",
@@ -484,7 +512,12 @@
     "map": "Mapa",
     "my_stories": "Moje historie",
     "spending": "Wydatki",
-    "stories": "Historie"
+    "stories": "Historie",
+    "account": "Konto",
+    "collapse": "Zwiń",
+    "log_in": "Zaloguj się",
+    "menu": "Menu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Powrót do strony głównej",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Zapisz w Pocket",
     "save_to_pocket_tooltip": "Zapisz w Pocket",
     "saved": "Zapisano",
-    "saved_to_pocket_tooltip": "Zapisano w Pocket"
+    "saved_to_pocket_tooltip": "Zapisano w Pocket",
+    "add_to_investigation": "Dodaj do śledztwa",
+    "chart_actions": "Działania na wykresie",
+    "download_image": "Pobierz jako obraz"
   },
   "preferences_menu": {
     "account": "Konto",
@@ -550,10 +586,22 @@
     "avg_roe": "Śr. ROE",
     "corporate_group": "Grupa kapitałowa",
     "current_price": "Aktualna cena",
-    "directors_amp_officers": "Dyrektorzy &amp; kierownictwo",
+    "directors_amp_officers": "Dyrektorzy & kierownictwo",
     "financial_overview": "Przegląd finansowy",
     "market_cap": "Kapitalizacja rynkowa",
-    "part_of": "Część"
+    "part_of": "Część",
+    "account_settings": "Ustawienia konta",
+    "activity": "Aktywność",
+    "ai_usage": "Wykorzystanie AI",
+    "confirm_delete_account": "Trwale usunąć twoje konto i WSZYSTKIE powiązane dane? Tej operacji nie można cofnąć.",
+    "confirm_delete_ai": "Usunąć wszystkie twoje rozmowy z asystentem AI?",
+    "confirm_sign_out_all": "Wylogować się ze wszystkich urządzeń mających dostęp do twojego konta?",
+    "delete_account": "Usuń konto i wszystkie dane",
+    "delete_ai_data": "Usuń moje rozmowy z AI",
+    "log_in": "Zaloguj się / Zarejestruj się",
+    "menu": "Menu konta",
+    "sign_out": "Wyloguj się",
+    "sign_out_all": "Wyloguj się ze wszystkich urządzeń"
   },
   "public_spending": {
     "intro": "Wyszukuj spółki UE, zamawiających, lobbystów i projekty finansowane przez UE. Lub przeglądaj, co jest duże w twoim kraju.",
@@ -586,7 +634,8 @@
     "group_name": "Nazwa grupy",
     "no_collaborators_yet": "Brak współpracowników.",
     "share_story": "Udostępnij historię",
-    "visibility": "Widoczność"
+    "visibility": "Widoczność",
+    "who_has_access": "Kto ma dostęp"
   },
   "sparql": {
     "discoverable_json": "zwraca tę samą dokumentację jako JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Ta umowa została zmodyfikowana — kliknij, aby zobaczyć, co się zmieniło",
+    "modal_title": "Modyfikacja umowy",
+    "subtitle": "Wartości podane w ogłoszeniu o modyfikacji",
+    "field": "Pole",
+    "previous": "Poprzednia",
+    "new": "Nowa",
+    "change": "Zmiana",
+    "value": "Wartość umowy",
+    "modifies": "Modyfikuje ogłoszenie",
+    "close": "Zamknij",
+    "none": "Dla tej modyfikacji nie odnotowano zmian na poziomie pól."
+  },
+  "account": {
+    "account_data": "Konto i dane",
+    "activity_usage": "Aktywność i wykorzystanie",
+    "ai_usage_metrics": "Metryki wykorzystania AI",
+    "dark": "Ciemny",
+    "language": "Język",
+    "light": "Jasny",
+    "map_palette": "Paleta mapy",
+    "not_signed_in": "Nie jesteś zalogowany.",
+    "preferences": "Preferencje",
+    "privacy": "Prywatność i polityka danych",
+    "theme": "Motyw",
+    "title": "Konto i ustawienia",
+    "your_activity": "Twoja aktywność"
+  },
+  "investigations": {
+    "add_people": "Dodaj osoby",
+    "add_to_dossier": "Dodaj do dossier",
+    "add_to_investigation": "Dodaj do śledztwa",
+    "back": "← Śledztwa",
+    "back_stories": "← Moje artykuły",
+    "create": "Utwórz śledztwo",
+    "delete": "Usuń",
+    "delete_all": "Usuń wszystko",
+    "delete_confirm": "Usunąć to śledztwo?",
+    "delete_keep": "Usuń, zachowaj artykuły",
+    "description": "Opis",
+    "dossier": "Dossier",
+    "dossier_empty": "Brak artykułów.",
+    "empty": "Nie należysz jeszcze do żadnego śledztwa.",
+    "from_this_investigation": "Z tego śledztwa",
+    "from_your_pocket": "Z twojej kieszeni",
+    "invite": "Zaproś",
+    "invite_email": "Zaproś przez e-mail",
+    "level_editor": "Edytor",
+    "level_owner": "Właściciel",
+    "level_viewer": "Obserwator",
+    "members": "Członkowie",
+    "name": "Nazwa",
+    "new_article": "Nowy artykuł",
+    "new_dossier": "Nowe dossier",
+    "no_stories": "Brak artykułów.",
+    "no_viz": "Brak wizualizacji.",
+    "open_in_editor": "Otwórz w edytorze",
+    "role": "Rola",
+    "role_admin": "Administrator",
+    "role_contributor": "Współautor",
+    "role_owner": "Właściciel",
+    "role_viewer": "Obserwator",
+    "select_article": "Wybierz artykuł z drzewa.",
+    "share_dossier": "Udostępnij dossier",
+    "stories": "Artykuły",
+    "title": "Śledztwa",
+    "visualizations": "Wizualizacje",
+    "who_has_access": "Kto ma dostęp"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI i fundusze inwestycyjne",
+    "subtitle": "Wzbogacanie notowań — typy papierów wartościowych, spółki operacyjne a wehikuły zbiorowego inwestowania",
+    "by_security_type": "Notowania według typu papieru wartościowego",
+    "funds_by_type": "Fundusze według typu wehikułu"
+  },
+  "prices_d_q": {
+    "title": "Kursy akcji",
+    "subtitle": "Warstwa kursów zamknięcia (EOD) — aktualność indeksu pobierającego a uniwersum wyeksportowane z grafu",
+    "detail": "Szczegóły pokrycia"
+  },
+  "value_review": {
+    "title": "Weryfikacja wartości umów",
+    "subtitle": "Wartości wstrzymane przez platformę, ponieważ opublikowana liczba nie przeszła rygorystycznych kontroli poprawności. Wprowadź skorygowaną wartość w EUR lub potwierdź, że dane są nieprawdziwe — każda decyzja jest emitowana jako zdarzenie korygujące i przetrwa ponowne wczytania danych.",
+    "empty": "Kolejka jest pusta — nic nie oczekuje na weryfikację.",
+    "load_error": "Nie udało się wczytać kolejki weryfikacji.",
+    "col_contract": "Umowa",
+    "col_reason": "Powód wstrzymania",
+    "col_claimed": "Deklarowana wartość",
+    "col_estimate": "Deklarowany szacunek",
+    "col_decision": "Decyzja",
+    "corrected_placeholder": "Skorygowana wartość €",
+    "action_correct": "Skoryguj",
+    "action_bogus": "Nieprawdziwe"
   }
 }

@@ -241,7 +241,33 @@
     "relationships": "Vztahy",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Hlavní sektory zakázek (CPV)"
+    "top_procurement_sectors_cpv": "Hlavní sektory zakázek (CPV)",
+    "badge_aria": "Upozornění na kvalitu dat",
+    "concern_concession_negative": "Záporná hodnota (koncese); vyloučeno ze součtů hodnot.",
+    "concern_implausible_magnitude": "Hodnota je příliš vysoká, než aby byla pro jednu zakázku věrohodná; vyloučeno ze součtů.",
+    "concern_low_confidence": "Hodnota s nízkou spolehlivostí; do prověření vyloučeno ze součtů.",
+    "concern_no_value": "Nebyla zveřejněna žádná použitelná hodnota zakázky.",
+    "concern_payable_discrepancy": "Zdroj uvedl rozpornou splatnou částku (možná chyba při zadávání dat, například tisícinásobné nadhodnocení).",
+    "concern_unverified": "Hodnotu nebylo možné porovnat s odhadem.",
+    "concern_value_disagreement": "Hodnota zakázky se neshoduje s odhadem rozpočtu; vyloučeno ze součtů.",
+    "modal_title": "Spolehlivost dat",
+    "level_withheld": "Hodnota zadržena — chybná zdrojová data",
+    "level_low_confidence": "Nízká spolehlivost",
+    "level_caveat": "Výhrada",
+    "detail_reason": "Důvod",
+    "detail_confidence": "Skóre spolehlivosti",
+    "detail_status": "Stav",
+    "status_in_review": "Ve frontě pro ruční kontrolu",
+    "status_auto_withheld": "Zadrženo automaticky",
+    "status_confirmed_bogus": "Zkontrolováno: potvrzeno jako nespolehlivé",
+    "withheld_audit_note": "Zveřejněné číslo bylo z platformy odstraněno, protože neprošlo přísnými kontrolami věrohodnosti. Původní údaj je uchován v auditním protokolu a ve frontě pro kontrolu; pokud kontrolor zjistí skutečnou hodnotu, objeví se zde.",
+    "explain_implausible_magnitude": "Zveřejněná hodnota o mnoho řádů převyšuje jakoukoli věrohodnou veřejnou zakázku — obvykle jde o chybu měny nebo jednotkové ceny ve zdrojovém oznámení.",
+    "explain_concession_negative": "V oznámení byla zveřejněna záporná hodnota — jde o účetní artefakt způsobu vyplnění formuláře, nikoli o cenu.",
+    "explain_unverified": "Bylo zveřejněno jediné nepotvrzené peněžní pole, a to v podezřelé výši, aniž bylo možné jej s čímkoli porovnat.",
+    "explain_zero_value": "V oznámení byla zveřejněna hodnota přesně nula — nezveřejnění maskované číslem. Považováno za nezveřejněnou hodnotu.",
+    "explain_confirmed_bogus": "Zveřejněnou hodnotu prověřil kontrolor a potvrdil, že je nespolehlivá. Pro tuto zakázku není k dispozici žádná důvěryhodná hodnota.",
+    "explain_withheld_generic": "Zveřejněná hodnota neprošla kontrolami věrohodnosti platformy a byla zadržena.",
+    "explain_low_confidence_generic": "Hodnota je zobrazena, ale zveřejněná peněžní pole jsou slabě doložená; je vyloučena z výchozích součtů a žebříčků."
   },
   "data_quality_hub": {
     "data_freshness": "Aktuálnost dat",
@@ -471,7 +497,9 @@
     "my_stories": "Mé příběhy",
     "no_stories_yet_start_your_first_one_abov": "Zatím žádné příběhy. Začněte první výše.",
     "or_read_recent_public_stories": "Nebo si přečtěte nedávné veřejné příběhy →",
-    "start_a_new_story": "Začít nový příběh"
+    "start_a_new_story": "Začít nový příběh",
+    "create": "Vytvořit",
+    "story": "Reportáž"
   },
   "nav": {
     "back_admin": "← Správa",
@@ -484,7 +512,12 @@
     "map": "Mapa",
     "my_stories": "Mé příběhy",
     "spending": "Výdaje",
-    "stories": "Příběhy"
+    "stories": "Příběhy",
+    "account": "Účet",
+    "collapse": "Sbalit",
+    "log_in": "Přihlásit se",
+    "menu": "Nabídka",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Zpět na domovskou stránku",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Uložit do Pocket",
     "save_to_pocket_tooltip": "Uložit do Pocket",
     "saved": "Uloženo",
-    "saved_to_pocket_tooltip": "Uloženo do Pocket"
+    "saved_to_pocket_tooltip": "Uloženo do Pocket",
+    "add_to_investigation": "Přidat do vyšetřování",
+    "chart_actions": "Akce grafu",
+    "download_image": "Stáhnout jako obrázek"
   },
   "preferences_menu": {
     "account": "Účet",
@@ -550,10 +586,22 @@
     "avg_roe": "Prům. ROE",
     "corporate_group": "Korporátní skupina",
     "current_price": "Aktuální cena",
-    "directors_amp_officers": "Ředitelé &amp; vedoucí",
+    "directors_amp_officers": "Ředitelé & vedoucí",
     "financial_overview": "Finanční přehled",
     "market_cap": "Tržní kapitalizace",
-    "part_of": "Součást"
+    "part_of": "Součást",
+    "account_settings": "Nastavení účtu",
+    "activity": "Aktivita",
+    "ai_usage": "Využití AI",
+    "confirm_delete_account": "Trvale smazat váš účet a VŠECHNA související data? Tuto akci nelze vrátit zpět.",
+    "confirm_delete_ai": "Smazat všechny vaše konverzace s AI asistentem?",
+    "confirm_sign_out_all": "Odhlásit se ze všech zařízení, která mají přístup k vašemu účtu?",
+    "delete_account": "Smazat účet a všechna data",
+    "delete_ai_data": "Smazat mé konverzace s AI",
+    "log_in": "Přihlásit se / Zaregistrovat se",
+    "menu": "Nabídka účtu",
+    "sign_out": "Odhlásit se",
+    "sign_out_all": "Odhlásit se ze všech zařízení"
   },
   "public_spending": {
     "intro": "Hledej firmy EU, zadavatele, lobbisty a projekty financované EU. Nebo si projdi, co je velké v tvojí zemi.",
@@ -586,7 +634,8 @@
     "group_name": "Název skupiny",
     "no_collaborators_yet": "Zatím žádní spolupracovníci.",
     "share_story": "Sdílet příběh",
-    "visibility": "Viditelnost"
+    "visibility": "Viditelnost",
+    "who_has_access": "Kdo má přístup"
   },
   "sparql": {
     "discoverable_json": "vrací tutéž dokumentaci jako JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Tato zakázka byla změněna — kliknutím zobrazíte, co se změnilo",
+    "modal_title": "Změna zakázky",
+    "subtitle": "Hodnoty uvedené v oznámení o změně",
+    "field": "Pole",
+    "previous": "Předchozí",
+    "new": "Nová",
+    "change": "Změna",
+    "value": "Hodnota zakázky",
+    "modifies": "Mění oznámení",
+    "close": "Zavřít",
+    "none": "K této změně nebyly zaznamenány žádné změny na úrovni jednotlivých polí."
+  },
+  "account": {
+    "account_data": "Účet a data",
+    "activity_usage": "Aktivita a využití",
+    "ai_usage_metrics": "Metriky využití AI",
+    "dark": "Tmavý",
+    "language": "Jazyk",
+    "light": "Světlý",
+    "map_palette": "Barevná paleta mapy",
+    "not_signed_in": "Nejste přihlášeni.",
+    "preferences": "Předvolby",
+    "privacy": "Zásady ochrany soukromí a dat",
+    "theme": "Motiv",
+    "title": "Účet a nastavení",
+    "your_activity": "Vaše aktivita"
+  },
+  "investigations": {
+    "add_people": "Přidat osoby",
+    "add_to_dossier": "Přidat do dokumentace",
+    "add_to_investigation": "Přidat do vyšetřování",
+    "back": "← Vyšetřování",
+    "back_stories": "← Moje reportáže",
+    "create": "Vytvořit vyšetřování",
+    "delete": "Smazat",
+    "delete_all": "Smazat vše",
+    "delete_confirm": "Smazat toto vyšetřování?",
+    "delete_keep": "Smazat, zachovat články",
+    "description": "Popis",
+    "dossier": "Dokumentace",
+    "dossier_empty": "Zatím žádné články.",
+    "empty": "Zatím nejste v žádném vyšetřování.",
+    "from_this_investigation": "Z tohoto vyšetřování",
+    "from_your_pocket": "Z vaší kapsy",
+    "invite": "Pozvat",
+    "invite_email": "Pozvat e-mailem",
+    "level_editor": "Editor",
+    "level_owner": "Vlastník",
+    "level_viewer": "Pozorovatel",
+    "members": "Členové",
+    "name": "Název",
+    "new_article": "Nový článek",
+    "new_dossier": "Nová dokumentace",
+    "no_stories": "Zatím žádné reportáže.",
+    "no_viz": "Zatím žádné vizualizace.",
+    "open_in_editor": "Otevřít v editoru",
+    "role": "Role",
+    "role_admin": "Správce",
+    "role_contributor": "Přispěvatel",
+    "role_owner": "Vlastník",
+    "role_viewer": "Pozorovatel",
+    "select_article": "Vyberte článek ze stromu.",
+    "share_dossier": "Sdílet dokumentaci",
+    "stories": "Reportáže",
+    "title": "Vyšetřování",
+    "visualizations": "Vizualizace",
+    "who_has_access": "Kdo má přístup"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI a investiční fondy",
+    "subtitle": "Obohacení záznamů o cenné papíry — typy cenných papírů, provozní společnosti vs. sdružené fondy",
+    "by_security_type": "Záznamy podle typu cenného papíru",
+    "funds_by_type": "Fondy podle typu nástroje"
+  },
+  "prices_d_q": {
+    "title": "Ceny akcií",
+    "subtitle": "Vrstva závěrečných cen (EOD) — aktuálnost indexu stahovače vs. univerzum exportované z grafu",
+    "detail": "Podrobnosti o pokrytí"
+  },
+  "value_review": {
+    "title": "Kontrola hodnoty zakázky",
+    "subtitle": "Hodnoty, které platforma zadržela, protože zveřejněné číslo neprošlo přísnými kontrolami věrohodnosti. Zadejte opravenou hodnotu v EUR, nebo potvrďte, že je údaj chybný — každé rozhodnutí je vydáno jako opravná událost a přetrvá i při opětovném načtení dat.",
+    "empty": "Fronta je prázdná — nic nečeká na kontrolu.",
+    "load_error": "Frontu ke kontrole se nepodařilo načíst.",
+    "col_contract": "Zakázka",
+    "col_reason": "Důvod zadržení",
+    "col_claimed": "Uváděná hodnota",
+    "col_estimate": "Uváděný odhad",
+    "col_decision": "Rozhodnutí",
+    "corrected_placeholder": "Opravená hodnota v €",
+    "action_correct": "Opravit",
+    "action_bogus": "Chybné"
   }
 }

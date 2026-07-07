@@ -241,7 +241,33 @@
     "relationships": "Relazioni",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Principali settori di appalti (CPV)"
+    "top_procurement_sectors_cpv": "Principali settori di appalti (CPV)",
+    "badge_aria": "Problema di qualità dei dati",
+    "concern_concession_negative": "Valore negativo (concessione); escluso dai totali di valore.",
+    "concern_implausible_magnitude": "Valore troppo elevato per essere plausibile per un singolo contratto; escluso dai totali.",
+    "concern_low_confidence": "Valore a bassa affidabilità; escluso dai totali in attesa di revisione.",
+    "concern_no_value": "Nessun valore contrattuale utilizzabile è stato divulgato.",
+    "concern_payable_discrepancy": "La fonte riportava un importo dovuto contrastante (possibile errore di inserimento dati, come un'inflazione ×1000).",
+    "concern_unverified": "Non è stato possibile verificare il valore rispetto a una stima.",
+    "concern_value_disagreement": "Il valore aggiudicato non concorda con la stima di budget; escluso dai totali.",
+    "modal_title": "Affidabilità dei dati",
+    "level_withheld": "Valore non pubblicato — dati di origine errati",
+    "level_low_confidence": "Bassa affidabilità",
+    "level_caveat": "Avvertenza",
+    "detail_reason": "Motivo",
+    "detail_confidence": "Punteggio di affidabilità",
+    "detail_status": "Stato",
+    "status_in_review": "Nella coda di revisione umana",
+    "status_auto_withheld": "Non pubblicato automaticamente",
+    "status_confirmed_bogus": "Revisionato: confermato inattendibile",
+    "withheld_audit_note": "Il numero pubblicato è stato rimosso dalla piattaforma perché non ha superato i controlli di plausibilità stringenti. La dichiarazione originale è conservata nel registro di audit e nella coda di revisione; se un revisore accerta il valore reale, comparirà qui.",
+    "explain_implausible_magnitude": "Il valore pubblicato è di ordini di grandezza superiore a qualsiasi contratto pubblico plausibile — di solito un errore di valuta o di prezzo unitario nell'avviso di origine.",
+    "explain_concession_negative": "L'avviso ha pubblicato un valore negativo — un artefatto contabile del modo in cui è stato compilato il modulo, non un prezzo.",
+    "explain_unverified": "È stato pubblicato un solo campo monetario non corroborato, di un'entità tale da renderlo sospetto, senza nulla con cui verificarlo.",
+    "explain_zero_value": "L'avviso ha pubblicato un valore esattamente pari a zero — una mancata divulgazione travestita da numero. Trattato come valore non divulgato.",
+    "explain_confirmed_bogus": "Un revisore ha esaminato il valore pubblicato e ha confermato che è inattendibile. Per questo contratto non è disponibile alcun valore affidabile.",
+    "explain_withheld_generic": "Il valore pubblicato non ha superato i controlli di plausibilità della piattaforma ed è stato omesso.",
+    "explain_low_confidence_generic": "Il valore è mostrato, ma i campi monetari pubblicati sono debolmente comprovati; è escluso dai totali e dalle classifiche predefinite."
   },
   "data_quality_hub": {
     "data_freshness": "Freschezza dei dati",
@@ -471,7 +497,9 @@
     "my_stories": "Le mie storie",
     "no_stories_yet_start_your_first_one_abov": "Ancora nessuna storia. Inizia la tua prima sopra.",
     "or_read_recent_public_stories": "Oppure leggi storie pubbliche recenti →",
-    "start_a_new_story": "Inizia una nuova storia"
+    "start_a_new_story": "Inizia una nuova storia",
+    "create": "Crea",
+    "story": "Storia"
   },
   "nav": {
     "back_admin": "← Amministrazione",
@@ -484,7 +512,12 @@
     "map": "Mappa",
     "my_stories": "Le mie storie",
     "spending": "Spesa",
-    "stories": "Storie"
+    "stories": "Storie",
+    "account": "Account",
+    "collapse": "Comprimi",
+    "log_in": "Accedi",
+    "menu": "Menu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Torna alla home",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Salva in Pocket",
     "save_to_pocket_tooltip": "Salva in Pocket",
     "saved": "Salvato",
-    "saved_to_pocket_tooltip": "Salvato in Pocket"
+    "saved_to_pocket_tooltip": "Salvato in Pocket",
+    "add_to_investigation": "Aggiungi all'inchiesta",
+    "chart_actions": "Azioni sul grafico",
+    "download_image": "Scarica come immagine"
   },
   "preferences_menu": {
     "account": "Account",
@@ -550,10 +586,22 @@
     "avg_roe": "ROE medio",
     "corporate_group": "Gruppo aziendale",
     "current_price": "Prezzo attuale",
-    "directors_amp_officers": "Amministratori &amp; dirigenti",
+    "directors_amp_officers": "Amministratori & dirigenti",
     "financial_overview": "Panoramica finanziaria",
     "market_cap": "Capitalizzazione di mercato",
-    "part_of": "Parte di"
+    "part_of": "Parte di",
+    "account_settings": "Impostazioni account",
+    "activity": "Attività",
+    "ai_usage": "Utilizzo dell'AI",
+    "confirm_delete_account": "Eliminare definitivamente il tuo account e TUTTI i dati associati? L'operazione è irreversibile.",
+    "confirm_delete_ai": "Eliminare tutte le tue conversazioni con l'assistente AI?",
+    "confirm_sign_out_all": "Disconnettere ogni dispositivo che ha accesso al tuo account?",
+    "delete_account": "Elimina account e tutti i dati",
+    "delete_ai_data": "Elimina le mie conversazioni AI",
+    "log_in": "Accedi / Registrati",
+    "menu": "Menu account",
+    "sign_out": "Disconnetti",
+    "sign_out_all": "Disconnetti da tutti i dispositivi"
   },
   "public_spending": {
     "intro": "Cerca aziende UE, autorità appaltanti, lobbisti e progetti finanziati dall'UE. O sfoglia ciò che è grande nel tuo paese.",
@@ -586,7 +634,8 @@
     "group_name": "Nome del gruppo",
     "no_collaborators_yet": "Ancora nessun collaboratore.",
     "share_story": "Condividi storia",
-    "visibility": "Visibilità"
+    "visibility": "Visibilità",
+    "who_has_access": "Chi ha accesso"
   },
   "sparql": {
     "discoverable_json": "restituisce la stessa documentazione in formato JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Questo contratto è stato modificato — clicca per vedere cosa è cambiato",
+    "modal_title": "Modifica del contratto",
+    "subtitle": "Valori riportati dall'avviso di modifica",
+    "field": "Campo",
+    "previous": "Precedente",
+    "new": "Nuovo",
+    "change": "Variazione",
+    "value": "Valore del contratto",
+    "modifies": "Modifica l'avviso",
+    "close": "Chiudi",
+    "none": "Per questa modifica non è stata registrata alcuna variazione a livello di campo."
+  },
+  "account": {
+    "account_data": "Account e dati",
+    "activity_usage": "Attività e utilizzo",
+    "ai_usage_metrics": "Metriche di utilizzo dell'AI",
+    "dark": "Scuro",
+    "language": "Lingua",
+    "light": "Chiaro",
+    "map_palette": "Palette della mappa",
+    "not_signed_in": "Non hai effettuato l'accesso.",
+    "preferences": "Preferenze",
+    "privacy": "Informativa su privacy e dati",
+    "theme": "Tema",
+    "title": "Account e impostazioni",
+    "your_activity": "La tua attività"
+  },
+  "investigations": {
+    "add_people": "Aggiungi persone",
+    "add_to_dossier": "Aggiungi al dossier",
+    "add_to_investigation": "Aggiungi all'inchiesta",
+    "back": "← Inchieste",
+    "back_stories": "← Le mie storie",
+    "create": "Crea inchiesta",
+    "delete": "Elimina",
+    "delete_all": "Elimina tutto",
+    "delete_confirm": "Eliminare questa inchiesta?",
+    "delete_keep": "Elimina, mantieni gli articoli",
+    "description": "Descrizione",
+    "dossier": "Dossier",
+    "dossier_empty": "Ancora nessun articolo.",
+    "empty": "Non fai ancora parte di alcuna inchiesta.",
+    "from_this_investigation": "Da questa inchiesta",
+    "from_your_pocket": "Dai tuoi elementi salvati",
+    "invite": "Invita",
+    "invite_email": "Invita via email",
+    "level_editor": "Editor",
+    "level_owner": "Proprietario",
+    "level_viewer": "Visualizzatore",
+    "members": "Membri",
+    "name": "Nome",
+    "new_article": "Nuovo articolo",
+    "new_dossier": "Nuovo dossier",
+    "no_stories": "Ancora nessuna storia.",
+    "no_viz": "Ancora nessuna visualizzazione.",
+    "open_in_editor": "Apri nell'editor",
+    "role": "Ruolo",
+    "role_admin": "Amministratore",
+    "role_contributor": "Collaboratore",
+    "role_owner": "Proprietario",
+    "role_viewer": "Visualizzatore",
+    "select_article": "Seleziona un articolo dall'albero.",
+    "share_dossier": "Condividi dossier",
+    "stories": "Storie",
+    "title": "Inchieste",
+    "visualizations": "Visualizzazioni",
+    "who_has_access": "Chi ha accesso"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI e fondi di investimento",
+    "subtitle": "Arricchimento delle quotazioni — tipi di strumento, società operative vs veicoli di investimento collettivo",
+    "by_security_type": "Quotazioni per tipo di strumento",
+    "funds_by_type": "Fondi per tipo di veicolo"
+  },
+  "prices_d_q": {
+    "title": "Prezzi azionari",
+    "subtitle": "Livello dei prezzi di fine giornata — aggiornamento dell'indice del fetcher rispetto all'universo esportato dal grafo",
+    "detail": "Dettaglio della copertura"
+  },
+  "value_review": {
+    "title": "Revisione del valore del contratto",
+    "subtitle": "Valori che la piattaforma ha omesso perché il numero pubblicato non ha superato i controlli di plausibilità stringenti. Inserisci il valore in EUR corretto, oppure conferma che la dichiarazione è falsa — in entrambi i casi la decisione viene emessa come evento correttivo e sopravvive alle nuove acquisizioni.",
+    "empty": "La coda è vuota — nulla in attesa di revisione.",
+    "load_error": "Impossibile caricare la coda di revisione.",
+    "col_contract": "Contratto",
+    "col_reason": "Motivo dell'omissione",
+    "col_claimed": "Valore dichiarato",
+    "col_estimate": "Stima dichiarata",
+    "col_decision": "Decisione",
+    "corrected_placeholder": "Valore € corretto",
+    "action_correct": "Correggi",
+    "action_bogus": "Falso"
   }
 }

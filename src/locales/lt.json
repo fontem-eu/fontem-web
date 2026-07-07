@@ -241,7 +241,33 @@
     "relationships": "Ryšiai",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Pagrindiniai pirkimų sektoriai (CPV)"
+    "top_procurement_sectors_cpv": "Pagrindiniai pirkimų sektoriai (CPV)",
+    "badge_aria": "Duomenų kokybės abejonė",
+    "concern_concession_negative": "Neigiama (koncesijos) vertė; neįtraukiama į verčių sumas.",
+    "concern_implausible_magnitude": "Vertė per didelė, kad būtų tikėtina vienai sutarčiai; neįtraukiama į sumas.",
+    "concern_low_confidence": "Mažo patikimumo vertė; neįtraukiama į sumas, kol nepatikrinta.",
+    "concern_no_value": "Neatskleista jokia tinkama sutarties vertė.",
+    "concern_payable_discrepancy": "Šaltinyje nurodyta prieštaringa mokėtina suma (galima duomenų įvedimo klaida, pvz., ×1000 padidinimas).",
+    "concern_unverified": "Vertės nepavyko palyginti su sąmata.",
+    "concern_value_disagreement": "Sutarties vertė nesutampa su biudžeto sąmata; neįtraukiama į sumas.",
+    "modal_title": "Duomenų patikimumas",
+    "level_withheld": "Vertė neatskleista — netinkami šaltinio duomenys",
+    "level_low_confidence": "Mažas patikimumas",
+    "level_caveat": "Išlyga",
+    "detail_reason": "Priežastis",
+    "detail_confidence": "Patikimumo balas",
+    "detail_status": "Būsena",
+    "status_in_review": "Žmogaus peržiūros eilėje",
+    "status_auto_withheld": "Neatskleista automatiškai",
+    "status_confirmed_bogus": "Peržiūrėta: patvirtinta kaip nepatikima",
+    "withheld_audit_note": "Paskelbtas skaičius buvo pašalintas iš platformos, nes neišlaikė griežtų tikrinimo patikrų. Pirminis teiginys išsaugotas audito žurnale ir peržiūros eilėje; jei peržiūrėtojas nustatys tikrąją vertę, ji bus parodyta čia.",
+    "explain_implausible_magnitude": "Paskelbta vertė daug kartų viršija bet kokią tikėtiną viešąją sutartį — dažniausiai tai valiutos arba vieneto kainos klaida šaltinio skelbime.",
+    "explain_concession_negative": "Skelbime paskelbta neigiama vertė — tai apskaitos artefaktas, susijęs su formos užpildymo būdu, o ne kaina.",
+    "explain_unverified": "Buvo paskelbtas tik vienas nepatvirtintas piniginis laukas, kurio dydis kėlė įtarimų, ir nebuvo su kuo jo palyginti.",
+    "explain_zero_value": "Skelbime paskelbta lygiai nulinė vertė — neatskleidimas, prisidengęs skaičiumi. Laikoma neatskleista verte.",
+    "explain_confirmed_bogus": "Žmogus peržiūrėtojas išnagrinėjo paskelbtą vertę ir patvirtino, kad ji nepatikima. Šiai sutarčiai nėra patikimos vertės.",
+    "explain_withheld_generic": "Paskelbta vertė neišlaikė platformos tikrinimo patikrų ir buvo neatskleista.",
+    "explain_low_confidence_generic": "Vertė rodoma, tačiau paskelbti piniginiai laukai silpnai pagrįsti; ji neįtraukiama į numatytąsias sumas ir reitingus."
   },
   "data_quality_hub": {
     "data_freshness": "Duomenų šviežumas",
@@ -471,7 +497,9 @@
     "my_stories": "Mano istorijos",
     "no_stories_yet_start_your_first_one_abov": "Istorijų dar nėra. Pradėk pirmą viršuje.",
     "or_read_recent_public_stories": "Arba skaityk neseniai paskelbtas viešas istorijas →",
-    "start_a_new_story": "Pradėk naują istoriją"
+    "start_a_new_story": "Pradėk naują istoriją",
+    "create": "Sukurti",
+    "story": "Istorija"
   },
   "nav": {
     "back_admin": "← Administravimas",
@@ -484,7 +512,12 @@
     "map": "Žemėlapis",
     "my_stories": "Mano istorijos",
     "spending": "Išlaidos",
-    "stories": "Istorijos"
+    "stories": "Istorijos",
+    "account": "Paskyra",
+    "collapse": "Suskleisti",
+    "log_in": "Prisijungti",
+    "menu": "Meniu",
+    "studio": "Studija"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Įrašyti į Pocket",
     "save_to_pocket_tooltip": "Įrašyti į Pocket",
     "saved": "Įrašyta",
-    "saved_to_pocket_tooltip": "Įrašyta į Pocket"
+    "saved_to_pocket_tooltip": "Įrašyta į Pocket",
+    "add_to_investigation": "Pridėti į tyrimą",
+    "chart_actions": "Diagramos veiksmai",
+    "download_image": "Atsisiųsti kaip paveikslėlį"
   },
   "preferences_menu": {
     "account": "Paskyra",
@@ -550,10 +586,22 @@
     "avg_roe": "Vidutinis ROE",
     "corporate_group": "Įmonių grupė",
     "current_price": "Dabartinė kaina",
-    "directors_amp_officers": "Direktoriai &amp; vadovai",
+    "directors_amp_officers": "Direktoriai & vadovai",
     "financial_overview": "Finansinė apžvalga",
     "market_cap": "Rinkos kapitalizacija",
-    "part_of": "Priklauso"
+    "part_of": "Priklauso",
+    "account_settings": "Paskyros nustatymai",
+    "activity": "Veikla",
+    "ai_usage": "AI naudojimas",
+    "confirm_delete_account": "Visam laikui ištrinti jūsų paskyrą ir VISUS susijusius duomenis? Šio veiksmo negalima anuliuoti.",
+    "confirm_delete_ai": "Ištrinti visus jūsų AI asistento pokalbius?",
+    "confirm_sign_out_all": "Atsijungti nuo visų įrenginių, turinčių prieigą prie jūsų paskyros?",
+    "delete_account": "Ištrinti paskyrą ir visus duomenis",
+    "delete_ai_data": "Ištrinti mano AI pokalbius",
+    "log_in": "Prisijungti / Registruotis",
+    "menu": "Paskyros meniu",
+    "sign_out": "Atsijungti",
+    "sign_out_all": "Atsijungti nuo visų įrenginių"
   },
   "public_spending": {
     "intro": "Ieškok ES įmonių, perkančiųjų organizacijų, lobistų ir ES finansuojamų projektų. Arba peržiūrėk, kas didelis tavo šalyje.",
@@ -586,7 +634,8 @@
     "group_name": "Grupės pavadinimas",
     "no_collaborators_yet": "Bendradarbių dar nėra.",
     "share_story": "Dalintis istorija",
-    "visibility": "Matomumas"
+    "visibility": "Matomumas",
+    "who_has_access": "Kas turi prieigą"
   },
   "sparql": {
     "discoverable_json": "grąžina tą pačią dokumentaciją kaip JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Ši sutartis buvo pakeista — spustelėkite, kad pamatytumėte, kas pasikeitė",
+    "modal_title": "Sutarties pakeitimas",
+    "subtitle": "Reikšmės, nurodytos pakeitimo skelbime",
+    "field": "Laukas",
+    "previous": "Ankstesnė",
+    "new": "Nauja",
+    "change": "Pokytis",
+    "value": "Sutarties vertė",
+    "modifies": "Keičia skelbimą",
+    "close": "Uždaryti",
+    "none": "Šiam pakeitimui nebuvo užfiksuota jokių laukų lygmens pokyčių."
+  },
+  "account": {
+    "account_data": "Paskyra ir duomenys",
+    "activity_usage": "Veikla ir naudojimas",
+    "ai_usage_metrics": "AI naudojimo rodikliai",
+    "dark": "Tamsi",
+    "language": "Kalba",
+    "light": "Šviesi",
+    "map_palette": "Žemėlapio paletė",
+    "not_signed_in": "Nesate prisijungę.",
+    "preferences": "Nuostatos",
+    "privacy": "Privatumo ir duomenų politika",
+    "theme": "Tema",
+    "title": "Paskyra ir nustatymai",
+    "your_activity": "Jūsų veikla"
+  },
+  "investigations": {
+    "add_people": "Pridėti žmonių",
+    "add_to_dossier": "Pridėti į dosjė",
+    "add_to_investigation": "Pridėti į tyrimą",
+    "back": "← Tyrimai",
+    "back_stories": "← Mano istorijos",
+    "create": "Sukurti tyrimą",
+    "delete": "Ištrinti",
+    "delete_all": "Ištrinti viską",
+    "delete_confirm": "Ištrinti šį tyrimą?",
+    "delete_keep": "Ištrinti, palikti straipsnius",
+    "description": "Aprašymas",
+    "dossier": "Dosjė",
+    "dossier_empty": "Kol kas nėra straipsnių.",
+    "empty": "Kol kas nedalyvaujate jokiuose tyrimuose.",
+    "from_this_investigation": "Iš šio tyrimo",
+    "from_your_pocket": "Iš jūsų kišenės",
+    "invite": "Pakviesti",
+    "invite_email": "Pakviesti el. paštu",
+    "level_editor": "Redaktorius",
+    "level_owner": "Savininkas",
+    "level_viewer": "Peržiūrėtojas",
+    "members": "Nariai",
+    "name": "Pavadinimas",
+    "new_article": "Naujas straipsnis",
+    "new_dossier": "Naujas dosjė",
+    "no_stories": "Kol kas nėra istorijų.",
+    "no_viz": "Kol kas nėra vizualizacijų.",
+    "open_in_editor": "Atidaryti redaktoriuje",
+    "role": "Vaidmuo",
+    "role_admin": "Administratorius",
+    "role_contributor": "Bendraautoris",
+    "role_owner": "Savininkas",
+    "role_viewer": "Peržiūrėtojas",
+    "select_article": "Pasirinkite straipsnį iš medžio.",
+    "share_dossier": "Bendrinti dosjė",
+    "stories": "Istorijos",
+    "title": "Tyrimai",
+    "visualizations": "Vizualizacijos",
+    "who_has_access": "Kas turi prieigą"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI ir investiciniai fondai",
+    "subtitle": "Listingų praturtinimas — vertybinių popierių tipai, veikiančios įmonės ir sutelktinio investavimo subjektai",
+    "by_security_type": "Listingai pagal vertybinio popieriaus tipą",
+    "funds_by_type": "Fondai pagal subjekto tipą"
+  },
+  "prices_d_q": {
+    "title": "Akcijų kainos",
+    "subtitle": "Dienos pabaigos kainų sluoksnis — surinkiklio indekso naujumas, palyginti su iš grafo eksportuota visuma",
+    "detail": "Aprėpties detalės"
+  },
+  "value_review": {
+    "title": "Sutarties vertės peržiūra",
+    "subtitle": "Vertės, kurias platforma neatskleidė, nes paskelbtas skaičius neišlaikė griežtų tikrinimo patikrų. Įveskite pataisytą EUR vertę arba patvirtinkite, kad teiginys yra klaidingas — bet kuris sprendimas išsiunčiamas kaip taisomasis įvykis ir išlieka po pakartotinių įkėlimų.",
+    "empty": "Eilė tuščia — nieko nelaukia peržiūros.",
+    "load_error": "Nepavyko įkelti peržiūros eilės.",
+    "col_contract": "Sutartis",
+    "col_reason": "Kodėl neatskleista",
+    "col_claimed": "Nurodyta vertė",
+    "col_estimate": "Nurodyta sąmata",
+    "col_decision": "Sprendimas",
+    "corrected_placeholder": "Pataisyta € vertė",
+    "action_correct": "Pataisyti",
+    "action_bogus": "Klaidinga"
   }
 }

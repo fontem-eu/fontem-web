@@ -241,7 +241,33 @@
     "relationships": "Relaties",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Belangrijkste aanbestedingssectoren (CPV)"
+    "top_procurement_sectors_cpv": "Belangrijkste aanbestedingssectoren (CPV)",
+    "badge_aria": "Aandachtspunt gegevenskwaliteit",
+    "concern_concession_negative": "Negatieve (concessie)waarde; uitgesloten van de waardetotalen.",
+    "concern_implausible_magnitude": "Waarde te groot om aannemelijk te zijn voor één enkel contract; uitgesloten van de totalen.",
+    "concern_low_confidence": "Waarde met lage betrouwbaarheid; uitgesloten van de totalen in afwachting van beoordeling.",
+    "concern_no_value": "Geen bruikbare contractwaarde bekendgemaakt.",
+    "concern_payable_discrepancy": "De bron vermeldde een tegenstrijdig te betalen bedrag (mogelijke invoerfout, zoals een ×1000-opblazing).",
+    "concern_unverified": "De waarde kon niet worden geverifieerd tegen een raming.",
+    "concern_value_disagreement": "De gegunde waarde komt niet overeen met de budgetraming; uitgesloten van de totalen.",
+    "modal_title": "Gegevensbetrouwbaarheid",
+    "level_withheld": "Waarde achtergehouden — onbetrouwbare brongegevens",
+    "level_low_confidence": "Lage betrouwbaarheid",
+    "level_caveat": "Voorbehoud",
+    "detail_reason": "Reden",
+    "detail_confidence": "Betrouwbaarheidsscore",
+    "detail_status": "Status",
+    "status_in_review": "In de wachtrij voor handmatige beoordeling",
+    "status_auto_withheld": "Automatisch achtergehouden",
+    "status_confirmed_bogus": "Beoordeeld: bevestigd onbetrouwbaar",
+    "withheld_audit_note": "Het gepubliceerde bedrag is van het platform verwijderd omdat het niet door de strenge plausibiliteitscontroles kwam. De oorspronkelijke opgave blijft bewaard in het auditlogboek en de beoordelingswachtrij; als een beoordelaar de werkelijke waarde vaststelt, verschijnt die hier.",
+    "explain_implausible_magnitude": "De gepubliceerde waarde is ordes van grootte hoger dan enig aannemelijk overheidscontract — meestal een valuta- of prijs-per-eenheidsfout in de bronaankondiging.",
+    "explain_concession_negative": "De aankondiging vermeldde een negatieve waarde — een boekhoudkundig artefact van de manier waarop het formulier is ingevuld, geen prijs.",
+    "explain_unverified": "Er is slechts één niet-bevestigd geldbedrag gepubliceerd, van een orde van grootte die het verdacht maakte, zonder iets om het tegen te verifiëren.",
+    "explain_zero_value": "De aankondiging vermeldde een waarde van precies nul — niet-openbaarmaking vermomd als een getal. Behandeld als een niet-bekendgemaakte waarde.",
+    "explain_confirmed_bogus": "Een menselijke beoordelaar heeft de gepubliceerde waarde onderzocht en bevestigd dat deze onbetrouwbaar is. Voor dit contract is geen betrouwbare waarde beschikbaar.",
+    "explain_withheld_generic": "De gepubliceerde waarde kwam niet door de plausibiliteitscontroles van het platform en is achtergehouden.",
+    "explain_low_confidence_generic": "De waarde wordt getoond, maar de gepubliceerde geldbedragen zijn zwak onderbouwd; ze is uitgesloten van de standaardtotalen en ranglijsten."
   },
   "data_quality_hub": {
     "data_freshness": "Versheid van gegevens",
@@ -471,7 +497,9 @@
     "my_stories": "Mijn verhalen",
     "no_stories_yet_start_your_first_one_abov": "Nog geen verhalen. Begin uw eerste hierboven.",
     "or_read_recent_public_stories": "Of lees recente openbare verhalen →",
-    "start_a_new_story": "Begin een nieuw verhaal"
+    "start_a_new_story": "Begin een nieuw verhaal",
+    "create": "Aanmaken",
+    "story": "Verhaal"
   },
   "nav": {
     "back_admin": "← Beheer",
@@ -484,7 +512,12 @@
     "map": "Kaart",
     "my_stories": "Mijn verhalen",
     "spending": "Uitgaven",
-    "stories": "Verhalen"
+    "stories": "Verhalen",
+    "account": "Account",
+    "collapse": "Inklappen",
+    "log_in": "Aanmelden",
+    "menu": "Menu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Opslaan in Pocket",
     "save_to_pocket_tooltip": "Opslaan in Pocket",
     "saved": "Opgeslagen",
-    "saved_to_pocket_tooltip": "Opgeslagen in Pocket"
+    "saved_to_pocket_tooltip": "Opgeslagen in Pocket",
+    "add_to_investigation": "Aan onderzoek toevoegen",
+    "chart_actions": "Grafiekacties",
+    "download_image": "Downloaden als afbeelding"
   },
   "preferences_menu": {
     "account": "Account",
@@ -550,10 +586,22 @@
     "avg_roe": "Gem. ROE",
     "corporate_group": "Concern",
     "current_price": "Huidige koers",
-    "directors_amp_officers": "Bestuurders &amp; leidinggevenden",
+    "directors_amp_officers": "Bestuurders & leidinggevenden",
     "financial_overview": "Financieel overzicht",
     "market_cap": "Marktkapitalisatie",
-    "part_of": "Onderdeel van"
+    "part_of": "Onderdeel van",
+    "account_settings": "Accountinstellingen",
+    "activity": "Activiteit",
+    "ai_usage": "AI-gebruik",
+    "confirm_delete_account": "Uw account en ALLE bijbehorende gegevens permanent verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "confirm_delete_ai": "Al uw gesprekken met de AI-assistent verwijderen?",
+    "confirm_sign_out_all": "Op elk apparaat met toegang tot uw account afmelden?",
+    "delete_account": "Account & alle gegevens verwijderen",
+    "delete_ai_data": "Mijn AI-gesprekken verwijderen",
+    "log_in": "Aanmelden / Registreren",
+    "menu": "Accountmenu",
+    "sign_out": "Afmelden",
+    "sign_out_all": "Op alle apparaten afmelden"
   },
   "public_spending": {
     "intro": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Of blader door wat groot is in jouw land.",
@@ -586,7 +634,8 @@
     "group_name": "Groepsnaam",
     "no_collaborators_yet": "Nog geen medewerkers.",
     "share_story": "Verhaal delen",
-    "visibility": "Zichtbaarheid"
+    "visibility": "Zichtbaarheid",
+    "who_has_access": "Wie heeft toegang"
   },
   "sparql": {
     "discoverable_json": "geeft dezelfde documentatie terug als JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Dit contract is gewijzigd — klik om te zien wat er is veranderd",
+    "modal_title": "Contractwijziging",
+    "subtitle": "Waarden vermeld in de wijzigingsaankondiging",
+    "field": "Veld",
+    "previous": "Vorige",
+    "new": "Nieuw",
+    "change": "Wijziging",
+    "value": "Contractwaarde",
+    "modifies": "Wijzigt aankondiging",
+    "close": "Sluiten",
+    "none": "Voor deze wijziging zijn geen veranderingen op veldniveau geregistreerd."
+  },
+  "account": {
+    "account_data": "Account & gegevens",
+    "activity_usage": "Activiteit & gebruik",
+    "ai_usage_metrics": "AI-gebruiksstatistieken",
+    "dark": "Donker",
+    "language": "Taal",
+    "light": "Licht",
+    "map_palette": "Kaartpalet",
+    "not_signed_in": "U bent niet aangemeld.",
+    "preferences": "Voorkeuren",
+    "privacy": "Privacy & gegevensbeleid",
+    "theme": "Thema",
+    "title": "Account & instellingen",
+    "your_activity": "Uw activiteit"
+  },
+  "investigations": {
+    "add_people": "Personen toevoegen",
+    "add_to_dossier": "Aan dossier toevoegen",
+    "add_to_investigation": "Aan onderzoek toevoegen",
+    "back": "← Onderzoeken",
+    "back_stories": "← Mijn verhalen",
+    "create": "Onderzoek aanmaken",
+    "delete": "Verwijderen",
+    "delete_all": "Alles verwijderen",
+    "delete_confirm": "Dit onderzoek verwijderen?",
+    "delete_keep": "Verwijderen, artikelen behouden",
+    "description": "Beschrijving",
+    "dossier": "Dossier",
+    "dossier_empty": "Nog geen artikelen.",
+    "empty": "U neemt nog aan geen enkel onderzoek deel.",
+    "from_this_investigation": "Uit dit onderzoek",
+    "from_your_pocket": "Uit uw zak",
+    "invite": "Uitnodigen",
+    "invite_email": "Uitnodigen via e-mail",
+    "level_editor": "Bewerker",
+    "level_owner": "Eigenaar",
+    "level_viewer": "Lezer",
+    "members": "Leden",
+    "name": "Naam",
+    "new_article": "Nieuw artikel",
+    "new_dossier": "Nieuw dossier",
+    "no_stories": "Nog geen verhalen.",
+    "no_viz": "Nog geen visualisaties.",
+    "open_in_editor": "Openen in editor",
+    "role": "Rol",
+    "role_admin": "Beheerder",
+    "role_contributor": "Bijdrager",
+    "role_owner": "Eigenaar",
+    "role_viewer": "Lezer",
+    "select_article": "Selecteer een artikel in de boomstructuur.",
+    "share_dossier": "Dossier delen",
+    "stories": "Verhalen",
+    "title": "Onderzoeken",
+    "visualizations": "Visualisaties",
+    "who_has_access": "Wie heeft toegang"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & beleggingsfondsen",
+    "subtitle": "Verrijking van noteringen — soorten effecten, werkmaatschappijen versus gepoolde vehikels",
+    "by_security_type": "Noteringen per soort effect",
+    "funds_by_type": "Fondsen per soort vehikel"
+  },
+  "prices_d_q": {
+    "title": "Aandelenkoersen",
+    "subtitle": "EOD-koerslaag — actualiteit van de fetcher-index versus het uit de graaf geëxporteerde universum",
+    "detail": "Dekkingsdetail"
+  },
+  "value_review": {
+    "title": "Beoordeling contractwaarde",
+    "subtitle": "Waarden die het platform heeft achtergehouden omdat het gepubliceerde bedrag niet door de strenge plausibiliteitscontroles kwam. Voer de gecorrigeerde waarde in EUR in, of bevestig dat de opgave onbetrouwbaar is — beide beslissingen worden als een corrigerende gebeurtenis uitgezonden en blijven behouden bij nieuwe verwerkingen.",
+    "empty": "De wachtrij is leeg — er staat niets in afwachting van beoordeling.",
+    "load_error": "De beoordelingswachtrij kon niet worden geladen.",
+    "col_contract": "Contract",
+    "col_reason": "Reden achterhouding",
+    "col_claimed": "Opgegeven waarde",
+    "col_estimate": "Opgegeven raming",
+    "col_decision": "Beslissing",
+    "corrected_placeholder": "Gecorrigeerde waarde in €",
+    "action_correct": "Corrigeren",
+    "action_bogus": "Onbetrouwbaar"
   }
 }

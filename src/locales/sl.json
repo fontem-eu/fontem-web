@@ -241,7 +241,33 @@
     "relationships": "Razmerja",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Glavni sektorji naročil (CPV)"
+    "top_procurement_sectors_cpv": "Glavni sektorji naročil (CPV)",
+    "badge_aria": "Pomislek glede kakovosti podatkov",
+    "concern_concession_negative": "Negativna vrednost (koncesija); izključena iz skupnih vrednosti.",
+    "concern_implausible_magnitude": "Vrednost je prevelika, da bi bila verjetna za posamezno naročilo; izključena iz skupnih vrednosti.",
+    "concern_low_confidence": "Vrednost z nizko zanesljivostjo; do pregleda izključena iz skupnih vrednosti.",
+    "concern_no_value": "Ni razkrite uporabne vrednosti naročila.",
+    "concern_payable_discrepancy": "Vir je navedel neskladen znesek za plačilo (možna napaka pri vnosu podatkov, npr. napihnjenje za ×1000).",
+    "concern_unverified": "Vrednosti ni bilo mogoče primerjati z oceno.",
+    "concern_value_disagreement": "Oddana vrednost se ne ujema z ocenjeno vrednostjo; izključena iz skupnih vrednosti.",
+    "modal_title": "Zanesljivost podatkov",
+    "level_withheld": "Vrednost zadržana — neustrezni izvorni podatki",
+    "level_low_confidence": "Nizka zanesljivost",
+    "level_caveat": "Opozorilo",
+    "detail_reason": "Razlog",
+    "detail_confidence": "Ocena zanesljivosti",
+    "detail_status": "Stanje",
+    "status_in_review": "V čakalni vrsti za pregled s strani človeka",
+    "status_auto_withheld": "Samodejno zadržano",
+    "status_confirmed_bogus": "Pregledano: potrjeno kot nezanesljivo",
+    "withheld_audit_note": "Objavljena številka je bila odstranjena s platforme, ker ni prestala strogih preverjanj verodostojnosti. Izvirna navedba je ohranjena v revizijskem dnevniku in čakalni vrsti za pregled; če pregledovalec ugotovi pravo vrednost, se bo prikazala tukaj.",
+    "explain_implausible_magnitude": "Objavljena vrednost je za več velikostnih redov nad vsakim verjetnim javnim naročilom — običajno gre za napako pri valuti ali ceni na enoto v izvornem obvestilu.",
+    "explain_concession_negative": "Obvestilo je objavilo negativno vrednost — računovodski artefakt načina izpolnjevanja obrazca, ne cena.",
+    "explain_unverified": "Objavljeno je bilo le eno nepotrjeno denarno polje, katerega velikost je vzbujala dvom, brez možnosti primerjave.",
+    "explain_zero_value": "Obvestilo je objavilo vrednost natanko nič — nerazkritje, prikrito v obliki številke. Obravnavano kot nerazkrita vrednost.",
+    "explain_confirmed_bogus": "Pregledovalec je preučil objavljeno vrednost in potrdil, da je nezanesljiva. Za to naročilo ni na voljo verodostojne vrednosti.",
+    "explain_withheld_generic": "Objavljena vrednost ni prestala preverjanj verodostojnosti platforme in je bila zadržana.",
+    "explain_low_confidence_generic": "Vrednost je prikazana, vendar so objavljena denarna polja slabo podprta z dokazi; izključena je iz privzetih skupnih vrednosti in razvrstitev."
   },
   "data_quality_hub": {
     "data_freshness": "Svežina podatkov",
@@ -471,7 +497,9 @@
     "my_stories": "Moje zgodbe",
     "no_stories_yet_start_your_first_one_abov": "Še ni zgodb. Začni s prvo zgoraj.",
     "or_read_recent_public_stories": "Ali preberi nedavne javne zgodbe →",
-    "start_a_new_story": "Začni novo zgodbo"
+    "start_a_new_story": "Začni novo zgodbo",
+    "create": "Ustvari",
+    "story": "Zgodba"
   },
   "nav": {
     "back_admin": "← Skrbništvo",
@@ -484,7 +512,12 @@
     "map": "Zemljevid",
     "my_stories": "Moje zgodbe",
     "spending": "Poraba",
-    "stories": "Zgodbe"
+    "stories": "Zgodbe",
+    "account": "Račun",
+    "collapse": "Strni",
+    "log_in": "Prijava",
+    "menu": "Meni",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Nazaj na domačo stran",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Shrani v Pocket",
     "save_to_pocket_tooltip": "Shrani v Pocket",
     "saved": "Shranjeno",
-    "saved_to_pocket_tooltip": "Shranjeno v Pocket"
+    "saved_to_pocket_tooltip": "Shranjeno v Pocket",
+    "add_to_investigation": "Dodaj v preiskavo",
+    "chart_actions": "Dejanja grafikona",
+    "download_image": "Prenesi kot sliko"
   },
   "preferences_menu": {
     "account": "Račun",
@@ -550,10 +586,22 @@
     "avg_roe": "Povprečni ROE",
     "corporate_group": "Korporativna skupina",
     "current_price": "Trenutna cena",
-    "directors_amp_officers": "Direktorji &amp; vodstvo",
+    "directors_amp_officers": "Direktorji & vodstvo",
     "financial_overview": "Finančni pregled",
     "market_cap": "Tržna kapitalizacija",
-    "part_of": "Del"
+    "part_of": "Del",
+    "account_settings": "Nastavitve računa",
+    "activity": "Aktivnost",
+    "ai_usage": "Uporaba AI",
+    "confirm_delete_account": "Trajno izbrisati vaš račun in VSE povezane podatke? Tega ni mogoče razveljaviti.",
+    "confirm_delete_ai": "Izbrisati vse vaše pogovore z AI-pomočnikom?",
+    "confirm_sign_out_all": "Odjaviti se iz vseh naprav, ki imajo dostop do vašega računa?",
+    "delete_account": "Izbriši račun in vse podatke",
+    "delete_ai_data": "Izbriši moje pogovore z AI",
+    "log_in": "Prijava / Registracija",
+    "menu": "Meni računa",
+    "sign_out": "Odjava",
+    "sign_out_all": "Odjava iz vseh naprav"
   },
   "public_spending": {
     "intro": "Išči EU podjetja, naročnike, lobiste in projekte, ki jih financira EU. Ali brskaj po tem, kar je veliko v tvoji državi.",
@@ -586,7 +634,8 @@
     "group_name": "Ime skupine",
     "no_collaborators_yet": "Še ni sodelavcev.",
     "share_story": "Deli zgodbo",
-    "visibility": "Vidnost"
+    "visibility": "Vidnost",
+    "who_has_access": "Kdo ima dostop"
   },
   "sparql": {
     "discoverable_json": "vrne isto dokumentacijo kot JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "To naročilo je bilo spremenjeno — kliknite za ogled sprememb",
+    "modal_title": "Sprememba naročila",
+    "subtitle": "Vrednosti, navedene v obvestilu o spremembi",
+    "field": "Polje",
+    "previous": "Prejšnja",
+    "new": "Nova",
+    "change": "Sprememba",
+    "value": "Vrednost naročila",
+    "modifies": "Spreminja obvestilo",
+    "close": "Zapri",
+    "none": "Za to spremembo ni bilo zabeleženih sprememb na ravni posameznih polj."
+  },
+  "account": {
+    "account_data": "Račun in podatki",
+    "activity_usage": "Aktivnost in uporaba",
+    "ai_usage_metrics": "Meritve uporabe AI",
+    "dark": "Temna",
+    "language": "Jezik",
+    "light": "Svetla",
+    "map_palette": "Barvna paleta zemljevida",
+    "not_signed_in": "Niste prijavljeni.",
+    "preferences": "Nastavitve",
+    "privacy": "Politika zasebnosti in podatkov",
+    "theme": "Tema",
+    "title": "Račun in nastavitve",
+    "your_activity": "Vaša aktivnost"
+  },
+  "investigations": {
+    "add_people": "Dodaj osebe",
+    "add_to_dossier": "Dodaj v dosje",
+    "add_to_investigation": "Dodaj v preiskavo",
+    "back": "← Preiskave",
+    "back_stories": "← Moje zgodbe",
+    "create": "Ustvari preiskavo",
+    "delete": "Izbriši",
+    "delete_all": "Izbriši vse",
+    "delete_confirm": "Želite izbrisati to preiskavo?",
+    "delete_keep": "Izbriši, ohrani članke",
+    "description": "Opis",
+    "dossier": "Dosje",
+    "dossier_empty": "Še ni člankov.",
+    "empty": "Še niste vključeni v nobeno preiskavo.",
+    "from_this_investigation": "Iz te preiskave",
+    "from_your_pocket": "Iz vašega žepa",
+    "invite": "Povabi",
+    "invite_email": "Povabi po e-pošti",
+    "level_editor": "Urednik",
+    "level_owner": "Lastnik",
+    "level_viewer": "Ogledovalec",
+    "members": "Člani",
+    "name": "Ime",
+    "new_article": "Nov članek",
+    "new_dossier": "Nov dosje",
+    "no_stories": "Še ni zgodb.",
+    "no_viz": "Še ni vizualizacij.",
+    "open_in_editor": "Odpri v urejevalniku",
+    "role": "Vloga",
+    "role_admin": "Skrbnik",
+    "role_contributor": "Sodelavec",
+    "role_owner": "Lastnik",
+    "role_viewer": "Ogledovalec",
+    "select_article": "Izberite članek iz drevesa.",
+    "share_dossier": "Deli dosje",
+    "stories": "Zgodbe",
+    "title": "Preiskave",
+    "visualizations": "Vizualizacije",
+    "who_has_access": "Kdo ima dostop"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI in investicijski skladi",
+    "subtitle": "Obogatitev kotacij — vrste vrednostnih papirjev, operativne družbe v primerjavi z združenimi naložbenimi vozili",
+    "by_security_type": "Kotacije po vrsti vrednostnega papirja",
+    "funds_by_type": "Skladi po vrsti naložbenega vozila"
+  },
+  "prices_d_q": {
+    "title": "Cene delnic",
+    "subtitle": "Sloj cen ob zaključku trgovanja — svežina indeksa pridobivanja v primerjavi z izvoženim naborom iz grafa",
+    "detail": "Podrobnosti pokritosti"
+  },
+  "value_review": {
+    "title": "Pregled vrednosti naročil",
+    "subtitle": "Vrednosti, ki jih je platforma zadržala, ker objavljena številka ni prestala strogih preverjanj verodostojnosti. Vnesite popravljeno vrednost v EUR ali potrdite, da je navedba neverodostojna — vsaka odločitev se zabeleži kot korektivni dogodek in se ohrani ob ponovnem uvozu podatkov.",
+    "empty": "Čakalna vrsta je prazna — nič ne čaka na pregled.",
+    "load_error": "Čakalne vrste za pregled ni bilo mogoče naložiti.",
+    "col_contract": "Naročilo",
+    "col_reason": "Razlog za zadržanje",
+    "col_claimed": "Navedena vrednost",
+    "col_estimate": "Navedena ocena",
+    "col_decision": "Odločitev",
+    "corrected_placeholder": "Popravljena vrednost v €",
+    "action_correct": "Popravi",
+    "action_bogus": "Neverodostojno"
   }
 }
