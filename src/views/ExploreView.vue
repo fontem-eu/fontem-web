@@ -13,25 +13,25 @@ import { RouterLink } from 'vue-router'
 const SECTIONS = [
   {
     key: 'data-quality',
-    title: 'Data Quality',
-    description: 'Coverage + freshness dashboards for every ingest source — TED contracts, EDGAR filings, GLEIF entities, ESEF iXBRL reports, lobbying registers, sanctions, FIRDS, CDP, NUTS regions.',
-    cta: 'Open the Data Quality hub',
+    title: 'explore.data_quality',
+    description: 'explore.data_quality_desc',
+    cta: 'explore.open_data_quality_hub',
     to: '/data-quality',
     testid: 'explore-card-data-quality',
   },
   {
     key: 'sparql',
-    title: 'SPARQL Endpoint',
-    description: 'Query the knowledge graph directly with SPARQL. Same datasets that drive the rest of the platform, exposed as triples.',
-    cta: 'Open SPARQL playground',
+    title: 'explore.sparql_endpoint',
+    description: 'explore.sparql_desc',
+    cta: 'explore.open_sparql_playground',
     to: '/sparql',
     testid: 'explore-card-sparql',
   },
   {
     key: 'geo',
-    title: 'Geographic Explorer',
-    description: 'Browse companies + procurement by NUTS region and country. Useful starting point when you want to see who operates where before drilling into individual entities.',
-    cta: 'Open Geo Explorer',
+    title: 'explore.geographic_explorer',
+    description: 'explore.geo_desc',
+    cta: 'explore.open_geo_explorer',
     to: '/geo',
     testid: 'explore-card-geo',
   },
@@ -53,9 +53,9 @@ const SECTIONS = [
         :data-testid="s.testid"
         class="explore-card"
       >
-        <h2>{{ s.title }}</h2>
-        <p>{{ s.description }}</p>
-        <span class="explore-cta">{{ s.cta }} →</span>
+        <h2>{{ $t(s.title) }}</h2>
+        <p>{{ $t(s.description) }}</p>
+        <span class="explore-cta">{{ $t(s.cta) }} →</span>
       </RouterLink>
     </div>
   </div>

@@ -13,9 +13,9 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 //                   defamation cost of an auto-approved sanction
 //                   match is too high)
 const MODES = [
-  { id: 'same_as',    label: 'Duplicates',   relType: null },
-  { id: 'represents', label: 'Lobbying',     relType: 'REPRESENTS' },
-  { id: 'sanctioned', label: 'Sanctions',    relType: 'SANCTIONED' },
+  { id: 'same_as',    label: 'entity_resolution.duplicates',   relType: null },
+  { id: 'represents', label: 'entity_resolution.lobbying',     relType: 'REPRESENTS' },
+  { id: 'sanctioned', label: 'entity_resolution.sanctions',    relType: 'SANCTIONED' },
 ]
 const mode = ref('same_as')
 
@@ -254,7 +254,7 @@ function formatValue(v) {
         role="tab"
         @click="mode = m.id"
       >
-        {{ m.label }}
+        {{ $t(m.label) }}
       </button>
     </nav>
 

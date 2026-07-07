@@ -238,7 +238,7 @@ async function send() {
     }
 
     if (!assistMsg) {
-      messages.value.push({ role: 'error', text: 'No response received from assistant.' })
+      messages.value.push({ role: 'error', text: 'assist_panel.no_response' })
     } else {
       // Merge proposals from text parsing and from tool_use events
       const textProposals = parseProposals(assistMsg.text)
@@ -480,7 +480,7 @@ defineExpose({ applyProposal, messages })
               </div>
             </div>
           </div>
-          <div v-else-if="msg.role === 'error'" class="msg-error">{{ msg.text }}</div>
+          <div v-else-if="msg.role === 'error'" class="msg-error">{{ $t(msg.text) }}</div>
         </div>
 
         <!-- Streaming status indicator -->

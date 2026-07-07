@@ -38,14 +38,14 @@ const TIMESPANS = [
   { key: '1y', label: '1Y', months: 12 },
   { key: '2y', label: '2Y', months: 24 },
   { key: '5y', label: '5Y', months: 60 },
-  { key: 'all', label: 'All', months: null },
+  { key: 'all', label: 'zoomable_line_chart.all', months: null },
 ]
 
 const GRANULARITIES = [
-  { key: 'day', label: 'Day' },
-  { key: 'week', label: 'Week' },
-  { key: 'month', label: 'Month' },
-  { key: 'year', label: 'Year' },
+  { key: 'day', label: 'zoomable_line_chart.day' },
+  { key: 'week', label: 'zoomable_line_chart.week' },
+  { key: 'month', label: 'zoomable_line_chart.month' },
+  { key: 'year', label: 'zoomable_line_chart.year' },
 ]
 
 const hasAnyPoints = computed(
@@ -254,10 +254,10 @@ const legendItems = computed(() =>
           :key="t.key"
           :class="['tlc-btn', { active: timespan === t.key }]"
           @click="timespan = t.key"
-        >{{ t.label }}</button>
+        >{{ $t(t.label) }}</button>
       </div>
       <select v-model="granularity" class="tlc-select">
-        <option v-for="g in GRANULARITIES" :key="g.key" :value="g.key">{{ g.label }}</option>
+        <option v-for="g in GRANULARITIES" :key="g.key" :value="g.key">{{ $t(g.label) }}</option>
       </select>
     </div>
     <div v-if="showLegend && series && series.length > 0" class="tlc-legend">

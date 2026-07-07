@@ -2,11 +2,14 @@
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
 import { fmtMoney, fmtPrice } from '../utils/format.js'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   data:         { type: Object, required: true },
   displayYears: { type: Number, default: 10 },
 })
+
+const { t } = useI18n()
 
 function fmtPct(n) {
   if (n == null) return '—'
@@ -22,29 +25,29 @@ const avgItems = computed(() => {
   const r = props.data?.ratios_summary
   if (!r) return []
   return [
-    { label: 'Avg P/E',           value: fmtRatio(r.avg_pe) },
-    { label: 'Avg P/S',           value: fmtRatio(r.avg_ps) },
-    { label: 'Avg Rev. Growth',   value: fmtPct(r.avg_revenue_growth) },
-    { label: 'Avg EPS Growth',    value: fmtPct(r.avg_earnings_growth) },
-    { label: 'Avg Gross Margin',  value: fmtPct(r.avg_gross_margin) },
-    { label: 'Avg Op. Margin',    value: fmtPct(r.avg_operating_margin) },
-    { label: 'Avg Net Margin',    value: fmtPct(r.avg_npm) },
+    { label: 'income_panel.avg_pe',           value: fmtRatio(r.avg_pe) },
+    { label: 'income_panel.avg_ps',           value: fmtRatio(r.avg_ps) },
+    { label: 'income_panel.avg_rev_growth',   value: fmtPct(r.avg_revenue_growth) },
+    { label: 'income_panel.avg_eps_growth',    value: fmtPct(r.avg_earnings_growth) },
+    { label: 'income_panel.avg_gross_margin',  value: fmtPct(r.avg_gross_margin) },
+    { label: 'income_panel.avg_op_margin',    value: fmtPct(r.avg_operating_margin) },
+    { label: 'income_panel.avg_net_margin',    value: fmtPct(r.avg_npm) },
   ]
 })
 
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
-  { key: 'avg_price',        label: 'Avg Price',       fmt: fmtPrice },
-  { key: 'revenue',          label: 'Revenue',          fmt: fmtMoney },
-  { key: 'gross_profit',     label: 'Gross Profit',     fmt: fmtMoney },
-  { key: 'operating_income', label: 'Op. Income',       fmt: fmtMoney },
-  { key: 'net_income',       label: 'Net Income',       fmt: fmtMoney },
+  { key: 'avg_price',        label: 'income_panel.avg_price',       fmt: fmtPrice },
+  { key: 'revenue',          label: 'income_panel.revenue',          fmt: fmtMoney },
+  { key: 'gross_profit',     label: 'income_panel.gross_profit',     fmt: fmtMoney },
+  { key: 'operating_income', label: 'income_panel.op_income',       fmt: fmtMoney },
+  { key: 'net_income',       label: 'income_panel.net_income',       fmt: fmtMoney },
   { key: 'eps',              label: 'EPS',              fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
-  { key: 'gross_margin',     label: 'Gross Margin',     fmt: fmtPct },
-  { key: 'operating_margin', label: 'Op. Margin',       fmt: fmtPct },
-  { key: 'npm',              label: 'Net Margin',       fmt: fmtPct },
-  { key: 'revenue_growth',   label: 'Rev. Growth',      fmt: fmtPct },
-  { key: 'earnings_growth',  label: 'Earnings Growth',  fmt: fmtPct },
+  { key: 'gross_margin',     label: 'income_panel.gross_margin',     fmt: fmtPct },
+  { key: 'operating_margin', label: 'income_panel.op_margin',       fmt: fmtPct },
+  { key: 'npm',              label: 'income_panel.net_margin',       fmt: fmtPct },
+  { key: 'revenue_growth',   label: 'income_panel.rev_growth',      fmt: fmtPct },
+  { key: 'earnings_growth',  label: 'income_panel.earnings_growth',  fmt: fmtPct },
 ]
 
 const sortedYears = computed(() => {
@@ -211,9 +214,9 @@ function drawChart() {
 
   // Legend
   const legItems = [
-    { col: mutedCol,  opacity: 0.3,  label: 'Revenue',     type: 'rect' },
-    { col: accentCol, opacity: 0.85, label: 'Net Income',  type: 'rect' },
-    { col: '#f59e0b', opacity: 1,    label: 'Net Margin%', type: 'line' },
+    { col: mutedCol,  opacity: 0.3,  label: t('income_panel.revenue'),     type: 'rect' },
+    { col: accentCol, opacity: 0.85, label: t('income_panel.net_income'),  type: 'rect' },
+    { col: '#f59e0b', opacity: 1,    label: t('income_panel.net_margin_pct'), type: 'line' },
   ]
   legItems.forEach((item, i) => {
     const lx = M.left + i * 88
@@ -258,7 +261,7 @@ onBeforeUnmount(() => {
     <!-- Averages -->
     <div class="gmr-snap gmr-snap--wide" data-testid="income-averages">
       <div v-for="item in avgItems" :key="item.label" class="gmr-snap__cell">
-        <div class="gmr-snap__label">{{ item.label }}</div>
+        <div class="gmr-snap__label">{{ $t(item.label) }}</div>
         <div class="gmr-snap__value">{{ item.value }}</div>
       </div>
     </div>
@@ -279,7 +282,7 @@ onBeforeUnmount(() => {
         </thead>
         <tbody>
           <tr v-for="row in tableRows" :key="row.key">
-            <td>{{ row.label }}</td>
+            <td>{{ $t(row.label) }}</td>
             <td
               v-for="year in sortedYears"
               :key="year"

@@ -9,8 +9,8 @@ onMounted(() => { document.title = 'SPARQL — Fontem' })
 // without having to write SPARQL from scratch.
 const EXAMPLES = [
   {
-    title: 'Triple-store inventory — every named graph',
-    description: 'Sanity check: shows what data lives in the store right now.',
+    title: 'sparql.triple_store_inventory',
+    description: 'sparql.sanity_check_store_data',
     query:
 `SELECT ?g (COUNT(*) AS ?triples) WHERE {
   GRAPH ?g { ?s ?p ?o }
@@ -20,8 +20,8 @@ GROUP BY ?g
 ORDER BY DESC(?triples)`,
   },
   {
-    title: 'Sample five sanctioned entities',
-    description: 'Replace the LIMIT to inspect more rows.',
+    title: 'sparql.sample_sanctioned_entities',
+    description: 'sparql.replace_limit_hint',
     query:
 `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX schema: <https://schema.org/>
@@ -34,8 +34,8 @@ SELECT ?entity ?name WHERE {
 } LIMIT 5`,
   },
   {
-    title: 'Top 20 contracting authorities by total awarded value',
-    description: 'Shape kept compatible with the live procurement graph.',
+    title: 'sparql.top_authorities_by_awarded_value',
+    description: 'sparql.shape_compatible_procurement_graph',
     query:
 `PREFIX schema: <https://schema.org/>
 PREFIX epo: <http://data.europa.eu/a4g/ontology#>
@@ -240,7 +240,7 @@ function cellIsIri(row, varName) {
         class="sparql-example"
       >
         <div class="sparql-example-header">
-          <h3>{{ ex.title }}</h3>
+          <h3>{{ $t(ex.title) }}</h3>
           <button
             type="button"
             class="sparql-example-load"
@@ -248,7 +248,7 @@ function cellIsIri(row, varName) {
             @click="loadExample(ex)"
           >{{ $t('sparql.use_this_query') }} →</button>
         </div>
-        <p v-if="ex.description" class="sparql-example-desc">{{ ex.description }}</p>
+        <p v-if="ex.description" class="sparql-example-desc">{{ $t(ex.description) }}</p>
         <pre><code>{{ ex.query }}</code></pre>
       </article>
     </section>

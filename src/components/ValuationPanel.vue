@@ -20,12 +20,12 @@ function fmtRatio(n, decimals = 2) {
 function snapItems(snap) {
   if (!snap) return []
   return [
-    { label: 'Enterprise Value', value: fmtMoney(snap.enterprise_value), testid: 'val-ev' },
-    { label: 'Market Cap', value: fmtMoney(snap.market_cap), testid: 'val-mcap' },
-    { label: 'EV / EBITDA', value: fmtRatio(snap.ev_ebitda), testid: 'val-ev-ebitda' },
-    { label: 'EV / Revenue', value: fmtRatio(snap.ev_revenue), testid: 'val-ev-rev' },
-    { label: 'EV / FCF', value: fmtRatio(snap.ev_fcf), testid: 'val-ev-fcf' },
-    { label: 'EV / EBIT', value: fmtRatio(snap.ev_ebit), testid: 'val-ev-ebit' },
+    { label: 'valuation_panel.enterprise_value', value: fmtMoney(snap.enterprise_value), testid: 'val-ev' },
+    { label: 'valuation_panel.market_cap', value: fmtMoney(snap.market_cap), testid: 'val-mcap' },
+    { label: 'valuation_panel.ev_ebitda', value: fmtRatio(snap.ev_ebitda), testid: 'val-ev-ebitda' },
+    { label: 'valuation_panel.ev_revenue', value: fmtRatio(snap.ev_revenue), testid: 'val-ev-rev' },
+    { label: 'valuation_panel.ev_fcf', value: fmtRatio(snap.ev_fcf), testid: 'val-ev-fcf' },
+    { label: 'valuation_panel.ev_ebit', value: fmtRatio(snap.ev_ebit), testid: 'val-ev-ebit' },
   ]
 }
 
@@ -33,27 +33,27 @@ function snapItems(snap) {
 function summaryItems(summary) {
   if (!summary) return []
   return [
-    { label: 'Avg EBITDA Margin', value: fmtPct(summary.avg_ebitda_margin) },
-    { label: 'Avg ROIC', value: fmtPct(summary.avg_roic) },
-    { label: 'Avg Interest Coverage', value: fmtRatio(summary.avg_interest_coverage) },
-    { label: 'Avg Net Debt / EBITDA', value: fmtRatio(summary.avg_net_debt_to_ebitda) },
+    { label: 'valuation_panel.avg_ebitda_margin', value: fmtPct(summary.avg_ebitda_margin) },
+    { label: 'valuation_panel.avg_roic', value: fmtPct(summary.avg_roic) },
+    { label: 'valuation_panel.avg_interest_coverage', value: fmtRatio(summary.avg_interest_coverage) },
+    { label: 'valuation_panel.avg_net_debt_ebitda', value: fmtRatio(summary.avg_net_debt_to_ebitda) },
   ]
 }
 
 // ── Per-year table config ─────────────────────────────────────
 const perYearRows = [
   { key: 'da', label: 'D&A', fmt: fmtMoney },
-  { key: 'interest_expense', label: 'Interest Expense', fmt: fmtMoney },
-  { key: 'cash_and_equivalents', label: 'Cash & Equiv.', fmt: fmtMoney },
-  { key: 'long_term_debt', label: 'LT Debt', fmt: fmtMoney },
+  { key: 'interest_expense', label: 'valuation_panel.interest_expense', fmt: fmtMoney },
+  { key: 'cash_and_equivalents', label: 'valuation_panel.cash_and_equiv', fmt: fmtMoney },
+  { key: 'long_term_debt', label: 'valuation_panel.lt_debt', fmt: fmtMoney },
   { key: 'ebitda', label: 'EBITDA', fmt: fmtMoney },
-  { key: 'ebitda_margin', label: 'EBITDA Margin', fmt: fmtPct },
-  { key: 'net_debt', label: 'Net Debt', fmt: fmtMoney },
-  { key: 'net_debt_to_ebitda', label: 'Net Debt / EBITDA', fmt: fmtRatio },
-  { key: 'interest_coverage', label: 'Interest Coverage', fmt: fmtRatio },
-  { key: 'effective_tax_rate', label: 'Eff. Tax Rate', fmt: fmtPct },
+  { key: 'ebitda_margin', label: 'valuation_panel.ebitda_margin', fmt: fmtPct },
+  { key: 'net_debt', label: 'valuation_panel.net_debt', fmt: fmtMoney },
+  { key: 'net_debt_to_ebitda', label: 'valuation_panel.net_debt_ebitda', fmt: fmtRatio },
+  { key: 'interest_coverage', label: 'valuation_panel.interest_coverage', fmt: fmtRatio },
+  { key: 'effective_tax_rate', label: 'valuation_panel.eff_tax_rate', fmt: fmtPct },
   { key: 'nopat', label: 'NOPAT', fmt: fmtMoney },
-  { key: 'invested_capital', label: 'Invested Capital', fmt: fmtMoney },
+  { key: 'invested_capital', label: 'valuation_panel.invested_capital', fmt: fmtMoney },
   { key: 'roic', label: 'ROIC', fmt: fmtPct },
 ]
 
@@ -93,7 +93,7 @@ function isNeg(year, key) {
         class="gmr-snap__cell"
         :data-testid="item.testid"
       >
-        <div class="gmr-snap__label">{{ item.label }}</div>
+        <div class="gmr-snap__label">{{ $t(item.label) }}</div>
         <div class="gmr-snap__value">{{ item.value }}</div>
       </div>
     </div>
@@ -107,7 +107,7 @@ function isNeg(year, key) {
         :key="item.label"
         class="gmr-snap__cell"
       >
-        <div class="gmr-snap__label">{{ item.label }}</div>
+        <div class="gmr-snap__label">{{ $t(item.label) }}</div>
         <div class="gmr-snap__value">{{ item.value }}</div>
       </div>
     </div>
@@ -125,7 +125,7 @@ function isNeg(year, key) {
         </thead>
         <tbody>
           <tr v-for="row in perYearRows" :key="row.key">
-            <td>{{ row.label }}</td>
+            <td>{{ $t(row.label) }}</td>
             <td
               v-for="year in sortedYears"
               :key="year"

@@ -50,28 +50,28 @@ async function probeFinancials(sym) {
 
 const VIEW_GROUPS = [
   {
-    key: 'overview', label: 'Overview',
+    key: 'overview', label: 'home.overview',
     views: [
-      { key: 'profile', label: 'Profile' },
-      { key: 'graph', label: 'Graph Explorer' },
+      { key: 'profile', label: 'home.profile' },
+      { key: 'graph', label: 'home.graph_explorer' },
     ],
   },
   {
-    key: 'financials', label: 'Financials',
+    key: 'financials', label: 'home.financials',
     views: [
-      { key: 'summary',      label: 'Summary' },
-      { key: 'fundamentals', label: 'Fundamentals' },
-      { key: 'income',       label: 'Income' },
-      { key: 'cashflow',     label: 'Cash Flow' },
-      { key: 'balance',      label: 'Balance' },
-      { key: 'valuation',    label: 'Valuation' },
+      { key: 'summary',      label: 'home.summary' },
+      { key: 'fundamentals', label: 'home.fundamentals' },
+      { key: 'income',       label: 'home.income' },
+      { key: 'cashflow',     label: 'home.cash_flow' },
+      { key: 'balance',      label: 'home.balance' },
+      { key: 'valuation',    label: 'home.valuation' },
     ],
   },
   {
-    key: 'procurement', label: 'Procurement',
+    key: 'procurement', label: 'home.procurement',
     views: [
-      { key: 'contracts',       label: 'Contracts' },
-      { key: 'entity-nuts-map', label: 'Business Map' },
+      { key: 'contracts',       label: 'home.contracts' },
+      { key: 'entity-nuts-map', label: 'home.business_map' },
     ],
   },
   // The "Analysis" group (formerly: Long-Term Value via /api/:ticker/gmr_data)

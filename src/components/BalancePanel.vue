@@ -1,12 +1,15 @@
 <script setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
+import { useI18n } from 'vue-i18n'
 import { fmtMoney } from '../utils/format.js'
 
 const props = defineProps({
   data:         { type: Object, required: true },
   displayYears: { type: Number, default: 10 },
 })
+
+const { t } = useI18n()
 
 function fmtPct(n) {
   if (n == null) return '—'
@@ -22,24 +25,24 @@ const avgItems = computed(() => {
   const r = props.data?.ratios_summary
   if (!r) return []
   return [
-    { label: 'Avg D/E',           value: fmtRatio(r.avg_debt_to_equity) },
-    { label: 'Avg D/A',           value: fmtRatio(r.avg_debt_to_assets) },
-    { label: 'Avg Current Ratio', value: fmtRatio(r.avg_current_ratio) },
-    { label: 'Avg Quick Ratio',   value: fmtRatio(r.avg_quick_ratio) },
-    { label: 'Avg ROE',           value: fmtPct(r.avg_roe) },
-    { label: 'Avg ROA',           value: fmtPct(r.avg_roa) },
+    { label: 'balance_panel.avg_de',            value: fmtRatio(r.avg_debt_to_equity) },
+    { label: 'balance_panel.avg_da',            value: fmtRatio(r.avg_debt_to_assets) },
+    { label: 'balance_panel.avg_current_ratio', value: fmtRatio(r.avg_current_ratio) },
+    { label: 'balance_panel.avg_quick_ratio',   value: fmtRatio(r.avg_quick_ratio) },
+    { label: 'balance_panel.avg_roe',           value: fmtPct(r.avg_roe) },
+    { label: 'balance_panel.avg_roa',           value: fmtPct(r.avg_roa) },
   ]
 })
 
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
-  { key: 'total_assets',         label: 'Total Assets',    fmt: fmtMoney },
-  { key: 'total_liabilities',    label: 'Total Liabilities', fmt: fmtMoney },
-  { key: 'equity',               label: 'Equity',           fmt: fmtMoney },
-  { key: 'book_value_per_share', label: 'Book Value/Share', fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
-  { key: 'revenue_per_share',    label: 'Revenue/Share',    fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
-  { key: 'current_ratio',        label: 'Current Ratio',    fmt: (n) => fmtRatio(n) },
-  { key: 'quick_ratio',          label: 'Quick Ratio',      fmt: (n) => fmtRatio(n) },
+  { key: 'total_assets',         label: 'balance_panel.total_assets',    fmt: fmtMoney },
+  { key: 'total_liabilities',    label: 'balance_panel.total_liabilities', fmt: fmtMoney },
+  { key: 'equity',               label: 'balance_panel.equity',           fmt: fmtMoney },
+  { key: 'book_value_per_share', label: 'balance_panel.book_value_share', fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'revenue_per_share',    label: 'balance_panel.revenue_share',    fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'current_ratio',        label: 'balance_panel.current_ratio',    fmt: (n) => fmtRatio(n) },
+  { key: 'quick_ratio',          label: 'balance_panel.quick_ratio',      fmt: (n) => fmtRatio(n) },
   { key: 'debt_to_equity',       label: 'D/E',              fmt: (n) => fmtRatio(n) },
   { key: 'debt_to_assets',       label: 'D/A',              fmt: (n) => fmtRatio(n) },
   { key: 'roe',                  label: 'ROE',              fmt: fmtPct },
@@ -174,8 +177,8 @@ function drawChart() {
 
   // Legend
   const legItems = [
-    { col: '#22c55e', opacity: 0.6, label: 'Equity'      },
-    { col: negCol,    opacity: 0.4, label: 'Liabilities' },
+    { col: '#22c55e', opacity: 0.6, label: t('balance_panel.equity')      },
+    { col: negCol,    opacity: 0.4, label: t('balance_panel.liabilities') },
   ]
   legItems.forEach((item, i) => {
     const lx = M.left + i * 80
@@ -213,7 +216,7 @@ onBeforeUnmount(() => {
     <!-- Averages -->
     <div class="gmr-snap gmr-snap--wide" data-testid="balance-averages">
       <div v-for="item in avgItems" :key="item.label" class="gmr-snap__cell">
-        <div class="gmr-snap__label">{{ item.label }}</div>
+        <div class="gmr-snap__label">{{ $t(item.label) }}</div>
         <div class="gmr-snap__value">{{ item.value }}</div>
       </div>
     </div>
@@ -234,7 +237,7 @@ onBeforeUnmount(() => {
         </thead>
         <tbody>
           <tr v-for="row in tableRows" :key="row.key">
-            <td>{{ row.label }}</td>
+            <td>{{ $t(row.label) }}</td>
             <td
               v-for="year in sortedYears"
               :key="year"
