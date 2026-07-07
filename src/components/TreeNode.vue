@@ -30,11 +30,11 @@ const isSelected = computed(() => ctx.selectedId.value === props.node.id)
       >{{ isOpen ? '▾' : '▸' }}</button>
       <span v-else class="tn-toggle tn-leaf" />
       <button class="tn-title" :data-testid="'tree-select-' + node.id" @click="ctx.onSelect(node.id)">
-        {{ node.title || 'Untitled' }}
+        {{ node.title || $t('tree_node.untitled') }}
       </button>
       <template v-if="ctx.editable">
-        <button class="tn-act" :data-testid="'tree-add-' + node.id" title="Add sub-article" @click="ctx.onAddChild(node.id)">+</button>
-        <button class="tn-act tn-rm" :data-testid="'tree-remove-' + node.id" title="Remove" @click="ctx.onRemove(node.id)">×</button>
+        <button class="tn-act" :data-testid="'tree-add-' + node.id" :title="$t('tree_node.add_sub_article')" @click="ctx.onAddChild(node.id)">+</button>
+        <button class="tn-act tn-rm" :data-testid="'tree-remove-' + node.id" :title="$t('tree_node.remove')" @click="ctx.onRemove(node.id)">×</button>
       </template>
     </div>
     <div v-if="hasChildren && isOpen" class="tn-children">

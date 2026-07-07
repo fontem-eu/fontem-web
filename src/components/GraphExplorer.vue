@@ -957,9 +957,9 @@ async function retryFetch() {
       <div class="ge-control" data-testid="ge-time-range">
         <span class="ge-control__label">{{ $t('graph_explorer.period') }}</span>
         <select v-model="timeRange" class="ge-select" data-testid="ge-time-select">
-          <option value="12m">12 mo</option>
-          <option value="3y">3 yr</option>
-          <option value="5y">5 yr</option>
+          <option value="12m">{{ $t('graph_explorer.12_mo') }}</option>
+          <option value="3y">{{ $t('graph_explorer.3_yr') }}</option>
+          <option value="5y">{{ $t('graph_explorer.5_yr') }}</option>
           <option value="all">{{ $t('app.all') }}</option>
         </select>
       </div>
@@ -967,7 +967,7 @@ async function retryFetch() {
       <!-- Node type multi-select -->
       <MultiSelect
         v-model="typeFilters"
-        label="Nodes"
+        :label="$t('graph_explorer.nodes')"
         :colors="nodeTypeColors"
         data-testid="ge-node-filters"
       />
@@ -976,7 +976,7 @@ async function retryFetch() {
       <MultiSelect
         v-if="Object.keys(edgeTypeFilters).length > 0"
         v-model="edgeTypeFilters"
-        label="Edges"
+        :label="$t('graph_explorer.edges')"
         data-testid="ge-edge-filters"
       />
 
@@ -1021,14 +1021,14 @@ async function retryFetch() {
             data-testid="ge-path-toggle"
             @click="togglePathMode(); optionsOpen = false"
           >
-            {{ pathMode ? '✕ Exit path mode' : 'Find path to…' }}
+            {{ pathMode ? $t('graph_explorer.exit_path_mode') : $t('graph_explorer.find_path_to_2') }}
           </button>
           <button
             class="ge-options__item"
             data-testid="ge-timeline-toggle"
             @click="toggleTimeline(); optionsOpen = false"
           >
-            {{ timelineEnabled ? '✕ Timeline' : 'Timeline' }}
+            {{ timelineEnabled ? $t('graph_explorer.timeline_2') : $t('graph_explorer.timeline') }}
           </button>
           <div class="ge-options__divider"></div>
           <div class="ge-options__group">
@@ -1051,7 +1051,7 @@ async function retryFetch() {
             data-testid="ge-show-saved"
             @click="showSavedViews = !showSavedViews; optionsOpen = false"
           >
-            Saved ({{ savedViews.length }})
+            {{ $t('graph_explorer.saved') }} ({{ savedViews.length }})
           </button>
           <div class="ge-options__divider"></div>
           <PocketButton
@@ -1082,7 +1082,7 @@ async function retryFetch() {
         >
           {{ v.name }}
         </button>
-        <span class="ge-saved-item__meta">depth {{ v.depth }}</span>
+        <span class="ge-saved-item__meta">{{ $t('graph_explorer.depth_2') }} {{ v.depth }}</span>
         <button
           class="ge-saved-item__delete"
           :data-testid="`ge-saved-delete-${i}`"
@@ -1139,8 +1139,8 @@ async function retryFetch() {
       data-testid="ge-path-legend"
     >
       <span class="ge-path-legend__summary">
-        {{ pathData.paths.length }} path{{ pathData.paths.length > 1 ? 's' : '' }} found.
-        Shortest: {{ pathData.shortest_length }} hop{{ pathData.shortest_length > 1 ? 's' : '' }}.
+        {{ pathData.paths.length }} {{ $t('graph_explorer.path') }}{{ pathData.paths.length > 1 ? 's' : '' }} {{ $t('graph_explorer.found') }}
+        {{ $t('graph_explorer.shortest') }} {{ pathData.shortest_length }} {{ $t('graph_explorer.hop') }}{{ pathData.shortest_length > 1 ? 's' : '' }}.
       </span>
       <div class="ge-path-legend__list">
         <button
@@ -1154,7 +1154,7 @@ async function retryFetch() {
           :data-testid="`ge-path-${i}`"
           @click="selectPath(i)"
         >
-          Path {{ i + 1 }}: {{ p.length }} hop{{ p.length > 1 ? 's' : '' }}
+          {{ $t('graph_explorer.path_2') }} {{ i + 1 }}: {{ p.length }} {{ $t('graph_explorer.hop') }}{{ p.length > 1 ? 's' : '' }}
         </button>
       </div>
     </div>
@@ -1191,22 +1191,22 @@ async function retryFetch() {
         </span>
       </div>
       <div class="ge-timeline__stats" data-testid="ge-timeline-stats">
-        {{ timelineStats.contracts }} contracts
-        &middot; {{ timelineStats.directors }} directors
-        &middot; {{ timelineStats.subsidiaries }} companies
+        {{ timelineStats.contracts }} {{ $t('graph_explorer.contracts') }}
+        &middot; {{ timelineStats.directors }} {{ $t('graph_explorer.directors') }}
+        &middot; {{ timelineStats.subsidiaries }} {{ $t('graph_explorer.companies') }}
       </div>
     </div>
 
     <!-- Status bar -->
     <div v-if="graphData" class="ge-status" data-testid="ge-status">
-      <span>{{ graphData.nodes.length }} nodes</span>
-      <span>{{ graphData.edges.length }} edges</span>
+      <span>{{ graphData.nodes.length }} {{ $t('graph_explorer.nodes_2') }}</span>
+      <span>{{ graphData.edges.length }} {{ $t('graph_explorer.edges_2') }}</span>
       <span
         v-if="graphData.truncated"
         class="ge-status--warn"
         data-testid="ge-truncated"
       >
-        Showing {{ graphData.nodes.length }} of {{ graphData.total_available }} (truncated)
+        {{ $t('graph_explorer.showing') }} {{ graphData.nodes.length }} {{ $t('graph_explorer.of') }} {{ graphData.total_available }} {{ $t('graph_explorer.truncated') }}
       </span>
     </div>
 
@@ -1263,10 +1263,10 @@ async function retryFetch() {
         <span class="ge-tooltip__type">{{ tooltip.type }}</span>
       </div>
       <div v-if="tooltip.properties.country" class="ge-tooltip__prop">
-        Country: {{ tooltip.properties.country }}
+        {{ $t('graph_explorer.country') }} {{ tooltip.properties.country }}
       </div>
       <div v-if="tooltip.properties.value_eur" class="ge-tooltip__prop">
-        Value: &euro;{{ Number(tooltip.properties.value_eur).toLocaleString() }}
+        {{ $t('graph_explorer.value') }} &euro;{{ Number(tooltip.properties.value_eur).toLocaleString() }}
       </div>
       <div class="ge-tooltip__actions">
         <button
@@ -1274,7 +1274,7 @@ async function retryFetch() {
           data-testid="ge-expand-collapse"
           @click="toggleNodeExpansion(tooltip.id); tooltip = null"
         >
-          {{ tooltip.isExpanded ? '▼ Collapse' : tooltip.isCollapsed ? '▶ Expand' : '▶ Expand' }}
+          {{ tooltip.isExpanded ? $t('graph_explorer.collapse') : tooltip.isCollapsed ? $t('graph_explorer.expand') : $t('graph_explorer.expand') }}
         </button>
         <button
           v-if="tooltip.type === 'Company'"

@@ -91,33 +91,31 @@ function onBackdrop(e) { if (e.target === e.currentTarget) emit('close') }
     <div class="sh-backdrop" data-testid="studio-share-backdrop" @click="onBackdrop">
       <div class="sh-modal" data-testid="studio-share-modal">
         <div class="sh-head">
-          <h2>Share “{{ project.name }}”</h2>
+          <h2>{{ $t('studio_share_modal.share') }} “{{ project.name }}”</h2>
           <button class="sh-close" data-testid="studio-share-close" @click="emit('close')">&times;</button>
         </div>
         <p v-if="error" class="sh-error" data-testid="studio-share-error">{{ error }}</p>
 
         <!-- Investigation -->
         <div class="sh-section">
-          <div class="sh-label">Investigation</div>
+          <div class="sh-label">{{ $t('studio_share_modal.investigation') }}</div>
           <div v-if="attachedTo || project.investigation_id" class="sh-attached" data-testid="studio-attached">
-            <span>Shared with <strong>{{ attachedTo ? attachedTo.name : 'an investigation' }}</strong> — its members inherit access by role.</span>
-            <button class="sh-remove" data-testid="studio-detach" @click="detach">Detach</button>
+            <span>{{ $t('studio_share_modal.shared_with') }} <strong>{{ attachedTo ? attachedTo.name : $t('studio_share_modal.an_investigation') }}</strong> {{ $t('studio_share_modal.its_members_inherit_access_by_role') }}</span>
+            <button class="sh-remove" data-testid="studio-detach" @click="detach">{{ $t('studio_share_modal.detach') }}</button>
           </div>
           <div v-else class="sh-add-row">
-            <select v-model="attachTarget" class="sh-select" data-testid="studio-attach-select" aria-label="Add to an investigation">
-              <option value="">Add to an investigation…</option>
+            <select v-model="attachTarget" class="sh-select" data-testid="studio-attach-select" :aria-label="$t('studio_share_modal.add_to_an_investigation')">
+              <option value="">{{ $t('studio_share_modal.add_to_an_investigation_2') }}</option>
               <option v-for="i in attachOptions" :key="i.id" :value="i.id">{{ i.name }}</option>
             </select>
-            <button class="sh-btn" data-testid="studio-attach" :disabled="!attachTarget" @click="attach">Attach</button>
+            <button class="sh-btn" data-testid="studio-attach" :disabled="!attachTarget" @click="attach">{{ $t('studio_share_modal.attach') }}</button>
           </div>
-          <p v-if="!attachedTo && !project.investigation_id && !attachOptions.length" class="sh-hint">
-            You need a contributor+ seat on an investigation to attach a project.
-          </p>
+          <p v-if="!attachedTo && !project.investigation_id && !attachOptions.length" class="sh-hint">{{ $t('studio_share_modal.you_need_a_contributor_seat_on_an_investigation') }}</p>
         </div>
 
         <!-- Who has access -->
         <div v-if="effective.length" class="sh-section" data-testid="studio-effective-access">
-          <div class="sh-label">Who has access</div>
+          <div class="sh-label">{{ $t('studio_share_modal.who_has_access') }}</div>
           <div v-for="a in effective" :key="a.user_id" class="sh-eff-row" :data-testid="'studio-access-' + a.user_id">
             <span class="sh-eff-id">{{ a.email || a.name || a.user_id }}</span>
             <span class="sh-eff-level">{{ a.level }}</span>
@@ -127,24 +125,24 @@ function onBackdrop(e) { if (e.target === e.currentTarget) emit('close') }
 
         <!-- Add person -->
         <div class="sh-section">
-          <div class="sh-label">Add a person</div>
+          <div class="sh-label">{{ $t('studio_share_modal.add_a_person') }}</div>
           <div class="sh-add-row">
-            <input v-model="newEmail" type="email" placeholder="Email address" aria-label="Email address to share with" class="sh-input" data-testid="studio-share-email" />
-            <select v-model="newLevel" class="sh-select" data-testid="studio-share-level" aria-label="Access level">
+            <input v-model="newEmail" type="email" :placeholder="$t('studio_share_modal.email_address')" :aria-label="$t('studio_share_modal.email_address_to_share_with')" class="sh-input" data-testid="studio-share-email" />
+            <select v-model="newLevel" class="sh-select" data-testid="studio-share-level" :aria-label="$t('studio_share_modal.access_level')">
               <option v-for="l in levelOptions" :key="l" :value="l">{{ l }}</option>
             </select>
-            <button class="sh-btn" data-testid="studio-share-add" @click="addPerson">Add</button>
+            <button class="sh-btn" data-testid="studio-share-add" @click="addPerson">{{ $t('studio_share_modal.add') }}</button>
           </div>
         </div>
 
         <!-- Direct grants -->
         <div class="sh-section">
-          <div class="sh-label">People with direct access</div>
-          <p v-if="!grants.length && !loading" class="sh-hint">No direct shares yet.</p>
+          <div class="sh-label">{{ $t('studio_share_modal.people_with_direct_access') }}</div>
+          <p v-if="!grants.length && !loading" class="sh-hint">{{ $t('studio_share_modal.no_direct_shares_yet') }}</p>
           <div v-for="g in grants" :key="g.user_id" class="sh-grant-row" data-testid="studio-grant">
             <span class="sh-grant-name">{{ g.name || g.email || g.user_id }}</span>
             <span class="sh-level-badge">{{ g.level }}</span>
-            <button class="sh-remove" data-testid="studio-grant-remove" @click="removeGrant(g.user_id)">Remove</button>
+            <button class="sh-remove" data-testid="studio-grant-remove" @click="removeGrant(g.user_id)">{{ $t('studio_share_modal.remove') }}</button>
           </div>
         </div>
       </div>

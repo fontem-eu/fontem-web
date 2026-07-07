@@ -49,22 +49,22 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 
 <template>
   <div v-if="project" class="pview" data-testid="studio-project-view">
-    <nav class="crumbs"><router-link to="/studio">Studio</router-link></nav>
+    <nav class="crumbs"><router-link to="/studio">{{ $t('studio_project.studio') }}</router-link></nav>
     <div class="phead">
-      <input ref="nameEl" :value="project.name" class="pname" data-testid="project-name" spellcheck="false" aria-label="Project name" :readonly="!access.can_edit" @input="onName" />
+      <input ref="nameEl" :value="project.name" class="pname" data-testid="project-name" spellcheck="false" :aria-label="$t('studio_project.project_name')" :readonly="!access.can_edit" @input="onName" />
       <div class="pmeta">
         <span class="acc-badge" :class="`acc-badge--${access.level}`" data-testid="project-access">{{ access.level }}</span>
-        <button v-if="access.can_share" type="button" class="sbtn" data-testid="project-share" @click="showShare = true">Share</button>
+        <button v-if="access.can_share" type="button" class="sbtn" data-testid="project-share" @click="showShare = true">{{ $t('studio_project.share') }}</button>
       </div>
     </div>
-    <p v-if="!access.can_edit" class="ro-note" data-testid="project-readonly">You have view-only access to this shared project.</p>
+    <p v-if="!access.can_edit" class="ro-note" data-testid="project-readonly">{{ $t('studio_project.view_only_access') }}</p>
 
     <section class="grp">
       <div class="grp-head">
-        <h2 class="grp-title">Queries</h2>
-        <button v-if="access.can_edit" type="button" class="sbtn sbtn--primary" data-testid="project-new-query" @click="newQuery">+ New query</button>
+        <h2 class="grp-title">{{ $t('studio_project.queries') }}</h2>
+        <button v-if="access.can_edit" type="button" class="sbtn sbtn--primary" data-testid="project-new-query" @click="newQuery">{{ $t('studio_project.new_query') }}</button>
       </div>
-      <p v-if="!queries.length" class="empty">No queries yet. Create one to start pulling data.</p>
+      <p v-if="!queries.length" class="empty">{{ $t('studio_project.no_queries_yet') }}</p>
       <ul v-else class="qlist">
         <li v-for="q in queries" :key="q.id">
           <router-link :to="`/studio/p/${project.id}/q/${q.id}`" class="qrow" data-testid="project-query">
@@ -78,10 +78,10 @@ function firstLine(text) { return (text || '').split('\n')[0].slice(0, 80) || '(
 
     <section class="grp">
       <div class="grp-head">
-        <h2 class="grp-title">Plots</h2>
-        <router-link v-if="access.can_edit" :to="`/studio/p/${project.id}/plot`" class="sbtn sbtn--primary" data-testid="project-new-plot">+ New plot</router-link>
+        <h2 class="grp-title">{{ $t('studio_project.plots') }}</h2>
+        <router-link v-if="access.can_edit" :to="`/studio/p/${project.id}/plot`" class="sbtn sbtn--primary" data-testid="project-new-plot">{{ $t('studio_project.new_plot') }}</router-link>
       </div>
-      <p v-if="!plots.length" class="empty">No plots yet. Combine your queries and chart the result.</p>
+      <p v-if="!plots.length" class="empty">{{ $t('studio_project.no_plots_yet') }}</p>
       <ul v-else class="qlist">
         <li v-for="pl in plots" :key="pl.id">
           <router-link :to="`/studio/p/${project.id}/plot/${pl.id}`" class="qrow" data-testid="project-plot">

@@ -90,54 +90,54 @@ async function doDelete(kind, pid, id) {
 v-if="isEditing('project', p.id)" v-model="editing.buffer" class="rename" data-testid="nav-rename"
           @keyup.enter="commitRename" @keyup.esc="editing.kind = null" @blur="commitRename" />
         <button v-else type="button" class="srow-label" data-testid="nav-project-name" @click="go(`/studio/p/${p.id}`)">{{ p.name }}</button>
-        <button type="button" class="dots" data-testid="nav-project-menu" aria-label="Project actions" @click="openMenu('project', p.id)">⋯</button>
+        <button type="button" class="dots" data-testid="nav-project-menu" :aria-label="$t('studio_nav.project_actions')" @click="openMenu('project', p.id)">⋯</button>
       </div>
       <div v-if="menu.kind === 'project' && menu.id === p.id" class="menu" data-testid="nav-menu">
-        <button type="button" data-testid="menu-rename" @click="startRename('project', p.id, p.id, p.name)">Rename</button>
-        <button type="button" data-testid="menu-new-query" @click="newQuery(p.id)">New query</button>
-        <button v-if="confirmId !== p.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(p.id)">Delete</button>
-        <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('project', p.id, p.id)">Confirm delete</button>
+        <button type="button" data-testid="menu-rename" @click="startRename('project', p.id, p.id, p.name)">{{ $t('studio_nav.rename') }}</button>
+        <button type="button" data-testid="menu-new-query" @click="newQuery(p.id)">{{ $t('studio_nav.new_query') }}</button>
+        <button v-if="confirmId !== p.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(p.id)">{{ $t('studio_nav.delete') }}</button>
+        <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('project', p.id, p.id)">{{ $t('studio_nav.confirm_delete') }}</button>
       </div>
 
       <div v-if="isExpanded(p.id)" class="children">
-        <div class="grouplabel">Queries</div>
+        <div class="grouplabel">{{ $t('studio_nav.queries') }}</div>
         <div v-for="q in p.queries" :key="q.id" data-testid="studio-nav-query">
           <div class="srow srow--child" :class="{ active: activeQuery(q.id) }">
             <input
 v-if="isEditing('query', q.id)" v-model="editing.buffer" class="rename" data-testid="nav-rename"
               @keyup.enter="commitRename" @keyup.esc="editing.kind = null" @blur="commitRename" />
             <button v-else type="button" class="srow-label" @click="go(`/studio/p/${p.id}/q/${q.id}`)">{{ q.name }}</button>
-            <button type="button" class="dots" data-testid="nav-query-menu" aria-label="Query actions" @click="openMenu('query', p.id, q.id)">⋯</button>
+            <button type="button" class="dots" data-testid="nav-query-menu" :aria-label="$t('studio_nav.query_actions')" @click="openMenu('query', p.id, q.id)">⋯</button>
           </div>
           <div v-if="menu.kind === 'query' && menu.id === q.id" class="menu" data-testid="nav-menu">
-            <button type="button" data-testid="menu-rename" @click="startRename('query', p.id, q.id, q.name)">Rename</button>
-            <button type="button" data-testid="menu-duplicate" @click="duplicateQuery(p.id, q.id)">Duplicate</button>
-            <button v-if="confirmId !== q.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(q.id)">Delete</button>
-            <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('query', p.id, q.id)">Confirm delete</button>
+            <button type="button" data-testid="menu-rename" @click="startRename('query', p.id, q.id, q.name)">{{ $t('studio_nav.rename') }}</button>
+            <button type="button" data-testid="menu-duplicate" @click="duplicateQuery(p.id, q.id)">{{ $t('studio_nav.duplicate') }}</button>
+            <button v-if="confirmId !== q.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(q.id)">{{ $t('studio_nav.delete') }}</button>
+            <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('query', p.id, q.id)">{{ $t('studio_nav.confirm_delete') }}</button>
           </div>
         </div>
-        <button type="button" class="add" data-testid="nav-new-query" @click="newQuery(p.id)">+ New query</button>
+        <button type="button" class="add" data-testid="nav-new-query" @click="newQuery(p.id)">+ {{ $t('studio_nav.new_query') }}</button>
 
-        <div class="grouplabel">Plots</div>
+        <div class="grouplabel">{{ $t('studio_nav.plots') }}</div>
         <div v-for="pl in p.plots" :key="pl.id" data-testid="studio-nav-plot">
           <div class="srow srow--child" :class="{ active: activePlot(pl.id) }">
             <input
 v-if="isEditing('plot', pl.id)" v-model="editing.buffer" class="rename" data-testid="nav-rename"
               @keyup.enter="commitRename" @keyup.esc="editing.kind = null" @blur="commitRename" />
             <button v-else type="button" class="srow-label" @click="go(`/studio/p/${p.id}/plot/${pl.id}`)">{{ pl.name }}</button>
-            <button type="button" class="dots" data-testid="nav-plot-menu" aria-label="Plot actions" @click="openMenu('plot', p.id, pl.id)">⋯</button>
+            <button type="button" class="dots" data-testid="nav-plot-menu" :aria-label="$t('studio_nav.plot_actions')" @click="openMenu('plot', p.id, pl.id)">⋯</button>
           </div>
           <div v-if="menu.kind === 'plot' && menu.id === pl.id" class="menu" data-testid="nav-menu">
-            <button type="button" data-testid="menu-rename" @click="startRename('plot', p.id, pl.id, pl.name)">Rename</button>
-            <button v-if="confirmId !== pl.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(pl.id)">Delete</button>
-            <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('plot', p.id, pl.id)">Confirm delete</button>
+            <button type="button" data-testid="menu-rename" @click="startRename('plot', p.id, pl.id, pl.name)">{{ $t('studio_nav.rename') }}</button>
+            <button v-if="confirmId !== pl.id" type="button" class="danger" data-testid="menu-delete" @click="askDelete(pl.id)">{{ $t('studio_nav.delete') }}</button>
+            <button v-else type="button" class="danger" data-testid="menu-delete-confirm" @click="doDelete('plot', p.id, pl.id)">{{ $t('studio_nav.confirm_delete') }}</button>
           </div>
         </div>
-        <button type="button" class="add" data-testid="nav-new-plot" @click="newPlot(p.id)">+ New plot</button>
+        <button type="button" class="add" data-testid="nav-new-plot" @click="newPlot(p.id)">+ {{ $t('studio_nav.new_plot') }}</button>
       </div>
     </div>
 
-    <button type="button" class="add add--project" data-testid="nav-new-project" @click="newProject">+ New project</button>
+    <button type="button" class="add add--project" data-testid="nav-new-project" @click="newProject">+ {{ $t('studio_nav.new_project') }}</button>
   </div>
 </template>
 

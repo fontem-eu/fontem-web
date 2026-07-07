@@ -109,7 +109,7 @@ function onBackdrop(e) {
               type="text"
               class="icm-input"
               data-testid="issue-create-entity-type"
-              placeholder="e.g. company"
+              :placeholder="$t('issue_create_modal.eg_company')"
             />
           </div>
           <div class="icm-field icm-half">
@@ -120,7 +120,7 @@ function onBackdrop(e) {
               type="text"
               class="icm-input"
               data-testid="issue-create-entity-id"
-              placeholder="e.g. gmr_id or ticker"
+              :placeholder="$t('issue_create_modal.eg_gmr_id_or_ticker')"
             />
           </div>
         </div>

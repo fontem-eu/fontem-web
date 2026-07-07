@@ -87,44 +87,44 @@ async function remove() {
 <template>
   <div v-if="ready && query" class="qview" data-testid="studio-query-view">
     <nav class="crumbs">
-      <router-link to="/studio">Studio</router-link>
+      <router-link to="/studio">{{ $t('studio_query.studio') }}</router-link>
       <span class="sep">/</span>
       <router-link :to="`/studio/p/${route.params.projectId}`">{{ project?.name }}</router-link>
     </nav>
 
     <div class="qhead">
-      <input v-model="draft.name" class="qname" data-testid="query-name" spellcheck="false" aria-label="Query name" :readonly="!canEdit" />
+      <input v-model="draft.name" class="qname" data-testid="query-name" spellcheck="false" :aria-label="$t('studio_query.query_name')" :readonly="!canEdit" />
       <div class="qactions">
-        <button v-if="canEdit" type="button" class="sbtn" data-testid="query-duplicate" @click="duplicate">Duplicate</button>
-        <button v-if="canEdit" type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">{{ confirmDelete ? 'Confirm delete' : 'Delete' }}</button>
+        <button v-if="canEdit" type="button" class="sbtn" data-testid="query-duplicate" @click="duplicate">{{ $t('studio_query.duplicate') }}</button>
+        <button v-if="canEdit" type="button" class="sbtn sbtn--danger" data-testid="query-delete" @click="remove">{{ confirmDelete ? $t('studio_query.confirm_delete') : $t('studio_query.delete') }}</button>
       </div>
     </div>
 
-    <div class="qlangs" role="tablist" aria-label="Query language">
+    <div class="qlangs" role="tablist" :aria-label="$t('studio_query.query_language')">
       <button
         v-for="e in ENGINES" :key="e.key" type="button" class="lang"
         :class="{ active: draft.lang === e.key }" :data-testid="'query-lang-' + e.key"
         @click="pickLang(e.key)"
       >{{ e.label }}</button>
       <span class="qstore">→ {{ activeEngine.store }}</span>
-      <button type="button" class="sbtn schema-toggle" data-testid="schema-toggle" @click="showSchema = !showSchema">{{ showSchema ? 'Hide schema' : 'Schema' }}</button>
+      <button type="button" class="sbtn schema-toggle" data-testid="schema-toggle" @click="showSchema = !showSchema">{{ showSchema ? $t('studio_query.hide_schema') : $t('studio_query.schema') }}</button>
     </div>
 
     <div class="qbody">
       <div class="qedit">
-        <QueryEditor v-model="draft.query" :lang="draft.lang" placeholder="Write your query — Ctrl/Cmd+Enter to run" @run="execute" />
+        <QueryEditor v-model="draft.query" :lang="draft.lang" :placeholder="$t('studio_query.write_your_query_shortcut')" @run="execute" />
 
         <div class="qrun">
           <button type="button" class="sbtn sbtn--primary" data-testid="query-run" :disabled="run.loading || !draft.query.trim()" @click="execute">
-            {{ run.loading ? 'Running…' : 'Run query' }}
+            {{ run.loading ? $t('studio_query.running') : $t('studio_query.run_query') }}
           </button>
           <span class="qhint">Ctrl/Cmd+Enter</span>
-          <span v-if="run.result" class="qmeta" data-testid="query-meta">{{ run.result.rows.length }} rows · {{ run.result.columns.length }} cols</span>
+          <span v-if="run.result" class="qmeta" data-testid="query-meta">{{ run.result.rows.length }} {{ $t('studio_query.rows') }} · {{ run.result.columns.length }} {{ $t('studio_query.cols') }}</span>
           <span v-if="run.error" class="qerr" data-testid="query-error">{{ run.error }}</span>
         </div>
 
         <div v-if="run.result" class="qresult" data-testid="query-result">
-      <div v-if="!run.result.rows.length" class="qempty">Query ran successfully — no rows returned.</div>
+      <div v-if="!run.result.rows.length" class="qempty">{{ $t('studio_query.query_ran_no_rows') }}</div>
       <div v-else class="twrap">
         <table class="ttable">
           <thead><tr><th v-for="c in run.result.columns" :key="c">{{ c }}</th></tr></thead>
@@ -134,14 +134,14 @@ async function remove() {
             </tr>
           </tbody>
         </table>
-        <div v-if="run.result.rows.length > 100" class="qtrunc">Showing first 100 of {{ run.result.rows.length }} rows.</div>
+        <div v-if="run.result.rows.length > 100" class="qtrunc">{{ $t('studio_query.showing_first_100_of') }} {{ run.result.rows.length }} {{ $t('studio_query.rows_2') }}</div>
       </div>
     </div>
       </div>
       <SchemaPanel v-if="showSchema" :lang="draft.lang" class="qschema" />
     </div>
   </div>
-  <p v-else class="qloading" data-testid="query-loading">Loading…</p>
+  <p v-else class="qloading" data-testid="query-loading">{{ $t('studio_query.loading') }}</p>
 </template>
 
 <style scoped>

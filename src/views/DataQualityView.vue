@@ -148,8 +148,8 @@ function fmtNum(n) {
       <!-- ── Transparency note ── -->
       <section class="dq-section dq-section--wide dq-note">
         <h2>{{ $t('data_quality.about_this_data') }}</h2>
-        <p>{{ $t('data_quality.all_procurement_data_is_sourced_from') }}<a href="https://ted.europa.eu" target="_blank" rel="noopener">{{ $t('data_quality.ted_tenders_electronic_daily') }}</a>, the EU's official public procurement database. Financial data comes from <a href="https://www.gleif.org" target="_blank" rel="noopener">{{ $t('app.gleif') }}</a> (company identifiers) and <a href="https://www.sec.gov/edgar" target="_blank" rel="noopener">{{ $t('data_quality.sec_edgar') }}</a> / <a href="https://filings.xbrl.org" target="_blank" rel="noopener">{{ $t('app.esef') }}</a> (financial statements).</p>
-        <p>This dashboard shows the current state of the knowledge graph. Data is loaded daily from TED and refreshed periodically from GLEIF. All records are traceable to their source via TED notice IDs and LEI numbers.</p>
+        <p>{{ $t('data_quality.all_procurement_data_is_sourced_from') }}<a href="https://ted.europa.eu" target="_blank" rel="noopener">{{ $t('data_quality.ted_tenders_electronic_daily') }}</a>{{ $t('data_quality.the_eus_official_public_procurement_database_financial_data') }} <a href="https://www.gleif.org" target="_blank" rel="noopener">{{ $t('app.gleif') }}</a> {{ $t('data_quality.company_identifiers_and') }} <a href="https://www.sec.gov/edgar" target="_blank" rel="noopener">{{ $t('data_quality.sec_edgar') }}</a> / <a href="https://filings.xbrl.org" target="_blank" rel="noopener">{{ $t('app.esef') }}</a> {{ $t('data_quality.financial_statements') }}</p>
+        <p>{{ $t('data_quality.this_dashboard_shows_the_current_state') }}</p>
       </section>
     </div>
   </div>

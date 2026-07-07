@@ -138,10 +138,31 @@
     "notes": "Opmerkingen",
     "time_unit": "Tijdseenheid",
     "updated": "Bijgewerkt",
-    "value_scale": "Waardeschaal"
+    "value_scale": "Waardeschaal",
+    "map_view_of_the_curated_eurostat_datasets": "Kaartweergave van de samengestelde Eurostat-datasets. Kies een metriek, een NUTS-niveau en een jaar.",
+    "no_datasets_registered_yet": "Nog geen datasets geregistreerd — de statistiekenopslag is online, maar de seed is nog niet geladen. Voer uit",
+    "to_populate_the_catalog": "om de catalogus te vullen.",
+    "pick_a_dataset": "— kies een dataset —",
+    "the_dataset_has": "De dataset heeft",
+    "dimension_combinations_largest_slice_is_shown_by_default": "dimensiecombinaties. De grootste segment wordt standaard weergegeven.",
+    "backend_hasnt_computed_slice_stats": "De backend heeft nog geen segmentstatistieken voor deze dataset berekend — valt terug op automatische schaling per jaar.",
+    "unavailable": "(niet beschikbaar)",
+    "suggested": "(voorgesteld)",
+    "hidden": "verborgen",
+    "fetching_observations": "Waarnemingen ophalen…",
+    "no_data": "geen gegevens",
+    "pause_year_animation": "Jaaranimatie pauzeren",
+    "play_year_animation": "Jaaranimatie afspelen",
+    "year": "Jaar",
+    "looping_enabled": "Herhalen ingeschakeld",
+    "looping_disabled_stops_at_the_last_year": "Herhalen uitgeschakeld — stopt bij het laatste jaar",
+    "loop": "herhalen"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Open in Atlas →"
+    "open_in_atlas": "Open in Atlas →",
+    "atlas_map": "Atlaskaart",
+    "loading_map_data": "Kaartgegevens laden…",
+    "no_data": "geen gegevens"
   },
   "corr_matrix": {
     "none": "geen",
@@ -150,7 +171,9 @@
     "strong": "sterk",
     "inverse": "invers",
     "self": "zelfde variabele",
-    "hint": "Beweeg de muis over een cel of tik erop voor de exacte waarde."
+    "hint": "Beweeg de muis over een cel of tik erop voor de exacte waarde.",
+    "pick_at_least_two_numeric_columns": "Kies minstens twee numerieke kolommen om te correleren.",
+    "pearson_r": "Pearson r"
   },
   "translations": {
     "label": "Vertalingen",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Contractgegevens laden...",
     "missing_fields_of_contracts": "Ontbrekende velden (% van contracten)",
     "ted_contracts": "TED-contracten",
-    "total_eur_by_country_top_15": "Totaal EUR per land (Top 15)"
+    "total_eur_by_country_top_15": "Totaal EUR per land (Top 15)",
+    "tender_integrity": "Integriteit van aanbestedingen",
+    "single_bidder_rate_and_red_flag_indicators": "Percentage aanbestedingen met een enige inschrijver en risico-indicatoren volgens de EC Single Market Scoreboard / ECA CRI-methodiek — een signaal is een aanleiding om te kijken, geen bewijs van onregelmatigheden.",
+    "red_flags_by_type": "Risicosignalen per type",
+    "red_flag_count_distribution": "Verdeling van aantal risicosignalen",
+    "scroll_to_zoom_in_out": "Scroll om in/uit te zoomen. Balken aggregeren: dagelijks → wekelijks → maandelijks → jaarlijks.",
+    "distribution_of_original_currencies": "Verdeling van oorspronkelijke valuta's. EUR domineert, maar veel contracten in EU-lidstaten gebruiken de lokale valuta."
   },
   "cookie_consent_banner": {
     "accept": "Accepteren",
@@ -267,13 +296,19 @@
     "explain_zero_value": "De aankondiging vermeldde een waarde van precies nul — niet-openbaarmaking vermomd als een getal. Behandeld als een niet-bekendgemaakte waarde.",
     "explain_confirmed_bogus": "Een menselijke beoordelaar heeft de gepubliceerde waarde onderzocht en bevestigd dat deze onbetrouwbaar is. Voor dit contract is geen betrouwbare waarde beschikbaar.",
     "explain_withheld_generic": "De gepubliceerde waarde kwam niet door de plausibiliteitscontroles van het platform en is achtergehouden.",
-    "explain_low_confidence_generic": "De waarde wordt getoond, maar de gepubliceerde geldbedragen zijn zwak onderbouwd; ze is uitgesloten van de standaardtotalen en ranglijsten."
+    "explain_low_confidence_generic": "De waarde wordt getoond, maar de gepubliceerde geldbedragen zijn zwak onderbouwd; ze is uitgesloten van de standaardtotalen en ranglijsten.",
+    "the_eus_official_public_procurement_database_financial_data": ", de officiële database van de EU voor overheidsopdrachten. Financiële gegevens zijn afkomstig van",
+    "company_identifiers_and": "(bedrijfsidentificatoren) en",
+    "financial_statements": "(jaarrekeningen).",
+    "this_dashboard_shows_the_current_state": "Dit dashboard toont de huidige staat van de kennisgraaf. Gegevens worden dagelijks geladen vanuit TED en periodiek vernieuwd vanuit GLEIF. Alle records zijn herleidbaar tot hun bron via TED-aankondigingsnummers en LEI-nummers."
   },
   "data_quality_hub": {
     "data_freshness": "Versheid van gegevens",
     "data_quality": "Datakwaliteit",
     "latest_contract_load": "Laatste contractlading",
-    "loading_overview": "Overzicht laden..."
+    "loading_overview": "Overzicht laden...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Dashboards per pipeline — analyseer elke ETL om hiaten, trends en afwijkingen op te sporen.",
+    "themes": "Thema's"
   },
   "data_view_selector": {
     "data_view": "Gegevensweergave",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Deduplicatie",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS-wachtrij — status van het oplossen van dubbele entiteiten",
-    "use_the": "Gebruik de"
+    "use_the": "Gebruik de",
+    "reviewed": "Beoordeeld",
+    "pending": "In behandeling",
+    "tool_to_review_pending_duplicates": "hulpmiddel om openstaande duplicaten te beoordelen."
   },
   "donate": {
     "backers": "Ondersteuners",
@@ -310,7 +348,17 @@
     "remove_mention": "Vermelding verwijderen"
   },
   "entity_nuts_map": {
-    "contracts_count": "Contracten (aantal)"
+    "contracts_count": "Contracten (aantal)",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region": "1 — Macroregio",
+    "level_2_region": "2 — Regio",
+    "level_3_small_region": "3 — Kleine regio",
+    "select": "— selecteer —",
+    "loading_map": "Kaart laden…",
+    "select_a": "Selecteer een",
+    "above_to_load_the_map": "hierboven om de kaart te laden.",
+    "contracts": "contracten",
+    "no_known_contracts": "geen bekende contracten"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Alle gemarkeerde paren zijn opgelost.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Samenvoegen — behoud B (A wordt verwijderd)",
     "no_pairs_pending_review": "Geen paren in afwachting van controle.",
     "review_and_decide_on_flagged_candidates": "Beoordeel en beslis over gemarkeerde kandidaten",
-    "why_flagged": "Reden voor markering"
+    "why_flagged": "Reden voor markering",
+    "reviewer": "beoordelaar:",
+    "your_name": "uw naam",
+    "pending": "In behandeling",
+    "rules": "regels",
+    "conflict": "conflict",
+    "one_or_more_rules_reported_a_hard_conflic": "Een of meer regels hebben een hard conflict gemeld voor dit paar (bijv. niet-overeenkomende LEI / btw). Beoordeel zorgvuldig voordat u samenvoegt.",
+    "accept_lobbyist_represents_company": "Accepteren — Lobbyist vertegenwoordigt bedrijf",
+    "accept_company_is_sanctioned": "Accepteren — Bedrijf is gesanctioneerd",
+    "accept_relationship": "Relatie accepteren",
+    "reject_relationship_is_wrong": "Afwijzen — relatie is onjuist"
   },
   "entity_side": {
     "entity_details": "Entiteitsdetails"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Bedrijven",
     "connected_to_3": "Verbonden met (α-3)",
-    "parent_nuts_1": "Bovenliggende NUTS 1"
+    "parent_nuts_1": "Bovenliggende NUTS 1",
+    "level_0_country": "0 — Land",
+    "level_1_macro_region_coming_soon": "1 — Macroregio (binnenkort beschikbaar)",
+    "level_2_region_coming_soon": "2 — Regio (binnenkort beschikbaar)",
+    "level_3_small_region_coming_soon": "3 — Kleine regio (binnenkort beschikbaar)",
+    "eg_rus": "bijv. RUS",
+    "eg_de1": "bijv. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Bedrijven per land (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Weergave opslaan",
     "search_entity_name": "Entiteitsnaam zoeken...",
     "set_as_center": "Instellen als centrum",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 mnd",
+    "3_yr": "3 jr",
+    "5_yr": "5 jr",
+    "nodes": "Knopen",
+    "edges": "Randen",
+    "exit_path_mode": "✕ Padmodus afsluiten",
+    "find_path_to_2": "Pad zoeken naar…",
+    "timeline": "Tijdlijn",
+    "timeline_2": "✕ Tijdlijn",
+    "saved": "Opgeslagen",
+    "depth_2": "diepte",
+    "path": "pad",
+    "found": "gevonden.",
+    "shortest": "Kortste:",
+    "hop": "hop",
+    "path_2": "Pad",
+    "contracts": "contracten",
+    "directors": "bestuurders",
+    "companies": "bedrijven",
+    "nodes_2": "knopen",
+    "edges_2": "randen",
+    "showing": "Weergave van",
+    "of": "van",
+    "truncated": "(ingekort)",
+    "country": "Land:",
+    "value": "Waarde:",
+    "collapse": "▼ Inklappen",
+    "expand": "▶ Uitklappen"
   },
   "income": {
     "revenue_amp_net_income": "Omzet &amp; nettowinst"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Verdeling van lobbykosten",
     "registrations_over_time": "Inschrijvingen in de tijd",
     "top_countries": "Belangrijkste landen",
-    "transparency_register_lobbyist_registrat": "Transparantieregister — lobbyisten-inschrijvingen, EP-toegang, uitgaven"
+    "transparency_register_lobbyist_registrat": "Transparantieregister — lobbyisten-inschrijvingen, EP-toegang, uitgaven",
+    "most_represented_companies": "Meest vertegenwoordigde bedrijven",
+    "registrants_resolved_to_a_known_company": "Registranten gekoppeld aan een bekend bedrijf via de consolidator (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Categorieverdeling van registranten",
+    "top_declared_spenders": "Grootste opgegeven bestedingen",
+    "by_declared_annual_lobbying_cost_ceiling": "Op basis van het opgegeven jaarlijkse maximum aan lobbykosten."
   },
   "login": {
     "go_to_home": "Naar startpagina",
     "you_already_have_an_active_session": "U hebt al een actieve sessie.",
-    "youre_signed_in": "U bent ingelogd"
+    "youre_signed_in": "U bent ingelogd",
+    "sign_in_to_fontem": "Aanmelden bij Fontem",
+    "sign_in_to_start_creating_data_stories": "Meld u aan om te beginnen met het maken van dataverhalen, het aankaarten van kwesties en het samenwerken met de gemeenschap.",
+    "signing_in": "Aanmelden...",
+    "sign_in": "Aanmelden",
+    "create_account": "Account aanmaken",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "forgot_your_password": "Wachtwoord vergeten?",
+    "full_name": "Volledige naam",
+    "password_min_8_chars": "Wachtwoord (min. 8 tekens)",
+    "confirm_password": "Wachtwoord bevestigen",
+    "passwords_dont_match": "Wachtwoorden komen niet overeen",
+    "creating_account": "Account aanmaken...",
+    "or_continue_with": "of ga verder met",
+    "sign_in_with_token": "Aanmelden met token",
+    "paste_a_jwt_token": "Plak een JWT-token",
+    "go": "Ga"
   },
   "mention_autocomplete": {
     "entity_mentions": "Entiteitsvermeldingen",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Overzicht datakwaliteit",
     "listings": "Noteringen",
     "lobby": "Lobby",
-    "top_alpha_2_codes": "Belangrijkste Alpha-2-codes"
+    "top_alpha_2_codes": "Belangrijkste Alpha-2-codes",
+    "how_many_entities_appear_in_multiple_data_sources": "Hoeveel entiteiten in meerdere gegevensbronnen voorkomen — een maat voor de connectiviteit van de graaf.",
+    "companies_still_use_alpha_2_country_codes": "bedrijven gebruiken nog steeds alfa-2-landcodes in plaats van ISO 3166-1 alfa-2/alfa-3.",
+    "field_completeness": "Veldvolledigheid",
+    "coverage_percentage_per_field": "Dekkingspercentage per veld. Groen = >90%, geel = 50-90%, rood = <50%.",
+    "sanctions": "Sancties",
+    "entities": "entiteiten",
+    "cohesion_projects": "Cohesieprojecten",
+    "projects": "projecten",
+    "companies": "Bedrijven",
+    "companies_2": "bedrijven"
   },
   "pocket_button": {
     "name_this_snapshot": "Geef deze snapshot een naam",
@@ -559,7 +683,12 @@
     "clear_ai_history": "AI-geschiedenis wissen",
     "delete_account": "Account verwijderen",
     "display": "Weergave",
-    "preferences": "Voorkeuren"
+    "preferences": "Voorkeuren",
+    "sequential": "Sequentieel",
+    "diverging": "Divergerend",
+    "signing_out": "Afmelden…",
+    "sign_out_all_devices": "Op alle apparaten afmelden",
+    "sign_in": "Aanmelden"
   },
   "privacy": {
     "access": "Toegang",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Om deze rechten uit te oefenen kunt u contact met ons opnemen via",
     "under_the_gdpr_you_have_the_right_to": "Onder de AVG hebt u het recht om:",
     "when_you_sign_in_we_collect_and_store": "Wanneer u inlogt, verzamelen en bewaren wij:",
-    "your": "Uw"
+    "your": "Uw",
+    "what_fontem_is": "1. Wat Fontem is",
+    "fontem_is_a_civic_transparency_platform": "Fontem is een platform voor maatschappelijke transparantie dat gegevens over EU-overheidsopdrachten, registers van bedrijfseigendom en financiering vanuit het cohesiebeleid samenbrengt in één kennisgraaf. Het doel is om overheidsuitgaven en bedrijfsstructuren gemakkelijker te verkennen en te begrijpen.",
+    "data_in_the_knowledge_graph": "2. Gegevens in de kennisgraaf",
+    "legal_entities": "rechtspersonen",
+    "companies_public_authorities_and_organis": "(bedrijven, overheidsinstanties en organisaties) — geen natuurlijke personen. Wij aggregeren openbaar beschikbare gegevens uit de volgende bronnen:",
+    "global_lei_foundation_company_registry": "— bedrijfsregistergegevens van de Global LEI Foundation",
+    "eu_public_procurement_notices": "— aankondigingen van EU-overheidsopdrachten en gunningen",
+    "eu_cohesion_policy_project_funding": "— projectfinanciering vanuit het EU-cohesiebeleid",
+    "lobbying_organisations_registered_with_eu": "— lobbyorganisaties die bij de EU zijn geregistreerd",
+    "sanctioned_entities_only": "— uitsluitend gesanctioneerde entiteiten",
+    "your_account_data": "3. Uw accountgegevens",
+    "email_address": "e-mailadres",
+    "name": "naam",
+    "and": ", en",
+    "profile_picture": "profielfoto",
+    "provided_by_google_oauth": "(verstrekt door Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Deze gegevens worden uitsluitend gebruikt voor authenticatie en personalisatie van uw ervaring (bijv. het weergeven van uw naam in de interface).",
+    "performance_of_a_contract": "uitvoering van een overeenkomst (art. 6, lid 1, onder b), AVG) — wij hebben deze gegevens nodig om u een account en de diensten waarvoor u zich hebt aangemeld te kunnen bieden.",
+    "you_can_delete_your_account": "U kunt uw account en alle bijbehorende gegevens op elk moment verwijderen door contact met ons op te nemen via het onderstaande adres.",
+    "ai_assistant": "4. AI-assistent",
+    "when_you_use_the_ai_assistant": "Wanneer u de AI-assistent gebruikt, worden uw gesprekken opgeslagen om de chatgeschiedenis te bieden en gebruiksstatistieken te berekenen.",
+    "you_can_delete_your_entire_conversation": "U kunt uw volledige gespreksgeschiedenis op elk moment verwijderen via het profielmenu.",
+    "your_rights": "5. Uw rechten",
+    "the_personal_data_we_hold_about_you": "de persoonsgegevens die wij over u bewaren",
+    "inaccurate_data": "onjuiste gegevens",
+    "your_data_right_to_be_forgotten": "uw gegevens (\"recht om vergeten te worden\")",
+    "your_data_to_another_service": "uw gegevens naar een andere dienst",
+    "you_also_have_the_right_to_lodge": "U hebt ook het recht om een klacht in te dienen bij een toezichthoudende autoriteit in uw land van verblijf.",
+    "cookies": "6. Cookies",
+    "we_only_use_strictly_necessary_cookies": "Wij gebruiken uitsluitend strikt noodzakelijke sessiecookies voor authenticatie. Wij gebruiken geen trackingcookies, advertentiecookies of analysecookies van derden.",
+    "changes_to_this_policy": "7. Wijzigingen in dit beleid",
+    "we_may_update_this_policy": "Wij kunnen dit beleid van tijd tot tijd bijwerken. Wanneer wij dat doen, passen wij de datum \"laatst bijgewerkt\" boven aan deze pagina aan. Voortgezet gebruik van Fontem na wijzigingen geldt als aanvaarding van het bijgewerkte beleid."
   },
   "profile": {
     "avg_net_margin": "Gem. nettomarge",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Of blader door wat groot is in jouw land.",
-    "public_spending": "Overheidsuitgaven"
+    "public_spending": "Overheidsuitgaven",
+    "showing_top_in": "Top wordt weergegeven in",
+    "pick_a_country_to_see_top_companies": "Kies een land om de belangrijkste bedrijven en instanties te zien:",
+    "pick_a_country": "— kies een land —",
+    "top_companies_in": "Belangrijkste bedrijven in",
+    "by_total_eu_procurement_contract_value_won": "Op basis van de totale gewonnen contractwaarde van EU-overheidsopdrachten.",
+    "contracts": "contracten",
+    "loading": "Laden…",
+    "no_companies_found_for": "Geen bedrijven gevonden voor",
+    "top_authorities_in": "Belangrijkste instanties in",
+    "by_total_contract_value_awarded": "Op basis van de totale gegunde contractwaarde.",
+    "no_authorities_found_for": "Geen instanties gevonden voor"
   },
   "recently_published_carousel": {
     "carousel_position": "Carrouselpositie",
@@ -619,7 +791,12 @@
     "private_only_me": "Privé — alleen ik",
     "public_anyone": "Openbaar — iedereen",
     "signed_in_users": "Ingelogde gebruikers",
-    "story_title": "Titel van het verhaal"
+    "story_title": "Titel van het verhaal",
+    "saving": "Opslaan...",
+    "save": "Opslaan",
+    "insert_widget": "Widget invoegen",
+    "your_pocket_is_empty": "Uw opbergvak is leeg. Sla eerst visualisaties op met de knop Opbergen.",
+    "close": "Sluiten"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Gesanctioneerde entiteiten — personen, organisaties, dekking van regimes en bedrijfsmatching",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter om uit te voeren",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultaten-envelop:",
     "sparql_endpoint": "SPARQL-endpoint",
-    "try_a_query": "Probeer een query"
+    "try_a_query": "Probeer een query",
+    "no_rows": "Geen rijen.",
+    "query_returned_no_projected_columns": "Query gaf geen geprojecteerde kolommen terug.",
+    "example_queries": "Voorbeeldquery's",
+    "click": "Klik",
+    "use_this_query": "Deze query gebruiken",
+    "drop_query_into_editor_hint": "om er een in de bovenstaande editor te plaatsen. De vocabulaire combineert",
+    "with_the_eu": "met de EU-",
+    "eprocurement_ontology": "eProcurement-ontologie",
+    "where_schemaorg_has_gaps": "waar schema.org hiaten heeft.",
+    "row": "rij"
   },
   "story_editor_toolbar": {
     "blockquote": "Citaat",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Financiële gegevens sluiten",
     "history": "Geschiedenis",
-    "taking_longer_than_expected": "Duurt langer dan verwacht…"
+    "taking_longer_than_expected": "Duurt langer dan verwacht…",
+    "data_as_of": "gegevens per",
+    "link_copied": "Link gekopieerd",
+    "copy_link": "Link kopiëren",
+    "copied": "Gekopieerd!",
+    "copy_link_to_this_view": "Link naar deze weergave kopiëren",
+    "could_not_load_data_for": "Kon gegevens niet laden voor",
+    "this_entity": "deze entiteit",
+    "annual_data": "Jaargegevens",
+    "metric": "Metriek",
+    "averages": "Gemiddelden",
+    "per_year": "Per jaar"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Geen tickers gevonden voor &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Gematerialiseerde autoriteit-bedrijf-handelsrelaties uit contracten",
-    "trade_edges": "Handelskanten"
+    "trade_edges": "Handelskanten",
+    "counts_derive_live": "Tellingen worden live afgeleid uit de per-contract-",
+    "chain_no_materialised_cache": "keten. Geen gematerialiseerde cache; cijfers weerspiegelen altijd de huidige graaf."
   },
   "triples_d_q": {
     "chart_view": "Grafiekweergave",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Triples per benoemde graaf",
     "virtuoso_not_configured_in_this_environm": "Virtuoso is niet geconfigureerd in deze omgeving",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF-inventaris in de Virtuoso-opslag — totalen, tellingen per named graph en de klasse/predicaat-structuur van elke graaf. Verkregen via SPARQL tegen",
+    "could_not_load_triple_store_stats": "Kon statistieken van de triple-store niet laden:",
+    "this_environment_has_no_rdf_store": "Deze omgeving heeft geen aangesloten RDF-opslag — de RDF-grafen voor sancties, deponeringen en andere fase 2-graafgegevens bestaan alleen waar",
+    "is_set_on_the_gmr_api_deployment": "is ingesteld op de gmr-api-deployment. Raadpleeg het staging- of productiedashboard voor actuele cijfers.",
+    "assertions_in_this_graph": "assertions in deze graaf."
   },
   "valuation": {
     "averages": "Gemiddelden"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Gecorrigeerde waarde in €",
     "action_correct": "Corrigeren",
     "action_bogus": "Onbetrouwbaar"
+  },
+  "issue_create_modal": {
+    "eg_company": "bijv. bedrijf",
+    "eg_gmr_id_or_ticker": "bijv. gmr_id of ticker"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Geen reeksen om weer te geven."
+  },
+  "studio_share_modal": {
+    "share": "Delen",
+    "investigation": "Onderzoek",
+    "shared_with": "Gedeeld met",
+    "an_investigation": "een onderzoek",
+    "its_members_inherit_access_by_role": "— de leden ervan erven toegang op basis van hun rol.",
+    "detach": "Ontkoppelen",
+    "add_to_an_investigation": "Toevoegen aan een onderzoek",
+    "add_to_an_investigation_2": "Toevoegen aan een onderzoek…",
+    "attach": "Koppelen",
+    "you_need_a_contributor_seat_on_an_investigation": "U hebt een contributor+-plek in een onderzoek nodig om een project te koppelen.",
+    "who_has_access": "Wie heeft toegang",
+    "add_a_person": "Een persoon toevoegen",
+    "email_address": "E-mailadres",
+    "email_address_to_share_with": "E-mailadres om mee te delen",
+    "access_level": "Toegangsniveau",
+    "add": "Toevoegen",
+    "people_with_direct_access": "Personen met directe toegang",
+    "no_direct_shares_yet": "Nog geen directe deelname.",
+    "remove": "Verwijderen"
+  },
+  "verify_email": {
+    "confirming_your_email": "Uw e-mailadres bevestigen…",
+    "one_moment": "Een moment.",
+    "email_confirmed": "E-mailadres bevestigd",
+    "your_account_is_verified": "Uw account is geverifieerd. U kunt nu verhalen publiceren, reageren en onderwerpen volgen.",
+    "continue_to_fontem": "Doorgaan naar Fontem",
+    "the_link_may_have_expired": "De link is mogelijk verlopen of al gebruikt. Meld u aan en vraag een nieuwe verificatie-e-mail aan via de banner bovenaan.",
+    "go_to_fontem": "Ga naar Fontem",
+    "couldnt_confirm_your_email": "Kon uw e-mailadres niet bevestigen"
+  },
+  "studio_plot": {
+    "studio": "Studio",
+    "plot_name": "Naam van grafiek",
+    "saved": "Opgeslagen ✓",
+    "save_plot": "Grafiek opslaan",
+    "pocketed": "Opgeborgen ✓",
+    "pocket": "Opbergen",
+    "step_1_sources": "1 · Bronnen",
+    "this_project_has_no_queries_yet": "Dit project heeft nog geen query's.",
+    "step_2_combine": "2 · Combineren",
+    "duckdb_sql_over": "— DuckDB SQL over",
+    "your_sources": "uw bronnen",
+    "runs_in_your_browser": "(draait in uw browser)",
+    "combining": "Combineren…",
+    "run_combine": "Uitvoeren & combineren",
+    "rows": "rijen",
+    "step_3_plot": "3 · Grafiek",
+    "chart": "Grafiek",
+    "nuts_column": "NUTS-kolom",
+    "value": "Waarde",
+    "bivariate": "Bivariaat",
+    "off": "Uit",
+    "colour_opacity": "Kleur + dekking",
+    "two_colour_matrix": "2-kleurenmatrix",
+    "second_value": "2e waarde",
+    "level": "Niveau",
+    "series": "Reeks",
+    "columns": "Kolommen",
+    "loading": "Laden…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Overheidsopdrachten",
+    "where_eu_public_money_goes": "Waar EU-overheidsgeld naartoe gaat — gunningen, waardestromen en de datakwaliteit achter elk kerncijfer.",
+    "loading_procurement_data": "Aanbestedingsgegevens laden…",
+    "contracts": "Contracten",
+    "trusted_value": "Vertrouwde waarde",
+    "values_trusted": "Vertrouwde waarden",
+    "countries": "Landen",
+    "spend_by_country_confidence_gated": "Uitgaven per land (op betrouwbaarheid gefilterd)",
+    "low_confidence_values_excluded": "Waarden met lage betrouwbaarheid worden uitgesloten — zie het datakwaliteitspaneel hieronder.",
+    "data_quality_values_held_back": "Datakwaliteit — waarden uitgesloten van totalen",
+    "contracts_2": "contracten",
+    "are_flagged_and_excluded_from_figures": "zijn gemarkeerd en uitgesloten van de bovenstaande cijfers.",
+    "corporate_group_rollup": "Consolidatie op concernniveau",
+    "coming_soon": "binnenkort beschikbaar",
+    "winners_rolled_up_to_parent": "Winnaars geconsolideerd naar hun uiteindelijke moederonderneming — zodat \"Bedrijf X won €2 mln\" wordt \"Groep Y won €400 mln over 30 dochterondernemingen\". Beschikbaar zodra de herinname van de eigendomsgraaf is voltooid.",
+    "source_and_pipeline": "Bron & pipeline",
+    "ted_contracts_pipeline_health": "TED-contracten — pipelinegezondheid",
+    "open_operational_ted_dashboard": "Open het operationele TED-contractendashboard →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Onbekend thema",
+    "questions_this_answers": "Vragen die dit beantwoordt",
+    "sources_and_pipeline_health": "Bronnen & pipelinegezondheid",
+    "open_the": "Open het",
+    "dashboard_arrow": "dashboard →",
+    "no_dedicated_dashboard_yet": "Nog geen specifiek dashboard.",
+    "deeper_insights": "Diepere inzichten",
+    "coming_soon": "binnenkort beschikbaar",
+    "no_configuration_yet": "Dit thema heeft nog geen configuratie."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "EU-cohesiesubsidies",
+    "grant": "subsidie",
+    "attained": "behaald",
+    "eu_contribution": "EU-bijdrage",
+    "project": "Project",
+    "fund": "Fonds",
+    "programme": "Programma",
+    "eu_euro": "EU €",
+    "period": "Periode"
+  },
+  "forgot_password": {
+    "reset_your_password": "Uw wachtwoord opnieuw instellen",
+    "enter_your_email_send_link": "Voer uw e-mailadres in, dan sturen wij u een link om een nieuw wachtwoord in te stellen.",
+    "you_example_com": "u@voorbeeld.com",
+    "sending": "Versturen…",
+    "send_reset_link": "Herstellink versturen",
+    "check_your_email": "Controleer uw e-mail",
+    "if_account_exists_sent_link": "Als er een account voor dat adres bestaat, hebben wij een link gestuurd om uw wachtwoord opnieuw in te stellen. Deze verloopt over één uur."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlaslegenda",
+    "logarithmic_scale": "logaritmische schaal",
+    "log": "log",
+    "no_data": "geen gegevens"
+  },
+  "studio_nav": {
+    "project_actions": "Projectacties",
+    "query_actions": "Query-acties",
+    "plot_actions": "Grafiekacties",
+    "rename": "Naam wijzigen",
+    "delete": "Verwijderen",
+    "confirm_delete": "Verwijderen bevestigen",
+    "new_query": "Nieuwe query",
+    "duplicate": "Dupliceren",
+    "queries": "Query's",
+    "plots": "Grafieken",
+    "new_plot": "Nieuwe grafiek",
+    "new_project": "Nieuw project"
+  },
+  "studio_home": {
+    "data_studio": "Data Studio",
+    "pull_data_with_read_only_queries": "Haal gegevens op met alleen-lezen query's, combineer ze in uw browser en zet ze in grafieken.",
+    "new_project": "Nieuw project",
+    "loading_your_projects": "Uw projecten laden…",
+    "no_data_projects_yet": "Nog geen dataprojecten. Maak uw eerste project aan om te beginnen.",
+    "query": "query",
+    "queries": "query's",
+    "plot": "grafiek",
+    "plots": "grafieken"
+  },
+  "profile_panel": {
+    "entities": "entiteiten",
+    "show_all": "Alles tonen",
+    "contracts": "contracten",
+    "former": "(voormalig)"
+  },
+  "studio_project": {
+    "studio": "Studio",
+    "project_name": "Projectnaam",
+    "share": "Delen",
+    "view_only_access": "U hebt alleen-lezentoegang tot dit gedeelde project.",
+    "queries": "Query's",
+    "new_query": "+ Nieuwe query",
+    "no_queries_yet": "Nog geen query's. Maak er een aan om gegevens op te halen.",
+    "plots": "Grafieken",
+    "new_plot": "+ Nieuwe grafiek",
+    "no_plots_yet": "Nog geen grafieken. Combineer uw query's en zet het resultaat in een grafiek."
+  },
+  "schema_panel": {
+    "schema": "Schema",
+    "loading_schema": "Schema laden…",
+    "schema_unavailable": "Schema niet beschikbaar.",
+    "node_labels": "Knooplabels",
+    "no_recorded_properties": "geen vastgelegde eigenschappen",
+    "relationships": "Relaties",
+    "tables": "Tabellen",
+    "classes": "Klassen",
+    "predicates": "Predicaten"
+  },
+  "reset_password": {
+    "set_a_new_password": "Stel een nieuw wachtwoord in",
+    "new_password": "Nieuw wachtwoord",
+    "confirm_new_password": "Nieuw wachtwoord bevestigen",
+    "passwords_dont_match": "Wachtwoorden komen niet overeen.",
+    "saving": "Opslaan…",
+    "set_new_password": "Nieuw wachtwoord instellen",
+    "password_updated": "Wachtwoord bijgewerkt",
+    "password_changed_redirecting": "Uw wachtwoord is gewijzigd en alle sessies zijn afgemeld. U wordt doorgestuurd naar de aanmeldpagina…"
+  },
+  "investigation_detail": {
+    "untitled": "Zonder titel",
+    "data_projects": "Dataprojecten",
+    "no_data_projects": "Nog geen dataprojecten gedeeld met dit onderzoek.",
+    "queries": "query's",
+    "plots": "grafieken",
+    "detach": "Ontkoppelen"
+  },
+  "tree_node": {
+    "untitled": "Zonder titel",
+    "add_sub_article": "Subartikel toevoegen",
+    "remove": "Verwijderen"
+  },
+  "contract_detail": {
+    "public_spending": "Overheidsuitgaven",
+    "loading": "Laden…",
+    "contract_not_found": "Contract niet gevonden.",
+    "couldnt_load_this_contract": "Kon dit contract niet laden.",
+    "untitled_contract": "(contract zonder titel)",
+    "red_flag": "risicosignaal",
+    "bidder_s": "inschrijver(s)",
+    "risk_indicators_note": "Risico-indicatoren volgens de EC Single Market Scoreboard / ECA CRI-methodiek — een signaal is een aanleiding om te kijken, geen bewijs van onregelmatigheden.",
+    "value": "Waarde",
+    "procedure": "Procedure",
+    "award_criteria": "Gunningscriteria",
+    "eu_funded": "EU-gefinancierd",
+    "yes": "Ja",
+    "buyer": "Koper",
+    "contractor": "Opdrachtnemer",
+    "award_date": "Gunningsdatum",
+    "view_original_notice_on_ted": "Bekijk de oorspronkelijke aankondiging op TED"
+  },
+  "studio_query": {
+    "studio": "Studio",
+    "query_name": "Querynaam",
+    "duplicate": "Dupliceren",
+    "confirm_delete": "Verwijderen bevestigen",
+    "delete": "Verwijderen",
+    "query_language": "Querytaal",
+    "hide_schema": "Schema verbergen",
+    "schema": "Schema",
+    "write_your_query_shortcut": "Schrijf uw query — Ctrl/Cmd+Enter om uit te voeren",
+    "running": "Uitvoeren…",
+    "run_query": "Query uitvoeren",
+    "rows": "rijen",
+    "cols": "kolommen",
+    "query_ran_no_rows": "Query succesvol uitgevoerd — geen rijen geretourneerd.",
+    "showing_first_100_of": "Eerste 100 weergegeven van",
+    "rows_2": "rijen.",
+    "loading": "Laden…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Pipelinestatistieken niet beschikbaar.",
+    "no_events_recorded_in_the_window": "Geen gebeurtenissen vastgelegd in het tijdvenster."
+  },
+  "studio_map": {
+    "loading_boundaries": "Grenzen laden…",
+    "matched": "gematcht",
+    "of": "van",
+    "regions": "regio's",
+    "wrong_column_level": "— verkeerde kolom/niveau?",
+    "opacity": "dekking"
   }
 }

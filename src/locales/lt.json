@@ -138,10 +138,31 @@
     "notes": "Pastabos",
     "time_unit": "Laiko vienetas",
     "updated": "Atnaujinta",
-    "value_scale": "Reikšmių skalė"
+    "value_scale": "Reikšmių skalė",
+    "map_view_of_the_curated_eurostat_datasets": "Kuruotų Eurostato duomenų rinkinių žemėlapio rodinys. Pasirinkite rodiklį, NUTS lygį ir metus.",
+    "no_datasets_registered_yet": "Dar neįregistruota jokių duomenų rinkinių – statistikos saugykla veikia, bet pradiniai duomenys neįkelti. Paleiskite",
+    "to_populate_the_catalog": "katalogui užpildyti.",
+    "pick_a_dataset": "— pasirinkite duomenų rinkinį —",
+    "the_dataset_has": "Duomenų rinkinys turi",
+    "dimension_combinations_largest_slice_is_shown_by_default": "matmenų derinių. Pagal numatytuosius nustatymus rodoma didžiausia dalis.",
+    "backend_hasnt_computed_slice_stats": "Serverio pusė dar neapskaičiavo šio duomenų rinkinio pjūvių statistikos – grįžtama prie automatinio mastelio pagal metus.",
+    "unavailable": "(neprieinama)",
+    "suggested": "(siūloma)",
+    "hidden": "paslėpta",
+    "fetching_observations": "Gaunami stebėjimai…",
+    "no_data": "nėra duomenų",
+    "pause_year_animation": "Pristabdyti metų animaciją",
+    "play_year_animation": "Leisti metų animaciją",
+    "year": "Metai",
+    "looping_enabled": "Ciklas įjungtas",
+    "looping_disabled_stops_at_the_last_year": "Ciklas išjungtas – sustoja ties paskutiniais metais",
+    "loop": "ciklas"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Atidaryti Atlas →"
+    "open_in_atlas": "Atidaryti Atlas →",
+    "atlas_map": "Atlaso žemėlapis",
+    "loading_map_data": "Įkeliami žemėlapio duomenys…",
+    "no_data": "nėra duomenų"
   },
   "corr_matrix": {
     "none": "nėra",
@@ -150,7 +171,9 @@
     "strong": "stipri",
     "inverse": "atvirkštinė",
     "self": "tas pats kintamasis",
-    "hint": "Užveskite pelę arba palieskite langelį, kad pamatytumėte tikslią reikšmę."
+    "hint": "Užveskite pelę arba palieskite langelį, kad pamatytumėte tikslią reikšmę.",
+    "pick_at_least_two_numeric_columns": "Pasirinkite bent du skaitinius stulpelius koreliacijai.",
+    "pearson_r": "Pirsono r"
   },
   "translations": {
     "label": "Vertimai",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Įkeliami sutarties duomenys...",
     "missing_fields_of_contracts": "Trūkstami laukai (% sutarčių)",
     "ted_contracts": "TED sutartys",
-    "total_eur_by_country_top_15": "Iš viso EUR pagal šalį (Top 15)"
+    "total_eur_by_country_top_15": "Iš viso EUR pagal šalį (Top 15)",
+    "tender_integrity": "Konkursų sąžiningumas",
+    "single_bidder_rate_and_red_flag_indicators": "Vieno dalyvio rodiklis ir įspėjamieji rodikliai pagal EK bendrosios rinkos rezultatų suvestinės / EAR CRI metodiką – žymė yra paskata patikrinti, o ne pažeidimo įrodymas.",
+    "red_flags_by_type": "Įspėjamosios žymės pagal tipą",
+    "red_flag_count_distribution": "Įspėjamųjų žymių skaičiaus pasiskirstymas",
+    "scroll_to_zoom_in_out": "Slinkite norėdami priartinti / nutolinti. Stulpeliai agreguojami: kasdien → kas savaitę → kas mėnesį → kasmet.",
+    "distribution_of_original_currencies": "Originalių valiutų pasiskirstymas. Vyrauja EUR, tačiau daug ES narių sutarčių naudoja vietinę valiutą."
   },
   "cookie_consent_banner": {
     "accept": "Priimti",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Skelbime paskelbta lygiai nulinė vertė — neatskleidimas, prisidengęs skaičiumi. Laikoma neatskleista verte.",
     "explain_confirmed_bogus": "Žmogus peržiūrėtojas išnagrinėjo paskelbtą vertę ir patvirtino, kad ji nepatikima. Šiai sutarčiai nėra patikimos vertės.",
     "explain_withheld_generic": "Paskelbta vertė neišlaikė platformos tikrinimo patikrų ir buvo neatskleista.",
-    "explain_low_confidence_generic": "Vertė rodoma, tačiau paskelbti piniginiai laukai silpnai pagrįsti; ji neįtraukiama į numatytąsias sumas ir reitingus."
+    "explain_low_confidence_generic": "Vertė rodoma, tačiau paskelbti piniginiai laukai silpnai pagrįsti; ji neįtraukiama į numatytąsias sumas ir reitingus.",
+    "the_eus_official_public_procurement_database_financial_data": ", oficialią ES viešųjų pirkimų duomenų bazę. Finansiniai duomenys gaunami iš",
+    "company_identifiers_and": "(įmonių identifikatoriai) ir",
+    "financial_statements": "(finansinės ataskaitos).",
+    "this_dashboard_shows_the_current_state": "Ši informacinė lenta rodo esamą žinių grafo būklę. Duomenys kasdien įkeliami iš TED ir periodiškai atnaujinami iš GLEIF. Visi įrašai atsekami iki jų šaltinio per TED skelbimų ID ir LEI numerius."
   },
   "data_quality_hub": {
     "data_freshness": "Duomenų šviežumas",
     "data_quality": "Duomenų kokybė",
     "latest_contract_load": "Paskutinis sutarčių įkėlimas",
-    "loading_overview": "Įkeliama apžvalga..."
+    "loading_overview": "Įkeliama apžvalga...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Kiekvieno konvejerio informacinės lentos – įsigilinkite į kiekvieną ETL, kad pastebėtumėte spragas, tendencijas ir anomalijas.",
+    "themes": "Temos"
   },
   "data_view_selector": {
     "data_view": "Duomenų vaizdas",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Dublikatų šalinimas",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS eilė — dublikatų esybių sutaikymo būsena",
-    "use_the": "Naudok"
+    "use_the": "Naudok",
+    "reviewed": "Peržiūrėta",
+    "pending": "Laukiama",
+    "tool_to_review_pending_duplicates": "įrankis laukiantiems dublikatams peržiūrėti."
   },
   "donate": {
     "backers": "Rėmėjai",
@@ -310,7 +348,17 @@
     "remove_mention": "Pašalinti paminėjimą"
   },
   "entity_nuts_map": {
-    "contracts_count": "Sutartys (skaičius)"
+    "contracts_count": "Sutartys (skaičius)",
+    "level_0_country": "0 — Šalis",
+    "level_1_macro_region": "1 — Makroregionas",
+    "level_2_region": "2 — Regionas",
+    "level_3_small_region": "3 — Mažas regionas",
+    "select": "— pasirinkite —",
+    "loading_map": "Įkeliamas žemėlapis…",
+    "select_a": "Pasirinkite",
+    "above_to_load_the_map": "aukščiau, kad įkeltumėte žemėlapį.",
+    "contracts": "sutartys",
+    "no_known_contracts": "nėra žinomų sutarčių"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Visos pažymėtos poros išspręstos.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Sujungti — palikti B (A pašalinama)",
     "no_pairs_pending_review": "Nėra peržiūros laukiančių porų.",
     "review_and_decide_on_flagged_candidates": "Peržiūrėk pažymėtus kandidatus ir nuspręsk",
-    "why_flagged": "Kodėl pažymėta"
+    "why_flagged": "Kodėl pažymėta",
+    "reviewer": "recenzentas:",
+    "your_name": "jūsų vardas",
+    "pending": "Laukiama",
+    "rules": "taisyklės",
+    "conflict": "konfliktas",
+    "one_or_more_rules_reported_a_hard_conflic": "Viena ar daugiau taisyklių nustatė kietą konfliktą šioje poroje (pvz., nesutampantis LEI / PVM kodas). Prieš sujungdami atidžiai peržiūrėkite.",
+    "accept_lobbyist_represents_company": "Priimti – lobistas atstovauja įmonei",
+    "accept_company_is_sanctioned": "Priimti – įmonė yra sankcionuota",
+    "accept_relationship": "Priimti ryšį",
+    "reject_relationship_is_wrong": "Atmesti – ryšys neteisingas"
   },
   "entity_side": {
     "entity_details": "Esybės informacija"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Įmonės",
     "connected_to_3": "Sujungta su (α-3)",
-    "parent_nuts_1": "Tėvinis NUTS 1"
+    "parent_nuts_1": "Tėvinis NUTS 1",
+    "level_0_country": "0 — Šalis",
+    "level_1_macro_region_coming_soon": "1 — Makroregionas (netrukus)",
+    "level_2_region_coming_soon": "2 — Regionas (netrukus)",
+    "level_3_small_region_coming_soon": "3 — Mažas regionas (netrukus)",
+    "eg_rus": "pvz., RUS",
+    "eg_de1": "pvz., DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Įmonės pagal šalį (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Įrašyti vaizdą",
     "search_entity_name": "Ieškoti esybės pavadinimo...",
     "set_as_center": "Nustatyti kaip centrą",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 mėn.",
+    "3_yr": "3 m.",
+    "5_yr": "5 m.",
+    "nodes": "Mazgai",
+    "edges": "Briaunos",
+    "exit_path_mode": "✕ Išeiti iš kelio režimo",
+    "find_path_to_2": "Rasti kelią iki…",
+    "timeline": "Laiko juosta",
+    "timeline_2": "✕ Laiko juosta",
+    "saved": "Išsaugota",
+    "depth_2": "gylis",
+    "path": "kelias",
+    "found": "rasta.",
+    "shortest": "Trumpiausias:",
+    "hop": "šuolis",
+    "path_2": "Kelias",
+    "contracts": "sutartys",
+    "directors": "direktoriai",
+    "companies": "įmonės",
+    "nodes_2": "mazgai",
+    "edges_2": "briaunos",
+    "showing": "Rodoma",
+    "of": "iš",
+    "truncated": "(sutrumpinta)",
+    "country": "Šalis:",
+    "value": "Vertė:",
+    "collapse": "▼ Suskleisti",
+    "expand": "▶ Išskleisti"
   },
   "income": {
     "revenue_amp_net_income": "Pajamos &amp; grynasis pelnas"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Lobistinių išlaidų pasiskirstymas",
     "registrations_over_time": "Registracijos laikui bėgant",
     "top_countries": "Pagrindinės šalys",
-    "transparency_register_lobbyist_registrat": "Skaidrumo registras — lobistų registracijos, EP prieiga, išlaidos"
+    "transparency_register_lobbyist_registrat": "Skaidrumo registras — lobistų registracijos, EP prieiga, išlaidos",
+    "most_represented_companies": "Dažniausiai atstovaujamos įmonės",
+    "registrants_resolved_to_a_known_company": "Registruotieji subjektai susieti su žinoma įmone per konsoliduotoją (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Registruotųjų subjektų kategorijų sudėtis",
+    "top_declared_spenders": "Daugiausiai deklaravę subjektai",
+    "by_declared_annual_lobbying_cost_ceiling": "Pagal deklaruotą metinių lobizmo išlaidų viršutinę ribą."
   },
   "login": {
     "go_to_home": "Eiti į pradžią",
     "you_already_have_an_active_session": "Jau turi aktyvų seansą.",
-    "youre_signed_in": "Esi prisijungęs"
+    "youre_signed_in": "Esi prisijungęs",
+    "sign_in_to_fontem": "Prisijunkite prie Fontem",
+    "sign_in_to_start_creating_data_stories": "Prisijunkite, kad pradėtumėte kurti duomenų istorijas, kelti klausimus ir bendradarbiauti su bendruomene.",
+    "signing_in": "Prisijungiama...",
+    "sign_in": "Prisijungti",
+    "create_account": "Sukurti paskyrą",
+    "email": "El. paštas",
+    "password": "Slaptažodis",
+    "forgot_your_password": "Pamiršote slaptažodį?",
+    "full_name": "Vardas ir pavardė",
+    "password_min_8_chars": "Slaptažodis (mažiausiai 8 simboliai)",
+    "confirm_password": "Patvirtinkite slaptažodį",
+    "passwords_dont_match": "Slaptažodžiai nesutampa",
+    "creating_account": "Kuriama paskyra...",
+    "or_continue_with": "arba tęskite su",
+    "sign_in_with_token": "Prisijungti su prieigos raktu",
+    "paste_a_jwt_token": "Įklijuokite JWT prieigos raktą",
+    "go": "Pirmyn"
   },
   "mention_autocomplete": {
     "entity_mentions": "Esybių paminėjimai",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Duomenų kokybės apžvalga",
     "listings": "Sąrašai",
     "lobby": "Lobiavimas",
-    "top_alpha_2_codes": "Pagrindiniai Alpha-2 kodai"
+    "top_alpha_2_codes": "Pagrindiniai Alpha-2 kodai",
+    "how_many_entities_appear_in_multiple_data_sources": "Kiek subjektų pasirodo keliuose duomenų šaltiniuose – grafo susietumo matas.",
+    "companies_still_use_alpha_2_country_codes": "įmonės vis dar naudoja alpha-2 šalių kodus vietoje ISO 3166-1 alpha-2/alpha-3.",
+    "field_completeness": "Laukų užpildymas",
+    "coverage_percentage_per_field": "Padengimo procentas kiekvienam laukui. Žalia = >90 %, geltona = 50–90 %, raudona = <50 %.",
+    "sanctions": "Sankcijos",
+    "entities": "subjektai",
+    "cohesion_projects": "Sanglaudos projektai",
+    "projects": "projektai",
+    "companies": "Įmonės",
+    "companies_2": "įmonės"
   },
   "pocket_button": {
     "name_this_snapshot": "Įvardink šį momentą",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Išvalyti DI istoriją",
     "delete_account": "Ištrinti paskyrą",
     "display": "Rodymas",
-    "preferences": "Nuostatos"
+    "preferences": "Nuostatos",
+    "sequential": "Nuoseklus",
+    "diverging": "Diverguojantis",
+    "signing_out": "Atsijungiama…",
+    "sign_out_all_devices": "Atsijungti nuo visų įrenginių",
+    "sign_in": "Prisijungti"
   },
   "privacy": {
     "access": "Prieiga",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Norėdamas pasinaudoti bet kuria iš šių teisių, susisiek su mumis adresu",
     "under_the_gdpr_you_have_the_right_to": "Pagal BDAR turi teisę:",
     "when_you_sign_in_we_collect_and_store": "Kai prisijungi, mes renkame ir saugome:",
-    "your": "Tavo"
+    "your": "Tavo",
+    "what_fontem_is": "1. Kas yra Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem yra pilietinio skaidrumo platforma, jungianti ES viešųjų pirkimų duomenis, įmonių nuosavybės registrus ir sanglaudos politikos finansavimą į vieną žinių grafą. Jos tikslas – padaryti viešąsias išlaidas ir įmonių struktūras lengviau nagrinėjamas ir suprantamas.",
+    "data_in_the_knowledge_graph": "2. Duomenys žinių grafe",
+    "legal_entities": "juridiniai asmenys",
+    "companies_public_authorities_and_organis": "(įmonės, viešosios institucijos ir organizacijos) – ne fiziniai asmenys. Mes kaupiame viešai prieinamus duomenis iš šių šaltinių:",
+    "global_lei_foundation_company_registry": "— Global LEI Foundation įmonių registro duomenys",
+    "eu_public_procurement_notices": "— ES viešųjų pirkimų skelbimai ir sutarčių sudarymai",
+    "eu_cohesion_policy_project_funding": "— ES sanglaudos politikos projektų finansavimas",
+    "lobbying_organisations_registered_with_eu": "— ES registruotos lobistinės organizacijos",
+    "sanctioned_entities_only": "— tik sankcionuoti subjektai",
+    "your_account_data": "3. Jūsų paskyros duomenys",
+    "email_address": "el. pašto adresas",
+    "name": "vardas",
+    "and": ", ir",
+    "profile_picture": "profilio nuotrauka",
+    "provided_by_google_oauth": "(pateikta per Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Šie duomenys naudojami tik autentifikavimui ir jūsų patirties personalizavimui (pvz., jūsų vardo rodymui sąsajoje).",
+    "performance_of_a_contract": "sutarties vykdymas (BDAR 6 str. 1 d. b punktas) – šių duomenų mums reikia, kad galėtume suteikti jums paskyrą ir paslaugas, kurioms užsiregistravote.",
+    "you_can_delete_your_account": "Savo paskyrą ir visus susijusius duomenis galite bet kada ištrinti susisiekę su mumis toliau nurodytu adresu.",
+    "ai_assistant": "4. DI asistentas",
+    "when_you_use_the_ai_assistant": "Kai naudojatės DI asistentu, jūsų pokalbiai saugomi, kad būtų teikiama pokalbių istorija ir apskaičiuojami naudojimo rodikliai.",
+    "you_can_delete_your_entire_conversation": "Visą savo pokalbių istoriją galite bet kada ištrinti iš profilio meniu.",
+    "your_rights": "5. Jūsų teisės",
+    "the_personal_data_we_hold_about_you": "asmens duomenis, kuriuos apie jus turime",
+    "inaccurate_data": "netikslius duomenis",
+    "your_data_right_to_be_forgotten": "jūsų duomenis („teisė būti pamirštam“)",
+    "your_data_to_another_service": "jūsų duomenis į kitą paslaugą",
+    "you_also_have_the_right_to_lodge": "Taip pat turite teisę pateikti skundą priežiūros institucijai savo gyvenamosios vietos šalyje.",
+    "cookies": "6. Slapukai",
+    "we_only_use_strictly_necessary_cookies": "Mes naudojame tik būtinuosius seanso slapukus autentifikavimui. Nenaudojame stebėjimo slapukų, reklamos slapukų ar trečiųjų šalių analitikos slapukų.",
+    "changes_to_this_policy": "7. Šios politikos pakeitimai",
+    "we_may_update_this_policy": "Kartais galime atnaujinti šią politiką. Tai padarę, atnaujinsime „paskutinį kartą atnaujinta“ datą šio puslapio viršuje. Toliau naudodamiesi Fontem po pakeitimų, sutinkate su atnaujinta politika."
   },
   "profile": {
     "avg_net_margin": "Vidutinė grynoji marža",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Ieškok ES įmonių, perkančiųjų organizacijų, lobistų ir ES finansuojamų projektų. Arba peržiūrėk, kas didelis tavo šalyje.",
-    "public_spending": "Viešosios išlaidos"
+    "public_spending": "Viešosios išlaidos",
+    "showing_top_in": "Rodomi geriausi šalyje",
+    "pick_a_country_to_see_top_companies": "Pasirinkite šalį, kad pamatytumėte geriausias įmones ir institucijas:",
+    "pick_a_country": "— pasirinkite šalį —",
+    "top_companies_in": "Geriausios įmonės šalyje",
+    "by_total_eu_procurement_contract_value_won": "Pagal bendrą laimėtų ES pirkimų sutarčių vertę.",
+    "contracts": "sutartys",
+    "loading": "Įkeliama…",
+    "no_companies_found_for": "Nerasta įmonių pagal",
+    "top_authorities_in": "Geriausios institucijos šalyje",
+    "by_total_contract_value_awarded": "Pagal bendrą sudarytų sutarčių vertę.",
+    "no_authorities_found_for": "Nerasta institucijų pagal"
   },
   "recently_published_carousel": {
     "carousel_position": "Pozicija karuselėje",
@@ -619,7 +791,12 @@
     "private_only_me": "Privati — tik aš",
     "public_anyone": "Viešas — bet kas",
     "signed_in_users": "Prisijungę naudotojai",
-    "story_title": "Istorijos pavadinimas"
+    "story_title": "Istorijos pavadinimas",
+    "saving": "Išsaugoma...",
+    "save": "Išsaugoti",
+    "insert_widget": "Įterpti valdiklį",
+    "your_pocket_is_empty": "Jūsų kišenė tuščia. Pirmiausia išsaugokite vizualizacijas mygtuku „Įdėti“.",
+    "close": "Uždaryti"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionuotos esybės — asmenys, organizacijos, režimo aprėptis ir įmonių atitikmenys",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter paleisti",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultatų vokas:",
     "sparql_endpoint": "SPARQL galinis taškas",
-    "try_a_query": "Išbandyk užklausą"
+    "try_a_query": "Išbandyk užklausą",
+    "no_rows": "Nėra eilučių.",
+    "query_returned_no_projected_columns": "Užklausa negrąžino jokių projektuojamų stulpelių.",
+    "example_queries": "Užklausų pavyzdžiai",
+    "click": "Spustelėkite",
+    "use_this_query": "Naudoti šią užklausą",
+    "drop_query_into_editor_hint": "kad įterptumėte vieną į redaktorių aukščiau. Žodynas jungia",
+    "with_the_eu": "su ES",
+    "eprocurement_ontology": "eProcurement ontologija",
+    "where_schemaorg_has_gaps": "ten, kur schema.org turi spragų.",
+    "row": "eilutė"
   },
   "story_editor_toolbar": {
     "blockquote": "Bloko citata",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Uždaryti finansus",
     "history": "Istorija",
-    "taking_longer_than_expected": "Užtrunka ilgiau nei tikėtasi…"
+    "taking_longer_than_expected": "Užtrunka ilgiau nei tikėtasi…",
+    "data_as_of": "duomenys pagal būklę",
+    "link_copied": "Nuoroda nukopijuota",
+    "copy_link": "Kopijuoti nuorodą",
+    "copied": "Nukopijuota!",
+    "copy_link_to_this_view": "Kopijuoti nuorodą į šį rodinį",
+    "could_not_load_data_for": "Nepavyko įkelti duomenų apie",
+    "this_entity": "šį subjektą",
+    "annual_data": "Metiniai duomenys",
+    "metric": "Rodiklis",
+    "averages": "Vidurkiai",
+    "per_year": "Per metus"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Tikerių nerasta paieškai &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Iš sutarčių materializuoti institucijos-įmonės prekybos santykiai",
-    "trade_edges": "Prekybos briaunos"
+    "trade_edges": "Prekybos briaunos",
+    "counts_derive_live": "Skaičiai apskaičiuojami tiesiogiai iš kiekvienos sutarties",
+    "chain_no_materialised_cache": "grandinės. Nėra materializuoto podėlio; skaičiai visada atspindi esamą grafą."
   },
   "triples_d_q": {
     "chart_view": "Diagramos rodinys",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Trejetukai vardiniame grafe",
     "virtuoso_not_configured_in_this_environm": "Virtuoso šioje aplinkoje nesukonfigūruotas",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF inventorius Virtuoso saugykloje – bendros sumos, kiekvieno įvardyto grafo skaičiai ir kiekvieno grafo klasės/predikato struktūra. Gaunama per SPARQL prieš",
+    "could_not_load_triple_store_stats": "Nepavyko įkelti trijetų saugyklos statistikos:",
+    "this_environment_has_no_rdf_store": "Ši aplinka neturi prijungtos RDF saugyklos – sankcijų, ataskaitų ir kitų 2 etapo RDF grafų yra tik ten, kur",
+    "is_set_on_the_gmr_api_deployment": "yra nustatytas gmr-api diegime. Gyvų skaičių ieškokite staging arba prod informacinėje lentoje.",
+    "assertions_in_this_graph": "tvirtinimų šiame grafe."
   },
   "valuation": {
     "averages": "Vidurkiai"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Pataisyta € vertė",
     "action_correct": "Pataisyti",
     "action_bogus": "Klaidinga"
+  },
+  "issue_create_modal": {
+    "eg_company": "pvz., įmonė",
+    "eg_gmr_id_or_ticker": "pvz., gmr_id arba žymeklis"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Nėra sekų braižymui."
+  },
+  "studio_share_modal": {
+    "share": "Dalytis",
+    "investigation": "Tyrimas",
+    "shared_with": "Bendrinama su",
+    "an_investigation": "tyrimu",
+    "its_members_inherit_access_by_role": "– jo nariai paveldi prieigą pagal vaidmenį.",
+    "detach": "Atsieti",
+    "add_to_an_investigation": "Pridėti prie tyrimo",
+    "add_to_an_investigation_2": "Pridėti prie tyrimo…",
+    "attach": "Prisegti",
+    "you_need_a_contributor_seat_on_an_investigation": "Kad galėtumėte prisegti projektą, tyrime turite turėti bendraautorio ar aukštesnę vietą.",
+    "who_has_access": "Kas turi prieigą",
+    "add_a_person": "Pridėti asmenį",
+    "email_address": "El. pašto adresas",
+    "email_address_to_share_with": "El. pašto adresas, su kuriuo bendrinti",
+    "access_level": "Prieigos lygis",
+    "add": "Pridėti",
+    "people_with_direct_access": "Asmenys su tiesiogine prieiga",
+    "no_direct_shares_yet": "Dar nėra tiesioginių bendrinimų.",
+    "remove": "Pašalinti"
+  },
+  "verify_email": {
+    "confirming_your_email": "Patvirtinamas jūsų el. paštas…",
+    "one_moment": "Vieną akimirką.",
+    "email_confirmed": "El. paštas patvirtintas",
+    "your_account_is_verified": "Jūsų paskyra patvirtinta. Dabar galite skelbti istorijas, komentuoti ir sekti temas.",
+    "continue_to_fontem": "Tęsti į Fontem",
+    "the_link_may_have_expired": "Nuoroda galėjo baigti galioti arba jau buvo panaudota. Prisijunkite ir viršuje esančioje juostoje užsisakykite naują patvirtinimo el. laišką.",
+    "go_to_fontem": "Eiti į Fontem",
+    "couldnt_confirm_your_email": "Nepavyko patvirtinti jūsų el. pašto"
+  },
+  "studio_plot": {
+    "studio": "Studija",
+    "plot_name": "Diagramos pavadinimas",
+    "saved": "Išsaugota ✓",
+    "save_plot": "Išsaugoti diagramą",
+    "pocketed": "Įdėta ✓",
+    "pocket": "Įdėti",
+    "step_1_sources": "1 · Šaltiniai",
+    "this_project_has_no_queries_yet": "Šis projektas dar neturi užklausų.",
+    "step_2_combine": "2 · Sujungti",
+    "duckdb_sql_over": "— DuckDB SQL per",
+    "your_sources": "jūsų šaltinius",
+    "runs_in_your_browser": "(vykdoma jūsų naršyklėje)",
+    "combining": "Sujungiama…",
+    "run_combine": "Vykdyti ir sujungti",
+    "rows": "eilutės",
+    "step_3_plot": "3 · Diagrama",
+    "chart": "Grafikas",
+    "nuts_column": "NUTS stulpelis",
+    "value": "Reikšmė",
+    "bivariate": "Dvimatis",
+    "off": "Išjungta",
+    "colour_opacity": "Spalva + nepermatomumas",
+    "two_colour_matrix": "2 spalvų matrica",
+    "second_value": "2-oji reikšmė",
+    "level": "Lygis",
+    "series": "Sekos",
+    "columns": "Stulpeliai",
+    "loading": "Įkeliama…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Viešieji pirkimai",
+    "where_eu_public_money_goes": "Kur keliauja ES viešieji pinigai – sutarčių sudarymai, verčių srautai ir duomenų kokybė už kiekvieno pagrindinio skaičiaus.",
+    "loading_procurement_data": "Įkeliami pirkimų duomenys…",
+    "contracts": "Sutartys",
+    "trusted_value": "Patikima vertė",
+    "values_trusted": "Patikimos vertės",
+    "countries": "Šalys",
+    "spend_by_country_confidence_gated": "Išlaidos pagal šalį (pagal patikimumą)",
+    "low_confidence_values_excluded": "Mažo patikimumo vertės neįtrauktos – žr. duomenų kokybės skydelį žemiau.",
+    "data_quality_values_held_back": "Duomenų kokybė – vertės, neįtrauktos į sumas",
+    "contracts_2": "sutartys",
+    "are_flagged_and_excluded_from_figures": "pažymėtos ir neįtrauktos į aukščiau pateiktus skaičius.",
+    "corporate_group_rollup": "Įmonių grupės sumavimas",
+    "coming_soon": "netrukus",
+    "winners_rolled_up_to_parent": "Laimėtojai susumuoti iki jų galutinės patronuojančiosios įmonės – taigi „Įmonė X laimėjo 2 mln. €“ tampa „Grupė Y laimėjo 400 mln. € per 30 patronuojamųjų įmonių“. Pasirodys, kai bus iš naujo įkeltas nuosavybės grafas.",
+    "source_and_pipeline": "Šaltinis ir konvejeris",
+    "ted_contracts_pipeline_health": "TED sutartys – konvejerio būklė",
+    "open_operational_ted_dashboard": "Atverti operatyvinę TED sutarčių informacinę lentą →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Nežinoma tema",
+    "questions_this_answers": "Klausimai, į kuriuos atsakoma",
+    "sources_and_pipeline_health": "Šaltiniai ir konvejerio būklė",
+    "open_the": "Atverti",
+    "dashboard_arrow": "informacinę lentą →",
+    "no_dedicated_dashboard_yet": "Dar nėra specialios informacinės lentos.",
+    "deeper_insights": "Gilesnės įžvalgos",
+    "coming_soon": "netrukus",
+    "no_configuration_yet": "Ši tema dar neturi konfigūracijos."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "ES sanglaudos dotacijos",
+    "grant": "dotacija",
+    "attained": "pasiekta",
+    "eu_contribution": "ES įnašas",
+    "project": "Projektas",
+    "fund": "Fondas",
+    "programme": "Programa",
+    "eu_euro": "ES €",
+    "period": "Laikotarpis"
+  },
+  "forgot_password": {
+    "reset_your_password": "Atkurkite savo slaptažodį",
+    "enter_your_email_send_link": "Įveskite savo el. paštą ir mes atsiųsime nuorodą naujam slaptažodžiui nustatyti.",
+    "you_example_com": "jus@pavyzdys.lt",
+    "sending": "Siunčiama…",
+    "send_reset_link": "Siųsti atkūrimo nuorodą",
+    "check_your_email": "Patikrinkite savo el. paštą",
+    "if_account_exists_sent_link": "Jei šiuo adresu egzistuoja paskyra, išsiuntėme nuorodą slaptažodžiui atkurti. Ji galioja vieną valandą."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlaso legenda",
+    "logarithmic_scale": "logaritminis mastelis",
+    "log": "log",
+    "no_data": "nėra duomenų"
+  },
+  "studio_nav": {
+    "project_actions": "Projekto veiksmai",
+    "query_actions": "Užklausos veiksmai",
+    "plot_actions": "Diagramos veiksmai",
+    "rename": "Pervadinti",
+    "delete": "Ištrinti",
+    "confirm_delete": "Patvirtinti trynimą",
+    "new_query": "Nauja užklausa",
+    "duplicate": "Dubliuoti",
+    "queries": "Užklausos",
+    "plots": "Diagramos",
+    "new_plot": "Nauja diagrama",
+    "new_project": "Naujas projektas"
+  },
+  "studio_home": {
+    "data_studio": "Duomenų studija",
+    "pull_data_with_read_only_queries": "Gaukite duomenis tik skaitymo užklausomis, sujunkite juos naršyklėje ir sudarykite diagramas.",
+    "new_project": "Naujas projektas",
+    "loading_your_projects": "Įkeliami jūsų projektai…",
+    "no_data_projects_yet": "Dar nėra duomenų projektų. Sukurkite pirmąjį, kad pradėtumėte.",
+    "query": "užklausa",
+    "queries": "užklausos",
+    "plot": "diagrama",
+    "plots": "diagramos"
+  },
+  "profile_panel": {
+    "entities": "subjektai",
+    "show_all": "Rodyti visus",
+    "contracts": "sutartys",
+    "former": "(buvęs)"
+  },
+  "studio_project": {
+    "studio": "Studija",
+    "project_name": "Projekto pavadinimas",
+    "share": "Dalytis",
+    "view_only_access": "Turite tik peržiūros prieigą prie šio bendrinamo projekto.",
+    "queries": "Užklausos",
+    "new_query": "+ Nauja užklausa",
+    "no_queries_yet": "Dar nėra užklausų. Sukurkite vieną, kad pradėtumėte gauti duomenis.",
+    "plots": "Diagramos",
+    "new_plot": "+ Nauja diagrama",
+    "no_plots_yet": "Dar nėra diagramų. Sujunkite užklausas ir pavaizduokite rezultatą."
+  },
+  "schema_panel": {
+    "schema": "Schema",
+    "loading_schema": "Įkeliama schema…",
+    "schema_unavailable": "Schema neprieinama.",
+    "node_labels": "Mazgų žymos",
+    "no_recorded_properties": "nėra įrašytų savybių",
+    "relationships": "Ryšiai",
+    "tables": "Lentelės",
+    "classes": "Klasės",
+    "predicates": "Predikatai"
+  },
+  "reset_password": {
+    "set_a_new_password": "Nustatykite naują slaptažodį",
+    "new_password": "Naujas slaptažodis",
+    "confirm_new_password": "Patvirtinkite naują slaptažodį",
+    "passwords_dont_match": "Slaptažodžiai nesutampa.",
+    "saving": "Išsaugoma…",
+    "set_new_password": "Nustatyti naują slaptažodį",
+    "password_updated": "Slaptažodis atnaujintas",
+    "password_changed_redirecting": "Jūsų slaptažodis pakeistas ir visi seansai atjungti. Nukreipiama į prisijungimą…"
+  },
+  "investigation_detail": {
+    "untitled": "Be pavadinimo",
+    "data_projects": "Duomenų projektai",
+    "no_data_projects": "Su šiuo tyrimu dar nebendrinama jokių duomenų projektų.",
+    "queries": "užklausos",
+    "plots": "diagramos",
+    "detach": "Atsieti"
+  },
+  "tree_node": {
+    "untitled": "Be pavadinimo",
+    "add_sub_article": "Pridėti po-straipsnį",
+    "remove": "Pašalinti"
+  },
+  "contract_detail": {
+    "public_spending": "Viešosios išlaidos",
+    "loading": "Įkeliama…",
+    "contract_not_found": "Sutartis nerasta.",
+    "couldnt_load_this_contract": "Nepavyko įkelti šios sutarties.",
+    "untitled_contract": "(sutartis be pavadinimo)",
+    "red_flag": "įspėjamoji žymė",
+    "bidder_s": "dalyvis (-iai)",
+    "risk_indicators_note": "Rizikos rodikliai pagal EK bendrosios rinkos rezultatų suvestinės / EAR CRI metodiką – žymė yra paskata patikrinti, o ne pažeidimo įrodymas.",
+    "value": "Vertė",
+    "procedure": "Procedūra",
+    "award_criteria": "Sudarymo kriterijai",
+    "eu_funded": "Finansuojama ES",
+    "yes": "Taip",
+    "buyer": "Pirkėjas",
+    "contractor": "Rangovas",
+    "award_date": "Sudarymo data",
+    "view_original_notice_on_ted": "Peržiūrėti originalų skelbimą TED"
+  },
+  "studio_query": {
+    "studio": "Studija",
+    "query_name": "Užklausos pavadinimas",
+    "duplicate": "Dubliuoti",
+    "confirm_delete": "Patvirtinti trynimą",
+    "delete": "Ištrinti",
+    "query_language": "Užklausų kalba",
+    "hide_schema": "Slėpti schemą",
+    "schema": "Schema",
+    "write_your_query_shortcut": "Rašykite užklausą – Ctrl/Cmd+Enter paleisti",
+    "running": "Vykdoma…",
+    "run_query": "Vykdyti užklausą",
+    "rows": "eilutės",
+    "cols": "stulpeliai",
+    "query_ran_no_rows": "Užklausa įvykdyta sėkmingai – negrąžinta jokių eilučių.",
+    "showing_first_100_of": "Rodoma pirmosios 100 iš",
+    "rows_2": "eilučių.",
+    "loading": "Įkeliama…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Konvejerio rodikliai neprieinami.",
+    "no_events_recorded_in_the_window": "Per šį laikotarpį neužfiksuota jokių įvykių."
+  },
+  "studio_map": {
+    "loading_boundaries": "Įkeliamos ribos…",
+    "matched": "atitiko",
+    "of": "iš",
+    "regions": "regionai",
+    "wrong_column_level": "— netinkamas stulpelis / lygis?",
+    "opacity": "nepermatomumas"
   }
 }

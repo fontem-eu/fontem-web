@@ -138,10 +138,31 @@
     "notes": "Note",
     "time_unit": "Unitate de timp",
     "updated": "Actualizat",
-    "value_scale": "Scală de valori"
+    "value_scale": "Scală de valori",
+    "map_view_of_the_curated_eurostat_datasets": "Vizualizare pe hartă a seturilor de date Eurostat selectate. Alegeți un indicator, un nivel NUTS și un an.",
+    "no_datasets_registered_yet": "Niciun set de date înregistrat încă — depozitul de statistici este online, dar datele inițiale nu au fost încărcate. Rulați",
+    "to_populate_the_catalog": "pentru a popula catalogul.",
+    "pick_a_dataset": "— alegeți un set de date —",
+    "the_dataset_has": "Setul de date are",
+    "dimension_combinations_largest_slice_is_shown_by_default": "combinații de dimensiuni. Cea mai mare secțiune este afișată în mod implicit.",
+    "backend_hasnt_computed_slice_stats": "Backendul nu a calculat încă statisticile secțiunilor pentru acest set de date — se revine la scalarea automată per an.",
+    "unavailable": "(indisponibil)",
+    "suggested": "(sugerat)",
+    "hidden": "ascuns",
+    "fetching_observations": "Se preiau observațiile…",
+    "no_data": "fără date",
+    "pause_year_animation": "Întrerupe animația pe ani",
+    "play_year_animation": "Redă animația pe ani",
+    "year": "An",
+    "looping_enabled": "Buclă activată",
+    "looping_disabled_stops_at_the_last_year": "Buclă dezactivată — se oprește la ultimul an",
+    "loop": "buclă"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Deschide în Atlas →"
+    "open_in_atlas": "Deschide în Atlas →",
+    "atlas_map": "Hartă Atlas",
+    "loading_map_data": "Se încarcă datele hărții…",
+    "no_data": "fără date"
   },
   "corr_matrix": {
     "none": "niciuna",
@@ -150,7 +171,9 @@
     "strong": "puternică",
     "inverse": "inversă",
     "self": "aceeași variabilă",
-    "hint": "Treceți cursorul sau atingeți o celulă pentru valoarea exactă."
+    "hint": "Treceți cursorul sau atingeți o celulă pentru valoarea exactă.",
+    "pick_at_least_two_numeric_columns": "Alegeți cel puțin două coloane numerice pentru a le corela.",
+    "pearson_r": "r Pearson"
   },
   "translations": {
     "label": "Traduceri",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Se încarcă datele contractelor...",
     "missing_fields_of_contracts": "Câmpuri lipsă (% din contracte)",
     "ted_contracts": "Contracte TED",
-    "total_eur_by_country_top_15": "Total EUR pe țară (Top 15)"
+    "total_eur_by_country_top_15": "Total EUR pe țară (Top 15)",
+    "tender_integrity": "Integritatea licitațiilor",
+    "single_bidder_rate_and_red_flag_indicators": "Rata de ofertant unic și indicatorii de semnale de alarmă conform metodologiei EC Single Market Scoreboard / ECA CRI — un semnal este un motiv de verificare, nu o dovadă a unei nereguli.",
+    "red_flags_by_type": "Semnale de alarmă în funcție de tip",
+    "red_flag_count_distribution": "Distribuția numărului de semnale de alarmă",
+    "scroll_to_zoom_in_out": "Derulați pentru a mări/micșora. Barele se agregă: zilnic → săptămânal → lunar → anual.",
+    "distribution_of_original_currencies": "Distribuția monedelor originale. EUR este predominant, dar multe contracte din statele UE folosesc moneda locală."
   },
   "cookie_consent_banner": {
     "accept": "Acceptă",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Anunțul a publicat o valoare de exact zero — nedezvăluire deghizată în cifră. Tratată ca valoare nedezvăluită.",
     "explain_confirmed_bogus": "Un verificator uman a examinat valoarea publicată și a confirmat că este nesigură. Pentru acest contract nu este disponibilă nicio valoare de încredere.",
     "explain_withheld_generic": "Valoarea publicată nu a trecut verificările de plauzibilitate ale platformei și a fost reținută.",
-    "explain_low_confidence_generic": "Valoarea este afișată, dar câmpurile monetare publicate sunt slab documentate; este exclusă din totalurile și clasamentele implicite."
+    "explain_low_confidence_generic": "Valoarea este afișată, dar câmpurile monetare publicate sunt slab documentate; este exclusă din totalurile și clasamentele implicite.",
+    "the_eus_official_public_procurement_database_financial_data": ", baza de date oficială a UE privind achizițiile publice. Datele financiare provin de la",
+    "company_identifiers_and": "(identificatori de companii) și",
+    "financial_statements": "(situații financiare).",
+    "this_dashboard_shows_the_current_state": "Acest tablou de bord prezintă starea actuală a grafului de cunoștințe. Datele sunt încărcate zilnic din TED și reîmprospătate periodic din GLEIF. Toate înregistrările pot fi urmărite până la sursa lor prin ID-urile de anunț TED și numerele LEI."
   },
   "data_quality_hub": {
     "data_freshness": "Prospețimea datelor",
     "data_quality": "Calitatea datelor",
     "latest_contract_load": "Ultima încărcare a contractelor",
-    "loading_overview": "Se încarcă prezentarea generală..."
+    "loading_overview": "Se încarcă prezentarea generală...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Tablouri de bord per pipeline — aprofundați fiecare ETL pentru a identifica lacune, tendințe și anomalii.",
+    "themes": "Teme"
   },
   "data_view_selector": {
     "data_view": "Vizualizare date",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Deduplicare",
     "same_as_queue_duplicate_entity_resolutio": "Coada SAME_AS — starea rezolvării entităților duplicate",
-    "use_the": "Folosește"
+    "use_the": "Folosește",
+    "reviewed": "Evaluate",
+    "pending": "În așteptare",
+    "tool_to_review_pending_duplicates": "instrument pentru evaluarea duplicatelor în așteptare."
   },
   "donate": {
     "backers": "Susținători",
@@ -310,7 +348,17 @@
     "remove_mention": "Elimină mențiunea"
   },
   "entity_nuts_map": {
-    "contracts_count": "Contracte (număr)"
+    "contracts_count": "Contracte (număr)",
+    "level_0_country": "0 — Țară",
+    "level_1_macro_region": "1 — Macroregiune",
+    "level_2_region": "2 — Regiune",
+    "level_3_small_region": "3 — Regiune mică",
+    "select": "— selectați —",
+    "loading_map": "Se încarcă harta…",
+    "select_a": "Selectați un",
+    "above_to_load_the_map": "de mai sus pentru a încărca harta.",
+    "contracts": "contracte",
+    "no_known_contracts": "niciun contract cunoscut"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Toate perechile marcate au fost rezolvate.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Îmbină — păstrează B (A este eliminată)",
     "no_pairs_pending_review": "Nu există perechi în așteptarea revizuirii.",
     "review_and_decide_on_flagged_candidates": "Revizuiește și decide asupra candidaților marcați",
-    "why_flagged": "Motivul marcării"
+    "why_flagged": "Motivul marcării",
+    "reviewer": "evaluator:",
+    "your_name": "numele dumneavoastră",
+    "pending": "În așteptare",
+    "rules": "reguli",
+    "conflict": "conflict",
+    "one_or_more_rules_reported_a_hard_conflic": "Una sau mai multe reguli au raportat un conflict grav pentru această pereche (de ex. LEI / TVA neconcordante). Analizați cu atenție înainte de a fuziona.",
+    "accept_lobbyist_represents_company": "Acceptă — Lobbyistul reprezintă Compania",
+    "accept_company_is_sanctioned": "Acceptă — Compania este sancționată",
+    "accept_relationship": "Acceptă relația",
+    "reject_relationship_is_wrong": "Respinge — relația este greșită"
   },
   "entity_side": {
     "entity_details": "Detalii entitate"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Companii",
     "connected_to_3": "Conectat la (α-3)",
-    "parent_nuts_1": "NUTS 1 părinte"
+    "parent_nuts_1": "NUTS 1 părinte",
+    "level_0_country": "0 — Țară",
+    "level_1_macro_region_coming_soon": "1 — Macroregiune (în curând)",
+    "level_2_region_coming_soon": "2 — Regiune (în curând)",
+    "level_3_small_region_coming_soon": "3 — Regiune mică (în curând)",
+    "eg_rus": "de ex. RUS",
+    "eg_de1": "de ex. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Companii pe țară (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Salvează vizualizarea",
     "search_entity_name": "Caută numele entității...",
     "set_as_center": "Setează ca centru",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 luni",
+    "3_yr": "3 ani",
+    "5_yr": "5 ani",
+    "nodes": "Noduri",
+    "edges": "Muchii",
+    "exit_path_mode": "✕ Ieși din modul traseu",
+    "find_path_to_2": "Găsește traseul către…",
+    "timeline": "Cronologie",
+    "timeline_2": "✕ Cronologie",
+    "saved": "Salvat",
+    "depth_2": "adâncime",
+    "path": "traseu",
+    "found": "găsit.",
+    "shortest": "Cel mai scurt:",
+    "hop": "salt",
+    "path_2": "Traseu",
+    "contracts": "contracte",
+    "directors": "directori",
+    "companies": "companii",
+    "nodes_2": "noduri",
+    "edges_2": "muchii",
+    "showing": "Se afișează",
+    "of": "din",
+    "truncated": "(trunchiat)",
+    "country": "Țară:",
+    "value": "Valoare:",
+    "collapse": "▼ Restrânge",
+    "expand": "▶ Extinde"
   },
   "income": {
     "revenue_amp_net_income": "Venituri &amp; profit net"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Distribuția costurilor de lobby",
     "registrations_over_time": "Înregistrări în timp",
     "top_countries": "Principalele țări",
-    "transparency_register_lobbyist_registrat": "Registrul de transparență — înregistrări lobbyiști, acces PE, cheltuieli"
+    "transparency_register_lobbyist_registrat": "Registrul de transparență — înregistrări lobbyiști, acces PE, cheltuieli",
+    "most_represented_companies": "Cele mai reprezentate companii",
+    "registrants_resolved_to_a_known_company": "Înregistranți asociați unei companii cunoscute prin consolidator (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Distribuția categoriilor de înregistranți",
+    "top_declared_spenders": "Principalii cheltuitori declarați",
+    "by_declared_annual_lobbying_cost_ceiling": "După plafonul anual declarat al costurilor de lobby."
   },
   "login": {
     "go_to_home": "Mergi la pagina principală",
     "you_already_have_an_active_session": "Ai deja o sesiune activă.",
-    "youre_signed_in": "Ești autentificat(ă)"
+    "youre_signed_in": "Ești autentificat(ă)",
+    "sign_in_to_fontem": "Autentificați-vă în Fontem",
+    "sign_in_to_start_creating_data_stories": "Autentificați-vă pentru a începe să creați articole bazate pe date, să semnalați probleme și să colaborați cu comunitatea.",
+    "signing_in": "Se realizează autentificarea...",
+    "sign_in": "Autentificare",
+    "create_account": "Creează cont",
+    "email": "E-mail",
+    "password": "Parolă",
+    "forgot_your_password": "Ați uitat parola?",
+    "full_name": "Nume complet",
+    "password_min_8_chars": "Parolă (minim 8 caractere)",
+    "confirm_password": "Confirmă parola",
+    "passwords_dont_match": "Parolele nu se potrivesc",
+    "creating_account": "Se creează contul...",
+    "or_continue_with": "sau continuați cu",
+    "sign_in_with_token": "Autentificare cu token",
+    "paste_a_jwt_token": "Lipiți un token JWT",
+    "go": "Mergi"
   },
   "mention_autocomplete": {
     "entity_mentions": "Mențiuni de entități",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Prezentare generală a calității datelor",
     "listings": "Listări",
     "lobby": "Lobby",
-    "top_alpha_2_codes": "Principalele coduri Alpha-2"
+    "top_alpha_2_codes": "Principalele coduri Alpha-2",
+    "how_many_entities_appear_in_multiple_data_sources": "Câte entități apar în mai multe surse de date — o măsură a conectivității grafului.",
+    "companies_still_use_alpha_2_country_codes": "companiile folosesc încă coduri de țară alfa-2 în loc de ISO 3166-1 alfa-2/alfa-3.",
+    "field_completeness": "Completitudinea câmpurilor",
+    "coverage_percentage_per_field": "Procentul de acoperire per câmp. Verde = >90%, galben = 50-90%, roșu = <50%.",
+    "sanctions": "Sancțiuni",
+    "entities": "entități",
+    "cohesion_projects": "Proiecte de coeziune",
+    "projects": "proiecte",
+    "companies": "Companii",
+    "companies_2": "companii"
   },
   "pocket_button": {
     "name_this_snapshot": "Denumește acest instantaneu",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Șterge istoricul IA",
     "delete_account": "Șterge contul",
     "display": "Afișare",
-    "preferences": "Preferințe"
+    "preferences": "Preferințe",
+    "sequential": "Secvențial",
+    "diverging": "Divergent",
+    "signing_out": "Se realizează deconectarea…",
+    "sign_out_all_devices": "Deconectează-te de pe toate dispozitivele",
+    "sign_in": "Autentificare"
   },
   "privacy": {
     "access": "Acces",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Pentru a-ți exercita aceste drepturi, contactează-ne la",
     "under_the_gdpr_you_have_the_right_to": "Conform GDPR ai dreptul:",
     "when_you_sign_in_we_collect_and_store": "Când te autentifici, colectăm și stocăm:",
-    "your": "Ale tale"
+    "your": "Ale tale",
+    "what_fontem_is": "1. Ce este Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem este o platformă de transparență civică ce conectează datele privind achizițiile publice din UE, registrele de proprietate corporativă și finanțările din politica de coeziune într-un singur graf de cunoștințe. Scopul său este de a facilita explorarea și înțelegerea cheltuielilor publice și a structurilor corporative.",
+    "data_in_the_knowledge_graph": "2. Datele din graful de cunoștințe",
+    "legal_entities": "persoane juridice",
+    "companies_public_authorities_and_organis": "(companii, autorități publice și organizații) — nu persoane fizice. Agregăm date disponibile public din următoarele surse:",
+    "global_lei_foundation_company_registry": "— date din registrul de companii al Global LEI Foundation",
+    "eu_public_procurement_notices": "— anunțuri de achiziții publice și atribuiri de contracte din UE",
+    "eu_cohesion_policy_project_funding": "— finanțarea proiectelor din politica de coeziune a UE",
+    "lobbying_organisations_registered_with_eu": "— organizații de lobby înregistrate la UE",
+    "sanctioned_entities_only": "— exclusiv entități sancționate",
+    "your_account_data": "3. Datele contului dumneavoastră",
+    "email_address": "adresa de e-mail",
+    "name": "nume",
+    "and": ", și",
+    "profile_picture": "imaginea de profil",
+    "provided_by_google_oauth": "(furnizate de Google OAuth)",
+    "this_data_is_used_solely_for_authenticat": "Aceste date sunt utilizate exclusiv pentru autentificarea și personalizarea experienței dumneavoastră (de ex. afișarea numelui dumneavoastră în interfață).",
+    "performance_of_a_contract": "executarea unui contract (Art. 6 alin. (1) lit. (b) GDPR) — avem nevoie de aceste date pentru a vă oferi un cont și serviciile pentru care v-ați înscris.",
+    "you_can_delete_your_account": "Vă puteți șterge contul și toate datele asociate în orice moment, contactându-ne la adresa de mai jos.",
+    "ai_assistant": "4. Asistentul AI",
+    "when_you_use_the_ai_assistant": "Atunci când utilizați asistentul AI, conversațiile dumneavoastră sunt stocate pentru a furniza istoricul conversațiilor și pentru a calcula indicatorii de utilizare.",
+    "you_can_delete_your_entire_conversation": "Vă puteți șterge întregul istoric al conversațiilor din meniul de profil în orice moment.",
+    "your_rights": "5. Drepturile dumneavoastră",
+    "the_personal_data_we_hold_about_you": "datele cu caracter personal pe care le deținem despre dumneavoastră",
+    "inaccurate_data": "date inexacte",
+    "your_data_right_to_be_forgotten": "datele dumneavoastră („dreptul de a fi uitat”)",
+    "your_data_to_another_service": "datele dumneavoastră către un alt serviciu",
+    "you_also_have_the_right_to_lodge": "De asemenea, aveți dreptul de a depune o plângere la o autoritate de supraveghere din țara dumneavoastră de reședință.",
+    "cookies": "6. Module cookie",
+    "we_only_use_strictly_necessary_cookies": "Utilizăm doar module cookie de sesiune strict necesare pentru autentificare. Nu utilizăm module cookie de urmărire, module cookie publicitare sau module cookie de analiză ale terților.",
+    "changes_to_this_policy": "7. Modificări ale acestei politici",
+    "we_may_update_this_policy": "Este posibil să actualizăm periodic această politică. Atunci când o facem, vom revizui data „ultimei actualizări” din partea de sus a acestei pagini. Utilizarea în continuare a Fontem după modificări constituie acceptarea politicii actualizate."
   },
   "profile": {
     "avg_net_margin": "Marja netă medie",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Sau răsfoiește ce e mare în țara ta.",
-    "public_spending": "Cheltuieli publice"
+    "public_spending": "Cheltuieli publice",
+    "showing_top_in": "Se afișează primele din",
+    "pick_a_country_to_see_top_companies": "Alegeți o țară pentru a vedea principalele companii și autorități:",
+    "pick_a_country": "— alegeți o țară —",
+    "top_companies_in": "Principalele companii din",
+    "by_total_eu_procurement_contract_value_won": "După valoarea totală a contractelor de achiziții publice din UE câștigate.",
+    "contracts": "contracte",
+    "loading": "Se încarcă…",
+    "no_companies_found_for": "Nicio companie găsită pentru",
+    "top_authorities_in": "Principalele autorități din",
+    "by_total_contract_value_awarded": "După valoarea totală a contractelor atribuite.",
+    "no_authorities_found_for": "Nicio autoritate găsită pentru"
   },
   "recently_published_carousel": {
     "carousel_position": "Poziția în carusel",
@@ -619,7 +791,12 @@
     "private_only_me": "Privat — doar eu",
     "public_anyone": "Public — oricine",
     "signed_in_users": "Utilizatori autentificați",
-    "story_title": "Titlul poveștii"
+    "story_title": "Titlul poveștii",
+    "saving": "Se salvează...",
+    "save": "Salvează",
+    "insert_widget": "Inserează widget",
+    "your_pocket_is_empty": "Buzunarul dumneavoastră este gol. Salvați mai întâi vizualizări folosind butonul Buzunar.",
+    "close": "Închide"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entități sancționate — persoane, organizații, acoperirea regimului și potrivirea companiilor",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter pentru a rula",
     "sparql_11_json_results_envelope": "Plic rezultate SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
-    "try_a_query": "Încearcă o interogare"
+    "try_a_query": "Încearcă o interogare",
+    "no_rows": "Niciun rând.",
+    "query_returned_no_projected_columns": "Interogarea nu a returnat nicio coloană proiectată.",
+    "example_queries": "Interogări exemplu",
+    "click": "Faceți clic pe",
+    "use_this_query": "Folosește această interogare",
+    "drop_query_into_editor_hint": "pentru a insera una în editorul de mai sus. Vocabularul îmbină",
+    "with_the_eu": "cu ontologia UE",
+    "eprocurement_ontology": "eProcurement",
+    "where_schemaorg_has_gaps": "acolo unde schema.org are lacune.",
+    "row": "rând"
   },
   "story_editor_toolbar": {
     "blockquote": "Citat",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Închide datele financiare",
     "history": "Istoric",
-    "taking_longer_than_expected": "Durează mai mult decât era prevăzut…"
+    "taking_longer_than_expected": "Durează mai mult decât era prevăzut…",
+    "data_as_of": "date valabile la",
+    "link_copied": "Link copiat",
+    "copy_link": "Copiază linkul",
+    "copied": "Copiat!",
+    "copy_link_to_this_view": "Copiază linkul către această vizualizare",
+    "could_not_load_data_for": "Nu s-au putut încărca datele pentru",
+    "this_entity": "această entitate",
+    "annual_data": "Date anuale",
+    "metric": "Indicator",
+    "averages": "Medii",
+    "per_year": "Pe an"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Nu s-au găsit tickere pentru &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relații comerciale autoritate-companie materializate din contracte",
-    "trade_edges": "Muchii comerciale"
+    "trade_edges": "Muchii comerciale",
+    "counts_derive_live": "Numărătorile derivă în timp real din",
+    "chain_no_materialised_cache": "lanțul per contract. Fără cache materializat; cifrele reflectă întotdeauna graful curent."
   },
   "triples_d_q": {
     "chart_view": "Vizualizare grafic",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Triplete pe graf numit",
     "virtuoso_not_configured_in_this_environm": "Virtuoso nu este configurat în acest mediu",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "Inventarul RDF din depozitul Virtuoso — totaluri, numărători per graf denumit și structura de clase/predicate a fiecărui graf. Provenit prin SPARQL din",
+    "could_not_load_triple_store_stats": "Nu s-au putut încărca statisticile depozitului de triplete:",
+    "this_environment_has_no_rdf_store": "Acest mediu nu are un depozit RDF conectat — grafurile RDF de sancțiuni, depuneri și alte grafuri din Faza 2 există doar acolo unde",
+    "is_set_on_the_gmr_api_deployment": "este setat pe implementarea gmr-api. Verificați tabloul de bord de staging sau de producție pentru cifre în timp real.",
+    "assertions_in_this_graph": "aserțiuni în acest graf."
   },
   "valuation": {
     "averages": "Medii"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Valoare € corectată",
     "action_correct": "Corectează",
     "action_bogus": "Eronată"
+  },
+  "issue_create_modal": {
+    "eg_company": "de ex. companie",
+    "eg_gmr_id_or_ticker": "de ex. gmr_id sau simbol bursier"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Nicio serie de reprezentat grafic."
+  },
+  "studio_share_modal": {
+    "share": "Distribuie",
+    "investigation": "Investigație",
+    "shared_with": "Distribuit cu",
+    "an_investigation": "o investigație",
+    "its_members_inherit_access_by_role": "— membrii săi moștenesc accesul în funcție de rol.",
+    "detach": "Detașează",
+    "add_to_an_investigation": "Adaugă la o investigație",
+    "add_to_an_investigation_2": "Adaugă la o investigație…",
+    "attach": "Atașează",
+    "you_need_a_contributor_seat_on_an_investigation": "Aveți nevoie de un rol de contribuitor sau superior într-o investigație pentru a atașa un proiect.",
+    "who_has_access": "Cine are acces",
+    "add_a_person": "Adaugă o persoană",
+    "email_address": "Adresă de e-mail",
+    "email_address_to_share_with": "Adresa de e-mail cu care să distribuiți",
+    "access_level": "Nivel de acces",
+    "add": "Adaugă",
+    "people_with_direct_access": "Persoane cu acces direct",
+    "no_direct_shares_yet": "Încă nu există distribuiri directe.",
+    "remove": "Elimină"
+  },
+  "verify_email": {
+    "confirming_your_email": "Se confirmă adresa de e-mail…",
+    "one_moment": "Un moment.",
+    "email_confirmed": "E-mail confirmat",
+    "your_account_is_verified": "Contul dumneavoastră este verificat. Acum puteți publica articole, comenta și urmări subiecte.",
+    "continue_to_fontem": "Continuă către Fontem",
+    "the_link_may_have_expired": "Este posibil ca linkul să fi expirat sau să fi fost deja utilizat. Autentificați-vă și solicitați un nou e-mail de verificare din bannerul din partea de sus.",
+    "go_to_fontem": "Mergi la Fontem",
+    "couldnt_confirm_your_email": "Nu s-a putut confirma adresa de e-mail"
+  },
+  "studio_plot": {
+    "studio": "Studio",
+    "plot_name": "Numele graficului",
+    "saved": "Salvat ✓",
+    "save_plot": "Salvează graficul",
+    "pocketed": "Adăugat în buzunar ✓",
+    "pocket": "Buzunar",
+    "step_1_sources": "1 · Surse",
+    "this_project_has_no_queries_yet": "Acest proiect nu are încă nicio interogare.",
+    "step_2_combine": "2 · Combinare",
+    "duckdb_sql_over": "— DuckDB SQL peste",
+    "your_sources": "sursele dumneavoastră",
+    "runs_in_your_browser": "(rulează în browserul dumneavoastră)",
+    "combining": "Se combină…",
+    "run_combine": "Rulează și combină",
+    "rows": "rânduri",
+    "step_3_plot": "3 · Grafic",
+    "chart": "Diagramă",
+    "nuts_column": "Coloană NUTS",
+    "value": "Valoare",
+    "bivariate": "Bivariat",
+    "off": "Dezactivat",
+    "colour_opacity": "Culoare + opacitate",
+    "two_colour_matrix": "Matrice cu 2 culori",
+    "second_value": "A 2-a valoare",
+    "level": "Nivel",
+    "series": "Serie",
+    "columns": "Coloane",
+    "loading": "Se încarcă…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Achiziții publice",
+    "where_eu_public_money_goes": "Unde ajung banii publici ai UE — atribuiri de contracte, fluxuri de valoare și calitatea datelor din spatele fiecărei cifre.",
+    "loading_procurement_data": "Se încarcă datele de achiziții…",
+    "contracts": "Contracte",
+    "trusted_value": "Valoare de încredere",
+    "values_trusted": "Valori de încredere",
+    "countries": "Țări",
+    "spend_by_country_confidence_gated": "Cheltuieli pe țară (filtrate după încredere)",
+    "low_confidence_values_excluded": "Valorile cu încredere scăzută sunt excluse — consultați panoul de calitate a datelor de mai jos.",
+    "data_quality_values_held_back": "Calitatea datelor — valori reținute din totaluri",
+    "contracts_2": "contracte",
+    "are_flagged_and_excluded_from_figures": "sunt semnalate și excluse din cifrele de mai sus.",
+    "corporate_group_rollup": "Consolidarea grupurilor corporative",
+    "coming_soon": "în curând",
+    "winners_rolled_up_to_parent": "Câștigătorii consolidați la societatea-mamă finală — astfel „Compania X a câștigat 2 mil. €” devine „Grupul Y a câștigat 400 mil. € prin 30 de filiale”. Va fi disponibil odată cu reintegrarea grafului de proprietate.",
+    "source_and_pipeline": "Sursă și pipeline",
+    "ted_contracts_pipeline_health": "Contracte TED — starea pipeline-ului",
+    "open_operational_ted_dashboard": "Deschide tabloul de bord operațional pentru Contractele TED →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Temă necunoscută",
+    "questions_this_answers": "Întrebări la care răspunde",
+    "sources_and_pipeline_health": "Surse și starea pipeline-ului",
+    "open_the": "Deschide",
+    "dashboard_arrow": "tabloul de bord →",
+    "no_dedicated_dashboard_yet": "Încă nu există un tablou de bord dedicat.",
+    "deeper_insights": "Analize aprofundate",
+    "coming_soon": "în curând",
+    "no_configuration_yet": "Această temă nu are încă nicio configurație."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "Granturi de coeziune UE",
+    "grant": "grant",
+    "attained": "atins",
+    "eu_contribution": "Contribuția UE",
+    "project": "Proiect",
+    "fund": "Fond",
+    "programme": "Program",
+    "eu_euro": "UE €",
+    "period": "Perioadă"
+  },
+  "forgot_password": {
+    "reset_your_password": "Resetați-vă parola",
+    "enter_your_email_send_link": "Introduceți adresa de e-mail și vă vom trimite un link pentru a seta o parolă nouă.",
+    "you_example_com": "dumneavoastra@exemplu.com",
+    "sending": "Se trimite…",
+    "send_reset_link": "Trimite linkul de resetare",
+    "check_your_email": "Verificați-vă e-mailul",
+    "if_account_exists_sent_link": "Dacă există un cont pentru acea adresă, am trimis un link pentru resetarea parolei. Acesta expiră într-o oră."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Legendă Atlas",
+    "logarithmic_scale": "scală logaritmică",
+    "log": "log",
+    "no_data": "fără date"
+  },
+  "studio_nav": {
+    "project_actions": "Acțiuni pentru proiect",
+    "query_actions": "Acțiuni pentru interogare",
+    "plot_actions": "Acțiuni pentru grafic",
+    "rename": "Redenumește",
+    "delete": "Șterge",
+    "confirm_delete": "Confirmă ștergerea",
+    "new_query": "Interogare nouă",
+    "duplicate": "Duplică",
+    "queries": "Interogări",
+    "plots": "Grafice",
+    "new_plot": "Grafic nou",
+    "new_project": "Proiect nou"
+  },
+  "studio_home": {
+    "data_studio": "Data Studio",
+    "pull_data_with_read_only_queries": "Extrageți date cu interogări doar în citire, combinați-le în browser și reprezentați-le grafic.",
+    "new_project": "Proiect nou",
+    "loading_your_projects": "Se încarcă proiectele dumneavoastră…",
+    "no_data_projects_yet": "Încă niciun proiect de date. Creați-l pe primul pentru a începe.",
+    "query": "interogare",
+    "queries": "interogări",
+    "plot": "grafic",
+    "plots": "grafice"
+  },
+  "profile_panel": {
+    "entities": "entități",
+    "show_all": "Afișează toate",
+    "contracts": "contracte",
+    "former": "(fost)"
+  },
+  "studio_project": {
+    "studio": "Studio",
+    "project_name": "Numele proiectului",
+    "share": "Distribuie",
+    "view_only_access": "Aveți acces doar în citire la acest proiect distribuit.",
+    "queries": "Interogări",
+    "new_query": "+ Interogare nouă",
+    "no_queries_yet": "Încă nicio interogare. Creați una pentru a începe extragerea datelor.",
+    "plots": "Grafice",
+    "new_plot": "+ Grafic nou",
+    "no_plots_yet": "Încă niciun grafic. Combinați interogările și reprezentați grafic rezultatul."
+  },
+  "schema_panel": {
+    "schema": "Schemă",
+    "loading_schema": "Se încarcă schema…",
+    "schema_unavailable": "Schemă indisponibilă.",
+    "node_labels": "Etichete de noduri",
+    "no_recorded_properties": "nicio proprietate înregistrată",
+    "relationships": "Relații",
+    "tables": "Tabele",
+    "classes": "Clase",
+    "predicates": "Predicate"
+  },
+  "reset_password": {
+    "set_a_new_password": "Setați o parolă nouă",
+    "new_password": "Parolă nouă",
+    "confirm_new_password": "Confirmă parola nouă",
+    "passwords_dont_match": "Parolele nu se potrivesc.",
+    "saving": "Se salvează…",
+    "set_new_password": "Setează parola nouă",
+    "password_updated": "Parolă actualizată",
+    "password_changed_redirecting": "Parola dumneavoastră a fost schimbată și toate sesiunile au fost deconectate. Sunteți redirecționat către autentificare…"
+  },
+  "investigation_detail": {
+    "untitled": "Fără titlu",
+    "data_projects": "Proiecte de date",
+    "no_data_projects": "Încă niciun proiect de date distribuit cu această investigație.",
+    "queries": "interogări",
+    "plots": "grafice",
+    "detach": "Detașează"
+  },
+  "tree_node": {
+    "untitled": "Fără titlu",
+    "add_sub_article": "Adaugă subarticol",
+    "remove": "Elimină"
+  },
+  "contract_detail": {
+    "public_spending": "Cheltuieli publice",
+    "loading": "Se încarcă…",
+    "contract_not_found": "Contract negăsit.",
+    "couldnt_load_this_contract": "Nu s-a putut încărca acest contract.",
+    "untitled_contract": "(contract fără titlu)",
+    "red_flag": "semnal de alarmă",
+    "bidder_s": "ofertant(ți)",
+    "risk_indicators_note": "Indicatori de risc conform metodologiei EC Single Market Scoreboard / ECA CRI — un semnal este un motiv de verificare, nu o dovadă a unei nereguli.",
+    "value": "Valoare",
+    "procedure": "Procedură",
+    "award_criteria": "Criterii de atribuire",
+    "eu_funded": "Finanțat de UE",
+    "yes": "Da",
+    "buyer": "Cumpărător",
+    "contractor": "Contractant",
+    "award_date": "Data atribuirii",
+    "view_original_notice_on_ted": "Vezi anunțul original pe TED"
+  },
+  "studio_query": {
+    "studio": "Studio",
+    "query_name": "Numele interogării",
+    "duplicate": "Duplică",
+    "confirm_delete": "Confirmă ștergerea",
+    "delete": "Șterge",
+    "query_language": "Limbaj de interogare",
+    "hide_schema": "Ascunde schema",
+    "schema": "Schemă",
+    "write_your_query_shortcut": "Scrieți interogarea — Ctrl/Cmd+Enter pentru a rula",
+    "running": "Se rulează…",
+    "run_query": "Rulează interogarea",
+    "rows": "rânduri",
+    "cols": "coloane",
+    "query_ran_no_rows": "Interogarea a rulat cu succes — niciun rând returnat.",
+    "showing_first_100_of": "Se afișează primele 100 din",
+    "rows_2": "rânduri.",
+    "loading": "Se încarcă…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Indicatorii pipeline-ului sunt indisponibili.",
+    "no_events_recorded_in_the_window": "Niciun eveniment înregistrat în interval."
+  },
+  "studio_map": {
+    "loading_boundaries": "Se încarcă limitele…",
+    "matched": "corelate",
+    "of": "din",
+    "regions": "regiuni",
+    "wrong_column_level": "— coloană/nivel greșit?",
+    "opacity": "opacitate"
   }
 }

@@ -31,9 +31,9 @@ async function onSubmit() {
   <div class="login-page">
     <div class="login-card" data-testid="forgot-card">
       <template v-if="!submitted">
-        <h1 class="login-title">Reset your password</h1>
+        <h1 class="login-title">{{ $t('forgot_password.reset_your_password') }}</h1>
         <p class="login-desc">
-          Enter your email and we'll send you a link to set a new password.
+          {{ $t('forgot_password.enter_your_email_send_link') }}
         </p>
         <div v-if="error" class="login-error">{{ error }}</div>
         <form @submit.prevent="onSubmit">
@@ -41,7 +41,7 @@ async function onSubmit() {
             v-model="email"
             type="email"
             required
-            placeholder="you@example.com"
+            :placeholder="$t('forgot_password.you_example_com')"
             class="login-input"
             data-testid="forgot-email"
           />
@@ -51,15 +51,14 @@ async function onSubmit() {
             :disabled="loading"
             data-testid="forgot-submit"
           >
-            {{ loading ? 'Sending…' : 'Send reset link' }}
+            {{ loading ? $t('forgot_password.sending') : $t('forgot_password.send_reset_link') }}
           </button>
         </form>
       </template>
       <template v-else>
-        <h1 class="login-title">Check your email</h1>
+        <h1 class="login-title">{{ $t('forgot_password.check_your_email') }}</h1>
         <p class="login-desc" data-testid="forgot-confirmation">
-          If an account exists for that address, we've sent a link to
-          reset your password. It expires in one hour.
+          {{ $t('forgot_password.if_account_exists_sent_link') }}
         </p>
       </template>
     </div>

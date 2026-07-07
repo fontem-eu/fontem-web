@@ -80,8 +80,8 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         />
       </section>
       <section v-if="companyBars.length" class="dq-section">
-        <h2>Most-represented companies</h2>
-        <p class="dq-hint">Registrants resolved to a known company via the consolidator (Disclosure→FILED_BY→Company).</p>
+        <h2>{{ $t('lobbying_d_q.most_represented_companies') }}</h2>
+        <p class="dq-hint">{{ $t('lobbying_d_q.registrants_resolved_to_a_known_company') }}</p>
         <PocketableChart
           chart="bar_h"
           chart-key="lobbying_top_companies"
@@ -90,7 +90,7 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         />
       </section>
       <section v-if="categoryBars.length" class="dq-section">
-        <h2>Registrant category mix</h2>
+        <h2>{{ $t('lobbying_d_q.registrant_category_mix') }}</h2>
         <PocketableChart
           chart="bar_h"
           chart-key="lobbying_by_category"
@@ -99,8 +99,8 @@ const spenderBars = computed(() => (data.value?.top_spenders || []).map(s => ({ 
         />
       </section>
       <section v-if="spenderBars.length" class="dq-section">
-        <h2>Top declared spenders</h2>
-        <p class="dq-hint">By declared annual lobbying-cost ceiling.</p>
+        <h2>{{ $t('lobbying_d_q.top_declared_spenders') }}</h2>
+        <p class="dq-hint">{{ $t('lobbying_d_q.by_declared_annual_lobbying_cost_ceiling') }}</p>
         <PocketableChart
           chart="bar_h"
           chart-key="lobbying_top_spenders"

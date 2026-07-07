@@ -417,15 +417,15 @@ function isFundNegative(year, key) {
           class="gmr-fin__subtitle"
           data-testid="data-as-of"
           style="opacity:0.65"
-        >· data as of {{ dataAsOf }}</span>
+        >· {{ $t('ticker_financials.data_as_of') }} {{ dataAsOf }}</span>
       </div>
       <div class="flex items-center gap-1">
         <!-- Copy link -->
         <button
           type="button"
           class="gmr-fin__close"
-          :aria-label="linkCopied ? 'Link copied' : 'Copy link'"
-          :title="linkCopied ? 'Copied!' : 'Copy link to this view'"
+          :aria-label="linkCopied ? $t('ticker_financials.link_copied') : $t('ticker_financials.copy_link')"
+          :title="linkCopied ? $t('ticker_financials.copied') : $t('ticker_financials.copy_link_to_this_view')"
           data-testid="copy-link-btn"
           @click="copyLink"
         >
@@ -528,7 +528,7 @@ function isFundNegative(year, key) {
     <!-- ── Error ───────────────────────────────────────── -->
     <div v-else-if="state === 'error'" class="gmr-fin__body gmr-fin__state" data-testid="fin-error">
       <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
-        <span style="color: var(--negative)">Could not load data for {{ companyName || (isUuidSymbol ? 'this entity' : symbol) }}.</span>
+        <span style="color: var(--negative)">{{ $t('ticker_financials.could_not_load_data_for') }} {{ companyName || (isUuidSymbol ? $t('ticker_financials.this_entity') : symbol) }}.</span>
         <button
           class="year-btn"
           style="padding:0.4rem 1rem"
@@ -557,13 +557,13 @@ function isFundNegative(year, key) {
         </div>
       </div>
 
-      <div class="gmr-fin__section-label">Annual Data</div>
+      <div class="gmr-fin__section-label">{{ $t('ticker_financials.annual_data') }}</div>
 
       <div class="gmr-ann-wrap" data-testid="annual-table">
         <table class="gmr-ann">
           <thead>
             <tr>
-              <th>Metric</th>
+              <th>{{ $t('ticker_financials.metric') }}</th>
               <th v-for="year in gmrAnnualYears" :key="year">{{ year }}</th>
             </tr>
           </thead>
@@ -659,7 +659,7 @@ function isFundNegative(year, key) {
         </div>
       </div>
 
-      <div class="gmr-fin__section-label">Averages</div>
+      <div class="gmr-fin__section-label">{{ $t('ticker_financials.averages') }}</div>
 
       <div class="gmr-snap gmr-snap--wide" data-testid="fund-ratios">
         <div v-for="item in fundRatios" :key="item.label" class="gmr-snap__cell">
@@ -668,13 +668,13 @@ function isFundNegative(year, key) {
         </div>
       </div>
 
-      <div class="gmr-fin__section-label">Per Year</div>
+      <div class="gmr-fin__section-label">{{ $t('ticker_financials.per_year') }}</div>
 
       <div class="gmr-ann-wrap" data-testid="fund-annual-table">
         <table class="gmr-ann">
           <thead>
             <tr>
-              <th>Metric</th>
+              <th>{{ $t('ticker_financials.metric') }}</th>
               <th v-for="year in fundYears" :key="year">{{ year }}</th>
             </tr>
           </thead>

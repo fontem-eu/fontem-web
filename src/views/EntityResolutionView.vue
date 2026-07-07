@@ -232,10 +232,10 @@ function formatValue(v) {
         <router-link to="/admin" class="er-back">{{ $t('nav.back_admin') }}</router-link>
         <h1>{{ $t('app.entity_resolution') }}</h1>
         <p class="er-subtitle">{{ $t('entity_resolution.review_and_decide_on_flagged_candidates') }}<span class="er-reviewer-line">
-            &middot; reviewer: <input
+            &middot; {{ $t('entity_resolution.reviewer') }} <input
               v-model="reviewerName"
               class="er-reviewer-input"
-              placeholder="your name"
+              :placeholder="$t('entity_resolution.your_name')"
               @blur="persistReviewer"
             />
           </span>
@@ -271,7 +271,7 @@ function formatValue(v) {
     <div v-else class="er-layout">
       <!-- Left sidebar: candidate list -->
       <aside class="er-list">
-        <h2>Pending ({{ candidates.length }})</h2>
+        <h2>{{ $t('entity_resolution.pending') }} ({{ candidates.length }})</h2>
         <div
           v-for="c in candidates"
           :key="c.key"
@@ -287,9 +287,9 @@ function formatValue(v) {
           <div class="er-list__meta">
             {{ c.entity_type }} &middot; {{ pct(c.confidence) }}
             <span v-if="c.detections && c.detections.length > 1" class="er-list__multi">
-              · {{ c.detections.length }} rules
+              · {{ c.detections.length }} {{ $t('entity_resolution.rules') }}
             </span>
-            <span v-if="c.conflict" class="er-list__conflict">· conflict</span>
+            <span v-if="c.conflict" class="er-list__conflict">· {{ $t('entity_resolution.conflict') }}</span>
           </div>
         </div>
       </aside>
@@ -312,10 +312,7 @@ function formatValue(v) {
               <span class="er-chip__conf">{{ pct(d.confidence) }}</span>
             </span>
           </div>
-          <p v-if="selected.conflict" class="er-conflict-note">
-            One or more rules reported a hard-conflict on this pair (e.g. mismatched LEI / VAT).
-            Review carefully before merging.
-          </p>
+          <p v-if="selected.conflict" class="er-conflict-note">{{ $t('entity_resolution.one_or_more_rules_reported_a_hard_conflic') }}</p>
         </div>
 
         <!-- Side-by-side entity panels -->
@@ -370,21 +367,15 @@ function formatValue(v) {
             :disabled="resolving"
             @click="decide('accept', selected.from_id, selected.to_id)"
           >
-            <template v-if="selected._mode === 'represents'">
-              Accept — Lobbyist represents Company
-            </template>
-            <template v-else-if="selected._mode === 'sanctioned'">
-              Accept — Company is sanctioned
-            </template>
-            <template v-else>Accept relationship</template>
+            <template v-if="selected._mode === 'represents'">{{ $t('entity_resolution.accept_lobbyist_represents_company') }}</template>
+            <template v-else-if="selected._mode === 'sanctioned'">{{ $t('entity_resolution.accept_company_is_sanctioned') }}</template>
+            <template v-else>{{ $t('entity_resolution.accept_relationship') }}</template>
           </button>
           <button
             class="er-btn er-btn--reject"
             :disabled="resolving"
             @click="decide('reject', selected.from_id, selected.to_id)"
-          >
-            Reject — relationship is wrong
-          </button>
+          >{{ $t('entity_resolution.reject_relationship_is_wrong') }}</button>
           <span v-if="message" class="er-message">{{ message }}</span>
         </div>
       </main>

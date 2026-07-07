@@ -40,21 +40,21 @@ const hasGrants = computed(() => (data.value?.grant_count || 0) > 0)
     class="cohesion-panel"
     data-testid="cohesion-grants-panel"
   >
-    <h2>EU Cohesion Grants</h2>
+    <h2>{{ $t('cohesion_grants_panel.eu_cohesion_grants') }}</h2>
     <p class="cg-sub" data-testid="cohesion-grants-summary">
       {{ data.grant_count.toLocaleString() }}
-      grant{{ data.grant_count === 1 ? '' : 's' }} attained
-      · {{ fmtEur(data.total_eu_contribution) }} EU contribution
+      {{ $t('cohesion_grants_panel.grant') }}{{ data.grant_count === 1 ? '' : 's' }} {{ $t('cohesion_grants_panel.attained') }}
+      · {{ fmtEur(data.total_eu_contribution) }} {{ $t('cohesion_grants_panel.eu_contribution') }}
     </p>
     <div class="cg-scroll">
       <table class="cg-table">
         <thead>
           <tr>
-            <th>Project</th>
-            <th>Fund</th>
-            <th>Programme</th>
-            <th class="num">EU €</th>
-            <th>Period</th>
+            <th>{{ $t('cohesion_grants_panel.project') }}</th>
+            <th>{{ $t('cohesion_grants_panel.fund') }}</th>
+            <th>{{ $t('cohesion_grants_panel.programme') }}</th>
+            <th class="num">{{ $t('cohesion_grants_panel.eu_euro') }}</th>
+            <th>{{ $t('cohesion_grants_panel.period') }}</th>
           </tr>
         </thead>
         <tbody>

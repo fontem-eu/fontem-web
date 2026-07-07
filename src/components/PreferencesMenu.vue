@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-palette-picker"
             @change="onPaletteChange"
           >
-            <optgroup v-for="(group, key) in paletteOptions" :key="key" :label="key === 'auto' ? '' : (key === 'seq' ? 'Sequential' : 'Diverging')">
+            <optgroup v-for="(group, key) in paletteOptions" :key="key" :label="key === 'auto' ? '' : (key === 'seq' ? $t('preferences_menu.sequential') : $t('preferences_menu.diverging'))">
               <option
                 v-for="[id, p] in group"
                 :key="id"
@@ -294,7 +294,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-sign-out-everywhere"
             @click="onSignOutEverywhereClick"
           >
-            <span>{{ signingOutEverywhere ? 'Signing out…' : 'Sign out of all devices' }}</span>
+            <span>{{ signingOutEverywhere ? $t('preferences_menu.signing_out') : $t('preferences_menu.sign_out_all_devices') }}</span>
           </button>
 
           <button
@@ -313,7 +313,7 @@ onBeforeUnmount(() => {
             data-testid="prefs-sign-in"
             @click="onSignInClick"
           >
-            <span>Sign in</span>
+            <span>{{ $t('preferences_menu.sign_in') }}</span>
             <span class="prefs-row-chevron">›</span>
           </button>
         </template>

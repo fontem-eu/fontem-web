@@ -234,23 +234,23 @@ function pocket() {
 <template>
   <div v-if="ready && project" class="plotview" data-testid="studio-plot-view">
     <nav class="crumbs">
-      <router-link to="/studio">Studio</router-link><span class="sep">/</span>
+      <router-link to="/studio">{{ $t('studio_plot.studio') }}</router-link><span class="sep">/</span>
       <router-link :to="`/studio/p/${project.id}`">{{ project.name }}</router-link>
     </nav>
 
     <div class="phead">
-      <input v-model="plotName" class="pname" data-testid="plot-name" spellcheck="false" aria-label="Plot name" :readonly="!canEdit" />
+      <input v-model="plotName" class="pname" data-testid="plot-name" spellcheck="false" :aria-label="$t('studio_plot.plot_name')" :readonly="!canEdit" />
       <div class="pactions">
-        <button v-if="canEdit" type="button" class="sbtn sbtn--primary" data-testid="plot-save" :disabled="!activeSources.length" @click="savePlot">{{ saved ? 'Saved ✓' : 'Save plot' }}</button>
-        <button type="button" class="sbtn" data-testid="plot-pocket" :disabled="!combine.result" @click="pocket">{{ pocketed ? 'Pocketed ✓' : 'Pocket' }}</button>
+        <button v-if="canEdit" type="button" class="sbtn sbtn--primary" data-testid="plot-save" :disabled="!activeSources.length" @click="savePlot">{{ saved ? $t('studio_plot.saved') : $t('studio_plot.save_plot') }}</button>
+        <button type="button" class="sbtn" data-testid="plot-pocket" :disabled="!combine.result" @click="pocket">{{ pocketed ? $t('studio_plot.pocketed') : $t('studio_plot.pocket') }}</button>
       </div>
     </div>
 
     <!-- New: pick project queries. Edit: show the saved recipe's sources. -->
     <section class="grp">
-      <h2 class="grp-title">1 · Sources</h2>
+      <h2 class="grp-title">{{ $t('studio_plot.step_1_sources') }}</h2>
       <template v-if="!editMode">
-        <p v-if="!project.queries.length" class="empty">This project has no queries yet.</p>
+        <p v-if="!project.queries.length" class="empty">{{ $t('studio_plot.this_project_has_no_queries_yet') }}</p>
         <ul v-else class="picks">
           <li v-for="q in project.queries" :key="q.id">
             <label class="pick" data-testid="plot-query-toggle">
@@ -271,13 +271,13 @@ function pocket() {
     </section>
 
     <section class="grp">
-      <h2 class="grp-title">2 · Combine <span class="hint">— DuckDB SQL over {{ activeSources.map((s) => s.name).join(', ') || 'your sources' }} (runs in your browser)</span></h2>
+      <h2 class="grp-title">{{ $t('studio_plot.step_2_combine') }} <span class="hint">{{ $t('studio_plot.duckdb_sql_over') }} {{ activeSources.map((s) => s.name).join(', ') || $t('studio_plot.your_sources') }} {{ $t('studio_plot.runs_in_your_browser') }}</span></h2>
       <QueryEditor v-model="transformSql" lang="sql" :schema="transformSchema" data-testid="plot-transform-sql" placeholder="SELECT q1.country, q1.value AS a, q2.value AS b FROM q1 JOIN q2 ON q1.country = q2.country" @run="runCombine" />
       <div class="row">
         <button type="button" class="sbtn sbtn--primary" data-testid="plot-combine" :disabled="combine.loading || !activeSources.length" @click="runCombine">
-          {{ combine.loading ? 'Combining…' : 'Run & combine' }}
+          {{ combine.loading ? $t('studio_plot.combining') : $t('studio_plot.run_combine') }}
         </button>
-        <span v-if="combine.result" class="meta">{{ combine.result.rows.length }} rows</span>
+        <span v-if="combine.result" class="meta">{{ combine.result.rows.length }} {{ $t('studio_plot.rows') }}</span>
         <span v-if="combine.error" class="err" data-testid="plot-error">{{ combine.error }}</span>
       </div>
       <div v-if="combine.result" class="twrap" data-testid="plot-result">
@@ -289,26 +289,26 @@ function pocket() {
     </section>
 
     <section v-if="combine.result" class="grp" data-testid="studio-plot">
-      <h2 class="grp-title">3 · Plot</h2>
+      <h2 class="grp-title">{{ $t('studio_plot.step_3_plot') }}</h2>
       <div class="pcontrols">
-        <label>Chart <select v-model="plot.chart" data-testid="plot-chart"><option v-for="c in CHARTS" :key="c.key" :value="c.key">{{ c.label }}</option></select></label>
+        <label>{{ $t('studio_plot.chart') }} <select v-model="plot.chart" data-testid="plot-chart"><option v-for="c in CHARTS" :key="c.key" :value="c.key">{{ c.label }}</option></select></label>
         <template v-if="plot.chart === 'atlas_map'">
-          <label>NUTS column <select v-model="plot.x" data-testid="plot-geo"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
-          <label>Value <select v-model="plot.y" data-testid="plot-value"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
-          <label>Bivariate <select v-model="plot.bivariate" data-testid="plot-bivariate"><option value="none">Off</option><option value="alpha">Colour + opacity</option><option value="choropleth">2-colour matrix</option></select></label>
-          <label v-if="plot.bivariate !== 'none'">2nd value <select v-model="plot.y2" data-testid="plot-value2"><option v-for="c in numericCols" :key="c" :value="c">{{ c }}</option></select></label>
-          <label>Level <select v-model.number="plot.level" data-testid="plot-level"><option v-for="l in [0, 1, 2, 3]" :key="l" :value="l">NUTS {{ l }}</option></select></label>
+          <label>{{ $t('studio_plot.nuts_column') }} <select v-model="plot.x" data-testid="plot-geo"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>{{ $t('studio_plot.value') }} <select v-model="plot.y" data-testid="plot-value"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>{{ $t('studio_plot.bivariate') }} <select v-model="plot.bivariate" data-testid="plot-bivariate"><option value="none">{{ $t('studio_plot.off') }}</option><option value="alpha">{{ $t('studio_plot.colour_opacity') }}</option><option value="choropleth">{{ $t('studio_plot.two_colour_matrix') }}</option></select></label>
+          <label v-if="plot.bivariate !== 'none'">{{ $t('studio_plot.second_value') }} <select v-model="plot.y2" data-testid="plot-value2"><option v-for="c in numericCols" :key="c" :value="c">{{ c }}</option></select></label>
+          <label>{{ $t('studio_plot.level') }} <select v-model.number="plot.level" data-testid="plot-level"><option v-for="l in [0, 1, 2, 3]" :key="l" :value="l">NUTS {{ l }}</option></select></label>
         </template>
         <template v-else-if="plot.chart === 'line'">
           <label>X <select v-model="plot.x" data-testid="plot-x"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
           <div class="pmulti" data-testid="plot-series">
-            <span class="pmulti-lbl">Series</span>
+            <span class="pmulti-lbl">{{ $t('studio_plot.series') }}</span>
             <label v-for="c in numericCols" :key="c" class="pmulti-opt"><input v-model="plot.series" type="checkbox" :value="c" /> {{ c }}</label>
           </div>
         </template>
         <template v-else-if="plot.chart === 'corr_matrix'">
           <div class="pmulti" data-testid="plot-corrcols">
-            <span class="pmulti-lbl">Columns</span>
+            <span class="pmulti-lbl">{{ $t('studio_plot.columns') }}</span>
             <label v-for="c in numericCols" :key="c" class="pmulti-opt"><input v-model="plot.corrCols" type="checkbox" :value="c" /> {{ c }}</label>
           </div>
         </template>
@@ -321,7 +321,7 @@ function pocket() {
       <div v-else-if="chartProps" class="pchart"><ChartSpec :chart="plot.chart" :chart-props="chartProps" /></div>
     </section>
   </div>
-  <p v-else class="ploading" data-testid="plot-loading">Loading…</p>
+  <p v-else class="ploading" data-testid="plot-loading">{{ $t('studio_plot.loading') }}</p>
 </template>
 
 <style scoped>

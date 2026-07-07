@@ -69,7 +69,7 @@ const thresholdHint = computed(() =>
 
 <template>
   <div class="cm" data-testid="corr-matrix">
-    <div v-if="k < 2" class="cm-empty">Pick at least two numeric columns to correlate.</div>
+    <div v-if="k < 2" class="cm-empty">{{ $t('corr_matrix.pick_at_least_two_numeric_columns') }}</div>
     <svg v-else :viewBox="`0 0 ${W} ${H}`" class="cm-svg" preserveAspectRatio="xMidYMid meet">
       <!-- column headers (angled) -->
       <text
@@ -105,7 +105,7 @@ v-for="(r, j) in row" :key="'c' + i + '_' + j"
         <text x="0" y="22" class="cm-legtxt" text-anchor="start">−1</text>
         <text :x="2 * 26 + 12" y="22" class="cm-legtxt" text-anchor="middle">0</text>
         <text :x="4 * 26 + 24" y="22" class="cm-legtxt" text-anchor="end">+1</text>
-        <text :x="5 * 26 + 12" y="9" class="cm-legtxt" text-anchor="start">Pearson r</text>
+        <text :x="5 * 26 + 12" y="9" class="cm-legtxt" text-anchor="start">{{ $t('corr_matrix.pearson_r') }}</text>
         <text x="0" y="36" class="cm-legtxt" data-testid="cm-thresholds">{{ thresholdHint }}</text>
       </g>
     </svg>

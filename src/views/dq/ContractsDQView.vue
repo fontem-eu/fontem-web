@@ -135,8 +135,8 @@ const redFlagDistBars = computed(() =>
 
       <!-- Tender integrity — the procurement-integrity lens -->
       <section v-if="integrity" class="dq-section" data-testid="dq-integrity">
-        <h2>Tender Integrity</h2>
-        <p class="dq-hint">Single-bidder rate and red-flag indicators per the EC Single Market Scoreboard / ECA CRI methodology — a flag is a prompt to look, not proof of wrongdoing.</p>
+        <h2>{{ $t('contracts_d_q.tender_integrity') }}</h2>
+        <p class="dq-hint">{{ $t('contracts_d_q.single_bidder_rate_and_red_flag_indicators') }}</p>
         <div class="dq-stats">
           <PocketableChart
             chart="stat"
@@ -179,7 +179,7 @@ const redFlagDistBars = computed(() =>
           />
         </div>
         <section v-if="flagBars.length" class="dq-subsection">
-          <h3>Red flags by type</h3>
+          <h3>{{ $t('contracts_d_q.red_flags_by_type') }}</h3>
           <PocketableChart
             chart="bar_h"
             chart-key="contracts_red_flags"
@@ -188,7 +188,7 @@ const redFlagDistBars = computed(() =>
           />
         </section>
         <section v-if="redFlagDistBars.length" class="dq-subsection">
-          <h3>Red-flag count distribution</h3>
+          <h3>{{ $t('contracts_d_q.red_flag_count_distribution') }}</h3>
           <PocketableChart
             chart="bar_h"
             chart-key="contracts_red_flag_dist"
@@ -219,7 +219,7 @@ const redFlagDistBars = computed(() =>
 
       <section class="dq-section">
         <h2>{{ $t('contracts_d_q.contract_volume_over_time') }}</h2>
-        <p class="dq-hint">Scroll to zoom in/out. Bars aggregate: daily → weekly → monthly → yearly.</p>
+        <p class="dq-hint">{{ $t('contracts_d_q.scroll_to_zoom_in_out') }}</p>
         <PocketableChart
           chart="ts_bar"
           chart-key="contracts_volume_timeline"
@@ -260,7 +260,7 @@ const redFlagDistBars = computed(() =>
 
       <section v-if="currencyBars.length" class="dq-section">
         <h2>{{ $t('contracts_d_q.contracts_by_currency') }}</h2>
-        <p class="dq-hint">Distribution of original currencies. EUR dominates but many EU member contracts use local currency.</p>
+        <p class="dq-hint">{{ $t('contracts_d_q.distribution_of_original_currencies') }}</p>
         <PocketableChart
           chart="bar_h"
           chart-key="contracts_by_currency"

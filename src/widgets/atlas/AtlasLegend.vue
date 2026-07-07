@@ -70,7 +70,7 @@ function fmtTick(v) {
 </script>
 
 <template>
-  <div class="atlas-legend" data-testid="atlas-legend" role="group" :aria-label="title || 'Atlas legend'">
+  <div class="atlas-legend" data-testid="atlas-legend" role="group" :aria-label="title || $t('atlas_legend.atlas_legend')">
     <div v-if="title" class="legend-title">{{ title }}</div>
     <div class="legend-row">
       <div
@@ -82,12 +82,12 @@ function fmtTick(v) {
       />
       <div v-if="bounds" class="legend-ticks">
         <span class="tick lo">{{ fmtTick(bounds[0]) }}</span>
-        <span v-if="log" class="tick log-pill" aria-label="logarithmic scale">log</span>
+        <span v-if="log" class="tick log-pill" :aria-label="$t('atlas_legend.logarithmic_scale')">{{ $t('atlas_legend.log') }}</span>
         <span class="tick hi">{{ fmtTick(bounds[1]) }}</span>
       </div>
       <span v-if="showNull" class="null-swatch" data-testid="atlas-legend-null">
         <span class="null-dot" :style="{ background: NULL_COLOR }" />
-        no data
+        {{ $t('atlas_legend.no_data') }}
       </span>
     </div>
   </div>

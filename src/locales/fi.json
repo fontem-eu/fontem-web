@@ -138,10 +138,31 @@
     "notes": "Huomautukset",
     "time_unit": "Aikayksikkö",
     "updated": "Päivitetty",
-    "value_scale": "Arvoasteikko"
+    "value_scale": "Arvoasteikko",
+    "map_view_of_the_curated_eurostat_datasets": "Karttanäkymä kuratoiduista Eurostat-tietoaineistoista. Valitse mittari, NUTS-taso ja vuosi.",
+    "no_datasets_registered_yet": "Yhtään tietoaineistoa ei ole vielä rekisteröity — tilastovarasto on verkossa, mutta siemenaineistoa ei ole ladattu. Suorita",
+    "to_populate_the_catalog": "täyttääksesi luettelon.",
+    "pick_a_dataset": "— valitse tietoaineisto —",
+    "the_dataset_has": "Tietoaineistossa on",
+    "dimension_combinations_largest_slice_is_shown_by_default": "ulottuvuusyhdistelmää. Suurin osuus näytetään oletuksena.",
+    "backend_hasnt_computed_slice_stats": "Taustajärjestelmä ei ole vielä laskenut osuustilastoja tälle tietoaineistolle — palataan vuosikohtaiseen automaattiseen skaalaukseen.",
+    "unavailable": "(ei saatavilla)",
+    "suggested": "(ehdotettu)",
+    "hidden": "piilotettu",
+    "fetching_observations": "Haetaan havaintoja…",
+    "no_data": "ei tietoja",
+    "pause_year_animation": "Keskeytä vuosianimaatio",
+    "play_year_animation": "Toista vuosianimaatio",
+    "year": "Vuosi",
+    "looping_enabled": "Toisto käytössä",
+    "looping_disabled_stops_at_the_last_year": "Toisto pois käytöstä — pysähtyy viimeiseen vuoteen",
+    "loop": "toisto"
   },
   "atlas_map_embed": {
-    "open_in_atlas": "Avaa Atlasissa →"
+    "open_in_atlas": "Avaa Atlasissa →",
+    "atlas_map": "Atlas-kartta",
+    "loading_map_data": "Ladataan karttatietoja…",
+    "no_data": "ei tietoja"
   },
   "corr_matrix": {
     "none": "ei mitään",
@@ -150,7 +171,9 @@
     "strong": "vahva",
     "inverse": "käänteinen",
     "self": "sama muuttuja",
-    "hint": "Näet tarkan arvon viemällä osoittimen soluun tai napauttamalla sitä."
+    "hint": "Näet tarkan arvon viemällä osoittimen soluun tai napauttamalla sitä.",
+    "pick_at_least_two_numeric_columns": "Valitse vähintään kaksi numeerista saraketta korreloitavaksi.",
+    "pearson_r": "Pearsonin r"
   },
   "translations": {
     "label": "Käännökset",
@@ -211,7 +234,13 @@
     "loading_contract_data": "Ladataan sopimustietoja...",
     "missing_fields_of_contracts": "Puuttuvat kentät (% sopimuksista)",
     "ted_contracts": "TED-sopimukset",
-    "total_eur_by_country_top_15": "Yhteensä EUR maittain (Top 15)"
+    "total_eur_by_country_top_15": "Yhteensä EUR maittain (Top 15)",
+    "tender_integrity": "Tarjouskilpailun eheys",
+    "single_bidder_rate_and_red_flag_indicators": "Yhden tarjoajan osuus ja varoitusmerkkien indikaattorit EC:n sisämarkkinatulostaulun / ECA:n CRI-menetelmän mukaisesti — merkki on kehotus tarkastella, ei todiste väärinkäytöksestä.",
+    "red_flags_by_type": "Varoitusmerkit tyypeittäin",
+    "red_flag_count_distribution": "Varoitusmerkkien lukumäärän jakauma",
+    "scroll_to_zoom_in_out": "Vieritä lähentääksesi/loitontaaksesi. Palkit kokoavat: päivittäin → viikoittain → kuukausittain → vuosittain.",
+    "distribution_of_original_currencies": "Alkuperäisten valuuttojen jakauma. EUR on hallitseva, mutta monet EU-jäsenmaiden sopimukset käyttävät paikallista valuuttaa."
   },
   "cookie_consent_banner": {
     "accept": "Hyväksy",
@@ -267,13 +296,19 @@
     "explain_zero_value": "Ilmoituksessa julkaistiin arvoksi täsmälleen nolla — ilmoittamatta jättäminen lukuun puettuna. Käsitellään ilmoittamattomana arvona.",
     "explain_confirmed_bogus": "Tarkistaja tutki julkaistun arvon ja vahvisti sen epäluotettavaksi. Tälle sopimukselle ei ole luotettavaa arvoa saatavilla.",
     "explain_withheld_generic": "Julkaistu arvo ei läpäissyt alustan järkevyystarkistuksia ja se pidätettiin.",
-    "explain_low_confidence_generic": "Arvo näytetään, mutta julkaistut rahakentät ovat heikosti näytettävissä; se jätetään pois oletuskokonaissummista ja järjestyksistä."
+    "explain_low_confidence_generic": "Arvo näytetään, mutta julkaistut rahakentät ovat heikosti näytettävissä; se jätetään pois oletuskokonaissummista ja järjestyksistä.",
+    "the_eus_official_public_procurement_database_financial_data": ", EU:n virallinen julkisten hankintojen tietokanta. Taloustiedot ovat peräisin lähteestä",
+    "company_identifiers_and": "(yritystunnisteet) ja",
+    "financial_statements": "(tilinpäätökset).",
+    "this_dashboard_shows_the_current_state": "Tämä koontinäyttö näyttää tietämysgraafin nykytilan. Tiedot ladataan päivittäin TED:stä ja päivitetään ajoittain GLEIF:stä. Kaikki tietueet ovat jäljitettävissä lähteeseensä TED-ilmoitustunnisteiden ja LEI-numeroiden avulla."
   },
   "data_quality_hub": {
     "data_freshness": "Datan tuoreus",
     "data_quality": "Datan laatu",
     "latest_contract_load": "Viimeisin sopimusten lataus",
-    "loading_overview": "Ladataan yleiskatsausta..."
+    "loading_overview": "Ladataan yleiskatsausta...",
+    "per_pipeline_dashboards_drill_into_each_etl": "Putkikohtaiset koontinäytöt — poraudu kuhunkin ETL:ään havaitaksesi puutteet, trendit ja poikkeamat.",
+    "themes": "Teemat"
   },
   "data_view_selector": {
     "data_view": "Datanäkymä",
@@ -282,7 +317,10 @@
   "dedup_d_q": {
     "deduplication": "Duplikoinnin poisto",
     "same_as_queue_duplicate_entity_resolutio": "SAME_AS-jono — duplikaattientiteettien ratkaisun tila",
-    "use_the": "Käytä"
+    "use_the": "Käytä",
+    "reviewed": "Tarkastettu",
+    "pending": "Odottaa",
+    "tool_to_review_pending_duplicates": "työkalu odottavien kaksoiskappaleiden tarkastamiseen."
   },
   "donate": {
     "backers": "Tukijat",
@@ -310,7 +348,17 @@
     "remove_mention": "Poista maininta"
   },
   "entity_nuts_map": {
-    "contracts_count": "Sopimukset (lukumäärä)"
+    "contracts_count": "Sopimukset (lukumäärä)",
+    "level_0_country": "0 — Maa",
+    "level_1_macro_region": "1 — Makroalue",
+    "level_2_region": "2 — Alue",
+    "level_3_small_region": "3 — Pienalue",
+    "select": "— valitse —",
+    "loading_map": "Ladataan karttaa…",
+    "select_a": "Valitse",
+    "above_to_load_the_map": "yllä ladataksesi kartan.",
+    "contracts": "sopimusta",
+    "no_known_contracts": "ei tunnettuja sopimuksia"
   },
   "entity_resolution": {
     "all_flagged_pairs_have_been_resolved": "Kaikki merkityt parit on ratkaistu.",
@@ -324,7 +372,17 @@
     "merge_keep_b_a_is_removed": "Yhdistä — säilytä B (A poistetaan)",
     "no_pairs_pending_review": "Ei pareja tarkistusta odottamassa.",
     "review_and_decide_on_flagged_candidates": "Tarkista merkityt ehdokkaat ja päätä",
-    "why_flagged": "Miksi merkitty"
+    "why_flagged": "Miksi merkitty",
+    "reviewer": "tarkastaja:",
+    "your_name": "nimesi",
+    "pending": "Odottaa",
+    "rules": "säännöt",
+    "conflict": "ristiriita",
+    "one_or_more_rules_reported_a_hard_conflic": "Yksi tai useampi sääntö raportoi vakavan ristiriidan tässä parissa (esim. LEI / ALV-tunnisteet eivät täsmää). Tarkista huolellisesti ennen yhdistämistä.",
+    "accept_lobbyist_represents_company": "Hyväksy — Edunvalvoja edustaa yritystä",
+    "accept_company_is_sanctioned": "Hyväksy — Yritys on pakotteiden kohteena",
+    "accept_relationship": "Hyväksy suhde",
+    "reject_relationship_is_wrong": "Hylkää — suhde on virheellinen"
   },
   "entity_side": {
     "entity_details": "Entiteetin tiedot"
@@ -388,7 +446,13 @@
   "geo_choropleth": {
     "companies": "Yritykset",
     "connected_to_3": "Yhdistetty (α-3)",
-    "parent_nuts_1": "Ylätason NUTS 1"
+    "parent_nuts_1": "Ylätason NUTS 1",
+    "level_0_country": "0 — Maa",
+    "level_1_macro_region_coming_soon": "1 — Makroalue (tulossa pian)",
+    "level_2_region_coming_soon": "2 — Alue (tulossa pian)",
+    "level_3_small_region_coming_soon": "3 — Pienalue (tulossa pian)",
+    "eg_rus": "esim. RUS",
+    "eg_de1": "esim. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Yritykset maittain (Top 30)",
@@ -417,7 +481,35 @@
     "save_view": "Tallenna näkymä",
     "search_entity_name": "Etsi entiteetin nimeä...",
     "set_as_center": "Aseta keskukseksi",
-    "svg": "SVG"
+    "svg": "SVG",
+    "12_mo": "12 kk",
+    "3_yr": "3 v",
+    "5_yr": "5 v",
+    "nodes": "Solmut",
+    "edges": "Kaaret",
+    "exit_path_mode": "✕ Poistu polkutilasta",
+    "find_path_to_2": "Etsi polku kohteeseen…",
+    "timeline": "Aikajana",
+    "timeline_2": "✕ Aikajana",
+    "saved": "Tallennettu",
+    "depth_2": "syvyys",
+    "path": "polku",
+    "found": "löytyi.",
+    "shortest": "Lyhin:",
+    "hop": "hyppy",
+    "path_2": "Polku",
+    "contracts": "sopimukset",
+    "directors": "johtajat",
+    "companies": "yritykset",
+    "nodes_2": "solmua",
+    "edges_2": "kaarta",
+    "showing": "Näytetään",
+    "of": "/",
+    "truncated": "(katkaistu)",
+    "country": "Maa:",
+    "value": "Arvo:",
+    "collapse": "▼ Tiivistä",
+    "expand": "▶ Laajenna"
   },
   "income": {
     "revenue_amp_net_income": "Liikevaihto &amp; nettotulos"
@@ -446,12 +538,34 @@
     "lobbying_cost_distribution": "Lobbauskustannusten jakauma",
     "registrations_over_time": "Rekisteröinnit ajan kuluessa",
     "top_countries": "Päämaat",
-    "transparency_register_lobbyist_registrat": "Avoimuusrekisteri — lobbarien rekisteröinnit, EP:n pääsy, kulut"
+    "transparency_register_lobbyist_registrat": "Avoimuusrekisteri — lobbarien rekisteröinnit, EP:n pääsy, kulut",
+    "most_represented_companies": "Eniten edustetut yritykset",
+    "registrants_resolved_to_a_known_company": "Rekisteröityneet, jotka on ratkaistu tunnetuksi yritykseksi konsolidaattorin kautta (Disclosure→FILED_BY→Company).",
+    "registrant_category_mix": "Rekisteröityneiden kategoriajakauma",
+    "top_declared_spenders": "Suurimmat ilmoitetut kuluttajat",
+    "by_declared_annual_lobbying_cost_ceiling": "Ilmoitetun vuotuisen edunvalvontakustannusten enimmäismäärän mukaan."
   },
   "login": {
     "go_to_home": "Siirry etusivulle",
     "you_already_have_an_active_session": "Sinulla on jo aktiivinen istunto.",
-    "youre_signed_in": "Olet kirjautunut sisään"
+    "youre_signed_in": "Olet kirjautunut sisään",
+    "sign_in_to_fontem": "Kirjaudu Fontemiin",
+    "sign_in_to_start_creating_data_stories": "Kirjaudu sisään aloittaaksesi datatarinoiden luomisen, ongelmien esiin nostamisen ja yhteisön kanssa työskentelyn.",
+    "signing_in": "Kirjaudutaan sisään...",
+    "sign_in": "Kirjaudu sisään",
+    "create_account": "Luo tili",
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "forgot_your_password": "Unohditko salasanasi?",
+    "full_name": "Koko nimi",
+    "password_min_8_chars": "Salasana (vähintään 8 merkkiä)",
+    "confirm_password": "Vahvista salasana",
+    "passwords_dont_match": "Salasanat eivät täsmää",
+    "creating_account": "Luodaan tiliä...",
+    "or_continue_with": "tai jatka palvelulla",
+    "sign_in_with_token": "Kirjaudu tunnisteella",
+    "paste_a_jwt_token": "Liitä JWT-tunniste",
+    "go": "Siirry"
   },
   "mention_autocomplete": {
     "entity_mentions": "Entiteettimaininnat",
@@ -538,7 +652,17 @@
     "data_quality_overview": "Datan laadun yleiskatsaus",
     "listings": "Listaukset",
     "lobby": "Lobbaus",
-    "top_alpha_2_codes": "Pää-Alpha-2-koodit"
+    "top_alpha_2_codes": "Pää-Alpha-2-koodit",
+    "how_many_entities_appear_in_multiple_data_sources": "Kuinka moni taho esiintyy useissa tietolähteissä — mittari graafin liitettävyydelle.",
+    "companies_still_use_alpha_2_country_codes": "yritykset käyttävät edelleen alpha-2-maakoodeja ISO 3166-1 alpha-2/alpha-3 -koodien sijaan.",
+    "field_completeness": "Kenttien täydellisyys",
+    "coverage_percentage_per_field": "Kattavuusprosentti kenttää kohti. Vihreä = >90 %, keltainen = 50–90 %, punainen = <50 %.",
+    "sanctions": "Pakotteet",
+    "entities": "tahot",
+    "cohesion_projects": "Koheesiohankkeet",
+    "projects": "hankkeet",
+    "companies": "Yritykset",
+    "companies_2": "yritykset"
   },
   "pocket_button": {
     "name_this_snapshot": "Nimeä tämä tilannekuva",
@@ -559,7 +683,12 @@
     "clear_ai_history": "Tyhjennä tekoälyn historia",
     "delete_account": "Poista tili",
     "display": "Näyttö",
-    "preferences": "Asetukset"
+    "preferences": "Asetukset",
+    "sequential": "Sekventiaalinen",
+    "diverging": "Divergoiva",
+    "signing_out": "Kirjaudutaan ulos…",
+    "sign_out_all_devices": "Kirjaudu ulos kaikilta laitteilta",
+    "sign_in": "Kirjaudu sisään"
   },
   "privacy": {
     "access": "Pääsy",
@@ -579,7 +708,39 @@
     "to_exercise_any_of_these_rights_contact_": "Käyttääksesi näitä oikeuksia, ota yhteyttä osoitteella",
     "under_the_gdpr_you_have_the_right_to": "GDPR:n nojalla sinulla on oikeus:",
     "when_you_sign_in_we_collect_and_store": "Kun kirjaudut sisään, keräämme ja tallennamme:",
-    "your": "Sinun"
+    "your": "Sinun",
+    "what_fontem_is": "1. Mikä Fontem on",
+    "fontem_is_a_civic_transparency_platform": "Fontem on kansalaisyhteiskunnan avoimuusalusta, joka yhdistää EU:n julkisten hankintojen tiedot, yritysten omistusrekisterit ja koheesiopolitiikan rahoituksen yhdeksi tietämysgraafiksi. Sen tavoitteena on tehdä julkisten varojen käytöstä ja yritysrakenteista helpommin tarkasteltavia ja ymmärrettäviä.",
+    "data_in_the_knowledge_graph": "2. Tietämysgraafin tiedot",
+    "legal_entities": "oikeushenkilöt",
+    "companies_public_authorities_and_organis": "(yritykset, julkiset viranomaiset ja organisaatiot) — ei luonnollisia henkilöitä. Kokoamme julkisesti saatavilla olevaa tietoa seuraavista lähteistä:",
+    "global_lei_foundation_company_registry": "— Global LEI Foundation -yritysrekisteritiedot",
+    "eu_public_procurement_notices": "— EU:n julkisten hankintojen ilmoitukset ja hankintasopimukset",
+    "eu_cohesion_policy_project_funding": "— EU:n koheesiopolitiikan hankerahoitus",
+    "lobbying_organisations_registered_with_eu": "— EU:hun rekisteröityneet edunvalvontaorganisaatiot",
+    "sanctioned_entities_only": "— vain pakotteiden kohteena olevat tahot",
+    "your_account_data": "3. Tilisi tiedot",
+    "email_address": "sähköpostiosoite",
+    "name": "nimi",
+    "and": ", ja",
+    "profile_picture": "profiilikuva",
+    "provided_by_google_oauth": "(Google OAuthin toimittama)",
+    "this_data_is_used_solely_for_authenticat": "Näitä tietoja käytetään yksinomaan todennukseen ja käyttökokemuksesi personointiin (esim. nimesi näyttämiseen käyttöliittymässä).",
+    "performance_of_a_contract": "sopimuksen täytäntöönpano (GDPR:n 6 artiklan 1 kohdan b alakohta) — tarvitsemme näitä tietoja tarjotaksemme sinulle tilin ja tilaamasi palvelut.",
+    "you_can_delete_your_account": "Voit poistaa tilisi ja kaikki siihen liittyvät tiedot milloin tahansa ottamalla yhteyttä alla olevaan osoitteeseen.",
+    "ai_assistant": "4. Tekoälyavustaja",
+    "when_you_use_the_ai_assistant": "Kun käytät tekoälyavustajaa, keskustelusi tallennetaan keskusteluhistorian tarjoamiseksi ja käyttömittareiden laskemiseksi.",
+    "you_can_delete_your_entire_conversation": "Voit poistaa koko keskusteluhistoriasi profiilivalikosta milloin tahansa.",
+    "your_rights": "5. Oikeutesi",
+    "the_personal_data_we_hold_about_you": "sinusta säilyttämämme henkilötiedot",
+    "inaccurate_data": "virheelliset tiedot",
+    "your_data_right_to_be_forgotten": "tietosi (\"oikeus tulla unohdetuksi\")",
+    "your_data_to_another_service": "tietosi toiseen palveluun",
+    "you_also_have_the_right_to_lodge": "Sinulla on myös oikeus tehdä valitus asuinmaasi valvontaviranomaiselle.",
+    "cookies": "6. Evästeet",
+    "we_only_use_strictly_necessary_cookies": "Käytämme vain ehdottoman välttämättömiä istuntoevästeitä todennukseen. Emme käytä seurantaevästeitä, mainosevästeitä emmekä kolmansien osapuolten analytiikkaevästeitä.",
+    "changes_to_this_policy": "7. Muutokset tähän käytäntöön",
+    "we_may_update_this_policy": "Saatamme päivittää tätä käytäntöä ajoittain. Kun teemme niin, päivitämme tämän sivun yläreunassa olevan \"viimeksi päivitetty\" -päivämäärän. Fontemin jatkuva käyttö muutosten jälkeen merkitsee päivitetyn käytännön hyväksymistä."
   },
   "profile": {
     "avg_net_margin": "Keskimääräinen nettomarginaali",
@@ -605,7 +766,18 @@
   },
   "public_spending": {
     "intro": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Tai selaa, mikä maassasi on suurta.",
-    "public_spending": "Julkiset menot"
+    "public_spending": "Julkiset menot",
+    "showing_top_in": "Näytetään kärki alueella",
+    "pick_a_country_to_see_top_companies": "Valitse maa nähdäksesi kärkiyritykset ja -viranomaiset:",
+    "pick_a_country": "— valitse maa —",
+    "top_companies_in": "Kärkiyritykset alueella",
+    "by_total_eu_procurement_contract_value_won": "Voitettujen EU:n hankintasopimusten kokonaisarvon mukaan.",
+    "contracts": "sopimusta",
+    "loading": "Ladataan…",
+    "no_companies_found_for": "Yrityksiä ei löytynyt haulle",
+    "top_authorities_in": "Kärkiviranomaiset alueella",
+    "by_total_contract_value_awarded": "Myönnettyjen sopimusten kokonaisarvon mukaan.",
+    "no_authorities_found_for": "Viranomaisia ei löytynyt haulle"
   },
   "recently_published_carousel": {
     "carousel_position": "Karusellin sijainti",
@@ -619,7 +791,12 @@
     "private_only_me": "Yksityinen — vain minä",
     "public_anyone": "Julkinen — kuka tahansa",
     "signed_in_users": "Kirjautuneet käyttäjät",
-    "story_title": "Tarinan otsikko"
+    "story_title": "Tarinan otsikko",
+    "saving": "Tallennetaan...",
+    "save": "Tallenna",
+    "insert_widget": "Lisää pienoisohjelma",
+    "your_pocket_is_empty": "Taskusi on tyhjä. Tallenna visualisointeja ensin Tasku-painikkeella.",
+    "close": "Sulje"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Pakotteiden alaiset entiteetit — henkilöt, organisaatiot, järjestelmän kattavuus ja yritysvastaavuudet",
@@ -652,7 +829,17 @@
     "run_shortcut": "⌘/Ctrl + Enter suorittaaksesi",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulosten kuori:",
     "sparql_endpoint": "SPARQL-päätepiste",
-    "try_a_query": "Kokeile kyselyä"
+    "try_a_query": "Kokeile kyselyä",
+    "no_rows": "Ei rivejä.",
+    "query_returned_no_projected_columns": "Kysely ei palauttanut projisoituja sarakkeita.",
+    "example_queries": "Esimerkkikyselyt",
+    "click": "Napsauta",
+    "use_this_query": "Käytä tätä kyselyä",
+    "drop_query_into_editor_hint": "pudottaaksesi sellaisen yllä olevaan editoriin. Sanasto sekoittaa",
+    "with_the_eu": "EU:n",
+    "eprocurement_ontology": "eProcurement-ontologian",
+    "where_schemaorg_has_gaps": "kanssa siellä, missä schema.orgissa on aukkoja.",
+    "row": "rivi"
   },
   "story_editor_toolbar": {
     "blockquote": "Lainaus",
@@ -708,7 +895,18 @@
   "ticker_financials": {
     "close_financials": "Sulje taloustiedot",
     "history": "Historia",
-    "taking_longer_than_expected": "Kestää odotettua kauemmin…"
+    "taking_longer_than_expected": "Kestää odotettua kauemmin…",
+    "data_as_of": "tiedot päivämäärältä",
+    "link_copied": "Linkki kopioitu",
+    "copy_link": "Kopioi linkki",
+    "copied": "Kopioitu!",
+    "copy_link_to_this_view": "Kopioi linkki tähän näkymään",
+    "could_not_load_data_for": "Tietoja ei voitu ladata kohteelle",
+    "this_entity": "tämä taho",
+    "annual_data": "Vuositiedot",
+    "metric": "Mittari",
+    "averages": "Keskiarvot",
+    "per_year": "Vuodessa"
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Hakukohteelle ei löytynyt tikkereitä &ldquo;",
@@ -718,7 +916,9 @@
   },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Sopimuksista materialisoidut viranomais-yritys-kauppasuhteet",
-    "trade_edges": "Kauppakaaret"
+    "trade_edges": "Kauppakaaret",
+    "counts_derive_live": "Lukumäärät johdetaan reaaliaikaisesti sopimuskohtaisesta",
+    "chain_no_materialised_cache": "ketjusta. Ei materialisoitua välimuistia; luvut heijastavat aina graafin nykytilaa."
   },
   "triples_d_q": {
     "chart_view": "Kaavionäkymä",
@@ -730,7 +930,12 @@
     "triple_store": "Triple store",
     "triples_per_named_graph": "Triplit nimettyä graafia kohti",
     "virtuoso_not_configured_in_this_environm": "Virtuosoa ei ole määritetty tässä ympäristössä",
-    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL"
+    "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
+    "rdf_inventory_in_the_virtuoso_store": "RDF-inventaario Virtuoso-varastossa — kokonaismäärät, nimettyjen graafien kohtaiset lukumäärät sekä kunkin graafin luokka-/predikaattirakenne. Lähteenä SPARQL kohteeseen",
+    "could_not_load_triple_store_stats": "Kolmikkovaraston tilastoja ei voitu ladata:",
+    "this_environment_has_no_rdf_store": "Tässä ympäristössä ei ole RDF-varastoa kytkettynä — pakotteiden, ilmoitusten ja muiden vaiheen 2 RDF-graafien osalta olemassa vain siellä, missä",
+    "is_set_on_the_gmr_api_deployment": "on asetettu gmr-api-käyttöönotossa. Tarkista live-luvut staging- tai prod-koontinäytöstä.",
+    "assertions_in_this_graph": "väitettä tässä graafissa."
   },
   "valuation": {
     "averages": "Keskiarvot"
@@ -838,5 +1043,257 @@
     "corrected_placeholder": "Korjattu € arvo",
     "action_correct": "Korjaa",
     "action_bogus": "Virheellinen"
+  },
+  "issue_create_modal": {
+    "eg_company": "esim. yritys",
+    "eg_gmr_id_or_ticker": "esim. gmr_id tai osaketunnus"
+  },
+  "multi_line_chart": {
+    "no_series_to_plot": "Ei piirrettäviä sarjoja."
+  },
+  "studio_share_modal": {
+    "share": "Jaa",
+    "investigation": "Tutkinta",
+    "shared_with": "Jaettu käyttäjän kanssa",
+    "an_investigation": "tutkinta",
+    "its_members_inherit_access_by_role": "— sen jäsenet perivät käyttöoikeuden roolin mukaan.",
+    "detach": "Irrota",
+    "add_to_an_investigation": "Lisää tutkintaan",
+    "add_to_an_investigation_2": "Lisää tutkintaan…",
+    "attach": "Liitä",
+    "you_need_a_contributor_seat_on_an_investigation": "Tarvitset vähintään avustajan paikan tutkinnassa liittääksesi projektin.",
+    "who_has_access": "Kenellä on käyttöoikeus",
+    "add_a_person": "Lisää henkilö",
+    "email_address": "Sähköpostiosoite",
+    "email_address_to_share_with": "Sähköpostiosoite, jonka kanssa jaetaan",
+    "access_level": "Käyttöoikeustaso",
+    "add": "Lisää",
+    "people_with_direct_access": "Henkilöt, joilla on suora käyttöoikeus",
+    "no_direct_shares_yet": "Ei suoria jakoja vielä.",
+    "remove": "Poista"
+  },
+  "verify_email": {
+    "confirming_your_email": "Vahvistetaan sähköpostiosoitettasi…",
+    "one_moment": "Hetki.",
+    "email_confirmed": "Sähköposti vahvistettu",
+    "your_account_is_verified": "Tilisi on vahvistettu. Voit nyt julkaista tarinoita, kommentoida ja seurata aiheita.",
+    "continue_to_fontem": "Jatka Fontemiin",
+    "the_link_may_have_expired": "Linkki on saattanut vanhentua tai se on jo käytetty. Kirjaudu sisään ja pyydä uusi vahvistussähköposti yläreunan palkista.",
+    "go_to_fontem": "Siirry Fontemiin",
+    "couldnt_confirm_your_email": "Sähköpostiosoitettasi ei voitu vahvistaa"
+  },
+  "studio_plot": {
+    "studio": "Studio",
+    "plot_name": "Kaavion nimi",
+    "saved": "Tallennettu ✓",
+    "save_plot": "Tallenna kaavio",
+    "pocketed": "Tallennettu taskuun ✓",
+    "pocket": "Tasku",
+    "step_1_sources": "1 · Lähteet",
+    "this_project_has_no_queries_yet": "Tässä projektissa ei ole vielä kyselyitä.",
+    "step_2_combine": "2 · Yhdistä",
+    "duckdb_sql_over": "— DuckDB SQL yli",
+    "your_sources": "lähteesi",
+    "runs_in_your_browser": "(suoritetaan selaimessasi)",
+    "combining": "Yhdistetään…",
+    "run_combine": "Suorita ja yhdistä",
+    "rows": "riviä",
+    "step_3_plot": "3 · Kaavio",
+    "chart": "Kaavio",
+    "nuts_column": "NUTS-sarake",
+    "value": "Arvo",
+    "bivariate": "Kaksimuuttujainen",
+    "off": "Pois",
+    "colour_opacity": "Väri + peittävyys",
+    "two_colour_matrix": "2-värinen matriisi",
+    "second_value": "2. arvo",
+    "level": "Taso",
+    "series": "Sarja",
+    "columns": "Sarakkeet",
+    "loading": "Ladataan…"
+  },
+  "procurement_theme": {
+    "public_procurement": "Julkiset hankinnat",
+    "where_eu_public_money_goes": "Minne EU:n julkiset varat menevät — hankintasopimukset, arvovirrat ja jokaisen otsikkoluvun taustalla oleva tietolaatu.",
+    "loading_procurement_data": "Ladataan hankintatietoja…",
+    "contracts": "Sopimukset",
+    "trusted_value": "Luotettu arvo",
+    "values_trusted": "Luotetut arvot",
+    "countries": "Maat",
+    "spend_by_country_confidence_gated": "Kulutus maittain (luottamustasoltaan rajattu)",
+    "low_confidence_values_excluded": "Matalan luottamustason arvot on jätetty pois — katso alla oleva tietolaatupaneeli.",
+    "data_quality_values_held_back": "Tietolaatu — kokonaissummista pidätetyt arvot",
+    "contracts_2": "sopimusta",
+    "are_flagged_and_excluded_from_figures": "on merkitty ja jätetty pois yllä olevista luvuista.",
+    "corporate_group_rollup": "Konsernitason yhteenveto",
+    "coming_soon": "tulossa pian",
+    "winners_rolled_up_to_parent": "Voittajat koottu perimmäiseen emoyhtiöönsä — jolloin \"Yritys X voitti 2 milj. €\" muuttuu muotoon \"Konserni Y voitti 400 milj. € 30 tytäryhtiön kesken\". Saapuu, kun omistusgraafin uudelleensyöttö valmistuu.",
+    "source_and_pipeline": "Lähde ja putki",
+    "ted_contracts_pipeline_health": "TED-sopimukset — putken kunto",
+    "open_operational_ted_dashboard": "Avaa operatiivinen TED-sopimusten koontinäyttö →"
+  },
+  "theme_scaffold": {
+    "unknown_theme": "Tuntematon teema",
+    "questions_this_answers": "Kysymykset, joihin tämä vastaa",
+    "sources_and_pipeline_health": "Lähteet ja putken kunto",
+    "open_the": "Avaa",
+    "dashboard_arrow": "koontinäyttö →",
+    "no_dedicated_dashboard_yet": "Ei omistettua koontinäyttöä vielä.",
+    "deeper_insights": "Syvemmät oivallukset",
+    "coming_soon": "tulossa pian",
+    "no_configuration_yet": "Tällä teemalla ei ole vielä määrityksiä."
+  },
+  "cohesion_grants_panel": {
+    "eu_cohesion_grants": "EU:n koheesioavustukset",
+    "grant": "avustus",
+    "attained": "saavutettu",
+    "eu_contribution": "EU:n rahoitusosuus",
+    "project": "Hanke",
+    "fund": "Rahasto",
+    "programme": "Ohjelma",
+    "eu_euro": "EU €",
+    "period": "Kausi"
+  },
+  "forgot_password": {
+    "reset_your_password": "Nollaa salasanasi",
+    "enter_your_email_send_link": "Anna sähköpostiosoitteesi, niin lähetämme sinulle linkin uuden salasanan asettamiseksi.",
+    "you_example_com": "sinä@esimerkki.com",
+    "sending": "Lähetetään…",
+    "send_reset_link": "Lähetä nollauslinkki",
+    "check_your_email": "Tarkista sähköpostisi",
+    "if_account_exists_sent_link": "Jos tälle osoitteelle on tili, olemme lähettäneet linkin salasanasi nollaamiseksi. Se vanhenee tunnin kuluttua."
+  },
+  "atlas_legend": {
+    "atlas_legend": "Atlas-selite",
+    "logarithmic_scale": "logaritminen asteikko",
+    "log": "log",
+    "no_data": "ei tietoja"
+  },
+  "studio_nav": {
+    "project_actions": "Projektin toiminnot",
+    "query_actions": "Kyselyn toiminnot",
+    "plot_actions": "Kaavion toiminnot",
+    "rename": "Nimeä uudelleen",
+    "delete": "Poista",
+    "confirm_delete": "Vahvista poisto",
+    "new_query": "Uusi kysely",
+    "duplicate": "Monista",
+    "queries": "Kyselyt",
+    "plots": "Kaaviot",
+    "new_plot": "Uusi kaavio",
+    "new_project": "Uusi projekti"
+  },
+  "studio_home": {
+    "data_studio": "Datastudio",
+    "pull_data_with_read_only_queries": "Nouda tietoja vain luku -kyselyillä, yhdistä ne selaimessasi ja piirrä kaavioita.",
+    "new_project": "Uusi projekti",
+    "loading_your_projects": "Ladataan projektejasi…",
+    "no_data_projects_yet": "Ei dataprojekteja vielä. Luo ensimmäinen aloittaaksesi.",
+    "query": "kysely",
+    "queries": "kyselyä",
+    "plot": "kaavio",
+    "plots": "kaaviota"
+  },
+  "profile_panel": {
+    "entities": "tahot",
+    "show_all": "Näytä kaikki",
+    "contracts": "sopimukset",
+    "former": "(entinen)"
+  },
+  "studio_project": {
+    "studio": "Studio",
+    "project_name": "Projektin nimi",
+    "share": "Jaa",
+    "view_only_access": "Sinulla on vain luku -oikeus tähän jaettuun projektiin.",
+    "queries": "Kyselyt",
+    "new_query": "+ Uusi kysely",
+    "no_queries_yet": "Ei kyselyitä vielä. Luo yksi aloittaaksesi tietojen noutamisen.",
+    "plots": "Kaaviot",
+    "new_plot": "+ Uusi kaavio",
+    "no_plots_yet": "Ei kaavioita vielä. Yhdistä kyselysi ja piirrä tulos kaaviona."
+  },
+  "schema_panel": {
+    "schema": "Skeema",
+    "loading_schema": "Ladataan skeemaa…",
+    "schema_unavailable": "Skeema ei ole saatavilla.",
+    "node_labels": "Solmujen nimikkeet",
+    "no_recorded_properties": "ei tallennettuja ominaisuuksia",
+    "relationships": "Suhteet",
+    "tables": "Taulut",
+    "classes": "Luokat",
+    "predicates": "Predikaatit"
+  },
+  "reset_password": {
+    "set_a_new_password": "Aseta uusi salasana",
+    "new_password": "Uusi salasana",
+    "confirm_new_password": "Vahvista uusi salasana",
+    "passwords_dont_match": "Salasanat eivät täsmää.",
+    "saving": "Tallennetaan…",
+    "set_new_password": "Aseta uusi salasana",
+    "password_updated": "Salasana päivitetty",
+    "password_changed_redirecting": "Salasanasi on vaihdettu ja kaikki istunnot kirjattu ulos. Ohjataan sinut kirjautumaan sisään…"
+  },
+  "investigation_detail": {
+    "untitled": "Nimetön",
+    "data_projects": "Dataprojektit",
+    "no_data_projects": "Tämän tutkinnan kanssa ei ole vielä jaettu dataprojekteja.",
+    "queries": "kyselyä",
+    "plots": "kaaviota",
+    "detach": "Irrota"
+  },
+  "tree_node": {
+    "untitled": "Nimetön",
+    "add_sub_article": "Lisää alaartikkeli",
+    "remove": "Poista"
+  },
+  "contract_detail": {
+    "public_spending": "Julkiset menot",
+    "loading": "Ladataan…",
+    "contract_not_found": "Sopimusta ei löytynyt.",
+    "couldnt_load_this_contract": "Tätä sopimusta ei voitu ladata.",
+    "untitled_contract": "(nimetön sopimus)",
+    "red_flag": "varoitusmerkki",
+    "bidder_s": "tarjoaja(t)",
+    "risk_indicators_note": "Riski-indikaattorit EC:n sisämarkkinatulostaulun / ECA:n CRI-menetelmän mukaisesti — merkki on kehotus tarkastella, ei todiste väärinkäytöksestä.",
+    "value": "Arvo",
+    "procedure": "Menettely",
+    "award_criteria": "Sopimuksen ratkaisuperusteet",
+    "eu_funded": "EU-rahoitteinen",
+    "yes": "Kyllä",
+    "buyer": "Ostaja",
+    "contractor": "Toimeksisaaja",
+    "award_date": "Ratkaisupäivä",
+    "view_original_notice_on_ted": "Näytä alkuperäinen ilmoitus TED:ssä"
+  },
+  "studio_query": {
+    "studio": "Studio",
+    "query_name": "Kyselyn nimi",
+    "duplicate": "Monista",
+    "confirm_delete": "Vahvista poisto",
+    "delete": "Poista",
+    "query_language": "Kyselykieli",
+    "hide_schema": "Piilota skeema",
+    "schema": "Skeema",
+    "write_your_query_shortcut": "Kirjoita kyselysi — Ctrl/Cmd+Enter suorittaa",
+    "running": "Suoritetaan…",
+    "run_query": "Suorita kysely",
+    "rows": "riviä",
+    "cols": "saraketta",
+    "query_ran_no_rows": "Kysely suoritettiin onnistuneesti — ei palautettuja rivejä.",
+    "showing_first_100_of": "Näytetään ensimmäiset 100 /",
+    "rows_2": "riviä.",
+    "loading": "Ladataan…"
+  },
+  "source_pipeline_panel": {
+    "pipeline_metrics_unavailable": "Putkimittarit eivät ole saatavilla.",
+    "no_events_recorded_in_the_window": "Aikaikkunassa ei ole tallennettuja tapahtumia."
+  },
+  "studio_map": {
+    "loading_boundaries": "Ladataan rajoja…",
+    "matched": "täsmätty",
+    "of": "/",
+    "regions": "aluetta",
+    "wrong_column_level": "— väärä sarake/taso?",
+    "opacity": "peittävyys"
   }
 }

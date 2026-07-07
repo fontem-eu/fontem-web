@@ -22,22 +22,22 @@ async function newProject() {
   <div class="home" data-testid="studio-home">
     <div class="home-head">
       <div>
-        <h1 class="home-title">Data Studio</h1>
-        <p class="home-sub">Pull data with read-only queries, combine it in your browser, and chart it.</p>
+        <h1 class="home-title">{{ $t('studio_home.data_studio') }}</h1>
+        <p class="home-sub">{{ $t('studio_home.pull_data_with_read_only_queries') }}</p>
       </div>
-      <button type="button" class="sbtn sbtn--primary" data-testid="studio-new-project" @click="newProject">+ New project</button>
+      <button type="button" class="sbtn sbtn--primary" data-testid="studio-new-project" @click="newProject">+ {{ $t('studio_home.new_project') }}</button>
     </div>
 
-    <p v-if="studio.loading.value && !studio.loaded.value" class="muted" data-testid="studio-loading">Loading your projects…</p>
+    <p v-if="studio.loading.value && !studio.loaded.value" class="muted" data-testid="studio-loading">{{ $t('studio_home.loading_your_projects') }}</p>
     <p v-else-if="studio.error.value" class="err">{{ studio.error.value }}</p>
     <p v-else-if="!studio.projects.value.length" class="empty" data-testid="studio-empty">
-      No data projects yet. Create your first one to get started.
+      {{ $t('studio_home.no_data_projects_yet') }}
     </p>
     <ul v-else class="plist">
       <li v-for="p in studio.projects.value" :key="p.id">
         <router-link :to="`/studio/p/${p.id}`" class="pcard" data-testid="studio-project-card">
           <span class="pcard-name">{{ p.name }}</span>
-          <span class="pcard-meta">{{ p.queries.length }} {{ p.queries.length === 1 ? 'query' : 'queries' }} · {{ p.plots.length }} {{ p.plots.length === 1 ? 'plot' : 'plots' }}</span>
+          <span class="pcard-meta">{{ p.queries.length }} {{ p.queries.length === 1 ? $t('studio_home.query') : $t('studio_home.queries') }} · {{ p.plots.length }} {{ p.plots.length === 1 ? $t('studio_home.plot') : $t('studio_home.plots') }}</span>
         </router-link>
       </li>
     </ul>

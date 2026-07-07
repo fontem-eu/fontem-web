@@ -211,7 +211,7 @@ async function deleteInv(content) {
         <p v-if="!stories.length" class="invd-empty">{{ $t('investigations.no_stories') }}</p>
         <ul v-else class="invd-stories">
           <li v-for="s in stories" :key="s.id" class="invd-story" :data-testid="'inv-story-' + s.id">
-            <router-link :to="`/stories/${s.id}`" class="invd-story-link">{{ s.title || 'Untitled' }}</router-link>
+            <router-link :to="`/stories/${s.id}`" class="invd-story-link">{{ s.title || $t('investigation_detail.untitled') }}</router-link>
             <button
               v-if="canWrite"
               class="invd-remove"
@@ -228,20 +228,20 @@ async function deleteInv(content) {
         <ul v-else class="invd-stories">
           <li v-for="v in viz" :key="v.id" class="invd-story" :data-testid="'inv-viz-' + v.id">
             <span class="invd-viz-type">{{ (v.widget_type || '').replace(/_/g, ' ') }}</span>
-            <span class="invd-story-link">{{ v.name || 'Untitled' }}</span>
+            <span class="invd-story-link">{{ v.name || $t('investigation_detail.untitled') }}</span>
           </li>
         </ul>
       </section>
 
       <section class="invd-section" data-testid="investigation-data-projects">
-        <h2>Data projects</h2>
-        <p v-if="!dataProjects.length" class="invd-empty">No data projects shared with this investigation yet.</p>
+        <h2>{{ $t('investigation_detail.data_projects') }}</h2>
+        <p v-if="!dataProjects.length" class="invd-empty">{{ $t('investigation_detail.no_data_projects') }}</p>
         <div v-else class="invd-dps">
           <div v-for="p in dataProjects" :key="p.id" class="invd-dp" :data-testid="'inv-dp-' + p.id">
             <div class="invd-dp-head">
               <router-link :to="`/studio/p/${p.id}`" class="invd-dp-link" :data-testid="'inv-dp-open-' + p.id">{{ p.name }}</router-link>
-              <span class="invd-dp-meta">{{ (p.queries || []).length }} queries · {{ (p.plots || []).length }} plots</span>
-              <button v-if="canWrite" type="button" class="invd-dp-detach" :data-testid="'inv-dp-detach-' + p.id" @click="detachDataProject(p.id)">Detach</button>
+              <span class="invd-dp-meta">{{ (p.queries || []).length }} {{ $t('investigation_detail.queries') }} · {{ (p.plots || []).length }} {{ $t('investigation_detail.plots') }}</span>
+              <button v-if="canWrite" type="button" class="invd-dp-detach" :data-testid="'inv-dp-detach-' + p.id" @click="detachDataProject(p.id)">{{ $t('investigation_detail.detach') }}</button>
             </div>
             <div v-if="(p.plots || []).length" class="invd-dp-plots">
               <figure v-for="pl in p.plots" :key="pl.id" class="invd-dp-plot" :data-testid="'inv-dp-plot-' + pl.id">

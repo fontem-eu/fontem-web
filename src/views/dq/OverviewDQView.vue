@@ -81,7 +81,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
       <!-- Cross-source overlap -->
       <section v-if="overlap" class="dq-section">
         <h2>{{ $t('overview_d_q.cross_source_overlap') }}</h2>
-        <p class="dq-hint">How many entities appear in multiple data sources — a measure of graph connectivity.</p>
+        <p class="dq-hint">{{ $t('overview_d_q.how_many_entities_appear_in_multiple_data_sources') }}</p>
         <div class="dq-stats">
           <PocketableChart chart-key="overview_overlap_contracts_cohesion" chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_cohesion), label: 'Contracts + Cohesion' }" name="Contracts + Cohesion" />
           <PocketableChart chart-key="overview_overlap_contracts_lobby" chart="stat" :chart-props="{ value: fmt(overlap.contracts_and_lobby), label: 'Contracts + Lobby' }" name="Contracts + Lobby" />
@@ -106,7 +106,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
       <section v-if="countryCodes" class="dq-section">
         <h2>{{ $t('overview_d_q.country_code_consistency') }}</h2>
         <div v-if="countryCodes.alpha2_count > 0" class="dq-warn">
-          {{ fmt(countryCodes.alpha2_count) }} companies still use alpha-2 country codes instead of ISO 3166-1 alpha-2/alpha-3.
+          {{ fmt(countryCodes.alpha2_count) }} {{ $t('overview_d_q.companies_still_use_alpha_2_country_codes') }}
         </div>
         <div class="dq-stats">
           <PocketableChart chart-key="overview_alpha2_count" chart="stat" :chart-props="{ value: fmt(countryCodes.alpha2_count), label: 'Alpha-2 Codes' }" name="Alpha-2 Codes" />
@@ -126,11 +126,11 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
 
       <!-- Field completeness -->
       <section v-if="completeness" class="dq-section">
-        <h2>Field Completeness</h2>
-        <p class="dq-hint">Coverage percentage per field. Green = >90%, yellow = 50-90%, red = &lt;50%.</p>
+        <h2>{{ $t('overview_d_q.field_completeness') }}</h2>
+        <p class="dq-hint">{{ $t('overview_d_q.coverage_percentage_per_field') }}</p>
 
         <div class="completeness-group">
-          <h3>Sanctions ({{ fmt(completeness.sanctions?.total) }} entities)</h3>
+          <h3>{{ $t('overview_d_q.sanctions') }} ({{ fmt(completeness.sanctions?.total) }} {{ $t('overview_d_q.entities') }})</h3>
           <div class="completeness-bars">
             <div v-for="bar in sanctionBars" :key="bar.label" class="completeness-row">
               <span class="completeness-label">{{ bar.label }}</span>
@@ -143,7 +143,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
         </div>
 
         <div class="completeness-group">
-          <h3>Cohesion Projects ({{ fmt(completeness.cohesion?.total) }} projects)</h3>
+          <h3>{{ $t('overview_d_q.cohesion_projects') }} ({{ fmt(completeness.cohesion?.total) }} {{ $t('overview_d_q.projects') }})</h3>
           <div class="completeness-bars">
             <div v-for="bar in cohesionBars" :key="bar.label" class="completeness-row">
               <span class="completeness-label">{{ bar.label }}</span>
@@ -156,7 +156,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
         </div>
 
         <div class="completeness-group">
-          <h3>Companies ({{ fmt(completeness.companies?.total) }} companies)</h3>
+          <h3>{{ $t('overview_d_q.companies') }} ({{ fmt(completeness.companies?.total) }} {{ $t('overview_d_q.companies_2') }})</h3>
           <div class="completeness-bars">
             <div v-for="bar in companyBars" :key="bar.label" class="completeness-row">
               <span class="completeness-label">{{ bar.label }}</span>

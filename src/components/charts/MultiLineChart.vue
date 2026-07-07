@@ -136,7 +136,7 @@ const tooltipLeftPct = computed(() => (hover.value ? (hover.value.px / W) * 100 
         <i class="mlc-dot" :style="{ background: s.color }" /> {{ s.name }}
       </span>
     </div>
-    <div v-if="!clean.length" class="mlc-empty">No series to plot.</div>
+    <div v-if="!clean.length" class="mlc-empty">{{ $t('multi_line_chart.no_series_to_plot') }}</div>
     <div v-else class="mlc-wrap">
       <svg
 ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMidYMid meet"

@@ -148,9 +148,9 @@ function formatEur(n) {
          change, no preference stored. -->
     <div class="country-bar" data-testid="ps-country-bar">
       <span class="country-bar-label">
-        <template v-if="country && detectedSource === 'geoip'">Showing top in</template>
-        <template v-else-if="country">Showing top in</template>
-        <template v-else>Pick a country to see top companies and authorities:</template>
+        <template v-if="country && detectedSource === 'geoip'">{{ $t('public_spending.showing_top_in') }}</template>
+        <template v-else-if="country">{{ $t('public_spending.showing_top_in') }}</template>
+        <template v-else>{{ $t('public_spending.pick_a_country_to_see_top_companies') }}</template>
       </span>
       <select
         :value="country || ''"
@@ -158,7 +158,7 @@ function formatEur(n) {
         data-testid="ps-country-select"
         @change="onCountryChange"
       >
-        <option v-if="!country" value="">— pick a country —</option>
+        <option v-if="!country" value="">{{ $t('public_spending.pick_a_country') }}</option>
         <option v-for="c in COUNTRIES" :key="c.a3" :value="c.a3">
           {{ c.name }}
         </option>
@@ -171,8 +171,8 @@ function formatEur(n) {
       <div v-if="error" class="error-bar" data-testid="ps-error">{{ error }}</div>
 
       <div class="panel" data-testid="ps-companies">
-        <h2 class="panel-title">Top companies in {{ countryLabel }}</h2>
-        <p class="panel-sub">By total EU procurement contract value won.</p>
+        <h2 class="panel-title">{{ $t('public_spending.top_companies_in') }} {{ countryLabel }}</h2>
+        <p class="panel-sub">{{ $t('public_spending.by_total_eu_procurement_contract_value_won') }}</p>
         <ol v-if="!loading && companies.length" class="entity-list">
           <li
             v-for="c in companies"
@@ -185,17 +185,17 @@ function formatEur(n) {
           >
             <span class="entity-name">{{ c.name }}</span>
             <span class="entity-stats">
-              {{ formatEur(c.total_value_eur) }} · {{ c.contract_count }} contracts
+              {{ formatEur(c.total_value_eur) }} · {{ c.contract_count }} {{ $t('public_spending.contracts') }}
             </span>
           </li>
         </ol>
-        <p v-else-if="loading" class="muted">Loading…</p>
-        <p v-else class="muted">No companies found for {{ countryLabel }}.</p>
+        <p v-else-if="loading" class="muted">{{ $t('public_spending.loading') }}</p>
+        <p v-else class="muted">{{ $t('public_spending.no_companies_found_for') }} {{ countryLabel }}.</p>
       </div>
 
       <div class="panel" data-testid="ps-authorities">
-        <h2 class="panel-title">Top authorities in {{ countryLabel }}</h2>
-        <p class="panel-sub">By total contract value awarded.</p>
+        <h2 class="panel-title">{{ $t('public_spending.top_authorities_in') }} {{ countryLabel }}</h2>
+        <p class="panel-sub">{{ $t('public_spending.by_total_contract_value_awarded') }}</p>
         <ol v-if="!loading && authorities.length" class="entity-list">
           <li
             v-for="a in authorities"
@@ -208,12 +208,12 @@ function formatEur(n) {
           >
             <span class="entity-name">{{ a.name }}</span>
             <span class="entity-stats">
-              {{ formatEur(a.total_value_eur) }} · {{ a.contract_count }} contracts
+              {{ formatEur(a.total_value_eur) }} · {{ a.contract_count }} {{ $t('public_spending.contracts') }}
             </span>
           </li>
         </ol>
-        <p v-else-if="loading" class="muted">Loading…</p>
-        <p v-else class="muted">No authorities found for {{ countryLabel }}.</p>
+        <p v-else-if="loading" class="muted">{{ $t('public_spending.loading') }}</p>
+        <p v-else class="muted">{{ $t('public_spending.no_authorities_found_for') }} {{ countryLabel }}.</p>
       </div>
     </section>
   </div>

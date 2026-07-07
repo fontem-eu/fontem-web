@@ -17,7 +17,7 @@ onMounted(async () => {
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
     <template v-else-if="data">
       <div class="dq-stats"><PocketableChart chart-key="trade_pairs" chart="stat" :chart-props="{ value: (data.trade_pairs || 0).toLocaleString(), label: 'Trade Pairs' }" name="Trade Pairs" /><PocketableChart chart-key="trade_total_eur" chart="stat" :chart-props="{ value: fmtEur(data.total_eur), label: 'Total EUR Value' }" name="Total EUR Value" /><PocketableChart chart-key="trade_total_contracts" chart="stat" :chart-props="{ value: (data.total_contracts || 0).toLocaleString(), label: 'Total Contracts' }" name="Total Contracts" /></div>
-      <p class="dq-note">Counts derive live from the per-contract <code>(:Authority)-[:AWARDED]-&gt;(:Contract)-[:AWARDED_TO]-&gt;(:Company)</code> chain. No materialised cache; numbers always reflect the current graph.</p>
+      <p class="dq-note">{{ $t('trade_edges_d_q.counts_derive_live') }} <code>(:Authority)-[:AWARDED]-&gt;(:Contract)-[:AWARDED_TO]-&gt;(:Company)</code> {{ $t('trade_edges_d_q.chain_no_materialised_cache') }}</p>
     </template>
   </div>
 </template>

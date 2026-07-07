@@ -28,12 +28,12 @@ const localName = (uri) => (uri || '').split(/[#/]/).findLast(Boolean) || uri
 
 <template>
   <aside class="schema" data-testid="schema-panel">
-    <div class="schema-head">Schema <span class="muted">· {{ lang }}</span></div>
-    <p v-if="loading && !schema" class="muted small">Loading schema…</p>
-    <p v-else-if="!schema" class="muted small">Schema unavailable.</p>
+    <div class="schema-head">{{ $t('schema_panel.schema') }} <span class="muted">· {{ lang }}</span></div>
+    <p v-if="loading && !schema" class="muted small">{{ $t('schema_panel.loading_schema') }}</p>
+    <p v-else-if="!schema" class="muted small">{{ $t('schema_panel.schema_unavailable') }}</p>
 
     <template v-else-if="lang === 'cypher'">
-      <div class="grp">Node labels</div>
+      <div class="grp">{{ $t('schema_panel.node_labels') }}</div>
       <ul class="list">
         <li v-for="l in schema.labels" :key="l" data-testid="schema-label">
           <button type="button" class="term" @click="toggle('l:' + l)">
@@ -41,16 +41,16 @@ const localName = (uri) => (uri || '').split(/[#/]/).findLast(Boolean) || uri
           </button>
           <ul v-if="open['l:' + l]" class="props">
             <li v-for="p in (schema.labelProperties[l] || [])" :key="p" class="tprop">{{ p }}</li>
-            <li v-if="!(schema.labelProperties[l] || []).length" class="muted small">no recorded properties</li>
+            <li v-if="!(schema.labelProperties[l] || []).length" class="muted small">{{ $t('schema_panel.no_recorded_properties') }}</li>
           </ul>
         </li>
       </ul>
-      <div class="grp">Relationships</div>
+      <div class="grp">{{ $t('schema_panel.relationships') }}</div>
       <ul class="list flat"><li v-for="r in schema.relationshipTypes" :key="r" class="trel" data-testid="schema-rel">{{ r }}</li></ul>
     </template>
 
     <template v-else-if="lang === 'sql'">
-      <div class="grp">Tables</div>
+      <div class="grp">{{ $t('schema_panel.tables') }}</div>
       <ul class="list">
         <li v-for="tb in schema.tables" :key="tb.name" data-testid="schema-table">
           <button type="button" class="term" @click="toggle('t:' + tb.name)">
@@ -64,9 +64,9 @@ const localName = (uri) => (uri || '').split(/[#/]/).findLast(Boolean) || uri
     </template>
 
     <template v-else-if="lang === 'sparql'">
-      <div class="grp">Classes</div>
+      <div class="grp">{{ $t('schema_panel.classes') }}</div>
       <ul class="list flat"><li v-for="c in schema.classes" :key="c" class="tclass" :title="c" data-testid="schema-class">{{ localName(c) }}</li></ul>
-      <div class="grp">Predicates</div>
+      <div class="grp">{{ $t('schema_panel.predicates') }}</div>
       <ul class="list flat"><li v-for="p in schema.predicates" :key="p" class="tprop" :title="p" data-testid="schema-pred">{{ localName(p) }}</li></ul>
     </template>
   </aside>
