@@ -38,7 +38,7 @@ const PERIODS = [
   { key: '3y',  label: '3Y'  },
   { key: '5y',  label: '5Y'  },
   { key: '10y', label: '10Y' },
-  { key: 'all', label: 'All' },
+  { key: 'all', label: 'summary_panel.all' },
 ]
 
 // ── Snapshot stats (from fundamentals) ──────────────────────────
@@ -63,12 +63,12 @@ const statsBar = computed(() => {
   const s = snapStats.value
   if (!s) return []
   return [
-    { label: 'Mkt Cap',  value: fmtMoney(s.marketCap) },
-    { label: 'Avg P/E',  value: s.pe       == null ? '—' : Number(s.pe).toFixed(1) },
-    { label: 'Beta',     value: s.beta     == null ? '—' : Number(s.beta).toFixed(2) },
-    { label: 'Div Yld',  value: s.divYield == null ? '—' : `${Number(s.divYield).toFixed(1)}%` },
-    { label: '52w High', value: fmtPrice(s.high52) },
-    { label: '52w Low',  value: fmtPrice(s.low52) },
+    { label: 'summary_panel.mkt_cap',  value: fmtMoney(s.marketCap) },
+    { label: 'summary_panel.avg_pe',  value: s.pe       == null ? '—' : Number(s.pe).toFixed(1) },
+    { label: 'summary_panel.beta',     value: s.beta     == null ? '—' : Number(s.beta).toFixed(2) },
+    { label: 'summary_panel.div_yld',  value: s.divYield == null ? '—' : `${Number(s.divYield).toFixed(1)}%` },
+    { label: 'summary_panel.week_52_high', value: fmtPrice(s.high52) },
+    { label: 'summary_panel.week_52_low',  value: fmtPrice(s.low52) },
   ]
 })
 
@@ -426,14 +426,14 @@ function fmtDate(s) {
         :data-testid="`period-${p.key}`"
         @click="period = p.key"
       >
-        {{ p.label }}
+        {{ $t(p.label) }}
       </button>
     </div>
 
     <!-- ── Key stats bar ─────────────────────────────────────── -->
     <div v-if="statsBar.length" class="summary-stats" data-testid="summary-stats">
       <div v-for="item in statsBar" :key="item.label" class="summary-stat">
-        <span class="summary-stat__label">{{ item.label }}</span>
+        <span class="summary-stat__label">{{ $t(item.label) }}</span>
         <span class="summary-stat__value">{{ item.value }}</span>
       </div>
     </div>

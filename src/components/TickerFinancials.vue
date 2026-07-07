@@ -49,7 +49,7 @@ const YEAR_OPTIONS = [
   { value: 5,        label: '5Y',  testid: '5'   },
   { value: 7,        label: '7Y',  testid: '7'   },
   { value: 10,       label: '10Y', testid: '10'  },
-  { value: Infinity, label: 'All', testid: 'all' },
+  { value: Infinity, label: 'ticker_financials.all', testid: 'all' },
 ]
 
 let _loadId = 0
@@ -271,14 +271,14 @@ const gmrSnapshot = computed(() => {
       ).toFixed(2)
     : '—'
   return [
-    { label: 'Price', value: fmtPrice(s.price), testid: 'snap-price' },
-    { label: 'Avg Volume', value: fmtNum(s.avg_volume), testid: 'snap-volume' },
-    { label: 'Total Debt', value: fmtMoney(s.total_debt), testid: 'snap-debt' },
-    { label: 'Equity', value: fmtMoney(s.equity), testid: 'snap-equity' },
-    { label: 'Shares', value: fmtNum(s.shares), testid: 'snap-shares' },
-    { label: 'Quick Ratio', value: qr, testid: 'snap-qr' },
+    { label: 'ticker_financials.price', value: fmtPrice(s.price), testid: 'snap-price' },
+    { label: 'ticker_financials.avg_volume', value: fmtNum(s.avg_volume), testid: 'snap-volume' },
+    { label: 'ticker_financials.total_debt', value: fmtMoney(s.total_debt), testid: 'snap-debt' },
+    { label: 'ticker_financials.equity', value: fmtMoney(s.equity), testid: 'snap-equity' },
+    { label: 'ticker_financials.shares', value: fmtNum(s.shares), testid: 'snap-shares' },
+    { label: 'ticker_financials.quick_ratio', value: qr, testid: 'snap-qr' },
     {
-      label: 'Last Dividend',
+      label: 'ticker_financials.last_dividend',
       value:
         s.last_dividend_amount != null && s.last_dividend_amount > 0
           ? `${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
@@ -303,14 +303,14 @@ const gmrAnnualMap = computed(() => {
 })
 
 const gmrAnnualRows = [
-  { key: 'avg_price', label: 'Avg Price', fmt: fmtPrice },
-  { key: 'revenue', label: 'Revenue', fmt: fmtMoney },
-  { key: 'earnings', label: 'Net Income', fmt: fmtMoney },
-  { key: 'cfo', label: 'Cash from Ops', fmt: fmtMoney },
-  { key: 'delta_ppe', label: 'CapEx (net)', fmt: fmtMoney },
-  { key: 'total_assets', label: 'Total Assets', fmt: fmtMoney },
-  { key: 'liabilities', label: 'Liabilities', fmt: fmtMoney },
-  { key: 'equity', label: 'Equity', fmt: fmtMoney },
+  { key: 'avg_price', label: 'ticker_financials.avg_price', fmt: fmtPrice },
+  { key: 'revenue', label: 'ticker_financials.revenue', fmt: fmtMoney },
+  { key: 'earnings', label: 'ticker_financials.net_income', fmt: fmtMoney },
+  { key: 'cfo', label: 'ticker_financials.cash_from_ops', fmt: fmtMoney },
+  { key: 'delta_ppe', label: 'ticker_financials.capex_net', fmt: fmtMoney },
+  { key: 'total_assets', label: 'ticker_financials.total_assets', fmt: fmtMoney },
+  { key: 'liabilities', label: 'ticker_financials.liabilities', fmt: fmtMoney },
+  { key: 'equity', label: 'ticker_financials.equity', fmt: fmtMoney },
 ]
 
 function gmrCellValue(year, row) {
@@ -327,21 +327,21 @@ const fundMktSnapshot = computed(() => {
   const s = data.value?.market_snapshot
   if (!s) return []
   return [
-    { label: 'Price', value: fmtPrice(s.current_price), testid: 'fund-snap-price' },
-    { label: 'Market Cap', value: fmtMoney(s.market_cap), testid: 'fund-snap-mcap' },
-    { label: 'Shares Out.', value: fmtNum(s.shares_outstanding), testid: 'fund-snap-shares' },
-    { label: 'Avg Volume', value: fmtNum(s.avg_volume), testid: 'fund-snap-vol' },
+    { label: 'ticker_financials.price', value: fmtPrice(s.current_price), testid: 'fund-snap-price' },
+    { label: 'ticker_financials.market_cap', value: fmtMoney(s.market_cap), testid: 'fund-snap-mcap' },
+    { label: 'ticker_financials.shares_out', value: fmtNum(s.shares_outstanding), testid: 'fund-snap-shares' },
+    { label: 'ticker_financials.avg_volume', value: fmtNum(s.avg_volume), testid: 'fund-snap-vol' },
     {
-      label: 'Last Dividend',
+      label: 'ticker_financials.last_dividend',
       value:
         s.last_dividend_amount != null && s.last_dividend_amount > 0
           ? `${s.last_dividend_amount} (${s.last_dividend_date || 'N/A'})`
           : '—',
       testid: 'fund-snap-div',
     },
-    { label: 'Beta', value: fmtRatio(s.beta), testid: 'fund-snap-beta' },
-    { label: '52w High', value: fmtPrice(s.week_52_high), testid: 'fund-snap-52h' },
-    { label: '52w Low', value: fmtPrice(s.week_52_low), testid: 'fund-snap-52l' },
+    { label: 'ticker_financials.beta', value: fmtRatio(s.beta), testid: 'fund-snap-beta' },
+    { label: 'ticker_financials.52w_high', value: fmtPrice(s.week_52_high), testid: 'fund-snap-52h' },
+    { label: 'ticker_financials.52w_low', value: fmtPrice(s.week_52_low), testid: 'fund-snap-52l' },
   ]
 })
 
@@ -349,14 +349,14 @@ const fundRatios = computed(() => {
   const r = data.value?.ratios_summary
   if (!r) return []
   return [
-    { label: 'Avg P/E',             value: fmtRatio(r.avg_pe, 1) },
-    { label: 'Avg P/B',             value: fmtRatio(r.avg_pb) },
-    { label: 'Avg ROE',             value: fmtPct(r.avg_roe) },
-    { label: 'Avg Net Margin',      value: fmtPct(r.avg_npm) },
-    { label: 'Avg Revenue Growth',  value: fmtPct(r.avg_revenue_growth) },
-    { label: 'Avg Earnings Growth', value: fmtPct(r.avg_earnings_growth) },
-    { label: 'Avg FCF Yield',       value: fmtPct(r.avg_fcf_yield) },
-    { label: 'Avg Div. Yield',      value: fmtPct(r.avg_dividend_yield) },
+    { label: 'ticker_financials.avg_pe',             value: fmtRatio(r.avg_pe, 1) },
+    { label: 'ticker_financials.avg_pb',             value: fmtRatio(r.avg_pb) },
+    { label: 'ticker_financials.avg_roe',             value: fmtPct(r.avg_roe) },
+    { label: 'ticker_financials.avg_net_margin',      value: fmtPct(r.avg_npm) },
+    { label: 'ticker_financials.avg_revenue_growth',  value: fmtPct(r.avg_revenue_growth) },
+    { label: 'ticker_financials.avg_earnings_growth', value: fmtPct(r.avg_earnings_growth) },
+    { label: 'ticker_financials.avg_fcf_yield',       value: fmtPct(r.avg_fcf_yield) },
+    { label: 'ticker_financials.avg_div_yield',      value: fmtPct(r.avg_dividend_yield) },
   ]
 })
 
@@ -375,16 +375,16 @@ const fundMap = computed(() => {
 })
 
 const fundRows = [
-  { key: 'avg_price',    label: 'Avg Price',    fmt: fmtPrice },
-  { key: 'revenue',      label: 'Revenue',       fmt: fmtMoney },
-  { key: 'net_income',   label: 'Net Income',    fmt: fmtMoney },
+  { key: 'avg_price',    label: 'ticker_financials.avg_price',    fmt: fmtPrice },
+  { key: 'revenue',      label: 'ticker_financials.revenue',       fmt: fmtMoney },
+  { key: 'net_income',   label: 'ticker_financials.net_income',    fmt: fmtMoney },
   { key: 'eps',          label: 'EPS',           fmt: (n) => (n == null ? '—' : `$${Number(n).toFixed(2)}`) },
-  { key: 'free_cashflow',label: 'Free Cashflow', fmt: fmtMoney },
-  { key: 'total_assets', label: 'Total Assets',  fmt: fmtMoney },
-  { key: 'equity',       label: 'Equity',        fmt: fmtMoney },
+  { key: 'free_cashflow',label: 'ticker_financials.free_cashflow', fmt: fmtMoney },
+  { key: 'total_assets', label: 'ticker_financials.total_assets',  fmt: fmtMoney },
+  { key: 'equity',       label: 'ticker_financials.equity',        fmt: fmtMoney },
   { key: 'pe',           label: 'P/E',           fmt: (n) => fmtRatio(n, 1) },
   { key: 'roe',          label: 'ROE',           fmt: fmtPct },
-  { key: 'npm',          label: 'Net Margin',    fmt: fmtPct },
+  { key: 'npm',          label: 'ticker_financials.net_margin',    fmt: fmtPct },
 ]
 
 function fundCellValue(year, row) {
@@ -489,7 +489,7 @@ function isFundNegative(year, key) {
         :class="{ active: displayYears === opt.value }"
         :data-testid="`year-btn-${opt.testid}`"
         @click="displayYears = opt.value"
-      >{{ opt.label }}</button>
+      >{{ $t(opt.label) }}</button>
     </div>
 
     <!-- ── Skeleton loader ─────────────────────────────── -->
@@ -552,7 +552,7 @@ function isFundNegative(year, key) {
           class="gmr-snap__cell"
           :data-testid="item.testid"
         >
-          <div class="gmr-snap__label">{{ item.label }}</div>
+          <div class="gmr-snap__label">{{ $t(item.label) }}</div>
           <div class="gmr-snap__value">{{ item.value }}</div>
         </div>
       </div>
@@ -569,7 +569,7 @@ function isFundNegative(year, key) {
           </thead>
           <tbody>
             <tr v-for="row in gmrAnnualRows" :key="row.key">
-              <td>{{ row.label }}</td>
+              <td>{{ $t(row.label) }}</td>
               <td
                 v-for="year in gmrAnnualYears"
                 :key="year"
@@ -654,7 +654,7 @@ function isFundNegative(year, key) {
           class="gmr-snap__cell"
           :data-testid="item.testid"
         >
-          <div class="gmr-snap__label">{{ item.label }}</div>
+          <div class="gmr-snap__label">{{ $t(item.label) }}</div>
           <div class="gmr-snap__value">{{ item.value }}</div>
         </div>
       </div>
@@ -663,7 +663,7 @@ function isFundNegative(year, key) {
 
       <div class="gmr-snap gmr-snap--wide" data-testid="fund-ratios">
         <div v-for="item in fundRatios" :key="item.label" class="gmr-snap__cell">
-          <div class="gmr-snap__label">{{ item.label }}</div>
+          <div class="gmr-snap__label">{{ $t(item.label) }}</div>
           <div class="gmr-snap__value">{{ item.value }}</div>
         </div>
       </div>
@@ -680,7 +680,7 @@ function isFundNegative(year, key) {
           </thead>
           <tbody>
             <tr v-for="row in fundRows" :key="row.key">
-              <td>{{ row.label }}</td>
+              <td>{{ $t(row.label) }}</td>
               <td
                 v-for="year in fundYears"
                 :key="year"

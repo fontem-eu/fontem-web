@@ -10,6 +10,7 @@
  */
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -52,6 +53,7 @@ import TagEditor from '../components/TagEditor.vue'
 import TranslationControls from '../components/TranslationControls.vue'
 
 const route = useRoute()
+const { t } = useI18n()
 const reportId = route.params.id
 
 // ── Add to dossier ──────────────────────────────────────────
@@ -246,7 +248,7 @@ function createEditor(content = '') {
   return new Editor({
     extensions: [
       StarterKit,
-      Placeholder.configure({ placeholder: 'Start writing your analysis...' }),
+      Placeholder.configure({ placeholder: t('report_editor.start_writing') }),
       Image.configure({ inline: false, allowBase64: false }),
       Link.configure({
         // Explicit protocol allow-list. Tiptap's defaults filter out

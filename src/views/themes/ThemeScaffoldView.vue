@@ -8,18 +8,20 @@
  * remain the operational/health layer this links down into.
  */
 import { computed, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import { THEMES, SCAFFOLD } from './themeConfig.js'
 
+const { t } = useI18n()
 const route = useRoute()
 const themeId = computed(() => route.params.themeId)
 const meta = computed(() => THEMES.find(t => t.id === themeId.value) || null)
 const cfg = computed(() => SCAFFOLD[themeId.value] || null)
 
 function setTitle() {
-  document.title = meta.value ? `${meta.value.title} — Fontem` : 'Theme — Fontem'
+  document.title = meta.value ? `${t(meta.value.title)} — Fontem` : 'Theme — Fontem'
 }
 onMounted(setTitle)
 watch(themeId, setTitle)
@@ -30,9 +32,9 @@ watch(themeId, setTitle)
     <header class="theme-hdr">
       <div>
         <router-link to="/data-quality" class="theme-back">{{ $t('nav.back_data_quality') }}</router-link>
-        <h1 v-if="meta">{{ meta.icon }} {{ meta.title }}</h1>
+        <h1 v-if="meta">{{ meta.icon }} {{ $t(meta.title) }}</h1>
         <h1 v-else>{{ $t('theme_scaffold.unknown_theme') }}</h1>
-        <p v-if="meta" class="theme-sub">{{ meta.blurb }}</p>
+        <p v-if="meta" class="theme-sub">{{ $t(meta.blurb) }}</p>
       </div>
       <ThemeToggle />
     </header>
@@ -41,16 +43,16 @@ watch(themeId, setTitle)
       <section v-if="cfg.questions?.length" class="theme-section">
         <h2>{{ $t('theme_scaffold.questions_this_answers') }}</h2>
         <ul class="theme-q">
-          <li v-for="(q, i) in cfg.questions" :key="i">{{ q }}</li>
+          <li v-for="(q, i) in cfg.questions" :key="i">{{ $t(q) }}</li>
         </ul>
       </section>
 
       <section class="theme-section">
         <h2>{{ $t('theme_scaffold.sources_and_pipeline_health') }}</h2>
         <div v-for="src in cfg.sources" :key="src.id" class="theme-src">
-          <SourcePipelinePanel :source-id="src.id" :title="src.label" />
+          <SourcePipelinePanel :source-id="src.id" :title="$t(src.label)" />
           <router-link v-if="src.route" :to="src.route" class="theme-drill">
-            {{ $t('theme_scaffold.open_the') }} {{ src.label }} {{ $t('theme_scaffold.dashboard_arrow') }}
+            {{ $t('theme_scaffold.open_the') }} {{ $t(src.label) }} {{ $t('theme_scaffold.dashboard_arrow') }}
           </router-link>
           <p v-else class="theme-hint">{{ $t('theme_scaffold.no_dedicated_dashboard_yet') }}</p>
         </div>
@@ -58,7 +60,7 @@ watch(themeId, setTitle)
 
       <section v-if="cfg.soon" class="theme-section theme-soon">
         <h2>{{ $t('theme_scaffold.deeper_insights') }} <span class="theme-badge">{{ $t('theme_scaffold.coming_soon') }}</span></h2>
-        <p class="theme-hint">{{ cfg.soon }}</p>
+        <p class="theme-hint">{{ $t(cfg.soon) }}</p>
       </section>
     </template>
     <p v-else class="theme-hint">{{ $t('theme_scaffold.no_configuration_yet') }}</p>

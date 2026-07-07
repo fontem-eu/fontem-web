@@ -11,24 +11,24 @@ const stats = ref(null)
 const error = ref(null)
 
 const pipelines = [
-  { id: 'overview', title: 'Data Quality Overview', desc: 'Cross-source overlap, country code consistency, and field completeness across all data sources.', icon: '📊', featured: true, theme: 'analytical'  },
-  { id: 'connectedness', title: 'Graph Connectedness', desc: 'Degree distribution per entity type — how many nodes are stranded vs well-integrated. Reveals where entity resolution still has work to do.', icon: '🔗', theme: 'analytical'  },
-  { id: 'triples', title: 'Triple Store', desc: 'RDF inventory in Virtuoso — total triples, per-named-graph counts, and class/predicate breakdowns. Shows what is actually in the SPARQL store.', icon: '🧬', theme: 'analytical'  },
-  { id: 'contracts', title: 'TED Contracts', desc: 'EU public procurement awards — daily volume, country coverage, field completeness, match quality.', icon: '📄', theme: 'procurement'  },
-  { id: 'gleif', title: 'GLEIF Companies', desc: 'Global LEI entity data — active/inactive, country distribution, parent-child relationships.', icon: '🏢', theme: 'corporate'  },
-  { id: 'edgar', title: 'US EDGAR', desc: 'SEC financial statements — filing coverage by year, XBRL field completeness, sparse companies.', icon: '📊', theme: 'corporate'  },
-  { id: 'esef', title: 'EU ESEF', desc: 'European XBRL financials — filings by country and year, field coverage, LEI resolution.', icon: '📈', theme: 'corporate'  },
-  { id: 'lobbying', title: 'EU Lobbying', desc: 'Transparency Register — registrations over time, cost distribution, EP passes, company matching.', icon: '🏛', theme: 'influence'  },
-  { id: 'trade-edges', title: 'Trade Edges', desc: 'Materialized authority↔company relationships — pair counts, value aggregation.', icon: '🔗', theme: 'analytical'  },
-  { id: 'dedup', title: 'Deduplication', desc: 'SAME_AS queue — pending review, auto-merged, resolution rate.', icon: '🔍', theme: 'analytical'  },
-  { id: 'sanctions', title: 'Sanctions', desc: 'Sanctioned entities — persons vs organisations, regime coverage, company matching.', icon: '🚫', theme: 'influence'  },
-  { id: 'firds', title: 'FIRDS Instruments', desc: 'ESMA reference data — ISIN/ticker coverage, instrument types, trading venues.', icon: '📋', theme: 'securities'  },
-  { id: 'openfigi', title: 'OpenFIGI & Funds', desc: 'Listings enrichment — security types, companies vs investment funds, unit listings.', icon: '🏦', theme: 'securities'  },
-  { id: 'prices', title: 'Stock Prices', desc: 'EOD price layer — index freshness, graph-universe coverage, fetch backlog.', icon: '📈', theme: 'securities'  },
-  { id: 'cdp', title: 'CDP Climate', desc: 'CDP climate disclosure — score distribution, reporting year coverage.', icon: '🌍', theme: 'climate'  },
-  { id: 'nuts', title: 'NUTS Regions', desc: 'Eurostat NUTS classification — geographic coverage of companies and authorities.', icon: '🗺', theme: 'geography'  },
-  { id: 'eu-knowledge-graph', title: 'EU Knowledge Graph', desc: 'EU Cohesion Policy projects — funding distribution, beneficiary links, NUTS coverage.', icon: '🇪🇺', theme: 'influence'  },
-  { id: 'etl-runs', title: 'ETL Runs', desc: 'Recent CronJob invocations — success / failure / crashed pods. Replaces the legacy Uptime-Kuma pings; one row per loader run via events.etl_run.', icon: '⏱', theme: 'analytical'  },
+  { id: 'overview', title: 'data_quality_hub.data_quality_overview', desc: 'data_quality_hub.overview_desc', icon: '📊', featured: true, theme: 'analytical'  },
+  { id: 'connectedness', title: 'data_quality_hub.graph_connectedness', desc: 'data_quality_hub.connectedness_desc', icon: '🔗', theme: 'analytical'  },
+  { id: 'triples', title: 'data_quality_hub.triple_store', desc: 'data_quality_hub.triples_desc', icon: '🧬', theme: 'analytical'  },
+  { id: 'contracts', title: 'data_quality_hub.ted_contracts', desc: 'data_quality_hub.contracts_desc', icon: '📄', theme: 'procurement'  },
+  { id: 'gleif', title: 'data_quality_hub.gleif_companies', desc: 'data_quality_hub.gleif_desc', icon: '🏢', theme: 'corporate'  },
+  { id: 'edgar', title: 'data_quality_hub.us_edgar', desc: 'data_quality_hub.edgar_desc', icon: '📊', theme: 'corporate'  },
+  { id: 'esef', title: 'data_quality_hub.eu_esef', desc: 'data_quality_hub.esef_desc', icon: '📈', theme: 'corporate'  },
+  { id: 'lobbying', title: 'data_quality_hub.eu_lobbying', desc: 'data_quality_hub.lobbying_desc', icon: '🏛', theme: 'influence'  },
+  { id: 'trade-edges', title: 'data_quality_hub.trade_edges', desc: 'data_quality_hub.trade_edges_desc', icon: '🔗', theme: 'analytical'  },
+  { id: 'dedup', title: 'data_quality_hub.deduplication', desc: 'data_quality_hub.dedup_desc', icon: '🔍', theme: 'analytical'  },
+  { id: 'sanctions', title: 'data_quality_hub.sanctions', desc: 'data_quality_hub.sanctions_desc', icon: '🚫', theme: 'influence'  },
+  { id: 'firds', title: 'data_quality_hub.firds_instruments', desc: 'data_quality_hub.firds_desc', icon: '📋', theme: 'securities'  },
+  { id: 'openfigi', title: 'data_quality_hub.openfigi_and_funds', desc: 'data_quality_hub.openfigi_desc', icon: '🏦', theme: 'securities'  },
+  { id: 'prices', title: 'data_quality_hub.stock_prices', desc: 'data_quality_hub.prices_desc', icon: '📈', theme: 'securities'  },
+  { id: 'cdp', title: 'data_quality_hub.cdp_climate', desc: 'data_quality_hub.cdp_desc', icon: '🌍', theme: 'climate'  },
+  { id: 'nuts', title: 'data_quality_hub.nuts_regions', desc: 'data_quality_hub.nuts_desc', icon: '🗺', theme: 'geography'  },
+  { id: 'eu-knowledge-graph', title: 'data_quality_hub.eu_knowledge_graph', desc: 'data_quality_hub.eu_kg_desc', icon: '🇪🇺', theme: 'influence'  },
+  { id: 'etl-runs', title: 'data_quality_hub.etl_runs', desc: 'data_quality_hub.etl_runs_desc', icon: '⏱', theme: 'analytical'  },
 ]
 
 const themes = THEMES
@@ -88,10 +88,13 @@ const healthByRoute = computed(() => {
 function tileHealth(id) { return healthByRoute.value[`/data-quality/${id}`] || null }
 
 const THEME_LABEL = {
-  procurement: 'Public Procurement', corporate: 'Corporate & Financials',
-  securities: 'Securities & Instruments', influence: 'Influence & Accountability',
-  geography: 'Geography', climate: 'Climate',
-  analytical: 'Cross-source & Analytical',
+  procurement: 'data_quality_hub.theme_procurement',
+  corporate: 'data_quality_hub.theme_corporate',
+  securities: 'data_quality_hub.theme_securities',
+  influence: 'data_quality_hub.theme_influence',
+  geography: 'data_quality_hub.theme_geography',
+  climate: 'data_quality_hub.theme_climate',
+  analytical: 'data_quality_hub.theme_analytical',
 }
 const THEME_ORDER = ['procurement', 'corporate', 'securities', 'influence',
                      'geography', 'climate', 'analytical']
@@ -164,9 +167,9 @@ function pipelineStat(id) {
           >
             <div class="dqh-card-header">
               <span class="dqh-card-icon">{{ t.icon }}</span>
-              <h3>{{ t.title }}</h3>
+              <h3>{{ $t(t.title) }}</h3>
             </div>
-            <p>{{ t.blurb }}</p>
+            <p>{{ $t(t.blurb) }}</p>
           </router-link>
         </div>
       </section>
@@ -179,7 +182,7 @@ function pipelineStat(id) {
         class="dqh-theme"
         :data-testid="`dqh-theme-${group.theme}`"
       >
-        <h2 class="dqh-theme-title">{{ group.label }}</h2>
+        <h2 class="dqh-theme-title">{{ $t(group.label) }}</h2>
         <div class="dqh-grid">
           <router-link
             v-for="p in group.tiles"
@@ -190,10 +193,10 @@ function pipelineStat(id) {
           >
             <div class="dqh-card-header">
               <span class="dqh-card-icon">{{ p.icon }}</span>
-              <h3>{{ p.title }}</h3>
+              <h3>{{ $t(p.title) }}</h3>
               <span v-if="pipelineStat(p.id)" class="dqh-card-badge">{{ pipelineStat(p.id) }}</span>
             </div>
-            <p>{{ p.desc }}</p>
+            <p>{{ $t(p.desc) }}</p>
             <SourceHealthBadge :health="tileHealth(p.id)" />
           </router-link>
         </div>

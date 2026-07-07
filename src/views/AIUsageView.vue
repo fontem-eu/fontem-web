@@ -2,6 +2,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { getAssistUsage, getAssistUsageHistory } from '../api/community.js'
 import PocketableChart from '../components/charts/PocketableChart.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const INPUT_COLOR = '#3b82f6'  // blue-500
 const OUTPUT_COLOR = '#f59e0b' // amber-500
@@ -17,12 +20,12 @@ const series = computed(() => {
   if (!history.value || !history.value.points || history.value.points.length === 0) return []
   return [
     {
-      name: 'Input tokens',
+      name: t('a_i_usage.input_tokens'),
       color: INPUT_COLOR,
       data: history.value.points.map((p) => ({ date: p.date, value: p.tokens_in })),
     },
     {
-      name: 'Output tokens',
+      name: t('a_i_usage.output_tokens'),
       color: OUTPUT_COLOR,
       data: history.value.points.map((p) => ({ date: p.date, value: p.tokens_out })),
     },

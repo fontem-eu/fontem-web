@@ -18,21 +18,21 @@ const avgItems = computed(() => {
   const r = props.data?.ratios_summary
   if (!r) return []
   return [
-    { label: 'Avg FCF Yield',  value: fmtPct(r.avg_fcf_yield) },
-    { label: 'Avg Div. Yield', value: fmtPct(r.avg_dividend_yield) },
-    { label: 'Avg Op. Margin', value: fmtPct(r.avg_operating_margin) },
+    { label: 'cashflow_panel.avg_fcf_yield',  value: fmtPct(r.avg_fcf_yield) },
+    { label: 'cashflow_panel.avg_div_yield', value: fmtPct(r.avg_dividend_yield) },
+    { label: 'cashflow_panel.avg_op_margin', value: fmtPct(r.avg_operating_margin) },
   ]
 })
 
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
-  { key: 'operating_cashflow', label: 'Op. Cashflow',  fmt: fmtMoney },
-  { key: 'capex',              label: 'CapEx',          fmt: fmtMoney },
-  { key: 'free_cashflow',      label: 'Free Cashflow',  fmt: fmtMoney },
-  { key: 'fcf_per_share',      label: 'FCF/Share',      fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
-  { key: 'dividend_per_share', label: 'Div./Share',     fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
-  { key: 'fcf_yield',          label: 'FCF Yield',      fmt: fmtPct },
-  { key: 'dividend_yield',     label: 'Div. Yield',     fmt: fmtPct },
+  { key: 'operating_cashflow', label: 'cashflow_panel.op_cashflow',  fmt: fmtMoney },
+  { key: 'capex',              label: 'cashflow_panel.capex',          fmt: fmtMoney },
+  { key: 'free_cashflow',      label: 'cashflow_panel.free_cashflow',  fmt: fmtMoney },
+  { key: 'fcf_per_share',      label: 'cashflow_panel.fcf_per_share',      fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'dividend_per_share', label: 'cashflow_panel.div_per_share',     fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
+  { key: 'fcf_yield',          label: 'cashflow_panel.fcf_yield',      fmt: fmtPct },
+  { key: 'dividend_yield',     label: 'cashflow_panel.div_yield',     fmt: fmtPct },
 ]
 
 const sortedYears = computed(() => {
@@ -219,7 +219,7 @@ onBeforeUnmount(() => {
     <!-- Averages -->
     <div class="gmr-snap gmr-snap--wide" data-testid="cashflow-averages">
       <div v-for="item in avgItems" :key="item.label" class="gmr-snap__cell">
-        <div class="gmr-snap__label">{{ item.label }}</div>
+        <div class="gmr-snap__label">{{ $t(item.label) }}</div>
         <div class="gmr-snap__value">{{ item.value }}</div>
       </div>
     </div>
@@ -240,7 +240,7 @@ onBeforeUnmount(() => {
         </thead>
         <tbody>
           <tr v-for="row in tableRows" :key="row.key">
-            <td>{{ row.label }}</td>
+            <td>{{ $t(row.label) }}</td>
             <td
               v-for="year in sortedYears"
               :key="year"

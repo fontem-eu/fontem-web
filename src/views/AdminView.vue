@@ -5,12 +5,12 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 onMounted(() => { document.title = 'Admin — Fontem' })
 
 const tools = [
-  { path: '/data-quality', title: 'Data Quality', desc: 'Per-pipeline dashboards: contracts, GLEIF, EDGAR, ESEF, lobbying, directors. Zoomable charts, gap detection.' },
-  { path: '/admin/entity-resolution', title: 'Entity Resolution', desc: 'Review and merge duplicate company nodes (git-merge-style UI).' },
-  { path: '/admin/moderation', title: 'Moderation', desc: 'Review flagged content, resolve disputes, and view the moderation action log.' },
-  { path: 'http://docs.void42.internal/shelves/architecture', title: 'Architecture', desc: 'System diagrams: infrastructure, data model, APIs, ETL, identity resolution.', external: true },
-  { path: 'http://docs.void42.internal/books/testing', title: 'Testing', desc: 'E2E coverage matrix and production smoke test plan.', external: true },
-  { path: 'http://docs.void42.internal/books/developer-guide', title: 'Developer Guide', desc: 'Service directory, repositories, and quick commands.', external: true },
+  { path: '/data-quality', title: 'admin.data_quality', desc: 'admin.per_pipeline_dashboards_contracts_gleif_edgar_esef_lobbying' },
+  { path: '/admin/entity-resolution', title: 'admin.entity_resolution', desc: 'admin.review_and_merge_duplicate_company_nodes' },
+  { path: '/admin/moderation', title: 'admin.moderation', desc: 'admin.review_flagged_content_resolve_disputes_view_log' },
+  { path: 'http://docs.void42.internal/shelves/architecture', title: 'admin.architecture', desc: 'admin.system_diagrams_infrastructure_data_model_apis_etl', external: true },
+  { path: 'http://docs.void42.internal/books/testing', title: 'admin.testing', desc: 'admin.e2e_coverage_matrix_and_production_smoke_test', external: true },
+  { path: 'http://docs.void42.internal/books/developer-guide', title: 'admin.developer_guide', desc: 'admin.service_directory_repositories_and_quick_commands', external: true },
 ]
 </script>
 
@@ -27,12 +27,12 @@ const tools = [
     <div class="adm-grid">
       <template v-for="t in tools" :key="t.path">
         <a v-if="t.external" :href="t.path" class="adm-card">
-          <h2>{{ t.title }}</h2>
-          <p>{{ t.desc }}</p>
+          <h2>{{ $t(t.title) }}</h2>
+          <p>{{ $t(t.desc) }}</p>
         </a>
         <router-link v-else :to="t.path" class="adm-card">
-          <h2>{{ t.title }}</h2>
-          <p>{{ t.desc }}</p>
+          <h2>{{ $t(t.title) }}</h2>
+          <p>{{ $t(t.desc) }}</p>
         </router-link>
       </template>
     </div>

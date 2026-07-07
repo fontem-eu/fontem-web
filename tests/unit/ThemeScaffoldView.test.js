@@ -9,6 +9,10 @@ vi.mock('vue-router', () => ({ useRoute: () => ({ params: { themeId: 'corporate'
 
 import ThemeScaffoldView from '../../src/views/themes/ThemeScaffoldView.vue'
 import { SCAFFOLD } from '../../src/views/themes/themeConfig.js'
+import en from '../../src/locales/en.json'
+
+// themeConfig now stores i18n keys; resolve them to the English display text
+const resolve = (k) => k.split('.').reduce((o, p) => (o == null ? o : o[p]), en)
 
 const stubs = {
   ThemeToggle: true,
@@ -21,7 +25,7 @@ describe('ThemeScaffoldView', () => {
     const w = mount(ThemeScaffoldView, { global: { stubs } })
     expect(w.text()).toContain('Corporate Ownership')
     // every configured question shows
-    for (const q of SCAFFOLD.corporate.questions) expect(w.text()).toContain(q)
+    for (const q of SCAFFOLD.corporate.questions) expect(w.text()).toContain(resolve(q))
     // one pipeline panel per configured source
     expect(w.findAll('.panel').length).toBe(SCAFFOLD.corporate.sources.length)
     expect(w.find('.panel').text()).toBe('gleif')

@@ -13,9 +13,9 @@ const activeTab = ref('all')
 const showCreate = ref(false)
 
 const tabs = [
-  { key: 'all', label: 'All' },
-  { key: 'open', label: 'Open' },
-  { key: 'resolved', label: 'Resolved' },
+  { key: 'all', label: 'issues.all' },
+  { key: 'open', label: 'issues.open' },
+  { key: 'resolved', label: 'issues.resolved' },
 ]
 
 const filteredIssues = computed(() => {
@@ -81,7 +81,7 @@ function formatDate(dateStr) {
         :data-testid="'issues-tab-' + tab.key"
         @click="activeTab = tab.key"
       >
-        {{ tab.label }}
+        {{ $t(tab.label) }}
       </button>
     </nav>
 

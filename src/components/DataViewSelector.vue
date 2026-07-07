@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: { type: String, required: true },
@@ -8,6 +9,8 @@ const props = defineProps({
 })
 
 defineEmits(['update:modelValue'])
+
+const { t } = useI18n()
 
 
 // Find which group the current view belongs to
@@ -37,7 +40,7 @@ const allViews = computed(() => {
 const mobileOpen = ref(false)
 const currentLabel = computed(() => {
   const v = allViews.value.find((v) => v.key === props.modelValue)
-  return v ? `${v.groupLabel} › ${v.label}` : props.modelValue
+  return v ? `${t(v.groupLabel)} › ${t(v.label)}` : props.modelValue
 })
 </script>
 
@@ -62,7 +65,7 @@ const currentLabel = computed(() => {
           :title="g.disabled && g.disabledReason ? g.disabledReason : undefined"
           @click="g.disabled ? null : $emit('update:modelValue', g.views[0].key)"
         >
-          {{ g.label }}
+          {{ $t(g.label) }}
         </button>
       </div>
       <!-- Sub-view row -->
@@ -77,7 +80,7 @@ const currentLabel = computed(() => {
           :aria-current="modelValue === v.key ? 'page' : undefined"
           @click="$emit('update:modelValue', v.key)"
         >
-          {{ v.label }}
+          {{ $t(v.label) }}
           <span
             v-if="v.key === 'gmr-long'"
             class="dvs-info"
@@ -105,7 +108,7 @@ const currentLabel = computed(() => {
           <div
             class="dvs-dropdown-group"
             :class="{ 'dvs-dropdown-group--disabled': g.disabled }"
-          >{{ g.label }}{{ g.disabled ? ' (no data)' : '' }}</div>
+          >{{ $t(g.label) }}{{ g.disabled ? ' (no data)' : '' }}</div>
           <button
             v-for="v in g.views"
             :key="v.key"
@@ -120,7 +123,7 @@ const currentLabel = computed(() => {
             :aria-disabled="g.disabled || undefined"
             @click="g.disabled ? null : ($emit('update:modelValue', v.key), mobileOpen = false)"
           >
-            {{ v.label }}
+            {{ $t(v.label) }}
           </button>
         </template>
       </div>

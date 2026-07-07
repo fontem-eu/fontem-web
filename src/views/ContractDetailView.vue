@@ -27,14 +27,14 @@ const integrity = computed(() => contract.value?.integrity || {})
 const flags = computed(() => {
   const i = integrity.value
   return [
-    { key: 'is_single_bidder', label: 'Single bidder', on: i.is_single_bidder,
-      hint: 'Only one tender received — the EC Single Market Scoreboard headline risk.' },
-    { key: 'is_non_open', label: 'Non-open procedure', on: i.is_non_open,
-      hint: 'Awarded without a fully open competition.' },
-    { key: 'is_no_call', label: 'No call for bids', on: i.is_no_call,
-      hint: 'Direct-ish award with no public call.' },
-    { key: 'is_price_only', label: 'Lowest-price only', on: i.is_price_only,
-      hint: 'No quality criteria — price was the sole award criterion.' },
+    { key: 'is_single_bidder', label: 'contract_detail.single_bidder', on: i.is_single_bidder,
+      hint: 'contract_detail.single_bidder_hint' },
+    { key: 'is_non_open', label: 'contract_detail.non_open_procedure', on: i.is_non_open,
+      hint: 'contract_detail.non_open_hint' },
+    { key: 'is_no_call', label: 'contract_detail.no_call_for_bids', on: i.is_no_call,
+      hint: 'contract_detail.no_call_hint' },
+    { key: 'is_price_only', label: 'contract_detail.lowest_price_only', on: i.is_price_only,
+      hint: 'contract_detail.price_only_hint' },
   ].filter((f) => f.on !== undefined && f.on !== null)
 })
 const redFlagCount = computed(() => integrity.value.integrity_red_flags ?? 0)
@@ -67,8 +67,8 @@ class="cd-flagcount" :class="{ alert: redFlagCount > 0 }"
         <ul class="cd-flags">
           <li
 v-for="f in flags" :key="f.key" :class="{ on: f.on }"
-              :data-testid="`flag-${f.key}`" :title="f.hint">
-            <span class="dot" :class="{ on: f.on }"></span>{{ f.label }}
+              :data-testid="`flag-${f.key}`" :title="$t(f.hint)">
+            <span class="dot" :class="{ on: f.on }"></span>{{ $t(f.label) }}
           </li>
           <li
 v-if="integrity.tenders_received != null"

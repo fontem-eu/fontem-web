@@ -20,7 +20,7 @@ import { detectNuts } from '../composables/nutsDetect.js'
 import QueryEditor from '../components/QueryEditor.vue'
 import { usePocket } from '../composables/usePocket.js'
 
-const CHARTS = [{ key: 'bar_h', label: 'Bar' }, { key: 'line', label: 'Line' }, { key: 'corr_matrix', label: 'Correlation' }, { key: 'stat', label: 'Stat' }, { key: 'atlas_map', label: 'Map' }]
+const CHARTS = [{ key: 'bar_h', label: 'studio_plot.bar' }, { key: 'line', label: 'studio_plot.line' }, { key: 'corr_matrix', label: 'studio_plot.correlation' }, { key: 'stat', label: 'studio_plot.stat' }, { key: 'atlas_map', label: 'studio_plot.map' }]
 const route = useRoute()
 const router = useRouter()
 const studio = useStudio()
@@ -291,7 +291,7 @@ function pocket() {
     <section v-if="combine.result" class="grp" data-testid="studio-plot">
       <h2 class="grp-title">{{ $t('studio_plot.step_3_plot') }}</h2>
       <div class="pcontrols">
-        <label>{{ $t('studio_plot.chart') }} <select v-model="plot.chart" data-testid="plot-chart"><option v-for="c in CHARTS" :key="c.key" :value="c.key">{{ c.label }}</option></select></label>
+        <label>{{ $t('studio_plot.chart') }} <select v-model="plot.chart" data-testid="plot-chart"><option v-for="c in CHARTS" :key="c.key" :value="c.key">{{ $t(c.label) }}</option></select></label>
         <template v-if="plot.chart === 'atlas_map'">
           <label>{{ $t('studio_plot.nuts_column') }} <select v-model="plot.x" data-testid="plot-geo"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>
           <label>{{ $t('studio_plot.value') }} <select v-model="plot.y" data-testid="plot-value"><option v-for="c in combine.result.columns" :key="c" :value="c">{{ c }}</option></select></label>

@@ -29,23 +29,23 @@ const { track } = useAnalytics()
 // a dropdown, (c) we don't want the picker to surface every ISO
 // country — the recommendations only know about EU procurement.
 const COUNTRIES = [
-  { a3: 'AUT', name: 'Austria' },        { a3: 'BEL', name: 'Belgium' },
-  { a3: 'BGR', name: 'Bulgaria' },       { a3: 'HRV', name: 'Croatia' },
-  { a3: 'CYP', name: 'Cyprus' },         { a3: 'CZE', name: 'Czechia' },
-  { a3: 'DNK', name: 'Denmark' },        { a3: 'EST', name: 'Estonia' },
-  { a3: 'FIN', name: 'Finland' },        { a3: 'FRA', name: 'France' },
-  { a3: 'DEU', name: 'Germany' },        { a3: 'GRC', name: 'Greece' },
-  { a3: 'HUN', name: 'Hungary' },        { a3: 'IRL', name: 'Ireland' },
-  { a3: 'ITA', name: 'Italy' },          { a3: 'LVA', name: 'Latvia' },
-  { a3: 'LTU', name: 'Lithuania' },      { a3: 'LUX', name: 'Luxembourg' },
-  { a3: 'MLT', name: 'Malta' },          { a3: 'NLD', name: 'Netherlands' },
-  { a3: 'POL', name: 'Poland' },         { a3: 'PRT', name: 'Portugal' },
-  { a3: 'ROU', name: 'Romania' },        { a3: 'SVK', name: 'Slovakia' },
-  { a3: 'SVN', name: 'Slovenia' },       { a3: 'ESP', name: 'Spain' },
-  { a3: 'SWE', name: 'Sweden' },
+  { a3: 'AUT', name: 'public_spending.austria' },        { a3: 'BEL', name: 'public_spending.belgium' },
+  { a3: 'BGR', name: 'public_spending.bulgaria' },       { a3: 'HRV', name: 'public_spending.croatia' },
+  { a3: 'CYP', name: 'public_spending.cyprus' },         { a3: 'CZE', name: 'public_spending.czechia' },
+  { a3: 'DNK', name: 'public_spending.denmark' },        { a3: 'EST', name: 'public_spending.estonia' },
+  { a3: 'FIN', name: 'public_spending.finland' },        { a3: 'FRA', name: 'public_spending.france' },
+  { a3: 'DEU', name: 'public_spending.germany' },        { a3: 'GRC', name: 'public_spending.greece' },
+  { a3: 'HUN', name: 'public_spending.hungary' },        { a3: 'IRL', name: 'public_spending.ireland' },
+  { a3: 'ITA', name: 'public_spending.italy' },          { a3: 'LVA', name: 'public_spending.latvia' },
+  { a3: 'LTU', name: 'public_spending.lithuania' },      { a3: 'LUX', name: 'public_spending.luxembourg' },
+  { a3: 'MLT', name: 'public_spending.malta' },          { a3: 'NLD', name: 'public_spending.netherlands' },
+  { a3: 'POL', name: 'public_spending.poland' },         { a3: 'PRT', name: 'public_spending.portugal' },
+  { a3: 'ROU', name: 'public_spending.romania' },        { a3: 'SVK', name: 'public_spending.slovakia' },
+  { a3: 'SVN', name: 'public_spending.slovenia' },       { a3: 'ESP', name: 'public_spending.spain' },
+  { a3: 'SWE', name: 'public_spending.sweden' },
   // Non-EU, but included in TED and worth surfacing.
-  { a3: 'NOR', name: 'Norway' },         { a3: 'CHE', name: 'Switzerland' },
-  { a3: 'GBR', name: 'United Kingdom' },
+  { a3: 'NOR', name: 'public_spending.norway' },         { a3: 'CHE', name: 'public_spending.switzerland' },
+  { a3: 'GBR', name: 'public_spending.united_kingdom' },
 ]
 
 const country = ref(null)
@@ -160,7 +160,7 @@ function formatEur(n) {
       >
         <option v-if="!country" value="">{{ $t('public_spending.pick_a_country') }}</option>
         <option v-for="c in COUNTRIES" :key="c.a3" :value="c.a3">
-          {{ c.name }}
+          {{ $t(c.name) }}
         </option>
       </select>
     </div>
@@ -171,7 +171,7 @@ function formatEur(n) {
       <div v-if="error" class="error-bar" data-testid="ps-error">{{ error }}</div>
 
       <div class="panel" data-testid="ps-companies">
-        <h2 class="panel-title">{{ $t('public_spending.top_companies_in') }} {{ countryLabel }}</h2>
+        <h2 class="panel-title">{{ $t('public_spending.top_companies_in') }} {{ $t(countryLabel) }}</h2>
         <p class="panel-sub">{{ $t('public_spending.by_total_eu_procurement_contract_value_won') }}</p>
         <ol v-if="!loading && companies.length" class="entity-list">
           <li
@@ -190,11 +190,11 @@ function formatEur(n) {
           </li>
         </ol>
         <p v-else-if="loading" class="muted">{{ $t('public_spending.loading') }}</p>
-        <p v-else class="muted">{{ $t('public_spending.no_companies_found_for') }} {{ countryLabel }}.</p>
+        <p v-else class="muted">{{ $t('public_spending.no_companies_found_for') }} {{ $t(countryLabel) }}.</p>
       </div>
 
       <div class="panel" data-testid="ps-authorities">
-        <h2 class="panel-title">{{ $t('public_spending.top_authorities_in') }} {{ countryLabel }}</h2>
+        <h2 class="panel-title">{{ $t('public_spending.top_authorities_in') }} {{ $t(countryLabel) }}</h2>
         <p class="panel-sub">{{ $t('public_spending.by_total_contract_value_awarded') }}</p>
         <ol v-if="!loading && authorities.length" class="entity-list">
           <li
@@ -213,7 +213,7 @@ function formatEur(n) {
           </li>
         </ol>
         <p v-else-if="loading" class="muted">{{ $t('public_spending.loading') }}</p>
-        <p v-else class="muted">{{ $t('public_spending.no_authorities_found_for') }} {{ countryLabel }}.</p>
+        <p v-else class="muted">{{ $t('public_spending.no_authorities_found_for') }} {{ $t(countryLabel) }}.</p>
       </div>
     </section>
   </div>
