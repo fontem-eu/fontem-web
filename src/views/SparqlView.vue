@@ -176,7 +176,7 @@ function cellIsIri(row, varName) {
           @click="clearEditor"
         >{{ $t('app.clear') }}</button>
         <span v-if="elapsedMs != null && !running" class="sparql-elapsed" data-testid="sparql-elapsed">
-          {{ resultRows.length }} row{{ resultRows.length === 1 ? '' : 's' }} in {{ elapsedMs }} ms
+          {{ resultRows.length }} {{ $t('sparql.row') }}{{ resultRows.length === 1 ? '' : 's' }} in {{ elapsedMs }} ms
         </span>
       </div>
 
@@ -210,7 +210,7 @@ function cellIsIri(row, varName) {
               </td>
             </tr>
             <tr v-if="!resultRows.length">
-              <td :colspan="headVars.length" class="sparql-empty">No rows.</td>
+              <td :colspan="headVars.length" class="sparql-empty">{{ $t('sparql.no_rows') }}</td>
             </tr>
           </tbody>
         </table>
@@ -220,19 +220,19 @@ function cellIsIri(row, varName) {
         v-else-if="results"
         class="sparql-results-empty"
         data-testid="sparql-results-empty"
-      >Query returned no projected columns.</div>
+      >{{ $t('sparql.query_returned_no_projected_columns') }}</div>
     </section>
 
     <!-- ── Example queries — clicking any of them loads the
          query into the editor so the user can edit + run. -->
-    <section class="sparql-examples" aria-label="Example queries">
-      <h2>Example queries</h2>
+    <section class="sparql-examples" :aria-label="$t('sparql.example_queries')">
+      <h2>{{ $t('sparql.example_queries') }}</h2>
       <p class="sparql-hint">
-        Click <em>Use this query</em> to drop one into the editor above.
-        The vocabulary mixes <a href="https://schema.org/">schema.org</a>
-        with the EU
-        <a href="https://data.europa.eu/snb/procurement/">eProcurement ontology</a>
-        where schema.org has gaps.
+        {{ $t('sparql.click') }} <em>{{ $t('sparql.use_this_query') }}</em> {{ $t('sparql.drop_query_into_editor_hint') }}
+        <a href="https://schema.org/">schema.org</a>
+        {{ $t('sparql.with_the_eu') }}
+        <a href="https://data.europa.eu/snb/procurement/">{{ $t('sparql.eprocurement_ontology') }}</a>
+        {{ $t('sparql.where_schemaorg_has_gaps') }}
       </p>
       <article
         v-for="(ex, i) in EXAMPLES"
@@ -246,7 +246,7 @@ function cellIsIri(row, varName) {
             class="sparql-example-load"
             :data-testid="`sparql-example-load-${i}`"
             @click="loadExample(ex)"
-          >Use this query →</button>
+          >{{ $t('sparql.use_this_query') }} →</button>
         </div>
         <p v-if="ex.description" class="sparql-example-desc">{{ ex.description }}</p>
         <pre><code>{{ ex.query }}</code></pre>

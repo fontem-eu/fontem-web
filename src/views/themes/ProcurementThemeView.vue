@@ -67,34 +67,33 @@ const flagBars = computed(() => {
   <div class="theme">
     <header class="theme-hdr">
       <div>
-        <router-link to="/data-quality" class="theme-back">← Data Quality</router-link>
-        <h1>💶 Public Procurement</h1>
-        <p class="theme-sub">Where EU public money goes — contract awards, value flows, and the
-          data-quality behind every headline figure.</p>
+        <router-link to="/data-quality" class="theme-back">{{ $t('nav.back_data_quality') }}</router-link>
+        <h1>💶 {{ $t('procurement_theme.public_procurement') }}</h1>
+        <p class="theme-sub">{{ $t('procurement_theme.where_eu_public_money_goes') }}</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="theme-loading">Loading procurement data…</div>
+    <div v-if="loading" class="theme-loading">{{ $t('procurement_theme.loading_procurement_data') }}</div>
 
     <template v-else>
       <div class="theme-stats">
-        <StatCard :value="fmt(valueQuality?.total)" label="Contracts" />
-        <StatCard :value="fmtEur(trustedTotal)" label="Trusted value" />
-        <StatCard :value="trustedPct == null ? '—' : trustedPct + '%'" label="Values trusted" />
-        <StatCard :value="fmt(byCountry.length)" label="Countries" />
+        <StatCard :value="fmt(valueQuality?.total)" :label="$t('procurement_theme.contracts')" />
+        <StatCard :value="fmtEur(trustedTotal)" :label="$t('procurement_theme.trusted_value')" />
+        <StatCard :value="trustedPct == null ? '—' : trustedPct + '%'" :label="$t('procurement_theme.values_trusted')" />
+        <StatCard :value="fmt(byCountry.length)" :label="$t('procurement_theme.countries')" />
       </div>
 
       <section class="theme-section">
-        <h2>Spend by country (confidence-gated)</h2>
-        <p class="theme-hint">Low-confidence values are excluded — see the data-quality panel below.</p>
+        <h2>{{ $t('procurement_theme.spend_by_country_confidence_gated') }}</h2>
+        <p class="theme-hint">{{ $t('procurement_theme.low_confidence_values_excluded') }}</p>
         <HorizontalBarChart :data="countryBars" :max-bars="20" :format-value="fmtEur" color="#16a34a" />
       </section>
 
       <section v-if="flagBars.length" class="theme-section">
-        <h2>Data-quality — values held back from totals</h2>
-        <p class="theme-hint">{{ fmt(valueQuality?.flagged_low_confidence) }} contracts
-          ({{ valueQuality?.low_confidence_pct }}%) are flagged and excluded from the figures above.</p>
+        <h2>{{ $t('procurement_theme.data_quality_values_held_back') }}</h2>
+        <p class="theme-hint">{{ fmt(valueQuality?.flagged_low_confidence) }} {{ $t('procurement_theme.contracts_2') }}
+          ({{ valueQuality?.low_confidence_pct }}%) {{ $t('procurement_theme.are_flagged_and_excluded_from_figures') }}</p>
         <HorizontalBarChart :data="flagBars" :max-bars="10" color="#dc2626" />
       </section>
 
@@ -102,16 +101,15 @@ const flagBars = computed(() => {
            their ultimate corporate parent needs the GLEIF ownership graph,
            which is re-ingesting (item 7). Lands as that completes. -->
       <section class="theme-section theme-soon">
-        <h2>Corporate-group rollup <span class="theme-badge">coming soon</span></h2>
-        <p class="theme-hint">Winners rolled up to their ultimate parent — so "Company X won €2M"
-          becomes "Group Y won €400M across 30 subsidiaries". Arrives as the ownership graph re-ingest lands.</p>
+        <h2>{{ $t('procurement_theme.corporate_group_rollup') }} <span class="theme-badge">{{ $t('procurement_theme.coming_soon') }}</span></h2>
+        <p class="theme-hint">{{ $t('procurement_theme.winners_rolled_up_to_parent') }}</p>
       </section>
 
       <section class="theme-section">
-        <h2>Source &amp; pipeline</h2>
-        <SourcePipelinePanel source-id="contracts" title="TED Contracts — pipeline health" />
+        <h2>{{ $t('procurement_theme.source_and_pipeline') }}</h2>
+        <SourcePipelinePanel source-id="contracts" :title="$t('procurement_theme.ted_contracts_pipeline_health')" />
         <router-link to="/data-quality/contracts" class="theme-drill">
-          Open the operational TED Contracts dashboard →
+          {{ $t('procurement_theme.open_operational_ted_dashboard') }}
         </router-link>
       </section>
     </template>

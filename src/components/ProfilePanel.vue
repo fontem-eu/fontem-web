@@ -95,7 +95,7 @@ watch(() => props.symbol, (sym) => {
     <div v-if="profile?.group" class="pp-section">
       <h3>{{ $t('profile.corporate_group') }}</h3>
       <p class="pp-group-header">{{ $t('profile.part_of') }}<strong>{{ profile.group.root_name }}</strong>
-        ({{ profile.group.entity_count }} entities)
+        ({{ profile.group.entity_count }} {{ $t('profile_panel.entities') }})
       </p>
       <div class="pp-group-tree">
         <div
@@ -108,14 +108,14 @@ watch(() => props.symbol, (sym) => {
             {{ m.name }}
           </router-link>
           <span class="pp-group-country">{{ m.country }}</span>
-          <span v-if="m.contracts > 0" class="pp-group-contracts">{{ m.contracts }} contracts</span>
+          <span v-if="m.contracts > 0" class="pp-group-contracts">{{ m.contracts }} {{ $t('profile_panel.contracts') }}</span>
         </div>
         <button
           v-if="!groupExpanded && profile.group.members.length > 10"
           class="pp-group-expand"
           @click="groupExpanded = true"
         >
-          Show all {{ profile.group.members.length }} entities
+          {{ $t('profile_panel.show_all') }} {{ profile.group.members.length }} {{ $t('profile_panel.entities') }}
         </button>
       </div>
     </div>
@@ -127,7 +127,7 @@ watch(() => props.symbol, (sym) => {
         <div v-for="d in profile.directors" :key="d.person_id" class="pp-director">
           <span class="pp-director__name">{{ d.first_name }} {{ d.name }}</span>
           <span class="pp-director__role">{{ d.role }}</span>
-          <span v-if="d.current === false" class="pp-director__former">(former)</span>
+          <span v-if="d.current === false" class="pp-director__former">{{ $t('profile_panel.former') }}</span>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@ watch(() => props.symbol, (sym) => {
     <div class="pp-section">
       <h3>{{ $t('app.eu_public_procurement') }}</h3>
       <div v-if="profile && profile.contract_count > 0" class="pp-procurement-summary">
-        <span class="pp-stat__num">{{ profile.contract_count.toLocaleString() }} contracts</span>
+        <span class="pp-stat__num">{{ profile.contract_count.toLocaleString() }} {{ $t('profile_panel.contracts') }}</span>
         <span> &middot; </span>
         <span class="pp-stat__num">{{ fmtMoney(profile.total_contract_value_eur) }} EUR</span>
       </div>

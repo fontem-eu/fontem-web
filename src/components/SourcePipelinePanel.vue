@@ -58,8 +58,8 @@ const hasTimeline = computed(() => timeline.value.length > 0)
       :height="200"
       color="#0a66c2"
     />
-    <p v-else-if="unavailable" class="spp-empty">Pipeline metrics unavailable.</p>
-    <p v-else class="spp-empty">No events recorded in the window.</p>
+    <p v-else-if="unavailable" class="spp-empty">{{ $t('source_pipeline_panel.pipeline_metrics_unavailable') }}</p>
+    <p v-else class="spp-empty">{{ $t('source_pipeline_panel.no_events_recorded_in_the_window') }}</p>
   </section>
 </template>
 

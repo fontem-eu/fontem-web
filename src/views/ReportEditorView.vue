@@ -480,7 +480,7 @@ async function save() {
           {{ $t('investigations.add_to_investigation') }}
         </button>
         <button class="save-btn" :disabled="saving" data-testid="save-story" @click="save">
-          {{ saving ? 'Saving...' : 'Save' }}
+          {{ saving ? $t('report_editor.saving') : $t('report_editor.save') }}
         </button>
       </div>
     </div>
@@ -606,7 +606,7 @@ async function save() {
       @click.self="showPocketModal = false"
     >
       <div class="modal-content">
-        <h3>Insert Widget</h3>
+        <h3>{{ $t('report_editor.insert_widget') }}</h3>
         <template v-if="investigationViz.length">
           <h4 class="pocket-subhead" data-testid="inv-viz-heading">{{ $t('investigations.from_this_investigation') }}</h4>
           <ul class="pocket-list" data-testid="inv-viz-list">
@@ -625,7 +625,7 @@ async function save() {
           <h4 class="pocket-subhead">{{ $t('investigations.from_your_pocket') }}</h4>
         </template>
         <p v-if="!pocketItems.length" class="pocket-empty">
-          Your pocket is empty. Save visualizations using the Pocket button first.
+          {{ $t('report_editor.your_pocket_is_empty') }}
         </p>
         <ul v-else class="pocket-list" data-testid="pocket-list">
           <li
@@ -642,7 +642,7 @@ async function save() {
           </li>
         </ul>
         <div class="modal-actions">
-          <button @click="showPocketModal = false">Close</button>
+          <button @click="showPocketModal = false">{{ $t('report_editor.close') }}</button>
         </div>
       </div>
     </div>

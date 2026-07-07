@@ -681,8 +681,7 @@ onBeforeUnmount(() => {
     <header class="atlas-header">
       <h1>{{ $t('atlas.atlas') }}</h1>
       <p class="atlas-sub">
-        Map view of the curated Eurostat datasets.
-        Pick a metric, a NUTS level, and a year.
+        {{ $t('atlas.map_view_of_the_curated_eurostat_datasets') }}
       </p>
     </header>
 
@@ -695,9 +694,8 @@ onBeforeUnmount(() => {
       class="atlas-empty"
       data-testid="atlas-empty"
     >
-      No datasets registered yet — the stats store is online but the seed
-      hasn't been loaded. Run <code>python -m src.stats_etl register-seed</code>
-      to populate the catalog.
+      {{ $t('atlas.no_datasets_registered_yet') }} <code>python -m src.stats_etl register-seed</code>
+      {{ $t('atlas.to_populate_the_catalog') }}
     </div>
 
     <div v-else class="atlas-body">
@@ -705,7 +703,7 @@ onBeforeUnmount(() => {
         <label class="atlas-control">
           <span class="atlas-label">{{ $t('atlas.dataset') }}</span>
           <select v-model="selected" data-testid="atlas-dataset">
-            <option value="">— pick a dataset —</option>
+            <option value="">{{ $t('atlas.pick_a_dataset') }}</option>
             <optgroup
               v-for="grp in groupedDatasets"
               :key="grp.theme"
@@ -746,8 +744,7 @@ onBeforeUnmount(() => {
             </option>
           </select>
           <p class="atlas-hint">
-            The dataset has {{ sliceOptions.length }} dimension combinations.
-            Largest slice is shown by default.
+            {{ $t('atlas.the_dataset_has') }} {{ sliceOptions.length }} {{ $t('atlas.dimension_combinations_largest_slice_is_shown_by_default') }}
           </p>
         </label>
 
@@ -766,8 +763,8 @@ onBeforeUnmount(() => {
             <span>{{ $t('atlas.lock_to_dataset_range') }}<span
                 v-if="!activeSliceStats"
                 class="atlas-hint-inline"
-                title="Backend hasn't computed slice stats for this dataset yet — falls back to per-year auto-scale."
-              >(unavailable)</span>
+                :title="$t('atlas.backend_hasnt_computed_slice_stats')"
+              >{{ $t('atlas.unavailable') }}</span>
             </span>
           </label>
           <label class="atlas-toggle">
@@ -781,7 +778,7 @@ onBeforeUnmount(() => {
                 v-if="colorScaleProps.skewHint"
                 class="atlas-hint-inline"
                 :title="$t('atlas.distribution_is_right_skewed_log_scale_r')"
-              >(suggested)</span>
+              >{{ $t('atlas.suggested') }}</span>
             </span>
           </label>
         </fieldset>
@@ -801,7 +798,7 @@ onBeforeUnmount(() => {
                 v-if="hiddenLowCoverageDatasetCount > 0"
                 class="atlas-hint-inline"
                 :title="`Datasets whose best (level, slice, year) covers fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions are hidden from the picker.`"
-              >({{ hiddenLowCoverageDatasetCount }} hidden)</span>
+              >({{ hiddenLowCoverageDatasetCount }} {{ $t('atlas.hidden') }})</span>
             </span>
           </label>
           <label class="atlas-toggle">
@@ -815,7 +812,7 @@ onBeforeUnmount(() => {
                 v-if="hiddenLowCoverageYearCount > 0"
                 class="atlas-hint-inline"
                 :title="`Years where fewer than ${Math.round(MIN_AVAILABILITY * 100)}% of regions have data for this slice are hidden from the slider.`"
-              >({{ hiddenLowCoverageYearCount }} hidden)</span>
+              >({{ hiddenLowCoverageYearCount }} {{ $t('atlas.hidden') }})</span>
             </span>
           </label>
         </fieldset>
@@ -862,7 +859,7 @@ onBeforeUnmount(() => {
                text-above-the-map. -->
           <MapLoadingOverlay
             :loading="seriesLoading"
-            message="Fetching observations…"
+            :message="$t('atlas.fetching_observations')"
           />
 
           <!-- Year overlay — lives on the map itself so the user
@@ -898,7 +895,7 @@ onBeforeUnmount(() => {
           <div v-else-if="hovered" class="atlas-hover" data-testid="atlas-hover-null">
             <strong>{{ hovered.name }}</strong>
             <span class="atlas-hover-code">{{ hovered.nuts_code }}</span>
-            <span class="atlas-hover-value muted">no data</span>
+            <span class="atlas-hover-value muted">{{ $t('atlas.no_data') }}</span>
           </div>
         </div>
 
@@ -915,7 +912,7 @@ onBeforeUnmount(() => {
             type="button"
             class="atlas-play-btn"
             :class="{ playing }"
-            :aria-label="playing ? 'Pause year animation' : 'Play year animation'"
+            :aria-label="playing ? $t('atlas.pause_year_animation') : $t('atlas.play_year_animation')"
             data-testid="atlas-play"
             @click="togglePlay"
           >
@@ -938,18 +935,18 @@ onBeforeUnmount(() => {
             :min="availableYears[0]"
             :max="availableYears[availableYears.length - 1]"
             :step="1"
-            :aria-label="`Year ${year}`"
+            :aria-label="`${$t('atlas.year')} ${year}`"
           />
 
           <span class="atlas-year-high">{{ availableYears[availableYears.length - 1] }}</span>
 
-          <label class="atlas-loop-toggle" :title="looping ? 'Looping enabled' : 'Looping disabled — stops at the last year'">
+          <label class="atlas-loop-toggle" :title="looping ? $t('atlas.looping_enabled') : $t('atlas.looping_disabled_stops_at_the_last_year')">
             <input
               v-model="looping"
               type="checkbox"
               data-testid="atlas-loop"
             />
-            <span>loop</span>
+            <span>{{ $t('atlas.loop') }}</span>
           </label>
         </div>
       </section>

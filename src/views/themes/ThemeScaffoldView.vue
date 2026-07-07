@@ -29,9 +29,9 @@ watch(themeId, setTitle)
   <div class="theme">
     <header class="theme-hdr">
       <div>
-        <router-link to="/data-quality" class="theme-back">← Data Quality</router-link>
+        <router-link to="/data-quality" class="theme-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1 v-if="meta">{{ meta.icon }} {{ meta.title }}</h1>
-        <h1 v-else>Unknown theme</h1>
+        <h1 v-else>{{ $t('theme_scaffold.unknown_theme') }}</h1>
         <p v-if="meta" class="theme-sub">{{ meta.blurb }}</p>
       </div>
       <ThemeToggle />
@@ -39,29 +39,29 @@ watch(themeId, setTitle)
 
     <template v-if="cfg">
       <section v-if="cfg.questions?.length" class="theme-section">
-        <h2>Questions this answers</h2>
+        <h2>{{ $t('theme_scaffold.questions_this_answers') }}</h2>
         <ul class="theme-q">
           <li v-for="(q, i) in cfg.questions" :key="i">{{ q }}</li>
         </ul>
       </section>
 
       <section class="theme-section">
-        <h2>Sources &amp; pipeline health</h2>
+        <h2>{{ $t('theme_scaffold.sources_and_pipeline_health') }}</h2>
         <div v-for="src in cfg.sources" :key="src.id" class="theme-src">
           <SourcePipelinePanel :source-id="src.id" :title="src.label" />
           <router-link v-if="src.route" :to="src.route" class="theme-drill">
-            Open the {{ src.label }} dashboard →
+            {{ $t('theme_scaffold.open_the') }} {{ src.label }} {{ $t('theme_scaffold.dashboard_arrow') }}
           </router-link>
-          <p v-else class="theme-hint">No dedicated dashboard yet.</p>
+          <p v-else class="theme-hint">{{ $t('theme_scaffold.no_dedicated_dashboard_yet') }}</p>
         </div>
       </section>
 
       <section v-if="cfg.soon" class="theme-section theme-soon">
-        <h2>Deeper insights <span class="theme-badge">coming soon</span></h2>
+        <h2>{{ $t('theme_scaffold.deeper_insights') }} <span class="theme-badge">{{ $t('theme_scaffold.coming_soon') }}</span></h2>
         <p class="theme-hint">{{ cfg.soon }}</p>
       </section>
     </template>
-    <p v-else class="theme-hint">This theme has no configuration yet.</p>
+    <p v-else class="theme-hint">{{ $t('theme_scaffold.no_configuration_yet') }}</p>
   </div>
 </template>
 

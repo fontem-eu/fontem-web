@@ -160,10 +160,10 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
       <label class="geo-control">
         <span class="geo-label">{{ $t('app.nuts_level') }}</span>
         <select v-model.number="level" data-testid="geo-level">
-          <option :value="0">0 — Country</option>
-          <option :value="1" disabled>1 — Macro region (coming soon)</option>
-          <option :value="2" disabled>2 — Region (coming soon)</option>
-          <option :value="3" disabled>3 — Small region (coming soon)</option>
+          <option :value="0">{{ $t('geo_choropleth.level_0_country') }}</option>
+          <option :value="1" disabled>{{ $t('geo_choropleth.level_1_macro_region_coming_soon') }}</option>
+          <option :value="2" disabled>{{ $t('geo_choropleth.level_2_region_coming_soon') }}</option>
+          <option :value="3" disabled>{{ $t('geo_choropleth.level_3_small_region_coming_soon') }}</option>
         </select>
       </label>
 
@@ -181,7 +181,7 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
         <input
           v-model="connectedTo"
           type="text"
-          placeholder="e.g. RUS"
+          :placeholder="$t('geo_choropleth.eg_rus')"
           class="geo-input"
           data-testid="geo-connected-to"
           maxlength="3"
@@ -193,7 +193,7 @@ watch([level, metric, connectedTo, scopeNuts], () => refresh())
         <input
           v-model="scopeNuts"
           type="text"
-          placeholder="e.g. DE1"
+          :placeholder="$t('geo_choropleth.eg_de1')"
           class="geo-input"
           data-testid="geo-scope-nuts"
           maxlength="3"

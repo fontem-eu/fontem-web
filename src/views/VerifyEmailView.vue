@@ -37,30 +37,22 @@ function goHome() { router.push('/') }
   <div class="login-page">
     <div class="login-card" data-testid="verify-email-card">
       <template v-if="status === 'verifying'">
-        <h1 class="login-title">Confirming your email…</h1>
-        <p class="login-desc">One moment.</p>
+        <h1 class="login-title">{{ $t('verify_email.confirming_your_email') }}</h1>
+        <p class="login-desc">{{ $t('verify_email.one_moment') }}</p>
       </template>
       <template v-else-if="status === 'success'">
-        <h1 class="login-title">Email confirmed ✓</h1>
-        <p class="login-desc">
-          Your account is verified. You can now publish stories, comment,
-          and follow topics.
-        </p>
+        <h1 class="login-title">{{ $t('verify_email.email_confirmed') }} ✓</h1>
+        <p class="login-desc">{{ $t('verify_email.your_account_is_verified') }}</p>
         <div class="login-actions">
-          <button class="login-btn" data-testid="verify-email-continue" @click="goHome">
-            Continue to Fontem
-          </button>
+          <button class="login-btn" data-testid="verify-email-continue" @click="goHome">{{ $t('verify_email.continue_to_fontem') }}</button>
         </div>
       </template>
       <template v-else>
-        <h1 class="login-title">Couldn't confirm your email</h1>
+        <h1 class="login-title">{{ $t('verify_email.couldnt_confirm_your_email') }}</h1>
         <p class="login-error" data-testid="verify-email-error">{{ message }}</p>
-        <p class="login-desc">
-          The link may have expired or already been used. Sign in and
-          request a new verification email from the banner at the top.
-        </p>
+        <p class="login-desc">{{ $t('verify_email.the_link_may_have_expired') }}</p>
         <div class="login-actions">
-          <button class="login-btn" @click="goHome">Go to Fontem</button>
+          <button class="login-btn" @click="goHome">{{ $t('verify_email.go_to_fontem') }}</button>
         </div>
       </template>
     </div>

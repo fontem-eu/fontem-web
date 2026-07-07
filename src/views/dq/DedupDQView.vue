@@ -22,9 +22,9 @@ const pendingPct = computed(() => data.value && data.value.total > 0 ? Math.roun
           <div class="dq-bar-fill dq-bar-reviewed" :style="{ width: (100 - pendingPct) + '%' }"></div>
           <div class="dq-bar-fill dq-bar-pending" :style="{ width: pendingPct + '%' }"></div>
         </div>
-        <div class="dq-bar-legend"><span class="dq-legend-dot" style="background:#16a34a"></span> Reviewed ({{ 100 - pendingPct }}%) <span class="dq-legend-dot" style="background:#d97706;margin-left:1rem"></span> Pending ({{ pendingPct }}%)</div>
+        <div class="dq-bar-legend"><span class="dq-legend-dot" style="background:#16a34a"></span> {{ $t('dedup_d_q.reviewed') }} ({{ 100 - pendingPct }}%) <span class="dq-legend-dot" style="background:#d97706;margin-left:1rem"></span> {{ $t('dedup_d_q.pending') }} ({{ pendingPct }}%)</div>
       </div>
-      <p class="dq-note">{{ $t('dedup_d_q.use_the') }}<router-link to="/admin/entity-resolution">{{ $t('app.entity_resolution') }}</router-link> tool to review pending duplicates.</p>
+      <p class="dq-note">{{ $t('dedup_d_q.use_the') }}<router-link to="/admin/entity-resolution">{{ $t('app.entity_resolution') }}</router-link> {{ $t('dedup_d_q.tool_to_review_pending_duplicates') }}</p>
     </template>
   </div>
 </template>

@@ -267,7 +267,7 @@ onBeforeUnmount(() => {
   <div class="atlas-embed" data-testid="widget-atlas-map">
     <header class="atlas-embed-header">
       <div class="atlas-embed-title">
-        <strong>{{ meta?.label || dataset || 'Atlas Map' }}</strong>
+        <strong>{{ meta?.label || dataset || $t('atlas_map_embed.atlas_map') }}</strong>
         <span v-if="sliceLabel" class="atlas-embed-slice">{{ sliceLabel }}</span>
         <span v-if="year != null" class="atlas-embed-year">— {{ year }}</span>
       </div>
@@ -285,7 +285,7 @@ onBeforeUnmount(() => {
            "Loading…" line above the map. -->
       <MapLoadingOverlay
         :loading="loading"
-        message="Loading map data…"
+        :message="$t('atlas_map_embed.loading_map_data')"
         data-testid="widget-atlas-loading"
       />
     </div>
@@ -307,7 +307,7 @@ onBeforeUnmount(() => {
     <div v-else-if="hovered" class="atlas-embed-hover muted">
       <strong>{{ hovered.name }}</strong>
       <span>{{ hovered.nuts_code }}</span>
-      <span>no data</span>
+      <span>{{ $t('atlas_map_embed.no_data') }}</span>
     </div>
   </div>
 </template>

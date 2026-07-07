@@ -92,9 +92,7 @@ const generatedAt = computed(() => {
         <router-link to="/data-quality" class="dq-back">{{ $t('nav.back_data_quality') }}</router-link>
         <h1>{{ $t('triples_d_q.triple_store') }}</h1>
         <p class="dq-sub">
-          RDF inventory in the Virtuoso store —
-          totals, per-named-graph counts, and the class/predicate
-          shape of each graph. Sourced by SPARQL against
+          {{ $t('triples_d_q.rdf_inventory_in_the_virtuoso_store') }}
           <code>http://data.fontem.eu/graph/*</code>.
         </p>
       </div>
@@ -108,7 +106,7 @@ const generatedAt = computed(() => {
       class="dq-error"
       data-testid="triples-dq-error"
     >
-      Could not load triple-store stats: {{ error }}
+      {{ $t('triples_d_q.could_not_load_triple_store_stats') }} {{ error }}
     </div>
 
     <div
@@ -118,10 +116,8 @@ const generatedAt = computed(() => {
     >
       <h2>{{ $t('triples_d_q.virtuoso_not_configured_in_this_environm') }}</h2>
       <p>
-        This environment has no RDF store wired up — the sanctions,
-        filings, and other Phase&nbsp;2 RDF graphs only exist where
-        <code>{{ $t('triples_d_q.virtuoso_sparql_url') }}</code> is set on the gmr-api
-        deployment. Check the staging or prod dashboard for live numbers.
+        {{ $t('triples_d_q.this_environment_has_no_rdf_store') }}
+        <code>{{ $t('triples_d_q.virtuoso_sparql_url') }}</code> {{ $t('triples_d_q.is_set_on_the_gmr_api_deployment') }}
       </p>
     </div>
 
@@ -196,7 +192,7 @@ v-if="classBars.length" chart-key="triples_classes"
               :chart-props="{ data: classBars, maxBars: 15 }"
               :name="$t('triples_d_q.top_classes')"
             />
-            <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no') }}<code>rdf:type</code> assertions in this graph.
+            <p v-else class="dq-empty-inline">{{ $t('triples_d_q.no') }}<code>rdf:type</code> {{ $t('triples_d_q.assertions_in_this_graph') }}
             </p>
           </div>
           <div>

@@ -134,7 +134,7 @@ function pipelineStat(id) {
       <div>
         <router-link to="/admin" class="dqh-back">{{ $t('nav.back_admin') }}</router-link>
         <h1>{{ $t('data_quality_hub.data_quality') }}</h1>
-        <p class="dqh-sub">Per-pipeline dashboards — drill into each ETL to spot gaps, trends, and anomalies.</p>
+        <p class="dqh-sub">{{ $t('data_quality_hub.per_pipeline_dashboards_drill_into_each_etl') }}</p>
       </div>
       <ThemeToggle />
     </header>
@@ -154,7 +154,7 @@ function pipelineStat(id) {
       <!-- Themes: the investigative entry, composed across sources. The
            per-source dashboards below remain the operational / health layer. -->
       <section class="dqh-themes" data-testid="dqh-themes">
-        <h2 class="dqh-theme-title">Themes</h2>
+        <h2 class="dqh-theme-title">{{ $t('data_quality_hub.themes') }}</h2>
         <div class="dqh-grid">
           <router-link
             v-for="t in themes"

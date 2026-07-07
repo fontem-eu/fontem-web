@@ -44,25 +44,25 @@ const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
 <template>
   <main class="contract-detail" data-testid="contract-detail-view">
     <header class="cd-head">
-      <RouterLink to="/spending" class="cd-back">&larr; Public spending</RouterLink>
+      <RouterLink to="/spending" class="cd-back">&larr; {{ $t('contract_detail.public_spending') }}</RouterLink>
       <ThemeToggle />
     </header>
 
-    <p v-if="state === 'loading'" class="cd-state">Loading…</p>
+    <p v-if="state === 'loading'" class="cd-state">{{ $t('contract_detail.loading') }}</p>
     <p v-else-if="state === 'notfound'" class="cd-state" data-testid="contract-notfound">
-      Contract not found.
+      {{ $t('contract_detail.contract_not_found') }}
     </p>
-    <p v-else-if="state === 'error'" class="cd-state">Couldn’t load this contract.</p>
+    <p v-else-if="state === 'error'" class="cd-state">{{ $t('contract_detail.couldnt_load_this_contract') }}</p>
 
     <article v-else-if="state === 'ready'" data-testid="contract-detail">
-      <h1 class="cd-title">{{ contract.title || '(untitled contract)' }}</h1>
+      <h1 class="cd-title">{{ contract.title || $t('contract_detail.untitled_contract') }}</h1>
 
       <!-- Integrity profile — the investigative lede -->
       <section class="cd-integrity" data-testid="integrity-profile">
         <div
 class="cd-flagcount" :class="{ alert: redFlagCount > 0 }"
              data-testid="red-flag-count">
-          {{ redFlagCount }} red flag{{ redFlagCount === 1 ? '' : 's' }}
+          {{ redFlagCount }} {{ $t('contract_detail.red_flag') }}{{ redFlagCount === 1 ? '' : 's' }}
         </div>
         <ul class="cd-flags">
           <li
@@ -72,21 +72,20 @@ v-for="f in flags" :key="f.key" :class="{ on: f.on }"
           </li>
           <li
 v-if="integrity.tenders_received != null"
-              data-testid="bidder-count">{{ integrity.tenders_received }} bidder(s)</li>
+              data-testid="bidder-count">{{ integrity.tenders_received }} {{ $t('contract_detail.bidder_s') }}</li>
         </ul>
         <p class="cd-note">
-          Risk indicators per the EC Single Market Scoreboard / ECA CRI methodology —
-          a flag is a prompt to look, not proof of wrongdoing.
+          {{ $t('contract_detail.risk_indicators_note') }}
         </p>
       </section>
 
       <dl class="cd-facts">
-        <dt>Value</dt><dd>{{ fmtMoney(contract.value_eur) }}</dd>
-        <dt>Procedure</dt><dd>{{ integrity.procedure_type || '—' }}</dd>
-        <dt>Award criteria</dt><dd>{{ integrity.award_criterion_type || '—' }}</dd>
-        <dt>EU-funded</dt><dd>{{ integrity.eu_funded ? 'Yes' : '—' }}</dd>
-        <dt>Buyer</dt><dd>{{ contract.authority?.name }} ({{ contract.authority?.country }})</dd>
-        <dt>Contractor</dt>
+        <dt>{{ $t('contract_detail.value') }}</dt><dd>{{ fmtMoney(contract.value_eur) }}</dd>
+        <dt>{{ $t('contract_detail.procedure') }}</dt><dd>{{ integrity.procedure_type || '—' }}</dd>
+        <dt>{{ $t('contract_detail.award_criteria') }}</dt><dd>{{ integrity.award_criterion_type || '—' }}</dd>
+        <dt>{{ $t('contract_detail.eu_funded') }}</dt><dd>{{ integrity.eu_funded ? $t('contract_detail.yes') : '—' }}</dd>
+        <dt>{{ $t('contract_detail.buyer') }}</dt><dd>{{ contract.authority?.name }} ({{ contract.authority?.country }})</dd>
+        <dt>{{ $t('contract_detail.contractor') }}</dt>
         <dd>
           <RouterLink
 v-if="contract.contractor?.gmr_id"
@@ -94,14 +93,14 @@ v-if="contract.contractor?.gmr_id"
           <span v-else>{{ contract.contractor?.name }}</span>
         </dd>
         <dt>CPV</dt><dd>{{ contract.cpv_main || '—' }}</dd>
-        <dt>Award date</dt><dd>{{ contract.award_date || '—' }}</dd>
+        <dt>{{ $t('contract_detail.award_date') }}</dt><dd>{{ contract.award_date || '—' }}</dd>
       </dl>
 
       <!-- The outward link to the original TED notice -->
       <a
 v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
          class="cd-ted" data-testid="ted-outlink">
-        View the original notice on TED &nearr;
+        {{ $t('contract_detail.view_original_notice_on_ted') }} &nearr;
       </a>
     </article>
   </main>

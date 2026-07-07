@@ -201,11 +201,11 @@ const DIVERGING_STOPS = [DIVERGING.low, DIVERGING.mid, DIVERGING.high]
   <div class="smap" data-testid="studio-map">
     <div ref="container" class="smap-canvas" />
     <div class="smap-bar">
-      <span v-if="loading" class="muted">Loading boundaries…</span>
+      <span v-if="loading" class="muted">{{ $t('studio_map.loading_boundaries') }}</span>
       <span v-else-if="error" class="err">{{ error }}</span>
       <span v-else class="cov" data-testid="map-coverage">
-        matched {{ coverage.matched }} of {{ coverage.total }} regions
-        <span v-if="coverage.total && coverage.matched === 0" class="warn">— wrong column/level?</span>
+        {{ $t('studio_map.matched') }} {{ coverage.matched }} {{ $t('studio_map.of') }} {{ coverage.total }} {{ $t('studio_map.regions') }}
+        <span v-if="coverage.total && coverage.matched === 0" class="warn">{{ $t('studio_map.wrong_column_level') }}</span>
       </span>
 
       <!-- hover / tap readout: which region, what values -->
@@ -230,7 +230,7 @@ const DIVERGING_STOPS = [DIVERGING.low, DIVERGING.mid, DIVERGING.high]
         <span class="muted">{{ valueCol }}:</span>
         <i v-for="c in DIVERGING_STOPS" :key="c" class="sw" :style="{ background: c }" />
         <span class="muted">{{ fmt(bounds.lo) }}–{{ fmt(bounds.hi) }}</span>
-        <span class="muted biv-sep">· opacity = {{ value2Col }}</span>
+        <span class="muted biv-sep">· {{ $t('studio_map.opacity') }} = {{ value2Col }}</span>
       </span>
     </div>
 

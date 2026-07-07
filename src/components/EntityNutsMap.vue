@@ -216,17 +216,17 @@ onBeforeUnmount(() => {
       <label class="enu-control">
         <span class="enu-label">{{ $t('app.nuts_level') }}</span>
         <select v-model.number="level" data-testid="enu-level">
-          <option :value="0">0 — Country</option>
-          <option :value="1">1 — Macro-region</option>
-          <option :value="2">2 — Region</option>
-          <option :value="3">3 — Small region</option>
+          <option :value="0">{{ $t('entity_nuts_map.level_0_country') }}</option>
+          <option :value="1">{{ $t('entity_nuts_map.level_1_macro_region') }}</option>
+          <option :value="2">{{ $t('entity_nuts_map.level_2_region') }}</option>
+          <option :value="3">{{ $t('entity_nuts_map.level_3_small_region') }}</option>
         </select>
       </label>
 
       <label v-if="level > 0" class="enu-control">
         <span class="enu-label" data-testid="enu-scope-label">{{ SCOPE_LABELS[level] }}</span>
         <select v-model="scope" data-testid="enu-scope">
-          <option value="">— select —</option>
+          <option value="">{{ $t('entity_nuts_map.select') }}</option>
           <option v-for="opt in scopeOptions" :key="opt.code" :value="opt.code">
             {{ opt.code }} — {{ opt.name }}
           </option>
@@ -258,12 +258,12 @@ onBeforeUnmount(() => {
     <div v-if="error" class="enu-error" data-testid="enu-error">{{ error }}</div>
 
     <div v-if="level > 0 && !scope" class="enu-hint" data-testid="enu-hint">
-      Select a {{ SCOPE_LABELS[level] }} above to load the map.
+      {{ $t('entity_nuts_map.select_a') }} {{ SCOPE_LABELS[level] }} {{ $t('entity_nuts_map.above_to_load_the_map') }}
     </div>
 
     <div class="enu-map-stack">
       <div ref="container" class="enu-map" data-testid="enu-map" />
-      <MapLoadingOverlay :loading="loading" message="Loading map…" />
+      <MapLoadingOverlay :loading="loading" :message="$t('entity_nuts_map.loading_map')" />
       <!-- Compat shim: the smoke + unit tests target `enu-loading`
            by selector; keep the testid present (visually hidden)
            while the loading state is active. Future cleanup: rename
@@ -290,9 +290,9 @@ onBeforeUnmount(() => {
       <span class="enu-hover__code">{{ hovered.nuts_code }}</span>
       <span v-if="hovered.value != null" class="enu-hover__value">
         {{ metric === 'contracts_eur' ? `€${Number(hovered.value).toLocaleString()}` : Number(hovered.value).toLocaleString() }}
-        {{ metric === 'contracts' ? 'contracts' : '' }}
+        {{ metric === 'contracts' ? $t('entity_nuts_map.contracts') : '' }}
       </span>
-      <span v-else class="enu-hover__value muted" data-testid="enu-hover-empty">no known contracts</span>
+      <span v-else class="enu-hover__value muted" data-testid="enu-hover-empty">{{ $t('entity_nuts_map.no_known_contracts') }}</span>
     </div>
   </div>
 </template>

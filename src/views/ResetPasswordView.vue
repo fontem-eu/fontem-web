@@ -56,14 +56,14 @@ async function onSubmit() {
   <div class="login-page">
     <div class="login-card" data-testid="reset-card">
       <template v-if="!done">
-        <h1 class="login-title">Set a new password</h1>
+        <h1 class="login-title">{{ $t('reset_password.set_a_new_password') }}</h1>
         <div v-if="error" class="login-error" data-testid="reset-error">{{ error }}</div>
         <form @submit.prevent="onSubmit">
           <input
             v-model="password"
             type="password"
             required
-            placeholder="New password"
+            :placeholder="$t('reset_password.new_password')"
             class="login-input"
             data-testid="reset-password"
           />
@@ -71,26 +71,25 @@ async function onSubmit() {
             v-model="confirm"
             type="password"
             required
-            placeholder="Confirm new password"
+            :placeholder="$t('reset_password.confirm_new_password')"
             class="login-input"
             data-testid="reset-confirm"
           />
-          <p v-if="mismatch" class="login-error">Passwords don't match.</p>
+          <p v-if="mismatch" class="login-error">{{ $t('reset_password.passwords_dont_match') }}</p>
           <button
             type="submit"
             class="login-btn"
             :disabled="loading || mismatch"
             data-testid="reset-submit"
           >
-            {{ loading ? 'Saving…' : 'Set new password' }}
+            {{ loading ? $t('reset_password.saving') : $t('reset_password.set_new_password') }}
           </button>
         </form>
       </template>
       <template v-else>
-        <h1 class="login-title">Password updated ✓</h1>
+        <h1 class="login-title">{{ $t('reset_password.password_updated') }} ✓</h1>
         <p class="login-desc" data-testid="reset-done">
-          Your password has been changed and all sessions signed out.
-          Redirecting you to sign in…
+          {{ $t('reset_password.password_changed_redirecting') }}
         </p>
       </template>
     </div>

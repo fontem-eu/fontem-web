@@ -140,64 +140,64 @@ async function handleSignOut() {
 
       <!-- Sign in -->
       <template v-else>
-        <h1 class="login-title">Sign in to Fontem</h1>
+        <h1 class="login-title">{{ $t('login.sign_in_to_fontem') }}</h1>
         <p class="login-desc">
-          Sign in to start creating data stories, raising issues, and collaborating with the community.
+          {{ $t('login.sign_in_to_start_creating_data_stories') }}
         </p>
 
         <div v-if="error" class="login-error" data-testid="login-error">{{ error }}</div>
-        <div v-if="loading" class="login-loading">Signing in...</div>
+        <div v-if="loading" class="login-loading">{{ $t('login.signing_in') }}</div>
 
         <!-- Mode tabs -->
         <div class="auth-tabs">
-          <button :class="{ active: mode === 'login' }" @click="mode = 'login'">Sign in</button>
-          <button :class="{ active: mode === 'register' }" @click="mode = 'register'">Create account</button>
+          <button :class="{ active: mode === 'login' }" @click="mode = 'login'">{{ $t('login.sign_in') }}</button>
+          <button :class="{ active: mode === 'register' }" @click="mode = 'register'">{{ $t('login.create_account') }}</button>
         </div>
 
         <!-- Login form -->
         <form v-if="mode === 'login'" class="auth-form" @submit.prevent="handleLocalLogin">
-          <input v-model="loginEmail" type="email" class="login-input" placeholder="Email" required data-testid="login-email" />
-          <input v-model="loginPassword" type="password" class="login-input" placeholder="Password" required data-testid="login-password" />
+          <input v-model="loginEmail" type="email" class="login-input" :placeholder="$t('login.email')" required data-testid="login-email" />
+          <input v-model="loginPassword" type="password" class="login-input" :placeholder="$t('login.password')" required data-testid="login-password" />
           <button type="submit" class="btn-primary" :disabled="loading" data-testid="login-submit">
-            {{ loading ? 'Signing in...' : 'Sign in' }}
+            {{ loading ? $t('login.signing_in') : $t('login.sign_in') }}
           </button>
           <RouterLink to="/forgot-password" class="login-forgot-link" data-testid="login-forgot-link">
-            Forgot your password?
+            {{ $t('login.forgot_your_password') }}
           </RouterLink>
         </form>
 
         <!-- Register form -->
         <form v-if="mode === 'register'" class="auth-form" @submit.prevent="handleRegister">
-          <input v-model="regName" type="text" class="login-input" placeholder="Full name" required data-testid="reg-name" />
-          <input v-model="regEmail" type="email" class="login-input" placeholder="Email" required data-testid="reg-email" />
-          <input v-model="regPassword" type="password" class="login-input" placeholder="Password (min 8 chars)" required minlength="8" data-testid="reg-password" />
-          <input v-model="regPasswordConfirm" type="password" class="login-input" placeholder="Confirm password" required minlength="8" data-testid="reg-password-confirm" />
+          <input v-model="regName" type="text" class="login-input" :placeholder="$t('login.full_name')" required data-testid="reg-name" />
+          <input v-model="regEmail" type="email" class="login-input" :placeholder="$t('login.email')" required data-testid="reg-email" />
+          <input v-model="regPassword" type="password" class="login-input" :placeholder="$t('login.password_min_8_chars')" required minlength="8" data-testid="reg-password" />
+          <input v-model="regPasswordConfirm" type="password" class="login-input" :placeholder="$t('login.confirm_password')" required minlength="8" data-testid="reg-password-confirm" />
           <p
             v-if="passwordMismatch"
             class="login-error"
             data-testid="reg-password-mismatch"
-          >Passwords don't match</p>
+          >{{ $t('login.passwords_dont_match') }}</p>
           <button
             type="submit"
             class="btn-primary"
             :disabled="loading || passwordMismatch"
             data-testid="reg-submit"
           >
-            {{ loading ? 'Creating account...' : 'Create account' }}
+            {{ loading ? $t('login.creating_account') : $t('login.create_account') }}
           </button>
         </form>
 
-        <div class="login-divider"><span>or continue with</span></div>
+        <div class="login-divider"><span>{{ $t('login.or_continue_with') }}</span></div>
 
         <!-- Google button -->
         <div id="google-signin-btn" class="google-btn-wrapper" data-testid="google-signin-btn"></div>
 
         <!-- Token entry (dev) -->
         <details class="token-details">
-          <summary class="token-summary">Sign in with token</summary>
+          <summary class="token-summary">{{ $t('login.sign_in_with_token') }}</summary>
           <form class="token-form" @submit.prevent="handleTokenSignIn">
-            <input v-model="manualToken" type="password" class="login-input" placeholder="Paste a JWT token" autocomplete="off" data-testid="token-input" />
-            <button type="submit" class="btn-secondary btn-sm" data-testid="token-submit">Go</button>
+            <input v-model="manualToken" type="password" class="login-input" :placeholder="$t('login.paste_a_jwt_token')" autocomplete="off" data-testid="token-input" />
+            <button type="submit" class="btn-secondary btn-sm" data-testid="token-submit">{{ $t('login.go') }}</button>
           </form>
         </details>
       </template>
