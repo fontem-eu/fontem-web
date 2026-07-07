@@ -241,7 +241,33 @@
     "relationships": "Suhteet",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Päähankintasektorit (CPV)"
+    "top_procurement_sectors_cpv": "Päähankintasektorit (CPV)",
+    "badge_aria": "Tietojen laatuun liittyvä huomautus",
+    "concern_concession_negative": "Negatiivinen (käyttöoikeus)arvo; jätetty pois arvojen kokonaissummista.",
+    "concern_implausible_magnitude": "Arvo on liian suuri ollakseen uskottava yksittäiselle sopimukselle; jätetty pois kokonaissummista.",
+    "concern_low_confidence": "Matalan luotettavuuden arvo; jätetty pois kokonaissummista tarkistusta odottaen.",
+    "concern_no_value": "Käyttökelpoista sopimusarvoa ei ole ilmoitettu.",
+    "concern_payable_discrepancy": "Lähde ilmoitti ristiriitaisen maksettavan summan (mahdollinen syöttövirhe, kuten ×1000 liioittelu).",
+    "concern_unverified": "Arvoa ei voitu ristiintarkistaa arviota vasten.",
+    "concern_value_disagreement": "Myönnetty arvo poikkeaa budjettiarviosta; jätetty pois kokonaissummista.",
+    "modal_title": "Tietojen luotettavuus",
+    "level_withheld": "Arvo pidätetty — virheellinen lähdedata",
+    "level_low_confidence": "Matala luotettavuus",
+    "level_caveat": "Varauma",
+    "detail_reason": "Syy",
+    "detail_confidence": "Luotettavuuspistemäärä",
+    "detail_status": "Tila",
+    "status_in_review": "Ihmisen tarkistusjonossa",
+    "status_auto_withheld": "Pidätetty automaattisesti",
+    "status_confirmed_bogus": "Tarkistettu: vahvistettu epäluotettavaksi",
+    "withheld_audit_note": "Julkaistu luku poistettiin alustalta, koska se ei läpäissyt tiukkoja järkevyystarkistuksia. Alkuperäinen väite on säilytetty tarkastuslokissa ja tarkistusjonossa; jos tarkistaja määrittää oikean arvon, se näkyy tässä.",
+    "explain_implausible_magnitude": "Julkaistu arvo on suuruusluokkia suurempi kuin mikään uskottava julkinen sopimus — yleensä valuutta- tai yksikköhintavirhe lähdeilmoituksessa.",
+    "explain_concession_negative": "Ilmoituksessa julkaistiin negatiivinen arvo — kirjanpidollinen jäänne lomakkeen täyttötavasta, ei hinta.",
+    "explain_unverified": "Julkaistiin vain yksi vahvistamaton rahakenttä, epäilyttävän suuruisena, eikä sitä voitu ristiintarkistaa mitään vasten.",
+    "explain_zero_value": "Ilmoituksessa julkaistiin arvoksi täsmälleen nolla — ilmoittamatta jättäminen lukuun puettuna. Käsitellään ilmoittamattomana arvona.",
+    "explain_confirmed_bogus": "Tarkistaja tutki julkaistun arvon ja vahvisti sen epäluotettavaksi. Tälle sopimukselle ei ole luotettavaa arvoa saatavilla.",
+    "explain_withheld_generic": "Julkaistu arvo ei läpäissyt alustan järkevyystarkistuksia ja se pidätettiin.",
+    "explain_low_confidence_generic": "Arvo näytetään, mutta julkaistut rahakentät ovat heikosti näytettävissä; se jätetään pois oletuskokonaissummista ja järjestyksistä."
   },
   "data_quality_hub": {
     "data_freshness": "Datan tuoreus",
@@ -471,7 +497,9 @@
     "my_stories": "Omat tarinat",
     "no_stories_yet_start_your_first_one_abov": "Ei tarinoita vielä. Aloita ensimmäinen ylhäältä.",
     "or_read_recent_public_stories": "Tai lue tuoreita julkisia tarinoita →",
-    "start_a_new_story": "Aloita uusi tarina"
+    "start_a_new_story": "Aloita uusi tarina",
+    "create": "Luo",
+    "story": "Juttu"
   },
   "nav": {
     "back_admin": "← Hallinta",
@@ -484,7 +512,12 @@
     "map": "Kartta",
     "my_stories": "Omat tarinat",
     "spending": "Menot",
-    "stories": "Tarinat"
+    "stories": "Tarinat",
+    "account": "Tili",
+    "collapse": "Pienennä",
+    "log_in": "Kirjaudu sisään",
+    "menu": "Valikko",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Takaisin etusivulle",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Tallenna Pocketiin",
     "save_to_pocket_tooltip": "Tallenna Pocketiin",
     "saved": "Tallennettu",
-    "saved_to_pocket_tooltip": "Tallennettu Pocketiin"
+    "saved_to_pocket_tooltip": "Tallennettu Pocketiin",
+    "add_to_investigation": "Lisää tutkintaan",
+    "chart_actions": "Kaavion toiminnot",
+    "download_image": "Lataa kuvana"
   },
   "preferences_menu": {
     "account": "Tili",
@@ -550,10 +586,22 @@
     "avg_roe": "Keskimääräinen ROE",
     "corporate_group": "Konserni",
     "current_price": "Nykyinen hinta",
-    "directors_amp_officers": "Johtajat &amp; johto",
+    "directors_amp_officers": "Johtajat & johto",
     "financial_overview": "Talouden yleiskatsaus",
     "market_cap": "Markkina-arvo",
-    "part_of": "Osa"
+    "part_of": "Osa",
+    "account_settings": "Tilin asetukset",
+    "activity": "Toiminta",
+    "ai_usage": "AI-käyttö",
+    "confirm_delete_account": "Poistetaanko tilisi ja KAIKKI siihen liittyvä data pysyvästi? Tätä ei voi peruuttaa.",
+    "confirm_delete_ai": "Poistetaanko kaikki AI-avustajan keskustelusi?",
+    "confirm_sign_out_all": "Kirjaudutaanko ulos kaikilta laitteilta, joilla on pääsy tiliisi?",
+    "delete_account": "Poista tili ja kaikki tiedot",
+    "delete_ai_data": "Poista AI-keskusteluni",
+    "log_in": "Kirjaudu sisään / Rekisteröidy",
+    "menu": "Tilivalikko",
+    "sign_out": "Kirjaudu ulos",
+    "sign_out_all": "Kirjaudu ulos kaikilta laitteilta"
   },
   "public_spending": {
     "intro": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Tai selaa, mikä maassasi on suurta.",
@@ -586,7 +634,8 @@
     "group_name": "Ryhmän nimi",
     "no_collaborators_yet": "Ei yhteistyökumppaneita vielä.",
     "share_story": "Jaa tarina",
-    "visibility": "Näkyvyys"
+    "visibility": "Näkyvyys",
+    "who_has_access": "Kenellä on käyttöoikeus"
   },
   "sparql": {
     "discoverable_json": "palauttaa saman dokumentaation JSON-muodossa.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Tätä sopimusta muutettiin — katso muutokset napsauttamalla",
+    "modal_title": "Sopimuksen muutos",
+    "subtitle": "Muutosilmoituksessa raportoidut arvot",
+    "field": "Kenttä",
+    "previous": "Aiempi",
+    "new": "Uusi",
+    "change": "Muutos",
+    "value": "Sopimuksen arvo",
+    "modifies": "Muuttaa ilmoitusta",
+    "close": "Sulje",
+    "none": "Tälle muutokselle ei kirjattu kenttäkohtaisia muutoksia."
+  },
+  "account": {
+    "account_data": "Tili ja tiedot",
+    "activity_usage": "Toiminta ja käyttö",
+    "ai_usage_metrics": "AI-käytön mittarit",
+    "dark": "Tumma",
+    "language": "Kieli",
+    "light": "Vaalea",
+    "map_palette": "Kartan väripaletti",
+    "not_signed_in": "Et ole kirjautunut sisään.",
+    "preferences": "Asetukset",
+    "privacy": "Yksityisyys- ja tietokäytäntö",
+    "theme": "Teema",
+    "title": "Tili ja asetukset",
+    "your_activity": "Oma toimintasi"
+  },
+  "investigations": {
+    "add_people": "Lisää henkilöitä",
+    "add_to_dossier": "Lisää kansioon",
+    "add_to_investigation": "Lisää tutkintaan",
+    "back": "← Tutkinnat",
+    "back_stories": "← Omat jutut",
+    "create": "Luo tutkinta",
+    "delete": "Poista",
+    "delete_all": "Poista kaikki",
+    "delete_confirm": "Poistetaanko tämä tutkinta?",
+    "delete_keep": "Poista, säilytä artikkelit",
+    "description": "Kuvaus",
+    "dossier": "Kansio",
+    "dossier_empty": "Ei vielä artikkeleita.",
+    "empty": "Et ole vielä mukana missään tutkinnassa.",
+    "from_this_investigation": "Tästä tutkinnasta",
+    "from_your_pocket": "Omasta taskustasi",
+    "invite": "Kutsu",
+    "invite_email": "Kutsu sähköpostitse",
+    "level_editor": "Muokkaaja",
+    "level_owner": "Omistaja",
+    "level_viewer": "Katselija",
+    "members": "Jäsenet",
+    "name": "Nimi",
+    "new_article": "Uusi artikkeli",
+    "new_dossier": "Uusi kansio",
+    "no_stories": "Ei vielä juttuja.",
+    "no_viz": "Ei vielä visualisointeja.",
+    "open_in_editor": "Avaa editorissa",
+    "role": "Rooli",
+    "role_admin": "Ylläpitäjä",
+    "role_contributor": "Avustaja",
+    "role_owner": "Omistaja",
+    "role_viewer": "Katselija",
+    "select_article": "Valitse artikkeli puusta.",
+    "share_dossier": "Jaa kansio",
+    "stories": "Jutut",
+    "title": "Tutkinnat",
+    "visualizations": "Visualisoinnit",
+    "who_has_access": "Kenellä on käyttöoikeus"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI ja sijoitusrahastot",
+    "subtitle": "Listausten rikastus — arvopaperityypit, toimivat yhtiöt vs. yhteissijoitusvälineet",
+    "by_security_type": "Listaukset arvopaperityypeittäin",
+    "funds_by_type": "Rahastot välinetyypeittäin"
+  },
+  "prices_d_q": {
+    "title": "Osakekurssit",
+    "subtitle": "Päivän päätöskurssikerros — hakuindeksin tuoreus vs. graafista viety universumi",
+    "detail": "Kattavuuden yksityiskohdat"
+  },
+  "value_review": {
+    "title": "Sopimusarvon tarkistus",
+    "subtitle": "Arvot, jotka alusta pidätti, koska julkaistu luku ei läpäissyt tiukkoja järkevyystarkistuksia. Syötä korjattu EUR-arvo tai vahvista väite virheelliseksi — kumpikin päätös lähetetään korjaustapahtumana ja säilyy uudelleensyötöissä.",
+    "empty": "Jono on tyhjä — mikään ei odota tarkistusta.",
+    "load_error": "Tarkistusjonoa ei voitu ladata.",
+    "col_contract": "Sopimus",
+    "col_reason": "Pidätyksen syy",
+    "col_claimed": "Ilmoitettu arvo",
+    "col_estimate": "Ilmoitettu arvio",
+    "col_decision": "Päätös",
+    "corrected_placeholder": "Korjattu € arvo",
+    "action_correct": "Korjaa",
+    "action_bogus": "Virheellinen"
   }
 }

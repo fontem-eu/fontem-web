@@ -241,7 +241,33 @@
     "relationships": "Beziehungen",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Top-Vergabesektoren (CPV)"
+    "top_procurement_sectors_cpv": "Top-Vergabesektoren (CPV)",
+    "badge_aria": "Hinweis zur Datenqualität",
+    "concern_concession_negative": "Negativer Wert (Konzession); von den Wertsummen ausgeschlossen.",
+    "concern_implausible_magnitude": "Wert zu hoch, um für einen Einzelauftrag plausibel zu sein; von den Summen ausgeschlossen.",
+    "concern_low_confidence": "Wert mit geringer Konfidenz; bis zur Prüfung von den Summen ausgeschlossen.",
+    "concern_no_value": "Kein verwertbarer Auftragswert offengelegt.",
+    "concern_payable_discrepancy": "Die Quelle nannte einen abweichenden Zahlbetrag (möglicher Eingabefehler wie eine ×1000-Überhöhung).",
+    "concern_unverified": "Der Wert konnte nicht mit einer Schätzung abgeglichen werden.",
+    "concern_value_disagreement": "Zuschlagswert weicht von der Budgetschätzung ab; von den Summen ausgeschlossen.",
+    "modal_title": "Datenkonfidenz",
+    "level_withheld": "Wert zurückgehalten — fehlerhafte Quelldaten",
+    "level_low_confidence": "Geringe Konfidenz",
+    "level_caveat": "Vorbehalt",
+    "detail_reason": "Grund",
+    "detail_confidence": "Konfidenzwert",
+    "detail_status": "Status",
+    "status_in_review": "In der manuellen Prüfwarteschlange",
+    "status_auto_withheld": "Automatisch zurückgehalten",
+    "status_confirmed_bogus": "Geprüft: als unzuverlässig bestätigt",
+    "withheld_audit_note": "Die veröffentlichte Zahl wurde von der Plattform entfernt, da sie zentrale Plausibilitätsprüfungen nicht bestanden hat. Die ursprüngliche Angabe bleibt im Audit-Log und in der Prüfwarteschlange erhalten; sobald eine Prüfperson den tatsächlichen Wert ermittelt, erscheint er hier.",
+    "explain_implausible_magnitude": "Der veröffentlichte Wert liegt um Größenordnungen über jedem plausiblen öffentlichen Auftrag — meist ein Währungs- oder Stückpreisfehler in der Quellbekanntmachung.",
+    "explain_concession_negative": "Die Bekanntmachung wies einen negativen Wert aus — ein buchhalterisches Artefakt der Formularausfüllung, kein Preis.",
+    "explain_unverified": "Es wurde nur ein einziges, nicht bestätigtes Geldfeld veröffentlicht, in einer Größenordnung, die es verdächtig machte, ohne jede Abgleichsmöglichkeit.",
+    "explain_zero_value": "Die Bekanntmachung veröffentlichte einen Wert von genau null — eine Nichtoffenlegung im Gewand einer Zahl. Wird als nicht offengelegter Wert behandelt.",
+    "explain_confirmed_bogus": "Eine Prüfperson hat den veröffentlichten Wert geprüft und als unzuverlässig bestätigt. Für diesen Auftrag liegt kein vertrauenswürdiger Wert vor.",
+    "explain_withheld_generic": "Der veröffentlichte Wert hat die Plausibilitätsprüfungen der Plattform nicht bestanden und wurde zurückgehalten.",
+    "explain_low_confidence_generic": "Der Wert wird angezeigt, doch die veröffentlichten Geldfelder sind nur schwach belegt; er ist von den Standardsummen und Ranglisten ausgeschlossen."
   },
   "data_quality_hub": {
     "data_freshness": "Datenaktualität",
@@ -471,7 +497,9 @@
     "my_stories": "Meine Geschichten",
     "no_stories_yet_start_your_first_one_abov": "Noch keine Geschichten. Starten Sie Ihre erste oben.",
     "or_read_recent_public_stories": "Oder lesen Sie aktuelle öffentliche Geschichten →",
-    "start_a_new_story": "Neue Story starten"
+    "start_a_new_story": "Neue Story starten",
+    "create": "Erstellen",
+    "story": "Story"
   },
   "nav": {
     "back_admin": "← Verwaltung",
@@ -484,7 +512,12 @@
     "map": "Karte",
     "my_stories": "Meine Stories",
     "spending": "Ausgaben",
-    "stories": "Stories"
+    "stories": "Stories",
+    "account": "Konto",
+    "collapse": "Einklappen",
+    "log_in": "Anmelden",
+    "menu": "Menü",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Zurück zur Startseite",
@@ -514,7 +547,10 @@
     "save_to_pocket": "In Pocket speichern",
     "save_to_pocket_tooltip": "In Pocket speichern",
     "saved": "Gespeichert",
-    "saved_to_pocket_tooltip": "In Pocket gespeichert"
+    "saved_to_pocket_tooltip": "In Pocket gespeichert",
+    "add_to_investigation": "Zur Recherche hinzufügen",
+    "chart_actions": "Diagrammaktionen",
+    "download_image": "Als Bild herunterladen"
   },
   "preferences_menu": {
     "account": "Konto",
@@ -550,10 +586,22 @@
     "avg_roe": "Ø EK-Rendite",
     "corporate_group": "Konzern",
     "current_price": "Aktueller Kurs",
-    "directors_amp_officers": "Direktoren &amp; Vorstände",
+    "directors_amp_officers": "Direktoren & Vorstände",
     "financial_overview": "Finanzübersicht",
     "market_cap": "Marktkapitalisierung",
-    "part_of": "Teil von"
+    "part_of": "Teil von",
+    "account_settings": "Kontoeinstellungen",
+    "activity": "Aktivität",
+    "ai_usage": "AI-Nutzung",
+    "confirm_delete_account": "Ihr Konto und ALLE zugehörigen Daten dauerhaft löschen? Dies kann nicht rückgängig gemacht werden.",
+    "confirm_delete_ai": "Alle Ihre Unterhaltungen mit dem AI-Assistenten löschen?",
+    "confirm_sign_out_all": "Von jedem Gerät abmelden, das Zugriff auf Ihr Konto hat?",
+    "delete_account": "Konto & alle Daten löschen",
+    "delete_ai_data": "Meine AI-Unterhaltungen löschen",
+    "log_in": "Anmelden / Registrieren",
+    "menu": "Kontomenü",
+    "sign_out": "Abmelden",
+    "sign_out_all": "Von allen Geräten abmelden"
   },
   "public_spending": {
     "intro": "Suche EU-Unternehmen, Vergabestellen, Lobbyisten und EU-geförderte Projekte. Oder schau, was in deinem Land groß ist.",
@@ -586,7 +634,8 @@
     "group_name": "Gruppenname",
     "no_collaborators_yet": "Noch keine Mitwirkenden.",
     "share_story": "Geschichte teilen",
-    "visibility": "Sichtbarkeit"
+    "visibility": "Sichtbarkeit",
+    "who_has_access": "Wer hat Zugriff"
   },
   "sparql": {
     "discoverable_json": "liefert dieselbe Dokumentation als JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Dieser Auftrag wurde geändert — klicken Sie, um die Änderungen zu sehen",
+    "modal_title": "Auftragsänderung",
+    "subtitle": "Im Änderungsvermerk gemeldete Werte",
+    "field": "Feld",
+    "previous": "Vorher",
+    "new": "Neu",
+    "change": "Änderung",
+    "value": "Auftragswert",
+    "modifies": "Ändert Bekanntmachung",
+    "close": "Schließen",
+    "none": "Für diese Änderung wurden keine feldbezogenen Änderungen erfasst."
+  },
+  "account": {
+    "account_data": "Konto & Daten",
+    "activity_usage": "Aktivität & Nutzung",
+    "ai_usage_metrics": "AI-Nutzungskennzahlen",
+    "dark": "Dunkel",
+    "language": "Sprache",
+    "light": "Hell",
+    "map_palette": "Kartenpalette",
+    "not_signed_in": "Sie sind nicht angemeldet.",
+    "preferences": "Einstellungen",
+    "privacy": "Datenschutz & Datenrichtlinie",
+    "theme": "Design",
+    "title": "Konto & Einstellungen",
+    "your_activity": "Ihre Aktivität"
+  },
+  "investigations": {
+    "add_people": "Personen hinzufügen",
+    "add_to_dossier": "Zum Dossier hinzufügen",
+    "add_to_investigation": "Zur Recherche hinzufügen",
+    "back": "← Recherchen",
+    "back_stories": "← Meine Storys",
+    "create": "Recherche erstellen",
+    "delete": "Löschen",
+    "delete_all": "Alles löschen",
+    "delete_confirm": "Diese Recherche löschen?",
+    "delete_keep": "Löschen, Artikel behalten",
+    "description": "Beschreibung",
+    "dossier": "Dossier",
+    "dossier_empty": "Noch keine Artikel.",
+    "empty": "Sie sind noch an keiner Recherche beteiligt.",
+    "from_this_investigation": "Aus dieser Recherche",
+    "from_your_pocket": "Aus Ihrer Sammlung",
+    "invite": "Einladen",
+    "invite_email": "Per E-Mail einladen",
+    "level_editor": "Bearbeiter",
+    "level_owner": "Eigentümer",
+    "level_viewer": "Betrachter",
+    "members": "Mitglieder",
+    "name": "Name",
+    "new_article": "Neuer Artikel",
+    "new_dossier": "Neues Dossier",
+    "no_stories": "Noch keine Storys.",
+    "no_viz": "Noch keine Visualisierungen.",
+    "open_in_editor": "Im Editor öffnen",
+    "role": "Rolle",
+    "role_admin": "Administrator",
+    "role_contributor": "Mitwirkender",
+    "role_owner": "Eigentümer",
+    "role_viewer": "Betrachter",
+    "select_article": "Wählen Sie einen Artikel aus der Struktur.",
+    "share_dossier": "Dossier teilen",
+    "stories": "Storys",
+    "title": "Recherchen",
+    "visualizations": "Visualisierungen",
+    "who_has_access": "Wer hat Zugriff"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & Investmentfonds",
+    "subtitle": "Anreicherung von Listings — Wertpapierarten, operative Gesellschaften vs. gepoolte Vehikel",
+    "by_security_type": "Listings nach Wertpapierart",
+    "funds_by_type": "Fonds nach Vehikeltyp"
+  },
+  "prices_d_q": {
+    "title": "Aktienkurse",
+    "subtitle": "EOD-Kursebene — Aktualität des Fetcher-Index vs. das aus dem Graphen exportierte Universum",
+    "detail": "Abdeckungsdetails"
+  },
+  "value_review": {
+    "title": "Prüfung des Auftragswerts",
+    "subtitle": "Werte, die die Plattform zurückgehalten hat, weil die veröffentlichte Zahl zentrale Plausibilitätsprüfungen nicht bestanden hat. Geben Sie den korrigierten EUR-Wert ein oder bestätigen Sie, dass die Angabe fehlerhaft ist — beide Entscheidungen werden als Korrekturereignis ausgegeben und überstehen erneute Datenimporte.",
+    "empty": "Warteschlange ist leer — nichts zur Prüfung anstehend.",
+    "load_error": "Die Prüfwarteschlange konnte nicht geladen werden.",
+    "col_contract": "Auftrag",
+    "col_reason": "Grund der Zurückhaltung",
+    "col_claimed": "Angegebener Wert",
+    "col_estimate": "Angegebene Schätzung",
+    "col_decision": "Entscheidung",
+    "corrected_placeholder": "Korrigierter €-Wert",
+    "action_correct": "Korrigieren",
+    "action_bogus": "Fehlerhaft"
   }
 }

@@ -241,7 +241,33 @@
     "relationships": "Relationer",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Främsta upphandlingssektorer (CPV)"
+    "top_procurement_sectors_cpv": "Främsta upphandlingssektorer (CPV)",
+    "badge_aria": "Anmärkning om datakvalitet",
+    "concern_concession_negative": "Negativt värde (koncession); undantaget från värdesummor.",
+    "concern_implausible_magnitude": "Värdet är för stort för att vara rimligt för ett enskilt kontrakt; undantaget från summor.",
+    "concern_low_confidence": "Värde med låg tillförlitlighet; undantaget från summor i väntan på granskning.",
+    "concern_no_value": "Inget användbart kontraktsvärde har angetts.",
+    "concern_payable_discrepancy": "Källan angav ett motstridigt betalbart belopp (möjligt inmatningsfel, t.ex. en ×1000-uppblåsning).",
+    "concern_unverified": "Värdet kunde inte stämmas av mot en uppskattning.",
+    "concern_value_disagreement": "Det tilldelade värdet stämmer inte med den budgeterade uppskattningen; undantaget från summor.",
+    "modal_title": "Datatillförlitlighet",
+    "level_withheld": "Värde undanhållet — bristfälliga källdata",
+    "level_low_confidence": "Låg tillförlitlighet",
+    "level_caveat": "Förbehåll",
+    "detail_reason": "Orsak",
+    "detail_confidence": "Tillförlitlighetspoäng",
+    "detail_status": "Status",
+    "status_in_review": "I kön för manuell granskning",
+    "status_auto_withheld": "Undanhållet automatiskt",
+    "status_confirmed_bogus": "Granskat: bekräftat otillförlitligt",
+    "withheld_audit_note": "Den publicerade siffran togs bort från plattformen eftersom den inte klarade strikta rimlighetskontroller. Det ursprungliga uppgiften bevaras i granskningsloggen och granskningskön; om en granskare fastställer det korrekta värdet visas det här.",
+    "explain_implausible_magnitude": "Det publicerade värdet är flera storleksordningar större än något rimligt offentligt kontrakt — vanligtvis ett valuta- eller styckprisfel i källmeddelandet.",
+    "explain_concession_negative": "Meddelandet publicerade ett negativt värde — en bokföringsartefakt av hur formuläret fylldes i, inte ett pris.",
+    "explain_unverified": "Endast ett obekräftat beloppsfält publicerades, i en storleksordning som gjorde det misstänkt, utan något att stämma av det mot.",
+    "explain_zero_value": "Meddelandet publicerade ett värde på exakt noll — ett uteblivet uppgivande förklätt till en siffra. Behandlas som ett ej uppgivet värde.",
+    "explain_confirmed_bogus": "En granskare undersökte det publicerade värdet och bekräftade att det är otillförlitligt. Inget tillförlitligt värde finns för detta kontrakt.",
+    "explain_withheld_generic": "Det publicerade värdet klarade inte plattformens rimlighetskontroller och undanhölls.",
+    "explain_low_confidence_generic": "Värdet visas, men de publicerade beloppsfälten är svagt underbyggda; det undantas från standardsummor och rankningar."
   },
   "data_quality_hub": {
     "data_freshness": "Datafräschhet",
@@ -471,7 +497,9 @@
     "my_stories": "Mina historier",
     "no_stories_yet_start_your_first_one_abov": "Inga historier än. Börja den första ovanför.",
     "or_read_recent_public_stories": "Eller läs senaste offentliga historier →",
-    "start_a_new_story": "Starta en ny berättelse"
+    "start_a_new_story": "Starta en ny berättelse",
+    "create": "Skapa",
+    "story": "Berättelse"
   },
   "nav": {
     "back_admin": "← Admin",
@@ -484,7 +512,12 @@
     "map": "Karta",
     "my_stories": "Mina berättelser",
     "spending": "Utgifter",
-    "stories": "Berättelser"
+    "stories": "Berättelser",
+    "account": "Konto",
+    "collapse": "Fäll ihop",
+    "log_in": "Logga in",
+    "menu": "Meny",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Spara till Pocket",
     "save_to_pocket_tooltip": "Spara till Pocket",
     "saved": "Sparad",
-    "saved_to_pocket_tooltip": "Sparad till Pocket"
+    "saved_to_pocket_tooltip": "Sparad till Pocket",
+    "add_to_investigation": "Lägg till i granskning",
+    "chart_actions": "Diagramåtgärder",
+    "download_image": "Ladda ner som bild"
   },
   "preferences_menu": {
     "account": "Konto",
@@ -550,10 +586,22 @@
     "avg_roe": "Genomsnittlig ROE",
     "corporate_group": "Företagsgrupp",
     "current_price": "Aktuellt pris",
-    "directors_amp_officers": "Direktörer &amp; chefer",
+    "directors_amp_officers": "Direktörer & chefer",
     "financial_overview": "Finansiell översikt",
     "market_cap": "Börsvärde",
-    "part_of": "Del av"
+    "part_of": "Del av",
+    "account_settings": "Kontoinställningar",
+    "activity": "Aktivitet",
+    "ai_usage": "AI-användning",
+    "confirm_delete_account": "Radera permanent ditt konto och ALLA tillhörande data? Detta kan inte ångras.",
+    "confirm_delete_ai": "Radera alla dina konversationer med AI-assistenten?",
+    "confirm_sign_out_all": "Logga ut från alla enheter som har åtkomst till ditt konto?",
+    "delete_account": "Radera konto & alla data",
+    "delete_ai_data": "Radera mina AI-konversationer",
+    "log_in": "Logga in / Registrera dig",
+    "menu": "Kontomeny",
+    "sign_out": "Logga ut",
+    "sign_out_all": "Logga ut från alla enheter"
   },
   "public_spending": {
     "intro": "Sök EU-företag, upphandlande myndigheter, lobbyister och EU-finansierade projekt. Eller bläddra i vad som är stort i ditt land.",
@@ -586,7 +634,8 @@
     "group_name": "Gruppnamn",
     "no_collaborators_yet": "Inga medarbetare än.",
     "share_story": "Dela historia",
-    "visibility": "Synlighet"
+    "visibility": "Synlighet",
+    "who_has_access": "Vem har åtkomst"
   },
   "sparql": {
     "discoverable_json": "returnerar samma dokumentation som JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Detta kontrakt har ändrats — klicka för att se vad som ändrades",
+    "modal_title": "Kontraktsändring",
+    "subtitle": "Värden som rapporterats i ändringsmeddelandet",
+    "field": "Fält",
+    "previous": "Tidigare",
+    "new": "Nytt",
+    "change": "Ändring",
+    "value": "Kontraktsvärde",
+    "modifies": "Ändrar meddelande",
+    "close": "Stäng",
+    "none": "Inga ändringar på fältnivå registrerades för denna ändring."
+  },
+  "account": {
+    "account_data": "Konto & data",
+    "activity_usage": "Aktivitet & användning",
+    "ai_usage_metrics": "AI-användningsstatistik",
+    "dark": "Mörkt",
+    "language": "Språk",
+    "light": "Ljust",
+    "map_palette": "Kartpalett",
+    "not_signed_in": "Du är inte inloggad.",
+    "preferences": "Inställningar",
+    "privacy": "Integritet & datapolicy",
+    "theme": "Tema",
+    "title": "Konto & inställningar",
+    "your_activity": "Din aktivitet"
+  },
+  "investigations": {
+    "add_people": "Lägg till personer",
+    "add_to_dossier": "Lägg till i dossier",
+    "add_to_investigation": "Lägg till i granskning",
+    "back": "← Granskningar",
+    "back_stories": "← Mina berättelser",
+    "create": "Skapa granskning",
+    "delete": "Ta bort",
+    "delete_all": "Ta bort allt",
+    "delete_confirm": "Ta bort denna granskning?",
+    "delete_keep": "Ta bort, behåll artiklar",
+    "description": "Beskrivning",
+    "dossier": "Dossier",
+    "dossier_empty": "Inga artiklar ännu.",
+    "empty": "Du deltar inte i några granskningar ännu.",
+    "from_this_investigation": "Från denna granskning",
+    "from_your_pocket": "Från din ficka",
+    "invite": "Bjud in",
+    "invite_email": "Bjud in via e-post",
+    "level_editor": "Redaktör",
+    "level_owner": "Ägare",
+    "level_viewer": "Läsare",
+    "members": "Medlemmar",
+    "name": "Namn",
+    "new_article": "Ny artikel",
+    "new_dossier": "Ny dossier",
+    "no_stories": "Inga berättelser ännu.",
+    "no_viz": "Inga visualiseringar ännu.",
+    "open_in_editor": "Öppna i redigeraren",
+    "role": "Roll",
+    "role_admin": "Administratör",
+    "role_contributor": "Bidragsgivare",
+    "role_owner": "Ägare",
+    "role_viewer": "Läsare",
+    "select_article": "Välj en artikel från trädet.",
+    "share_dossier": "Dela dossier",
+    "stories": "Berättelser",
+    "title": "Granskningar",
+    "visualizations": "Visualiseringar",
+    "who_has_access": "Vem har åtkomst"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & investeringsfonder",
+    "subtitle": "Berikning av noteringar — värdepapperstyper, rörelsedrivande bolag kontra sammanförda fondstrukturer",
+    "by_security_type": "Noteringar efter värdepapperstyp",
+    "funds_by_type": "Fonder efter fondstruktur"
+  },
+  "prices_d_q": {
+    "title": "Aktiekurser",
+    "subtitle": "EOD-prislager — aktualitet i hämtarindexet kontra det grafexporterade universumet",
+    "detail": "Täckningsdetaljer"
+  },
+  "value_review": {
+    "title": "Granskning av kontraktsvärde",
+    "subtitle": "Värden som plattformen undanhöll eftersom den publicerade siffran inte klarade strikta rimlighetskontroller. Ange det korrigerade EUR-värdet, eller bekräfta att uppgiften är felaktig — vartdera beslutet sänds ut som en korrigerande händelse och kvarstår vid ny inläsning.",
+    "empty": "Kön är tom — inget väntar på granskning.",
+    "load_error": "Kunde inte läsa in granskningskön.",
+    "col_contract": "Kontrakt",
+    "col_reason": "Skäl till undanhållande",
+    "col_claimed": "Uppgivet värde",
+    "col_estimate": "Uppgiven uppskattning",
+    "col_decision": "Beslut",
+    "corrected_placeholder": "Korrigerat €-värde",
+    "action_correct": "Korrigera",
+    "action_bogus": "Felaktigt"
   }
 }

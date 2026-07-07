@@ -241,7 +241,33 @@
     "relationships": "Relações",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Principais setores de contratação (CPV)"
+    "top_procurement_sectors_cpv": "Principais setores de contratação (CPV)",
+    "badge_aria": "Problema de qualidade dos dados",
+    "concern_concession_negative": "Valor negativo (concessão); excluído dos totais de valor.",
+    "concern_implausible_magnitude": "Valor demasiado elevado para ser plausível num único contrato; excluído dos totais.",
+    "concern_low_confidence": "Valor de baixa confiança; excluído dos totais até revisão.",
+    "concern_no_value": "Nenhum valor de contrato utilizável foi divulgado.",
+    "concern_payable_discrepancy": "A fonte indicou um montante a pagar contraditório (possível erro de introdução de dados, como uma inflação de ×1000).",
+    "concern_unverified": "Não foi possível verificar o valor face a uma estimativa.",
+    "concern_value_disagreement": "O valor adjudicado diverge da estimativa orçamental; excluído dos totais.",
+    "modal_title": "Confiança dos dados",
+    "level_withheld": "Valor retido — dados de origem incorretos",
+    "level_low_confidence": "Baixa confiança",
+    "level_caveat": "Ressalva",
+    "detail_reason": "Motivo",
+    "detail_confidence": "Pontuação de confiança",
+    "detail_status": "Estado",
+    "status_in_review": "Na fila de revisão humana",
+    "status_auto_withheld": "Retido automaticamente",
+    "status_confirmed_bogus": "Revisto: confirmado como não fiável",
+    "withheld_audit_note": "O número publicado foi removido da plataforma por não ter passado nas verificações rigorosas de coerência. A afirmação original é preservada no registo de auditoria e na fila de revisão; se um revisor apurar o valor verdadeiro, este será apresentado aqui.",
+    "explain_implausible_magnitude": "O valor publicado está várias ordens de grandeza acima de qualquer contrato público plausível — normalmente um erro de moeda ou de preço por unidade no anúncio de origem.",
+    "explain_concession_negative": "O anúncio publicou um valor negativo — um artefacto contabilístico da forma como o formulário foi preenchido, não um preço.",
+    "explain_unverified": "Apenas um campo monetário não corroborado foi publicado, com uma grandeza que o tornava suspeito e sem nada com que o confrontar.",
+    "explain_zero_value": "O anúncio publicou um valor de exatamente zero — uma não divulgação disfarçada de número. Tratado como valor não divulgado.",
+    "explain_confirmed_bogus": "Um revisor humano examinou o valor publicado e confirmou que não é fiável. Não existe qualquer valor de confiança disponível para este contrato.",
+    "explain_withheld_generic": "O valor publicado não passou nas verificações de coerência da plataforma e foi retido.",
+    "explain_low_confidence_generic": "O valor é apresentado, mas os campos monetários publicados têm fraca sustentação; é excluído dos totais e classificações predefinidos."
   },
   "data_quality_hub": {
     "data_freshness": "Frescura dos dados",
@@ -471,7 +497,9 @@
     "my_stories": "As minhas histórias",
     "no_stories_yet_start_your_first_one_abov": "Ainda sem histórias. Comece a sua primeira acima.",
     "or_read_recent_public_stories": "Ou leia histórias públicas recentes →",
-    "start_a_new_story": "Começa uma nova história"
+    "start_a_new_story": "Começa uma nova história",
+    "create": "Criar",
+    "story": "História"
   },
   "nav": {
     "back_admin": "← Administração",
@@ -484,7 +512,12 @@
     "map": "Mapa",
     "my_stories": "As minhas histórias",
     "spending": "Despesas",
-    "stories": "Histórias"
+    "stories": "Histórias",
+    "account": "Conta",
+    "collapse": "Recolher",
+    "log_in": "Iniciar sessão",
+    "menu": "Menu",
+    "studio": "Estúdio"
   },
   "not_found": {
     "back_to_home": "Voltar ao início",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Guardar no Pocket",
     "save_to_pocket_tooltip": "Guardar no Pocket",
     "saved": "Guardado",
-    "saved_to_pocket_tooltip": "Guardado no Pocket"
+    "saved_to_pocket_tooltip": "Guardado no Pocket",
+    "add_to_investigation": "Adicionar à investigação",
+    "chart_actions": "Ações do gráfico",
+    "download_image": "Transferir como imagem"
   },
   "preferences_menu": {
     "account": "Conta",
@@ -550,10 +586,22 @@
     "avg_roe": "ROE médio",
     "corporate_group": "Grupo empresarial",
     "current_price": "Preço atual",
-    "directors_amp_officers": "Diretores &amp; quadros",
+    "directors_amp_officers": "Diretores & quadros",
     "financial_overview": "Visão geral financeira",
     "market_cap": "Capitalização bolsista",
-    "part_of": "Parte de"
+    "part_of": "Parte de",
+    "account_settings": "Definições da conta",
+    "activity": "Atividade",
+    "ai_usage": "Utilização de AI",
+    "confirm_delete_account": "Eliminar permanentemente a sua conta e TODOS os dados associados? Esta ação não pode ser anulada.",
+    "confirm_delete_ai": "Eliminar todas as suas conversas com o assistente de AI?",
+    "confirm_sign_out_all": "Terminar sessão em todos os dispositivos com acesso à sua conta?",
+    "delete_account": "Eliminar conta e todos os dados",
+    "delete_ai_data": "Eliminar as minhas conversas de AI",
+    "log_in": "Iniciar sessão / Registar",
+    "menu": "Menu da conta",
+    "sign_out": "Terminar sessão",
+    "sign_out_all": "Terminar sessão em todos os dispositivos"
   },
   "public_spending": {
     "intro": "Procura empresas da UE, entidades adjudicantes, lobistas e projetos financiados pela UE. Ou vê o que é grande no teu país.",
@@ -586,7 +634,8 @@
     "group_name": "Nome do grupo",
     "no_collaborators_yet": "Ainda sem colaboradores.",
     "share_story": "Partilhar história",
-    "visibility": "Visibilidade"
+    "visibility": "Visibilidade",
+    "who_has_access": "Quem tem acesso"
   },
   "sparql": {
     "discoverable_json": "devolve esta mesma documentação em JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Este contrato foi alterado — clique para ver o que mudou",
+    "modal_title": "Alteração do contrato",
+    "subtitle": "Valores comunicados pelo anúncio de alteração",
+    "field": "Campo",
+    "previous": "Anterior",
+    "new": "Novo",
+    "change": "Alteração",
+    "value": "Valor do contrato",
+    "modifies": "Altera o anúncio",
+    "close": "Fechar",
+    "none": "Não foram registadas alterações ao nível dos campos para esta modificação."
+  },
+  "account": {
+    "account_data": "Conta e dados",
+    "activity_usage": "Atividade e utilização",
+    "ai_usage_metrics": "Métricas de utilização de AI",
+    "dark": "Escuro",
+    "language": "Idioma",
+    "light": "Claro",
+    "map_palette": "Paleta do mapa",
+    "not_signed_in": "Não tem sessão iniciada.",
+    "preferences": "Preferências",
+    "privacy": "Política de privacidade e dados",
+    "theme": "Tema",
+    "title": "Conta e definições",
+    "your_activity": "A sua atividade"
+  },
+  "investigations": {
+    "add_people": "Adicionar pessoas",
+    "add_to_dossier": "Adicionar ao dossiê",
+    "add_to_investigation": "Adicionar à investigação",
+    "back": "← Investigações",
+    "back_stories": "← As Minhas Histórias",
+    "create": "Criar investigação",
+    "delete": "Eliminar",
+    "delete_all": "Eliminar tudo",
+    "delete_confirm": "Eliminar esta investigação?",
+    "delete_keep": "Eliminar, manter artigos",
+    "description": "Descrição",
+    "dossier": "Dossiê",
+    "dossier_empty": "Ainda não há artigos.",
+    "empty": "Ainda não participa em nenhuma investigação.",
+    "from_this_investigation": "Desta investigação",
+    "from_your_pocket": "Do seu bolso",
+    "invite": "Convidar",
+    "invite_email": "Convidar por email",
+    "level_editor": "Editor",
+    "level_owner": "Proprietário",
+    "level_viewer": "Visualizador",
+    "members": "Membros",
+    "name": "Nome",
+    "new_article": "Novo artigo",
+    "new_dossier": "Novo dossiê",
+    "no_stories": "Ainda não há histórias.",
+    "no_viz": "Ainda não há visualizações.",
+    "open_in_editor": "Abrir no editor",
+    "role": "Função",
+    "role_admin": "Administrador",
+    "role_contributor": "Colaborador",
+    "role_owner": "Proprietário",
+    "role_viewer": "Visualizador",
+    "select_article": "Selecione um artigo na árvore.",
+    "share_dossier": "Partilhar dossiê",
+    "stories": "Histórias",
+    "title": "Investigações",
+    "visualizations": "Visualizações",
+    "who_has_access": "Quem tem acesso"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI e Fundos de Investimento",
+    "subtitle": "Enriquecimento de cotações — tipos de valores mobiliários, sociedades operacionais vs veículos de investimento coletivo",
+    "by_security_type": "Cotações por Tipo de Valor Mobiliário",
+    "funds_by_type": "Fundos por Tipo de Veículo"
+  },
+  "prices_d_q": {
+    "title": "Cotações de Ações",
+    "subtitle": "Camada de preços de fecho — atualidade do índice do coletor face ao universo exportado do grafo",
+    "detail": "Detalhe de Cobertura"
+  },
+  "value_review": {
+    "title": "Revisão do valor do contrato",
+    "subtitle": "Valores que a plataforma reteve porque o número publicado não passou nas verificações rigorosas de coerência. Introduza o valor corrigido em EUR ou confirme que a afirmação é falsa — qualquer das decisões é emitida como um evento corretivo e sobrevive às reimportações.",
+    "empty": "A fila está vazia — nada a aguardar revisão.",
+    "load_error": "Não foi possível carregar a fila de revisão.",
+    "col_contract": "Contrato",
+    "col_reason": "Motivo da retenção",
+    "col_claimed": "Valor declarado",
+    "col_estimate": "Estimativa declarada",
+    "col_decision": "Decisão",
+    "corrected_placeholder": "Valor € corrigido",
+    "action_correct": "Corrigir",
+    "action_bogus": "Falso"
   }
 }

@@ -241,7 +241,33 @@
     "relationships": "Attiecības",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Galvenās iepirkuma nozares (CPV)"
+    "top_procurement_sectors_cpv": "Galvenās iepirkuma nozares (CPV)",
+    "badge_aria": "Datu kvalitātes problēma",
+    "concern_concession_negative": "Negatīva (koncesijas) vērtība; izslēgta no vērtību kopsummām.",
+    "concern_implausible_magnitude": "Vērtība pārāk liela, lai būtu ticama vienam līgumam; izslēgta no kopsummām.",
+    "concern_low_confidence": "Zemas ticamības vērtība; izslēgta no kopsummām līdz pārbaudei.",
+    "concern_no_value": "Nav atklāta izmantojama līguma vērtība.",
+    "concern_payable_discrepancy": "Avotā norādīta pretrunīga maksājamā summa (iespējama datu ievades kļūda, piemēram, ×1000 palielinājums).",
+    "concern_unverified": "Vērtību nevarēja salīdzināt ar aplēsi.",
+    "concern_value_disagreement": "Piešķirtā vērtība nesaskan ar budžeta aplēsi; izslēgta no kopsummām.",
+    "modal_title": "Datu ticamība",
+    "level_withheld": "Vērtība aizturēta — nekvalitatīvi avota dati",
+    "level_low_confidence": "Zema ticamība",
+    "level_caveat": "Piebilde",
+    "detail_reason": "Iemesls",
+    "detail_confidence": "Ticamības rādītājs",
+    "detail_status": "Statuss",
+    "status_in_review": "Cilvēku pārbaudes rindā",
+    "status_auto_withheld": "Aizturēta automātiski",
+    "status_confirmed_bogus": "Pārbaudīta: apstiprināts, ka neuzticama",
+    "withheld_audit_note": "Publicētais skaitlis tika noņemts no platformas, jo tas neizturēja stingrās ticamības pārbaudes. Sākotnējais apgalvojums ir saglabāts audita žurnālā un pārbaudes rindā; ja pārbaudītājs noskaidros patieso vērtību, tā parādīsies šeit.",
+    "explain_implausible_magnitude": "Publicētā vērtība ir vairākas kārtas lielāka nekā jebkurš ticams publisks līgums — parasti valūtas vai vienības cenas kļūda avota paziņojumā.",
+    "explain_concession_negative": "Paziņojumā publicēta negatīva vērtība — grāmatvedības artefakts, kas radies no veidlapas aizpildīšanas veida, nevis cena.",
+    "explain_unverified": "Publicēts tikai viens neapstiprināts naudas lauks, tik lielā apmērā, ka tas izraisīja aizdomas, bez iespējas to ar kaut ko salīdzināt.",
+    "explain_zero_value": "Paziņojumā publicēta vērtība, kas ir tieši nulle — neatklāšana skaitļa aizsegā. Uzskatīta par neatklātu vērtību.",
+    "explain_confirmed_bogus": "Pārbaudītājs izvērtēja publicēto vērtību un apstiprināja, ka tā ir neuzticama. Šim līgumam nav pieejama uzticama vērtība.",
+    "explain_withheld_generic": "Publicētā vērtība neizturēja platformas ticamības pārbaudes un tika aizturēta.",
+    "explain_low_confidence_generic": "Vērtība tiek rādīta, taču publicētie naudas lauki ir vāji pamatoti; tā ir izslēgta no noklusējuma kopsummām un reitingiem."
   },
   "data_quality_hub": {
     "data_freshness": "Datu svaigums",
@@ -471,7 +497,9 @@
     "my_stories": "Mani stāsti",
     "no_stories_yet_start_your_first_one_abov": "Stāstu vēl nav. Sāc pirmo augšā.",
     "or_read_recent_public_stories": "Vai lasi nesen publicētus publiskus stāstus →",
-    "start_a_new_story": "Sākt jaunu stāstu"
+    "start_a_new_story": "Sākt jaunu stāstu",
+    "create": "Izveidot",
+    "story": "Stāsts"
   },
   "nav": {
     "back_admin": "← Administrēšana",
@@ -484,7 +512,12 @@
     "map": "Karte",
     "my_stories": "Mani stāsti",
     "spending": "Tēriņi",
-    "stories": "Stāsti"
+    "stories": "Stāsti",
+    "account": "Konts",
+    "collapse": "Sakļaut",
+    "log_in": "Pieteikties",
+    "menu": "Izvēlne",
+    "studio": "Studija"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Saglabāt Pocket",
     "save_to_pocket_tooltip": "Saglabāt Pocket",
     "saved": "Saglabāts",
-    "saved_to_pocket_tooltip": "Saglabāts Pocket"
+    "saved_to_pocket_tooltip": "Saglabāts Pocket",
+    "add_to_investigation": "Pievienot izmeklēšanai",
+    "chart_actions": "Diagrammas darbības",
+    "download_image": "Lejupielādēt kā attēlu"
   },
   "preferences_menu": {
     "account": "Konts",
@@ -550,10 +586,22 @@
     "avg_roe": "Vidējais ROE",
     "corporate_group": "Korporatīvā grupa",
     "current_price": "Pašreizējā cena",
-    "directors_amp_officers": "Direktori &amp; amatpersonas",
+    "directors_amp_officers": "Direktori & amatpersonas",
     "financial_overview": "Finanšu pārskats",
     "market_cap": "Tirgus kapitalizācija",
-    "part_of": "Daļa no"
+    "part_of": "Daļa no",
+    "account_settings": "Konta iestatījumi",
+    "activity": "Aktivitāte",
+    "ai_usage": "AI lietojums",
+    "confirm_delete_account": "Neatgriezeniski dzēst jūsu kontu un VISUS saistītos datus? To nevar atsaukt.",
+    "confirm_delete_ai": "Dzēst visas jūsu AI asistenta sarunas?",
+    "confirm_sign_out_all": "Iziet no visām ierīcēm, kurām ir piekļuve jūsu kontam?",
+    "delete_account": "Dzēst kontu un visus datus",
+    "delete_ai_data": "Dzēst manas AI sarunas",
+    "log_in": "Pieteikties / Reģistrēties",
+    "menu": "Konta izvēlne",
+    "sign_out": "Iziet",
+    "sign_out_all": "Iziet no visām ierīcēm"
   },
   "public_spending": {
     "intro": "Meklē ES uzņēmumus, līgumslēdzējus, lobistus un ES finansētus projektus. Vai pārlūko to, kas ir liels tavā valstī.",
@@ -586,7 +634,8 @@
     "group_name": "Grupas nosaukums",
     "no_collaborators_yet": "Līdzstrādnieku vēl nav.",
     "share_story": "Kopīgot stāstu",
-    "visibility": "Redzamība"
+    "visibility": "Redzamība",
+    "who_has_access": "Kam ir piekļuve"
   },
   "sparql": {
     "discoverable_json": "atgriež to pašu dokumentāciju kā JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Šis līgums tika grozīts — noklikšķiniet, lai redzētu, kas mainījās",
+    "modal_title": "Līguma grozījums",
+    "subtitle": "Vērtības, kas norādītas grozījuma paziņojumā",
+    "field": "Lauks",
+    "previous": "Iepriekšējā",
+    "new": "Jaunā",
+    "change": "Izmaiņa",
+    "value": "Līguma vērtība",
+    "modifies": "Groza paziņojumu",
+    "close": "Aizvērt",
+    "none": "Šim grozījumam netika reģistrētas izmaiņas atsevišķu lauku līmenī."
+  },
+  "account": {
+    "account_data": "Konts un dati",
+    "activity_usage": "Aktivitāte un lietojums",
+    "ai_usage_metrics": "AI lietojuma rādītāji",
+    "dark": "Tumšs",
+    "language": "Valoda",
+    "light": "Gaišs",
+    "map_palette": "Kartes palete",
+    "not_signed_in": "Jūs neesat pieteicies.",
+    "preferences": "Preferences",
+    "privacy": "Privātuma un datu politika",
+    "theme": "Motīvs",
+    "title": "Konts un iestatījumi",
+    "your_activity": "Jūsu aktivitāte"
+  },
+  "investigations": {
+    "add_people": "Pievienot cilvēkus",
+    "add_to_dossier": "Pievienot dosjē",
+    "add_to_investigation": "Pievienot izmeklēšanai",
+    "back": "← Izmeklēšanas",
+    "back_stories": "← Mani stāsti",
+    "create": "Izveidot izmeklēšanu",
+    "delete": "Dzēst",
+    "delete_all": "Dzēst visu",
+    "delete_confirm": "Dzēst šo izmeklēšanu?",
+    "delete_keep": "Dzēst, saglabāt rakstus",
+    "description": "Apraksts",
+    "dossier": "Dosjē",
+    "dossier_empty": "Vēl nav rakstu.",
+    "empty": "Jūs vēl neesat iesaistīts nevienā izmeklēšanā.",
+    "from_this_investigation": "No šīs izmeklēšanas",
+    "from_your_pocket": "No jūsu kabatas",
+    "invite": "Uzaicināt",
+    "invite_email": "Uzaicināt pa e-pastu",
+    "level_editor": "Redaktors",
+    "level_owner": "Īpašnieks",
+    "level_viewer": "Skatītājs",
+    "members": "Dalībnieki",
+    "name": "Nosaukums",
+    "new_article": "Jauns raksts",
+    "new_dossier": "Jauns dosjē",
+    "no_stories": "Vēl nav stāstu.",
+    "no_viz": "Vēl nav vizualizāciju.",
+    "open_in_editor": "Atvērt redaktorā",
+    "role": "Loma",
+    "role_admin": "Administrators",
+    "role_contributor": "Līdzautors",
+    "role_owner": "Īpašnieks",
+    "role_viewer": "Skatītājs",
+    "select_article": "Atlasiet rakstu no koka.",
+    "share_dossier": "Kopīgot dosjē",
+    "stories": "Stāsti",
+    "title": "Izmeklēšanas",
+    "visualizations": "Vizualizācijas",
+    "who_has_access": "Kam ir piekļuve"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI un ieguldījumu fondi",
+    "subtitle": "Iekļaušanas biržas sarakstā bagātināšana — vērtspapīru veidi, operējošie uzņēmumi pret apvienotajiem ieguldījumu instrumentiem",
+    "by_security_type": "Biržas saraksti pēc vērtspapīra veida",
+    "funds_by_type": "Fondi pēc instrumenta veida"
+  },
+  "prices_d_q": {
+    "title": "Akciju cenas",
+    "subtitle": "Dienas beigu cenu slānis — ielādētāja indeksa aktualitāte pret grafā eksportēto kopumu",
+    "detail": "Pārklājuma detaļas"
+  },
+  "value_review": {
+    "title": "Līguma vērtības pārbaude",
+    "subtitle": "Vērtības, kuras platforma aizturēja, jo publicētais skaitlis neizturēja stingrās ticamības pārbaudes. Ievadiet laboto vērtību EUR vai apstipriniet, ka apgalvojums ir kļūdains — jebkurš lēmums tiek reģistrēts kā koriģējošs notikums un saglabājas pēc atkārtotas datu ielādes.",
+    "empty": "Rinda ir tukša — nekas negaida pārbaudi.",
+    "load_error": "Neizdevās ielādēt pārbaudes rindu.",
+    "col_contract": "Līgums",
+    "col_reason": "Aizturēšanas iemesls",
+    "col_claimed": "Norādītā vērtība",
+    "col_estimate": "Norādītā aplēse",
+    "col_decision": "Lēmums",
+    "corrected_placeholder": "Labotā € vērtība",
+    "action_correct": "Labot",
+    "action_bogus": "Kļūdains"
   }
 }

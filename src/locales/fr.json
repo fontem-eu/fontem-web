@@ -241,7 +241,33 @@
     "relationships": "Relations",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Principaux secteurs de marchés (CPV)"
+    "top_procurement_sectors_cpv": "Principaux secteurs de marchés (CPV)",
+    "badge_aria": "Problème de qualité des données",
+    "concern_concession_negative": "Valeur négative (concession) ; exclue des totaux.",
+    "concern_implausible_magnitude": "Montant trop élevé pour être plausible pour un contrat unique ; exclu des totaux.",
+    "concern_low_confidence": "Valeur à faible fiabilité ; exclue des totaux dans l'attente d'une vérification.",
+    "concern_no_value": "Aucun montant de contrat exploitable n'a été communiqué.",
+    "concern_payable_discrepancy": "La source indiquait un montant à payer contradictoire (possible erreur de saisie, par exemple une inflation d'un facteur ×1000).",
+    "concern_unverified": "La valeur n'a pas pu être recoupée avec une estimation.",
+    "concern_value_disagreement": "Le montant attribué diverge de l'estimation budgétaire ; exclu des totaux.",
+    "modal_title": "Fiabilité des données",
+    "level_withheld": "Valeur retenue — données source erronées",
+    "level_low_confidence": "Faible fiabilité",
+    "level_caveat": "Réserve",
+    "detail_reason": "Motif",
+    "detail_confidence": "Indice de fiabilité",
+    "detail_status": "Statut",
+    "status_in_review": "Dans la file de vérification humaine",
+    "status_auto_withheld": "Retenue automatiquement",
+    "status_confirmed_bogus": "Vérifiée : fiabilité non confirmée",
+    "withheld_audit_note": "Le chiffre publié a été retiré de la plateforme car il n'a pas passé les contrôles de cohérence stricts. La donnée d'origine est conservée dans le journal d'audit et la file de vérification ; si un vérificateur établit la valeur réelle, elle apparaîtra ici.",
+    "explain_implausible_magnitude": "La valeur publiée dépasse de plusieurs ordres de grandeur tout contrat public plausible — généralement une erreur de devise ou de prix unitaire dans l'avis source.",
+    "explain_concession_negative": "L'avis a publié une valeur négative — un artefact comptable lié au remplissage du formulaire, et non un prix.",
+    "explain_unverified": "Un seul champ monétaire non corroboré a été publié, à un ordre de grandeur suspect, sans rien pour le recouper.",
+    "explain_zero_value": "L'avis a publié une valeur strictement nulle — une non-divulgation déguisée en chiffre. Traitée comme une valeur non communiquée.",
+    "explain_confirmed_bogus": "Un vérificateur humain a examiné la valeur publiée et confirmé son manque de fiabilité. Aucune valeur digne de confiance n'est disponible pour ce contrat.",
+    "explain_withheld_generic": "La valeur publiée n'a pas passé les contrôles de cohérence de la plateforme et a été retenue.",
+    "explain_low_confidence_generic": "La valeur est affichée, mais les champs monétaires publiés sont faiblement étayés ; elle est exclue des totaux et classements par défaut."
   },
   "data_quality_hub": {
     "data_freshness": "Fraîcheur des données",
@@ -471,7 +497,9 @@
     "my_stories": "Mes histoires",
     "no_stories_yet_start_your_first_one_abov": "Pas encore d'histoire. Commencez votre première ci-dessus.",
     "or_read_recent_public_stories": "Ou lisez les histoires publiques récentes →",
-    "start_a_new_story": "Commencer une nouvelle histoire"
+    "start_a_new_story": "Commencer une nouvelle histoire",
+    "create": "Créer",
+    "story": "Récit"
   },
   "nav": {
     "back_admin": "← Administration",
@@ -484,7 +512,12 @@
     "map": "Carte",
     "my_stories": "Mes histoires",
     "spending": "Dépenses",
-    "stories": "Histoires"
+    "stories": "Histoires",
+    "account": "Compte",
+    "collapse": "Réduire",
+    "log_in": "Se connecter",
+    "menu": "Menu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Retour à l'accueil",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Enregistrer dans Pocket",
     "save_to_pocket_tooltip": "Enregistrer dans Pocket",
     "saved": "Enregistré",
-    "saved_to_pocket_tooltip": "Enregistré dans Pocket"
+    "saved_to_pocket_tooltip": "Enregistré dans Pocket",
+    "add_to_investigation": "Ajouter à l'enquête",
+    "chart_actions": "Actions du graphique",
+    "download_image": "Télécharger en image"
   },
   "preferences_menu": {
     "account": "Compte",
@@ -550,10 +586,22 @@
     "avg_roe": "ROE moy.",
     "corporate_group": "Groupe",
     "current_price": "Cours actuel",
-    "directors_amp_officers": "Directeurs &amp; dirigeants",
+    "directors_amp_officers": "Directeurs & dirigeants",
     "financial_overview": "Aperçu financier",
     "market_cap": "Capitalisation boursière",
-    "part_of": "Fait partie de"
+    "part_of": "Fait partie de",
+    "account_settings": "Paramètres du compte",
+    "activity": "Activité",
+    "ai_usage": "Utilisation de l'IA",
+    "confirm_delete_account": "Supprimer définitivement votre compte et TOUTES les données associées ? Cette action est irréversible.",
+    "confirm_delete_ai": "Supprimer toutes vos conversations avec l'assistant IA ?",
+    "confirm_sign_out_all": "Se déconnecter de tous les appareils ayant accès à votre compte ?",
+    "delete_account": "Supprimer le compte et toutes les données",
+    "delete_ai_data": "Supprimer mes conversations IA",
+    "log_in": "Se connecter / S'inscrire",
+    "menu": "Menu du compte",
+    "sign_out": "Se déconnecter",
+    "sign_out_all": "Se déconnecter de tous les appareils"
   },
   "public_spending": {
     "intro": "Cherche des entreprises de l'UE, des pouvoirs adjudicateurs, des lobbyistes et des projets financés par l'UE. Ou parcours ce qui est gros dans ton pays.",
@@ -586,7 +634,8 @@
     "group_name": "Nom du groupe",
     "no_collaborators_yet": "Pas encore de collaborateurs.",
     "share_story": "Partager l'histoire",
-    "visibility": "Visibilité"
+    "visibility": "Visibilité",
+    "who_has_access": "Qui a accès"
   },
   "sparql": {
     "discoverable_json": "renvoie la même documentation en JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Ce contrat a été modifié — cliquez pour voir les changements",
+    "modal_title": "Modification du contrat",
+    "subtitle": "Valeurs indiquées par l'avis de modification",
+    "field": "Champ",
+    "previous": "Ancienne valeur",
+    "new": "Nouvelle valeur",
+    "change": "Variation",
+    "value": "Montant du contrat",
+    "modifies": "Modifie l'avis",
+    "close": "Fermer",
+    "none": "Aucun changement au niveau des champs n'a été enregistré pour cette modification."
+  },
+  "account": {
+    "account_data": "Compte et données",
+    "activity_usage": "Activité et utilisation",
+    "ai_usage_metrics": "Statistiques d'utilisation de l'IA",
+    "dark": "Sombre",
+    "language": "Langue",
+    "light": "Clair",
+    "map_palette": "Palette de la carte",
+    "not_signed_in": "Vous n'êtes pas connecté.",
+    "preferences": "Préférences",
+    "privacy": "Confidentialité et politique des données",
+    "theme": "Thème",
+    "title": "Compte et paramètres",
+    "your_activity": "Votre activité"
+  },
+  "investigations": {
+    "add_people": "Ajouter des personnes",
+    "add_to_dossier": "Ajouter au dossier",
+    "add_to_investigation": "Ajouter à l'enquête",
+    "back": "← Enquêtes",
+    "back_stories": "← Mes récits",
+    "create": "Créer une enquête",
+    "delete": "Supprimer",
+    "delete_all": "Tout supprimer",
+    "delete_confirm": "Supprimer cette enquête ?",
+    "delete_keep": "Supprimer, conserver les articles",
+    "description": "Description",
+    "dossier": "Dossier",
+    "dossier_empty": "Aucun article pour le moment.",
+    "empty": "Vous ne participez à aucune enquête pour le moment.",
+    "from_this_investigation": "Depuis cette enquête",
+    "from_your_pocket": "Depuis votre panier",
+    "invite": "Inviter",
+    "invite_email": "Inviter par e-mail",
+    "level_editor": "Éditeur",
+    "level_owner": "Propriétaire",
+    "level_viewer": "Lecteur",
+    "members": "Membres",
+    "name": "Nom",
+    "new_article": "Nouvel article",
+    "new_dossier": "Nouveau dossier",
+    "no_stories": "Aucun récit pour le moment.",
+    "no_viz": "Aucune visualisation pour le moment.",
+    "open_in_editor": "Ouvrir dans l'éditeur",
+    "role": "Rôle",
+    "role_admin": "Administrateur",
+    "role_contributor": "Contributeur",
+    "role_owner": "Propriétaire",
+    "role_viewer": "Lecteur",
+    "select_article": "Sélectionnez un article dans l'arborescence.",
+    "share_dossier": "Partager le dossier",
+    "stories": "Récits",
+    "title": "Enquêtes",
+    "visualizations": "Visualisations",
+    "who_has_access": "Qui a accès"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI et fonds d'investissement",
+    "subtitle": "Enrichissement des cotations — types de titres, sociétés opérationnelles vs véhicules de placement collectif",
+    "by_security_type": "Cotations par type de titre",
+    "funds_by_type": "Fonds par type de véhicule"
+  },
+  "prices_d_q": {
+    "title": "Cours boursiers",
+    "subtitle": "Couche de cours de clôture — fraîcheur de l'index du collecteur vs l'univers exporté du graphe",
+    "detail": "Détail de la couverture"
+  },
+  "value_review": {
+    "title": "Vérification des montants de contrat",
+    "subtitle": "Montants retenus par la plateforme car le chiffre publié n'a pas passé les contrôles de cohérence stricts. Saisissez le montant corrigé en EUR, ou confirmez que la donnée est erronée — chaque décision est émise comme un événement correctif et est conservée lors des réimports.",
+    "empty": "La file est vide — aucun élément en attente de vérification.",
+    "load_error": "Impossible de charger la file de vérification.",
+    "col_contract": "Contrat",
+    "col_reason": "Motif du retrait",
+    "col_claimed": "Montant déclaré",
+    "col_estimate": "Estimation déclarée",
+    "col_decision": "Décision",
+    "corrected_placeholder": "Montant corrigé en €",
+    "action_correct": "Corriger",
+    "action_bogus": "Erroné"
   }
 }

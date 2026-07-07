@@ -241,7 +241,33 @@
     "relationships": "Relazzjonijiet",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Setturi ewlenin tal-akkwist (CPV)"
+    "top_procurement_sectors_cpv": "Setturi ewlenin tal-akkwist (CPV)",
+    "badge_aria": "Tħassib dwar il-kwalità tad-data",
+    "concern_concession_negative": "Valur negattiv (konċessjoni); eskluż mit-totali tal-valur.",
+    "concern_implausible_magnitude": "Valur kbir wisq biex ikun plawżibbli għal kuntratt wieħed; eskluż mit-totali.",
+    "concern_low_confidence": "Valur b'kunfidenza baxxa; eskluż mit-totali sakemm isir rieżami.",
+    "concern_no_value": "Ma ġie żvelat l-ebda valur tal-kuntratt li jista' jintuża.",
+    "concern_payable_discrepancy": "Is-sors elenka ammont pagabbli konfliġġenti (possibbli żball fid-dħul tad-data bħal inflazzjoni ×1000).",
+    "concern_unverified": "Il-valur ma setax jiġi kontroverifikat ma' stima.",
+    "concern_value_disagreement": "Il-valur mogħti ma jaqbilx mal-istima tal-baġit; eskluż mit-totali.",
+    "modal_title": "Kunfidenza fid-data",
+    "level_withheld": "Valur miżmum — data tas-sors ħażina",
+    "level_low_confidence": "Kunfidenza baxxa",
+    "level_caveat": "Riżerva",
+    "detail_reason": "Raġuni",
+    "detail_confidence": "Punteġġ ta' kunfidenza",
+    "detail_status": "Status",
+    "status_in_review": "Fil-kju tar-rieżami mill-bniedem",
+    "status_auto_withheld": "Miżmum awtomatikament",
+    "status_confirmed_bogus": "Rieżaminat: ikkonfermat li mhux affidabbli",
+    "withheld_audit_note": "In-numru ppubblikat tneħħa mill-pjattaforma għax naqas kontrolli stretti ta' raġonevolezza. It-talba oriġinali hija ppreżervata fir-reġistru tal-verifika u fil-kju tar-rieżami; jekk reviżur jistabbilixxi l-valur veru, dan jidher hawn.",
+    "explain_implausible_magnitude": "Il-valur ippubblikat huwa ta' ordnijiet ta' kobor lil hinn minn kull kuntratt pubbliku plawżibbli — normalment żball ta' munita jew ta' prezz-għal-kull-unità fl-avviż tas-sors.",
+    "explain_concession_negative": "L-avviż ippubblika valur negattiv — artefatt tal-kontabbiltà ta' kif imtela l-formola, mhux prezz.",
+    "explain_unverified": "Ġie ppubblikat biss qasam wieħed ta' flus mhux ikkorroborat, f'kobor li għamlu suspettuż, mingħajr xejn biex jiġi kontroverifikat.",
+    "explain_zero_value": "L-avviż ippubblika valur ta' eżattament żero — nuqqas ta' żvelar liebes numru. Meqjus bħala valur mhux żvelat.",
+    "explain_confirmed_bogus": "Reviżur uman eżamina l-valur ippubblikat u kkonferma li mhux affidabbli. L-ebda valur affidabbli mhu disponibbli għal dan il-kuntratt.",
+    "explain_withheld_generic": "Il-valur ippubblikat naqas il-kontrolli ta' raġonevolezza tal-pjattaforma u nżamm.",
+    "explain_low_confidence_generic": "Il-valur jintwera, iżda l-oqsma tal-flus ippubblikati huma dgħajfa fl-evidenza; huwa eskluż mit-totali u l-klassifiki awtomatiċi."
   },
   "data_quality_hub": {
     "data_freshness": "Friskezza tad-data",
@@ -471,7 +497,9 @@
     "my_stories": "L-istejjer tiegħi",
     "no_stories_yet_start_your_first_one_abov": "L-ebda stejjer s'issa. Ibda l-ewwel waħda fuq.",
     "or_read_recent_public_stories": "Jew aqra stejjer pubbliċi reċenti →",
-    "start_a_new_story": "Ibda storja ġdida"
+    "start_a_new_story": "Ibda storja ġdida",
+    "create": "Oħloq",
+    "story": "Storja"
   },
   "nav": {
     "back_admin": "← Amministrazzjoni",
@@ -484,7 +512,12 @@
     "map": "Mappa",
     "my_stories": "L-istejjer tiegħi",
     "spending": "Nefqa",
-    "stories": "Stejjer"
+    "stories": "Stejjer",
+    "account": "Kont",
+    "collapse": "Ikkollassa",
+    "log_in": "Illoggja",
+    "menu": "Menu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Lura lejn id-dar",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Issejvja f'Pocket",
     "save_to_pocket_tooltip": "Issejvja f'Pocket",
     "saved": "Issejvjat",
-    "saved_to_pocket_tooltip": "Issejvjat f'Pocket"
+    "saved_to_pocket_tooltip": "Issejvjat f'Pocket",
+    "add_to_investigation": "Żid mal-investigazzjoni",
+    "chart_actions": "Azzjonijiet tal-graff",
+    "download_image": "Niżżel bħala immaġni"
   },
   "preferences_menu": {
     "account": "Kont",
@@ -550,10 +586,22 @@
     "avg_roe": "ROE medju",
     "corporate_group": "Grupp korporattiv",
     "current_price": "Prezz attwali",
-    "directors_amp_officers": "Diretturi &amp; uffiċjali",
+    "directors_amp_officers": "Diretturi & uffiċjali",
     "financial_overview": "Ħarsa ġenerali finanzjarja",
     "market_cap": "Kapitalizzazzjoni tas-suq",
-    "part_of": "Parti minn"
+    "part_of": "Parti minn",
+    "account_settings": "Settings tal-kont",
+    "activity": "Attività",
+    "ai_usage": "Użu tal-AI",
+    "confirm_delete_account": "Tħassar b'mod permanenti l-kont tiegħek u d-DATA KOLLHA assoċjata? Dan ma jistax jitreġġa' lura.",
+    "confirm_delete_ai": "Tħassar il-konversazzjonijiet kollha tiegħek mal-assistent AI?",
+    "confirm_sign_out_all": "Toħroġ minn kull apparat li għandu aċċess għall-kont tiegħek?",
+    "delete_account": "Ħassar il-kont u d-data kollha",
+    "delete_ai_data": "Ħassar il-konversazzjonijiet AI tiegħi",
+    "log_in": "Illoggja / Irreġistra",
+    "menu": "Menu tal-kont",
+    "sign_out": "Oħroġ",
+    "sign_out_all": "Oħroġ mill-apparati kollha"
   },
   "public_spending": {
     "intro": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Jew esplora dak li hu kbir f'pajjiżek.",
@@ -586,7 +634,8 @@
     "group_name": "Isem tal-grupp",
     "no_collaborators_yet": "L-ebda kollaboraturi s'issa.",
     "share_story": "Ikkondividi l-istorja",
-    "visibility": "Viżibilità"
+    "visibility": "Viżibilità",
+    "who_has_access": "Min għandu aċċess"
   },
   "sparql": {
     "discoverable_json": "tirritorna l-istess dokumentazzjoni bħala JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Dan il-kuntratt ġie modifikat — ikklikkja biex tara x'inbidel",
+    "modal_title": "Modifika tal-kuntratt",
+    "subtitle": "Valuri rrappurtati mill-avviż ta' modifika",
+    "field": "Qasam",
+    "previous": "Preċedenti",
+    "new": "Ġdid",
+    "change": "Bidla",
+    "value": "Valur tal-kuntratt",
+    "modifies": "Jimmodifika l-avviż",
+    "close": "Agħlaq",
+    "none": "Ma ġiet irreġistrata l-ebda bidla fil-livell tal-oqsma għal din il-modifika."
+  },
+  "account": {
+    "account_data": "Kont u data",
+    "activity_usage": "Attività u użu",
+    "ai_usage_metrics": "Metriċi tal-użu tal-AI",
+    "dark": "Skur",
+    "language": "Lingwa",
+    "light": "Ċar",
+    "map_palette": "Palett tal-mappa",
+    "not_signed_in": "M'intix illoggjat.",
+    "preferences": "Preferenzi",
+    "privacy": "Politika tal-privatezza u tad-data",
+    "theme": "Tema",
+    "title": "Kont u settings",
+    "your_activity": "L-attività tiegħek"
+  },
+  "investigations": {
+    "add_people": "Żid nies",
+    "add_to_dossier": "Żid mad-dossier",
+    "add_to_investigation": "Żid mal-investigazzjoni",
+    "back": "← Investigazzjonijiet",
+    "back_stories": "← L-Istejjer Tiegħi",
+    "create": "Oħloq investigazzjoni",
+    "delete": "Ħassar",
+    "delete_all": "Ħassar kollox",
+    "delete_confirm": "Tħassar din l-investigazzjoni?",
+    "delete_keep": "Ħassar, żomm l-artikli",
+    "description": "Deskrizzjoni",
+    "dossier": "Dossier",
+    "dossier_empty": "Għad m'hemm l-ebda artiklu.",
+    "empty": "Għadek m'intix f'ebda investigazzjoni.",
+    "from_this_investigation": "Minn din l-investigazzjoni",
+    "from_your_pocket": "Mill-but tiegħek",
+    "invite": "Stieden",
+    "invite_email": "Stieden bl-email",
+    "level_editor": "Editur",
+    "level_owner": "Sid",
+    "level_viewer": "Osservatur",
+    "members": "Membri",
+    "name": "Isem",
+    "new_article": "Artiklu ġdid",
+    "new_dossier": "Dossier ġdid",
+    "no_stories": "Għad m'hemm l-ebda storja.",
+    "no_viz": "Għad m'hemm l-ebda viżwalizzazzjoni.",
+    "open_in_editor": "Iftaħ fl-editur",
+    "role": "Rwol",
+    "role_admin": "Amministratur",
+    "role_contributor": "Kontributur",
+    "role_owner": "Sid",
+    "role_viewer": "Osservatur",
+    "select_article": "Agħżel artiklu mis-siġra.",
+    "share_dossier": "Aqsam id-dossier",
+    "stories": "Stejjer",
+    "title": "Investigazzjonijiet",
+    "visualizations": "Viżwalizzazzjonijiet",
+    "who_has_access": "Min għandu aċċess"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI u Fondi ta' Investiment",
+    "subtitle": "Arrikkiment tal-listings — tipi ta' titoli, kumpaniji operattivi vs vetturi miġbura",
+    "by_security_type": "Listings skont it-Tip ta' Titolu",
+    "funds_by_type": "Fondi skont it-Tip ta' Vettura"
+  },
+  "prices_d_q": {
+    "title": "Prezzijiet tal-Ishma",
+    "subtitle": "Saff tal-prezzijiet EOD — freskezza tal-indiċi tal-fetcher vs l-univers esportat mill-graff",
+    "detail": "Dettall tal-Kopertura"
+  },
+  "value_review": {
+    "title": "Rieżami tal-valur tal-kuntratt",
+    "subtitle": "Valuri li l-pjattaforma żammet għax in-numru ppubblikat naqas kontrolli stretti ta' raġonevolezza. Daħħal il-valur f'EUR ikkoreġut, jew ikkonferma li t-talba hija falza — kull deċiżjoni tinħareġ bħala avveniment korrettiv u tibqa' wara r-riinġestjonijiet.",
+    "empty": "Il-kju huwa vojt — xejn ma qed jistenna rieżami.",
+    "load_error": "Ma setax jitgħabba l-kju tar-rieżami.",
+    "col_contract": "Kuntratt",
+    "col_reason": "Għaliex inżamm",
+    "col_claimed": "Valur iddikjarat",
+    "col_estimate": "Stima ddikjarata",
+    "col_decision": "Deċiżjoni",
+    "corrected_placeholder": "Valur € ikkoreġut",
+    "action_correct": "Ikkoreġi",
+    "action_bogus": "Falz"
   }
 }

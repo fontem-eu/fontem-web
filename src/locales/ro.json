@@ -241,7 +241,33 @@
     "relationships": "Relații",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Sectoarele principale de achiziții (CPV)"
+    "top_procurement_sectors_cpv": "Sectoarele principale de achiziții (CPV)",
+    "badge_aria": "Problemă de calitate a datelor",
+    "concern_concession_negative": "Valoare negativă (concesiune); exclusă din totalurile de valoare.",
+    "concern_implausible_magnitude": "Valoare prea mare pentru a fi plauzibilă pentru un singur contract; exclusă din totaluri.",
+    "concern_low_confidence": "Valoare cu încredere scăzută; exclusă din totaluri până la verificare.",
+    "concern_no_value": "Nu a fost dezvăluită o valoare utilizabilă a contractului.",
+    "concern_payable_discrepancy": "Sursa a indicat o sumă de plată contradictorie (posibilă eroare de introducere a datelor, cum ar fi o umflare de ×1000).",
+    "concern_unverified": "Valoarea nu a putut fi verificată prin comparație cu o estimare.",
+    "concern_value_disagreement": "Valoarea atribuită nu corespunde estimării bugetare; exclusă din totaluri.",
+    "modal_title": "Încrederea în date",
+    "level_withheld": "Valoare reținută — date-sursă eronate",
+    "level_low_confidence": "Încredere scăzută",
+    "level_caveat": "Avertisment",
+    "detail_reason": "Motiv",
+    "detail_confidence": "Scor de încredere",
+    "detail_status": "Stare",
+    "status_in_review": "În coada de verificare umană",
+    "status_auto_withheld": "Reținută automat",
+    "status_confirmed_bogus": "Verificată: confirmată ca nesigură",
+    "withheld_audit_note": "Cifra publicată a fost eliminată din platformă deoarece nu a trecut verificările stricte de plauzibilitate. Afirmația originală este păstrată în jurnalul de audit și în coada de verificare; dacă un verificator stabilește valoarea reală, aceasta va apărea aici.",
+    "explain_implausible_magnitude": "Valoarea publicată depășește cu câteva ordine de mărime orice contract public plauzibil — de obicei o eroare de monedă sau de preț pe unitate în anunțul-sursă.",
+    "explain_concession_negative": "Anunțul a publicat o valoare negativă — un artefact contabil al modului în care a fost completat formularul, nu un preț.",
+    "explain_unverified": "A fost publicat un singur câmp monetar necoroborat, la o mărime care l-a făcut suspect, fără nimic cu care să poată fi comparat.",
+    "explain_zero_value": "Anunțul a publicat o valoare de exact zero — nedezvăluire deghizată în cifră. Tratată ca valoare nedezvăluită.",
+    "explain_confirmed_bogus": "Un verificator uman a examinat valoarea publicată și a confirmat că este nesigură. Pentru acest contract nu este disponibilă nicio valoare de încredere.",
+    "explain_withheld_generic": "Valoarea publicată nu a trecut verificările de plauzibilitate ale platformei și a fost reținută.",
+    "explain_low_confidence_generic": "Valoarea este afișată, dar câmpurile monetare publicate sunt slab documentate; este exclusă din totalurile și clasamentele implicite."
   },
   "data_quality_hub": {
     "data_freshness": "Prospețimea datelor",
@@ -471,7 +497,9 @@
     "my_stories": "Poveștile mele",
     "no_stories_yet_start_your_first_one_abov": "Încă nicio poveste. Începe-o pe prima mai sus.",
     "or_read_recent_public_stories": "Sau citește poveștile publice recente →",
-    "start_a_new_story": "Începe o nouă poveste"
+    "start_a_new_story": "Începe o nouă poveste",
+    "create": "Creează",
+    "story": "Poveste"
   },
   "nav": {
     "back_admin": "← Administrare",
@@ -484,7 +512,12 @@
     "map": "Hartă",
     "my_stories": "Poveștile mele",
     "spending": "Cheltuieli",
-    "stories": "Povești"
+    "stories": "Povești",
+    "account": "Cont",
+    "collapse": "Restrânge",
+    "log_in": "Autentificare",
+    "menu": "Meniu",
+    "studio": "Studio"
   },
   "not_found": {
     "back_to_home": "Înapoi la pagina principală",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Salvează în Pocket",
     "save_to_pocket_tooltip": "Salvează în Pocket",
     "saved": "Salvat",
-    "saved_to_pocket_tooltip": "Salvat în Pocket"
+    "saved_to_pocket_tooltip": "Salvat în Pocket",
+    "add_to_investigation": "Adaugă la investigație",
+    "chart_actions": "Acțiuni grafic",
+    "download_image": "Descarcă ca imagine"
   },
   "preferences_menu": {
     "account": "Cont",
@@ -550,10 +586,22 @@
     "avg_roe": "ROE mediu",
     "corporate_group": "Grup corporativ",
     "current_price": "Preț curent",
-    "directors_amp_officers": "Directori &amp; conducere",
+    "directors_amp_officers": "Directori & conducere",
     "financial_overview": "Prezentare financiară",
     "market_cap": "Capitalizare bursieră",
-    "part_of": "Parte din"
+    "part_of": "Parte din",
+    "account_settings": "Setări cont",
+    "activity": "Activitate",
+    "ai_usage": "Utilizare AI",
+    "confirm_delete_account": "Ștergeți definitiv contul și TOATE datele asociate? Această acțiune nu poate fi anulată.",
+    "confirm_delete_ai": "Ștergeți toate conversațiile cu asistentul AI?",
+    "confirm_sign_out_all": "Deconectați de pe toate dispozitivele care au acces la contul dvs.?",
+    "delete_account": "Șterge contul și toate datele",
+    "delete_ai_data": "Șterge conversațiile mele AI",
+    "log_in": "Autentificare / Înregistrare",
+    "menu": "Meniu cont",
+    "sign_out": "Deconectare",
+    "sign_out_all": "Deconectare de pe toate dispozitivele"
   },
   "public_spending": {
     "intro": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Sau răsfoiește ce e mare în țara ta.",
@@ -586,7 +634,8 @@
     "group_name": "Numele grupului",
     "no_collaborators_yet": "Încă niciun colaborator.",
     "share_story": "Distribuie povestea",
-    "visibility": "Vizibilitate"
+    "visibility": "Vizibilitate",
+    "who_has_access": "Cine are acces"
   },
   "sparql": {
     "discoverable_json": "returnează aceeași documentație ca JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Acest contract a fost modificat — faceți clic pentru a vedea ce s-a schimbat",
+    "modal_title": "Modificarea contractului",
+    "subtitle": "Valori raportate prin anunțul de modificare",
+    "field": "Câmp",
+    "previous": "Anterior",
+    "new": "Nou",
+    "change": "Modificare",
+    "value": "Valoarea contractului",
+    "modifies": "Modifică anunțul",
+    "close": "Închide",
+    "none": "Pentru această modificare nu au fost înregistrate schimbări la nivel de câmp."
+  },
+  "account": {
+    "account_data": "Cont și date",
+    "activity_usage": "Activitate și utilizare",
+    "ai_usage_metrics": "Indicatori de utilizare AI",
+    "dark": "Întunecat",
+    "language": "Limbă",
+    "light": "Luminos",
+    "map_palette": "Paletă hartă",
+    "not_signed_in": "Nu sunteți autentificat.",
+    "preferences": "Preferințe",
+    "privacy": "Politica de confidențialitate și date",
+    "theme": "Temă",
+    "title": "Cont și setări",
+    "your_activity": "Activitatea dvs."
+  },
+  "investigations": {
+    "add_people": "Adaugă persoane",
+    "add_to_dossier": "Adaugă la dosar",
+    "add_to_investigation": "Adaugă la investigație",
+    "back": "← Investigații",
+    "back_stories": "← Poveștile mele",
+    "create": "Creează investigație",
+    "delete": "Șterge",
+    "delete_all": "Șterge tot",
+    "delete_confirm": "Ștergeți această investigație?",
+    "delete_keep": "Șterge, păstrează articolele",
+    "description": "Descriere",
+    "dossier": "Dosar",
+    "dossier_empty": "Niciun articol încă.",
+    "empty": "Nu faceți încă parte din nicio investigație.",
+    "from_this_investigation": "Din această investigație",
+    "from_your_pocket": "Din buzunarul dvs.",
+    "invite": "Invită",
+    "invite_email": "Invită prin e-mail",
+    "level_editor": "Editor",
+    "level_owner": "Proprietar",
+    "level_viewer": "Vizualizator",
+    "members": "Membri",
+    "name": "Nume",
+    "new_article": "Articol nou",
+    "new_dossier": "Dosar nou",
+    "no_stories": "Nicio poveste încă.",
+    "no_viz": "Nicio vizualizare încă.",
+    "open_in_editor": "Deschide în editor",
+    "role": "Rol",
+    "role_admin": "Administrator",
+    "role_contributor": "Contribuitor",
+    "role_owner": "Proprietar",
+    "role_viewer": "Vizualizator",
+    "select_article": "Selectați un articol din arbore.",
+    "share_dossier": "Distribuie dosarul",
+    "stories": "Povești",
+    "title": "Investigații",
+    "visualizations": "Vizualizări",
+    "who_has_access": "Cine are acces"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI și fonduri de investiții",
+    "subtitle": "Îmbogățirea listărilor — tipuri de valori mobiliare, societăți operaționale vs. vehicule colective",
+    "by_security_type": "Listări după tipul valorii mobiliare",
+    "funds_by_type": "Fonduri după tipul de vehicul"
+  },
+  "prices_d_q": {
+    "title": "Cotații bursiere",
+    "subtitle": "Nivel de prețuri EOD — prospețimea indexului de preluare vs. universul exportat din graf",
+    "detail": "Detaliu de acoperire"
+  },
+  "value_review": {
+    "title": "Verificarea valorii contractului",
+    "subtitle": "Valori pe care platforma le-a reținut deoarece cifra publicată nu a trecut verificările stricte de plauzibilitate. Introduceți valoarea corectată în EUR sau confirmați că afirmația este eronată — oricare dintre decizii este emisă ca eveniment corectiv și supraviețuiește reprelucrărilor.",
+    "empty": "Coada este goală — nimic în așteptarea verificării.",
+    "load_error": "Nu s-a putut încărca coada de verificare.",
+    "col_contract": "Contract",
+    "col_reason": "Motivul reținerii",
+    "col_claimed": "Valoare declarată",
+    "col_estimate": "Estimare declarată",
+    "col_decision": "Decizie",
+    "corrected_placeholder": "Valoare € corectată",
+    "action_correct": "Corectează",
+    "action_bogus": "Eronată"
   }
 }

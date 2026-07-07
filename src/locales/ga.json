@@ -241,7 +241,33 @@
     "relationships": "Gaolta",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Príomhearnálacha soláthair (CPV)"
+    "top_procurement_sectors_cpv": "Príomhearnálacha soláthair (CPV)",
+    "badge_aria": "Ábhar imní faoi cháilíocht sonraí",
+    "concern_concession_negative": "Luach diúltach (lamháltas); fágtha as suimeanna luacha.",
+    "concern_implausible_magnitude": "Luach rómhór le bheith inchreidte do chonradh aonair; fágtha as na suimeanna.",
+    "concern_low_confidence": "Luach ar íseal-mhuinín; fágtha as na suimeanna go dtí go ndéanfar athbhreithniú.",
+    "concern_no_value": "Níor nochtadh aon luach conartha inúsáidte.",
+    "concern_payable_discrepancy": "Liostáil an fhoinse suim iníoctha a bhí contrártha (earráid iontrála sonraí a d'fhéadfadh a bheith ann, ar nós boilsciú ×1000).",
+    "concern_unverified": "Níorbh fhéidir an luach a chrostseiceáil in aghaidh meastacháin.",
+    "concern_value_disagreement": "Tá an luach dámhachtana ar neamhréir leis an meastachán buiséid; fágtha as na suimeanna.",
+    "modal_title": "Muinín sna sonraí",
+    "level_withheld": "Luach coinnithe siar — droch-shonraí foinse",
+    "level_low_confidence": "Íseal-mhuinín",
+    "level_caveat": "Caveat",
+    "detail_reason": "Cúis",
+    "detail_confidence": "Scór muiníne",
+    "detail_status": "Stádas",
+    "status_in_review": "Sa scuaine athbhreithnithe daonna",
+    "status_auto_withheld": "Coinnithe siar go huathoibríoch",
+    "status_confirmed_bogus": "Athbhreithnithe: deimhníodh go bhfuil sé neamhiontaofa",
+    "withheld_audit_note": "Baineadh an uimhir fhoilsithe den ardán toisc gur theip uirthi seiceálacha crua ciallmhaireachta. Coinnítear an t-éileamh bunaidh sa logleabhar iniúchóireachta agus sa scuaine athbhreithnithe; má bhunaíonn athbhreithneoir an fíorluach taispeánfar anseo é.",
+    "explain_implausible_magnitude": "Tá an luach foilsithe orduithe méide níos mó ná aon chonradh poiblí inchreidte — earráid airgeadra nó praghas-in-aghaidh-an-aonaid san fhógra foinse de ghnáth.",
+    "explain_concession_negative": "Foilsíodh luach diúltach san fhógra — déantús cuntasaíochta ó conas a líonadh isteach an fhoirm, ní praghas.",
+    "explain_unverified": "Níor foilsíodh ach réimse airgid neamhchomhthacaithe amháin, ag méid a d'fhág amhrasach é, gan aon rud lena chrostseiceáil.",
+    "explain_zero_value": "Foilsíodh luach díreach nialasach san fhógra — neamh-nochtadh faoi chulaith uimhreach. Caitear leis mar luach nach nochtadh.",
+    "explain_confirmed_bogus": "Scrúdaigh athbhreithneoir daonna an luach foilsithe agus dheimhnigh sé go bhfuil sé neamhiontaofa. Níl aon luach iontaofa ar fáil don chonradh seo.",
+    "explain_withheld_generic": "Theip ar an luach foilsithe seiceálacha ciallmhaireachta an ardáin agus coinníodh siar é.",
+    "explain_low_confidence_generic": "Taispeántar an luach, ach níl fianaise láidir taobh thiar de na réimsí airgid foilsithe; fágtar as na suimeanna agus ranguithe réamhshocraithe é."
   },
   "data_quality_hub": {
     "data_freshness": "Úire na sonraí",
@@ -471,7 +497,9 @@
     "my_stories": "Mo scéalta",
     "no_stories_yet_start_your_first_one_abov": "Níl scéalta ann go fóill. Tosaigh do chéad cheann thuas.",
     "or_read_recent_public_stories": "Nó léigh scéalta poiblí le déanaí →",
-    "start_a_new_story": "Tosaigh scéal nua"
+    "start_a_new_story": "Tosaigh scéal nua",
+    "create": "Cruthaigh",
+    "story": "Scéal"
   },
   "nav": {
     "back_admin": "← Riarachán",
@@ -484,7 +512,12 @@
     "map": "Léarscáil",
     "my_stories": "Mo scéalta",
     "spending": "Caiteachas",
-    "stories": "Scéalta"
+    "stories": "Scéalta",
+    "account": "Cuntas",
+    "collapse": "Laghdaigh",
+    "log_in": "Logáil isteach",
+    "menu": "Roghchlár",
+    "studio": "Stiúideo"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Sábháil chuig Pocket",
     "save_to_pocket_tooltip": "Sábháil chuig Pocket",
     "saved": "Sábháilte",
-    "saved_to_pocket_tooltip": "Sábháilte chuig Pocket"
+    "saved_to_pocket_tooltip": "Sábháilte chuig Pocket",
+    "add_to_investigation": "Cuir leis an imscrúdú",
+    "chart_actions": "Gníomhartha cairte",
+    "download_image": "Íoslódáil mar íomhá"
   },
   "preferences_menu": {
     "account": "Cuntas",
@@ -550,10 +586,22 @@
     "avg_roe": "Meán-ROE",
     "corporate_group": "Grúpa corparáideach",
     "current_price": "Praghas reatha",
-    "directors_amp_officers": "Stiúrthóirí &amp; oifigigh",
+    "directors_amp_officers": "Stiúrthóirí & oifigigh",
     "financial_overview": "Forléargas airgeadais",
     "market_cap": "Caipitliú margaidh",
-    "part_of": "Cuid de"
+    "part_of": "Cuid de",
+    "account_settings": "Socruithe cuntais",
+    "activity": "Gníomhaíocht",
+    "ai_usage": "Úsáid AI",
+    "confirm_delete_account": "Scrios do chuntas agus GACH sonra a bhaineann leis go buan? Ní féidir é seo a chur ar ceal.",
+    "confirm_delete_ai": "Scrios do chomhráite uile leis an gcúntóir AI?",
+    "confirm_sign_out_all": "Sínigh amach as gach gléas a bhfuil rochtain aige ar do chuntas?",
+    "delete_account": "Scrios an cuntas & na sonraí uile",
+    "delete_ai_data": "Scrios mo chomhráite AI",
+    "log_in": "Logáil isteach / Cláraigh",
+    "menu": "Roghchlár cuntais",
+    "sign_out": "Sínigh amach",
+    "sign_out_all": "Sínigh amach as gach gléas"
   },
   "public_spending": {
     "intro": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail arna maoiniú ag an AE. Nó féach cad atá mór i do thír.",
@@ -586,7 +634,8 @@
     "group_name": "Ainm an ghrúpa",
     "no_collaborators_yet": "Níl comhoibrithe ann go fóill.",
     "share_story": "Roinn an scéal",
-    "visibility": "Infheictheacht"
+    "visibility": "Infheictheacht",
+    "who_has_access": "Cé aige a bhfuil rochtain"
   },
   "sparql": {
     "discoverable_json": "filleann an doiciméadú céanna mar JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Athraíodh an conradh seo — cliceáil chun a fheiceáil cad a athraíodh",
+    "modal_title": "Athrú ar chonradh",
+    "subtitle": "Luachanna a tuairiscíodh san fhógra athraithe",
+    "field": "Réimse",
+    "previous": "Roimhe seo",
+    "new": "Nua",
+    "change": "Athrú",
+    "value": "Luach an chonartha",
+    "modifies": "Athraíonn an fógra",
+    "close": "Dún",
+    "none": "Níor taifeadadh aon athrú ar leibhéal réimse don athrú seo."
+  },
+  "account": {
+    "account_data": "Cuntas & sonraí",
+    "activity_usage": "Gníomhaíocht & úsáid",
+    "ai_usage_metrics": "Méadrachtaí úsáide AI",
+    "dark": "Dorcha",
+    "language": "Teanga",
+    "light": "Geal",
+    "map_palette": "Pailéad léarscáile",
+    "not_signed_in": "Níl tú sínithe isteach.",
+    "preferences": "Sainroghanna",
+    "privacy": "Beartas príobháideachais & sonraí",
+    "theme": "Téama",
+    "title": "Cuntas & socruithe",
+    "your_activity": "Do ghníomhaíocht"
+  },
+  "investigations": {
+    "add_people": "Cuir daoine leis",
+    "add_to_dossier": "Cuir leis an dienós",
+    "add_to_investigation": "Cuir leis an imscrúdú",
+    "back": "← Imscrúduithe",
+    "back_stories": "← Mo Scéalta",
+    "create": "Cruthaigh imscrúdú",
+    "delete": "Scrios",
+    "delete_all": "Scrios gach rud",
+    "delete_confirm": "Scrios an t-imscrúdú seo?",
+    "delete_keep": "Scrios, coinnigh na hailt",
+    "description": "Cur síos",
+    "dossier": "Dienós",
+    "dossier_empty": "Níl aon alt ann fós.",
+    "empty": "Níl tú in aon imscrúdú fós.",
+    "from_this_investigation": "Ón imscrúdú seo",
+    "from_your_pocket": "Ó do phóca",
+    "invite": "Tabhair cuireadh",
+    "invite_email": "Tabhair cuireadh trí ríomhphost",
+    "level_editor": "Eagarthóir",
+    "level_owner": "Úinéir",
+    "level_viewer": "Amharcóir",
+    "members": "Baill",
+    "name": "Ainm",
+    "new_article": "Alt nua",
+    "new_dossier": "Dienós nua",
+    "no_stories": "Níl aon scéal ann fós.",
+    "no_viz": "Níl aon léirshamhlú ann fós.",
+    "open_in_editor": "Oscail san eagarthóir",
+    "role": "Ról",
+    "role_admin": "Riarthóir",
+    "role_contributor": "Rannpháirtí",
+    "role_owner": "Úinéir",
+    "role_viewer": "Amharcóir",
+    "select_article": "Roghnaigh alt ón gcrann.",
+    "share_dossier": "Comhroinn an dienós",
+    "stories": "Scéalta",
+    "title": "Imscrúduithe",
+    "visualizations": "Léirshamhluithe",
+    "who_has_access": "Cé aige a bhfuil rochtain"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & Cistí Infheistíochta",
+    "subtitle": "Saibhriú liostuithe — cineálacha urrús, cuideachtaí oibriúcháin vs feithiclí comhthiomsaithe",
+    "by_security_type": "Liostuithe de réir Cineáil Urrúis",
+    "funds_by_type": "Cistí de réir Cineáil Feithicle"
+  },
+  "prices_d_q": {
+    "title": "Praghsanna Stoic",
+    "subtitle": "Ciseal praghsanna deireadh lae — úire innéacs an fháltóra vs an chruinne easpórtáilte ón ngraf",
+    "detail": "Sonraí Clúdaigh"
+  },
+  "value_review": {
+    "title": "Athbhreithniú ar luach conartha",
+    "subtitle": "Luachanna a choinnigh an t-ardán siar toisc gur theip ar an uimhir fhoilsithe seiceálacha crua ciallmhaireachta. Cuir isteach an luach ceartaithe EUR, nó deimhnigh go bhfuil an t-éileamh bréagach — eisítear an dá chinneadh mar imeacht ceartaitheach agus maireann siad trí atháiseanna.",
+    "empty": "Tá an scuaine folamh — níl aon rud ag fanacht le hathbhreithniú.",
+    "load_error": "Níorbh fhéidir an scuaine athbhreithnithe a lódáil.",
+    "col_contract": "Conradh",
+    "col_reason": "Cén fáth ar coinníodh siar é",
+    "col_claimed": "Luach éilithe",
+    "col_estimate": "Meastachán éilithe",
+    "col_decision": "Cinneadh",
+    "corrected_placeholder": "Luach € ceartaithe",
+    "action_correct": "Ceartaigh",
+    "action_bogus": "Bréagach"
   }
 }

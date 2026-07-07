@@ -241,7 +241,33 @@
     "relationships": "Relationer",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Top udbudssektorer (CPV)"
+    "top_procurement_sectors_cpv": "Top udbudssektorer (CPV)",
+    "badge_aria": "Bekymring om datakvalitet",
+    "concern_concession_negative": "Negativ værdi (koncession); ikke medregnet i værdisummer.",
+    "concern_implausible_magnitude": "Værdien er for stor til at være sandsynlig for en enkelt kontrakt; ikke medregnet i summer.",
+    "concern_low_confidence": "Værdi med lav konfidens; ikke medregnet i summer, afventer gennemgang.",
+    "concern_no_value": "Ingen anvendelig kontraktværdi oplyst.",
+    "concern_payable_discrepancy": "Kilden angav et modstridende betalbart beløb (mulig indtastningsfejl, f.eks. en ×1000-oppustning).",
+    "concern_unverified": "Værdien kunne ikke krydstjekkes mod et estimat.",
+    "concern_value_disagreement": "Den tildelte værdi stemmer ikke overens med budgetestimatet; ikke medregnet i summer.",
+    "modal_title": "Datakonfidens",
+    "level_withheld": "Værdi tilbageholdt — fejlbehæftede kildedata",
+    "level_low_confidence": "Lav konfidens",
+    "level_caveat": "Forbehold",
+    "detail_reason": "Årsag",
+    "detail_confidence": "Konfidensscore",
+    "detail_status": "Status",
+    "status_in_review": "I køen til manuel gennemgang",
+    "status_auto_withheld": "Tilbageholdt automatisk",
+    "status_confirmed_bogus": "Gennemgået: bekræftet upålidelig",
+    "withheld_audit_note": "Det offentliggjorte tal blev fjernet fra platformen, fordi det ikke bestod de skrappe rimelighedstjek. Den oprindelige oplysning bevares i revisionsloggen og gennemgangskøen; hvis en gennemgangsansvarlig fastslår den korrekte værdi, vises den her.",
+    "explain_implausible_magnitude": "Den offentliggjorte værdi er størrelsesordener over enhver sandsynlig offentlig kontrakt — typisk en valuta- eller enhedsprisfejl i kildebekendtgørelsen.",
+    "explain_concession_negative": "Bekendtgørelsen offentliggjorde en negativ værdi — en regnskabsmæssig følge af, hvordan formularen blev udfyldt, ikke en pris.",
+    "explain_unverified": "Kun ét ubekræftet beløbsfelt blev offentliggjort, i en størrelsesorden der gjorde det mistænkeligt, uden noget at krydstjekke det mod.",
+    "explain_zero_value": "Bekendtgørelsen offentliggjorde en værdi på præcis nul — manglende oplysning forklædt som et tal. Behandles som en ikke-oplyst værdi.",
+    "explain_confirmed_bogus": "En gennemgangsansvarlig undersøgte den offentliggjorte værdi og bekræftede, at den er upålidelig. Der findes ingen troværdig værdi for denne kontrakt.",
+    "explain_withheld_generic": "Den offentliggjorte værdi bestod ikke platformens rimelighedstjek og blev tilbageholdt.",
+    "explain_low_confidence_generic": "Værdien vises, men de offentliggjorte beløbsfelter er svagt underbyggede; den er ikke medregnet i standardsummer og -rangeringer."
   },
   "data_quality_hub": {
     "data_freshness": "Datafriskhed",
@@ -471,7 +497,9 @@
     "my_stories": "Mine fortællinger",
     "no_stories_yet_start_your_first_one_abov": "Ingen fortællinger endnu. Start din første ovenfor.",
     "or_read_recent_public_stories": "Eller læs aktuelle offentlige fortællinger →",
-    "start_a_new_story": "Start en ny historie"
+    "start_a_new_story": "Start en ny historie",
+    "create": "Opret",
+    "story": "Historie"
   },
   "nav": {
     "back_admin": "← Admin",
@@ -484,7 +512,12 @@
     "map": "Kort",
     "my_stories": "Mine historier",
     "spending": "Udgifter",
-    "stories": "Historier"
+    "stories": "Historier",
+    "account": "Konto",
+    "collapse": "Fold sammen",
+    "log_in": "Log ind",
+    "menu": "Menu",
+    "studio": "Studie"
   },
   "not_found": {
     "back_to_home": "Tilbage til forsiden",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Gem til pocket",
     "save_to_pocket_tooltip": "Gem i Pocket",
     "saved": "Gemt",
-    "saved_to_pocket_tooltip": "Gemt i Pocket"
+    "saved_to_pocket_tooltip": "Gemt i Pocket",
+    "add_to_investigation": "Føj til undersøgelse",
+    "chart_actions": "Diagramhandlinger",
+    "download_image": "Download som billede"
   },
   "preferences_menu": {
     "account": "Konto",
@@ -550,10 +586,22 @@
     "avg_roe": "Gns. ROE",
     "corporate_group": "Koncern",
     "current_price": "Aktuel kurs",
-    "directors_amp_officers": "Direktører &amp; ledere",
+    "directors_amp_officers": "Direktører & ledere",
     "financial_overview": "Finansiel oversigt",
     "market_cap": "Markedsværdi",
-    "part_of": "Del af"
+    "part_of": "Del af",
+    "account_settings": "Kontoindstillinger",
+    "activity": "Aktivitet",
+    "ai_usage": "AI-forbrug",
+    "confirm_delete_account": "Vil du permanent slette din konto og ALLE tilknyttede data? Dette kan ikke fortrydes.",
+    "confirm_delete_ai": "Vil du slette alle dine samtaler med AI-assistenten?",
+    "confirm_sign_out_all": "Vil du logge ud af alle enheder, der har adgang til din konto?",
+    "delete_account": "Slet konto & alle data",
+    "delete_ai_data": "Slet mine AI-samtaler",
+    "log_in": "Log ind / Tilmeld dig",
+    "menu": "Kontomenu",
+    "sign_out": "Log ud",
+    "sign_out_all": "Log ud af alle enheder"
   },
   "public_spending": {
     "intro": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Eller bladr i hvad der er stort i dit land.",
@@ -586,7 +634,8 @@
     "group_name": "Gruppenavn",
     "no_collaborators_yet": "Ingen samarbejdspartnere endnu.",
     "share_story": "Del fortælling",
-    "visibility": "Synlighed"
+    "visibility": "Synlighed",
+    "who_has_access": "Hvem har adgang"
   },
   "sparql": {
     "discoverable_json": "returnerer den samme dokumentation som JSON.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Denne kontrakt blev ændret — klik for at se, hvad der blev ændret",
+    "modal_title": "Kontraktændring",
+    "subtitle": "Værdier oplyst i ændringsbekendtgørelsen",
+    "field": "Felt",
+    "previous": "Tidligere",
+    "new": "Ny",
+    "change": "Ændring",
+    "value": "Kontraktværdi",
+    "modifies": "Ændrer bekendtgørelse",
+    "close": "Luk",
+    "none": "Der blev ikke registreret ændringer på feltniveau for denne ændring."
+  },
+  "account": {
+    "account_data": "Konto & data",
+    "activity_usage": "Aktivitet & forbrug",
+    "ai_usage_metrics": "AI-forbrugsmålinger",
+    "dark": "Mørk",
+    "language": "Sprog",
+    "light": "Lys",
+    "map_palette": "Kortpalet",
+    "not_signed_in": "Du er ikke logget ind.",
+    "preferences": "Præferencer",
+    "privacy": "Privatlivs- & datapolitik",
+    "theme": "Tema",
+    "title": "Konto & indstillinger",
+    "your_activity": "Din aktivitet"
+  },
+  "investigations": {
+    "add_people": "Tilføj personer",
+    "add_to_dossier": "Føj til dossier",
+    "add_to_investigation": "Føj til undersøgelse",
+    "back": "← Undersøgelser",
+    "back_stories": "← Mine historier",
+    "create": "Opret undersøgelse",
+    "delete": "Slet",
+    "delete_all": "Slet alt",
+    "delete_confirm": "Slet denne undersøgelse?",
+    "delete_keep": "Slet, behold artikler",
+    "description": "Beskrivelse",
+    "dossier": "Dossier",
+    "dossier_empty": "Ingen artikler endnu.",
+    "empty": "Du deltager ikke i nogen undersøgelser endnu.",
+    "from_this_investigation": "Fra denne undersøgelse",
+    "from_your_pocket": "Fra din lomme",
+    "invite": "Inviter",
+    "invite_email": "Inviter via e-mail",
+    "level_editor": "Redaktør",
+    "level_owner": "Ejer",
+    "level_viewer": "Læser",
+    "members": "Medlemmer",
+    "name": "Navn",
+    "new_article": "Ny artikel",
+    "new_dossier": "Nyt dossier",
+    "no_stories": "Ingen historier endnu.",
+    "no_viz": "Ingen visualiseringer endnu.",
+    "open_in_editor": "Åbn i editor",
+    "role": "Rolle",
+    "role_admin": "Administrator",
+    "role_contributor": "Bidragyder",
+    "role_owner": "Ejer",
+    "role_viewer": "Læser",
+    "select_article": "Vælg en artikel fra træet.",
+    "share_dossier": "Del dossier",
+    "stories": "Historier",
+    "title": "Undersøgelser",
+    "visualizations": "Visualiseringer",
+    "who_has_access": "Hvem har adgang"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI & investeringsfonde",
+    "subtitle": "Berigelse af noteringer — værdipapirtyper, driftsselskaber vs. puljede investeringsenheder",
+    "by_security_type": "Noteringer efter værdipapirtype",
+    "funds_by_type": "Fonde efter enhedstype"
+  },
+  "prices_d_q": {
+    "title": "Aktiekurser",
+    "subtitle": "EOD-kurslag — friskhed af fetcher-indeks vs. det grafeksporterede univers",
+    "detail": "Dækningsdetaljer"
+  },
+  "value_review": {
+    "title": "Gennemgang af kontraktværdier",
+    "subtitle": "Værdier, som platformen tilbageholdt, fordi det offentliggjorte tal ikke bestod de skrappe rimelighedstjek. Indtast den korrigerede EUR-værdi, eller bekræft, at oplysningen er ugyldig — begge beslutninger udsendes som en korrigerende hændelse og bevares ved geningestering.",
+    "empty": "Køen er tom — intet afventer gennemgang.",
+    "load_error": "Kunne ikke indlæse gennemgangskøen.",
+    "col_contract": "Kontrakt",
+    "col_reason": "Årsag til tilbageholdelse",
+    "col_claimed": "Angivet værdi",
+    "col_estimate": "Angivet estimat",
+    "col_decision": "Beslutning",
+    "corrected_placeholder": "Korrigeret €-værdi",
+    "action_correct": "Korriger",
+    "action_bogus": "Ugyldig"
   }
 }

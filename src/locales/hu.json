@@ -241,7 +241,33 @@
     "relationships": "Kapcsolatok",
     "sec_edgar": "SEC EDGAR",
     "ted_tenders_electronic_daily": "TED (Tenders Electronic Daily)",
-    "top_procurement_sectors_cpv": "Fő közbeszerzési ágazatok (CPV)"
+    "top_procurement_sectors_cpv": "Fő közbeszerzési ágazatok (CPV)",
+    "badge_aria": "Adatminőségi kifogás",
+    "concern_concession_negative": "Negatív (koncessziós) érték; kizárva az összesített értékekből.",
+    "concern_implausible_magnitude": "Az érték túl nagy ahhoz, hogy egyetlen szerződés esetében hihető legyen; kizárva az összesítésekből.",
+    "concern_low_confidence": "Alacsony megbízhatóságú érték; felülvizsgálatig kizárva az összesítésekből.",
+    "concern_no_value": "Nem közöltek használható szerződéses értéket.",
+    "concern_payable_discrepancy": "A forrás ellentmondó fizetendő összeget tüntetett fel (lehetséges adatbeviteli hiba, például ×1000-szeres felnagyítás).",
+    "concern_unverified": "Az értéket nem lehetett becsléssel összevetni.",
+    "concern_value_disagreement": "Az odaítélt érték eltér a költségvetési becsléstől; kizárva az összesítésekből.",
+    "modal_title": "Adatmegbízhatóság",
+    "level_withheld": "Az érték visszatartva — hibás forrásadat",
+    "level_low_confidence": "Alacsony megbízhatóság",
+    "level_caveat": "Fenntartás",
+    "detail_reason": "Indok",
+    "detail_confidence": "Megbízhatósági pontszám",
+    "detail_status": "Állapot",
+    "status_in_review": "Emberi felülvizsgálati sorban",
+    "status_auto_withheld": "Automatikusan visszatartva",
+    "status_confirmed_bogus": "Felülvizsgálva: megbízhatatlannak bizonyult",
+    "withheld_audit_note": "A közzétett szám azért került eltávolításra a platformról, mert nem felelt meg a szigorú észszerűségi ellenőrzéseknek. Az eredeti adat megőrződik az auditnaplóban és a felülvizsgálati sorban; ha egy felülvizsgáló megállapítja a valós értéket, az itt fog megjelenni.",
+    "explain_implausible_magnitude": "A közzétett érték nagyságrendekkel meghaladja bármely hihető közbeszerzési szerződés értékét — ez általában pénznem- vagy egységár-hiba a forráshirdetményben.",
+    "explain_concession_negative": "A hirdetmény negatív értéket közölt — ez a nyomtatvány kitöltési módjából adódó könyvelési műtermék, nem pedig ár.",
+    "explain_unverified": "Csak egyetlen, meg nem erősített pénzügyi mezőt közöltek, olyan nagyságrendben, amely gyanússá tette, és nem volt mihez viszonyítani.",
+    "explain_zero_value": "A hirdetmény pontosan nulla értéket közölt — ez szám mögé bújtatott adatközlés-hiány. Nem közölt értékként kezeljük.",
+    "explain_confirmed_bogus": "Egy emberi felülvizsgáló megvizsgálta a közzétett értéket, és megerősítette, hogy az megbízhatatlan. Ehhez a szerződéshez nem áll rendelkezésre megbízható érték.",
+    "explain_withheld_generic": "A közzétett érték nem felelt meg a platform észszerűségi ellenőrzéseinek, ezért visszatartásra került.",
+    "explain_low_confidence_generic": "Az érték megjelenik, de a közzétett pénzügyi mezők gyengén alátámasztottak; ezért kizárva az alapértelmezett összesítésekből és rangsorokból."
   },
   "data_quality_hub": {
     "data_freshness": "Adatfrissesség",
@@ -471,7 +497,9 @@
     "my_stories": "Saját történeteim",
     "no_stories_yet_start_your_first_one_abov": "Még nincs történet. Kezdd el az elsőt fent.",
     "or_read_recent_public_stories": "Vagy olvasd a friss nyilvános történeteket →",
-    "start_a_new_story": "Új történet indítása"
+    "start_a_new_story": "Új történet indítása",
+    "create": "Létrehozás",
+    "story": "Cikk"
   },
   "nav": {
     "back_admin": "← Adminisztráció",
@@ -484,7 +512,12 @@
     "map": "Térkép",
     "my_stories": "Saját történeteim",
     "spending": "Kiadások",
-    "stories": "Történetek"
+    "stories": "Történetek",
+    "account": "Fiók",
+    "collapse": "Összecsukás",
+    "log_in": "Bejelentkezés",
+    "menu": "Menü",
+    "studio": "Stúdió"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",
@@ -514,7 +547,10 @@
     "save_to_pocket": "Mentés Pocketbe",
     "save_to_pocket_tooltip": "Mentés a Pocketbe",
     "saved": "Mentve",
-    "saved_to_pocket_tooltip": "Mentve a Pocketbe"
+    "saved_to_pocket_tooltip": "Mentve a Pocketbe",
+    "add_to_investigation": "Hozzáadás a vizsgálathoz",
+    "chart_actions": "Diagramműveletek",
+    "download_image": "Letöltés képként"
   },
   "preferences_menu": {
     "account": "Fiók",
@@ -550,10 +586,22 @@
     "avg_roe": "Átlagos ROE",
     "corporate_group": "Vállalatcsoport",
     "current_price": "Aktuális ár",
-    "directors_amp_officers": "Igazgatók &amp; tisztségviselők",
+    "directors_amp_officers": "Igazgatók & tisztségviselők",
     "financial_overview": "Pénzügyi áttekintés",
     "market_cap": "Piaci kapitalizáció",
-    "part_of": "Része ennek:"
+    "part_of": "Része ennek:",
+    "account_settings": "Fiókbeállítások",
+    "activity": "Tevékenység",
+    "ai_usage": "AI-használat",
+    "confirm_delete_account": "Véglegesen törli a fiókját és MINDEN kapcsolódó adatot? Ez a művelet nem vonható vissza.",
+    "confirm_delete_ai": "Törli az összes AI-asszisztenssel folytatott beszélgetését?",
+    "confirm_sign_out_all": "Kijelentkezik minden eszközről, amely hozzáfér a fiókjához?",
+    "delete_account": "Fiók és minden adat törlése",
+    "delete_ai_data": "AI-beszélgetéseim törlése",
+    "log_in": "Bejelentkezés / Regisztráció",
+    "menu": "Fiók menü",
+    "sign_out": "Kijelentkezés",
+    "sign_out_all": "Kijelentkezés minden eszközről"
   },
   "public_spending": {
     "intro": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Vagy nézd meg, mi a nagy a saját országodban.",
@@ -586,7 +634,8 @@
     "group_name": "Csoport neve",
     "no_collaborators_yet": "Még nincs együttműködő.",
     "share_story": "Történet megosztása",
-    "visibility": "Láthatóság"
+    "visibility": "Láthatóság",
+    "who_has_access": "Kik férnek hozzá"
   },
   "sparql": {
     "discoverable_json": "ugyanezt a dokumentációt adja vissza JSON-ként.",
@@ -695,5 +744,99 @@
   "wordmark": {
     "fon": "Fon",
     "fontem": "Fontem"
+  },
+  "errata": {
+    "icon_title": "Ezt a szerződést módosították — kattintson a változások megtekintéséhez",
+    "modal_title": "Szerződésmódosítás",
+    "subtitle": "A módosítási hirdetményben közölt értékek",
+    "field": "Mező",
+    "previous": "Korábbi",
+    "new": "Új",
+    "change": "Változás",
+    "value": "Szerződéses érték",
+    "modifies": "Módosított hirdetmény",
+    "close": "Bezárás",
+    "none": "Ehhez a módosításhoz nem rögzítettek mezőszintű változásokat."
+  },
+  "account": {
+    "account_data": "Fiók és adatok",
+    "activity_usage": "Tevékenység és használat",
+    "ai_usage_metrics": "AI-használati mutatók",
+    "dark": "Sötét",
+    "language": "Nyelv",
+    "light": "Világos",
+    "map_palette": "Térkép színpaletta",
+    "not_signed_in": "Nincs bejelentkezve.",
+    "preferences": "Beállítások",
+    "privacy": "Adatvédelmi és adatkezelési szabályzat",
+    "theme": "Téma",
+    "title": "Fiók és beállítások",
+    "your_activity": "Az Ön tevékenysége"
+  },
+  "investigations": {
+    "add_people": "Személyek hozzáadása",
+    "add_to_dossier": "Hozzáadás a dossziéhoz",
+    "add_to_investigation": "Hozzáadás a vizsgálathoz",
+    "back": "← Vizsgálatok",
+    "back_stories": "← Cikkeim",
+    "create": "Vizsgálat létrehozása",
+    "delete": "Törlés",
+    "delete_all": "Minden törlése",
+    "delete_confirm": "Törli ezt a vizsgálatot?",
+    "delete_keep": "Törlés, cikkek megtartása",
+    "description": "Leírás",
+    "dossier": "Dosszié",
+    "dossier_empty": "Még nincsenek cikkek.",
+    "empty": "Még egyetlen vizsgálatnak sem tagja.",
+    "from_this_investigation": "Ebből a vizsgálatból",
+    "from_your_pocket": "A zsebéből",
+    "invite": "Meghívás",
+    "invite_email": "Meghívás e-mailben",
+    "level_editor": "Szerkesztő",
+    "level_owner": "Tulajdonos",
+    "level_viewer": "Megtekintő",
+    "members": "Tagok",
+    "name": "Név",
+    "new_article": "Új cikk",
+    "new_dossier": "Új dosszié",
+    "no_stories": "Még nincsenek cikkek.",
+    "no_viz": "Még nincsenek vizualizációk.",
+    "open_in_editor": "Megnyitás a szerkesztőben",
+    "role": "Szerepkör",
+    "role_admin": "Adminisztrátor",
+    "role_contributor": "Közreműködő",
+    "role_owner": "Tulajdonos",
+    "role_viewer": "Megtekintő",
+    "select_article": "Válasszon egy cikket a fából.",
+    "share_dossier": "Dosszié megosztása",
+    "stories": "Cikkek",
+    "title": "Vizsgálatok",
+    "visualizations": "Vizualizációk",
+    "who_has_access": "Kik férnek hozzá"
+  },
+  "openfigi_d_q": {
+    "title": "OpenFIGI és befektetési alapok",
+    "subtitle": "Tőzsdei bevezetések gazdagítása — értékpapírtípusok, működő vállalatok kontra közös befektetési eszközök",
+    "by_security_type": "Bevezetések értékpapírtípus szerint",
+    "funds_by_type": "Alapok eszköztípus szerint"
+  },
+  "prices_d_q": {
+    "title": "Részvényárfolyamok",
+    "subtitle": "Napi záró árfolyamréteg — a lekérő index frissessége a gráfból exportált univerzumhoz képest",
+    "detail": "Lefedettségi részletek"
+  },
+  "value_review": {
+    "title": "Szerződéses érték felülvizsgálata",
+    "subtitle": "Olyan értékek, amelyeket a platform visszatartott, mert a közzétett szám nem felelt meg a szigorú észszerűségi ellenőrzéseknek. Adja meg a javított EUR-értéket, vagy erősítse meg, hogy az adat hamis — bármelyik döntés korrekciós eseményként kerül kibocsátásra, és túléli az újbóli betöltéseket.",
+    "empty": "A sor üres — nincs felülvizsgálatra váró tétel.",
+    "load_error": "A felülvizsgálati sort nem sikerült betölteni.",
+    "col_contract": "Szerződés",
+    "col_reason": "A visszatartás oka",
+    "col_claimed": "Közölt érték",
+    "col_estimate": "Közölt becslés",
+    "col_decision": "Döntés",
+    "corrected_placeholder": "Javított € érték",
+    "action_correct": "Javítás",
+    "action_bogus": "Hamis"
   }
 }
