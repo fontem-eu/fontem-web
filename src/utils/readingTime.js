@@ -52,6 +52,20 @@ function occurrences(haystack, needle) {
   return count
 }
 
+// Strip HTML tags with a single linear pass (no regex backtracking): copy
+// characters that sit outside a `<...>` span.
+function stripTags(content) {
+  let out = ''
+  let inTag = false
+  for (let i = 0; i < content.length; i += 1) {
+    const ch = content[i]
+    if (ch === '<') inTag = true
+    else if (ch === '>') { inTag = false; out += ' ' }
+    else if (!inTag) out += ch
+  }
+  return out
+}
+
 // Drop ```-fenced code blocks (so widget JSON doesn't inflate the word count)
 // by toggling on the fence delimiter — O(n), no regex backtracking.
 function stripFencedBlocks(content) {
@@ -74,8 +88,7 @@ export function tallyLegacySections(sections = []) {
     // Both representations of an embed: the markdown fence and the rendered
     // HTML form. A given section is in one form, so summing is safe.
     acc.plots += occurrences(content, '```widget') + occurrences(content, 'class="language-widget"')
-    const prose = stripFencedBlocks(content)
-      .replace(/<[^>]*>/g, ' ')        // html tags (linear char class)
+    const prose = stripTags(stripFencedBlocks(content))
       .replace(/&[a-z#0-9]+;/gi, ' ')  // html entities
       .replace(/[#>*_`~|-]+/g, ' ')    // markdown punctuation
     acc.words += countWords(prose)
