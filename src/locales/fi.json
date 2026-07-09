@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Hiljattain julkaistut datatarinat"
   },
   "report": {
-    "edit": "Muokkaa"
+    "edit": "Muokkaa",
+    "reading_time": "{n} min lukuaika"
   },
   "report_editor": {
     "brief_abstract": "Lyhyt tiivistelmä...",

@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Hiljuti avaldatud andmelood"
   },
   "report": {
-    "edit": "Muuda"
+    "edit": "Muuda",
+    "reading_time": "{n} min lugemist"
   },
   "report_editor": {
     "brief_abstract": "Lühikokkuvõte...",

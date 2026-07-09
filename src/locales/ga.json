@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Scéalta sonraí foilsithe le déanaí"
   },
   "report": {
-    "edit": "Cuir in eagar"
+    "edit": "Cuir in eagar",
+    "reading_time": "{n} nóim. léitheoireachta"
   },
   "report_editor": {
     "brief_abstract": "Achoimre ghairid...",

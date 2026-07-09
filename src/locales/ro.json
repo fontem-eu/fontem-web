@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Povești de date publicate recent"
   },
   "report": {
-    "edit": "Editează"
+    "edit": "Editează",
+    "reading_time": "{n} min de citit"
   },
   "report_editor": {
     "brief_abstract": "Rezumat scurt...",

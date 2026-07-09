@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Nedávno zverejnené dátové príbehy"
   },
   "report": {
-    "edit": "Upraviť"
+    "edit": "Upraviť",
+    "reading_time": "{n} min čítania"
   },
   "report_editor": {
     "brief_abstract": "Krátky abstrakt...",

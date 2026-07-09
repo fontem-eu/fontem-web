@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Onlangs gepubliceerde dataverhalen"
   },
   "report": {
-    "edit": "Bewerken"
+    "edit": "Bewerken",
+    "reading_time": "{n} min lezen"
   },
   "report_editor": {
     "brief_abstract": "Korte samenvatting...",
