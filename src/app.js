@@ -20,6 +20,7 @@ import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
+import UserProfileView from './views/UserProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import ValueReviewView from './views/ValueReviewView.vue'
@@ -172,6 +173,7 @@ const ROUTES = [
   // Data stories — canonical paths. Legacy /reports* paths redirect
   // for one release so external links and bookmarks keep working.
   { path: '/my-stories', component: MyReportsView },
+  { path: '/users/:id', component: UserProfileView },
   { path: '/investigations', component: InvestigationsView },
   { path: '/investigations/:id', component: InvestigationDetailView },
   { path: '/dossiers/:id', component: DossierView },

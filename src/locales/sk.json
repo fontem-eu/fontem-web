@@ -1594,5 +1594,29 @@
     "geography_q1": "Ktoré orgány a spoločnosti nie sú prepojené s regiónom NUTS?",
     "src_nuts": "Regióny NUTS",
     "geography_soon": "Regionálne konsolidácie výdavkov a vlastníctva naprieč ostatnými témami."
+  },
+  "user_profile": {
+    "articles": "Články",
+    "recent_activity": "Nedávna aktivita",
+    "no_articles": "Zatiaľ žiadne články.",
+    "no_activity": "Žiadna nedávna aktivita.",
+    "joined": "Pripojil sa {date}",
+    "edit": "Upraviť profil",
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "about": "O mne",
+    "summary_placeholder": "Krátke zhrnutie o vás…",
+    "links": "Odkazy",
+    "add_link": "Pridať odkaz",
+    "link_name": "Označenie",
+    "link_url": "https://…",
+    "activity_created": "Vytvoril {entity}",
+    "activity_updated": "Aktualizoval {entity}",
+    "activity_deleted": "Odstránil {entity}",
+    "ent_story": "príbeh",
+    "ent_dossier": "dosje",
+    "ent_investigation": "vyšetrovanie",
+    "ent_issue": "problém",
+    "not_found": "Tohto používateľa sa nepodarilo nájsť."
   }
 }

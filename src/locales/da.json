@@ -1594,5 +1594,29 @@
     "geography_q1": "Hvilke myndigheder og virksomheder er ikke knyttet til en NUTS-region?",
     "src_nuts": "NUTS-regioner",
     "geography_soon": "Regionsniveau-opsummeringer af udgifter og ejerskab på tværs af de øvrige temaer."
+  },
+  "user_profile": {
+    "articles": "Artikler",
+    "recent_activity": "Seneste aktivitet",
+    "no_articles": "Ingen artikler endnu.",
+    "no_activity": "Ingen nylig aktivitet.",
+    "joined": "Tilmeldt {date}",
+    "edit": "Rediger profil",
+    "save": "Gem",
+    "cancel": "Annuller",
+    "about": "Om",
+    "summary_placeholder": "En kort beskrivelse af dig …",
+    "links": "Links",
+    "add_link": "Tilføj link",
+    "link_name": "Etiket",
+    "link_url": "https://…",
+    "activity_created": "Oprettede {entity}",
+    "activity_updated": "Opdaterede {entity}",
+    "activity_deleted": "Slettede {entity}",
+    "ent_story": "en historie",
+    "ent_dossier": "et dossier",
+    "ent_investigation": "en undersøgelse",
+    "ent_issue": "en sag",
+    "not_found": "Denne bruger kunne ikke findes."
   }
 }

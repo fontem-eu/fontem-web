@@ -1594,5 +1594,29 @@
     "geography_q1": "Kurios institucijos ir įmonės nesusietos su NUTS regionu?",
     "src_nuts": "NUTS regionai",
     "geography_soon": "Regionų lygmens išlaidų ir nuosavybės suvestinės kitose temose."
+  },
+  "user_profile": {
+    "articles": "Straipsniai",
+    "recent_activity": "Naujausia veikla",
+    "no_articles": "Straipsnių dar nėra.",
+    "no_activity": "Naujausios veiklos nėra.",
+    "joined": "Prisijungė {date}",
+    "edit": "Redaguoti profilį",
+    "save": "Išsaugoti",
+    "cancel": "Atšaukti",
+    "about": "Apie",
+    "summary_placeholder": "Trumpas aprašymas apie jus…",
+    "links": "Nuorodos",
+    "add_link": "Pridėti nuorodą",
+    "link_name": "Žymė",
+    "link_url": "https://…",
+    "activity_created": "Sukūrė {entity}",
+    "activity_updated": "Atnaujino {entity}",
+    "activity_deleted": "Ištrynė {entity}",
+    "ent_story": "istoriją",
+    "ent_dossier": "bylą",
+    "ent_investigation": "tyrimą",
+    "ent_issue": "problemą",
+    "not_found": "Šio naudotojo rasti nepavyko."
   }
 }

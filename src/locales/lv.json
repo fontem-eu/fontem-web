@@ -1594,5 +1594,29 @@
     "geography_q1": "Kuras iestādes un uzņēmumi nav saistīti ar NUTS reģionu?",
     "src_nuts": "NUTS reģioni",
     "geography_soon": "Reģionu līmeņa izdevumu un īpašumtiesību apkopojumi pārējās tēmās."
+  },
+  "user_profile": {
+    "articles": "Raksti",
+    "recent_activity": "Nesenā aktivitāte",
+    "no_articles": "Pagaidām nav rakstu.",
+    "no_activity": "Nav nesenas aktivitātes.",
+    "joined": "Pievienojās {date}",
+    "edit": "Rediģēt profilu",
+    "save": "Saglabāt",
+    "cancel": "Atcelt",
+    "about": "Par mani",
+    "summary_placeholder": "Īss apraksts par tevi…",
+    "links": "Saites",
+    "add_link": "Pievienot saiti",
+    "link_name": "Nosaukums",
+    "link_url": "https://…",
+    "activity_created": "Izveidoja {entity}",
+    "activity_updated": "Atjaunināja {entity}",
+    "activity_deleted": "Dzēsa {entity}",
+    "ent_story": "stāstu",
+    "ent_dossier": "dosjē",
+    "ent_investigation": "izmeklēšanu",
+    "ent_issue": "problēmu",
+    "not_found": "Šo lietotāju neizdevās atrast."
   }
 }

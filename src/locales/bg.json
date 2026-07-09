@@ -1594,5 +1594,29 @@
     "geography_q1": "Кои органи и дружества не са свързани с NUTS регион?",
     "src_nuts": "NUTS региони",
     "geography_soon": "Регионални обобщения на разходите и собствеността в останалите теми."
+  },
+  "user_profile": {
+    "articles": "Статии",
+    "recent_activity": "Скорошна активност",
+    "no_articles": "Все още няма статии.",
+    "no_activity": "Няма скорошна активност.",
+    "joined": "Регистриран на {date}",
+    "edit": "Редактиране на профила",
+    "save": "Запазване",
+    "cancel": "Отказ",
+    "about": "За мен",
+    "summary_placeholder": "Кратко описание за вас…",
+    "links": "Връзки",
+    "add_link": "Добавяне на връзка",
+    "link_name": "Етикет",
+    "link_url": "https://…",
+    "activity_created": "Създаде {entity}",
+    "activity_updated": "Актуализира {entity}",
+    "activity_deleted": "Изтри {entity}",
+    "ent_story": "разказ",
+    "ent_dossier": "досие",
+    "ent_investigation": "разследване",
+    "ent_issue": "проблем",
+    "not_found": "Този потребител не беше намерен."
   }
 }

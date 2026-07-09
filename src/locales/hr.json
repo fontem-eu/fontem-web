@@ -1594,5 +1594,29 @@
     "geography_q1": "Koja tijela i društva nisu povezani s NUTS regijom?",
     "src_nuts": "NUTS regije",
     "geography_soon": "Konsolidacije potrošnje i vlasništva na razini regije kroz ostale teme."
+  },
+  "user_profile": {
+    "articles": "Članci",
+    "recent_activity": "Nedavna aktivnost",
+    "no_articles": "Još nema članaka.",
+    "no_activity": "Nema nedavne aktivnosti.",
+    "joined": "Pridružio/la se {date}",
+    "edit": "Uredi profil",
+    "save": "Spremi",
+    "cancel": "Odustani",
+    "about": "O korisniku",
+    "summary_placeholder": "Kratki sažetak o vama…",
+    "links": "Poveznice",
+    "add_link": "Dodaj poveznicu",
+    "link_name": "Oznaka",
+    "link_url": "https://…",
+    "activity_created": "Izradio/la {entity}",
+    "activity_updated": "Ažurirao/la {entity}",
+    "activity_deleted": "Izbrisao/la {entity}",
+    "ent_story": "priču",
+    "ent_dossier": "dosje",
+    "ent_investigation": "istragu",
+    "ent_issue": "temu",
+    "not_found": "Ovaj korisnik nije pronađen."
   }
 }

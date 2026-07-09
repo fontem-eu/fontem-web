@@ -1594,5 +1594,29 @@
     "geography_q1": "Liema awtoritajiet u kumpaniji mhumiex marbuta ma' reġjun NUTS?",
     "src_nuts": "Reġjuni NUTS",
     "geography_soon": "Aggregazzjonijiet fil-livell tar-reġjun tal-infiq u s-sjieda fit-temi l-oħra."
+  },
+  "user_profile": {
+    "articles": "Artikli",
+    "recent_activity": "Attività reċenti",
+    "no_articles": "Għad m'hemm l-ebda artiklu.",
+    "no_activity": "M'hemm l-ebda attività reċenti.",
+    "joined": "Ingħaqad fl-{date}",
+    "edit": "Editja l-profil",
+    "save": "Issejvja",
+    "cancel": "Ikkanċella",
+    "about": "Dwar",
+    "summary_placeholder": "Sommarju qasir dwarek…",
+    "links": "Links",
+    "add_link": "Żid link",
+    "link_name": "Tikketta",
+    "link_url": "https://…",
+    "activity_created": "Ħoloq {entity}",
+    "activity_updated": "Aġġorna {entity}",
+    "activity_deleted": "Ħassar {entity}",
+    "ent_story": "storja",
+    "ent_dossier": "dossier",
+    "ent_investigation": "investigazzjoni",
+    "ent_issue": "kwistjoni",
+    "not_found": "Dan l-utent ma setax jinstab."
   }
 }

@@ -1594,5 +1594,29 @@
     "geography_q1": "Ποιες αρχές και εταιρείες δεν συνδέονται με περιφέρεια NUTS;",
     "src_nuts": "Περιφέρειες NUTS",
     "geography_soon": "Συγκεντρώσεις σε επίπεδο περιφέρειας δαπανών και ιδιοκτησίας σε όλα τα υπόλοιπα θέματα."
+  },
+  "user_profile": {
+    "articles": "Άρθρα",
+    "recent_activity": "Πρόσφατη δραστηριότητα",
+    "no_articles": "Δεν υπάρχουν ακόμη άρθρα.",
+    "no_activity": "Δεν υπάρχει πρόσφατη δραστηριότητα.",
+    "joined": "Εγγραφή στις {date}",
+    "edit": "Επεξεργασία προφίλ",
+    "save": "Αποθήκευση",
+    "cancel": "Ακύρωση",
+    "about": "Σχετικά",
+    "summary_placeholder": "Μια σύντομη περιγραφή για εσάς…",
+    "links": "Σύνδεσμοι",
+    "add_link": "Προσθήκη συνδέσμου",
+    "link_name": "Ετικέτα",
+    "link_url": "https://…",
+    "activity_created": "Δημιούργησε {entity}",
+    "activity_updated": "Ενημέρωσε {entity}",
+    "activity_deleted": "Διέγραψε {entity}",
+    "ent_story": "ρεπορτάζ",
+    "ent_dossier": "φάκελο",
+    "ent_investigation": "έρευνα",
+    "ent_issue": "ζήτημα",
+    "not_found": "Αυτός ο χρήστης δεν βρέθηκε."
   }
 }

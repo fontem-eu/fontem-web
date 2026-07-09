@@ -1594,5 +1594,29 @@
     "geography_q1": "Kateri organi in podjetja niso povezani z regijo NUTS?",
     "src_nuts": "Regije NUTS",
     "geography_soon": "Regionalni pregledi porabe in lastništva po drugih temah."
+  },
+  "user_profile": {
+    "articles": "Članki",
+    "recent_activity": "Nedavna dejavnost",
+    "no_articles": "Še ni člankov.",
+    "no_activity": "Ni nedavne dejavnosti.",
+    "joined": "Pridružil-a se {date}",
+    "edit": "Uredi profil",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "about": "O meni",
+    "summary_placeholder": "Kratek povzetek o vas …",
+    "links": "Povezave",
+    "add_link": "Dodaj povezavo",
+    "link_name": "Oznaka",
+    "link_url": "https://…",
+    "activity_created": "Ustvaril-a {entity}",
+    "activity_updated": "Posodobil-a {entity}",
+    "activity_deleted": "Izbrisal-a {entity}",
+    "ent_story": "zgodbo",
+    "ent_dossier": "dosje",
+    "ent_investigation": "preiskavo",
+    "ent_issue": "prijavo",
+    "not_found": "Tega uporabnika ni bilo mogoče najti."
   }
 }

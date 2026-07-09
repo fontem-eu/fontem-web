@@ -1594,5 +1594,29 @@
     "geography_q1": "Vilka myndigheter och företag saknar koppling till en NUTS-region?",
     "src_nuts": "NUTS-regioner",
     "geography_soon": "Regionnivåsammanställningar av utgifter och ägande över de andra temana."
+  },
+  "user_profile": {
+    "articles": "Artiklar",
+    "recent_activity": "Senaste aktivitet",
+    "no_articles": "Inga artiklar än.",
+    "no_activity": "Ingen aktivitet än.",
+    "joined": "Gick med {date}",
+    "edit": "Redigera profil",
+    "save": "Spara",
+    "cancel": "Avbryt",
+    "about": "Om",
+    "summary_placeholder": "En kort sammanfattning om dig…",
+    "links": "Länkar",
+    "add_link": "Lägg till länk",
+    "link_name": "Etikett",
+    "link_url": "https://…",
+    "activity_created": "Skapade {entity}",
+    "activity_updated": "Uppdaterade {entity}",
+    "activity_deleted": "Tog bort {entity}",
+    "ent_story": "en artikel",
+    "ent_dossier": "en dossier",
+    "ent_investigation": "en utredning",
+    "ent_issue": "ett ärende",
+    "not_found": "Den här användaren kunde inte hittas."
   }
 }

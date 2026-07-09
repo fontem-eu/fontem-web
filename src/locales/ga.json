@@ -1594,5 +1594,29 @@
     "geography_q1": "Cé na húdaráis agus na cuideachtaí nach bhfuil nasctha le réigiún NUTS?",
     "src_nuts": "Réigiúin NUTS",
     "geography_soon": "Cnuasaigh ar leibhéal réigiúin de chaiteachas agus úinéireacht ar fud na dtéamaí eile."
+  },
+  "user_profile": {
+    "articles": "Ailt",
+    "recent_activity": "Gníomhaíocht le déanaí",
+    "no_articles": "Níl aon alt ann go fóill.",
+    "no_activity": "Níl aon ghníomhaíocht le déanaí.",
+    "joined": "Ballraíocht ó {date}",
+    "edit": "Cuir an phróifíl in eagar",
+    "save": "Sábháil",
+    "cancel": "Cealaigh",
+    "about": "Maidir liom",
+    "summary_placeholder": "Achoimre ghairid fút féin…",
+    "links": "Naisc",
+    "add_link": "Cuir nasc leis",
+    "link_name": "Lipéad",
+    "link_url": "https://…",
+    "activity_created": "Cruthaíodh {entity}",
+    "activity_updated": "Nuashonraíodh {entity}",
+    "activity_deleted": "Scriosadh {entity}",
+    "ent_story": "scéal",
+    "ent_dossier": "comhad faisnéise",
+    "ent_investigation": "imscrúdú",
+    "ent_issue": "saincheist",
+    "not_found": "Níorbh fhéidir an t-úsáideoir seo a aimsiú."
   }
 }

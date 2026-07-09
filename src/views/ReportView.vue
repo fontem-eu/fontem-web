@@ -255,7 +255,13 @@ function parseSectionContent(content) {
       <h1 class="report-title" data-testid="story-title">{{ displayTitle }}</h1>
 
       <div class="report-meta" data-testid="story-meta">
-        <span v-if="report.author">{{ report.author.name || report.author }}</span>
+        <RouterLink
+          v-if="report.created_by && (report.author?.name || report.author)"
+          :to="`/users/${report.created_by}`"
+          class="report-author-link"
+          data-testid="story-author-link"
+        >{{ report.author?.name || report.author }}</RouterLink>
+        <span v-else-if="report.author">{{ report.author.name || report.author }}</span>
         <span v-if="report.created_at">&middot; {{ formatDate(report.created_at) }}</span>
         <span class="reading-time" data-testid="story-reading-time">&middot; {{ $t('report.reading_time', { n: readingMinutes }) }}</span>
         <span

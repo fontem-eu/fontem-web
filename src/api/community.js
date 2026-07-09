@@ -88,6 +88,18 @@ export function deleteReport(id) {
   return request('DELETE', `/data-stories/${encodeURIComponent(id)}`)
 }
 
+// ── User profiles ───────────────────────────────────────────────
+// A public author profile: identity + summary/links + the user's public
+// articles + recent activity. Readable anonymously.
+export function getUserProfile(userId) {
+  return request('GET', `/users/${encodeURIComponent(userId)}/profile`)
+}
+
+// Update the signed-in user's own profile extras (summary + links).
+export function updateMyProfile({ summary, links }) {
+  return request('PUT', '/users/me/profile', { summary, links })
+}
+
 // ── Translations ────────────────────────────────────────────────
 //
 // A story has one original (title/abstract/document in `language`)
