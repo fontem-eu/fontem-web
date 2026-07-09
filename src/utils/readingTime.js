@@ -10,14 +10,19 @@
  *    (Brysbaert 2019, meta-analysis of 190 studies / 17,887 readers; the
  *    observed range is 175–300 wpm). More honest than the 265 wpm Medium
  *    uses, which skews fast.
- *  - SECONDS_PER_PLOT 30 — interpreting one interactive data widget. Medium
- *    adds ~12s for a *passive* image on a declining scale; our plots are
- *    analytical, invite hover/tap, and each is a distinct finding, so we use
- *    a flat ~30s (no decline). Decorative images and tables are NOT counted —
- *    only first-class widget/plot nodes.
+ *  - SECONDS_PER_PLOT 30 — interpreting one plot: an interactive data widget
+ *    OR a data table. Medium adds ~12s for a *passive* image on a declining
+ *    scale; ours are analytical, invite hover/tap, and each is a distinct
+ *    finding, so we use a flat ~30s (no decline). Decorative images are not
+ *    counted — only widgets and tables.
+ *  - COMPLEXITY_TAX 0.10 — a flat uplift on the whole estimate. These are
+ *    investigative, world-view-adjusting pieces that readers pause over and
+ *    re-read; +10% is equivalent to reading at ~216 wpm, still squarely in the
+ *    dense-non-fiction range.
  */
 export const WORDS_PER_MINUTE = 238
 export const SECONDS_PER_PLOT = 30
+export const COMPLEXITY_TAX = 0.1
 
 function countWords(text) {
   if (!text) return 0
@@ -26,11 +31,11 @@ function countWords(text) {
 }
 
 // Recursively walk a Tiptap/ProseMirror node: sum words in text nodes, count
-// `widget` nodes (the plots).
+// `widget` and `table` nodes (the plots — blocks that need interpreting).
 function scanNode(node, acc) {
   if (!node || typeof node !== 'object') return acc
   if (node.type === 'text') acc.words += countWords(node.text)
-  else if (node.type === 'widget') acc.plots += 1
+  else if (node.type === 'widget' || node.type === 'table') acc.plots += 1
   if (Array.isArray(node.content)) {
     for (const child of node.content) scanNode(child, acc)
   }
@@ -74,6 +79,26 @@ function stripFencedBlocks(content) {
   return out
 }
 
+// Count legacy tables: rendered HTML `<table>` and markdown pipe-tables
+// (detected by their delimiter row, e.g. `|---|---|`). Char scans only — no
+// regex, so no backtracking risk.
+function isTableDelimiterRow(line) {
+  const t = line.trim()
+  if (t.length < 3 || t[0] !== '|' || !t.includes('-')) return false
+  for (const ch of t) {
+    if (ch !== '|' && ch !== '-' && ch !== ':' && ch !== ' ') return false
+  }
+  return true
+}
+
+function countLegacyTables(content) {
+  let n = occurrences(content, '<table')
+  for (const line of content.split('\n')) {
+    if (isTableDelimiterRow(line)) n += 1
+  }
+  return n
+}
+
 /**
  * Tally { words, plots } from legacy v1 section content (markdown/HTML with
  * ```widget fenced blocks). Counts widget embeds via plain substring scans and
@@ -87,6 +112,7 @@ export function tallyLegacySections(sections = []) {
     // Both representations of an embed: the markdown fence and the rendered
     // HTML form. A given section is in one form, so summing is safe.
     acc.plots += occurrences(content, '```widget') + occurrences(content, 'class="language-widget"')
+    acc.plots += countLegacyTables(content)
     const prose = stripTags(stripFencedBlocks(content))
       .replace(/&[a-z#0-9]+;/gi, ' ')  // html entities
       .replace(/[#>*_`~|-]+/g, ' ')    // markdown punctuation
@@ -98,8 +124,13 @@ export function tallyLegacySections(sections = []) {
 /** Minutes from a { words, plots } tally. Always at least 1. */
 export function minutesFromTally(
   { words = 0, plots = 0 } = {},
-  { wpm = WORDS_PER_MINUTE, secondsPerPlot = SECONDS_PER_PLOT } = {},
+  {
+    wpm = WORDS_PER_MINUTE,
+    secondsPerPlot = SECONDS_PER_PLOT,
+    complexityTax = COMPLEXITY_TAX,
+  } = {},
 ) {
-  const seconds = (words / wpm) * 60 + plots * secondsPerPlot
+  const base = (words / wpm) * 60 + plots * secondsPerPlot
+  const seconds = base * (1 + complexityTax)
   return Math.max(1, Math.round(seconds / 60))
 }
