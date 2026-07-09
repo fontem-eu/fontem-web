@@ -42,21 +42,40 @@ export function tallyTiptap(doc) {
   return scanNode(doc, { words: 0, plots: 0 })
 }
 
+function occurrences(haystack, needle) {
+  let count = 0
+  let i = haystack.indexOf(needle)
+  while (i !== -1) {
+    count += 1
+    i = haystack.indexOf(needle, i + needle.length)
+  }
+  return count
+}
+
+// Drop ```-fenced code blocks (so widget JSON doesn't inflate the word count)
+// by toggling on the fence delimiter — O(n), no regex backtracking.
+function stripFencedBlocks(content) {
+  const parts = content.split('```')
+  let out = ''
+  for (let i = 0; i < parts.length; i += 2) out += `${parts[i]} `
+  return out
+}
+
 /**
  * Tally { words, plots } from legacy v1 section content (markdown/HTML with
- * ```widget fenced blocks). Strips tags/entities for the word count and counts
- * widget fences as plots.
+ * ```widget fenced blocks). Counts widget embeds via plain substring scans and
+ * strips tags/fences for the word count — deliberately regex-light so there is
+ * no super-linear backtracking on untrusted story content.
  */
 export function tallyLegacySections(sections = []) {
-  const widgetRe = /```widget[\s\S]*?```|<pre><code class="language-widget">[\s\S]*?<\/code><\/pre>/g
   const acc = { words: 0, plots: 0 }
   for (const sec of sections) {
-    const content = sec && sec.content ? String(sec.content) : ''
-    const widgets = content.match(widgetRe)
-    acc.plots += widgets ? widgets.length : 0
-    const prose = content
-      .replace(widgetRe, ' ')
-      .replace(/<[^>]*>/g, ' ')        // html tags
+    const content = sec?.content ? String(sec.content) : ''
+    // Both representations of an embed: the markdown fence and the rendered
+    // HTML form. A given section is in one form, so summing is safe.
+    acc.plots += occurrences(content, '```widget') + occurrences(content, 'class="language-widget"')
+    const prose = stripFencedBlocks(content)
+      .replace(/<[^>]*>/g, ' ')        // html tags (linear char class)
       .replace(/&[a-z#0-9]+;/gi, ' ')  // html entities
       .replace(/[#>*_`~|-]+/g, ' ')    // markdown punctuation
     acc.words += countWords(prose)
