@@ -57,8 +57,7 @@ function occurrences(haystack, needle) {
 function stripTags(content) {
   let out = ''
   let inTag = false
-  for (let i = 0; i < content.length; i += 1) {
-    const ch = content[i]
+  for (const ch of content) {
     if (ch === '<') inTag = true
     else if (ch === '>') { inTag = false; out += ' ' }
     else if (!inTag) out += ch
