@@ -1594,5 +1594,29 @@
     "geography_q1": "Que autoridades e empresas não estão associadas a uma região NUTS?",
     "src_nuts": "Regiões NUTS",
     "geography_soon": "Agregações ao nível regional da despesa e da propriedade nos restantes temas."
+  },
+  "user_profile": {
+    "articles": "Artigos",
+    "recent_activity": "Atividade recente",
+    "no_articles": "Ainda não há artigos.",
+    "no_activity": "Sem atividade recente.",
+    "joined": "Aderiu em {date}",
+    "edit": "Editar perfil",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "about": "Sobre",
+    "summary_placeholder": "Um breve resumo sobre si…",
+    "links": "Ligações",
+    "add_link": "Adicionar ligação",
+    "link_name": "Etiqueta",
+    "link_url": "https://…",
+    "activity_created": "Criou {entity}",
+    "activity_updated": "Atualizou {entity}",
+    "activity_deleted": "Eliminou {entity}",
+    "ent_story": "história",
+    "ent_dossier": "dossiê",
+    "ent_investigation": "investigação",
+    "ent_issue": "questão",
+    "not_found": "Não foi possível encontrar este utilizador."
   }
 }

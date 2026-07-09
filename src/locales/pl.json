@@ -1594,5 +1594,29 @@
     "geography_q1": "Które instytucje i spółki nie są powiązane z regionem NUTS?",
     "src_nuts": "Regiony NUTS",
     "geography_soon": "Zestawienia wydatków i własności na poziomie regionów w ramach pozostałych obszarów."
+  },
+  "user_profile": {
+    "articles": "Artykuły",
+    "recent_activity": "Ostatnia aktywność",
+    "no_articles": "Brak artykułów.",
+    "no_activity": "Brak ostatniej aktywności.",
+    "joined": "Dołączył(a) {date}",
+    "edit": "Edytuj profil",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "about": "O mnie",
+    "summary_placeholder": "Krótkie podsumowanie o Tobie…",
+    "links": "Odnośniki",
+    "add_link": "Dodaj odnośnik",
+    "link_name": "Etykieta",
+    "link_url": "https://…",
+    "activity_created": "Utworzono {entity}",
+    "activity_updated": "Zaktualizowano {entity}",
+    "activity_deleted": "Usunięto {entity}",
+    "ent_story": "reportaż",
+    "ent_dossier": "dossier",
+    "ent_investigation": "śledztwo",
+    "ent_issue": "sprawę",
+    "not_found": "Nie znaleziono tego użytkownika."
   }
 }

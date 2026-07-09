@@ -1594,5 +1594,29 @@
     "geography_q1": "Mitkä viranomaiset ja yritykset eivät ole kytketty NUTS-alueeseen?",
     "src_nuts": "NUTS-alueet",
     "geography_soon": "Menojen ja omistuksen aluetason koosteet muiden teemojen osalta."
+  },
+  "user_profile": {
+    "articles": "Artikkelit",
+    "recent_activity": "Viimeaikainen toiminta",
+    "no_articles": "Ei vielä artikkeleita.",
+    "no_activity": "Ei viimeaikaista toimintaa.",
+    "joined": "Liittyi {date}",
+    "edit": "Muokkaa profiilia",
+    "save": "Tallenna",
+    "cancel": "Peruuta",
+    "about": "Tietoja",
+    "summary_placeholder": "Lyhyt kuvaus itsestäsi…",
+    "links": "Linkit",
+    "add_link": "Lisää linkki",
+    "link_name": "Nimi",
+    "link_url": "https://…",
+    "activity_created": "Loi kohteen {entity}",
+    "activity_updated": "Päivitti kohteen {entity}",
+    "activity_deleted": "Poisti kohteen {entity}",
+    "ent_story": "juttu",
+    "ent_dossier": "kansio",
+    "ent_investigation": "tutkinta",
+    "ent_issue": "aihe",
+    "not_found": "Käyttäjää ei löytynyt."
   }
 }

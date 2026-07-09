@@ -1594,5 +1594,29 @@
     "geography_q1": "¿Qué autoridades y empresas no están vinculadas a una región NUTS?",
     "src_nuts": "Regiones NUTS",
     "geography_soon": "Consolidaciones a nivel de región del gasto y la titularidad en los demás temas."
+  },
+  "user_profile": {
+    "articles": "Artículos",
+    "recent_activity": "Actividad reciente",
+    "no_articles": "Aún no hay artículos.",
+    "no_activity": "No hay actividad reciente.",
+    "joined": "Se unió el {date}",
+    "edit": "Editar perfil",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "about": "Acerca de",
+    "summary_placeholder": "Una breve descripción sobre ti…",
+    "links": "Enlaces",
+    "add_link": "Añadir enlace",
+    "link_name": "Etiqueta",
+    "link_url": "https://…",
+    "activity_created": "Creó {entity}",
+    "activity_updated": "Actualizó {entity}",
+    "activity_deleted": "Eliminó {entity}",
+    "ent_story": "reportaje",
+    "ent_dossier": "dosier",
+    "ent_investigation": "investigación",
+    "ent_issue": "asunto",
+    "not_found": "No se ha podido encontrar a este usuario."
   }
 }

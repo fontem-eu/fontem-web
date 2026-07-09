@@ -1594,5 +1594,29 @@
     "geography_q1": "Quelles autorités et entreprises ne sont pas rattachées à une région NUTS ?",
     "src_nuts": "Régions NUTS",
     "geography_soon": "Consolidations par région des dépenses et de la propriété à travers les autres thèmes."
+  },
+  "user_profile": {
+    "articles": "Articles",
+    "recent_activity": "Activité récente",
+    "no_articles": "Aucun article pour le moment.",
+    "no_activity": "Aucune activité récente.",
+    "joined": "Inscrit le {date}",
+    "edit": "Modifier le profil",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "about": "À propos",
+    "summary_placeholder": "Une brève présentation de vous…",
+    "links": "Liens",
+    "add_link": "Ajouter un lien",
+    "link_name": "Libellé",
+    "link_url": "https://…",
+    "activity_created": "A créé {entity}",
+    "activity_updated": "A modifié {entity}",
+    "activity_deleted": "A supprimé {entity}",
+    "ent_story": "récit",
+    "ent_dossier": "dossier",
+    "ent_investigation": "enquête",
+    "ent_issue": "signalement",
+    "not_found": "Cet utilisateur est introuvable."
   }
 }

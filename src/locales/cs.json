@@ -1594,5 +1594,29 @@
     "geography_q1": "Kteří zadavatelé a společnosti nejsou propojeni s regionem NUTS?",
     "src_nuts": "Regiony NUTS",
     "geography_soon": "Agregace výdajů a vlastnictví na úrovni regionů napříč ostatními tématy."
+  },
+  "user_profile": {
+    "articles": "Články",
+    "recent_activity": "Nedávná aktivita",
+    "no_articles": "Zatím žádné články.",
+    "no_activity": "Žádná nedávná aktivita.",
+    "joined": "Připojil(a) se {date}",
+    "edit": "Upravit profil",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "about": "O uživateli",
+    "summary_placeholder": "Krátké shrnutí o vás…",
+    "links": "Odkazy",
+    "add_link": "Přidat odkaz",
+    "link_name": "Popisek",
+    "link_url": "https://…",
+    "activity_created": "Vytvořeno: {entity}",
+    "activity_updated": "Aktualizováno: {entity}",
+    "activity_deleted": "Smazáno: {entity}",
+    "ent_story": "reportáž",
+    "ent_dossier": "dokumentace",
+    "ent_investigation": "vyšetřování",
+    "ent_issue": "problém",
+    "not_found": "Tohoto uživatele se nepodařilo najít."
   }
 }

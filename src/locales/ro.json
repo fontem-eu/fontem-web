@@ -1594,5 +1594,29 @@
     "geography_q1": "Care autorități și companii nu sunt legate de o regiune NUTS?",
     "src_nuts": "Regiuni NUTS",
     "geography_soon": "Consolidări la nivel de regiune ale cheltuielilor și proprietății în celelalte teme."
+  },
+  "user_profile": {
+    "articles": "Articole",
+    "recent_activity": "Activitate recentă",
+    "no_articles": "Niciun articol încă.",
+    "no_activity": "Nicio activitate recentă.",
+    "joined": "Membru din {date}",
+    "edit": "Editează profilul",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "about": "Despre",
+    "summary_placeholder": "O scurtă descriere despre tine…",
+    "links": "Linkuri",
+    "add_link": "Adaugă link",
+    "link_name": "Etichetă",
+    "link_url": "https://…",
+    "activity_created": "A creat {entity}",
+    "activity_updated": "A actualizat {entity}",
+    "activity_deleted": "A șters {entity}",
+    "ent_story": "un reportaj",
+    "ent_dossier": "un dosar",
+    "ent_investigation": "o investigație",
+    "ent_issue": "o problemă",
+    "not_found": "Acest utilizator nu a putut fi găsit."
   }
 }

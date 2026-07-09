@@ -1594,5 +1594,29 @@
     "geography_q1": "Quali autorità e aziende non sono collegate a una regione NUTS?",
     "src_nuts": "Regioni NUTS",
     "geography_soon": "Aggregazioni a livello regionale di spesa e proprietà negli altri temi."
+  },
+  "user_profile": {
+    "articles": "Articoli",
+    "recent_activity": "Attività recente",
+    "no_articles": "Nessun articolo al momento.",
+    "no_activity": "Nessuna attività recente.",
+    "joined": "Iscritto il {date}",
+    "edit": "Modifica profilo",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "about": "Informazioni",
+    "summary_placeholder": "Una breve descrizione su di te…",
+    "links": "Collegamenti",
+    "add_link": "Aggiungi collegamento",
+    "link_name": "Etichetta",
+    "link_url": "https://…",
+    "activity_created": "Ha creato {entity}",
+    "activity_updated": "Ha aggiornato {entity}",
+    "activity_deleted": "Ha eliminato {entity}",
+    "ent_story": "storia",
+    "ent_dossier": "dossier",
+    "ent_investigation": "indagine",
+    "ent_issue": "segnalazione",
+    "not_found": "Impossibile trovare questo utente."
   }
 }

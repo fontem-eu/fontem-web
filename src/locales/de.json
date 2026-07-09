@@ -1594,5 +1594,29 @@
     "geography_q1": "Welche Behörden und Unternehmen sind keiner NUTS-Region zugeordnet?",
     "src_nuts": "NUTS-Regionen",
     "geography_soon": "Regionale Roll-ups von Ausgaben und Eigentum über die anderen Themen hinweg."
+  },
+  "user_profile": {
+    "articles": "Artikel",
+    "recent_activity": "Letzte Aktivitäten",
+    "no_articles": "Noch keine Artikel.",
+    "no_activity": "Keine aktuellen Aktivitäten.",
+    "joined": "Beigetreten am {date}",
+    "edit": "Profil bearbeiten",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "about": "Über",
+    "summary_placeholder": "Eine kurze Zusammenfassung über Sie…",
+    "links": "Links",
+    "add_link": "Link hinzufügen",
+    "link_name": "Bezeichnung",
+    "link_url": "https://…",
+    "activity_created": "{entity} erstellt",
+    "activity_updated": "{entity} aktualisiert",
+    "activity_deleted": "{entity} gelöscht",
+    "ent_story": "Story",
+    "ent_dossier": "Dossier",
+    "ent_investigation": "Untersuchung",
+    "ent_issue": "Vorgang",
+    "not_found": "Dieser Benutzer konnte nicht gefunden werden."
   }
 }

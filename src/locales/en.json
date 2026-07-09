@@ -1594,5 +1594,29 @@
     "geography_q1": "Which authorities and companies are unlinked to a NUTS region?",
     "src_nuts": "NUTS Regions",
     "geography_soon": "Region-level rollups of spend and ownership across the other themes."
+  },
+  "user_profile": {
+    "articles": "Articles",
+    "recent_activity": "Recent activity",
+    "no_articles": "No articles yet.",
+    "no_activity": "No recent activity.",
+    "joined": "Joined {date}",
+    "edit": "Edit profile",
+    "save": "Save",
+    "cancel": "Cancel",
+    "about": "About",
+    "summary_placeholder": "A short summary about you…",
+    "links": "Links",
+    "add_link": "Add link",
+    "link_name": "Label",
+    "link_url": "https://…",
+    "activity_created": "Created {entity}",
+    "activity_updated": "Updated {entity}",
+    "activity_deleted": "Deleted {entity}",
+    "ent_story": "story",
+    "ent_dossier": "dossier",
+    "ent_investigation": "investigation",
+    "ent_issue": "issue",
+    "not_found": "This user could not be found."
   }
 }

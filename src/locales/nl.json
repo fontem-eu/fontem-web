@@ -1594,5 +1594,29 @@
     "geography_q1": "Welke aanbestedende diensten en ondernemingen zijn niet gekoppeld aan een NUTS-regio?",
     "src_nuts": "NUTS-regio's",
     "geography_soon": "Samenvattingen op regioniveau van uitgaven en eigendom over de andere thema's heen."
+  },
+  "user_profile": {
+    "articles": "Artikelen",
+    "recent_activity": "Recente activiteit",
+    "no_articles": "Nog geen artikelen.",
+    "no_activity": "Geen recente activiteit.",
+    "joined": "Lid geworden op {date}",
+    "edit": "Profiel bewerken",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "about": "Over",
+    "summary_placeholder": "Een korte samenvatting over u…",
+    "links": "Links",
+    "add_link": "Link toevoegen",
+    "link_name": "Label",
+    "link_url": "https://…",
+    "activity_created": "{entity} aangemaakt",
+    "activity_updated": "{entity} bijgewerkt",
+    "activity_deleted": "{entity} verwijderd",
+    "ent_story": "verhaal",
+    "ent_dossier": "dossier",
+    "ent_investigation": "onderzoek",
+    "ent_issue": "kwestie",
+    "not_found": "Deze gebruiker kon niet worden gevonden."
   }
 }

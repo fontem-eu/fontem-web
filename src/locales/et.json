@@ -1594,5 +1594,29 @@
     "geography_q1": "Millised hankijad ja ettevõtted pole NUTS piirkonnaga seotud?",
     "src_nuts": "NUTS piirkonnad",
     "geography_soon": "Kulutuste ja omandi piirkonnatasandi koondnäitajad teiste teemade lõikes."
+  },
+  "user_profile": {
+    "articles": "Artiklid",
+    "recent_activity": "Hiljutine tegevus",
+    "no_articles": "Artikleid veel ei ole.",
+    "no_activity": "Hiljutist tegevust ei ole.",
+    "joined": "Liitus {date}",
+    "edit": "Muuda profiili",
+    "save": "Salvesta",
+    "cancel": "Tühista",
+    "about": "Teave",
+    "summary_placeholder": "Lühike kokkuvõte enda kohta…",
+    "links": "Lingid",
+    "add_link": "Lisa link",
+    "link_name": "Silt",
+    "link_url": "https://…",
+    "activity_created": "Lõi {entity}",
+    "activity_updated": "Uuendas {entity}",
+    "activity_deleted": "Kustutas {entity}",
+    "ent_story": "loo",
+    "ent_dossier": "toimiku",
+    "ent_investigation": "uurimise",
+    "ent_issue": "teema",
+    "not_found": "Seda kasutajat ei leitud."
   }
 }

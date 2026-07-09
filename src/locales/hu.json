@@ -1594,5 +1594,29 @@
     "geography_q1": "Mely hatóságok és vállalatok nincsenek NUTS-régióhoz kapcsolva?",
     "src_nuts": "NUTS-régiók",
     "geography_soon": "A kiadások és a tulajdonlás régiószintű összesítései a többi téma mentén."
+  },
+  "user_profile": {
+    "articles": "Cikkek",
+    "recent_activity": "Legutóbbi tevékenység",
+    "no_articles": "Még nincsenek cikkek.",
+    "no_activity": "Nincs legutóbbi tevékenység.",
+    "joined": "Csatlakozott: {date}",
+    "edit": "Profil szerkesztése",
+    "save": "Mentés",
+    "cancel": "Mégse",
+    "about": "Névjegy",
+    "summary_placeholder": "Rövid összefoglaló önről…",
+    "links": "Hivatkozások",
+    "add_link": "Hivatkozás hozzáadása",
+    "link_name": "Címke",
+    "link_url": "https://…",
+    "activity_created": "Létrehozva: {entity}",
+    "activity_updated": "Frissítve: {entity}",
+    "activity_deleted": "Törölve: {entity}",
+    "ent_story": "történet",
+    "ent_dossier": "dosszié",
+    "ent_investigation": "vizsgálat",
+    "ent_issue": "ügy",
+    "not_found": "Ez a felhasználó nem található."
   }
 }
