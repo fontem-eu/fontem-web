@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Niedawno opublikowane historie danych"
   },
   "report": {
-    "edit": "Edytuj"
+    "edit": "Edytuj",
+    "reading_time": "{n} min czytania"
   },
   "report_editor": {
     "brief_abstract": "Krótkie streszczenie...",

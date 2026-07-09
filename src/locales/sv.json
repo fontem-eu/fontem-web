@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Nyligen publicerade datahistorier"
   },
   "report": {
-    "edit": "Redigera"
+    "edit": "Redigera",
+    "reading_time": "{n} min läsning"
   },
   "report_editor": {
     "brief_abstract": "Kort sammanfattning...",

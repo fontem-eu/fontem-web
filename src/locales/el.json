@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Πρόσφατα δημοσιευμένες ιστορίες δεδομένων"
   },
   "report": {
-    "edit": "Επεξεργασία"
+    "edit": "Επεξεργασία",
+    "reading_time": "{n} λεπτά ανάγνωσης"
   },
   "report_editor": {
     "brief_abstract": "Σύντομη περίληψη...",

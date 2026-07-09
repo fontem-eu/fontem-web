@@ -23,6 +23,7 @@ import { getReport, getTranslation } from '../api/community.js'
 import { useLang } from '../composables/useLang.js'
 import { defaultTranslationFor } from '../utils/translationDefault.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
+import { tallyTiptap, tallyLegacySections, minutesFromTally } from '../utils/readingTime.js'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -54,6 +55,20 @@ const activeTranslation = ref(null)
 const displayTitle = computed(() => activeTranslation.value?.title || report.value?.title)
 const displayAbstract = computed(() =>
   activeLang.value ? activeTranslation.value?.abstract : report.value?.abstract)
+
+// Estimated reading time (minutes) for the *currently displayed* content —
+// the active translation's doc when one is selected, else the original.
+// Computed from the document model (see utils/readingTime.js), so it stays
+// correct across language switches with no persistence or DOM measurement.
+const readingMinutes = computed(() => {
+  const r = report.value
+  if (!r) return 0
+  const tr = activeLang.value ? activeTranslation.value : null
+  const doc = (tr?.content_doc?.version === 2 && tr.content_doc.tiptap)
+    || (r.content_doc?.version === 2 && r.content_doc.tiptap)
+  const tally = doc ? tallyTiptap(doc) : tallyLegacySections(r.sections || [])
+  return minutesFromTally(tally)
+})
 
 async function switchLanguage(lang) {
   if (lang === activeLang.value) return
@@ -242,6 +257,7 @@ function parseSectionContent(content) {
       <div class="report-meta" data-testid="story-meta">
         <span v-if="report.author">{{ report.author.name || report.author }}</span>
         <span v-if="report.created_at">&middot; {{ formatDate(report.created_at) }}</span>
+        <span class="reading-time" data-testid="story-reading-time">&middot; {{ $t('report.reading_time', { n: readingMinutes }) }}</span>
         <span
           class="visibility-badge"
           :class="`badge-${report.visibility || 'private'}`"

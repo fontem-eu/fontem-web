@@ -955,7 +955,8 @@
     "recently_published_data_stories": "Recently published data stories"
   },
   "report": {
-    "edit": "Edit"
+    "edit": "Edit",
+    "reading_time": "{n} min read"
   },
   "report_editor": {
     "brief_abstract": "Brief abstract...",

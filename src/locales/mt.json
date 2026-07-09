@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Stejjer tad-data ippubblikati reċentement"
   },
   "report": {
-    "edit": "Editja"
+    "edit": "Editja",
+    "reading_time": "{n} min qari"
   },
   "report_editor": {
     "brief_abstract": "Estratt qasir...",

@@ -886,7 +886,8 @@
     "recently_published_data_stories": "Senest udgivne datafortællinger"
   },
   "report": {
-    "edit": "Rediger"
+    "edit": "Rediger",
+    "reading_time": "{n} min læsning"
   },
   "report_editor": {
     "brief_abstract": "Kort sammenfatning...",
