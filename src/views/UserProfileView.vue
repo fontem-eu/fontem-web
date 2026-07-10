@@ -345,7 +345,7 @@ async function saveReposition() {
 a.profile-activity-text:hover { color: var(--accent); }
 .profile-activity-date { font-size: 0.76rem; color: var(--muted); margin-left: auto; }
 .profile-empty { color: var(--muted); font-size: 0.9rem; }
-.profile-avatar-wrap { position: relative; width: 96px; }
+.profile-avatar-wrap { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; }
 .profile-avatar-inner { position: relative; width: 96px; height: 96px; border-radius: 50%; }
 .profile-avatar-wrap.is-self .profile-avatar-inner { cursor: pointer; }
 .profile-avatar-wrap.repositioning .profile-avatar-inner { cursor: grab; touch-action: none; }
@@ -357,7 +357,16 @@ a.profile-activity-text:hover { color: var(--accent); }
 }
 .profile-avatar-inner:hover .profile-avatar-overlay { opacity: 1; }
 .profile-avatar-file { display: none; }
-.profile-avatar-actions { margin-top: 0.4rem; display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
-.profile-reposition-btn { background: none; border: 1px solid var(--border); color: var(--fg); border-radius: 6px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
-.profile-reposition-hint { font-size: 0.72rem; color: var(--muted); }
+.profile-avatar-actions { margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem 0.45rem; align-items: center; }
+.profile-reposition-btn { background: none; border: 1px solid var(--border); color: var(--fg); border-radius: 6px; padding: 0.3rem 0.6rem; font-size: 0.78rem; cursor: pointer; }
+/* Hint on its own row so the buttons sit side by side below it, and the text
+   never wraps mid-phrase. */
+.profile-reposition-hint { flex-basis: 100%; font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+/* .btn-primary lives in LoginView's scoped styles, so define the primary
+   button locally for this view's two Save buttons (edit + reposition). */
+.btn-primary {
+  background: var(--accent); color: #fff; border: 0; border-radius: 6px;
+  padding: 0.32rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+}
+.btn-primary:disabled { opacity: 0.5; cursor: default; }
 </style>
