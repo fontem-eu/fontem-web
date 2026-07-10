@@ -5,7 +5,7 @@
 #                  etc.) for the routes crawlers care about
 #   dist/server/ — SSR bundle used only by scripts/prerender.js at build
 #                  time; never ships in the runtime image
-FROM node:22-slim AS build
+FROM node:24-slim AS build
 WORKDIR /app
 
 # Tailwind's oxide native binding needs glibc — Alpine/musl has a
