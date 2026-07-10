@@ -1623,5 +1623,8 @@
     "uploading": "Laddar upp…",
     "reposition": "Flytta",
     "drag_to_center": "Dra för att centrera"
+  },
+  "article": {
+    "by": "av"
   }
 }

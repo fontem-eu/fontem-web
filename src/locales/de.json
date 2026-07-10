@@ -1623,5 +1623,8 @@
     "uploading": "Wird hochgeladen…",
     "reposition": "Neu positionieren",
     "drag_to_center": "Zum Zentrieren ziehen"
+  },
+  "article": {
+    "by": "von"
   }
 }

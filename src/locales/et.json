@@ -1623,5 +1623,8 @@
     "uploading": "Üleslaadimine…",
     "reposition": "Paiguta ümber",
     "drag_to_center": "Lohista keskele"
+  },
+  "article": {
+    "by": "autor:"
   }
 }

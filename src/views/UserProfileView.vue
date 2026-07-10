@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { currentUser } from '../api/session.js'
+import { currentUser, setSessionAvatar } from '../api/session.js'
 import { getUserProfile, updateMyProfile, uploadAvatar } from '../api/community.js'
 import UserAvatar from '../components/UserAvatar.vue'
 
@@ -102,6 +102,8 @@ async function onFileChange(e) {
   try {
     const res = await uploadAvatar(file)
     profile.value = { ...profile.value, avatar_url: res.avatar_url }
+    // update the header ball immediately (own profile)
+    setSessionAvatar(res.avatar_url)
   } catch (err) {
     error.value = err?.message || 'error'
   } finally {

@@ -1623,5 +1623,8 @@
     "uploading": "Nalaganje…",
     "reposition": "Premakni",
     "drag_to_center": "Povlecite za sredinsko poravnavo"
+  },
+  "article": {
+    "by": "avtor:"
   }
 }

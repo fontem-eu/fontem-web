@@ -1623,5 +1623,8 @@
     "uploading": "Nahráva sa…",
     "reposition": "Zmeniť pozíciu",
     "drag_to_center": "Potiahnutím vycentrujte"
+  },
+  "article": {
+    "by": "od"
   }
 }

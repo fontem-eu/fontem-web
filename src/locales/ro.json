@@ -1623,5 +1623,8 @@
     "uploading": "Se încarcă…",
     "reposition": "Repoziționează",
     "drag_to_center": "Trage pentru a centra"
+  },
+  "article": {
+    "by": "de"
   }
 }

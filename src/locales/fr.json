@@ -1623,5 +1623,8 @@
     "uploading": "Téléversement…",
     "reposition": "Repositionner",
     "drag_to_center": "Glisser pour centrer"
+  },
+  "article": {
+    "by": "par"
   }
 }

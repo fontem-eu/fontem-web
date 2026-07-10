@@ -1623,5 +1623,8 @@
     "uploading": "Ladataan…",
     "reposition": "Sijoita uudelleen",
     "drag_to_center": "Keskitä vetämällä"
+  },
+  "article": {
+    "by": "kirjoittanut"
   }
 }

@@ -1623,5 +1623,8 @@
     "uploading": "Subiendo…",
     "reposition": "Reposicionar",
     "drag_to_center": "Arrastra para centrar"
+  },
+  "article": {
+    "by": "por"
   }
 }

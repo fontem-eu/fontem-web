@@ -1623,5 +1623,8 @@
     "uploading": "Augšupielāde…",
     "reposition": "Pārvietot",
     "drag_to_center": "Velciet, lai centrētu"
+  },
+  "article": {
+    "by": "autors:"
   }
 }
