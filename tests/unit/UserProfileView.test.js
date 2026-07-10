@@ -14,10 +14,12 @@ vi.mock('../../src/api/community.js', () => ({
 }))
 vi.mock('../../src/api/session.js', () => ({
   currentUser: { value: null },  // viewer is not the profile owner
+  setSessionAvatar: vi.fn(),
+  setSessionName: vi.fn(),
 }))
 
 import UserProfileView from '../../src/views/UserProfileView.vue'
-import { getUserProfile, uploadAvatar } from '../../src/api/community.js'
+import { getUserProfile, uploadAvatar, updateMyProfile } from '../../src/api/community.js'
 import { currentUser } from '../../src/api/session.js'
 
 const PROFILE = {
@@ -83,6 +85,39 @@ describe('UserProfileView', () => {
     const w = await mountAt()
     const link = w.find('[data-testid="profile-articles"] a')
     expect(link.attributes('href')).toContain('/stories/a1')
+  })
+
+  it('own profile: edit form has name + email settings; save sends them', async () => {
+    getUserProfile.mockResolvedValue({
+      ...PROFILE, id: 'u1', name: 'Old Name', email: '', account_email: 'me@acct.io',
+      show_email: false, use_custom_email: false, custom_email: '',
+    })
+    updateMyProfile.mockResolvedValue({
+      name: 'New Name', summary: 'Follows the money.', links: PROFILE.links,
+      avatar_x: 50, avatar_y: 50, show_email: true, use_custom_email: true,
+      custom_email: 'pub@x.io',
+    })
+    currentUser.value = { id: 'u1' }
+    try {
+      const w = await mountAt('u1')
+      await w.find('[data-testid="profile-edit-btn"]').trigger('click')
+      // name input prefilled
+      expect(w.find('[data-testid="profile-edit-name"]').element.value).toBe('Old Name')
+      await w.find('[data-testid="profile-edit-name"]').setValue('New Name')
+      // display-email off -> custom fields hidden
+      expect(w.find('[data-testid="profile-custom-email"]').exists()).toBe(false)
+      await w.find('[data-testid="profile-show-email"]').setValue(true)
+      // now the use-different-email + custom input appear
+      await w.find('[data-testid="profile-use-custom-email"]').setValue(true)
+      await w.find('[data-testid="profile-custom-email"]').setValue('pub@x.io')
+      await w.find('[data-testid="profile-edit-form"]').trigger('submit')
+      await flushPromises()
+      expect(updateMyProfile).toHaveBeenCalledWith(expect.objectContaining({
+        name: 'New Name', show_email: true, use_custom_email: true, custom_email: 'pub@x.io',
+      }))
+    } finally {
+      currentUser.value = null
+    }
   })
 
   it('own profile: exposes avatar upload + reposition; upload sets the avatar', async () => {

@@ -1622,7 +1622,12 @@
     "change_photo": "Zamenjaj fotografijo",
     "uploading": "Nalaganje…",
     "reposition": "Premakni",
-    "drag_to_center": "Povlecite za sredinsko poravnavo"
+    "drag_to_center": "Povlecite za sredinsko poravnavo",
+    "name": "Ime",
+    "email_heading": "E-pošta",
+    "display_email": "Prikaži e-pošto",
+    "use_different_email": "Uporabi drug e-poštni naslov",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "avtor:"

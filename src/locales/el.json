@@ -1622,7 +1622,12 @@
     "change_photo": "Αλλαγή φωτογραφίας",
     "uploading": "Μεταφόρτωση…",
     "reposition": "Επανατοποθέτηση",
-    "drag_to_center": "Σύρετε για κεντράρισμα"
+    "drag_to_center": "Σύρετε για κεντράρισμα",
+    "name": "Όνομα",
+    "email_heading": "Email",
+    "display_email": "Εμφάνιση email",
+    "use_different_email": "Χρήση διαφορετικού email",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "από"

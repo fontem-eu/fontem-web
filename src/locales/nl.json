@@ -1622,7 +1622,12 @@
     "change_photo": "Foto wijzigen",
     "uploading": "Uploaden…",
     "reposition": "Herpositioneren",
-    "drag_to_center": "Sleep om te centreren"
+    "drag_to_center": "Sleep om te centreren",
+    "name": "Naam",
+    "email_heading": "E-mail",
+    "display_email": "E-mail tonen",
+    "use_different_email": "Ander e-mailadres gebruiken",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "door"

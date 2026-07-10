@@ -1622,7 +1622,12 @@
     "change_photo": "Vaihda kuva",
     "uploading": "Ladataan…",
     "reposition": "Sijoita uudelleen",
-    "drag_to_center": "Keskitä vetämällä"
+    "drag_to_center": "Keskitä vetämällä",
+    "name": "Nimi",
+    "email_heading": "Sähköposti",
+    "display_email": "Näytä sähköposti",
+    "use_different_email": "Käytä eri sähköpostia",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "kirjoittanut"

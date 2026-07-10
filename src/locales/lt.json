@@ -1622,7 +1622,12 @@
     "change_photo": "Keisti nuotrauką",
     "uploading": "Įkeliama…",
     "reposition": "Perkelti",
-    "drag_to_center": "Vilkite, kad centruotumėte"
+    "drag_to_center": "Vilkite, kad centruotumėte",
+    "name": "Vardas",
+    "email_heading": "El. paštas",
+    "display_email": "Rodyti el. paštą",
+    "use_different_email": "Naudoti kitą el. paštą",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "autorius:"

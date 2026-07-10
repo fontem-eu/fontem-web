@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { currentUser, setSessionAvatar } from '../api/session.js'
+import { currentUser, setSessionAvatar, setSessionName } from '../api/session.js'
 import { getUserProfile, updateMyProfile, uploadAvatar } from '../api/community.js'
 import UserAvatar from '../components/UserAvatar.vue'
 
@@ -53,11 +53,19 @@ watch(userId, load)
 const editing = ref(false)
 const draftSummary = ref('')
 const draftLinks = ref([])
+const draftName = ref('')
+const draftShowEmail = ref(false)
+const draftUseCustomEmail = ref(false)
+const draftCustomEmail = ref('')
 const saving = ref(false)
 
 function openEdit() {
   draftSummary.value = profile.value.summary || ''
   draftLinks.value = (profile.value.links || []).map((l) => ({ ...l }))
+  draftName.value = profile.value.name || ''
+  draftShowEmail.value = !!profile.value.show_email
+  draftUseCustomEmail.value = !!profile.value.use_custom_email
+  draftCustomEmail.value = profile.value.custom_email || ''
   editing.value = true
 }
 function addLink() { draftLinks.value.push({ name: '', url: '' }) }
@@ -69,8 +77,30 @@ async function saveEdit() {
     const links = draftLinks.value
       .map((l) => ({ name: (l.name || '').trim(), url: (l.url || '').trim() }))
       .filter((l) => l.name && l.url)
-    const saved = await updateMyProfile({ summary: draftSummary.value.trim(), links })
-    profile.value = { ...profile.value, summary: saved.summary, links: saved.links }
+    const saved = await updateMyProfile({
+      summary: draftSummary.value.trim(),
+      links,
+      name: draftName.value.trim(),
+      show_email: draftShowEmail.value,
+      use_custom_email: draftShowEmail.value && draftUseCustomEmail.value,
+      custom_email: draftCustomEmail.value.trim(),
+    })
+    profile.value = {
+      ...profile.value,
+      name: saved.name ?? profile.value.name,
+      summary: saved.summary,
+      links: saved.links,
+      show_email: saved.show_email,
+      use_custom_email: saved.use_custom_email,
+      custom_email: saved.custom_email,
+      // recompute the publicly-shown email from the saved settings
+      email: saved.show_email
+        ? (saved.use_custom_email && saved.custom_email
+            ? saved.custom_email
+            : (profile.value.account_email || profile.value.email))
+        : '',
+    }
+    if (saved.name) setSessionName(saved.name)
     editing.value = false
   } catch (err) {
     error.value = err?.message || 'error'
@@ -216,6 +246,9 @@ async function saveReposition() {
               <a :href="l.url" target="_blank" rel="noopener noreferrer nofollow">{{ l.name }}</a>
             </li>
           </ul>
+          <p v-if="profile.email" class="profile-email" data-testid="profile-email">
+            <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
+          </p>
           <button
             v-if="isSelf"
             class="profile-edit-btn"
@@ -226,6 +259,14 @@ async function saveReposition() {
 
         <!-- own-profile edit form -->
         <form v-else class="profile-edit" data-testid="profile-edit-form" @submit.prevent="saveEdit">
+          <label class="profile-edit-label">{{ $t('user_profile.name') }}</label>
+          <input
+            v-model="draftName"
+            class="profile-edit-input"
+            maxlength="100"
+            data-testid="profile-edit-name"
+            :placeholder="$t('user_profile.name')"
+          />
           <label class="profile-edit-label">{{ $t('user_profile.about') }}</label>
           <textarea
             v-model="draftSummary"
@@ -256,6 +297,28 @@ async function saveReposition() {
           <button type="button" class="profile-edit-addlink" data-testid="profile-add-link" @click="addLink">
             + {{ $t('user_profile.add_link') }}
           </button>
+
+          <label class="profile-edit-label">{{ $t('user_profile.email_heading') }}</label>
+          <label class="profile-edit-check">
+            <input type="checkbox" v-model="draftShowEmail" data-testid="profile-show-email" />
+            {{ $t('user_profile.display_email') }}
+          </label>
+          <template v-if="draftShowEmail">
+            <label class="profile-edit-check">
+              <input type="checkbox" v-model="draftUseCustomEmail" data-testid="profile-use-custom-email" />
+              {{ $t('user_profile.use_different_email') }}
+            </label>
+            <input
+              v-model="draftCustomEmail"
+              type="email"
+              class="profile-edit-input"
+              maxlength="254"
+              :disabled="!draftUseCustomEmail"
+              :placeholder="profile.account_email || $t('user_profile.email_address')"
+              data-testid="profile-custom-email"
+            />
+          </template>
+
           <div class="profile-edit-actions">
             <button type="submit" class="btn-primary" :disabled="saving" data-testid="profile-save-btn">
               {{ $t('user_profile.save') }}
@@ -315,6 +378,12 @@ async function saveReposition() {
 .profile-links { list-style: none; padding: 0; margin: 0.5rem 0 0; display: flex; flex-direction: column; gap: 0.3rem; }
 .profile-links a { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 .profile-links a:hover { text-decoration: underline; }
+.profile-email { margin: 0.5rem 0 0; font-size: 0.9rem; }
+.profile-email a { color: var(--accent); text-decoration: none; }
+.profile-email a:hover { text-decoration: underline; }
+.profile-edit-check { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--fg); cursor: pointer; }
+.profile-edit-check input { cursor: pointer; }
+.profile-edit-check input:disabled { cursor: default; }
 .profile-edit-btn, .profile-edit-cancel, .profile-edit-addlink {
   align-self: flex-start; background: none; border: 1px solid var(--border);
   color: var(--fg); border-radius: 6px; padding: 0.35rem 0.7rem; font-size: 0.82rem; cursor: pointer;
