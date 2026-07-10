@@ -26,7 +26,7 @@ RUN npm run build
 # Plain nginx serving the prerendered HTML + client assets.  The
 # SSR-era Fastify runtime is gone — every URL we index is baked into a
 # static file at build time and cached hard by the CDN / Traefik edge.
-FROM nginx:1.30
+FROM nginx:1.31
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY rate-limit.conf /etc/nginx/conf.d/00-rate-limit.conf
 COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
