@@ -239,17 +239,19 @@ async function saveReposition() {
               v-model="l.name"
               class="profile-edit-input"
               maxlength="60"
+              data-testid="profile-link-name"
               :placeholder="$t('user_profile.link_name')"
             />
             <input
               v-model="l.url"
               class="profile-edit-input"
               maxlength="500"
+              data-testid="profile-link-url"
               :placeholder="$t('user_profile.link_url')"
             />
             <button type="button" class="profile-edit-remove" @click="removeLink(i)">✕</button>
           </div>
-          <button type="button" class="profile-edit-addlink" @click="addLink">
+          <button type="button" class="profile-edit-addlink" data-testid="profile-add-link" @click="addLink">
             + {{ $t('user_profile.add_link') }}
           </button>
           <div class="profile-edit-actions">
