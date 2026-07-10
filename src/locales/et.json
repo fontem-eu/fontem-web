@@ -1622,7 +1622,12 @@
     "change_photo": "Muuda fotot",
     "uploading": "Üleslaadimine…",
     "reposition": "Paiguta ümber",
-    "drag_to_center": "Lohista keskele"
+    "drag_to_center": "Lohista keskele",
+    "name": "Nimi",
+    "email_heading": "E-post",
+    "display_email": "Näita e-posti",
+    "use_different_email": "Kasuta teist e-posti",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "autor:"

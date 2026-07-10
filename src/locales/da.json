@@ -1622,7 +1622,12 @@
     "change_photo": "Skift foto",
     "uploading": "Uploader…",
     "reposition": "Flyt",
-    "drag_to_center": "Træk for at centrere"
+    "drag_to_center": "Træk for at centrere",
+    "name": "Navn",
+    "email_heading": "E-mail",
+    "display_email": "Vis e-mail",
+    "use_different_email": "Brug en anden e-mail",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "af"

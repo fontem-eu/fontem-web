@@ -1622,7 +1622,12 @@
     "change_photo": "Schimbă fotografia",
     "uploading": "Se încarcă…",
     "reposition": "Repoziționează",
-    "drag_to_center": "Trage pentru a centra"
+    "drag_to_center": "Trage pentru a centra",
+    "name": "Nume",
+    "email_heading": "E-mail",
+    "display_email": "Afișează e-mailul",
+    "use_different_email": "Folosește alt e-mail",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "de"

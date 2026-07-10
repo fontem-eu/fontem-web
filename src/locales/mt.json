@@ -1622,7 +1622,12 @@
     "change_photo": "Ibdel ir-ritratt",
     "uploading": "Qed jittella'…",
     "reposition": "Poġġi mill-ġdid",
-    "drag_to_center": "Iġbed biex tiċċentra"
+    "drag_to_center": "Iġbed biex tiċċentra",
+    "name": "Isem",
+    "email_heading": "Email",
+    "display_email": "Uri l-email",
+    "use_different_email": "Uża email ieħor",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "minn"

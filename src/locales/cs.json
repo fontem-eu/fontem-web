@@ -1622,7 +1622,12 @@
     "change_photo": "Změnit fotku",
     "uploading": "Nahrávání…",
     "reposition": "Změnit umístění",
-    "drag_to_center": "Přetažením vycentrujte"
+    "drag_to_center": "Přetažením vycentrujte",
+    "name": "Jméno",
+    "email_heading": "E-mail",
+    "display_email": "Zobrazit e-mail",
+    "use_different_email": "Použít jiný e-mail",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "od"

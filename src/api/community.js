@@ -106,10 +106,17 @@ export function getUserProfile(userId) {
 
 // Update the signed-in user's own profile extras (summary + links, and
 // optionally the avatar focal point avatar_x/avatar_y as percentages).
-export function updateMyProfile({ summary, links, avatar_x, avatar_y }) {
+export function updateMyProfile({
+  summary, links, avatar_x, avatar_y,
+  name, show_email, use_custom_email, custom_email,
+}) {
   const body = { summary, links }
   if (avatar_x !== undefined) body.avatar_x = avatar_x
   if (avatar_y !== undefined) body.avatar_y = avatar_y
+  if (name !== undefined) body.name = name
+  if (show_email !== undefined) body.show_email = show_email
+  if (use_custom_email !== undefined) body.use_custom_email = use_custom_email
+  if (custom_email !== undefined) body.custom_email = custom_email
   return request('PUT', '/users/me/profile', body)
 }
 

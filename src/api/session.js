@@ -101,6 +101,17 @@ export function setSessionAvatar(url) {
   state.tick++
 }
 
+/** Patch the signed-in user's display name in place (after a profile rename)
+ * so the header ball/menu reflect it without a reload. */
+export function setSessionName(name) {
+  if (!state.user || !name) return
+  state.user = { ...state.user, name }
+  try {
+    localStorage.setItem('fontem-user', JSON.stringify(state.user))
+  } catch { /* SSR or private mode — ignore */ }
+  state.tick++
+}
+
 
 function _clear() {
   accessToken = null

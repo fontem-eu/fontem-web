@@ -1622,7 +1622,12 @@
     "change_photo": "Foto ändern",
     "uploading": "Wird hochgeladen…",
     "reposition": "Neu positionieren",
-    "drag_to_center": "Zum Zentrieren ziehen"
+    "drag_to_center": "Zum Zentrieren ziehen",
+    "name": "Name",
+    "email_heading": "E-Mail",
+    "display_email": "E-Mail anzeigen",
+    "use_different_email": "Andere E-Mail verwenden",
+    "email_address": "you@example.com"
   },
   "article": {
     "by": "von"
