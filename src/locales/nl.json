@@ -1623,5 +1623,8 @@
     "uploading": "Uploaden…",
     "reposition": "Herpositioneren",
     "drag_to_center": "Sleep om te centreren"
+  },
+  "article": {
+    "by": "door"
   }
 }

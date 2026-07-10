@@ -1623,5 +1623,8 @@
     "uploading": "Uploader…",
     "reposition": "Flyt",
     "drag_to_center": "Træk for at centrere"
+  },
+  "article": {
+    "by": "af"
   }
 }

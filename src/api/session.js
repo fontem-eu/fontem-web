@@ -87,6 +87,20 @@ function _accept(data) {
   state.tick++
 }
 
+/**
+ * Patch the signed-in user's avatar in place — used right after an avatar
+ * upload so the header ball updates immediately, without waiting for the next
+ * token refresh to re-presign it.
+ */
+export function setSessionAvatar(url) {
+  if (!state.user) return
+  state.user = { ...state.user, avatar_url: url }
+  try {
+    localStorage.setItem('fontem-user', JSON.stringify(state.user))
+  } catch { /* SSR or private mode — ignore */ }
+  state.tick++
+}
+
 
 function _clear() {
   accessToken = null

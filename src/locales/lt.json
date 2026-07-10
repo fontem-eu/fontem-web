@@ -1623,5 +1623,8 @@
     "uploading": "Įkeliama…",
     "reposition": "Perkelti",
     "drag_to_center": "Vilkite, kad centruotumėte"
+  },
+  "article": {
+    "by": "autorius:"
   }
 }

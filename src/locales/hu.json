@@ -1623,5 +1623,8 @@
     "uploading": "Feltöltés…",
     "reposition": "Áthelyezés",
     "drag_to_center": "Húzza a középre igazításhoz"
+  },
+  "article": {
+    "by": "szerző:"
   }
 }

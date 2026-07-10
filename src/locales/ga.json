@@ -1623,5 +1623,8 @@
     "uploading": "Á uaslódáil…",
     "reposition": "Athshuigh",
     "drag_to_center": "Tarraing chun lárú"
+  },
+  "article": {
+    "by": "le"
   }
 }

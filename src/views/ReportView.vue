@@ -19,7 +19,8 @@ import ChapterRail from '../components/ChapterRail.vue'
 import FlowerButton from '../components/FlowerButton.vue'
 import TranslationBar from '../components/TranslationBar.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
-import { getReport, getTranslation } from '../api/community.js'
+import AuthorCard from '../components/AuthorCard.vue'
+import { getReport, getTranslation, getUserProfile } from '../api/community.js'
 import { useLang } from '../composables/useLang.js'
 import { defaultTranslationFor } from '../utils/translationDefault.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
@@ -35,6 +36,7 @@ const loading = ref(true)
 const isV2 = ref(false)
 let readOnlyEditor = null
 const error = ref(null)
+const author = ref(null)
 
 // `bodyRef` points at the rendered story body — the ChapterRail uses
 // it to extract h2/h3 chapters and observe scroll position. `bodyVersion`
@@ -96,6 +98,13 @@ async function switchLanguage(lang) {
 onMounted(async () => {
   try {
     report.value = await getReport(reportId)
+    // Fetch the author's public profile for the byline + author card
+    // (non-blocking — the article renders without waiting on it).
+    if (report.value.created_by) {
+      getUserProfile(report.value.created_by)
+        .then((p) => { author.value = p })
+        .catch(() => { /* author card just won't render */ })
+    }
     // v2 stories use a read-only TipTap editor for rendering
     // (supports widget nodes).
     if (report.value.content_doc?.version === 2) {
@@ -255,13 +264,14 @@ function parseSectionContent(content) {
       <h1 class="report-title" data-testid="story-title">{{ displayTitle }}</h1>
 
       <div class="report-meta" data-testid="story-meta">
-        <RouterLink
-          v-if="report.created_by && (report.author?.name || report.author)"
-          :to="`/users/${report.created_by}`"
-          class="report-author-link"
-          data-testid="story-author-link"
-        >{{ report.author?.name || report.author }}</RouterLink>
-        <span v-else-if="report.author">{{ report.author.name || report.author }}</span>
+        <span v-if="author && author.name" class="report-byline">
+          {{ $t('article.by') }}
+          <RouterLink
+            :to="`/users/${report.created_by}`"
+            class="report-author-link"
+            data-testid="story-author-link"
+          >{{ author.name }}</RouterLink>
+        </span>
         <span v-if="report.created_at">&middot; {{ formatDate(report.created_at) }}</span>
         <span class="reading-time" data-testid="story-reading-time">&middot; {{ $t('report.reading_time', { n: readingMinutes }) }}</span>
         <span
@@ -318,6 +328,12 @@ function parseSectionContent(content) {
           >
             <FlowerButton :report-id="reportId" />
           </div>
+
+          <AuthorCard
+            v-if="author && author.name && report.created_by"
+            :author="author"
+            :user-id="report.created_by"
+          />
         </div>
 
         <ChapterRail :body-ref="bodyRef" :version="bodyVersion" />

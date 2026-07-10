@@ -1623,5 +1623,8 @@
     "uploading": "Przesyłanie…",
     "reposition": "Zmień położenie",
     "drag_to_center": "Przeciągnij, aby wyśrodkować"
+  },
+  "article": {
+    "by": "autor:"
   }
 }

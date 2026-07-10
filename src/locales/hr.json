@@ -1623,5 +1623,8 @@
     "uploading": "Učitavanje…",
     "reposition": "Premjesti",
     "drag_to_center": "Povucite za centriranje"
+  },
+  "article": {
+    "by": "autor:"
   }
 }
