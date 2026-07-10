@@ -8,7 +8,8 @@
 import UserAvatar from './UserAvatar.vue'
 
 const props = defineProps({
-  // { name, avatar_url, summary, links, avatar_x, avatar_y }
+  // The author's public profile — fields used: name, avatar_url, summary,
+  // links, avatar_x, avatar_y.
   author: { type: Object, required: true },
   userId: { type: String, required: true },
 })
