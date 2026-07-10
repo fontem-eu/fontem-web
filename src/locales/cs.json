@@ -834,7 +834,8 @@
     "log_in": "Přihlásit se / Zaregistrovat se",
     "menu": "Nabídka účtu",
     "sign_out": "Odhlásit se",
-    "sign_out_all": "Odhlásit se ze všech zařízení"
+    "sign_out_all": "Odhlásit se ze všech zařízení",
+    "my_profile": "Můj profil"
   },
   "public_spending": {
     "intro": "Hledej firmy EU, zadavatele, lobbisty a projekty financované EU. Nebo si projdi, co je velké v tvojí zemi.",

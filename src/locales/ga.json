@@ -834,7 +834,8 @@
     "log_in": "Logáil isteach / Cláraigh",
     "menu": "Roghchlár cuntais",
     "sign_out": "Sínigh amach",
-    "sign_out_all": "Sínigh amach as gach gléas"
+    "sign_out_all": "Sínigh amach as gach gléas",
+    "my_profile": "Mo phróifíl"
   },
   "public_spending": {
     "intro": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail arna maoiniú ag an AE. Nó féach cad atá mór i do thír.",

@@ -834,7 +834,8 @@
     "log_in": "Kirjaudu sisään / Rekisteröidy",
     "menu": "Tilivalikko",
     "sign_out": "Kirjaudu ulos",
-    "sign_out_all": "Kirjaudu ulos kaikilta laitteilta"
+    "sign_out_all": "Kirjaudu ulos kaikilta laitteilta",
+    "my_profile": "Oma profiili"
   },
   "public_spending": {
     "intro": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Tai selaa, mikä maassasi on suurta.",

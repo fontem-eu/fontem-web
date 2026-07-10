@@ -834,7 +834,8 @@
     "log_in": "Pieteikties / Reģistrēties",
     "menu": "Konta izvēlne",
     "sign_out": "Iziet",
-    "sign_out_all": "Iziet no visām ierīcēm"
+    "sign_out_all": "Iziet no visām ierīcēm",
+    "my_profile": "Mans profils"
   },
   "public_spending": {
     "intro": "Meklē ES uzņēmumus, līgumslēdzējus, lobistus un ES finansētus projektus. Vai pārlūko to, kas ir liels tavā valstī.",

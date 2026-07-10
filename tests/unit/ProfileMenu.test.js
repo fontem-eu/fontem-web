@@ -90,4 +90,35 @@ describe('ProfileMenu', () => {
     expect(push).toHaveBeenCalledWith('/account')
   })
 
+  it('shows "My profile" as the first menu link and navigates to /users/:id', async () => {
+    _internal.setAccessToken('t'); _internal.setUserForTests({ id: 'u-123', name: 'Alice', email: 'a@b.com' })
+    const router = createRouter({ history: createMemoryHistory(), routes: [
+      { path: '/', component: { template: '<div/>' } },
+      { path: '/users/:id', component: { template: '<div/>' } },
+    ] })
+    await router.push('/'); await router.isReady()
+    const w = mount(ProfileMenu, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    await w.find('[data-testid="profile-trigger"]').trigger('click'); await flushPromises()
+    // "My profile" is the first row, right under the name/email header
+    const rows = w.findAll('.pm-row')
+    expect(rows[0].attributes('data-testid')).toBe('profile-my-profile')
+    await w.find('[data-testid="profile-my-profile"]').trigger('click'); await flushPromises()
+    expect(router.currentRoute.value.fullPath).toBe('/users/u-123')
+  })
+
+  it('clicking the name/email header navigates to the profile', async () => {
+    _internal.setAccessToken('t'); _internal.setUserForTests({ id: 'u-9', name: 'Bob', email: 'b@x.com' })
+    const router = createRouter({ history: createMemoryHistory(), routes: [
+      { path: '/', component: { template: '<div/>' } },
+      { path: '/users/:id', component: { template: '<div/>' } },
+    ] })
+    await router.push('/'); await router.isReady()
+    const w = mount(ProfileMenu, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    await w.find('[data-testid="profile-trigger"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="profile-header"]').trigger('click'); await flushPromises()
+    expect(router.currentRoute.value.fullPath).toBe('/users/u-9')
+  })
+
 })

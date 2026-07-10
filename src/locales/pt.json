@@ -834,7 +834,8 @@
     "log_in": "Iniciar sessão / Registar",
     "menu": "Menu da conta",
     "sign_out": "Terminar sessão",
-    "sign_out_all": "Terminar sessão em todos os dispositivos"
+    "sign_out_all": "Terminar sessão em todos os dispositivos",
+    "my_profile": "O meu perfil"
   },
   "public_spending": {
     "intro": "Procura empresas da UE, entidades adjudicantes, lobistas e projetos financiados pela UE. Ou vê o que é grande no teu país.",

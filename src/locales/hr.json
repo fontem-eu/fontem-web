@@ -834,7 +834,8 @@
     "log_in": "Prijava / Registracija",
     "menu": "Izbornik računa",
     "sign_out": "Odjava",
-    "sign_out_all": "Odjavi se sa svih uređaja"
+    "sign_out_all": "Odjavi se sa svih uređaja",
+    "my_profile": "Moj profil"
   },
   "public_spending": {
     "intro": "Pretraži tvrtke EU, ugovorne ustanove, lobiste i projekte koje financira EU. Ili pregledaj što je veliko u tvojoj zemlji.",

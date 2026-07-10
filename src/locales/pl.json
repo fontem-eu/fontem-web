@@ -834,7 +834,8 @@
     "log_in": "Zaloguj się / Zarejestruj się",
     "menu": "Menu konta",
     "sign_out": "Wyloguj się",
-    "sign_out_all": "Wyloguj się ze wszystkich urządzeń"
+    "sign_out_all": "Wyloguj się ze wszystkich urządzeń",
+    "my_profile": "Mój profil"
   },
   "public_spending": {
     "intro": "Wyszukuj spółki UE, zamawiających, lobbystów i projekty finansowane przez UE. Lub przeglądaj, co jest duże w twoim kraju.",

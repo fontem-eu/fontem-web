@@ -834,7 +834,8 @@
     "log_in": "Accedi / Registrati",
     "menu": "Menu account",
     "sign_out": "Disconnetti",
-    "sign_out_all": "Disconnetti da tutti i dispositivi"
+    "sign_out_all": "Disconnetti da tutti i dispositivi",
+    "my_profile": "Il mio profilo"
   },
   "public_spending": {
     "intro": "Cerca aziende UE, autorità appaltanti, lobbisti e progetti finanziati dall'UE. O sfoglia ciò che è grande nel tuo paese.",

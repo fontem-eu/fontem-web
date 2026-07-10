@@ -834,7 +834,8 @@
     "log_in": "Illoggja / Irreġistra",
     "menu": "Menu tal-kont",
     "sign_out": "Oħroġ",
-    "sign_out_all": "Oħroġ mill-apparati kollha"
+    "sign_out_all": "Oħroġ mill-apparati kollha",
+    "my_profile": "Il-profil tiegħi"
   },
   "public_spending": {
     "intro": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Jew esplora dak li hu kbir f'pajjiżek.",

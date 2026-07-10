@@ -903,7 +903,8 @@
     "menu": "Account menu",
     "part_of": "Part of ",
     "sign_out": "Sign out",
-    "sign_out_all": "Sign out of all devices"
+    "sign_out_all": "Sign out of all devices",
+    "my_profile": "My profile"
   },
   "public_spending": {
     "intro": "Search EU companies, contracting authorities, lobbyists and EU-funded projects. Or browse what's big in your country first.",
