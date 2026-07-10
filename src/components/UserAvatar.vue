@@ -19,6 +19,8 @@ const props = defineProps({
   user: { type: Object, default: null },
   size: { type: Number, default: 28 },
   ariaLabel: { type: String, default: '' },
+  // CSS object-position for the image (focal point), e.g. '50% 30%'.
+  position: { type: String, default: '50% 50%' },
 })
 
 const imgFailed = ref(false)
@@ -98,6 +100,7 @@ defineExpose({ deriveInitials })
       :src="avatarUrl"
       :alt="tooltip"
       class="avatar-img"
+      :style="{ objectPosition: position }"
       data-testid="user-avatar-img"
       @error="imgFailed = true"
     />

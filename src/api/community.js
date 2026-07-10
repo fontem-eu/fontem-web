@@ -25,10 +25,14 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
   // of the cookie→token refresh and go out anonymous, which 404s any
   // private resource. No-op once settled (and on SSR).
   await whenSessionReady()
-  const headers = { ...authHeaders(), 'Content-Type': 'application/json' }
+  // FormData (file uploads) must not be JSON-stringified, and the browser
+  // has to set its own multipart Content-Type (with the boundary).
+  const isForm = typeof FormData !== 'undefined' && body instanceof FormData
+  const headers = { ...authHeaders() }
+  if (!isForm) headers['Content-Type'] = 'application/json'
   const sentAuth = 'Authorization' in headers
   const opts = { method, headers, credentials: 'include' }
-  if (body !== undefined) opts.body = JSON.stringify(body)
+  if (body !== undefined) opts.body = isForm ? body : JSON.stringify(body)
   const res = await fetch(`/capi${withLang(path)}`, opts)
 
   // 401 on a token-bearing request: try a silent refresh exactly once.
@@ -95,9 +99,20 @@ export function getUserProfile(userId) {
   return request('GET', `/users/${encodeURIComponent(userId)}/profile`)
 }
 
-// Update the signed-in user's own profile extras (summary + links).
-export function updateMyProfile({ summary, links }) {
-  return request('PUT', '/users/me/profile', { summary, links })
+// Update the signed-in user's own profile extras (summary + links, and
+// optionally the avatar focal point avatar_x/avatar_y as percentages).
+export function updateMyProfile({ summary, links, avatar_x, avatar_y }) {
+  const body = { summary, links }
+  if (avatar_x !== undefined) body.avatar_x = avatar_x
+  if (avatar_y !== undefined) body.avatar_y = avatar_y
+  return request('PUT', '/users/me/profile', body)
+}
+
+// Upload the signed-in user's avatar image (multipart). Returns { avatar_url }.
+export function uploadAvatar(file) {
+  const form = new FormData()
+  form.append('file', file)
+  return request('POST', '/users/me/avatar', form)
 }
 
 // ── Translations ────────────────────────────────────────────────

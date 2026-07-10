@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { currentUser } from '../api/session.js'
-import { getUserProfile, updateMyProfile } from '../api/community.js'
+import { getUserProfile, updateMyProfile, uploadAvatar } from '../api/community.js'
 import UserAvatar from '../components/UserAvatar.vue'
 
 const route = useRoute()
@@ -78,6 +78,78 @@ async function saveEdit() {
     saving.value = false
   }
 }
+
+// ── avatar: upload + reposition (own profile only) ──────────
+const fileInput = ref(null)
+const uploading = ref(false)
+const repositioning = ref(false)
+let dragOrigin = null
+let posBackup = null
+const clamp = (n) => Math.min(100, Math.max(0, n))
+
+const avatarPosition = computed(
+  () => `${profile.value?.avatar_x ?? 50}% ${profile.value?.avatar_y ?? 50}%`)
+
+function pickPhoto() {
+  if (!isSelf.value || repositioning.value) return
+  fileInput.value?.click()
+}
+async function onFileChange(e) {
+  const file = e.target.files?.[0]
+  e.target.value = ''
+  if (!file || !file.type.startsWith('image/')) return
+  uploading.value = true
+  try {
+    const res = await uploadAvatar(file)
+    profile.value = { ...profile.value, avatar_url: res.avatar_url }
+  } catch (err) {
+    error.value = err?.message || 'error'
+  } finally {
+    uploading.value = false
+  }
+}
+function startReposition() {
+  posBackup = { x: profile.value.avatar_x ?? 50, y: profile.value.avatar_y ?? 50 }
+  repositioning.value = true
+}
+function cancelReposition() {
+  if (posBackup) {
+    profile.value = { ...profile.value, avatar_x: posBackup.x, avatar_y: posBackup.y }
+  }
+  repositioning.value = false
+}
+function onDragStart(e) {
+  if (!repositioning.value) return
+  dragOrigin = {
+    px: e.clientX, py: e.clientY,
+    x: profile.value.avatar_x ?? 50, y: profile.value.avatar_y ?? 50,
+  }
+  e.target.setPointerCapture?.(e.pointerId)
+}
+function onDragMove(e) {
+  if (!dragOrigin) return
+  const size = 96
+  const nx = clamp(dragOrigin.x - ((e.clientX - dragOrigin.px) / size) * 100)
+  const ny = clamp(dragOrigin.y - ((e.clientY - dragOrigin.py) / size) * 100)
+  profile.value = { ...profile.value, avatar_x: nx, avatar_y: ny }
+}
+function onDragEnd() { dragOrigin = null }
+async function saveReposition() {
+  saving.value = true
+  try {
+    await updateMyProfile({
+      summary: profile.value.summary,
+      links: profile.value.links,
+      avatar_x: profile.value.avatar_x,
+      avatar_y: profile.value.avatar_y,
+    })
+    repositioning.value = false
+  } catch (err) {
+    error.value = err?.message || 'error'
+  } finally {
+    saving.value = false
+  }
+}
 </script>
 
 <template>
@@ -91,7 +163,43 @@ async function saveEdit() {
     <div v-else-if="profile" class="profile-layout">
       <!-- Left: identity block -->
       <aside class="profile-aside">
-        <UserAvatar :user="profile" :size="96" class="profile-avatar" />
+        <div class="profile-avatar-wrap" :class="{ 'is-self': isSelf, repositioning }">
+          <div
+            class="profile-avatar-inner"
+            @click="pickPhoto"
+            @pointerdown="onDragStart"
+            @pointermove="onDragMove"
+            @pointerup="onDragEnd"
+            @pointercancel="onDragEnd"
+          >
+            <UserAvatar :user="profile" :size="96" :position="avatarPosition" class="profile-avatar" />
+            <div v-if="isSelf && !repositioning" class="profile-avatar-overlay">
+              <span>{{ uploading ? $t('user_profile.uploading') : $t('user_profile.change_photo') }}</span>
+            </div>
+          </div>
+          <input
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+            class="profile-avatar-file"
+            data-testid="profile-avatar-input"
+            @change="onFileChange"
+          />
+          <div v-if="isSelf && profile.avatar_url" class="profile-avatar-actions">
+            <button
+              v-if="!repositioning"
+              type="button"
+              class="profile-reposition-btn"
+              data-testid="profile-reposition"
+              @click="startReposition"
+            >{{ $t('user_profile.reposition') }}</button>
+            <template v-else>
+              <span class="profile-reposition-hint">{{ $t('user_profile.drag_to_center') }}</span>
+              <button type="button" class="btn-primary" :disabled="saving" data-testid="profile-reposition-save" @click="saveReposition">{{ $t('user_profile.save') }}</button>
+              <button type="button" class="profile-edit-cancel" @click="cancelReposition">{{ $t('user_profile.cancel') }}</button>
+            </template>
+          </div>
+        </div>
         <h1 class="profile-name" data-testid="profile-name">{{ profile.name }}</h1>
         <p v-if="profile.created_at" class="profile-joined">
           {{ $t('user_profile.joined', { date: formatDate(profile.created_at) }) }}
@@ -233,4 +341,19 @@ async function saveEdit() {
 a.profile-activity-text:hover { color: var(--accent); }
 .profile-activity-date { font-size: 0.76rem; color: var(--muted); margin-left: auto; }
 .profile-empty { color: var(--muted); font-size: 0.9rem; }
+.profile-avatar-wrap { position: relative; width: 96px; }
+.profile-avatar-inner { position: relative; width: 96px; height: 96px; border-radius: 50%; }
+.profile-avatar-wrap.is-self .profile-avatar-inner { cursor: pointer; }
+.profile-avatar-wrap.repositioning .profile-avatar-inner { cursor: grab; touch-action: none; }
+.profile-avatar-overlay {
+  position: absolute; inset: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 0.62rem; color: #fff; background: rgba(0, 0, 0, 0.45);
+  opacity: 0; transition: opacity 0.15s; padding: 0 0.3rem; pointer-events: none;
+}
+.profile-avatar-inner:hover .profile-avatar-overlay { opacity: 1; }
+.profile-avatar-file { display: none; }
+.profile-avatar-actions { margin-top: 0.4rem; display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
+.profile-reposition-btn { background: none; border: 1px solid var(--border); color: var(--fg); border-radius: 6px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
+.profile-reposition-hint { font-size: 0.72rem; color: var(--muted); }
 </style>

@@ -1618,6 +1618,10 @@
     "ent_dossier": "dossier",
     "ent_investigation": "investigazzjoni",
     "ent_issue": "kwistjoni",
-    "not_found": "Dan l-utent ma setax jinstab."
+    "not_found": "Dan l-utent ma setax jinstab.",
+    "change_photo": "Ibdel ir-ritratt",
+    "uploading": "Qed jittella'…",
+    "reposition": "Poġġi mill-ġdid",
+    "drag_to_center": "Iġbed biex tiċċentra"
   }
 }

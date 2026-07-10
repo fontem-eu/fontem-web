@@ -1618,6 +1618,10 @@
     "ent_dossier": "en dossier",
     "ent_investigation": "en utredning",
     "ent_issue": "ett ärende",
-    "not_found": "Den här användaren kunde inte hittas."
+    "not_found": "Den här användaren kunde inte hittas.",
+    "change_photo": "Byt foto",
+    "uploading": "Laddar upp…",
+    "reposition": "Flytta",
+    "drag_to_center": "Dra för att centrera"
   }
 }

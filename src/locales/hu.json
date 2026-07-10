@@ -1618,6 +1618,10 @@
     "ent_dossier": "dosszié",
     "ent_investigation": "vizsgálat",
     "ent_issue": "ügy",
-    "not_found": "Ez a felhasználó nem található."
+    "not_found": "Ez a felhasználó nem található.",
+    "change_photo": "Fénykép módosítása",
+    "uploading": "Feltöltés…",
+    "reposition": "Áthelyezés",
+    "drag_to_center": "Húzza a középre igazításhoz"
   }
 }

@@ -1618,6 +1618,10 @@
     "ent_dossier": "toimiku",
     "ent_investigation": "uurimise",
     "ent_issue": "teema",
-    "not_found": "Seda kasutajat ei leitud."
+    "not_found": "Seda kasutajat ei leitud.",
+    "change_photo": "Muuda fotot",
+    "uploading": "Üleslaadimine…",
+    "reposition": "Paiguta ümber",
+    "drag_to_center": "Lohista keskele"
   }
 }

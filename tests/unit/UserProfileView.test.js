@@ -10,13 +10,15 @@ import { makeTestI18n } from './helpers/i18n.js'
 vi.mock('../../src/api/community.js', () => ({
   getUserProfile: vi.fn(),
   updateMyProfile: vi.fn(),
+  uploadAvatar: vi.fn(),
 }))
 vi.mock('../../src/api/session.js', () => ({
   currentUser: { value: null },  // viewer is not the profile owner
 }))
 
 import UserProfileView from '../../src/views/UserProfileView.vue'
-import { getUserProfile } from '../../src/api/community.js'
+import { getUserProfile, uploadAvatar } from '../../src/api/community.js'
+import { currentUser } from '../../src/api/session.js'
 
 const PROFILE = {
   id: 'u1',
@@ -81,5 +83,24 @@ describe('UserProfileView', () => {
     const w = await mountAt()
     const link = w.find('[data-testid="profile-articles"] a')
     expect(link.attributes('href')).toContain('/stories/a1')
+  })
+
+  it('own profile: exposes avatar upload + reposition; upload sets the avatar', async () => {
+    getUserProfile.mockResolvedValue({ ...PROFILE, avatar_url: 'https://img/a.png' })
+    uploadAvatar.mockResolvedValue({ avatar_url: 'https://img/new.png' })
+    currentUser.value = { id: 'u1' } // viewer IS the profile owner
+    try {
+      const w = await mountAt('u1')
+      expect(w.find('[data-testid="profile-avatar-input"]').exists()).toBe(true)
+      expect(w.find('[data-testid="profile-reposition"]').exists()).toBe(true)
+      const input = w.find('[data-testid="profile-avatar-input"]')
+      const file = new File([new Uint8Array([1, 2, 3])], 'a.png', { type: 'image/png' })
+      Object.defineProperty(input.element, 'files', { value: [file] })
+      await input.trigger('change')
+      await flushPromises()
+      expect(uploadAvatar).toHaveBeenCalled()
+    } finally {
+      currentUser.value = null
+    }
   })
 })

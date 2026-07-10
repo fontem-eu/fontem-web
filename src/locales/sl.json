@@ -1618,6 +1618,10 @@
     "ent_dossier": "dosje",
     "ent_investigation": "preiskavo",
     "ent_issue": "prijavo",
-    "not_found": "Tega uporabnika ni bilo mogoče najti."
+    "not_found": "Tega uporabnika ni bilo mogoče najti.",
+    "change_photo": "Zamenjaj fotografijo",
+    "uploading": "Nalaganje…",
+    "reposition": "Premakni",
+    "drag_to_center": "Povlecite za sredinsko poravnavo"
   }
 }

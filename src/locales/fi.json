@@ -1618,6 +1618,10 @@
     "ent_dossier": "kansio",
     "ent_investigation": "tutkinta",
     "ent_issue": "aihe",
-    "not_found": "Käyttäjää ei löytynyt."
+    "not_found": "Käyttäjää ei löytynyt.",
+    "change_photo": "Vaihda kuva",
+    "uploading": "Ladataan…",
+    "reposition": "Sijoita uudelleen",
+    "drag_to_center": "Keskitä vetämällä"
   }
 }

@@ -1618,6 +1618,10 @@
     "ent_dossier": "bylą",
     "ent_investigation": "tyrimą",
     "ent_issue": "problemą",
-    "not_found": "Šio naudotojo rasti nepavyko."
+    "not_found": "Šio naudotojo rasti nepavyko.",
+    "change_photo": "Keisti nuotrauką",
+    "uploading": "Įkeliama…",
+    "reposition": "Perkelti",
+    "drag_to_center": "Vilkite, kad centruotumėte"
   }
 }

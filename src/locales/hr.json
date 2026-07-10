@@ -1618,6 +1618,10 @@
     "ent_dossier": "dosje",
     "ent_investigation": "istragu",
     "ent_issue": "temu",
-    "not_found": "Ovaj korisnik nije pronađen."
+    "not_found": "Ovaj korisnik nije pronađen.",
+    "change_photo": "Promijeni fotografiju",
+    "uploading": "Učitavanje…",
+    "reposition": "Premjesti",
+    "drag_to_center": "Povucite za centriranje"
   }
 }

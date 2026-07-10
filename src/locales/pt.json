@@ -1618,6 +1618,10 @@
     "ent_dossier": "dossiê",
     "ent_investigation": "investigação",
     "ent_issue": "questão",
-    "not_found": "Não foi possível encontrar este utilizador."
+    "not_found": "Não foi possível encontrar este utilizador.",
+    "change_photo": "Alterar foto",
+    "uploading": "A carregar…",
+    "reposition": "Reposicionar",
+    "drag_to_center": "Arraste para centrar"
   }
 }

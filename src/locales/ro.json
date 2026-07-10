@@ -1618,6 +1618,10 @@
     "ent_dossier": "un dosar",
     "ent_investigation": "o investigație",
     "ent_issue": "o problemă",
-    "not_found": "Acest utilizator nu a putut fi găsit."
+    "not_found": "Acest utilizator nu a putut fi găsit.",
+    "change_photo": "Schimbă fotografia",
+    "uploading": "Se încarcă…",
+    "reposition": "Repoziționează",
+    "drag_to_center": "Trage pentru a centra"
   }
 }

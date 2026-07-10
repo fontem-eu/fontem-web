@@ -1618,6 +1618,10 @@
     "ent_dossier": "comhad faisnéise",
     "ent_investigation": "imscrúdú",
     "ent_issue": "saincheist",
-    "not_found": "Níorbh fhéidir an t-úsáideoir seo a aimsiú."
+    "not_found": "Níorbh fhéidir an t-úsáideoir seo a aimsiú.",
+    "change_photo": "Athraigh grianghraf",
+    "uploading": "Á uaslódáil…",
+    "reposition": "Athshuigh",
+    "drag_to_center": "Tarraing chun lárú"
   }
 }

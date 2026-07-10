@@ -1618,6 +1618,10 @@
     "ent_dossier": "dokumentace",
     "ent_investigation": "vyšetřování",
     "ent_issue": "problém",
-    "not_found": "Tohoto uživatele se nepodařilo najít."
+    "not_found": "Tohoto uživatele se nepodařilo najít.",
+    "change_photo": "Změnit fotku",
+    "uploading": "Nahrávání…",
+    "reposition": "Změnit umístění",
+    "drag_to_center": "Přetažením vycentrujte"
   }
 }

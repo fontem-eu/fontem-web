@@ -1618,6 +1618,10 @@
     "ent_dossier": "dosjē",
     "ent_investigation": "izmeklēšanu",
     "ent_issue": "problēmu",
-    "not_found": "Šo lietotāju neizdevās atrast."
+    "not_found": "Šo lietotāju neizdevās atrast.",
+    "change_photo": "Mainīt foto",
+    "uploading": "Augšupielāde…",
+    "reposition": "Pārvietot",
+    "drag_to_center": "Velciet, lai centrētu"
   }
 }
