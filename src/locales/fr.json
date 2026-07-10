@@ -1618,6 +1618,10 @@
     "ent_dossier": "dossier",
     "ent_investigation": "enquête",
     "ent_issue": "signalement",
-    "not_found": "Cet utilisateur est introuvable."
+    "not_found": "Cet utilisateur est introuvable.",
+    "change_photo": "Changer la photo",
+    "uploading": "Téléversement…",
+    "reposition": "Repositionner",
+    "drag_to_center": "Glisser pour centrer"
   }
 }

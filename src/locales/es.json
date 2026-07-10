@@ -1618,6 +1618,10 @@
     "ent_dossier": "dosier",
     "ent_investigation": "investigación",
     "ent_issue": "asunto",
-    "not_found": "No se ha podido encontrar a este usuario."
+    "not_found": "No se ha podido encontrar a este usuario.",
+    "change_photo": "Cambiar foto",
+    "uploading": "Subiendo…",
+    "reposition": "Reposicionar",
+    "drag_to_center": "Arrastra para centrar"
   }
 }

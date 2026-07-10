@@ -1618,6 +1618,10 @@
     "ent_dossier": "dossier",
     "ent_investigation": "onderzoek",
     "ent_issue": "kwestie",
-    "not_found": "Deze gebruiker kon niet worden gevonden."
+    "not_found": "Deze gebruiker kon niet worden gevonden.",
+    "change_photo": "Foto wijzigen",
+    "uploading": "Uploaden…",
+    "reposition": "Herpositioneren",
+    "drag_to_center": "Sleep om te centreren"
   }
 }

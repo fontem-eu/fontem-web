@@ -1618,6 +1618,10 @@
     "ent_dossier": "dossier",
     "ent_investigation": "investigation",
     "ent_issue": "issue",
-    "not_found": "This user could not be found."
+    "not_found": "This user could not be found.",
+    "change_photo": "Change photo",
+    "uploading": "Uploading…",
+    "reposition": "Reposition",
+    "drag_to_center": "Drag to centre"
   }
 }

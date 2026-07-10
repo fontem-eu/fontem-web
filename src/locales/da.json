@@ -1618,6 +1618,10 @@
     "ent_dossier": "et dossier",
     "ent_investigation": "en undersøgelse",
     "ent_issue": "en sag",
-    "not_found": "Denne bruger kunne ikke findes."
+    "not_found": "Denne bruger kunne ikke findes.",
+    "change_photo": "Skift foto",
+    "uploading": "Uploader…",
+    "reposition": "Flyt",
+    "drag_to_center": "Træk for at centrere"
   }
 }
