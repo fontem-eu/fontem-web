@@ -24,6 +24,7 @@ const user = computed(() => currentUser.value)
 function toggle() { open.value = !open.value }
 function close() { open.value = false }
 function go(path) { close(); router.push(path) }
+function goProfile() { if (user.value?.id) go(`/users/${user.value.id}`) }
 
 async function onSignOut() { close(); await logout() }
 async function onSignOutAll() {
@@ -61,10 +62,18 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDocClick); docum
       </button>
 
       <div v-if="open" class="profile-menu" role="menu" data-testid="profile-menu">
-        <div v-if="user" class="pm-head">
+        <button
+          v-if="user"
+          type="button"
+          class="pm-head"
+          role="menuitem"
+          data-testid="profile-header"
+          @click="goProfile"
+        >
           <div v-if="user.name" class="pm-name">{{ user.name }}</div>
           <div v-if="user.email" class="pm-email">{{ user.email }}</div>
-        </div>
+        </button>
+        <button class="pm-row" role="menuitem" data-testid="profile-my-profile" @click="goProfile">{{ $t('profile.my_profile') }}</button>
         <button class="pm-row" role="menuitem" data-testid="profile-account" @click="go('/account')">{{ $t('profile.account_settings') }}</button>
         <button class="pm-row" role="menuitem" data-testid="profile-ai-usage" @click="go('/ai-usage')">{{ $t('profile.ai_usage') }}</button>
         <button class="pm-row" role="menuitem" @click="go('/activity')">{{ $t('profile.activity') }}</button>
@@ -92,7 +101,10 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDocClick); docum
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.18); padding: 0.4rem; z-index: 80;
 }
-.pm-head { padding: 0.5rem 0.6rem 0.6rem; border-bottom: 1px solid var(--border); margin-bottom: 0.3rem; }
+.pm-head { display: block; width: 100%; text-align: left; padding: 0.5rem 0.6rem 0.6rem;
+  border: 0; border-bottom: 1px solid var(--border); margin-bottom: 0.3rem;
+  background: transparent; cursor: pointer; border-radius: 7px 7px 0 0; }
+.pm-head:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
 .pm-name { font-weight: 600; font-size: 0.9rem; }
 .pm-email { color: var(--muted); font-size: 0.78rem; }
 .pm-row { display: block; width: 100%; text-align: left; padding: 0.5rem 0.6rem; border: 0; background: transparent; color: var(--text); font-size: 0.86rem; border-radius: 7px; cursor: pointer; }

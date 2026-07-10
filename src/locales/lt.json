@@ -834,7 +834,8 @@
     "log_in": "Prisijungti / Registruotis",
     "menu": "Paskyros meniu",
     "sign_out": "Atsijungti",
-    "sign_out_all": "Atsijungti nuo visų įrenginių"
+    "sign_out_all": "Atsijungti nuo visų įrenginių",
+    "my_profile": "Mano profilis"
   },
   "public_spending": {
     "intro": "Ieškok ES įmonių, perkančiųjų organizacijų, lobistų ir ES finansuojamų projektų. Arba peržiūrėk, kas didelis tavo šalyje.",

@@ -834,7 +834,8 @@
     "log_in": "Se connecter / S'inscrire",
     "menu": "Menu du compte",
     "sign_out": "Se déconnecter",
-    "sign_out_all": "Se déconnecter de tous les appareils"
+    "sign_out_all": "Se déconnecter de tous les appareils",
+    "my_profile": "Mon profil"
   },
   "public_spending": {
     "intro": "Cherche des entreprises de l'UE, des pouvoirs adjudicateurs, des lobbyistes et des projets financés par l'UE. Ou parcours ce qui est gros dans ton pays.",

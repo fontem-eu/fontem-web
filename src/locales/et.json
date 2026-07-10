@@ -834,7 +834,8 @@
     "log_in": "Logi sisse / Registreeru",
     "menu": "Konto menüü",
     "sign_out": "Logi välja",
-    "sign_out_all": "Logi välja kõigist seadmetest"
+    "sign_out_all": "Logi välja kõigist seadmetest",
+    "my_profile": "Minu profiil"
   },
   "public_spending": {
     "intro": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja EL-i rahastatud projekte. Või vaata, mis on sinu riigis suur.",

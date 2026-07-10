@@ -834,7 +834,8 @@
     "log_in": "Bejelentkezés / Regisztráció",
     "menu": "Fiók menü",
     "sign_out": "Kijelentkezés",
-    "sign_out_all": "Kijelentkezés minden eszközről"
+    "sign_out_all": "Kijelentkezés minden eszközről",
+    "my_profile": "Saját profil"
   },
   "public_spending": {
     "intro": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Vagy nézd meg, mi a nagy a saját országodban.",

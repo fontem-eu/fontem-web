@@ -834,7 +834,8 @@
     "log_in": "Aanmelden / Registreren",
     "menu": "Accountmenu",
     "sign_out": "Afmelden",
-    "sign_out_all": "Op alle apparaten afmelden"
+    "sign_out_all": "Op alle apparaten afmelden",
+    "my_profile": "Mijn profiel"
   },
   "public_spending": {
     "intro": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Of blader door wat groot is in jouw land.",

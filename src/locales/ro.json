@@ -834,7 +834,8 @@
     "log_in": "Autentificare / Înregistrare",
     "menu": "Meniu cont",
     "sign_out": "Deconectare",
-    "sign_out_all": "Deconectare de pe toate dispozitivele"
+    "sign_out_all": "Deconectare de pe toate dispozitivele",
+    "my_profile": "Profilul meu"
   },
   "public_spending": {
     "intro": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Sau răsfoiește ce e mare în țara ta.",

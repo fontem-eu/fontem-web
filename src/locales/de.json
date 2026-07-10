@@ -834,7 +834,8 @@
     "log_in": "Anmelden / Registrieren",
     "menu": "Kontomenü",
     "sign_out": "Abmelden",
-    "sign_out_all": "Von allen Geräten abmelden"
+    "sign_out_all": "Von allen Geräten abmelden",
+    "my_profile": "Mein Profil"
   },
   "public_spending": {
     "intro": "Suche EU-Unternehmen, Vergabestellen, Lobbyisten und EU-geförderte Projekte. Oder schau, was in deinem Land groß ist.",

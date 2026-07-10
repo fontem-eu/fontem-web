@@ -834,7 +834,8 @@
     "log_in": "Log ind / Tilmeld dig",
     "menu": "Kontomenu",
     "sign_out": "Log ud",
-    "sign_out_all": "Log ud af alle enheder"
+    "sign_out_all": "Log ud af alle enheder",
+    "my_profile": "Min profil"
   },
   "public_spending": {
     "intro": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Eller bladr i hvad der er stort i dit land.",
