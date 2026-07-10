@@ -19,20 +19,25 @@ function authHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
+// Build fetch() init for a request. FormData (file uploads) must not be
+// JSON-stringified, and the browser has to set its own multipart
+// Content-Type (with the boundary), so we only set JSON otherwise.
+function buildRequestInit(method, body) {
+  const isForm = typeof FormData !== 'undefined' && body instanceof FormData
+  const headers = { ...authHeaders() }
+  if (!isForm) headers['Content-Type'] = 'application/json'
+  const opts = { method, headers, credentials: 'include' }
+  if (body !== undefined) opts.body = isForm ? body : JSON.stringify(body)
+  return { opts, sentAuth: 'Authorization' in headers }
+}
+
 export async function request(method, path, body, { retries = 0, refreshed = false } = {}) {
   // Wait for the cold-boot session restore to settle before sending —
   // otherwise the first call on a freshly-loaded page can race ahead
   // of the cookie→token refresh and go out anonymous, which 404s any
   // private resource. No-op once settled (and on SSR).
   await whenSessionReady()
-  // FormData (file uploads) must not be JSON-stringified, and the browser
-  // has to set its own multipart Content-Type (with the boundary).
-  const isForm = typeof FormData !== 'undefined' && body instanceof FormData
-  const headers = { ...authHeaders() }
-  if (!isForm) headers['Content-Type'] = 'application/json'
-  const sentAuth = 'Authorization' in headers
-  const opts = { method, headers, credentials: 'include' }
-  if (body !== undefined) opts.body = isForm ? body : JSON.stringify(body)
+  const { opts, sentAuth } = buildRequestInit(method, body)
   const res = await fetch(`/capi${withLang(path)}`, opts)
 
   // 401 on a token-bearing request: try a silent refresh exactly once.
