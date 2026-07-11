@@ -300,12 +300,12 @@ async function saveReposition() {
 
           <label class="profile-edit-label">{{ $t('user_profile.email_heading') }}</label>
           <label class="profile-edit-check">
-            <input type="checkbox" v-model="draftShowEmail" data-testid="profile-show-email" />
+            <input v-model="draftShowEmail" type="checkbox" data-testid="profile-show-email" />
             {{ $t('user_profile.display_email') }}
           </label>
           <template v-if="draftShowEmail">
             <label class="profile-edit-check">
-              <input type="checkbox" v-model="draftUseCustomEmail" data-testid="profile-use-custom-email" />
+              <input v-model="draftUseCustomEmail" type="checkbox" data-testid="profile-use-custom-email" />
               {{ $t('user_profile.use_different_email') }}
             </label>
             <input

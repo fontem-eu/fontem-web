@@ -9,7 +9,8 @@ import UserAvatar from './UserAvatar.vue'
 
 const props = defineProps({
   // The author's public profile — fields used: name, avatar_url, summary,
-  // links, avatar_x, avatar_y.
+  // links, email (already resolved server-side: empty unless opted in), avatar_x,
+  // avatar_y.
   author: { type: Object, required: true },
   userId: { type: String, required: true },
 })
@@ -34,6 +35,9 @@ const avatarPosition = `${props.author.avatar_x ?? 50}% ${props.author.avatar_y 
           <a :href="l.url" target="_blank" rel="noopener noreferrer nofollow">{{ l.name }}</a>
         </li>
       </ul>
+      <p v-if="author.email" class="author-card-email" data-testid="author-card-email">
+        <a :href="`mailto:${author.email}`">{{ author.email }}</a>
+      </p>
     </div>
   </aside>
 </template>
@@ -53,4 +57,7 @@ const avatarPosition = `${props.author.avatar_x ?? 50}% ${props.author.avatar_y 
 .author-card-links { list-style: none; padding: 0; margin: 0.15rem 0 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .author-card-links a { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
 .author-card-links a:hover { text-decoration: underline; }
+.author-card-email { margin: 0.15rem 0 0; font-size: 0.85rem; }
+.author-card-email a { color: var(--accent); text-decoration: none; }
+.author-card-email a:hover { text-decoration: underline; }
 </style>
