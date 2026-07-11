@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, computed, nextTick, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { searchAll } from '../api/tickers.js'
 import TickerCard from './TickerCard.vue'
 
@@ -9,6 +10,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['select'])
+
+const router = useRouter()
 
 const searchContainer = ref(null)
 const anchorRef = ref(null)
@@ -123,7 +126,34 @@ watch(results, () => {
   nextTick(updateDropdownStyle)
 })
 
+function resetSearch() {
+  results.value = []
+  state.value = 'idle'
+  query.value = ''
+  activeIndex.value = -1
+}
+
+// Navigate to the full results page — the escape hatch when no autocomplete
+// suggestion is the thing the user wants ("hits enter or search").
+function goToResults() {
+  const q = query.value.trim()
+  if (!q) return
+  router.push({ path: '/search', query: { q } })
+  resetSearch()
+}
+
 function onKeyDown(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    if (activeIndex.value >= 0 && results.value.length) {
+      const t = results.value[activeIndex.value]
+      emit('select', t._navKey ?? t.ticker ?? t.symbol)
+      resetSearch()
+    } else {
+      goToResults()
+    }
+    return
+  }
   if (!results.value.length) return
   if (event.key === 'ArrowDown') {
     event.preventDefault()
@@ -133,19 +163,8 @@ function onKeyDown(event) {
     event.preventDefault()
     activeIndex.value = Math.max(activeIndex.value - 1, 0)
     scrollActiveIntoView()
-  } else if (event.key === 'Enter' && activeIndex.value >= 0) {
-    event.preventDefault()
-    const t = results.value[activeIndex.value]
-    emit('select', t._navKey ?? t.ticker ?? t.symbol)
-    results.value = []
-    state.value = 'idle'
-    query.value = ''
-    activeIndex.value = -1
   } else if (event.key === 'Escape') {
-    results.value = []
-    state.value = 'idle'
-    query.value = ''
-    activeIndex.value = -1
+    resetSearch()
   }
 }
 

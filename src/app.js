@@ -70,6 +70,7 @@ import StudioQueryView from './views/StudioQueryView.vue'
 import StudioPlotView from './views/StudioPlotView.vue'
 import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
+import SearchView from './views/SearchView.vue'
 import SparqlView from './views/SparqlView.vue'
 import DonateView from './views/DonateView.vue'
 import AtlasView from './views/AtlasView.vue'
@@ -147,6 +148,7 @@ const ROUTES = [
 
   // Geo explorer
   { path: '/geo', component: GeoView },
+  { path: '/search', component: SearchView },
 
   // User
   { path: '/activity', component: ActivityView },
