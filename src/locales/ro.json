@@ -1631,5 +1631,30 @@
   },
   "article": {
     "by": "de"
+  },
+  "search": {
+    "placeholder": "Search companies, bodies, people, contracts, laws…",
+    "button": "Search",
+    "results_for": "Results for",
+    "filter_by_type": "Filter by type",
+    "advanced": "Advanced search",
+    "region": "NUTS region",
+    "region_hint": "e.g. PT or PT17",
+    "date_from": "From",
+    "date_to": "To",
+    "clear_filters": "Clear filters",
+    "loading": "Searching…",
+    "no_results": "No results found.",
+    "load_more": "Load more",
+    "type": {
+      "company": "Companies",
+      "authority": "Public bodies",
+      "person": "People",
+      "lobbyist": "Lobbyists",
+      "contract": "Contracts",
+      "cohesion": "Cohesion projects",
+      "sanction": "Sanctions",
+      "story": "Data stories"
+    }
   }
 }
