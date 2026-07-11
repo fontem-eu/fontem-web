@@ -28,6 +28,7 @@ const pipelines = [
   { id: 'cdp', title: 'data_quality_hub.cdp_climate', desc: 'data_quality_hub.cdp_desc', icon: '🌍', theme: 'climate'  },
   { id: 'nuts', title: 'data_quality_hub.nuts_regions', desc: 'data_quality_hub.nuts_desc', icon: '🗺', theme: 'geography'  },
   { id: 'eu-knowledge-graph', title: 'data_quality_hub.eu_knowledge_graph', desc: 'data_quality_hub.eu_kg_desc', icon: '🇪🇺', theme: 'influence'  },
+  { id: 'legislative', title: 'data_quality_hub.eu_legislation', desc: 'data_quality_hub.legislative_desc', icon: '⚖️', theme: 'influence'  },
   { id: 'etl-runs', title: 'data_quality_hub.etl_runs', desc: 'data_quality_hub.etl_runs_desc', icon: '⏱', theme: 'analytical'  },
 ]
 
