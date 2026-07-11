@@ -393,7 +393,9 @@
     "theme_influence": "Influence & Accountability",
     "theme_geography": "Geography",
     "theme_climate": "Climate",
-    "theme_analytical": "Cross-source & Analytical"
+    "theme_analytical": "Cross-source & Analytical",
+    "eu_legislation": "EU Legislation",
+    "legislative_desc": "CELLAR CDM mirror — acts since 1949, language versions, published formats, ELI identifier coverage."
   },
   "data_view_selector": {
     "data_view": "Data view",
@@ -1631,5 +1633,15 @@
   },
   "article": {
     "by": "by"
+  },
+  "legislative_d_q": {
+    "title": "EU Legislation",
+    "subtitle": "CELLAR CDM mirror — verbatim EU legal acts metadata since 1949",
+    "by_decade": "Acts by Decade",
+    "detail": "Mirror Detail",
+    "span": "Coverage span",
+    "graph": "Named graph",
+    "eli_note": "ELI identifiers exist mainly on modern acts — older instruments predate the ELI scheme, which is why the mirror stores the source's native CDM model rather than ELI.",
+    "unavailable": "Legislative mirror stats unavailable (Virtuoso not configured)."
   }
 }
