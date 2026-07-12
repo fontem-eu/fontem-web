@@ -15,8 +15,13 @@
 import { ref, computed } from 'vue'
 import { categorical } from '../../utils/vizPalette.js'
 
+import { layoutEventLabels, LANE_H } from './chartEvents.js'
+
 const props = defineProps({
   series: { type: Array, default: () => [] },
+  // discrete event annotations: [{ x, label, detail? }] — x in the same
+  // domain as series x. Rendered as dotted verticals with laned labels.
+  events: { type: Array, default: () => [] },
   xLabel: { type: String, default: '' },
   yLabel: { type: String, default: 'Value' },
   xIsNumeric: { type: Boolean, default: false },
@@ -27,7 +32,6 @@ const W = 760
 const H = 340
 const M = { top: 12, right: 16, bottom: 40, left: 62 }
 const IW = W - M.left - M.right
-const IH = H - M.top - M.bottom
 
 const clean = computed(() => (props.series || [])
   .filter((s) => s && Array.isArray(s.points) && s.points.length)
@@ -45,10 +49,24 @@ const xKeys = computed(() => {
   return arr
 })
 
+const numDomain = computed(() => {
+  const keys = xKeys.value
+  let lo = keys[0]; let hi = keys[keys.length - 1]
+  // events may sit past the data (e.g. laws newer than the series) —
+  // stretch the numeric domain so their markers stay on the canvas.
+  if (props.xIsNumeric) {
+    for (const e of props.events || []) {
+      const x = Number(e.x)
+      if (Number.isFinite(x)) { lo = Math.min(lo, x); hi = Math.max(hi, x) }
+    }
+  }
+  return [lo, hi]
+})
+
 const xPos = (key) => {
   const keys = xKeys.value
   if (props.xIsNumeric) {
-    const lo = keys[0]; const hi = keys[keys.length - 1]
+    const [lo, hi] = numDomain.value
     const span = hi - lo || 1
     return M.left + ((Number(key) - lo) / span) * IW
   }
@@ -57,6 +75,23 @@ const xPos = (key) => {
   const step = n > 1 ? IW / (n - 1) : 0
   return M.left + (n > 1 ? idx * step : IW / 2)
 }
+
+const eventLayout = computed(() => {
+  const evs = (props.events || [])
+    .map((e) => {
+      if (props.xIsNumeric) {
+        const x = Number(e.x)
+        return Number.isFinite(x) ? { ...e, x: xPos(x) } : null
+      }
+      // ordinal: only exact key matches can be positioned
+      const hit = xKeys.value.some((k) => String(k) === String(e.x))
+      return hit ? { ...e, x: xPos(e.x) } : null
+    })
+    .filter(Boolean)
+  return layoutEventLabels(evs, M.left, W - M.right)
+})
+const topPad = computed(() => M.top + eventLayout.value.laneCount * LANE_H)
+const IH = computed(() => H - topPad.value - M.bottom)
 
 const yMax = computed(() => {
   let m = 0
@@ -70,7 +105,7 @@ const yMin = computed(() => {
 })
 const yPos = (v) => {
   const lo = yMin.value; const hi = yMax.value; const span = hi - lo || 1
-  return M.top + IH - ((v - lo) / span) * IH
+  return topPad.value + IH.value - ((v - lo) / span) * IH.value
 }
 
 const paths = computed(() => clean.value.map((s) => {
@@ -152,7 +187,16 @@ ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMi
             {{ xIsNumeric ? compact(Number(k)) : String(k).slice(0, 10) }}
           </text>
         </g>
-        <line v-if="hover" :x1="hover.px" :x2="hover.px" :y1="M.top" :y2="H - M.bottom" class="mlc-crosshair" />
+        <!-- event annotations: dotted verticals + laned labels (context, not data) -->
+        <g v-for="(ev, i) in eventLayout.placed" :key="'ev' + i" class="mlc-event" data-testid="mlc-event">
+          <title>{{ ev.detail || ev.label }}</title>
+          <rect :x="ev.x - 5" :y="M.top" width="10" :height="H - M.top - M.bottom" fill="transparent" />
+          <line :x1="ev.x" :x2="ev.x" :y1="M.top + ev.lane * 13 + 4" :y2="H - M.bottom" class="mlc-eventline" />
+          <text
+:x="ev.anchor === 'start' ? ev.x + 3 : ev.x - 3" :y="M.top + ev.lane * 13 + 8"
+            :text-anchor="ev.anchor" class="mlc-eventlabel">{{ ev.label }}</text>
+        </g>
+        <line v-if="hover" :x1="hover.px" :x2="hover.px" :y1="topPad" :y2="H - M.bottom" class="mlc-crosshair" />
         <path v-for="s in paths" :key="s.name" :d="s.d" :stroke="s.color" class="mlc-line" />
         <template v-if="hover">
           <circle v-for="r in hoverRows" :key="'h' + r.name" :cx="hover.px" :cy="yPos(r.value)" r="3.5" :fill="r.color" class="mlc-pt" />
@@ -161,7 +205,7 @@ ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMi
           <text v-for="s in paths" :key="'lbl' + s.name" :x="Math.min(s.endX + 6, W - 2)" :y="s.endY" dominant-baseline="middle" :fill="s.color" class="mlc-endlbl">{{ s.name }}</text>
         </template>
         <text :x="M.left + IW / 2" :y="H - 4" text-anchor="middle" class="mlc-axislabel">{{ xLabel }}</text>
-        <text :x="14" :y="M.top + IH / 2" text-anchor="middle" class="mlc-axislabel" :transform="`rotate(-90 14 ${M.top + IH / 2})`">{{ yLabel }}</text>
+        <text :x="14" :y="topPad + IH / 2" text-anchor="middle" class="mlc-axislabel" :transform="`rotate(-90 14 ${topPad + IH / 2})`">{{ yLabel }}</text>
       </svg>
       <div v-if="hover && hoverRows.length" class="mlc-tooltip" :style="{ left: tooltipLeftPct + '%' }" data-testid="mlc-tooltip">
         <div class="mlc-tt-x">{{ xLabel || 'x' }}: {{ xIsNumeric ? Number(hover.key) : hover.key }}</div>
@@ -186,6 +230,10 @@ ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mlc-svg" preserveAspectRatio="xMi
 .mlc-tick { fill: var(--muted); font-size: 10px; }
 .mlc-axislabel { fill: var(--muted); font-size: 11px; font-weight: 600; }
 .mlc-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.mlc-eventline { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0.75; }
+.mlc-eventlabel { font-size: 9.5px; fill: var(--muted); }
+.mlc-event:hover .mlc-eventline { opacity: 1; stroke: var(--fg, currentColor); }
+.mlc-event:hover .mlc-eventlabel { fill: var(--fg, currentColor); }
 .mlc-crosshair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
 .mlc-pt { stroke: var(--surface); stroke-width: 1.5; }
 .mlc-endlbl { font-size: 10px; font-weight: 600; }

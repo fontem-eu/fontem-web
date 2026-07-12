@@ -38,13 +38,37 @@ function buildLineProps(result, x, xi, y, seriesSpec) {
 }
 
 /** Build ChartSpec props from a { columns, rows } table + a plot spec. */
-export function buildChartProps(result, spec = {}) {
+/**
+ * Map event rows from a named pipeline source onto chart annotations.
+ * spec.events = { source, x, label, detail? } — column names in that
+ * source's result. Missing source/columns -> no events (never an error:
+ * a story chart must render its series even if the events query moves).
+ */
+export function extractEvents(spec, inputs) {
+  const cfg = spec?.events
+  if (!cfg?.source || !cfg.x || !cfg.label) return []
+  const src = (inputs || []).find((i) => i.name === cfg.source)
+  if (!src) return []
+  const xi = src.columns.indexOf(cfg.x)
+  const li = src.columns.indexOf(cfg.label)
+  const di = cfg.detail ? src.columns.indexOf(cfg.detail) : -1
+  if (xi < 0 || li < 0) return []
+  return src.rows
+    .map((r) => ({ x: r[xi], label: r[li], detail: di >= 0 ? r[di] : undefined }))
+    .filter((e) => e.x != null && e.label)
+}
+
+export function buildChartProps(result, spec = {}, inputs = []) {
   const { chart, x, y } = spec
   if (!result) return null
   if (chart === 'corr_matrix') return buildCorrProps(result, spec.corrCols)
   if (!x) return null
   const xi = result.columns.indexOf(x)
-  if (chart === 'line') return buildLineProps(result, x, xi, y, spec.series)
+  if (chart === 'line') {
+    const props = buildLineProps(result, x, xi, y, spec.series)
+    if (props && spec.events) props.events = extractEvents(spec, inputs)
+    return props
+  }
   const yi = result.columns.indexOf(y)
   if (chart === 'stat') {
     const total = result.rows.reduce((s, row) => s + (Number(row[yi]) || 0), 0)
