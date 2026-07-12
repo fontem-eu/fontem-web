@@ -8,14 +8,14 @@ import { makeTestI18n } from './helpers/i18n.js'
 
 const searchGraph = vi.fn()
 const searchStories = vi.fn()
-const fetchBoundaries = vi.fn()
+const fetchNutsRegions = vi.fn()
 
 vi.mock('../../src/api/search.js', () => ({
   searchGraph: (...a) => searchGraph(...a),
   searchStories: (...a) => searchStories(...a),
 }))
 vi.mock('../../src/api/geo.js', () => ({
-  fetchBoundaries: (...a) => fetchBoundaries(...a),
+  fetchNutsRegions: (...a) => fetchNutsRegions(...a),
 }))
 
 import SearchView from '../../src/views/SearchView.vue'
@@ -44,12 +44,20 @@ async function mountAt(query) {
 beforeEach(() => {
   searchGraph.mockReset()
   searchStories.mockReset()
-  fetchBoundaries.mockReset()
-  fetchBoundaries.mockResolvedValue({ features: [] })
+  fetchNutsRegions.mockReset()
+  fetchNutsRegions.mockResolvedValue({
+    regions: [
+      { code: 'PT', name: 'Portugal', level: 0 },
+      { code: 'DE', name: 'Germany', level: 0 },
+      { code: 'PT1', name: 'Continente', level: 1 },
+      { code: 'PT17', name: 'Área Metropolitana de Lisboa', level: 2 },
+      { code: 'PT170', name: 'Grande Lisboa', level: 3 },
+    ],
+  })
   searchGraph.mockResolvedValue({
     results: [
-      { type: 'company', id: 'c1', title: 'Apple Inc.', subtitle: 'AAPL', country: 'USA', date: null, score: 3 },
-      { type: 'contract', id: 't1', title: 'Apple procurement', subtitle: 'PRT', country: 'PRT', date: '2022-05-01', score: 0 },
+      { type: 'company', id: 'c1', title: 'Apple Inc.', subtitle: 'AAPL', context: 'Cupertino · Inc.', country: 'USA', date: null, score: 3, meta: {} },
+      { type: 'contract', id: 't1', title: 'Apple procurement', subtitle: 'PRT', context: '', country: 'PRT', date: '2022-05-01', score: 0, meta: { value_eur: 1200000 } },
     ],
     counts: { company: 1, contract: 1, authority: 0, person: 0, lobbyist: 0, cohesion: 0, sanction: 0 },
     has_more: false,
@@ -60,47 +68,66 @@ beforeEach(() => {
 })
 
 describe('SearchView', () => {
-  it('fetches both backends for the query and renders typed results', async () => {
+  it('fetches both backends and renders typed results', async () => {
     const { w } = await mountAt({ q: 'apple' })
     expect(searchGraph).toHaveBeenCalledWith(expect.objectContaining({ q: 'apple' }))
     expect(searchStories).toHaveBeenCalledWith(expect.objectContaining({ q: 'apple' }))
     const text = w.text()
-    expect(text).toContain('Apple Inc.')       // graph company
-    expect(text).toContain('Apple procurement') // graph contract
-    expect(text).toContain('Apple story')       // data story (community)
-    // story is normalised into the unified list and appears first
-    expect(w.find('[data-testid="result-story"]').exists()).toBe(true)
-    expect(w.find('[data-testid="result-company"]').exists()).toBe(true)
+    expect(text).toContain('Apple Inc.')
+    expect(text).toContain('Apple procurement')
+    expect(text).toContain('Apple story')
   })
 
-  it('links company + story results to their detail routes; leaves contracts too', async () => {
+  it('renders contextual info on cards (backend context + formatted contract value)', async () => {
+    const { w } = await mountAt({ q: 'apple' })
+    const contexts = w.findAll('[data-testid="result-context"]').map((n) => n.text())
+    expect(contexts).toContain('Cupertino · Inc.')              // company context
+    expect(contexts.some((c) => /€.*1\.2M|1\.2M/.test(c))).toBe(true)  // formatted contract value
+  })
+
+  it('links company + story results to their detail routes', async () => {
     const { w } = await mountAt({ q: 'apple' })
     const links = w.findAll('a.result-title').map((a) => a.attributes('href'))
     expect(links.some((h) => h.includes('/company/c1'))).toBe(true)
     expect(links.some((h) => h.includes('/stories/s1'))).toBe(true)
   })
 
+  it('entity-type facets live inside the advanced drawer (hidden by default)', async () => {
+    const { w } = await mountAt({ q: 'apple' })
+    // facets not visible until advanced is opened
+    expect(w.find('[data-testid="facet-company"]').exists()).toBe(false)
+    await w.find('[data-testid="advanced-toggle"]').trigger('click')
+    expect(w.find('[data-testid="facet-company"]').exists()).toBe(true)
+  })
+
   it('toggling a type facet updates the URL query', async () => {
     const { w, router } = await mountAt({ q: 'apple' })
+    await w.find('[data-testid="advanced-toggle"]').trigger('click')
     await w.find('[data-testid="facet-company"]').trigger('change')
     await flushPromises()
-    // company deselected → types query excludes it
     expect(router.currentRoute.value.query.types).toBeDefined()
     expect(router.currentRoute.value.query.types).not.toContain('company')
   })
 
-  it('opens the advanced drawer and shows region + date filters', async () => {
+  it('cascading region: deeper levels are gated on the level above and show names', async () => {
     const { w } = await mountAt({ q: 'apple' })
-    expect(w.find('[data-testid="advanced-drawer"]').exists()).toBe(false)
     await w.find('[data-testid="advanced-toggle"]').trigger('click')
-    expect(w.find('[data-testid="advanced-drawer"]').exists()).toBe(true)
-    expect(w.find('[data-testid="adv-region"]').exists()).toBe(true)
-    expect(w.find('[data-testid="adv-date-from"]').exists()).toBe(true)
+    const l0 = w.find('[data-testid="adv-region-l0"]')
+    const l1 = w.find('[data-testid="adv-region-l1"]')
+    // level 0 lists countries by name; level 1 is disabled until level 0 chosen
+    expect(l0.text()).toContain('Portugal')
+    expect(l1.attributes('disabled')).toBeDefined()
+    // choose Portugal → level 1 enables and shows its child by name
+    await l0.setValue('PT')
+    await flushPromises()
+    expect(w.find('[data-testid="adv-region-l1"]').attributes('disabled')).toBeUndefined()
+    expect(w.find('[data-testid="adv-region-l1"]').text()).toContain('Continente')
   })
 
-  it('a region filter suppresses the story backend (stories have no geography)', async () => {
-    await mountAt({ q: 'apple', nuts: 'PT' })
-    expect(searchGraph).toHaveBeenCalledWith(expect.objectContaining({ nuts: 'PT' }))
+  it('reconstructs the cascade from a nuts code in the URL and filters by it', async () => {
+    await mountAt({ q: 'apple', nuts: 'PT17' })
+    expect(searchGraph).toHaveBeenCalledWith(expect.objectContaining({ nuts: 'PT17' }))
+    // region filter suppresses the (geography-less) story backend
     expect(searchStories).not.toHaveBeenCalled()
   })
 
