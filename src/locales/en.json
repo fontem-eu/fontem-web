@@ -1667,6 +1667,10 @@
     "span": "Coverage span",
     "graph": "Named graph",
     "eli_note": "ELI identifiers exist mainly on modern acts — older instruments predate the ELI scheme, which is why the mirror stores the source's native CDM model rather than ELI.",
-    "unavailable": "Legislative mirror stats unavailable (Virtuoso not configured)."
+    "unavailable": "Legislative mirror stats unavailable (Virtuoso not configured).",
+    "by_year": "Acts by Year (since 2011)",
+    "pipeline_ok": "Daily mirror sync healthy — last run",
+    "pipeline_never": "Daily mirror sync has never run in this environment.",
+    "pipeline_bad": "Daily mirror sync problem"
   }
 }
