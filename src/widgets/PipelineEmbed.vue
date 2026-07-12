@@ -16,6 +16,7 @@ const up = computed(() => props.config.ui_params || {})
 const { runTransform } = useDuckDB()
 
 const result = ref(null)
+const rawInputs = ref([])
 const error = ref(null)
 const loading = ref(true)
 
@@ -28,12 +29,13 @@ async function load() {
     for (const s of sources) inputs.push(await fetchSource(s))
     const sql = (dp.value.transform || '').trim() || `SELECT * FROM "${inputs[0].name}"`
     result.value = await runTransform(inputs, sql)
+    rawInputs.value = inputs
   } catch (e) { error.value = e.message } finally { loading.value = false }
 }
 onMounted(load)
 watch(dp, load, { deep: true })
 
-const chartProps = computed(() => buildChartProps(result.value, up.value))
+const chartProps = computed(() => buildChartProps(result.value, up.value, rawInputs.value))
 function storeState() { return { type: 'pipeline', data_params: dp.value, ui_params: up.value } }
 defineExpose({ storeState })
 </script>
