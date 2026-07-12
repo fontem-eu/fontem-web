@@ -108,7 +108,7 @@ export function getUserProfile(userId) {
 // optionally the avatar focal point avatar_x/avatar_y as percentages).
 export function updateMyProfile({
   summary, links, avatar_x, avatar_y,
-  name, show_email, use_custom_email, custom_email,
+  name, show_email, use_custom_email, custom_email, home_nuts,
 }) {
   const body = { summary, links }
   if (avatar_x !== undefined) body.avatar_x = avatar_x
@@ -117,6 +117,7 @@ export function updateMyProfile({
   if (show_email !== undefined) body.show_email = show_email
   if (use_custom_email !== undefined) body.use_custom_email = use_custom_email
   if (custom_email !== undefined) body.custom_email = custom_email
+  if (home_nuts !== undefined) body.home_nuts = home_nuts
   return request('PUT', '/users/me/profile', body)
 }
 

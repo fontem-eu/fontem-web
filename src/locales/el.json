@@ -1627,7 +1627,10 @@
     "email_heading": "Email",
     "display_email": "Εμφάνιση email",
     "use_different_email": "Χρήση διαφορετικού email",
-    "email_address": "you@example.com"
+    "email_address": "you@example.com",
+    "home_region_heading": "Where you're from",
+    "home_region_hint": "Leave blank to use your detected location:",
+    "home_detected": "(detected from your location)"
   },
   "article": {
     "by": "από"

@@ -17,6 +17,16 @@ vi.mock('../../src/api/session.js', () => ({
   setSessionAvatar: vi.fn(),
   setSessionName: vi.fn(),
 }))
+vi.mock('../../src/api/geo.js', () => ({
+  fetchNutsRegions: vi.fn().mockResolvedValue({
+    regions: [
+      { code: 'PT', name: 'Portugal', level: 0 },
+      { code: 'PT1', name: 'Continente', level: 1 },
+      { code: 'PT17', name: 'Lisboa', level: 2 },
+    ],
+  }),
+  fetchClientRegion: vi.fn().mockResolvedValue({ country_alpha3: 'PRT', nuts0: 'PT' }),
+}))
 
 import UserProfileView from '../../src/views/UserProfileView.vue'
 import { getUserProfile, uploadAvatar, updateMyProfile } from '../../src/api/community.js'
@@ -134,6 +144,35 @@ describe('UserProfileView', () => {
       await input.trigger('change')
       await flushPromises()
       expect(uploadAvatar).toHaveBeenCalled()
+    } finally {
+      currentUser.value = null
+    }
+  })
+
+  it('shows the owner\'s home region by descriptive name (view mode)', async () => {
+    getUserProfile.mockResolvedValue({ ...PROFILE, home_nuts: 'PT17' })
+    const w = await mountAt('u1')
+    const line = w.find('[data-testid="profile-home-region"]')
+    expect(line.exists()).toBe(true)
+    expect(line.text()).toContain('Lisboa')   // resolved from the region map, not the code
+    expect(line.text()).not.toContain('PT17')
+  })
+
+  it('own profile: the where-you-from picker sends home_nuts on save', async () => {
+    getUserProfile.mockResolvedValue({ ...PROFILE, id: 'u1', home_nuts: '' })
+    updateMyProfile.mockResolvedValue({
+      name: PROFILE.name, summary: PROFILE.summary, links: PROFILE.links, home_nuts: 'PT',
+    })
+    currentUser.value = { id: 'u1' }
+    try {
+      const w = await mountAt('u1')
+      await w.find('[data-testid="profile-edit-btn"]').trigger('click')
+      await flushPromises()
+      expect(w.find('[data-testid="nuts-picker"]').exists()).toBe(true)
+      await w.find('[data-testid="nuts-l0"]').setValue('PT')
+      await w.find('[data-testid="profile-edit-form"]').trigger('submit')
+      await flushPromises()
+      expect(updateMyProfile).toHaveBeenCalledWith(expect.objectContaining({ home_nuts: 'PT' }))
     } finally {
       currentUser.value = null
     }

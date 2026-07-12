@@ -54,6 +54,15 @@ export async function fetchNutsRegions() {
 }
 
 /**
+ * Coarse home-region guess (NUTS-0 country) from the caller's IP — used to
+ * seed the profile "where you're from" default when the user hasn't set one.
+ * @returns {Promise<{country_alpha3: string|null, nuts0: string|null}>}
+ */
+export async function fetchClientRegion() {
+  return _json('/api/geo/client-region')
+}
+
+/**
  * Aggregate one entity's contract volume by NUTS region.
  *
  * @param {string} entityId  — gmr_id (Company) or authority_id (Authority)

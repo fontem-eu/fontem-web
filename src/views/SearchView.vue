@@ -16,7 +16,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { searchGraph, searchStories } from '../api/search.js'
-import { fetchNutsRegions } from '../api/geo.js'
+import NutsRegionPicker from '../components/NutsRegionPicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -33,20 +33,9 @@ function parseTypes(v) {
   return picked.length ? picked : [...ALL_TYPES]
 }
 
-// NUTS codes are hierarchical by prefix: level L's code is (L+2) chars, and a
-// child code is prefixed by its parent — so we can reconstruct the full
-// selection array from any single code with no lookup.
-function nutsFromCode(code) {
-  const sel = ['', '', '', '']
-  if (code) {
-    for (let l = 0; l + 2 <= code.length && l <= 3; l += 1) sel[l] = code.slice(0, l + 2)
-  }
-  return sel
-}
-
 const query = ref(route.query.q || '')
 const selectedTypes = ref(parseTypes(route.query.types))
-const nutsSel = ref(nutsFromCode(route.query.nuts || ''))
+const regionCode = ref(route.query.nuts || '')
 const dateFrom = ref(route.query.date_from || '')
 const dateTo = ref(route.query.date_to || '')
 const showAdvanced = ref(Boolean(route.query.nuts || route.query.date_from
@@ -59,41 +48,14 @@ const loading = ref(false)
 const error = ref('')
 const hasMore = ref(false)
 const offset = ref(0)
-const allRegions = ref([])
 
 const submittedQuery = computed(() => route.query.q || '')
 
-// The active region filter is the deepest selected level.
-const activeNuts = computed(() => {
-  for (let l = 3; l >= 0; l -= 1) if (nutsSel.value[l]) return nutsSel.value[l]
-  return ''
-})
+// The active region filter (a single NUTS code from the cascading picker).
+const activeNuts = computed(() => regionCode.value)
 
-// Regions grouped by level, for the cascading selects.
-const byLevel = computed(() => {
-  const m = [[], [], [], []]
-  for (const r of allRegions.value) if (r.level >= 0 && r.level <= 3) m[r.level].push(r)
-  return m
-})
-
-// Options for a given level: level 0 is all countries; deeper levels show only
-// children of the level above, and only once that parent is chosen.
-function regionOptions(level) {
-  if (level === 0) return byLevel.value[0]
-  const parent = nutsSel.value[level - 1]
-  if (!parent) return []
-  return byLevel.value[level].filter((r) => r.code.startsWith(parent))
-}
-
-// A deeper selector is only usable once every level above it is chosen.
-function levelEnabled(level) {
-  return level === 0 || Boolean(nutsSel.value[level - 1])
-}
-
-function onRegionChange(level, code) {
-  nutsSel.value[level] = code
-  // changing a higher level resets everything below it
-  for (let l = level + 1; l <= 3; l += 1) nutsSel.value[l] = ''
+function onRegionPicked(code) {
+  regionCode.value = code || ''
   applyToUrl()
 }
 
@@ -201,7 +163,7 @@ function loadMore() {
 
 function clearFilters() {
   selectedTypes.value = [...ALL_TYPES]
-  nutsSel.value = ['', '', '', '']
+  regionCode.value = ''
   dateFrom.value = ''
   dateTo.value = ''
   applyToUrl()
@@ -210,18 +172,14 @@ function clearFilters() {
 watch(() => route.query, () => {
   query.value = route.query.q || ''
   selectedTypes.value = parseTypes(route.query.types)
-  nutsSel.value = nutsFromCode(route.query.nuts || '')
+  regionCode.value = route.query.nuts || ''
   dateFrom.value = route.query.date_from || ''
   dateTo.value = route.query.date_to || ''
   runSearch(true)
 })
 
-onMounted(async () => {
+onMounted(() => {
   runSearch(true)
-  try {
-    const data = await fetchNutsRegions()
-    allRegions.value = data?.regions || []
-  } catch { /* region picker is optional */ }
 })
 </script>
 
@@ -278,20 +236,7 @@ onMounted(async () => {
 
           <div class="adv-group">
             <span class="adv-group-title">{{ t('search.region') }}</span>
-            <select
-              v-for="level in [0, 1, 2, 3]"
-              :key="level"
-              class="adv-input"
-              :data-testid="`adv-region-l${level}`"
-              :disabled="!levelEnabled(level)"
-              :value="nutsSel[level]"
-              @change="onRegionChange(level, $event.target.value)"
-            >
-              <option value="">{{ t(`search.region_level.${level}`) }}</option>
-              <option v-for="r in regionOptions(level)" :key="r.code" :value="r.code">
-                {{ r.name }}
-              </option>
-            </select>
+            <NutsRegionPicker :model-value="regionCode" @update:model-value="onRegionPicked" />
           </div>
 
           <div class="adv-group">

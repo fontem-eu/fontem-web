@@ -1627,7 +1627,10 @@
     "email_heading": "E-mail",
     "display_email": "Vis e-mail",
     "use_different_email": "Brug en anden e-mail",
-    "email_address": "you@example.com"
+    "email_address": "you@example.com",
+    "home_region_heading": "Where you're from",
+    "home_region_hint": "Leave blank to use your detected location:",
+    "home_detected": "(detected from your location)"
   },
   "article": {
     "by": "af"

@@ -109,19 +109,13 @@ describe('SearchView', () => {
     expect(router.currentRoute.value.query.types).not.toContain('company')
   })
 
-  it('cascading region: deeper levels are gated on the level above and show names', async () => {
-    const { w } = await mountAt({ q: 'apple' })
+  it('picking a region in the cascade updates the URL query', async () => {
+    const { w, router } = await mountAt({ q: 'apple' })
     await w.find('[data-testid="advanced-toggle"]').trigger('click')
-    const l0 = w.find('[data-testid="adv-region-l0"]')
-    const l1 = w.find('[data-testid="adv-region-l1"]')
-    // level 0 lists countries by name; level 1 is disabled until level 0 chosen
-    expect(l0.text()).toContain('Portugal')
-    expect(l1.attributes('disabled')).toBeDefined()
-    // choose Portugal → level 1 enables and shows its child by name
-    await l0.setValue('PT')
     await flushPromises()
-    expect(w.find('[data-testid="adv-region-l1"]').attributes('disabled')).toBeUndefined()
-    expect(w.find('[data-testid="adv-region-l1"]').text()).toContain('Continente')
+    await w.find('[data-testid="nuts-l0"]').setValue('PT')
+    await flushPromises()
+    expect(router.currentRoute.value.query.nuts).toBe('PT')
   })
 
   it('reconstructs the cascade from a nuts code in the URL and filters by it', async () => {

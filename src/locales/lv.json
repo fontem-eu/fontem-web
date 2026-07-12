@@ -1627,7 +1627,10 @@
     "email_heading": "E-pasts",
     "display_email": "Rādīt e-pastu",
     "use_different_email": "Izmantot citu e-pastu",
-    "email_address": "you@example.com"
+    "email_address": "you@example.com",
+    "home_region_heading": "Where you're from",
+    "home_region_hint": "Leave blank to use your detected location:",
+    "home_detected": "(detected from your location)"
   },
   "article": {
     "by": "autors:"

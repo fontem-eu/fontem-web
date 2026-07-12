@@ -3,7 +3,9 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { currentUser, setSessionAvatar, setSessionName } from '../api/session.js'
 import { getUserProfile, updateMyProfile, uploadAvatar } from '../api/community.js'
+import { fetchClientRegion, fetchNutsRegions } from '../api/geo.js'
 import UserAvatar from '../components/UserAvatar.vue'
+import NutsRegionPicker from '../components/NutsRegionPicker.vue'
 
 const route = useRoute()
 const profile = ref(null)
@@ -49,6 +51,19 @@ async function load() {
 onMounted(load)
 watch(userId, load)
 
+onMounted(async () => {
+  try {
+    const data = await fetchNutsRegions()
+    const map = {}
+    for (const r of data?.regions || []) map[r.code] = r.name
+    regionNames.value = map
+  } catch { /* names degrade to codes */ }
+  try {
+    const g = await fetchClientRegion()
+    ipNuts0.value = g?.nuts0 || ''
+  } catch { /* no IP guess available */ }
+})
+
 // ── own-profile editing ─────────────────────────────────────
 const editing = ref(false)
 const draftSummary = ref('')
@@ -57,7 +72,29 @@ const draftName = ref('')
 const draftShowEmail = ref(false)
 const draftUseCustomEmail = ref(false)
 const draftCustomEmail = ref('')
+const draftHomeNuts = ref('')
 const saving = ref(false)
+
+// Region-name resolution + IP-based home guess (for the "where you're from"
+// section's fallback when the user hasn't picked a region).
+const regionNames = ref({})       // NUTS code -> descriptive name
+const ipNuts0 = ref('')           // viewer's IP-detected country (NUTS-0)
+
+function regionName(code) {
+  return code ? (regionNames.value[code] || code) : ''
+}
+
+// What to show as the profile's home region: the user's chosen region, or —
+// only for the owner viewing their own profile — the IP-detected country as a
+// (clearly labelled) fallback.
+const displayHomeRegion = computed(() => {
+  const own = profile.value?.home_nuts
+  if (own) return { name: regionName(own), detected: false }
+  if (isSelf.value && ipNuts0.value) {
+    return { name: regionName(ipNuts0.value), detected: true }
+  }
+  return null
+})
 
 function openEdit() {
   draftSummary.value = profile.value.summary || ''
@@ -66,6 +103,7 @@ function openEdit() {
   draftShowEmail.value = !!profile.value.show_email
   draftUseCustomEmail.value = !!profile.value.use_custom_email
   draftCustomEmail.value = profile.value.custom_email || ''
+  draftHomeNuts.value = profile.value.home_nuts || ''
   editing.value = true
 }
 function addLink() { draftLinks.value.push({ name: '', url: '' }) }
@@ -84,12 +122,14 @@ async function saveEdit() {
       show_email: draftShowEmail.value,
       use_custom_email: draftShowEmail.value && draftUseCustomEmail.value,
       custom_email: draftCustomEmail.value.trim(),
+      home_nuts: draftHomeNuts.value,
     })
     profile.value = {
       ...profile.value,
       name: saved.name ?? profile.value.name,
       summary: saved.summary,
       links: saved.links,
+      home_nuts: saved.home_nuts ?? profile.value.home_nuts,
       show_email: saved.show_email,
       use_custom_email: saved.use_custom_email,
       custom_email: saved.custom_email,
@@ -246,6 +286,13 @@ async function saveReposition() {
               <a :href="l.url" target="_blank" rel="noopener noreferrer nofollow">{{ l.name }}</a>
             </li>
           </ul>
+          <p v-if="displayHomeRegion" class="profile-home-region" data-testid="profile-home-region">
+            <span class="profile-home-icon" aria-hidden="true">📍</span>
+            {{ displayHomeRegion.name }}
+            <span v-if="displayHomeRegion.detected" class="profile-home-detected">
+              {{ $t('user_profile.home_detected') }}
+            </span>
+          </p>
           <p v-if="profile.email" class="profile-email" data-testid="profile-email">
             <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
           </p>
@@ -319,6 +366,12 @@ async function saveReposition() {
             />
           </template>
 
+          <label class="profile-edit-label">{{ $t('user_profile.home_region_heading') }}</label>
+          <NutsRegionPicker v-model="draftHomeNuts" />
+          <p v-if="!draftHomeNuts && ipNuts0" class="profile-edit-hint" data-testid="profile-home-hint">
+            {{ $t('user_profile.home_region_hint') }} {{ regionName(ipNuts0) }}
+          </p>
+
           <div class="profile-edit-actions">
             <button type="submit" class="btn-primary" :disabled="saving" data-testid="profile-save-btn">
               {{ $t('user_profile.save') }}
@@ -366,6 +419,10 @@ async function saveReposition() {
 </template>
 
 <style scoped>
+.profile-home-region { margin: 0.4rem 0 0; font-size: 0.9rem; opacity: 0.85; display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; }
+.profile-home-detected { opacity: 0.6; font-size: 0.8rem; }
+.profile-edit-hint { margin: 0.2rem 0 0; font-size: 0.8rem; opacity: 0.65; }
+
 .profile-view { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
 .profile-loading, .profile-error { padding: 2rem 0; color: var(--muted); }
 .profile-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
