@@ -127,6 +127,10 @@ watch(results, () => {
 })
 
 function resetSearch() {
+  // Invalidate any in-flight request AND the pending debounce so a search
+  // that was mid-flight can't repopulate the dropdown after we navigate away.
+  currentRequest += 1
+  clearTimeout(debounceTimer)
   results.value = []
   state.value = 'idle'
   query.value = ''
@@ -190,19 +194,20 @@ onUnmounted(() => {
   <div ref="searchContainer">
     <!-- Search input — relative so the dropdown is anchored to it -->
     <div ref="anchorRef" class="relative">
-      <svg
-        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2"
+      <button
+        type="button"
+        class="gmr-search-btn absolute left-1 top-1/2 -translate-y-1/2"
         style="color: var(--muted)"
-        width="15"
-        height="15"
-        viewBox="0 0 16 16"
-        fill="currentColor"
-        aria-hidden="true"
+        :aria-label="$t('ticker_search.search_the_knowledge_graph')"
+        data-testid="ticker-search-btn"
+        @click="goToResults"
       >
-        <path
-          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.156a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"
-        />
-      </svg>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.156a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"
+          />
+        </svg>
+      </button>
       <input
         id="search"
         v-model="query"

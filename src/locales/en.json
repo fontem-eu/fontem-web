@@ -1657,6 +1657,12 @@
       "cohesion": "Cohesion projects",
       "sanction": "Sanctions",
       "story": "Data stories"
+    },
+    "region_level": {
+      "0": "Country…",
+      "1": "Region (NUTS 1)…",
+      "2": "Region (NUTS 2)…",
+      "3": "Region (NUTS 3)…"
     }
   },
   "legislative_d_q": {

@@ -2,22 +2,21 @@
 /**
  * Unified search results page.
  *
- * Reached by submitting the header search bar (Enter / the search button).
- * Fans out to the graph API (companies, public bodies, people, lobbyists,
- * contracts, cohesion projects, sanctioned entities) and the community API
- * (public data stories) in parallel, and renders a single faceted result
- * list. All filter state lives in the URL query so a search is shareable and
- * survives back/forward.
+ * Reached by submitting the header search bar. Fans out to the graph API
+ * (companies, public bodies, people, lobbyists, contracts, cohesion projects,
+ * sanctioned entities) and the community API (public data stories) in
+ * parallel, and renders one faceted result list. All filter state lives in
+ * the URL query so a search is shareable and survives back/forward.
  *
- * Advanced filters: entity-type facets, a NUTS region (code prefix), and a
- * created/published date range. The region picker is seeded from the NUTS-0
- * boundaries today; it deepens once NUTS 1-3 land in the graph.
+ * Advanced search (tucked behind a toggle): entity-type facets, a cascading
+ * NUTS region picker (one selector per level, each gated on the level above),
+ * and a date range.
  */
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { searchGraph, searchStories } from '../api/search.js'
-import { fetchBoundaries } from '../api/geo.js'
+import { fetchNutsRegions } from '../api/geo.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -34,12 +33,24 @@ function parseTypes(v) {
   return picked.length ? picked : [...ALL_TYPES]
 }
 
+// NUTS codes are hierarchical by prefix: level L's code is (L+2) chars, and a
+// child code is prefixed by its parent — so we can reconstruct the full
+// selection array from any single code with no lookup.
+function nutsFromCode(code) {
+  const sel = ['', '', '', '']
+  if (code) {
+    for (let l = 0; l + 2 <= code.length && l <= 3; l += 1) sel[l] = code.slice(0, l + 2)
+  }
+  return sel
+}
+
 const query = ref(route.query.q || '')
 const selectedTypes = ref(parseTypes(route.query.types))
-const region = ref(route.query.nuts || '')
+const nutsSel = ref(nutsFromCode(route.query.nuts || ''))
 const dateFrom = ref(route.query.date_from || '')
 const dateTo = ref(route.query.date_to || '')
-const showAdvanced = ref(Boolean(route.query.nuts || route.query.date_from || route.query.date_to))
+const showAdvanced = ref(Boolean(route.query.nuts || route.query.date_from
+  || route.query.date_to || (route.query.types && parseTypes(route.query.types).length < ALL_TYPES.length)))
 
 const graphResults = ref([])
 const storyResults = ref([])
@@ -48,18 +59,51 @@ const loading = ref(false)
 const error = ref('')
 const hasMore = ref(false)
 const offset = ref(0)
-const regions = ref([])
+const allRegions = ref([])
 
 const submittedQuery = computed(() => route.query.q || '')
 
-// Data stories, normalised into the same shape the graph results use so the
-// card list can render them uniformly. Shown first — they're editorial.
+// The active region filter is the deepest selected level.
+const activeNuts = computed(() => {
+  for (let l = 3; l >= 0; l -= 1) if (nutsSel.value[l]) return nutsSel.value[l]
+  return ''
+})
+
+// Regions grouped by level, for the cascading selects.
+const byLevel = computed(() => {
+  const m = [[], [], [], []]
+  for (const r of allRegions.value) if (r.level >= 0 && r.level <= 3) m[r.level].push(r)
+  return m
+})
+
+// Options for a given level: level 0 is all countries; deeper levels show only
+// children of the level above, and only once that parent is chosen.
+function regionOptions(level) {
+  if (level === 0) return byLevel.value[0]
+  const parent = nutsSel.value[level - 1]
+  if (!parent) return []
+  return byLevel.value[level].filter((r) => r.code.startsWith(parent))
+}
+
+// A deeper selector is only usable once every level above it is chosen.
+function levelEnabled(level) {
+  return level === 0 || Boolean(nutsSel.value[level - 1])
+}
+
+function onRegionChange(level, code) {
+  nutsSel.value[level] = code
+  // changing a higher level resets everything below it
+  for (let l = level + 1; l <= 3; l += 1) nutsSel.value[l] = ''
+  applyToUrl()
+}
+
 const merged = computed(() => {
   const stories = storyResults.value.map((s) => ({
     type: 'story',
     id: s.id,
     title: s.title,
     subtitle: s.abstract || '',
+    context: '',
     date: s.created_at || s.updated_at || null,
     country: null,
   }))
@@ -68,11 +112,21 @@ const merged = computed(() => {
 
 const typeCount = (tp) => counts.value[tp] ?? 0
 
+const EUR = new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR', notation: 'compact', maximumFractionDigits: 1 })
+
+// The contextual line shown under a card: the backend `context` where present,
+// else a formatted contract value.
+function cardContext(r) {
+  if (r.context) return r.context
+  if (r.type === 'contract' && r.meta?.value_eur) return EUR.format(r.meta.value_eur)
+  return ''
+}
+
 function routeLink(r) {
   if (r.type === 'company') return `/company/${encodeURIComponent(r.id)}`
   if (r.type === 'contract') return `/contract/${encodeURIComponent(r.id)}`
   if (r.type === 'story') return `/stories/${encodeURIComponent(r.id)}`
-  return null // authority/lobbyist/person/cohesion/sanction have no detail page yet
+  return null
 }
 
 async function runSearch(reset = true) {
@@ -83,13 +137,14 @@ async function runSearch(reset = true) {
   error.value = ''
   try {
     const graphTypes = selectedTypes.value.filter((x) => GRAPH_TYPES.includes(x))
+    const region = activeNuts.value
     // A region filter is a geo narrowing; stories have no geography, so they
     // drop out of a region-filtered search (mirrors the graph backend).
-    const wantStories = selectedTypes.value.includes('story') && !region.value
+    const wantStories = selectedTypes.value.includes('story') && !region
     const [g, s] = await Promise.all([
       graphTypes.length
         ? searchGraph({
-          q, types: graphTypes, nuts: region.value || undefined,
+          q, types: graphTypes, nuts: region || undefined,
           dateFrom: dateFrom.value || undefined, dateTo: dateTo.value || undefined,
           limit: LIMIT, offset: offset.value,
         })
@@ -123,7 +178,7 @@ function applyToUrl() {
   if (selectedTypes.value.length && selectedTypes.value.length < ALL_TYPES.length) {
     q.types = selectedTypes.value.join(',')
   }
-  if (region.value) q.nuts = region.value
+  if (activeNuts.value) q.nuts = activeNuts.value
   if (dateFrom.value) q.date_from = dateFrom.value
   if (dateTo.value) q.date_to = dateTo.value
   router.push({ path: '/search', query: q })
@@ -146,7 +201,7 @@ function loadMore() {
 
 function clearFilters() {
   selectedTypes.value = [...ALL_TYPES]
-  region.value = ''
+  nutsSel.value = ['', '', '', '']
   dateFrom.value = ''
   dateTo.value = ''
   applyToUrl()
@@ -155,7 +210,7 @@ function clearFilters() {
 watch(() => route.query, () => {
   query.value = route.query.q || ''
   selectedTypes.value = parseTypes(route.query.types)
-  region.value = route.query.nuts || ''
+  nutsSel.value = nutsFromCode(route.query.nuts || '')
   dateFrom.value = route.query.date_from || ''
   dateTo.value = route.query.date_to || ''
   runSearch(true)
@@ -164,15 +219,9 @@ watch(() => route.query, () => {
 onMounted(async () => {
   runSearch(true)
   try {
-    const geo = await fetchBoundaries(0)
-    regions.value = (geo?.features || [])
-      .map((f) => ({
-        code: f.properties?.code || f.properties?.NUTS_ID || f.id,
-        name: f.properties?.name || f.properties?.NAME_LATN || f.properties?.code || f.id,
-      }))
-      .filter((r) => r.code)
-      .sort((a, b) => String(a.name).localeCompare(String(b.name)))
-  } catch { /* region picker is optional — the code input still works */ }
+    const data = await fetchNutsRegions()
+    allRegions.value = data?.regions || []
+  } catch { /* region picker is optional */ }
 })
 </script>
 
@@ -198,22 +247,6 @@ onMounted(async () => {
 
     <div class="search-body">
       <aside class="search-facets" data-testid="search-facets">
-        <h2 class="facets-title">{{ t('search.filter_by_type') }}</h2>
-        <ul class="facet-list">
-          <li v-for="tp in ALL_TYPES" :key="tp">
-            <label class="facet-check">
-              <input
-                type="checkbox"
-                :checked="selectedTypes.includes(tp)"
-                :data-testid="`facet-${tp}`"
-                @change="toggleType(tp)"
-              />
-              <span class="facet-name">{{ t(`search.type.${tp}`) }}</span>
-              <span class="facet-count">{{ typeCount(tp) }}</span>
-            </label>
-          </li>
-        </ul>
-
         <button
           type="button"
           class="advanced-toggle"
@@ -225,28 +258,53 @@ onMounted(async () => {
         </button>
 
         <div v-if="showAdvanced" class="advanced-drawer" data-testid="advanced-drawer">
-          <label class="adv-field">
-            <span>{{ t('search.region') }}</span>
-            <input
-              v-model="region"
-              list="search-nuts-list"
+          <div class="adv-group">
+            <span class="adv-group-title">{{ t('search.filter_by_type') }}</span>
+            <ul class="facet-list">
+              <li v-for="tp in ALL_TYPES" :key="tp">
+                <label class="facet-check">
+                  <input
+                    type="checkbox"
+                    :checked="selectedTypes.includes(tp)"
+                    :data-testid="`facet-${tp}`"
+                    @change="toggleType(tp)"
+                  />
+                  <span class="facet-name">{{ t(`search.type.${tp}`) }}</span>
+                  <span class="facet-count">{{ typeCount(tp) }}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="adv-group">
+            <span class="adv-group-title">{{ t('search.region') }}</span>
+            <select
+              v-for="level in [0, 1, 2, 3]"
+              :key="level"
               class="adv-input"
-              data-testid="adv-region"
-              :placeholder="t('search.region_hint')"
-              @change="applyToUrl"
-            />
-            <datalist id="search-nuts-list">
-              <option v-for="r in regions" :key="r.code" :value="r.code">{{ r.name }}</option>
-            </datalist>
-          </label>
-          <label class="adv-field">
-            <span>{{ t('search.date_from') }}</span>
-            <input v-model="dateFrom" type="date" class="adv-input" data-testid="adv-date-from" @change="applyToUrl" />
-          </label>
-          <label class="adv-field">
-            <span>{{ t('search.date_to') }}</span>
-            <input v-model="dateTo" type="date" class="adv-input" data-testid="adv-date-to" @change="applyToUrl" />
-          </label>
+              :data-testid="`adv-region-l${level}`"
+              :disabled="!levelEnabled(level)"
+              :value="nutsSel[level]"
+              @change="onRegionChange(level, $event.target.value)"
+            >
+              <option value="">{{ t(`search.region_level.${level}`) }}</option>
+              <option v-for="r in regionOptions(level)" :key="r.code" :value="r.code">
+                {{ r.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="adv-group">
+            <label class="adv-field">
+              <span>{{ t('search.date_from') }}</span>
+              <input v-model="dateFrom" type="date" class="adv-input" data-testid="adv-date-from" @change="applyToUrl" />
+            </label>
+            <label class="adv-field">
+              <span>{{ t('search.date_to') }}</span>
+              <input v-model="dateTo" type="date" class="adv-input" data-testid="adv-date-to" @change="applyToUrl" />
+            </label>
+          </div>
+
           <button type="button" class="clear-filters" data-testid="clear-filters" @click="clearFilters">
             {{ t('search.clear_filters') }}
           </button>
@@ -270,6 +328,7 @@ onMounted(async () => {
                 class="result-title"
               >{{ r.title }}</component>
               <p v-if="r.subtitle" class="result-subtitle">{{ r.subtitle }}</p>
+              <p v-if="cardContext(r)" class="result-context" data-testid="result-context">{{ cardContext(r) }}</p>
               <p class="result-meta">
                 <span v-if="r.country" class="result-country">{{ r.country }}</span>
                 <span v-if="r.date" class="result-date">{{ r.date }}</span>
@@ -306,21 +365,23 @@ onMounted(async () => {
 }
 .search-summary { color: var(--text); font-size: 0.95rem; margin: 0 0 1rem; }
 .search-body { display: flex; gap: 1.5rem; align-items: flex-start; }
-.search-facets { flex: 0 0 220px; }
-.facets-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); opacity: 0.7; margin: 0 0 0.5rem; }
-.facet-list { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.search-facets { flex: 0 0 240px; }
+.advanced-toggle, .clear-filters, .load-more {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  padding: 0.5rem 0.75rem; cursor: pointer; color: var(--text); font-size: 0.88rem;
+}
+.advanced-toggle { width: 100%; text-align: left; font-weight: 600; }
+.advanced-drawer { margin-top: 0.5rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem; }
+.adv-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.adv-group-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.65; }
+.facet-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
 .facet-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; }
 .facet-name { flex: 1; }
 .facet-count { opacity: 0.6; font-variant-numeric: tabular-nums; font-size: 0.82rem; }
-.advanced-toggle, .clear-filters, .load-more {
-  background: none; border: 1px solid var(--border); border-radius: 8px;
-  padding: 0.45rem 0.7rem; cursor: pointer; color: var(--text); font-size: 0.85rem;
-}
-.advanced-toggle { width: 100%; text-align: left; margin-bottom: 0.5rem; }
-.advanced-drawer { display: flex; flex-direction: column; gap: 0.6rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem; }
 .adv-field { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.82rem; }
-.adv-input { padding: 0.4rem 0.5rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface, transparent); color: var(--text); }
-.clear-filters { margin-top: 0.25rem; }
+.adv-input { padding: 0.4rem 0.5rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface, transparent); color: var(--text); width: 100%; }
+.adv-input:disabled { opacity: 0.45; cursor: not-allowed; }
+.clear-filters { align-self: flex-start; }
 .search-results { flex: 1; min-width: 0; }
 .search-status, .search-error { color: var(--text); opacity: 0.8; }
 .search-error { color: #c0392b; opacity: 1; }
@@ -330,8 +391,9 @@ onMounted(async () => {
 .result-body { min-width: 0; }
 .result-title { font-weight: 600; color: var(--text); text-decoration: none; }
 a.result-title:hover { color: var(--accent); text-decoration: underline; }
-.result-subtitle { margin: 0.2rem 0 0; font-size: 0.88rem; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.result-meta { margin: 0.3rem 0 0; font-size: 0.8rem; opacity: 0.65; display: flex; gap: 0.75rem; }
+.result-subtitle { margin: 0.2rem 0 0; font-size: 0.88rem; opacity: 0.85; }
+.result-context { margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.result-meta { margin: 0.3rem 0 0; font-size: 0.8rem; opacity: 0.6; display: flex; gap: 0.75rem; }
 .load-more { margin-top: 1rem; width: 100%; }
 @media (max-width: 700px) { .search-body { flex-direction: column; } .search-facets { flex-basis: auto; width: 100%; } }
 </style>

@@ -45,6 +45,15 @@ export async function fetchBoundaries(level = 0) {
 }
 
 /**
+ * Fetch the flat, geometry-free list of NUTS regions (code, name, level)
+ * across all levels — for the cascading region picker.
+ * @returns {Promise<{regions: {code:string, name:string, level:number}[]}>}
+ */
+export async function fetchNutsRegions() {
+  return _json('/api/geo/nuts-regions')
+}
+
+/**
  * Aggregate one entity's contract volume by NUTS region.
  *
  * @param {string} entityId  — gmr_id (Company) or authority_id (Authority)
