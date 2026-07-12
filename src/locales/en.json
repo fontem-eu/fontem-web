@@ -395,7 +395,9 @@
     "theme_climate": "Climate",
     "theme_analytical": "Cross-source & Analytical",
     "eu_legislation": "EU Legislation",
-    "legislative_desc": "CELLAR CDM mirror — acts since 1949, language versions, published formats, ELI identifier coverage."
+    "legislative_desc": "CELLAR CDM mirror — acts since 1949, language versions, published formats, ELI identifier coverage.",
+    "assertion_monitor": "Assertion Monitor",
+    "assertions_desc": "Live status of every data-quality assertion — only failures shown, with descriptions and failing-since. Refreshed every 4 hours."
   },
   "data_view_selector": {
     "data_view": "Data view",
@@ -1681,5 +1683,14 @@
     "pipeline_ok": "Daily mirror sync healthy — last run",
     "pipeline_never": "Daily mirror sync has never run in this environment.",
     "pipeline_bad": "Daily mirror sync problem"
+  },
+  "assertion_monitor": {
+    "title": "Assertion Monitor",
+    "subtitle": "Data-quality assertions across the platform — failing checks only, refreshed every 4 hours",
+    "refreshed": "Last refresh",
+    "failing_now": "Failing Assertions",
+    "all_green": "All assertions passing.",
+    "since": "failing since",
+    "no_runs": "No assertion runs recorded yet — the 4-hour monitor cron has not fired."
   }
 }

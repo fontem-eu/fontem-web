@@ -40,6 +40,7 @@ import NutsDQView from './views/dq/NutsDQView.vue'
 import EuKnowledgeGraphDQView from './views/dq/EuKnowledgeGraphDQView.vue'
 import OverviewDQView from './views/dq/OverviewDQView.vue'
 import LegislativeDQView from './views/dq/LegislativeDQView.vue'
+import AssertionMonitorDQView from './views/dq/AssertionMonitorDQView.vue'
 import ConnectednessDQView from './views/dq/ConnectednessDQView.vue'
 import TriplesDQView from './views/dq/TriplesDQView.vue'
 import EtlRunsDQView from './views/dq/EtlRunsDQView.vue'
@@ -113,6 +114,7 @@ const ROUTES = [
   { path: '/data-quality/theme/:themeId', component: ThemeScaffoldView },
   { path: '/data-quality/overview', component: OverviewDQView },
   { path: '/data-quality/legislative', component: LegislativeDQView },
+  { path: '/data-quality/assertions', component: AssertionMonitorDQView },
   { path: '/data-quality/contracts', component: ContractsDQView },
   { path: '/data-quality/gleif', component: GleifDQView },
   { path: '/data-quality/edgar', component: EdgarDQView },
