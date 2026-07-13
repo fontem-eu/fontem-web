@@ -50,6 +50,8 @@ import {
 } from '../api/community.js'
 import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
+import NutsRegionPicker from '../components/NutsRegionPicker.vue'
+import { fetchNutsRegions } from '../api/geo.js'
 import TranslationControls from '../components/TranslationControls.vue'
 
 const route = useRoute()
@@ -108,6 +110,8 @@ async function addToInvestigation(investigationId) {
 const title = ref('')
 const abstract = ref('')
 const visibility = ref('private')
+const nutsRegion = ref('')
+const regionNames = ref({})
 const tags = ref([])
 const saving = ref(false)
 
@@ -348,6 +352,7 @@ async function loadReport() {
     title.value = report.title || ''
     abstract.value = report.abstract || ''
     visibility.value = report.visibility || 'private'
+    nutsRegion.value = report.nuts_region || ''
     tags.value = Array.isArray(report.tags) ? report.tags : []
     articleInvestigationId.value = report.investigation_id || null
     storyLanguage.value = report.language || 'en'
@@ -383,7 +388,18 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+  try {
+    const data = await fetchNutsRegions()
+    const map = {}
+    for (const r of data?.regions || []) map[r.code] = r.name
+    regionNames.value = map
+  } catch { /* region name resolution is optional */ }
 })
+
+// Descriptive name of the selected region (or a placeholder) for the summary.
+const regionDisplay = computed(() =>
+  nutsRegion.value ? (regionNames.value[nutsRegion.value] || nutsRegion.value)
+    : t('report_editor.region_none'))
 
 onBeforeUnmount(() => {
   if (editor) editor.destroy()
@@ -424,6 +440,7 @@ async function save() {
       abstract: abstract.value,
       visibility: visibility.value,
       language: storyLanguage.value,
+      nuts_region: nutsRegion.value,
     })
     // Tags persist via a separate endpoint (owner-only PUT). Server
     // re-normalises on its side, so the response here is the
@@ -468,6 +485,14 @@ async function save() {
           <option value="public_auth">{{ $t('report_editor.signed_in_users') }}</option>
           <option value="public_open">{{ $t('report_editor.public_anyone') }}</option>
         </select>
+        <details class="region-meta" data-testid="region-meta">
+          <summary class="region-summary">
+            {{ $t('report_editor.region_label') }}: <strong>{{ regionDisplay }}</strong>
+          </summary>
+          <div class="region-picker-wrap">
+            <NutsRegionPicker v-model="nutsRegion" />
+          </div>
+        </details>
         <AssistPanel
           :report-context="reportContext"
           :report-id="reportId"
@@ -656,6 +681,9 @@ async function save() {
 .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
 .back-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
 .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.region-meta { position: relative; font-size: 0.8rem; }
+.region-summary { cursor: pointer; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: var(--text); list-style: none; white-space: nowrap; }
+.region-picker-wrap { position: absolute; z-index: 20; margin-top: 0.3rem; width: 240px; padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
 .visibility-select { padding: 0.35rem 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.8rem; border-radius: 4px; }
 .save-btn { padding: 0.4rem 1rem; background: var(--accent); color: #fff; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
 .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }

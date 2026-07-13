@@ -901,7 +901,9 @@
     "insert_widget": "Ievietot logrīku",
     "your_pocket_is_empty": "Jūsu kabata ir tukša. Vispirms saglabājiet vizualizācijas, izmantojot pogu Kabata.",
     "close": "Aizvērt",
-    "start_writing": "Sāciet rakstīt savu analīzi..."
+    "start_writing": "Sāciet rakstīt savu analīzi...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionētas entītes — personas, organizācijas, režīma pārklājums un uzņēmumu salāgojumi",

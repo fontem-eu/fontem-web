@@ -901,7 +901,9 @@
     "insert_widget": "Widget invoegen",
     "your_pocket_is_empty": "Uw opbergvak is leeg. Sla eerst visualisaties op met de knop Opbergen.",
     "close": "Sluiten",
-    "start_writing": "Begin met het schrijven van uw analyse..."
+    "start_writing": "Begin met het schrijven van uw analyse...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Gesanctioneerde entiteiten — personen, organisaties, dekking van regimes en bedrijfsmatching",

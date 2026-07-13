@@ -901,7 +901,9 @@
     "insert_widget": "Vložiť widget",
     "your_pocket_is_empty": "Vaše vrecko je prázdne. Najprv uložte vizualizácie pomocou tlačidla Do vrecka.",
     "close": "Zavrieť",
-    "start_writing": "Začnite písať svoju analýzu..."
+    "start_writing": "Začnite písať svoju analýzu...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizácie, pokrytie režimu a zhody firiem",

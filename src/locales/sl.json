@@ -901,7 +901,9 @@
     "insert_widget": "Vstavi gradnik",
     "your_pocket_is_empty": "Vaš žep je prazen. Vizualizacije najprej shranite z gumbom Žep.",
     "close": "Zapri",
-    "start_writing": "Začnite pisati svojo analizo ..."
+    "start_writing": "Začnite pisati svojo analizo ...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionirane entitete — osebe, organizacije, pokritost režima in ujemanje podjetij",

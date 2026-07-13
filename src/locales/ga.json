@@ -901,7 +901,9 @@
     "insert_widget": "Ionsáigh Giuirléid",
     "your_pocket_is_empty": "Tá do phóca folamh. Sábháil léirshamhluithe leis an gcnaipe Póca ar dtús.",
     "close": "Dún",
-    "start_writing": "Tosaigh ag scríobh do anailíse..."
+    "start_writing": "Tosaigh ag scríobh do anailíse...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Aonáin smachtbhannacha — daoine, eagraíochtaí, clúdach réimis agus meaitseáil chomhlachtaí",

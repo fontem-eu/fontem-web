@@ -974,7 +974,9 @@
     "insert_widget": "Insert Widget",
     "your_pocket_is_empty": "Your pocket is empty. Save visualizations using the Pocket button first.",
     "close": "Close",
-    "start_writing": "Start writing your analysis..."
+    "start_writing": "Start writing your analysis...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanctioned entities — persons, organisations, regime coverage and company matching",

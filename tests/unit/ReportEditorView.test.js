@@ -6,6 +6,15 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'
+vi.mock('../../src/api/geo.js', () => ({
+  // plain async fn (not a vi.fn) so afterEach's restoreAllMocks can't wipe it
+  fetchNutsRegions: async () => ({
+    regions: [
+      { code: 'PT', name: 'Portugal', level: 0 },
+      { code: 'PT1', name: 'Continente', level: 1 },
+    ],
+  }),
+}))
 import ReportEditorView from '../../src/views/ReportEditorView.vue'
 import * as communityApi from '../../src/api/community.js'
 
@@ -125,8 +134,37 @@ describe('ReportEditorView — unified editor', () => {
       abstract: 'Test abstract',
       visibility: 'private',
       language: 'en',
+      nuts_region: '',
     })
     expect(communityApi.saveDocument).toHaveBeenCalledWith('r1', expect.any(Object))
+  })
+
+  it('saves the selected NUTS region tag', async () => {
+    const { wrapper } = await mountEditor({ reportId: 'r1', reportExtra: { nuts_region: '' } })
+    await flushPromises()
+    await flushPromises()
+    const l0 = wrapper.find('[data-testid="nuts-l0"]')
+    expect(l0.exists()).toBe(true)
+    expect(l0.text()).toContain('Portugal')   // regions loaded from the mock
+    await l0.setValue('PT')
+    await flushPromises()
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+    expect(communityApi.updateReport).toHaveBeenCalledWith(
+      'r1', expect.objectContaining({ nuts_region: 'PT' }),
+    )
+  })
+
+  it('preloads an existing region tag from the report', async () => {
+    const { wrapper } = await mountEditor({ reportId: 'r1', reportExtra: { nuts_region: 'PT1' } })
+    await flushPromises()
+    await flushPromises()
+    // options loaded from the mock, cascade reconstructed from the stored code
+    const l0 = wrapper.find('[data-testid="nuts-l0"]')
+    expect(l0.text()).toContain('Portugal')
+    expect(l0.element.value).toBe('PT')
+    // level 1 reconstructed to the stored PT1
+    expect(wrapper.find('[data-testid="nuts-l1"]').element.value).toBe('PT1')
   })
 
   it('loads v1 reports (section HTML concatenated)', async () => {

@@ -901,7 +901,9 @@
     "insert_widget": "Inserează widget",
     "your_pocket_is_empty": "Buzunarul dumneavoastră este gol. Salvați mai întâi vizualizări folosind butonul Buzunar.",
     "close": "Închide",
-    "start_writing": "Începeți să vă redactați analiza..."
+    "start_writing": "Începeți să vă redactați analiza...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entități sancționate — persoane, organizații, acoperirea regimului și potrivirea companiilor",

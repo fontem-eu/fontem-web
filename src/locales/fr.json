@@ -901,7 +901,9 @@
     "insert_widget": "Insérer un widget",
     "your_pocket_is_empty": "Votre poche est vide. Enregistrez d'abord des visualisations à l'aide du bouton Poche.",
     "close": "Fermer",
-    "start_writing": "Commencez à rédiger votre analyse..."
+    "start_writing": "Commencez à rédiger votre analyse...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entités sanctionnées — personnes, organisations, couverture des régimes et correspondance d'entreprises",

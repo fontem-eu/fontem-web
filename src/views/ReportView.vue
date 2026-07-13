@@ -21,6 +21,7 @@ import TranslationBar from '../components/TranslationBar.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import AuthorCard from '../components/AuthorCard.vue'
 import { getReport, getTranslation, getUserProfile } from '../api/community.js'
+import { fetchNutsRegions } from '../api/geo.js'
 import { useLang } from '../composables/useLang.js'
 import { defaultTranslationFor } from '../utils/translationDefault.js'
 import { sanitizeHtml } from '../utils/sanitize.js'
@@ -37,6 +38,7 @@ const isV2 = ref(false)
 let readOnlyEditor = null
 const error = ref(null)
 const author = ref(null)
+const regionNames = ref({})
 
 // `bodyRef` points at the rendered story body — the ChapterRail uses
 // it to extract h2/h3 chapters and observe scroll position. `bodyVersion`
@@ -55,6 +57,10 @@ const { lang: uiLang } = useLang()
 const activeLang = ref('')
 const activeTranslation = ref(null)
 const displayTitle = computed(() => activeTranslation.value?.title || report.value?.title)
+const regionName = computed(() => {
+  const code = report.value?.nuts_region
+  return code ? (regionNames.value[code] || code) : ''
+})
 const displayAbstract = computed(() =>
   activeLang.value ? activeTranslation.value?.abstract : report.value?.abstract)
 
@@ -98,6 +104,15 @@ async function switchLanguage(lang) {
 onMounted(async () => {
   try {
     report.value = await getReport(reportId)
+    if (report.value.nuts_region) {
+      fetchNutsRegions()
+        .then((d) => {
+          const m = {}
+          for (const r of d?.regions || []) m[r.code] = r.name
+          regionNames.value = m
+        })
+        .catch(() => { /* region name resolution is optional */ })
+    }
     // Fetch the author's public profile for the byline + author card
     // (non-blocking — the article renders without waiting on it).
     if (report.value.created_by) {
@@ -280,6 +295,9 @@ function parseSectionContent(content) {
         >
           {{ report.visibility ? $t(`app.${report.visibility}`) : $t('app.private') }}
         </span>
+        <span v-if="regionName" class="region-chip" data-testid="story-region">
+          <span aria-hidden="true">📍</span> {{ regionName }}
+        </span>
       </div>
 
       <TranslationBar
@@ -349,6 +367,8 @@ function parseSectionContent(content) {
 </template>
 
 <style scoped>
+.region-chip { opacity: 0.8; }
+
 .report-view {
   max-width: 1080px;
   margin: 0 auto;
