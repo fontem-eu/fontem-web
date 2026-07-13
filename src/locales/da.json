@@ -1657,7 +1657,8 @@
       "contract": "Contracts",
       "cohesion": "Cohesion projects",
       "sanction": "Sanctions",
-      "story": "Data stories"
+      "story": "Data stories",
+      "legislation": "Lovgivning"
     },
     "region_level": {
       "0": "Country…",

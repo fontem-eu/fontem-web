@@ -132,3 +132,40 @@ describe('SearchView', () => {
     expect(w.find('[data-testid="search-empty"]').exists()).toBe(true)
   })
 })
+
+describe('SearchView — legislation results', () => {
+  it('renders a legislation card with an external EUR-Lex link', async () => {
+    searchGraph.mockResolvedValue({
+      results: [
+        {
+          type: 'legislation', id: '32024L1385',
+          title: 'Directive (EU) 2024/1385 on combating violence against women',
+          subtitle: '32024L1385', context: 'Directive', country: null,
+          date: '2024-05-14', score: 0,
+          meta: { celex: '32024L1385', eurlex_url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024L1385' },
+        },
+      ],
+      counts: { legislation: 1 },
+      has_more: false,
+    })
+    const { w } = await mountAt({ q: 'violence women', types: 'legislation' })
+    const ext = w.find('[data-testid="result-external-link"]')
+    expect(ext.exists()).toBe(true)
+    expect(ext.attributes('href')).toContain('CELEX:32024L1385')
+    expect(ext.attributes('target')).toBe('_blank')
+    expect(ext.attributes('rel')).toBe('noopener')
+    expect(w.text()).toContain('Directive (EU) 2024/1385')
+  })
+
+  it('requests the legislation type from the graph backend', async () => {
+    await mountAt({ q: 'violence' })
+    const arg = searchGraph.mock.calls[0][0]
+    expect(arg.types).toContain('legislation')
+  })
+
+  it('legislation facet checkbox is present in the advanced drawer', async () => {
+    const { w } = await mountAt({ q: 'violence' })
+    await w.find('[data-testid="advanced-toggle"]').trigger('click')
+    expect(w.find('[data-testid="facet-legislation"]').exists()).toBe(true)
+  })
+})
