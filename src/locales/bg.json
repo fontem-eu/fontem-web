@@ -901,7 +901,9 @@
     "insert_widget": "Вмъкване на джаджа",
     "your_pocket_is_empty": "Вашият джоб е празен. Първо запазете визуализации с бутона „В джоба“.",
     "close": "Затваряне",
-    "start_writing": "Започнете да пишете анализа си..."
+    "start_writing": "Започнете да пишете анализа си...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Санкционирани обекти — лица, организации, покритие на режима и съответствие на компании",

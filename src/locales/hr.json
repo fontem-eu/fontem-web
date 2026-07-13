@@ -901,7 +901,9 @@
     "insert_widget": "Umetni widget",
     "your_pocket_is_empty": "Vaš je džep prazan. Najprije spremite vizualizacije pomoću gumba Džep.",
     "close": "Zatvori",
-    "start_writing": "Započnite pisati svoju analizu..."
+    "start_writing": "Započnite pisati svoju analizu...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionirani entiteti — osobe, organizacije, pokrivenost režima i podudaranje tvrtki",

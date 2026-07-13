@@ -901,7 +901,9 @@
     "insert_widget": "Insertar widget",
     "your_pocket_is_empty": "Su bolsillo está vacío. Guarde primero las visualizaciones con el botón Bolsillo.",
     "close": "Cerrar",
-    "start_writing": "Empieza a escribir tu análisis..."
+    "start_writing": "Empieza a escribir tu análisis...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entidades sancionadas — personas, organizaciones, cobertura del régimen y emparejamiento de empresas",

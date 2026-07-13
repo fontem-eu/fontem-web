@@ -901,7 +901,9 @@
     "insert_widget": "Widget einfügen",
     "your_pocket_is_empty": "Ihre Merkliste ist leer. Speichern Sie zunächst Visualisierungen über die Schaltfläche „Merken\".",
     "close": "Schließen",
-    "start_writing": "Beginnen Sie mit dem Verfassen Ihrer Analyse..."
+    "start_writing": "Beginnen Sie mit dem Verfassen Ihrer Analyse...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionierte Entitäten — Personen, Organisationen, Regimeabdeckung und Unternehmenszuordnung",

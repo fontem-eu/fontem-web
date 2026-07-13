@@ -901,7 +901,9 @@
     "insert_widget": "Lisää pienoisohjelma",
     "your_pocket_is_empty": "Taskusi on tyhjä. Tallenna visualisointeja ensin Tasku-painikkeella.",
     "close": "Sulje",
-    "start_writing": "Aloita analyysisi kirjoittaminen..."
+    "start_writing": "Aloita analyysisi kirjoittaminen...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Pakotteiden alaiset entiteetit — henkilöt, organisaatiot, järjestelmän kattavuus ja yritysvastaavuudet",

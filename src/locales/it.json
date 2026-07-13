@@ -901,7 +901,9 @@
     "insert_widget": "Inserisci widget",
     "your_pocket_is_empty": "La Sua tasca è vuota. Salvi prima le visualizzazioni utilizzando il pulsante Tasca.",
     "close": "Chiudi",
-    "start_writing": "Inizi a scrivere la sua analisi..."
+    "start_writing": "Inizi a scrivere la sua analisi...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entità sanzionate — persone, organizzazioni, copertura del regime e corrispondenza aziendale",

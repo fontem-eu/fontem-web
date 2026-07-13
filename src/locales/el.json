@@ -901,7 +901,9 @@
     "insert_widget": "Εισαγωγή Widget",
     "your_pocket_is_empty": "Η τσέπη σας είναι άδεια. Αποθηκεύστε πρώτα οπτικοποιήσεις χρησιμοποιώντας το κουμπί Τσέπη.",
     "close": "Κλείσιμο",
-    "start_writing": "Ξεκινήστε να γράφετε την ανάλυσή σας..."
+    "start_writing": "Ξεκινήστε να γράφετε την ανάλυσή σας...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Οντότητες υπό κυρώσεις — πρόσωπα, οργανισμοί, κάλυψη καθεστώτος και αντιστοίχιση εταιρειών",

@@ -901,7 +901,9 @@
     "insert_widget": "Widget beszúrása",
     "your_pocket_is_empty": "A zsebe üres. Először mentsen vizualizációkat a Zsebbe gombbal.",
     "close": "Bezárás",
-    "start_writing": "Kezdje el írni az elemzését..."
+    "start_writing": "Kezdje el írni az elemzését...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Szankcionált entitások — személyek, szervezetek, rezsim-lefedettség és vállalati egyezések",

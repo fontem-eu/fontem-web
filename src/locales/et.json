@@ -901,7 +901,9 @@
     "insert_widget": "Lisa vidin",
     "your_pocket_is_empty": "Teie kogum on tühi. Salvestage esmalt visualiseeringud nupu Kogu abil.",
     "close": "Sulge",
-    "start_writing": "Alusta oma analüüsi kirjutamist..."
+    "start_writing": "Alusta oma analüüsi kirjutamist...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktsioneeritud olemid — isikud, organisatsioonid, režiimi kaetus ja ettevõtete sobitamine",

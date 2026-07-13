@@ -901,7 +901,9 @@
     "insert_widget": "Wstaw widżet",
     "your_pocket_is_empty": "Twój schowek jest pusty. Najpierw zapisz wizualizacje za pomocą przycisku Schowaj.",
     "close": "Zamknij",
-    "start_writing": "Rozpocznij pisanie swojej analizy..."
+    "start_writing": "Rozpocznij pisanie swojej analizy...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Podmioty objęte sankcjami — osoby, organizacje, pokrycie reżimu i dopasowanie firm",

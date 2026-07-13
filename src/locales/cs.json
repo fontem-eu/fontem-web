@@ -901,7 +901,9 @@
     "insert_widget": "Vložit widget",
     "your_pocket_is_empty": "Vaše kapsa je prázdná. Nejprve uložte vizualizace pomocí tlačítka Do kapsy.",
     "close": "Zavřít",
-    "start_writing": "Začněte psát svou analýzu..."
+    "start_writing": "Začněte psát svou analýzu...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizace, pokrytí režimu a shoda společností",

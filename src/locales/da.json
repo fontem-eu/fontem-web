@@ -901,7 +901,9 @@
     "insert_widget": "Indsæt widget",
     "your_pocket_is_empty": "Din lomme er tom. Gem visualiseringer med Læg i lomme-knappen først.",
     "close": "Luk",
-    "start_writing": "Begynd at skrive din analyse ..."
+    "start_writing": "Begynd at skrive din analyse ...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionerede entiteter — personer, organisationer, regimedækning og selskabsmatchning",

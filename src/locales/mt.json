@@ -901,7 +901,9 @@
     "insert_widget": "Daħħal Widget",
     "your_pocket_is_empty": "Il-but tiegħek huwa vojt. L-ewwel salva viżwalizzazzjonijiet bl-użu tal-buttuna Pocket.",
     "close": "Agħlaq",
-    "start_writing": "Ibda ikteb l-analiżi tiegħek..."
+    "start_writing": "Ibda ikteb l-analiżi tiegħek...",
+    "region_label": "Region",
+    "region_none": "none"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entitajiet sanzjonati — persuni, organizzazzjonijiet, kopertura tar-reġim u qbil tal-kumpaniji",
