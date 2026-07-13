@@ -22,7 +22,7 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-const GRAPH_TYPES = ['company', 'authority', 'person', 'lobbyist', 'contract', 'cohesion', 'sanction']
+const GRAPH_TYPES = ['company', 'authority', 'person', 'lobbyist', 'contract', 'cohesion', 'sanction', 'legislation']
 const ALL_TYPES = [...GRAPH_TYPES, 'story']
 const LIMIT = 20
 
@@ -88,6 +88,13 @@ function routeLink(r) {
   if (r.type === 'company') return `/company/${encodeURIComponent(r.id)}`
   if (r.type === 'contract') return `/contract/${encodeURIComponent(r.id)}`
   if (r.type === 'story') return `/stories/${encodeURIComponent(r.id)}`
+  return null
+}
+
+// Legislation has no internal detail page yet — cards link out to the act's
+// authentic text on EUR-Lex (same provenance the mirror is built from).
+function externalLink(r) {
+  if (r.type === 'legislation') return r.meta?.eurlex_url || null
   return null
 }
 
@@ -267,8 +274,17 @@ onMounted(() => {
           <li v-for="(r, i) in merged" :key="`${r.type}-${r.id}-${i}`" class="result-card" :data-testid="`result-${r.type}`">
             <span class="result-type" :class="`type-${r.type}`">{{ t(`search.type.${r.type}`) }}</span>
             <div class="result-body">
+              <a
+                v-if="externalLink(r)"
+                :href="externalLink(r)"
+                target="_blank"
+                rel="noopener"
+                class="result-title"
+                data-testid="result-external-link"
+              >{{ r.title }}</a>
               <component
                 :is="routeLink(r) ? 'RouterLink' : 'span'"
+                v-else
                 :to="routeLink(r) || undefined"
                 class="result-title"
               >{{ r.title }}</component>
