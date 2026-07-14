@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Publikovanie dátového príbehu z editora",
     "step_publish_name": "Publikovať",
     "step_search_desc": "Vyhľadaj akúkoľvek firmu, obstarávateľa, lobistu alebo EÚ-financovaný projekt podľa mena alebo identifikátora.",
-    "step_search_gif_alt": "Vyhľadávanie entity vo Fonteme",
+    "step_search_gif_alt": "Vyhľadávanie entity vo Arguite",
     "step_search_name": "Hľadať",
     "try": "Skús:",
     "walkthrough_searching_a_company_explorin": "Sprievodca: vyhľadávanie firmy, preskúmanie verejného obstarávania a zverejnenie dátového príbehu"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Prispej &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Dary plynú cez neziskového fiškálneho hostiteľa na",
     "open_collective": "Open Collective",
-    "support_fontem": "Podporte Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Vďaka všetkým, ktorí udržiavajú Fontem nažive.",
+    "support_fontem": "Podporte Arguit",
+    "thanks_to_everyone_keeping_fontem_alive": "Vďaka všetkým, ktorí udržiavajú Arguit nažive.",
     "tier_backer_desc": "Financuje priebežnú prácu na dátových potrubiach: nové zdroje, lepšie pokrytie.",
     "tier_backer_name": "Spolu-financovateľ",
     "tier_oneoff_amount": "Akákoľvek suma",
@@ -621,7 +621,7 @@
     "go_to_home": "Prejsť na domovskú stránku",
     "you_already_have_an_active_session": "Už máš aktívnu reláciu.",
     "youre_signed_in": "Si prihlásený/á",
-    "sign_in_to_fontem": "Prihláste sa do platformy Fontem",
+    "sign_in_to_fontem": "Prihláste sa do platformy Arguit",
     "sign_in_to_start_creating_data_stories": "Prihláste sa a začnite vytvárať dátové príbehy, nahlasovať problémy a spolupracovať s komunitou.",
     "signing_in": "Prihlasovanie...",
     "sign_in": "Prihlásiť sa",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem je platforma transparentnosti z primárnych zdrojov. EÚ firmy, verejné obstarávanie, lobisti a kohézne financovanie — prepojené v jednom grafe a krížovo overené proti oficiálnym registrom.",
-      "data_quality": "Pokrytie, čerstvosť a rozdelenie zdrojov pre každú dátovú sadu vo Fontem znalostnom grafe. Transparentnosť o transparentnosti.",
-      "donate": "Fontem je zdarma na používanie a vždy bude. Dary plynú cez neziskového fiškálneho hostiteľa na Open Collective a udržujú dátové potrubia v chode, graf rastúci a tím na kvalitnej práci.",
-      "home": "Verejné dátové príbehy z komunity Fontem — vyšetrovania, krížové kontroly a zistenia založené na primárnych zdrojoch.",
-      "login": "Prihlás sa do Fontemu na publikovanie dátových príbehov, hlásenie problémov a ukladanie výskumu.",
+      "about": "Arguit je platforma transparentnosti z primárnych zdrojov. EÚ firmy, verejné obstarávanie, lobisti a kohézne financovanie — prepojené v jednom grafe a krížovo overené proti oficiálnym registrom.",
+      "data_quality": "Pokrytie, čerstvosť a rozdelenie zdrojov pre každú dátovú sadu vo Arguit znalostnom grafe. Transparentnosť o transparentnosti.",
+      "donate": "Arguit je zdarma na používanie a vždy bude. Dary plynú cez neziskového fiškálneho hostiteľa na Open Collective a udržujú dátové potrubia v chode, graf rastúci a tím na kvalitnej práci.",
+      "home": "Verejné dátové príbehy z komunity Arguit — vyšetrovania, krížové kontroly a zistenia založené na primárnych zdrojoch.",
+      "login": "Prihlás sa do Arguitu na publikovanie dátových príbehov, hlásenie problémov a ukladanie výskumu.",
       "map": "Interaktívny choropleth kurátorovaných Eurostat dátových sád na úrovni NUTS — populácia, HDP, nezamestnanosť, V&V a viac, zmapované po celej Európe.",
-      "privacy": "Ako Fontem zaobchádza s osobnými údajmi. Ukladáme len základné údaje účtu, žiadne sledovacie cookies, žiadne analytiky tretích strán.",
-      "sparql": "Dopytuj sa Fontem znalostný graf priamo cez SPARQL. Firmy, zmluvy, úrady, lobisti, sankcie — všetko prepojené.",
+      "privacy": "Ako Arguit zaobchádza s osobnými údajmi. Ukladáme len základné údaje účtu, žiadne sledovacie cookies, žiadne analytiky tretích strán.",
+      "sparql": "Dopytuj sa Arguit znalostný graf priamo cez SPARQL. Firmy, zmluvy, úrady, lobisti, sankcie — všetko prepojené.",
       "spending": "Hľadaj EÚ firmy, obstarávateľov, lobistov a projekty financované EÚ. Plus čo je veľké vo tvojej krajine."
     },
     "title": {
-      "about": "O projekte — Fontem",
-      "data_quality": "Kvalita údajov — Fontem",
-      "donate": "Podpor Fontem",
-      "home": "Fontem — Verejné dátové príbehy",
-      "login": "Prihlásiť sa — Fontem",
-      "map": "Mapa — Európske štatistiky na Fonteme",
-      "privacy": "Zásady ochrany súkromia — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Výdavky — verejné obstarávanie EÚ na Fonteme"
+      "about": "O projekte — Arguit",
+      "data_quality": "Kvalita údajov — Arguit",
+      "donate": "Podpor Arguit",
+      "home": "Arguit — Verejné dátové príbehy",
+      "login": "Prihlásiť sa — Arguit",
+      "map": "Mapa — Európske štatistiky na Arguite",
+      "privacy": "Zásady ochrany súkromia — Arguit",
+      "sparql": "SPARQL — Arguit",
+      "spending": "Výdavky — verejné obstarávanie EÚ na Arguite"
     }
   },
   "moderation": {
@@ -765,7 +765,7 @@
   },
   "privacy": {
     "access": "Prístup",
-    "all_data_in_the_fontem_knowledge_graph_r": "Všetky údaje v znalostnom grafe Fontem sa týkajú",
+    "all_data_in_the_fontem_knowledge_graph_r": "Všetky údaje v znalostnom grafe Arguit sa týkajú",
     "conversation_processing_is_performed_by_": "Spracovanie rozhovorov vykonávajú poskytovatelia AI so sídlom v EÚ.",
     "conversations_are_automatically_deleted_": "Rozhovory sa automaticky vymažú po 90 dňoch.",
     "erase": "Vymazanie",
@@ -782,8 +782,8 @@
     "under_the_gdpr_you_have_the_right_to": "Podľa GDPR máš právo:",
     "when_you_sign_in_we_collect_and_store": "Pri prihlásení zhromažďujeme a ukladáme:",
     "your": "Tvoje",
-    "what_fontem_is": "1. Čo je Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem je platforma pre občiansku transparentnosť, ktorá prepája údaje o verejnom obstarávaní v EÚ, registre vlastníctva spoločností a financovanie kohéznej politiky do jedného znalostného grafu. Jej cieľom je uľahčiť skúmanie a pochopenie verejných výdavkov a korporátnych štruktúr.",
+    "what_fontem_is": "1. Čo je Arguit",
+    "fontem_is_a_civic_transparency_platform": "Arguit je platforma pre občiansku transparentnosť, ktorá prepája údaje o verejnom obstarávaní v EÚ, registre vlastníctva spoločností a financovanie kohéznej politiky do jedného znalostného grafu. Jej cieľom je uľahčiť skúmanie a pochopenie verejných výdavkov a korporátnych štruktúr.",
     "data_in_the_knowledge_graph": "2. Údaje v znalostnom grafe",
     "legal_entities": "právnické osoby",
     "companies_public_authorities_and_organis": "(spoločnosti, verejné orgány a organizácie) — nie fyzické osoby. Agregujeme verejne dostupné údaje z nasledujúcich zdrojov:",
@@ -813,7 +813,7 @@
     "cookies": "6. Súbory cookie",
     "we_only_use_strictly_necessary_cookies": "Používame iba nevyhnutne potrebné relačné súbory cookie na overenie totožnosti. Nepoužívame sledovacie súbory cookie, reklamné súbory cookie ani analytické súbory cookie tretích strán.",
     "changes_to_this_policy": "7. Zmeny týchto zásad",
-    "we_may_update_this_policy": "Tieto zásady môžeme z času na čas aktualizovať. Keď tak urobíme, upravíme dátum „naposledy aktualizované“ v hornej časti tejto stránky. Pokračovaním v používaní platformy Fontem po vykonaní zmien vyjadrujete súhlas s aktualizovanými zásadami."
+    "we_may_update_this_policy": "Tieto zásady môžeme z času na čas aktualizovať. Keď tak urobíme, upravíme dátum „naposledy aktualizované“ v hornej časti tejto stránky. Pokračovaním v používaní platformy Arguit po vykonaní zmien vyjadrujete súhlas s aktualizovanými zásadami."
   },
   "profile": {
     "avg_net_margin": "Priemerná čistá marža",
@@ -927,7 +927,7 @@
     "endpoint": "Koncový bod",
     "endpoint_url": "URL koncového bodu",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Dopytuj sa znalostný graf Fontem priamo z prehliadača alebo napoj koncový bod na OpenRefine / poznámkový blok / svoje nástroje. Firmy, zmluvy, úrady, lobisti, sankcie — všetko prepojené.",
+    "intro": "Dopytuj sa znalostný graf Arguit priamo z prehliadača alebo napoj koncový bod na OpenRefine / poznámkový blok / svoje nástroje. Firmy, zmluvy, úrady, lobisti, sankcie — všetko prepojené.",
     "limits": "Limity",
     "method": "Metóda",
     "post": "POST",
@@ -1091,8 +1091,8 @@
     "unknown_widget_type": "Neznámy typ widgetu:"
   },
   "wordmark": {
-    "fon": "Fon",
-    "fontem": "Fontem"
+    "argu": "Argu",
+    "arguit": "Arguit"
   },
   "errata": {
     "icon_title": "Táto zmluva bola upravená — kliknutím zobrazíte, čo sa zmenilo",
@@ -1221,9 +1221,9 @@
     "one_moment": "Chvíľu strpenia.",
     "email_confirmed": "E-mail potvrdený",
     "your_account_is_verified": "Váš účet je overený. Teraz môžete publikovať príbehy, komentovať a sledovať témy.",
-    "continue_to_fontem": "Pokračovať do platformy Fontem",
+    "continue_to_fontem": "Pokračovať do platformy Arguit",
     "the_link_may_have_expired": "Platnosť odkazu mohla vypršať alebo už bol použitý. Prihláste sa a vyžiadajte si nový overovací e-mail z baneru v hornej časti.",
-    "go_to_fontem": "Prejsť na Fontem",
+    "go_to_fontem": "Prejsť na Arguit",
     "couldnt_confirm_your_email": "Nepodarilo sa potvrdiť váš e-mail"
   },
   "studio_plot": {

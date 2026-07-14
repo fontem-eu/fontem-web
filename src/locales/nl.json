@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Een dataverhaal publiceren vanuit de editor",
     "step_publish_name": "Publiceren",
     "step_search_desc": "Zoek elk bedrijf, aanbestedende dienst, lobbyist of door de EU gefinancierd project op naam of identifier.",
-    "step_search_gif_alt": "Zoeken naar een entiteit in Fontem",
+    "step_search_gif_alt": "Zoeken naar een entiteit in Arguit",
     "step_search_name": "Zoeken",
     "try": "Probeer:",
     "walkthrough_searching_a_company_explorin": "Stappenplan: een bedrijf zoeken, aanbestedingen verkennen en een dataverhaal publiceren"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Bijdragen &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donaties lopen via een fiscal-host non-profit op",
     "open_collective": "Open Collective",
-    "support_fontem": "Steun Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Dank aan iedereen die Fontem in leven houdt.",
+    "support_fontem": "Steun Arguit",
+    "thanks_to_everyone_keeping_fontem_alive": "Dank aan iedereen die Arguit in leven houdt.",
     "tier_backer_desc": "Financiert het lopende datapipeline-werk: nieuwe bronnen, betere dekking.",
     "tier_backer_name": "Beschermheer",
     "tier_oneoff_amount": "Elk bedrag",
@@ -621,7 +621,7 @@
     "go_to_home": "Naar startpagina",
     "you_already_have_an_active_session": "U hebt al een actieve sessie.",
     "youre_signed_in": "U bent ingelogd",
-    "sign_in_to_fontem": "Aanmelden bij Fontem",
+    "sign_in_to_fontem": "Aanmelden bij Arguit",
     "sign_in_to_start_creating_data_stories": "Meld u aan om te beginnen met het maken van dataverhalen, het aankaarten van kwesties en het samenwerken met de gemeenschap.",
     "signing_in": "Aanmelden...",
     "sign_in": "Aanmelden",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem is het transparantieplatform op basis van primaire bronnen. EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering — gekoppeld in één graaf en gekruisverifieerd met de officiële registers.",
-      "data_quality": "Dekking, versheid en bron-uitsplitsingen voor elke dataset in de Fontem-kennisgraaf. Transparantie over transparantie.",
-      "donate": "Fontem is gratis te gebruiken en zal dat altijd blijven. Donaties lopen via een non-profit fiscale host op Open Collective en houden de datapijplijnen draaiende, de graaf groeiend en het team aan kwaliteitswerk.",
-      "home": "Openbare dataverhalen van de Fontem-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
-      "login": "Log in op Fontem om dataverhalen te publiceren, problemen te melden en je onderzoek op te slaan.",
+      "about": "Arguit is het transparantieplatform op basis van primaire bronnen. EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering — gekoppeld in één graaf en gekruisverifieerd met de officiële registers.",
+      "data_quality": "Dekking, versheid en bron-uitsplitsingen voor elke dataset in de Arguit-kennisgraaf. Transparantie over transparantie.",
+      "donate": "Arguit is gratis te gebruiken en zal dat altijd blijven. Donaties lopen via een non-profit fiscale host op Open Collective en houden de datapijplijnen draaiende, de graaf groeiend en het team aan kwaliteitswerk.",
+      "home": "Openbare dataverhalen van de Arguit-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
+      "login": "Log in op Arguit om dataverhalen te publiceren, problemen te melden en je onderzoek op te slaan.",
       "map": "Interactieve choropleet van gecureerde Eurostat-datasets op NUTS-niveau — bevolking, BBP, werkloosheid, O&O en meer, in kaart gebracht in heel Europa.",
-      "privacy": "Hoe Fontem omgaat met persoonsgegevens. We bewaren alleen accountbasisgegevens, geen trackingcookies, geen analytics van derden.",
-      "sparql": "Bevraag de Fontem-kennisgraaf direct via SPARQL. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — allemaal gekoppeld.",
+      "privacy": "Hoe Arguit omgaat met persoonsgegevens. We bewaren alleen accountbasisgegevens, geen trackingcookies, geen analytics van derden.",
+      "sparql": "Bevraag de Arguit-kennisgraaf direct via SPARQL. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — allemaal gekoppeld.",
       "spending": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Plus wat groot is in jouw land."
     },
     "title": {
-      "about": "Over — Fontem",
-      "data_quality": "Datakwaliteit — Fontem",
-      "donate": "Steun Fontem",
-      "home": "Fontem — Openbare dataverhalen",
-      "login": "Inloggen — Fontem",
-      "map": "Kaart — Europese statistieken op Fontem",
-      "privacy": "Privacybeleid — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Uitgaven — EU-aanbestedingen op Fontem"
+      "about": "Over — Arguit",
+      "data_quality": "Datakwaliteit — Arguit",
+      "donate": "Steun Arguit",
+      "home": "Arguit — Openbare dataverhalen",
+      "login": "Inloggen — Arguit",
+      "map": "Kaart — Europese statistieken op Arguit",
+      "privacy": "Privacybeleid — Arguit",
+      "sparql": "SPARQL — Arguit",
+      "spending": "Uitgaven — EU-aanbestedingen op Arguit"
     }
   },
   "moderation": {
@@ -765,7 +765,7 @@
   },
   "privacy": {
     "access": "Toegang",
-    "all_data_in_the_fontem_knowledge_graph_r": "Alle gegevens in de Fontem-kennisgraf hebben betrekking op",
+    "all_data_in_the_fontem_knowledge_graph_r": "Alle gegevens in de Arguit-kennisgraf hebben betrekking op",
     "conversation_processing_is_performed_by_": "Gespreksverwerking wordt uitgevoerd door in de EU gevestigde AI-aanbieders.",
     "conversations_are_automatically_deleted_": "Gesprekken worden na 90 dagen automatisch verwijderd.",
     "erase": "Wissen",
@@ -782,8 +782,8 @@
     "under_the_gdpr_you_have_the_right_to": "Onder de AVG hebt u het recht om:",
     "when_you_sign_in_we_collect_and_store": "Wanneer u inlogt, verzamelen en bewaren wij:",
     "your": "Uw",
-    "what_fontem_is": "1. Wat Fontem is",
-    "fontem_is_a_civic_transparency_platform": "Fontem is een platform voor maatschappelijke transparantie dat gegevens over EU-overheidsopdrachten, registers van bedrijfseigendom en financiering vanuit het cohesiebeleid samenbrengt in één kennisgraaf. Het doel is om overheidsuitgaven en bedrijfsstructuren gemakkelijker te verkennen en te begrijpen.",
+    "what_fontem_is": "1. Wat Arguit is",
+    "fontem_is_a_civic_transparency_platform": "Arguit is een platform voor maatschappelijke transparantie dat gegevens over EU-overheidsopdrachten, registers van bedrijfseigendom en financiering vanuit het cohesiebeleid samenbrengt in één kennisgraaf. Het doel is om overheidsuitgaven en bedrijfsstructuren gemakkelijker te verkennen en te begrijpen.",
     "data_in_the_knowledge_graph": "2. Gegevens in de kennisgraaf",
     "legal_entities": "rechtspersonen",
     "companies_public_authorities_and_organis": "(bedrijven, overheidsinstanties en organisaties) — geen natuurlijke personen. Wij aggregeren openbaar beschikbare gegevens uit de volgende bronnen:",
@@ -813,7 +813,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Wij gebruiken uitsluitend strikt noodzakelijke sessiecookies voor authenticatie. Wij gebruiken geen trackingcookies, advertentiecookies of analysecookies van derden.",
     "changes_to_this_policy": "7. Wijzigingen in dit beleid",
-    "we_may_update_this_policy": "Wij kunnen dit beleid van tijd tot tijd bijwerken. Wanneer wij dat doen, passen wij de datum \"laatst bijgewerkt\" boven aan deze pagina aan. Voortgezet gebruik van Fontem na wijzigingen geldt als aanvaarding van het bijgewerkte beleid."
+    "we_may_update_this_policy": "Wij kunnen dit beleid van tijd tot tijd bijwerken. Wanneer wij dat doen, passen wij de datum \"laatst bijgewerkt\" boven aan deze pagina aan. Voortgezet gebruik van Arguit na wijzigingen geldt als aanvaarding van het bijgewerkte beleid."
   },
   "profile": {
     "avg_net_margin": "Gem. nettomarge",
@@ -927,7 +927,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Bevraag de Fontem-kennisgraaf rechtstreeks vanuit de browser of koppel het eindpunt aan OpenRefine / een notebook / je eigen tools. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — alles gekoppeld.",
+    "intro": "Bevraag de Arguit-kennisgraaf rechtstreeks vanuit de browser of koppel het eindpunt aan OpenRefine / een notebook / je eigen tools. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — alles gekoppeld.",
     "limits": "Limieten",
     "method": "Methode",
     "post": "POST",
@@ -1091,8 +1091,8 @@
     "unknown_widget_type": "Onbekend widget-type:"
   },
   "wordmark": {
-    "fon": "Fon",
-    "fontem": "Fontem"
+    "argu": "Argu",
+    "arguit": "Arguit"
   },
   "errata": {
     "icon_title": "Dit contract is gewijzigd — klik om te zien wat er is veranderd",
@@ -1221,9 +1221,9 @@
     "one_moment": "Een moment.",
     "email_confirmed": "E-mailadres bevestigd",
     "your_account_is_verified": "Uw account is geverifieerd. U kunt nu verhalen publiceren, reageren en onderwerpen volgen.",
-    "continue_to_fontem": "Doorgaan naar Fontem",
+    "continue_to_fontem": "Doorgaan naar Arguit",
     "the_link_may_have_expired": "De link is mogelijk verlopen of al gebruikt. Meld u aan en vraag een nieuwe verificatie-e-mail aan via de banner bovenaan.",
-    "go_to_fontem": "Ga naar Fontem",
+    "go_to_fontem": "Ga naar Arguit",
     "couldnt_confirm_your_email": "Kon uw e-mailadres niet bevestigen"
   },
   "studio_plot": {

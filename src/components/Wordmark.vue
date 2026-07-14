@@ -1,11 +1,13 @@
 <script setup>
 /**
- * The Fontem wordmark — two-tone, theme-aware.
+ * The Arguit wordmark — two-tone, theme-aware.
  *
- * Split on the Latin syllable break (Fon-tem) so the colour change
- * lands on a natural pause, not mid-glyph.  Colours come from theme
- * tokens (--brand-primary / --brand-secondary), so the mark adapts to
- * light / dark / autumn without per-theme markup.
+ * Split on the Latin syllable break (argu-it) so the colour change
+ * lands on a natural pause, not mid-glyph. The name is the Latin
+ * third-person singular of `arguere` — "she argues it" — the platform
+ * as a verb. Colours come from theme tokens (--brand-primary /
+ * --brand-secondary), so the mark adapts to light / dark without
+ * per-theme markup.
  */
 defineProps({
   /** Rendered size. 'sm' = header; 'lg' = landing-card hero. */
@@ -14,11 +16,11 @@ defineProps({
 </script>
 
 <template>
-  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.fontem')">
-    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.fon') }}</span><span
+  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.arguit')">
+    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.argu') }}</span><span
       class="wordmark-b"
       aria-hidden="true"
-    >tem</span>
+    >it</span>
   </span>
 </template>
 

@@ -41,13 +41,13 @@ function onTickerSelect(symbol) {
       type="button"
       class="header-brand"
       data-testid="nav-toggle"
-      :aria-label="hasNav ? $t('nav.menu') : $t('wordmark.fontem')"
+      :aria-label="hasNav ? $t('nav.menu') : $t('wordmark.arguit')"
       :aria-expanded="hasNav ? String(mobileOpen) : undefined"
       @click="onBrandClick"
     >
       <MosaicMark :size="30" />
     </button>
-    <h1 class="header-title">{{ $t('wordmark.fontem') }}</h1>
+    <h1 class="header-title">{{ $t('wordmark.arguit') }}</h1>
 
     <div v-if="showSearch" class="header-search">
       <TickerSearch :compact="true" @select="onTickerSelect" />
