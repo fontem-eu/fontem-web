@@ -55,6 +55,26 @@ describe('AboutView', () => {
     expect(wrapper.find('[data-testid="example-chip-map"]').exists()).toBe(true)
   })
 
+  it('renders the mission/vision block with a lead statement and three principles', async () => {
+    const { wrapper } = await mountAt()
+    const mission = wrapper.find('[data-testid="mission"]')
+    expect(mission.exists()).toBe(true)
+    // vision-forward lead line
+    expect(mission.find('.mission-lead').text()).toContain('civic layer')
+    // the three principles, ending on participation (the vision)
+    expect(wrapper.find('[data-testid="mission-value-sourced"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="mission-value-open"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="mission-value-participation"]').exists()).toBe(true)
+    expect(mission.findAll('.mission-value')).toHaveLength(3)
+  })
+
+  it('leads the page with the mission, before the recent-stories carousel', async () => {
+    const { wrapper } = await mountAt()
+    const html = wrapper.html()
+    // mission block appears earlier in the DOM than the how-it-works grid
+    expect(html.indexOf('data-testid="mission"')).toBeLessThan(html.indexOf('data-testid="howitworks"'))
+  })
+
   it('renders three "how it works" steps with names + descriptions', async () => {
     const { wrapper } = await mountAt()
     const steps = wrapper.findAll('[data-testid="howitworks"] .howitworks-step')

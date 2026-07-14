@@ -73,6 +73,15 @@ const STEPS = [
   },
 ]
 
+// The three principles under the mission statement. Order is
+// deliberate: what we stand on (sourced) → how we operate (open) →
+// what it's all for (participation), so the block ends on the vision.
+const VALUES = [
+  { key: 'sourced', titleKey: 'about.value_sourced_title', descKey: 'about.value_sourced_desc' },
+  { key: 'open', titleKey: 'about.value_open_title', descKey: 'about.value_open_desc' },
+  { key: 'participation', titleKey: 'about.value_participation_title', descKey: 'about.value_participation_desc' },
+]
+
 const recentStories = ref([])
 const demoVideo = ref(null)
 
@@ -109,6 +118,28 @@ onMounted(async () => {
              chips give next-click affordance, How-it-works frames
              the workflow, 45-second tour rewards anyone scrolling. -->
         <section class="landing-extra" data-testid="landing-extra">
+          <!-- Mission / vision. Leads the page (above the living
+               carousel) so a first-time visitor learns why Fontem
+               exists before what's newest. Vision-forward voice;
+               strictly the public, primary-source framing. -->
+          <section class="mission" data-testid="mission">
+            <h2 class="mission-title">{{ $t('about.mission_title') }}</h2>
+            <p class="mission-lead">{{ $t('about.mission_lead') }}</p>
+            <p class="mission-body">{{ $t('about.mission_body_1') }}</p>
+            <p class="mission-body">{{ $t('about.mission_body_2') }}</p>
+            <ul class="mission-values">
+              <li
+                v-for="v in VALUES"
+                :key="v.key"
+                class="mission-value"
+                :data-testid="`mission-value-${v.key}`"
+              >
+                <span class="mission-value-title">{{ $t(v.titleKey) }}</span>
+                <span class="mission-value-desc">{{ $t(v.descKey) }}</span>
+              </li>
+            </ul>
+          </section>
+
           <section
             v-if="recentStories.length"
             class="recent-reports"
@@ -215,6 +246,63 @@ onMounted(async () => {
   gap: 2rem;
   margin-top: 2.25rem;
 }
+
+.mission { display: flex; flex-direction: column; }
+.mission-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+.mission-lead {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  text-align: center;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+.mission-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 auto 0.85rem;
+  max-width: 42rem;
+}
+.mission-body:last-of-type { margin-bottom: 1.5rem; }
+.mission-values {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.mission-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+}
+.mission-value-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.mission-value-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+@media (min-width: 640px) { .mission-lead { font-size: 1.6rem; } }
 .example-chips {
   display: flex;
   flex-wrap: wrap;
