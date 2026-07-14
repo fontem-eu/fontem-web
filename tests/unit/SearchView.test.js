@@ -27,6 +27,8 @@ function makeRouter() {
       { path: '/', component: { template: '<div/>' } },
       { path: '/search', component: SearchView },
       { path: '/company/:gmr_id', component: { template: '<div/>' } },
+      { path: '/contract/:noticeId', component: { template: '<div/>' } },
+      { path: '/c/:ticker/:view', component: { template: '<div/>' } },
       { path: '/stories/:id', component: { template: '<div/>' } },
     ],
   })
@@ -85,11 +87,51 @@ describe('SearchView', () => {
     expect(contexts.some((c) => /€.*1\.2M|1\.2M/.test(c))).toBe(true)  // formatted contract value
   })
 
-  it('links company + story results to their detail routes', async () => {
+  it('makes the whole card link to the detail route (company, contract, story)', async () => {
     const { w } = await mountAt({ q: 'apple' })
-    const links = w.findAll('a.result-title').map((a) => a.attributes('href'))
+    const links = w.findAll('a.result-card').map((a) => a.attributes('href'))
     expect(links.some((h) => h.includes('/company/c1'))).toBe(true)
+    expect(links.some((h) => h.includes('/contract/t1'))).toBe(true)
     expect(links.some((h) => h.includes('/stories/s1'))).toBe(true)
+    // clickable cards carry the affordance class
+    expect(w.findAll('.result-card--link').length).toBeGreaterThanOrEqual(3)
+  })
+
+  it('links authorities to the shared entity profile and cohesion to the beneficiary company', async () => {
+    searchGraph.mockResolvedValue({
+      results: [
+        { type: 'authority', id: 'auth-9', title: 'Ministério das Finanças', subtitle: '', context: '', country: 'PRT', date: null, score: 0, meta: {} },
+        { type: 'cohesion', id: 'proj-1', title: 'Bridge project', subtitle: '', context: '', country: 'CZE', date: null, score: 0, meta: { company_gmr_id: 'gmr-benef-1' } },
+      ],
+      counts: { authority: 1, cohesion: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'x' })
+    const links = w.findAll('a.result-card').map((a) => a.attributes('href'))
+    expect(links.some((h) => h.includes('/c/auth-9/profile'))).toBe(true)
+    expect(links.some((h) => h.includes('/company/gmr-benef-1'))).toBe(true)
+  })
+
+  it('links a lobbyist card out to its declared website (scheme prepended), non-clickable when absent', async () => {
+    searchGraph.mockResolvedValue({
+      results: [
+        { type: 'lobbyist', id: 'lob-1', title: 'Electrica lobby', subtitle: '', context: '', country: 'ROU', date: null, score: 0, meta: { url: 'www.electrica.ro' } },
+        { type: 'person', id: 'p-1', title: 'Jane Director', subtitle: '', context: '', country: null, date: null, score: 0, meta: {} },
+      ],
+      counts: { lobbyist: 1, person: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'x' })
+    const ext = w.find('[data-testid="result-external-link"]')
+    expect(ext.attributes('href')).toBe('https://www.electrica.ro')
+    expect(ext.attributes('target')).toBe('_blank')
+    expect(ext.attributes('rel')).toContain('noopener')
+    // a person has no destination → plain div, not a link
+    const person = w.find('[data-testid="result-person"] .result-card')
+    expect(person.element.tagName).toBe('DIV')
+    expect(person.classes()).not.toContain('result-card--link')
   })
 
   it('entity-type facets live inside the advanced drawer (hidden by default)', async () => {
@@ -153,7 +195,7 @@ describe('SearchView — legislation results', () => {
     expect(ext.exists()).toBe(true)
     expect(ext.attributes('href')).toContain('CELEX:32024L1385')
     expect(ext.attributes('target')).toBe('_blank')
-    expect(ext.attributes('rel')).toBe('noopener')
+    expect(ext.attributes('rel')).toContain('noopener')
     expect(w.text()).toContain('Directive (EU) 2024/1385')
   })
 

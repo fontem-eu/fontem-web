@@ -84,18 +84,49 @@ function cardContext(r) {
   return ''
 }
 
-function routeLink(r) {
-  if (r.type === 'company') return `/company/${encodeURIComponent(r.id)}`
-  if (r.type === 'contract') return `/contract/${encodeURIComponent(r.id)}`
-  if (r.type === 'story') return `/stories/${encodeURIComponent(r.id)}`
+function withScheme(u) {
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`
+}
+
+// Where a result card links to. Internal detail pages return { to }; external
+// sources (a lobbyist's site, a legal act on EUR-Lex) return { href, external }.
+// Types with no destination (person, sanction) return null → non-clickable.
+function cardLink(r) {
+  if (r.type === 'company') return { to: `/company/${encodeURIComponent(r.id)}` }
+  // authorities render on the shared entity profile (same as PublicSpending)
+  if (r.type === 'authority') return { to: `/c/${encodeURIComponent(r.id)}/profile` }
+  if (r.type === 'contract') return { to: `/contract/${encodeURIComponent(r.id)}` }
+  if (r.type === 'story') return { to: `/stories/${encodeURIComponent(r.id)}` }
+  // a cohesion project links to the company that received the money
+  if (r.type === 'cohesion' && r.meta?.company_gmr_id) {
+    return { to: `/company/${encodeURIComponent(r.meta.company_gmr_id)}` }
+  }
+  // legislation → the act's authentic text on EUR-Lex (mirror provenance)
+  if (r.type === 'legislation' && r.meta?.eurlex_url) {
+    return { href: r.meta.eurlex_url, external: true }
+  }
+  // lobbyist → its EU-transparency-register-declared website
+  if (r.type === 'lobbyist' && r.meta?.url) {
+    return { href: withScheme(r.meta.url), external: true }
+  }
   return null
 }
 
-// Legislation has no internal detail page yet — cards link out to the act's
-// authentic text on EUR-Lex (same provenance the mirror is built from).
-function externalLink(r) {
-  if (r.type === 'legislation') return r.meta?.eurlex_url || null
-  return null
+// The tag + attributes to render the whole card as its link.
+function cardTag(r) {
+  const l = cardLink(r)
+  return l ? (l.external ? 'a' : 'RouterLink') : 'div'
+}
+function cardBind(r) {
+  const l = cardLink(r)
+  if (!l) return {}
+  if (l.external) {
+    return {
+      href: l.href, target: '_blank', rel: 'noopener noreferrer nofollow',
+      'data-testid': 'result-external-link',
+    }
+  }
+  return { to: l.to }
 }
 
 async function runSearch(reset = true) {
@@ -271,30 +302,27 @@ onMounted(() => {
         </p>
 
         <ul v-if="merged.length" class="result-list">
-          <li v-for="(r, i) in merged" :key="`${r.type}-${r.id}-${i}`" class="result-card" :data-testid="`result-${r.type}`">
-            <span class="result-type" :class="`type-${r.type}`">{{ t(`search.type.${r.type}`) }}</span>
-            <div class="result-body">
-              <a
-                v-if="externalLink(r)"
-                :href="externalLink(r)"
-                target="_blank"
-                rel="noopener"
-                class="result-title"
-                data-testid="result-external-link"
-              >{{ r.title }}</a>
-              <component
-                :is="routeLink(r) ? 'RouterLink' : 'span'"
-                v-else
-                :to="routeLink(r) || undefined"
-                class="result-title"
-              >{{ r.title }}</component>
-              <p v-if="r.subtitle" class="result-subtitle">{{ r.subtitle }}</p>
-              <p v-if="cardContext(r)" class="result-context" data-testid="result-context">{{ cardContext(r) }}</p>
-              <p class="result-meta">
-                <span v-if="r.country" class="result-country">{{ r.country }}</span>
-                <span v-if="r.date" class="result-date">{{ r.date }}</span>
-              </p>
-            </div>
+          <li v-for="(r, i) in merged" :key="`${r.type}-${r.id}-${i}`" :data-testid="`result-${r.type}`">
+            <component
+              :is="cardTag(r)"
+              v-bind="cardBind(r)"
+              class="result-card"
+              :class="{ 'result-card--link': cardLink(r) }"
+            >
+              <span class="result-type" :class="`type-${r.type}`">{{ t(`search.type.${r.type}`) }}</span>
+              <div class="result-body">
+                <span class="result-title">
+                  {{ r.title }}
+                  <span v-if="cardLink(r)?.external" class="result-ext" aria-hidden="true">↗</span>
+                </span>
+                <p v-if="r.subtitle" class="result-subtitle">{{ r.subtitle }}</p>
+                <p v-if="cardContext(r)" class="result-context" data-testid="result-context">{{ cardContext(r) }}</p>
+                <p class="result-meta">
+                  <span v-if="r.country" class="result-country">{{ r.country }}</span>
+                  <span v-if="r.date" class="result-date">{{ r.date }}</span>
+                </p>
+              </div>
+            </component>
           </li>
         </ul>
 
@@ -347,11 +375,15 @@ onMounted(() => {
 .search-status, .search-error { color: var(--text); opacity: 0.8; }
 .search-error { color: #c0392b; opacity: 1; }
 .result-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
-.result-card { display: flex; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface, transparent); }
+.result-card { display: flex; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface, transparent); color: var(--text); text-decoration: none; }
+.result-card--link { cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+.result-card--link:hover { border-color: var(--accent); background: var(--surface-hover, rgba(127, 127, 127, 0.06)); box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06); }
+.result-card--link:hover .result-title { color: var(--accent); }
+.result-card--link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .result-type { flex: 0 0 auto; align-self: flex-start; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.15rem 0.45rem; border-radius: 6px; background: var(--accent); color: #fff; opacity: 0.9; }
 .result-body { min-width: 0; }
 .result-title { font-weight: 600; color: var(--text); text-decoration: none; }
-a.result-title:hover { color: var(--accent); text-decoration: underline; }
+.result-ext { font-size: 0.85em; opacity: 0.65; margin-left: 0.15rem; }
 .result-subtitle { margin: 0.2rem 0 0; font-size: 0.88rem; opacity: 0.85; }
 .result-context { margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .result-meta { margin: 0.3rem 0 0; font-size: 0.8rem; opacity: 0.6; display: flex; gap: 0.75rem; }
