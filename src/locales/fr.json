@@ -703,7 +703,8 @@
     "collapse": "Réduire",
     "log_in": "Se connecter",
     "menu": "Menu",
-    "studio": "Studio"
+    "studio": "Studio",
+    "petitions": "Pétitions"
   },
   "not_found": {
     "back_to_home": "Retour à l'accueil",
@@ -1667,6 +1668,45 @@
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
+    }
+  },
+  "petitions": {
+    "title": "Pétitions",
+    "subtitle": "Initiatives citoyennes européennes — qui les organise, combien ont signé, et quelle législation a suivi.",
+    "all": "Toutes",
+    "supporters": "signataires",
+    "loading": "Chargement…",
+    "empty": "Aucune pétition ne correspond à ce filtre.",
+    "about": "Objet de la pétition",
+    "timeline": "Chronologie",
+    "legislation": "Législation",
+    "organizers": "Organisateurs",
+    "funding": "Financement",
+    "sponsors": "sponsors",
+    "official_page": "Page officielle de la pétition",
+    "answer_documented": "Réponse de la Commission documentée, pas encore reliable",
+    "no_legislation": "Aucune législation liée pour l'instant.",
+    "milestone": {
+      "registered": "Enregistrée",
+      "collection": "Début de la collecte",
+      "closed": "Collecte terminée",
+      "submitted": "Soumise à la Commission",
+      "answered": "Réponse de la Commission"
+    },
+    "rel": {
+      "registered_by": "Décision d'enregistrement",
+      "answered_by": "Réponse de la Commission",
+      "led_to": "Législation résultante"
+    },
+    "status": {
+      "registered": "Enregistrée",
+      "ongoing": "Collecte en cours",
+      "closed": "Collecte terminée",
+      "submitted": "Soumise",
+      "verification": "Vérification",
+      "answered": "Répondue",
+      "conditions_not_fulfilled": "Conditions non remplies",
+      "withdrawn": "Retirée"
     }
   }
 }

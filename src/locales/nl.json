@@ -703,7 +703,8 @@
     "collapse": "Inklappen",
     "log_in": "Aanmelden",
     "menu": "Menu",
-    "studio": "Studio"
+    "studio": "Studio",
+    "petitions": "Petities"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",
@@ -1667,6 +1668,45 @@
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
+    }
+  },
+  "petitions": {
+    "title": "Petitions",
+    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
+    "all": "All",
+    "supporters": "supporters",
+    "loading": "Loading…",
+    "empty": "No petitions match this filter.",
+    "about": "What this petition is about",
+    "timeline": "Timeline",
+    "legislation": "Legislation",
+    "organizers": "Organizers",
+    "funding": "Funding",
+    "sponsors": "sponsors",
+    "official_page": "Official petition page",
+    "answer_documented": "Commission answer documented, not yet linkable",
+    "no_legislation": "No linked legislation yet.",
+    "milestone": {
+      "registered": "Registered",
+      "collection": "Signature collection started",
+      "closed": "Collection closed",
+      "submitted": "Submitted to the Commission",
+      "answered": "Answered by the Commission"
+    },
+    "rel": {
+      "registered_by": "Registration decision",
+      "answered_by": "Commission response",
+      "led_to": "Resulting legislation"
+    },
+    "status": {
+      "registered": "Registered",
+      "ongoing": "Collecting signatures",
+      "closed": "Collection closed",
+      "submitted": "Submitted",
+      "verification": "Verification",
+      "answered": "Answered",
+      "conditions_not_fulfilled": "Conditions not fulfilled",
+      "withdrawn": "Withdrawn"
     }
   }
 }

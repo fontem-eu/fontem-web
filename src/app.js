@@ -19,6 +19,8 @@ import { createFontemI18n } from './i18n.js'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
+import PetitionsView from './views/PetitionsView.vue'
+import PetitionDetailView from './views/PetitionDetailView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
 import UserProfileView from './views/UserProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
@@ -175,6 +177,10 @@ const ROUTES = [
   // Spending — search the procurement graph + country-scoped
   // "of interest" lists (renamed from /public-spending).
   { path: '/spending', component: PublicSpendingView },
+
+  // Petitions — first-class civic data, peer of data stories.
+  { path: '/petitions', component: PetitionsView },
+  { path: '/petitions/:id', component: PetitionDetailView },
 
   // Data stories — canonical paths. Legacy /reports* paths redirect
   // for one release so external links and bookmarks keep working.

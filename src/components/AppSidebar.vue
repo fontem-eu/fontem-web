@@ -26,6 +26,7 @@ const onStudio = computed(() => route.path.startsWith('/studio'))
 const navItems = computed(() => {
   const base = [
     { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
+    { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
     { key: 'spending', label: t('nav.spending'), path: '/spending', icon: 'spending' },
     { key: 'map', label: t('nav.map'), path: '/map', icon: 'map' },
     { key: 'explore', label: t('nav.explore'), path: '/explore', icon: 'explore' },
