@@ -60,12 +60,8 @@ test.describe('Advanced Search filters', () => {
 
     // Assert every visible row's country is PT (or its meta.nuts starts with PT).
     // We assert on API response so the check is robust to which fields the card renders.
-    const resp = await page.evaluate(async () => {
-      const u = new URL(location.href)
-      u.pathname = '/api/search/results'
-      const r = await fetch(u.toString().replace('/search?', '/api/search/results?'), { credentials: 'include' })
-      return r.ok ? r.json() : null
-    })
+    // NOTE: prefer the direct request.get path below over evaluate() so
+    // we don't rely on the browser's auth cookies leaking into fetch.
     // Fallback: fetch directly with same query
     const q = new URL(page.url())
     const apiQ = new URLSearchParams(q.search)
