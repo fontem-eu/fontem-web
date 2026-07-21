@@ -2,6 +2,17 @@
  * Vitest setup — mock browser APIs not available in jsdom.
  */
 
+// jsdom does not ship a `fetch`. Composables like useQuerySchema fire off a
+// request during component mount and chain `.then(...)` on the return value,
+// so an undefined fetch surfaces as `Cannot read properties of undefined
+// (reading 'then')` — which SonarQube's analyze run treats as a test failure.
+// Provide a safe no-op that resolves to a non-ok response; individual suites
+// still override with vi.stubGlobal when they need to assert on requests.
+if (typeof globalThis.fetch !== 'function') {
+  globalThis.fetch = () =>
+    Promise.resolve({ ok: false, status: 0, json: () => Promise.resolve(null), text: () => Promise.resolve('') })
+}
+
 // maplibre-gl calls URL.createObjectURL at module init time to register a worker blob
 if (typeof globalThis.URL.createObjectURL === 'undefined') {
   globalThis.URL.createObjectURL = () => 'blob:mock'
