@@ -8,7 +8,7 @@ import AppSidebar from '../../src/components/AppSidebar.vue'
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
-    routes: ['/', '/spending', '/map', '/explore', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
+    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
   })
 }
 async function mountAt(path = '/') {
@@ -22,31 +22,35 @@ describe('AppSidebar (nav rail)', () => {
   beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
   afterEach(() => { _internal.clearForTests(); localStorage.clear() })
 
-  it('renders the nav with Stories/Spending/Map/Explore for anonymous visitors (My Stories hidden)', async () => {
+  it('renders Stories/Petitions/Data Stats/Atlas for anonymous visitors (contribution section hidden)', async () => {
     const { wrapper } = await mountAt('/')
     const nav = wrapper.find('[data-testid="app-nav"]')
     expect(nav.exists()).toBe(true)
     expect(nav.text()).toContain('Stories')
-    expect(nav.text()).toContain('Spending')
-    expect(nav.text()).toContain('Map')
-    expect(wrapper.find('[data-testid="nav-explore"]').exists()).toBe(true)
+    expect(nav.text()).toContain('Petitions')
+    expect(nav.text()).toContain('Data Stats')
+    expect(nav.text()).toContain('Atlas')
+    // Spending dropped; contribution section (Studio, My Stories) is login-only
+    expect(nav.text()).not.toContain('Spending')
+    expect(wrapper.find('[data-testid="nav-data-stats"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="nav-studio"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
-    expect(wrapper.find('[data-testid="nav-map"]').attributes('href')).toBe('/map')
+    expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href')).toBe('/map')
   })
 
-  it('shows My Stories when authenticated, ordered after Explore', async () => {
+  it('shows the contribution section (Studio, My Stories) when authenticated, after the data group', async () => {
     _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     const ids = wrapper.findAll('[data-testid^="nav-"]').map((t) => t.attributes('data-testid'))
-    const mapIdx = ids.indexOf('nav-map'); const explIdx = ids.indexOf('nav-explore'); const myIdx = ids.indexOf('nav-my-reports')
-    expect(mapIdx).toBeGreaterThanOrEqual(0)
-    expect(explIdx).toBeGreaterThan(mapIdx)
-    expect(myIdx).toBeGreaterThan(explIdx)
+    const atlasIdx = ids.indexOf('nav-atlas'); const studioIdx = ids.indexOf('nav-studio'); const myIdx = ids.indexOf('nav-my-reports')
+    expect(atlasIdx).toBeGreaterThanOrEqual(0)
+    expect(studioIdx).toBeGreaterThan(atlasIdx)
+    expect(myIdx).toBeGreaterThan(studioIdx)
   })
 
-  it('marks Explore active on /explore', async () => {
+  it('marks Data Stats active on /explore', async () => {
     const { wrapper } = await mountAt('/explore')
-    expect(wrapper.find('[data-testid="nav-explore"]').classes()).toContain('active')
+    expect(wrapper.find('[data-testid="nav-data-stats"]').classes()).toContain('active')
   })
 
   it('marks My Stories active on /my-stories', async () => {
@@ -61,7 +65,8 @@ describe('AppSidebar (nav rail)', () => {
     expect(wrapper.find('[data-testid="rail-collapse"]').exists()).toBe(true)
   })
 
-  it('reveals the Data Studio navigator on /studio routes', async () => {
+  it('reveals the Data Studio navigator on /studio routes (authed)', async () => {
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/studio')
     expect(wrapper.find('[data-testid="studio-nav"]').exists()).toBe(true)
     // and not on other routes
