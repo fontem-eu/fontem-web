@@ -23,17 +23,28 @@ const authed = computed(() => typeof localStorage !== 'undefined' && isAuthed.va
 const user = computed(() => currentUser.value)
 const onStudio = computed(() => route.path.startsWith('/studio'))
 
-const navItems = computed(() => {
-  const base = [
-    { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
-    { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
-    { key: 'spending', label: t('nav.spending'), path: '/spending', icon: 'spending' },
-    { key: 'map', label: t('nav.map'), path: '/map', icon: 'map' },
-    { key: 'explore', label: t('nav.explore'), path: '/explore', icon: 'explore' },
-    { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
+// Three sections: view-only (Stories, Petitions), data-exploration
+// (Data Stats, Atlas), and a contribution section (Studio, My Stories)
+// that only appears when signed in. Spending was dropped — the always-
+// visible header search covers it.
+const navGroups = computed(() => {
+  const groups = [
+    { key: 'view', items: [
+      { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
+      { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
+    ] },
+    { key: 'data', items: [
+      { key: 'data-stats', label: t('nav.data_stats'), path: '/explore', icon: 'explore' },
+      { key: 'atlas', label: t('nav.atlas'), path: '/map', icon: 'map' },
+    ] },
   ]
-  if (authed.value) base.push({ key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' })
-  return base
+  if (authed.value) {
+    groups.push({ key: 'contribute', items: [
+      { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
+      { key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' },
+    ] })
+  }
+  return groups
 })
 
 function isActive(path) {
@@ -54,22 +65,25 @@ function isActive(path) {
       <Wordmark v-if="!collapsed" size="sm" class="rail-head-wm" />
     </router-link>
 
-    <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.stories')">
-      <template v-for="item in navItems" :key="item.key">
-        <router-link
-          :to="item.path"
-          class="rail-item"
-          :class="{ active: isActive(item.path) }"
-          :data-testid="'nav-' + item.key"
-          :title="collapsed ? item.label : null"
-          @click="closeMobile"
-        >
-          <RailIcon :name="item.icon" />
-          <span class="rail-label">{{ item.label }}</span>
-        </router-link>
-        <div v-if="item.key === 'studio' && onStudio" class="rail-studio">
-          <StudioNav @navigate="closeMobile" />
-        </div>
+    <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.menu')">
+      <template v-for="(group, gi) in navGroups" :key="group.key">
+        <hr v-if="gi > 0" class="rail-sep" aria-hidden="true" >
+        <template v-for="item in group.items" :key="item.key">
+          <router-link
+            :to="item.path"
+            class="rail-item"
+            :class="{ active: isActive(item.path) }"
+            :data-testid="'nav-' + item.key"
+            :title="collapsed ? item.label : null"
+            @click="closeMobile"
+          >
+            <RailIcon :name="item.icon" />
+            <span class="rail-label">{{ item.label }}</span>
+          </router-link>
+          <div v-if="item.key === 'studio' && onStudio" class="rail-studio">
+            <StudioNav @navigate="closeMobile" />
+          </div>
+        </template>
       </template>
     </nav>
 
@@ -129,6 +143,7 @@ function isActive(path) {
 .rail--collapsed { width: 3.5rem; }
 
 .rail-nav { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+.rail-sep { height: 1px; border: 0; background: var(--bezel-border); margin: 0.45rem 0.35rem; flex: none; }
 .rail-bottom { display: flex; flex-direction: column; gap: 0.15rem; border-top: 1px solid var(--bezel-border); padding-top: 0.4rem; margin-top: 0.4rem; }
 
 .rail-item {

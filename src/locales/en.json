@@ -787,7 +787,9 @@
     "spending": "Spending",
     "stories": "Stories",
     "studio": "Studio",
-    "petitions": "Petitions"
+    "petitions": "Petitions",
+    "data_stats": "Data Stats",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Back to home",
@@ -1137,7 +1139,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "No tickers found for &ldquo;",
-    "search_companies_public_entities_lobbyis": "Search companies, public entities, lobbyists…",
+    "search_companies_public_entities_lobbyis": "Search anything in the EU",
     "search_results": "Search results",
     "search_the_knowledge_graph": "Search the knowledge graph"
   },

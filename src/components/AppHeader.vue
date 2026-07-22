@@ -100,5 +100,14 @@ function onTickerSelect(symbol) {
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .header-search { flex: 1; min-width: 0; max-width: 36rem; }
+/* Desktop (persistent rail from 900px): centre the search in the bar,
+   independent of the brand/profile widths on either side. */
+@media (min-width: 900px) {
+  .app-header { position: relative; }
+  .header-search {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    flex: none; width: min(36rem, 46vw);
+  }
+}
 .header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; margin-left: auto; }
 </style>
