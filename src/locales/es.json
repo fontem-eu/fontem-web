@@ -704,7 +704,9 @@
     "log_in": "Iniciar sesión",
     "menu": "Menú",
     "studio": "Estudio",
-    "petitions": "Peticiones"
+    "petitions": "Peticiones",
+    "data_stats": "Estadísticas",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Volver al inicio",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "No se han encontrado tickers para &ldquo;",
-    "search_companies_public_entities_lobbyis": "Buscar empresas, entidades públicas, lobistas…",
+    "search_companies_public_entities_lobbyis": "Busca cualquier cosa en la UE",
     "search_results": "Resultados de búsqueda",
     "search_the_knowledge_graph": "Buscar en el grafo de conocimiento"
   },

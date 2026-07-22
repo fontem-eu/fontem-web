@@ -704,7 +704,9 @@
     "log_in": "Logga in",
     "menu": "Meny",
     "studio": "Studio",
-    "petitions": "Petitioner"
+    "petitions": "Petitioner",
+    "data_stats": "Statistik",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Inga tickers hittades för &ldquo;",
-    "search_companies_public_entities_lobbyis": "Sök företag, offentliga entiteter, lobbyister…",
+    "search_companies_public_entities_lobbyis": "Sök efter vad som helst i EU",
     "search_results": "Sökresultat",
     "search_the_knowledge_graph": "Sök i kunskapsgrafen"
   },

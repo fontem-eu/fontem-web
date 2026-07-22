@@ -704,7 +704,9 @@
     "log_in": "Prihlásiť sa",
     "menu": "Ponuka",
     "studio": "Štúdio",
-    "petitions": "Petície"
+    "petitions": "Petície",
+    "data_stats": "Štatistiky",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Späť na domovskú stránku",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Pre &ldquo; sa nenašli žiadne tickery",
-    "search_companies_public_entities_lobbyis": "Hľadaj firmy, verejné entity, lobistov…",
+    "search_companies_public_entities_lobbyis": "Hľadajte čokoľvek v EÚ",
     "search_results": "Výsledky vyhľadávania",
     "search_the_knowledge_graph": "Hľadaj v znalostnom grafe"
   },

@@ -704,7 +704,9 @@
     "log_in": "Pieteikties",
     "menu": "Izvēlne",
     "studio": "Studija",
-    "petitions": "Petīcijas"
+    "petitions": "Petīcijas",
+    "data_stats": "Statistika",
+    "atlas": "Atlants"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Tikeri nav atrasti meklējumam &ldquo;",
-    "search_companies_public_entities_lobbyis": "Meklē uzņēmumus, publiskas entītes, lobistus…",
+    "search_companies_public_entities_lobbyis": "Meklējiet jebko ES",
     "search_results": "Meklēšanas rezultāti",
     "search_the_knowledge_graph": "Meklē zināšanu grafā"
   },

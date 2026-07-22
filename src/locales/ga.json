@@ -704,7 +704,9 @@
     "log_in": "Logáil isteach",
     "menu": "Roghchlár",
     "studio": "Stiúideo",
-    "petitions": "Achainíocha"
+    "petitions": "Achainíocha",
+    "data_stats": "Staitisticí",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Níor aimsíodh ticéirí do &ldquo;",
-    "search_companies_public_entities_lobbyis": "Cuardaigh comhlachtaí, aonáin phoiblí, brústocairí…",
+    "search_companies_public_entities_lobbyis": "Cuardaigh aon rud san AE",
     "search_results": "Torthaí cuardaigh",
     "search_the_knowledge_graph": "Cuardaigh an graf eolais"
   },

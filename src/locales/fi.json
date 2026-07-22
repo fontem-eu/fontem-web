@@ -704,7 +704,9 @@
     "log_in": "Kirjaudu sisään",
     "menu": "Valikko",
     "studio": "Studio",
-    "petitions": "Vetoomukset"
+    "petitions": "Vetoomukset",
+    "data_stats": "Tilastot",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Takaisin etusivulle",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Hakukohteelle ei löytynyt tikkereitä &ldquo;",
-    "search_companies_public_entities_lobbyis": "Etsi yrityksiä, julkisia entiteettejä, lobbareita…",
+    "search_companies_public_entities_lobbyis": "Hae mitä tahansa EU:ssa",
     "search_results": "Hakutulokset",
     "search_the_knowledge_graph": "Etsi tietämysgraafista"
   },

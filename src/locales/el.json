@@ -704,7 +704,9 @@
     "log_in": "Σύνδεση",
     "menu": "Μενού",
     "studio": "Studio",
-    "petitions": "Αναφορές"
+    "petitions": "Αναφορές",
+    "data_stats": "Στατιστικά",
+    "atlas": "Άτλας"
   },
   "not_found": {
     "back_to_home": "Επιστροφή στην αρχική",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Δεν βρέθηκαν tickers για &ldquo;",
-    "search_companies_public_entities_lobbyis": "Αναζήτηση εταιρειών, δημόσιων φορέων, λομπιστών…",
+    "search_companies_public_entities_lobbyis": "Αναζητήστε οτιδήποτε στην ΕΕ",
     "search_results": "Αποτελέσματα αναζήτησης",
     "search_the_knowledge_graph": "Αναζήτηση στον γράφο γνώσης"
   },

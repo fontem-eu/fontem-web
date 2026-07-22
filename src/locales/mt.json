@@ -704,7 +704,9 @@
     "log_in": "Illoggja",
     "menu": "Menu",
     "studio": "Studio",
-    "petitions": "Petizzjonijiet"
+    "petitions": "Petizzjonijiet",
+    "data_stats": "Statistika",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Lura lejn id-dar",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Ma nstabu ebda tickers għal &ldquo;",
-    "search_companies_public_entities_lobbyis": "Fittex kumpaniji, entitajiet pubbliċi, lobbyists…",
+    "search_companies_public_entities_lobbyis": "Fittex kwalunkwe ħaġa fl-UE",
     "search_results": "Riżultati tat-tfittxija",
     "search_the_knowledge_graph": "Fittex fil-graf tal-għarfien"
   },

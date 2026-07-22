@@ -704,7 +704,9 @@
     "log_in": "Prijava",
     "menu": "Izbornik",
     "studio": "Studio",
-    "petitions": "Peticije"
+    "petitions": "Peticije",
+    "data_stats": "Statistika",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Natrag na početnu",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Nisu pronađeni tikeri za &ldquo;",
-    "search_companies_public_entities_lobbyis": "Pretraži tvrtke, javne entitete, lobiste…",
+    "search_companies_public_entities_lobbyis": "Pretražite bilo što u EU-u",
     "search_results": "Rezultati pretrage",
     "search_the_knowledge_graph": "Pretraži graf znanja"
   },

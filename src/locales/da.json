@@ -704,7 +704,9 @@
     "log_in": "Log ind",
     "menu": "Menu",
     "studio": "Studie",
-    "petitions": "Underskriftindsamlinger"
+    "petitions": "Underskriftindsamlinger",
+    "data_stats": "Datastatistik",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Tilbage til forsiden",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Ingen tickers fundet for &ldquo;",
-    "search_companies_public_entities_lobbyis": "Søg selskaber, offentlige enheder, lobbyister…",
+    "search_companies_public_entities_lobbyis": "Søg efter alt i EU",
     "search_results": "Søgeresultater",
     "search_the_knowledge_graph": "Søg i vidensgrafen"
   },
