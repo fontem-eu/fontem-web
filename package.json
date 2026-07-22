@@ -77,7 +77,7 @@
     "vitest": "^3.2.6"
   },
   "overrides": {
-    "fast-uri": "^3.1.2",
+    "fast-uri": "^3.1.4",
     "tmp": "^0.2.6",
     "linkify-it": "^5.0.1",
     "js-cookie": "^3.0.7",
