@@ -67,7 +67,7 @@ function isActive(path) {
 
     <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.menu')">
       <template v-for="(group, gi) in navGroups" :key="group.key">
-        <div v-if="gi > 0" class="rail-sep" role="separator" aria-hidden="true" />
+        <hr v-if="gi > 0" class="rail-sep" aria-hidden="true" >
         <template v-for="item in group.items" :key="item.key">
           <router-link
             :to="item.path"
@@ -143,7 +143,7 @@ function isActive(path) {
 .rail--collapsed { width: 3.5rem; }
 
 .rail-nav { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
-.rail-sep { height: 1px; background: var(--bezel-border); margin: 0.45rem 0.35rem; flex: none; }
+.rail-sep { height: 1px; border: 0; background: var(--bezel-border); margin: 0.45rem 0.35rem; flex: none; }
 .rail-bottom { display: flex; flex-direction: column; gap: 0.15rem; border-top: 1px solid var(--bezel-border); padding-top: 0.4rem; margin-top: 0.4rem; }
 
 .rail-item {
