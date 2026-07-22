@@ -704,7 +704,9 @@
     "log_in": "Přihlásit se",
     "menu": "Nabídka",
     "studio": "Studio",
-    "petitions": "Petice"
+    "petitions": "Petice",
+    "data_stats": "Statistiky",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Zpět na domovskou stránku",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Pro &ldquo; nebyly nalezeny žádné tickery",
-    "search_companies_public_entities_lobbyis": "Hledat společnosti, veřejné subjekty, lobbisty…",
+    "search_companies_public_entities_lobbyis": "Hledejte cokoli v EU",
     "search_results": "Výsledky vyhledávání",
     "search_the_knowledge_graph": "Hledat v znalostním grafu"
   },

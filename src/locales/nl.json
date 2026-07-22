@@ -704,7 +704,9 @@
     "log_in": "Aanmelden",
     "menu": "Menu",
     "studio": "Studio",
-    "petitions": "Petities"
+    "petitions": "Petities",
+    "data_stats": "Statistieken",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Geen tickers gevonden voor &ldquo;",
-    "search_companies_public_entities_lobbyis": "Zoek bedrijven, publieke entiteiten, lobbyisten…",
+    "search_companies_public_entities_lobbyis": "Zoek alles in de EU",
     "search_results": "Zoekresultaten",
     "search_the_knowledge_graph": "Zoek in de kennisgraf"
   },

@@ -704,7 +704,9 @@
     "log_in": "Вход",
     "menu": "Меню",
     "studio": "Студио",
-    "petitions": "Петиции"
+    "petitions": "Петиции",
+    "data_stats": "Статистика",
+    "atlas": "Атлас"
   },
   "not_found": {
     "back_to_home": "Към началната страница",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Не са намерени тикери за &ldquo;",
-    "search_companies_public_entities_lobbyis": "Търсене на компании, публични субекти, лобисти…",
+    "search_companies_public_entities_lobbyis": "Търсете всичко в ЕС",
     "search_results": "Резултати от търсенето",
     "search_the_knowledge_graph": "Търсене в графа на знанията"
   },

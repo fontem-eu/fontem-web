@@ -704,7 +704,9 @@
     "log_in": "Logi sisse",
     "menu": "Menüü",
     "studio": "Stuudio",
-    "petitions": "Petitsioonid"
+    "petitions": "Petitsioonid",
+    "data_stats": "Statistika",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Tagasi avalehele",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Tikkereid ei leitud otsingule &ldquo;",
-    "search_companies_public_entities_lobbyis": "Otsi ettevõtteid, avalikke olemeid, lobiste…",
+    "search_companies_public_entities_lobbyis": "Otsi kõike EL-is",
     "search_results": "Otsingutulemused",
     "search_the_knowledge_graph": "Otsi teadmusgraafist"
   },

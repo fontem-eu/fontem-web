@@ -704,7 +704,9 @@
     "log_in": "Bejelentkezés",
     "menu": "Menü",
     "studio": "Stúdió",
-    "petitions": "Petíciók"
+    "petitions": "Petíciók",
+    "data_stats": "Statisztikák",
+    "atlas": "Atlasz"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Nem található ticker erre: &ldquo;",
-    "search_companies_public_entities_lobbyis": "Keress vállalatokat, állami entitásokat, lobbistákat…",
+    "search_companies_public_entities_lobbyis": "Keressen bármit az EU-ban",
     "search_results": "Keresési eredmények",
     "search_the_knowledge_graph": "Keresés a tudásgráfban"
   },

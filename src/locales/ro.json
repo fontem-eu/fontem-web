@@ -704,7 +704,9 @@
     "log_in": "Autentificare",
     "menu": "Meniu",
     "studio": "Studio",
-    "petitions": "Petiții"
+    "petitions": "Petiții",
+    "data_stats": "Statistici",
+    "atlas": "Atlas"
   },
   "not_found": {
     "back_to_home": "Înapoi la pagina principală",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Nu s-au găsit tickere pentru &ldquo;",
-    "search_companies_public_entities_lobbyis": "Caută companii, entități publice, lobbyiști…",
+    "search_companies_public_entities_lobbyis": "Caută orice în UE",
     "search_results": "Rezultatele căutării",
     "search_the_knowledge_graph": "Caută în graful de cunoștințe"
   },

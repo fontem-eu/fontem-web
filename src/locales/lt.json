@@ -704,7 +704,9 @@
     "log_in": "Prisijungti",
     "menu": "Meniu",
     "studio": "Studija",
-    "petitions": "Peticijos"
+    "petitions": "Peticijos",
+    "data_stats": "Statistika",
+    "atlas": "Atlasas"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",
@@ -1054,7 +1056,7 @@
   },
   "ticker_search": {
     "no_tickers_found_for_ldquo": "Tikerių nerasta paieškai &ldquo;",
-    "search_companies_public_entities_lobbyis": "Ieškok įmonių, viešųjų esybių, lobistų…",
+    "search_companies_public_entities_lobbyis": "Ieškokite bet ko ES",
     "search_results": "Paieškos rezultatai",
     "search_the_knowledge_graph": "Ieškoti žinių grafe"
   },
