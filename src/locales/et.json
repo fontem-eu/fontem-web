@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Andmeloo avaldamine redaktorist",
     "step_publish_name": "Avalda",
     "step_search_desc": "Otsi mis tahes ettevõtet, hankivat asutust, lobisti või ELi rahastatud projekti nime või identifikaatori järgi.",
-    "step_search_gif_alt": "Olemi otsing Arguitis",
+    "step_search_gif_alt": "Olemi otsing Fontemis",
     "step_search_name": "Otsi",
     "try": "Proovi:",
     "walkthrough_searching_a_company_explorin": "Juhend: ettevõtte otsimine, riigihangete uurimine ja andmeloo avaldamine"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Panusta &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Annetused liiguvad mittetulundusliku eelarvevõõrustaja kaudu platvormil",
     "open_collective": "Open Collective",
-    "support_fontem": "Toeta Arguitit",
-    "thanks_to_everyone_keeping_fontem_alive": "Aitäh kõigile, kes hoiavad Arguitit elus.",
+    "support_fontem": "Toeta Fontemit",
+    "thanks_to_everyone_keeping_fontem_alive": "Aitäh kõigile, kes hoiavad Fontemit elus.",
     "tier_backer_desc": "Rahastab jätkuvat tööd andmevoogudega: uued allikad, parem kaetus.",
     "tier_backer_name": "Toetuse andja",
     "tier_oneoff_amount": "Mis tahes summa",
@@ -621,7 +621,7 @@
     "go_to_home": "Mine avalehele",
     "you_already_have_an_active_session": "Sul on juba aktiivne sessioon.",
     "youre_signed_in": "Oled sisse logitud",
-    "sign_in_to_fontem": "Logi Arguitisse sisse",
+    "sign_in_to_fontem": "Logi Fontemisse sisse",
     "sign_in_to_start_creating_data_stories": "Logige sisse, et hakata looma andmelugusid, tõstatama probleeme ja tegema koostööd kogukonnaga.",
     "signing_in": "Sisselogimine...",
     "sign_in": "Logi sisse",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit on esmaste allikate läbipaistvusplatvorm. ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamine — ühte graafi seotud ja ametlike registritega ristkontrollitud.",
-      "data_quality": "Kaetus, värskus ja allikate jaotus iga andmestiku jaoks Arguiti teadmusgraafis. Läbipaistvus läbipaistvuse kohta.",
-      "donate": "Arguit on tasuta kasutamiseks ja jääb selleks alati. Annetused liiguvad mittetulundusliku fiskaalse võõrustaja kaudu Open Collective'is ja hoiavad andmevood toimimas, graafi kasvamas ja meeskonna kvaliteetsel tööl.",
-      "home": "Avalikud andmelood Arguiti kogukonnalt — uurimised, ristkontrollid ja leiud, mis tuginevad esmastele allikatele.",
-      "login": "Logi Arguitisse sisse, et avaldada andmelugusid, esitada probleeme ja salvestada oma uuringuid.",
+      "about": "Fontem on esmaste allikate läbipaistvusplatvorm. ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamine — ühte graafi seotud ja ametlike registritega ristkontrollitud.",
+      "data_quality": "Kaetus, värskus ja allikate jaotus iga andmestiku jaoks Fontemi teadmusgraafis. Läbipaistvus läbipaistvuse kohta.",
+      "donate": "Fontem on tasuta kasutamiseks ja jääb selleks alati. Annetused liiguvad mittetulundusliku fiskaalse võõrustaja kaudu Open Collective'is ja hoiavad andmevood toimimas, graafi kasvamas ja meeskonna kvaliteetsel tööl.",
+      "home": "Avalikud andmelood Fontemi kogukonnalt — uurimised, ristkontrollid ja leiud, mis tuginevad esmastele allikatele.",
+      "login": "Logi Fontemisse sisse, et avaldada andmelugusid, esitada probleeme ja salvestada oma uuringuid.",
       "map": "Kureeritud Eurostati andmestike interaktiivne koroplett NUTS-i tasemel — rahvastik, SKP, tööpuudus, T&A ja muu, kaardistatud üle Euroopa.",
-      "privacy": "Kuidas Arguit käitleb isikuandmeid. Salvestame ainult kontode põhiandmed, ilma jälgimisküpsisteta ja ilma kolmandate osapoolte analüütikata.",
-      "sparql": "Päri Arguiti teadmusgraafi otse SPARQL-i kaudu. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
+      "privacy": "Kuidas Fontem käitleb isikuandmeid. Salvestame ainult kontode põhiandmed, ilma jälgimisküpsisteta ja ilma kolmandate osapoolte analüütikata.",
+      "sparql": "Päri Fontemi teadmusgraafi otse SPARQL-i kaudu. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
       "spending": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja ELi rahastatud projekte. Pluss see, mis on sinu riigis suur."
     },
     "title": {
-      "about": "Teave — Arguit",
-      "data_quality": "Andmekvaliteet — Arguit",
-      "donate": "Toeta Arguitit",
-      "home": "Arguit — Avalikud andmelood",
-      "login": "Logi sisse — Arguit",
-      "map": "Kaart — Euroopa statistika Arguitis",
-      "privacy": "Privaatsuspoliitika — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Kulutused — ELi riigihanked Arguitis"
+      "about": "Teave — Fontem",
+      "data_quality": "Andmekvaliteet — Fontem",
+      "donate": "Toeta Fontemit",
+      "home": "Fontem — Avalikud andmelood",
+      "login": "Logi sisse — Fontem",
+      "map": "Kaart — Euroopa statistika Fontemis",
+      "privacy": "Privaatsuspoliitika — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Kulutused — ELi riigihanked Fontemis"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Juurdepääs",
-    "all_data_in_the_fontem_knowledge_graph_r": "Kõik andmed Arguiti teadmusgraafis puudutavad",
+    "all_data_in_the_fontem_knowledge_graph_r": "Kõik andmed Fontemi teadmusgraafis puudutavad",
     "conversation_processing_is_performed_by_": "Vestluste töötlemist teevad ELis asuvad AI-teenusepakkujad.",
     "conversations_are_automatically_deleted_": "Vestlused kustutatakse automaatselt 90 päeva pärast.",
     "erase": "Kustutamine",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "GDPR-i alusel on sul õigus:",
     "when_you_sign_in_we_collect_and_store": "Sisselogimisel kogume ja salvestame:",
     "your": "Sinu",
-    "what_fontem_is": "1. Mis on Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit on kodanikuühiskonna läbipaistvusplatvorm, mis koondab ELi riigihangete andmed, ettevõtete omandiregistrid ja ühtekuuluvuspoliitika rahastuse ühte teadmusgraafi. Selle eesmärk on muuta avaliku sektori kulutused ja ettevõtete struktuurid lihtsamini uuritavaks ja mõistetavaks.",
+    "what_fontem_is": "1. Mis on Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem on kodanikuühiskonna läbipaistvusplatvorm, mis koondab ELi riigihangete andmed, ettevõtete omandiregistrid ja ühtekuuluvuspoliitika rahastuse ühte teadmusgraafi. Selle eesmärk on muuta avaliku sektori kulutused ja ettevõtete struktuurid lihtsamini uuritavaks ja mõistetavaks.",
     "data_in_the_knowledge_graph": "2. Andmed teadmusgraafis",
     "legal_entities": "juriidilised isikud",
     "companies_public_authorities_and_organis": "(ettevõtted, ametiasutused ja organisatsioonid) — mitte füüsilised isikud. Koondame avalikult kättesaadavaid andmeid järgmistest allikatest:",
@@ -815,7 +815,7 @@
     "cookies": "6. Küpsised",
     "we_only_use_strictly_necessary_cookies": "Kasutame üksnes rangelt vajalikke seansiküpsiseid autentimiseks. Me ei kasuta jälgimisküpsiseid, reklaamiküpsiseid ega kolmandate osapoolte analüütikaküpsiseid.",
     "changes_to_this_policy": "7. Selle poliitika muudatused",
-    "we_may_update_this_policy": "Võime seda poliitikat aeg-ajalt ajakohastada. Seda tehes uuendame selle lehe ülaosas olevat kuupäeva \"viimati uuendatud\". Arguiti jätkuv kasutamine pärast muudatusi tähendab ajakohastatud poliitikaga nõustumist."
+    "we_may_update_this_policy": "Võime seda poliitikat aeg-ajalt ajakohastada. Seda tehes uuendame selle lehe ülaosas olevat kuupäeva \"viimati uuendatud\". Fontemi jätkuv kasutamine pärast muudatusi tähendab ajakohastatud poliitikaga nõustumist."
   },
   "profile": {
     "avg_net_margin": "Keskmine netomarginaal",
@@ -929,7 +929,7 @@
     "endpoint": "Lõpp-punkt",
     "endpoint_url": "Lõpp-punkti URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Päri Arguiti teadmusgraafi otse brauserist või ühenda lõpp-punkt OpenRefine'i / märkmiku / oma tööriistadega. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
+    "intro": "Päri Fontemi teadmusgraafi otse brauserist või ühenda lõpp-punkt OpenRefine'i / märkmiku / oma tööriistadega. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
     "limits": "Piirangud",
     "method": "Meetod",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Tundmatu vidina tüüp:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Seda lepingut on muudetud — klõpsa, et näha muudatusi",
@@ -1223,9 +1223,9 @@
     "one_moment": "Üks hetk.",
     "email_confirmed": "E-posti aadress kinnitatud",
     "your_account_is_verified": "Teie konto on kinnitatud. Nüüd saate avaldada lugusid, kommenteerida ja teemasid jälgida.",
-    "continue_to_fontem": "Jätka Arguitisse",
+    "continue_to_fontem": "Jätka Fontemisse",
     "the_link_may_have_expired": "Link võib olla aegunud või juba kasutatud. Logige sisse ja taotlege ülal asuvalt ribalt uut kinnituskirja.",
-    "go_to_fontem": "Mine Arguitisse",
+    "go_to_fontem": "Mine Fontemisse",
     "couldnt_confirm_your_email": "Teie e-posti aadressi ei õnnestunud kinnitada"
   },
   "studio_plot": {

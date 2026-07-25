@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Objava podatkovne zgodbe iz urejevalnika",
     "step_publish_name": "Objavi",
     "step_search_desc": "Poišči katero koli podjetje, naročnika, lobista ali projekt, ki ga financira EU, po imenu ali identifikatorju.",
-    "step_search_gif_alt": "Iskanje entitete v Arguitu",
+    "step_search_gif_alt": "Iskanje entitete v Fontemu",
     "step_search_name": "Iskanje",
     "try": "Poskusi:",
     "walkthrough_searching_a_company_explorin": "Vodnik: iskanje podjetja, raziskovanje javnih naročil in objava podatkovne zgodbe"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Prispevaj &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donacije gredo skozi neprofitnega fiskalnega gostitelja na",
     "open_collective": "Open Collective",
-    "support_fontem": "Podpri Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Hvala vsem, ki ohranjate Arguit pri življenju.",
+    "support_fontem": "Podpri Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Hvala vsem, ki ohranjate Fontem pri življenju.",
     "tier_backer_desc": "Financira tekoče delo na podatkovnih cevovodih: novi viri, boljša pokritost.",
     "tier_backer_name": "Mecen",
     "tier_oneoff_amount": "Poljuben znesek",
@@ -621,7 +621,7 @@
     "go_to_home": "Pojdi na domačo stran",
     "you_already_have_an_active_session": "Že imaš aktivno sejo.",
     "youre_signed_in": "Prijavljen/a si",
-    "sign_in_to_fontem": "Prijava v Arguit",
+    "sign_in_to_fontem": "Prijava v Fontem",
     "sign_in_to_start_creating_data_stories": "Prijavite se, da začnete ustvarjati podatkovne zgodbe, prijavljati težave in sodelovati s skupnostjo.",
     "signing_in": "Prijavljanje...",
     "sign_in": "Prijava",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit je platforma transparentnosti iz primarnih virov. Podjetja EU, javna naročila, lobisti in kohezijsko financiranje — povezani v en graf in navzkrižno preverjeni z uradnimi registri.",
-      "data_quality": "Pokritost, svežina in razčlenitev virov za vsak podatkovni niz v Arguit grafu znanja. Transparentnost o transparentnosti.",
-      "donate": "Arguit je brezplačen za uporabo in vedno bo. Donacije gredo prek neprofitnega fiskalnega gostitelja na Open Collective in ohranjajo podatkovne cevovode v teku, graf rastoč in ekipo pri kakovostnem delu.",
-      "home": "Javne podatkovne zgodbe iz skupnosti Arguit — preiskave, navzkrižna preverjanja in ugotovitve, ki temeljijo na primarnih virih.",
-      "login": "Prijavi se v Arguit za objavo podatkovnih zgodb, prijavo težav in shranjevanje raziskav.",
+      "about": "Fontem je platforma transparentnosti iz primarnih virov. Podjetja EU, javna naročila, lobisti in kohezijsko financiranje — povezani v en graf in navzkrižno preverjeni z uradnimi registri.",
+      "data_quality": "Pokritost, svežina in razčlenitev virov za vsak podatkovni niz v Fontem grafu znanja. Transparentnost o transparentnosti.",
+      "donate": "Fontem je brezplačen za uporabo in vedno bo. Donacije gredo prek neprofitnega fiskalnega gostitelja na Open Collective in ohranjajo podatkovne cevovode v teku, graf rastoč in ekipo pri kakovostnem delu.",
+      "home": "Javne podatkovne zgodbe iz skupnosti Fontem — preiskave, navzkrižna preverjanja in ugotovitve, ki temeljijo na primarnih virih.",
+      "login": "Prijavi se v Fontem za objavo podatkovnih zgodb, prijavo težav in shranjevanje raziskav.",
       "map": "Interaktivni horopleti kuriranih podatkovnih nizov Eurostat na ravni NUTS — prebivalstvo, BDP, brezposelnost, R&R in več, kartirani po vsej Evropi.",
-      "privacy": "Kako Arguit ravna z osebnimi podatki. Shranjujemo le osnovne podatke računa, brez sledilnih piškotkov in brez analitike tretjih oseb.",
-      "sparql": "Poizveduj Arguit graf znanja neposredno prek SPARQL. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
+      "privacy": "Kako Fontem ravna z osebnimi podatki. Shranjujemo le osnovne podatke računa, brez sledilnih piškotkov in brez analitike tretjih oseb.",
+      "sparql": "Poizveduj Fontem graf znanja neposredno prek SPARQL. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
       "spending": "Išči podjetja EU, naročnike, lobiste in projekte, ki jih financira EU. Plus kaj je veliko v tvoji državi."
     },
     "title": {
-      "about": "O — Arguit",
-      "data_quality": "Kakovost podatkov — Arguit",
-      "donate": "Podpri Arguit",
-      "home": "Arguit — Javne podatkovne zgodbe",
-      "login": "Prijava — Arguit",
-      "map": "Zemljevid — Evropske statistike na Arguitu",
-      "privacy": "Politika zasebnosti — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Poraba — EU javna naročila na Arguitu"
+      "about": "O — Fontem",
+      "data_quality": "Kakovost podatkov — Fontem",
+      "donate": "Podpri Fontem",
+      "home": "Fontem — Javne podatkovne zgodbe",
+      "login": "Prijava — Fontem",
+      "map": "Zemljevid — Evropske statistike na Fontemu",
+      "privacy": "Politika zasebnosti — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Poraba — EU javna naročila na Fontemu"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Dostop",
-    "all_data_in_the_fontem_knowledge_graph_r": "Vsi podatki v grafu znanja Arguit se nanašajo na",
+    "all_data_in_the_fontem_knowledge_graph_r": "Vsi podatki v grafu znanja Fontem se nanašajo na",
     "conversation_processing_is_performed_by_": "Obdelavo pogovorov izvajajo ponudniki UI s sedežem v EU.",
     "conversations_are_automatically_deleted_": "Pogovori se samodejno izbrišejo po 90 dneh.",
     "erase": "Izbris",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "V skladu z GDPR imaš pravico do:",
     "when_you_sign_in_we_collect_and_store": "Ko se prijaviš, zbiramo in shranjujemo:",
     "your": "Tvoji",
-    "what_fontem_is": "1. Kaj je Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit je platforma za državljansko transparentnost, ki podatke o javnih naročilih EU, registre lastništva podjetij in financiranje kohezijske politike povezuje v enoten graf znanja. Njen cilj je omogočiti lažje raziskovanje in razumevanje javne porabe ter korporativnih struktur.",
+    "what_fontem_is": "1. Kaj je Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem je platforma za državljansko transparentnost, ki podatke o javnih naročilih EU, registre lastništva podjetij in financiranje kohezijske politike povezuje v enoten graf znanja. Njen cilj je omogočiti lažje raziskovanje in razumevanje javne porabe ter korporativnih struktur.",
     "data_in_the_knowledge_graph": "2. Podatki v grafu znanja",
     "legal_entities": "pravne osebe",
     "companies_public_authorities_and_organis": "(podjetja, javni organi in organizacije) — ne fizične osebe. Zbiramo javno dostopne podatke iz naslednjih virov:",
@@ -815,7 +815,7 @@
     "cookies": "6. Piškotki",
     "we_only_use_strictly_necessary_cookies": "Uporabljamo samo nujno potrebne sejne piškotke za preverjanje pristnosti. Ne uporabljamo sledilnih piškotkov, oglaševalskih piškotkov ali analitičnih piškotkov tretjih oseb.",
     "changes_to_this_policy": "7. Spremembe te politike",
-    "we_may_update_this_policy": "To politiko lahko občasno posodobimo. Ko to storimo, bomo posodobili datum \"zadnje posodobitve\" na vrhu te strani. Nadaljnja uporaba platforme Arguit po spremembah pomeni sprejemanje posodobljene politike."
+    "we_may_update_this_policy": "To politiko lahko občasno posodobimo. Ko to storimo, bomo posodobili datum \"zadnje posodobitve\" na vrhu te strani. Nadaljnja uporaba platforme Fontem po spremembah pomeni sprejemanje posodobljene politike."
   },
   "profile": {
     "avg_net_margin": "Povprečna neto marža",
@@ -929,7 +929,7 @@
     "endpoint": "Končna točka",
     "endpoint_url": "URL končne točke",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Poizveduj po grafu znanja Arguit neposredno iz brskalnika ali priklopi končno točko v OpenRefine / zvezek / lastna orodja. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
+    "intro": "Poizveduj po grafu znanja Fontem neposredno iz brskalnika ali priklopi končno točko v OpenRefine / zvezek / lastna orodja. Podjetja, pogodbe, organi, lobisti, sankcije — vse povezano.",
     "limits": "Omejitve",
     "method": "Metoda",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Neznana vrsta pripomočka:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "To naročilo je bilo spremenjeno — kliknite za ogled sprememb",
@@ -1223,9 +1223,9 @@
     "one_moment": "Trenutek.",
     "email_confirmed": "E-poštni naslov potrjen",
     "your_account_is_verified": "Vaš račun je preverjen. Zdaj lahko objavljate zgodbe, komentirate in spremljate teme.",
-    "continue_to_fontem": "Nadaljuj v Arguit",
+    "continue_to_fontem": "Nadaljuj v Fontem",
     "the_link_may_have_expired": "Povezava je morda potekla ali je bila že uporabljena. Prijavite se in zahtevajte novo potrditveno e-pošto iz pasice na vrhu.",
-    "go_to_fontem": "Pojdi v Arguit",
+    "go_to_fontem": "Pojdi v Fontem",
     "couldnt_confirm_your_email": "E-poštnega naslova ni bilo mogoče potrditi"
   },
   "studio_plot": {

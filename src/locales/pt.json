@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "A publicar uma história com dados a partir do editor",
     "step_publish_name": "Publicar",
     "step_search_desc": "Procura qualquer empresa, entidade adjudicante, lobista ou projeto financiado pela UE por nome ou identificador.",
-    "step_search_gif_alt": "A procurar uma entidade no Arguit",
+    "step_search_gif_alt": "A procurar uma entidade no Fontem",
     "step_search_name": "Procurar",
     "try": "Experimente:",
     "walkthrough_searching_a_company_explorin": "Passo a passo: pesquisar uma empresa, explorar contratos públicos e publicar uma história com dados"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Contribuir &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Os donativos passam por uma organização sem fins lucrativos (fiscal host) em",
     "open_collective": "Open Collective",
-    "support_fontem": "Apoiar o Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Obrigado a todos os que mantêm o Arguit vivo.",
+    "support_fontem": "Apoiar o Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Obrigado a todos os que mantêm o Fontem vivo.",
     "tier_backer_desc": "Financia o trabalho contínuo nos pipelines de dados: novas fontes, melhor cobertura.",
     "tier_backer_name": "Mecenas",
     "tier_oneoff_amount": "Qualquer valor",
@@ -621,7 +621,7 @@
     "go_to_home": "Ir para o início",
     "you_already_have_an_active_session": "Já tem uma sessão ativa.",
     "youre_signed_in": "Tem sessão iniciada",
-    "sign_in_to_fontem": "Iniciar sessão na Arguit",
+    "sign_in_to_fontem": "Iniciar sessão na Fontem",
     "sign_in_to_start_creating_data_stories": "Inicie sessão para começar a criar histórias de dados, submeter questões e colaborar com a comunidade.",
     "signing_in": "A iniciar sessão...",
     "sign_in": "Iniciar sessão",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "O Arguit é a plataforma de transparência a partir de fontes primárias. Empresas da UE, contratação pública, lobistas e financiamento da coesão — ligados num único grafo e cruzados com os registos oficiais.",
-      "data_quality": "Cobertura, frescura e repartição por fonte para cada conjunto de dados no grafo de conhecimento do Arguit. Transparência sobre a transparência.",
-      "donate": "O Arguit é gratuito e sempre o será. As doações passam por um anfitrião fiscal sem fins lucrativos no Open Collective e mantêm as pipelines de dados a correr, o grafo a crescer e a equipa em trabalho de qualidade.",
-      "home": "Histórias com dados públicas da comunidade Arguit — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
-      "login": "Inicia sessão no Arguit para publicar histórias com dados, levantar problemas e guardar a tua pesquisa.",
+      "about": "O Fontem é a plataforma de transparência a partir de fontes primárias. Empresas da UE, contratação pública, lobistas e financiamento da coesão — ligados num único grafo e cruzados com os registos oficiais.",
+      "data_quality": "Cobertura, frescura e repartição por fonte para cada conjunto de dados no grafo de conhecimento do Fontem. Transparência sobre a transparência.",
+      "donate": "O Fontem é gratuito e sempre o será. As doações passam por um anfitrião fiscal sem fins lucrativos no Open Collective e mantêm as pipelines de dados a correr, o grafo a crescer e a equipa em trabalho de qualidade.",
+      "home": "Histórias com dados públicas da comunidade Fontem — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
+      "login": "Inicia sessão no Fontem para publicar histórias com dados, levantar problemas e guardar a tua pesquisa.",
       "map": "Coroplético interativo de conjuntos Eurostat curados ao nível NUTS — população, PIB, desemprego, I&D e mais, mapeados por toda a Europa.",
-      "privacy": "Como o Arguit trata os dados pessoais. Só guardamos o essencial da conta, sem cookies de rastreio e sem analítica de terceiros.",
-      "sparql": "Consulta o grafo de conhecimento do Arguit diretamente via SPARQL. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
+      "privacy": "Como o Fontem trata os dados pessoais. Só guardamos o essencial da conta, sem cookies de rastreio e sem analítica de terceiros.",
+      "sparql": "Consulta o grafo de conhecimento do Fontem diretamente via SPARQL. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
       "spending": "Procura empresas da UE, entidades adjudicantes, lobistas e projetos financiados pela UE. E o que é grande no teu país."
     },
     "title": {
-      "about": "Sobre — Arguit",
-      "data_quality": "Qualidade dos dados — Arguit",
-      "donate": "Apoia o Arguit",
-      "home": "Arguit — Histórias com dados públicas",
-      "login": "Iniciar sessão — Arguit",
-      "map": "Mapa — Estatísticas europeias no Arguit",
-      "privacy": "Política de privacidade — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Despesas — contratação pública da UE no Arguit"
+      "about": "Sobre — Fontem",
+      "data_quality": "Qualidade dos dados — Fontem",
+      "donate": "Apoia o Fontem",
+      "home": "Fontem — Histórias com dados públicas",
+      "login": "Iniciar sessão — Fontem",
+      "map": "Mapa — Estatísticas europeias no Fontem",
+      "privacy": "Política de privacidade — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Despesas — contratação pública da UE no Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Acesso",
-    "all_data_in_the_fontem_knowledge_graph_r": "Todos os dados no grafo de conhecimento Arguit dizem respeito a",
+    "all_data_in_the_fontem_knowledge_graph_r": "Todos os dados no grafo de conhecimento Fontem dizem respeito a",
     "conversation_processing_is_performed_by_": "O processamento de conversas é efetuado por fornecedores de IA sediados na UE.",
     "conversations_are_automatically_deleted_": "As conversas são automaticamente eliminadas após 90 dias.",
     "erase": "Apagar",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Ao abrigo do RGPD, tem o direito de:",
     "when_you_sign_in_we_collect_and_store": "Quando inicia sessão, recolhemos e armazenamos:",
     "your": "Os seus",
-    "what_fontem_is": "1. O que é a Arguit",
-    "fontem_is_a_civic_transparency_platform": "A Arguit é uma plataforma de transparência cívica que interliga dados da contratação pública da UE, registos de propriedade empresarial e financiamento da política de coesão num único grafo de conhecimento. O seu objetivo é tornar a despesa pública e as estruturas empresariais mais fáceis de explorar e compreender.",
+    "what_fontem_is": "1. O que é a Fontem",
+    "fontem_is_a_civic_transparency_platform": "A Fontem é uma plataforma de transparência cívica que interliga dados da contratação pública da UE, registos de propriedade empresarial e financiamento da política de coesão num único grafo de conhecimento. O seu objetivo é tornar a despesa pública e as estruturas empresariais mais fáceis de explorar e compreender.",
     "data_in_the_knowledge_graph": "2. Dados no grafo de conhecimento",
     "legal_entities": "pessoas coletivas",
     "companies_public_authorities_and_organis": "(empresas, autoridades públicas e organizações) — não pessoas singulares. Agregamos dados publicamente disponíveis a partir das seguintes fontes:",
@@ -815,7 +815,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Utilizamos apenas cookies de sessão estritamente necessários para autenticação. Não utilizamos cookies de rastreio, cookies de publicidade nem cookies de análise de terceiros.",
     "changes_to_this_policy": "7. Alterações a esta política",
-    "we_may_update_this_policy": "Poderemos atualizar esta política periodicamente. Quando o fizermos, iremos rever a data de \"última atualização\" no topo desta página. A utilização continuada da Arguit após as alterações constitui a aceitação da política atualizada."
+    "we_may_update_this_policy": "Poderemos atualizar esta política periodicamente. Quando o fizermos, iremos rever a data de \"última atualização\" no topo desta página. A utilização continuada da Fontem após as alterações constitui a aceitação da política atualizada."
   },
   "profile": {
     "avg_net_margin": "Margem líq. média",
@@ -929,7 +929,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL do endpoint",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Consulta o grafo de conhecimento do Arguit diretamente do browser, ou liga o endpoint ao OpenRefine / a um notebook / às tuas próprias ferramentas. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
+    "intro": "Consulta o grafo de conhecimento do Fontem diretamente do browser, ou liga o endpoint ao OpenRefine / a um notebook / às tuas próprias ferramentas. Empresas, contratos, autoridades, lobistas, sanções — tudo ligado.",
     "limits": "Limites",
     "method": "Método",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Tipo de widget desconhecido:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Este contrato foi alterado — clique para ver o que mudou",
@@ -1223,9 +1223,9 @@
     "one_moment": "Um momento.",
     "email_confirmed": "E-mail confirmado",
     "your_account_is_verified": "A sua conta está verificada. Pode agora publicar histórias, comentar e seguir tópicos.",
-    "continue_to_fontem": "Continuar para a Arguit",
+    "continue_to_fontem": "Continuar para a Fontem",
     "the_link_may_have_expired": "A ligação pode ter expirado ou já ter sido utilizada. Inicie sessão e solicite um novo e-mail de verificação a partir do banner no topo.",
-    "go_to_fontem": "Ir para a Arguit",
+    "go_to_fontem": "Ir para a Fontem",
     "couldnt_confirm_your_email": "Não foi possível confirmar o seu e-mail"
   },
   "studio_plot": {
