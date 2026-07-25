@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Datatarinan julkaiseminen editorista",
     "step_publish_name": "Julkaise",
     "step_search_desc": "Hae mikä tahansa yritys, hankintayksikkö, lobbari tai EU-rahoitteinen hanke nimen tai tunnisteen perusteella.",
-    "step_search_gif_alt": "Entiteetin etsiminen Arguitissa",
+    "step_search_gif_alt": "Entiteetin etsiminen Fontemissa",
     "step_search_name": "Etsi",
     "try": "Kokeile:",
     "walkthrough_searching_a_company_explorin": "Opastus: yrityksen haku, julkisten hankintojen tutkiminen ja datatarinan julkaisu"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Lahjoita &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Lahjoitukset kulkevat voittoa tavoittelemattoman fiskaalisen isännän kautta",
     "open_collective": "Open Collective",
-    "support_fontem": "Tue Arguitia",
-    "thanks_to_everyone_keeping_fontem_alive": "Kiitos kaikille, jotka pitävät Arguitia elossa.",
+    "support_fontem": "Tue Fontemia",
+    "thanks_to_everyone_keeping_fontem_alive": "Kiitos kaikille, jotka pitävät Fontemia elossa.",
     "tier_backer_desc": "Rahoittaa jatkuvaa dataputkien työtä: uudet lähteet, parempi kattavuus.",
     "tier_backer_name": "Avustaja",
     "tier_oneoff_amount": "Mikä tahansa summa",
@@ -621,7 +621,7 @@
     "go_to_home": "Siirry etusivulle",
     "you_already_have_an_active_session": "Sinulla on jo aktiivinen istunto.",
     "youre_signed_in": "Olet kirjautunut sisään",
-    "sign_in_to_fontem": "Kirjaudu Arguitiin",
+    "sign_in_to_fontem": "Kirjaudu Fontemiin",
     "sign_in_to_start_creating_data_stories": "Kirjaudu sisään aloittaaksesi datatarinoiden luomisen, ongelmien esiin nostamisen ja yhteisön kanssa työskentelyn.",
     "signing_in": "Kirjaudutaan sisään...",
     "sign_in": "Kirjaudu sisään",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
-      "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Arguitin tietämysgraafissa. Avoimuutta avoimuudesta.",
-      "donate": "Arguit on ilmainen käyttää ja tulee aina olemaan. Lahjoitukset kulkevat voittoa tavoittelemattoman fiskaalisen isännän kautta Open Collectivessa ja pitävät dataputket toiminnassa, graafin kasvamassa ja tiimin laatutyössä.",
-      "home": "Julkiset datatarinat Arguit-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
-      "login": "Kirjaudu Arguitiin julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
+      "about": "Fontem on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
+      "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Fontemin tietämysgraafissa. Avoimuutta avoimuudesta.",
+      "donate": "Fontem on ilmainen käyttää ja tulee aina olemaan. Lahjoitukset kulkevat voittoa tavoittelemattoman fiskaalisen isännän kautta Open Collectivessa ja pitävät dataputket toiminnassa, graafin kasvamassa ja tiimin laatutyössä.",
+      "home": "Julkiset datatarinat Fontem-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
+      "login": "Kirjaudu Fontemiin julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
       "map": "Interaktiivinen koropleetti kuratoiduista Eurostat-datajoukoista NUTS-tasolla — väestö, BKT, työttömyys, T&K ja muut, kartoitettuina ympäri Eurooppaa.",
-      "privacy": "Miten Arguit käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
-      "sparql": "Kysele Arguitin tietämysgraafia suoraan SPARQL:n kautta. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki yhdistettyinä.",
+      "privacy": "Miten Fontem käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
+      "sparql": "Kysele Fontemin tietämysgraafia suoraan SPARQL:n kautta. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki yhdistettyinä.",
       "spending": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Plus mikä maassasi on suurta."
     },
     "title": {
-      "about": "Tietoja — Arguit",
-      "data_quality": "Datan laatu — Arguit",
-      "donate": "Tue Arguitia",
-      "home": "Arguit — Julkiset datatarinat",
-      "login": "Kirjaudu sisään — Arguit",
-      "map": "Kartta — Euroopan tilastot Arguitissa",
-      "privacy": "Tietosuojakäytäntö — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Menot — EU:n julkiset hankinnat Arguitissa"
+      "about": "Tietoja — Fontem",
+      "data_quality": "Datan laatu — Fontem",
+      "donate": "Tue Fontemia",
+      "home": "Fontem — Julkiset datatarinat",
+      "login": "Kirjaudu sisään — Fontem",
+      "map": "Kartta — Euroopan tilastot Fontemissa",
+      "privacy": "Tietosuojakäytäntö — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Menot — EU:n julkiset hankinnat Fontemissa"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Pääsy",
-    "all_data_in_the_fontem_knowledge_graph_r": "Kaikki Arguitin tietämysgraafin tiedot koskevat",
+    "all_data_in_the_fontem_knowledge_graph_r": "Kaikki Fontemin tietämysgraafin tiedot koskevat",
     "conversation_processing_is_performed_by_": "Keskustelujen käsittelyn tekevät EU:ssa toimivat tekoälypalveluntarjoajat.",
     "conversations_are_automatically_deleted_": "Keskustelut poistetaan automaattisesti 90 päivän kuluttua.",
     "erase": "Poisto",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "GDPR:n nojalla sinulla on oikeus:",
     "when_you_sign_in_we_collect_and_store": "Kun kirjaudut sisään, keräämme ja tallennamme:",
     "your": "Sinun",
-    "what_fontem_is": "1. Mikä Arguit on",
-    "fontem_is_a_civic_transparency_platform": "Arguit on kansalaisyhteiskunnan avoimuusalusta, joka yhdistää EU:n julkisten hankintojen tiedot, yritysten omistusrekisterit ja koheesiopolitiikan rahoituksen yhdeksi tietämysgraafiksi. Sen tavoitteena on tehdä julkisten varojen käytöstä ja yritysrakenteista helpommin tarkasteltavia ja ymmärrettäviä.",
+    "what_fontem_is": "1. Mikä Fontem on",
+    "fontem_is_a_civic_transparency_platform": "Fontem on kansalaisyhteiskunnan avoimuusalusta, joka yhdistää EU:n julkisten hankintojen tiedot, yritysten omistusrekisterit ja koheesiopolitiikan rahoituksen yhdeksi tietämysgraafiksi. Sen tavoitteena on tehdä julkisten varojen käytöstä ja yritysrakenteista helpommin tarkasteltavia ja ymmärrettäviä.",
     "data_in_the_knowledge_graph": "2. Tietämysgraafin tiedot",
     "legal_entities": "oikeushenkilöt",
     "companies_public_authorities_and_organis": "(yritykset, julkiset viranomaiset ja organisaatiot) — ei luonnollisia henkilöitä. Kokoamme julkisesti saatavilla olevaa tietoa seuraavista lähteistä:",
@@ -815,7 +815,7 @@
     "cookies": "6. Evästeet",
     "we_only_use_strictly_necessary_cookies": "Käytämme vain ehdottoman välttämättömiä istuntoevästeitä todennukseen. Emme käytä seurantaevästeitä, mainosevästeitä emmekä kolmansien osapuolten analytiikkaevästeitä.",
     "changes_to_this_policy": "7. Muutokset tähän käytäntöön",
-    "we_may_update_this_policy": "Saatamme päivittää tätä käytäntöä ajoittain. Kun teemme niin, päivitämme tämän sivun yläreunassa olevan \"viimeksi päivitetty\" -päivämäärän. Arguitin jatkuva käyttö muutosten jälkeen merkitsee päivitetyn käytännön hyväksymistä."
+    "we_may_update_this_policy": "Saatamme päivittää tätä käytäntöä ajoittain. Kun teemme niin, päivitämme tämän sivun yläreunassa olevan \"viimeksi päivitetty\" -päivämäärän. Fontemin jatkuva käyttö muutosten jälkeen merkitsee päivitetyn käytännön hyväksymistä."
   },
   "profile": {
     "avg_net_margin": "Keskimääräinen nettomarginaali",
@@ -929,7 +929,7 @@
     "endpoint": "Päätepiste",
     "endpoint_url": "Päätepisteen URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Kysele Arguitin tietämysgraafia suoraan selaimesta tai kytke päätepiste OpenRefineen / muistikirjaan / omiin työkaluihisi. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki linkitettyinä.",
+    "intro": "Kysele Fontemin tietämysgraafia suoraan selaimesta tai kytke päätepiste OpenRefineen / muistikirjaan / omiin työkaluihisi. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki linkitettyinä.",
     "limits": "Rajat",
     "method": "Menetelmä",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Tuntematon vimpaintyyppi:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Tätä sopimusta muutettiin — katso muutokset napsauttamalla",
@@ -1223,9 +1223,9 @@
     "one_moment": "Hetki.",
     "email_confirmed": "Sähköposti vahvistettu",
     "your_account_is_verified": "Tilisi on vahvistettu. Voit nyt julkaista tarinoita, kommentoida ja seurata aiheita.",
-    "continue_to_fontem": "Jatka Arguitiin",
+    "continue_to_fontem": "Jatka Fontemiin",
     "the_link_may_have_expired": "Linkki on saattanut vanhentua tai se on jo käytetty. Kirjaudu sisään ja pyydä uusi vahvistussähköposti yläreunan palkista.",
-    "go_to_fontem": "Siirry Arguitiin",
+    "go_to_fontem": "Siirry Fontemiin",
     "couldnt_confirm_your_email": "Sähköpostiosoitettasi ei voitu vahvistaa"
   },
   "studio_plot": {

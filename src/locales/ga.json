@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Scéal sonraí á fhoilsiú ón eagarthóir",
     "step_publish_name": "Foilsigh",
     "step_search_desc": "Cuardaigh comhlacht, údarás conarthach, brústocaire nó tionscadal maoinithe ag an AE ar bith de réir ainm nó aitheantóra.",
-    "step_search_gif_alt": "Cuardach aonáin i Arguit",
+    "step_search_gif_alt": "Cuardach aonáin i Fontem",
     "step_search_name": "Cuardaigh",
     "try": "Bain triail as:",
     "walkthrough_searching_a_company_explorin": "Treoraí: cuardach comhlachta, soláthar poiblí a thaiscéaladh agus scéal sonraí a fhoilsiú"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Cuir leis &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Sreabhann síntiúis trí óstach fioscach neamhbhrabúis ar",
     "open_collective": "Open Collective",
-    "support_fontem": "Tacaigh le Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Buíochas le gach duine atá ag coinneáil Arguit beo.",
+    "support_fontem": "Tacaigh le Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Buíochas le gach duine atá ag coinneáil Fontem beo.",
     "tier_backer_desc": "Maoiníonn obair leanúnach ar phíblínte sonraí: foinsí nua, clúdach níos fearr.",
     "tier_backer_name": "Tacaí",
     "tier_oneoff_amount": "Aon mhéid",
@@ -621,7 +621,7 @@
     "go_to_home": "Téigh abhaile",
     "you_already_have_an_active_session": "Tá seisiún gníomhach agat cheana féin.",
     "youre_signed_in": "Tá tú sínithe isteach",
-    "sign_in_to_fontem": "Sínigh isteach i Arguit",
+    "sign_in_to_fontem": "Sínigh isteach i Fontem",
     "sign_in_to_start_creating_data_stories": "Sínigh isteach chun tosú ar scéalta sonraí a chruthú, saincheisteanna a ardú, agus comhoibriú leis an bpobal.",
     "signing_in": "Ag síniú isteach...",
     "sign_in": "Sínigh isteach",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Is é Arguit an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
-      "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Arguit. Trédhearcacht maidir le trédhearcacht.",
-      "donate": "Tá Arguit saor in aisce le húsáid agus beidh i gcónaí. Sruthaíonn síntiúis trí óstach fioscach neamhbhrabúis ar Open Collective agus coinníonn siad píblínte sonraí ag rith, an graf ag fás agus an fhoireann ar obair cháilíochta.",
-      "home": "Scéalta sonraí poiblí ó phobal Arguit — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
-      "login": "Sínigh isteach Arguit chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
+      "about": "Is é Fontem an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
+      "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Fontem. Trédhearcacht maidir le trédhearcacht.",
+      "donate": "Tá Fontem saor in aisce le húsáid agus beidh i gcónaí. Sruthaíonn síntiúis trí óstach fioscach neamhbhrabúis ar Open Collective agus coinníonn siad píblínte sonraí ag rith, an graf ag fás agus an fhoireann ar obair cháilíochta.",
+      "home": "Scéalta sonraí poiblí ó phobal Fontem — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
+      "login": "Sínigh isteach Fontem chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
       "map": "Choropleth idirghníomhach de thacair sonraí Eurostat curtha ar leibhéal NUTS — daonra, OTI, dífhostaíocht, T&F agus níos mó, mapáilte ar fud na hEorpa.",
-      "privacy": "Conas a láimhseálann Arguit sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
-      "sparql": "Cuir ceist ar an ngraf eolais Arguit go díreach trí SPARQL. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
+      "privacy": "Conas a láimhseálann Fontem sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
+      "sparql": "Cuir ceist ar an ngraf eolais Fontem go díreach trí SPARQL. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
       "spending": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail mhaoinithe AE. Móide cad atá mór i do thír."
     },
     "title": {
-      "about": "Maidir le — Arguit",
-      "data_quality": "Cáilíocht sonraí — Arguit",
-      "donate": "Tacaigh le Arguit",
-      "home": "Arguit — Scéalta sonraí poiblí",
-      "login": "Sínigh isteach — Arguit",
-      "map": "Léarscáil — Staitisticí Eorpacha ar Arguit",
-      "privacy": "Beartas príobháideachta — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Caiteachas — soláthar poiblí AE ar Arguit"
+      "about": "Maidir le — Fontem",
+      "data_quality": "Cáilíocht sonraí — Fontem",
+      "donate": "Tacaigh le Fontem",
+      "home": "Fontem — Scéalta sonraí poiblí",
+      "login": "Sínigh isteach — Fontem",
+      "map": "Léarscáil — Staitisticí Eorpacha ar Fontem",
+      "privacy": "Beartas príobháideachta — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Caiteachas — soláthar poiblí AE ar Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Rochtain",
-    "all_data_in_the_fontem_knowledge_graph_r": "Baineann gach sonra i ngraf eolais Arguit le",
+    "all_data_in_the_fontem_knowledge_graph_r": "Baineann gach sonra i ngraf eolais Fontem le",
     "conversation_processing_is_performed_by_": "Déanann soláthraithe IS lonnaithe san AE próiseáil na gcomhráite.",
     "conversations_are_automatically_deleted_": "Scriostar comhráite go huathoibríoch tar éis 90 lá.",
     "erase": "Scrios",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Faoin GDPR tá an ceart agat:",
     "when_you_sign_in_we_collect_and_store": "Nuair a shíníonn tú isteach, bailímid agus stórálaimid:",
     "your": "Do",
-    "what_fontem_is": "1. Cad é Arguit",
-    "fontem_is_a_civic_transparency_platform": "Is ardán trédhearcachta sibhialta é Arguit a nascann sonraí soláthair phoiblí an AE, cláir úinéireachta corparáidí, agus maoiniú beartais comhtháthaithe le chéile i ngraf eolais aonair. Is é an sprioc atá aige ná caiteachas poiblí agus struchtúir chorparáideacha a dhéanamh níos éasca le fiosrú agus le tuiscint.",
+    "what_fontem_is": "1. Cad é Fontem",
+    "fontem_is_a_civic_transparency_platform": "Is ardán trédhearcachta sibhialta é Fontem a nascann sonraí soláthair phoiblí an AE, cláir úinéireachta corparáidí, agus maoiniú beartais comhtháthaithe le chéile i ngraf eolais aonair. Is é an sprioc atá aige ná caiteachas poiblí agus struchtúir chorparáideacha a dhéanamh níos éasca le fiosrú agus le tuiscint.",
     "data_in_the_knowledge_graph": "2. Sonraí sa ghraf eolais",
     "legal_entities": "eintitis dhlíthiúla",
     "companies_public_authorities_and_organis": "(cuideachtaí, údaráis phoiblí, agus eagraíochtaí) — ní daoine nádúrtha iad. Comhbhailímid sonraí atá ar fáil go poiblí ó na foinsí seo a leanas:",
@@ -815,7 +815,7 @@
     "cookies": "6. Fianáin",
     "we_only_use_strictly_necessary_cookies": "Ní úsáidimid ach fianáin seisiúin atá fíor-riachtanach chun fíordheimhnithe. Ní úsáidimid fianáin rianaithe, fianáin fógraíochta, ná fianáin anailísíochta tríú páirtí.",
     "changes_to_this_policy": "7. Athruithe ar an mbeartas seo",
-    "we_may_update_this_policy": "Féadfaimid an beartas seo a nuashonrú ó am go ham. Nuair a dhéanaimid, athróimid an dáta \"nuashonraithe go deireanach\" ag barr an leathanaigh seo. Is ionann leanúint d'úsáid Arguit tar éis athruithe agus glacadh leis an mbeartas nuashonraithe."
+    "we_may_update_this_policy": "Féadfaimid an beartas seo a nuashonrú ó am go ham. Nuair a dhéanaimid, athróimid an dáta \"nuashonraithe go deireanach\" ag barr an leathanaigh seo. Is ionann leanúint d'úsáid Fontem tar éis athruithe agus glacadh leis an mbeartas nuashonraithe."
   },
   "profile": {
     "avg_net_margin": "Meán-chorrlach glan",
@@ -929,7 +929,7 @@
     "endpoint": "Críochphointe",
     "endpoint_url": "URL críochphointe",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Cuir ceist ar ghraf eolais Arguit go díreach ón mbrabhsálaí, nó plugáil an pointe deiridh isteach in OpenRefine / nóta / d'uirlisí féin. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
+    "intro": "Cuir ceist ar ghraf eolais Fontem go díreach ón mbrabhsálaí, nó plugáil an pointe deiridh isteach in OpenRefine / nóta / d'uirlisí féin. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
     "limits": "Teorainneacha",
     "method": "Modh",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Cineál giuirléide anaithnid:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Athraíodh an conradh seo — cliceáil chun a fheiceáil cad a athraíodh",
@@ -1223,9 +1223,9 @@
     "one_moment": "Nóiméad amháin.",
     "email_confirmed": "Ríomhphost dearbhaithe",
     "your_account_is_verified": "Tá do chuntas fíoraithe. Is féidir leat scéalta a fhoilsiú, tráchtanna a dhéanamh, agus topaicí a leanúint anois.",
-    "continue_to_fontem": "Lean ar aghaidh chuig Arguit",
+    "continue_to_fontem": "Lean ar aghaidh chuig Fontem",
     "the_link_may_have_expired": "Seans go bhfuil an nasc imithe as feidhm nó gur baineadh úsáid as cheana. Sínigh isteach agus iarr ríomhphost fíoraithe nua ón mbratach ag an mbarr.",
-    "go_to_fontem": "Téigh chuig Arguit",
+    "go_to_fontem": "Téigh chuig Fontem",
     "couldnt_confirm_your_email": "Níorbh fhéidir do ríomhphost a dhearbhú"
   },
   "studio_plot": {

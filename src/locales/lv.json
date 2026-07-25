@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Datu stāsta publicēšana no redaktora",
     "step_publish_name": "Publicēt",
     "step_search_desc": "Meklē jebkuru uzņēmumu, līgumslēdzēju, lobistu vai ES finansētu projektu pēc vārda vai identifikatora.",
-    "step_search_gif_alt": "Entitātes meklēšana Arguit",
+    "step_search_gif_alt": "Entitātes meklēšana Fontem",
     "step_search_name": "Meklēt",
     "try": "Izmēģini:",
     "walkthrough_searching_a_company_explorin": "Pamācība: uzņēmuma meklēšana, publisko iepirkumu izpēte un datu stāsta publicēšana"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Ziedo &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Ziedojumi plūst caur bezpeļņas fiskālo saimnieku platformā",
     "open_collective": "Open Collective",
-    "support_fontem": "Atbalsti Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Paldies visiem, kas uztur Arguit dzīvu.",
+    "support_fontem": "Atbalsti Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Paldies visiem, kas uztur Fontem dzīvu.",
     "tier_backer_desc": "Finansē notiekošo darbu pie datu plūsmām: jauni avoti, labāks pārklājums.",
     "tier_backer_name": "Atbalsta sniedzējs",
     "tier_oneoff_amount": "Jebkura summa",
@@ -621,7 +621,7 @@
     "go_to_home": "Iet uz sākumu",
     "you_already_have_an_active_session": "Tev jau ir aktīva sesija.",
     "youre_signed_in": "Tu esi ielogojies",
-    "sign_in_to_fontem": "Pierakstīties Arguit",
+    "sign_in_to_fontem": "Pierakstīties Fontem",
     "sign_in_to_start_creating_data_stories": "Pierakstieties, lai sāktu veidot datu stāstus, ziņot par problēmām un sadarboties ar kopienu.",
     "signing_in": "Pierakstās...",
     "sign_in": "Pierakstīties",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit ir primāro avotu caurspīdīguma platforma. ES uzņēmumi, publiskais iepirkums, lobisti un kohēzijas finansējums — savienoti vienā grafā un savstarpēji pārbaudīti pret oficiālajiem reģistriem.",
-      "data_quality": "Pārklājums, svaigums un avotu sadalījums katrai datu kopai Arguit zināšanu grafā. Caurspīdīgums par caurspīdīgumu.",
-      "donate": "Arguit ir bezmaksas un vienmēr būs. Ziedojumi plūst caur bezpeļņas fiskālo saimnieku Open Collective un uztur datu plūsmas darbībā, grafu augam un komandu kvalitatīvā darbā.",
-      "home": "Publiski datu stāsti no Arguit kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
-      "login": "Piesakies Arguit, lai publicētu datu stāstus, ziņotu par problēmām un saglabātu pētījumus.",
+      "about": "Fontem ir primāro avotu caurspīdīguma platforma. ES uzņēmumi, publiskais iepirkums, lobisti un kohēzijas finansējums — savienoti vienā grafā un savstarpēji pārbaudīti pret oficiālajiem reģistriem.",
+      "data_quality": "Pārklājums, svaigums un avotu sadalījums katrai datu kopai Fontem zināšanu grafā. Caurspīdīgums par caurspīdīgumu.",
+      "donate": "Fontem ir bezmaksas un vienmēr būs. Ziedojumi plūst caur bezpeļņas fiskālo saimnieku Open Collective un uztur datu plūsmas darbībā, grafu augam un komandu kvalitatīvā darbā.",
+      "home": "Publiski datu stāsti no Fontem kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
+      "login": "Piesakies Fontem, lai publicētu datu stāstus, ziņotu par problēmām un saglabātu pētījumus.",
       "map": "Interaktīvs horopletisks atlasītu Eurostat datu kopu attēlojums NUTS līmenī — iedzīvotāji, IKP, bezdarbs, P&A un vairāk, kartēti visā Eiropā.",
-      "privacy": "Kā Arguit apstrādā personas datus. Mēs glabājam tikai konta pamatdatus, bez izsekošanas sīkdatnēm un bez trešo pušu analītikas.",
-      "sparql": "Vaicā Arguit zināšanu grafu tieši caur SPARQL. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — visi savienoti.",
+      "privacy": "Kā Fontem apstrādā personas datus. Mēs glabājam tikai konta pamatdatus, bez izsekošanas sīkdatnēm un bez trešo pušu analītikas.",
+      "sparql": "Vaicā Fontem zināšanu grafu tieši caur SPARQL. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — visi savienoti.",
       "spending": "Meklē ES uzņēmumus, līgumslēdzējus, lobistus un ES finansētus projektus. Plus tas, kas ir liels tavā valstī."
     },
     "title": {
-      "about": "Par — Arguit",
-      "data_quality": "Datu kvalitāte — Arguit",
-      "donate": "Atbalsti Arguit",
-      "home": "Arguit — Publiski datu stāsti",
-      "login": "Pieteikties — Arguit",
-      "map": "Karte — Eiropas statistika Arguit",
-      "privacy": "Privātuma politika — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Tēriņi — ES publiskais iepirkums Arguit"
+      "about": "Par — Fontem",
+      "data_quality": "Datu kvalitāte — Fontem",
+      "donate": "Atbalsti Fontem",
+      "home": "Fontem — Publiski datu stāsti",
+      "login": "Pieteikties — Fontem",
+      "map": "Karte — Eiropas statistika Fontem",
+      "privacy": "Privātuma politika — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Tēriņi — ES publiskais iepirkums Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Piekļuve",
-    "all_data_in_the_fontem_knowledge_graph_r": "Visi dati Arguit zināšanu grafā attiecas uz",
+    "all_data_in_the_fontem_knowledge_graph_r": "Visi dati Fontem zināšanu grafā attiecas uz",
     "conversation_processing_is_performed_by_": "Sarunu apstrādi veic ES bāzēti MI pakalpojumu sniedzēji.",
     "conversations_are_automatically_deleted_": "Sarunas tiek automātiski dzēstas pēc 90 dienām.",
     "erase": "Dzēšana",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Saskaņā ar GDPR tev ir tiesības:",
     "when_you_sign_in_we_collect_and_store": "Kad ielogojies, mēs apkopojam un glabājam:",
     "your": "Tavs",
-    "what_fontem_is": "1. Kas ir Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit ir pilsoniskās pārredzamības platforma, kas apvieno ES publisko iepirkumu datus, uzņēmumu īpašumtiesību reģistrus un kohēzijas politikas finansējumu vienotā zināšanu grafā. Tās mērķis ir padarīt publiskos izdevumus un uzņēmumu struktūras vieglāk izpētāmus un saprotamus.",
+    "what_fontem_is": "1. Kas ir Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem ir pilsoniskās pārredzamības platforma, kas apvieno ES publisko iepirkumu datus, uzņēmumu īpašumtiesību reģistrus un kohēzijas politikas finansējumu vienotā zināšanu grafā. Tās mērķis ir padarīt publiskos izdevumus un uzņēmumu struktūras vieglāk izpētāmus un saprotamus.",
     "data_in_the_knowledge_graph": "2. Dati zināšanu grafā",
     "legal_entities": "juridiskas personas",
     "companies_public_authorities_and_organis": "(uzņēmumi, publiskās iestādes un organizācijas) — nevis fiziskas personas. Mēs apkopojam publiski pieejamos datus no šādiem avotiem:",
@@ -815,7 +815,7 @@
     "cookies": "6. Sīkdatnes",
     "we_only_use_strictly_necessary_cookies": "Mēs izmantojam tikai stingri nepieciešamās sesijas sīkdatnes autentifikācijai. Mēs neizmantojam izsekošanas sīkdatnes, reklāmas sīkdatnes vai trešo pušu analītikas sīkdatnes.",
     "changes_to_this_policy": "7. Izmaiņas šajā politikā",
-    "we_may_update_this_policy": "Mēs laiku pa laikam varam atjaunināt šo politiku. Kad to darīsim, mēs pārskatīsim \"pēdējo reizi atjaunināts\" datumu šīs lapas augšpusē. Arguit turpmāka lietošana pēc izmaiņām nozīmē atjauninātās politikas pieņemšanu."
+    "we_may_update_this_policy": "Mēs laiku pa laikam varam atjaunināt šo politiku. Kad to darīsim, mēs pārskatīsim \"pēdējo reizi atjaunināts\" datumu šīs lapas augšpusē. Fontem turpmāka lietošana pēc izmaiņām nozīmē atjauninātās politikas pieņemšanu."
   },
   "profile": {
     "avg_net_margin": "Vidējā neto marža",
@@ -929,7 +929,7 @@
     "endpoint": "Galapunkts",
     "endpoint_url": "Galapunkta URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Pieprasi Arguit zināšanu grafu tieši no pārlūka vai pieslēdz galapunktu OpenRefine / piezīmju grāmatai / saviem rīkiem. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — viss savienots.",
+    "intro": "Pieprasi Fontem zināšanu grafu tieši no pārlūka vai pieslēdz galapunktu OpenRefine / piezīmju grāmatai / saviem rīkiem. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — viss savienots.",
     "limits": "Robežas",
     "method": "Metode",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Nezināms logrīka tips:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Šis līgums tika grozīts — noklikšķiniet, lai redzētu, kas mainījās",
@@ -1223,9 +1223,9 @@
     "one_moment": "Vienu mirkli.",
     "email_confirmed": "E-pasts apstiprināts",
     "your_account_is_verified": "Jūsu konts ir verificēts. Tagad varat publicēt stāstus, komentēt un sekot tēmām.",
-    "continue_to_fontem": "Turpināt uz Arguit",
+    "continue_to_fontem": "Turpināt uz Fontem",
     "the_link_may_have_expired": "Saite, iespējams, ir beigusies vai jau izmantota. Pierakstieties un pieprasiet jaunu verifikācijas e-pastu no baneriem lapas augšpusē.",
-    "go_to_fontem": "Doties uz Arguit",
+    "go_to_fontem": "Doties uz Fontem",
     "couldnt_confirm_your_email": "Neizdevās apstiprināt jūsu e-pastu"
   },
   "studio_plot": {

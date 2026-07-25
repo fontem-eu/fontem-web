@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Publicering av en datahistoria från editorn",
     "step_publish_name": "Publicera",
     "step_search_desc": "Slå upp valfritt företag, upphandlande myndighet, lobbyist eller EU-finansierat projekt efter namn eller identifierare.",
-    "step_search_gif_alt": "Söker efter en entitet i Arguit",
+    "step_search_gif_alt": "Söker efter en entitet i Fontem",
     "step_search_name": "Sök",
     "try": "Prova:",
     "walkthrough_searching_a_company_explorin": "Guide: sök ett företag, utforska offentlig upphandling och publicera en datahistoria"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Bidra &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donationer flödar genom en ideell fiskalvärd på",
     "open_collective": "Open Collective",
-    "support_fontem": "Stöd Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Tack till alla som håller Arguit vid liv.",
+    "support_fontem": "Stöd Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Tack till alla som håller Fontem vid liv.",
     "tier_backer_desc": "Finansierar pågående arbete med datapipelines: nya källor, bättre täckning.",
     "tier_backer_name": "Mecenat",
     "tier_oneoff_amount": "Valfritt belopp",
@@ -621,7 +621,7 @@
     "go_to_home": "Gå till startsidan",
     "you_already_have_an_active_session": "Du har redan en aktiv session.",
     "youre_signed_in": "Du är inloggad",
-    "sign_in_to_fontem": "Logga in på Arguit",
+    "sign_in_to_fontem": "Logga in på Fontem",
     "sign_in_to_start_creating_data_stories": "Logga in för att börja skapa databerättelser, rapportera problem och samarbeta med communityn.",
     "signing_in": "Loggar in...",
     "sign_in": "Logga in",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit är transparensplattformen baserad på primärkällor. EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering — länkade i en graf och korskontrollerade mot de officiella registren.",
-      "data_quality": "Täckning, färskhet och källuppdelning för varje dataset i Arguits kunskapsgraf. Transparens om transparens.",
-      "donate": "Arguit är gratis att använda och kommer alltid att vara det. Donationer går via en ideell fiskal värd på Open Collective och håller datapipelines igång, grafen växande och teamet på kvalitetsarbete.",
-      "home": "Offentliga datahistorier från Arguit-gemenskapen — undersökningar, korskontroller och fynd grundade på primärkällor.",
-      "login": "Logga in på Arguit för att publicera datahistorier, rapportera problem och spara din forskning.",
+      "about": "Fontem är transparensplattformen baserad på primärkällor. EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering — länkade i en graf och korskontrollerade mot de officiella registren.",
+      "data_quality": "Täckning, färskhet och källuppdelning för varje dataset i Fontems kunskapsgraf. Transparens om transparens.",
+      "donate": "Fontem är gratis att använda och kommer alltid att vara det. Donationer går via en ideell fiskal värd på Open Collective och håller datapipelines igång, grafen växande och teamet på kvalitetsarbete.",
+      "home": "Offentliga datahistorier från Fontem-gemenskapen — undersökningar, korskontroller och fynd grundade på primärkällor.",
+      "login": "Logga in på Fontem för att publicera datahistorier, rapportera problem och spara din forskning.",
       "map": "Interaktiv choroplet av kurerade Eurostat-dataset på NUTS-nivå — befolkning, BNP, arbetslöshet, FoU och mer, kartlagda över hela Europa.",
-      "privacy": "Hur Arguit hanterar personuppgifter. Vi lagrar endast kontogrunder, inga spårningscookies, ingen tredjepartsanalys.",
-      "sparql": "Fråga Arguits kunskapsgraf direkt via SPARQL. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
+      "privacy": "Hur Fontem hanterar personuppgifter. Vi lagrar endast kontogrunder, inga spårningscookies, ingen tredjepartsanalys.",
+      "sparql": "Fråga Fontems kunskapsgraf direkt via SPARQL. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
       "spending": "Sök EU-företag, upphandlande myndigheter, lobbyister och EU-finansierade projekt. Plus vad som är stort i ditt land."
     },
     "title": {
-      "about": "Om — Arguit",
-      "data_quality": "Datakvalitet — Arguit",
-      "donate": "Stöd Arguit",
-      "home": "Arguit — Offentliga datahistorier",
-      "login": "Logga in — Arguit",
-      "map": "Karta — Europeisk statistik på Arguit",
-      "privacy": "Integritetspolicy — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Utgifter — EU offentlig upphandling på Arguit"
+      "about": "Om — Fontem",
+      "data_quality": "Datakvalitet — Fontem",
+      "donate": "Stöd Fontem",
+      "home": "Fontem — Offentliga datahistorier",
+      "login": "Logga in — Fontem",
+      "map": "Karta — Europeisk statistik på Fontem",
+      "privacy": "Integritetspolicy — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Utgifter — EU offentlig upphandling på Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Tillgång",
-    "all_data_in_the_fontem_knowledge_graph_r": "All data i Arguit-kunskapsgrafen avser",
+    "all_data_in_the_fontem_knowledge_graph_r": "All data i Fontem-kunskapsgrafen avser",
     "conversation_processing_is_performed_by_": "Bearbetning av samtal utförs av EU-baserade AI-leverantörer.",
     "conversations_are_automatically_deleted_": "Samtal raderas automatiskt efter 90 dagar.",
     "erase": "Radering",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Enligt GDPR har du rätt till:",
     "when_you_sign_in_we_collect_and_store": "När du loggar in samlar vi in och lagrar:",
     "your": "Dina",
-    "what_fontem_is": "1. Vad Arguit är",
-    "fontem_is_a_civic_transparency_platform": "Arguit är en plattform för medborgerlig transparens som kopplar samman EU:s data om offentlig upphandling, register över företagsägande och finansiering inom sammanhållningspolitiken till en enda kunskapsgraf. Målet är att göra offentliga utgifter och företagsstrukturer enklare att utforska och förstå.",
+    "what_fontem_is": "1. Vad Fontem är",
+    "fontem_is_a_civic_transparency_platform": "Fontem är en plattform för medborgerlig transparens som kopplar samman EU:s data om offentlig upphandling, register över företagsägande och finansiering inom sammanhållningspolitiken till en enda kunskapsgraf. Målet är att göra offentliga utgifter och företagsstrukturer enklare att utforska och förstå.",
     "data_in_the_knowledge_graph": "2. Data i kunskapsgrafen",
     "legal_entities": "juridiska personer",
     "companies_public_authorities_and_organis": "(företag, offentliga myndigheter och organisationer) — inte fysiska personer. Vi aggregerar allmänt tillgänglig data från följande källor:",
@@ -815,7 +815,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Vi använder endast strikt nödvändiga sessionscookies för autentisering. Vi använder inte spårningscookies, annonscookies eller tredjeparts analyscookies.",
     "changes_to_this_policy": "7. Ändringar av denna policy",
-    "we_may_update_this_policy": "Vi kan komma att uppdatera denna policy då och då. När vi gör det uppdaterar vi datumet för ”senast uppdaterad” högst upp på denna sida. Fortsatt användning av Arguit efter ändringar utgör godkännande av den uppdaterade policyn."
+    "we_may_update_this_policy": "Vi kan komma att uppdatera denna policy då och då. När vi gör det uppdaterar vi datumet för ”senast uppdaterad” högst upp på denna sida. Fortsatt användning av Fontem efter ändringar utgör godkännande av den uppdaterade policyn."
   },
   "profile": {
     "avg_net_margin": "Genomsnittlig nettomarginal",
@@ -929,7 +929,7 @@
     "endpoint": "Ändpunkt",
     "endpoint_url": "Ändpunkts-URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Fråga Arguits kunskapsgraf direkt från webbläsaren, eller koppla in slutpunkten i OpenRefine / en notebook / dina egna verktyg. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
+    "intro": "Fråga Fontems kunskapsgraf direkt från webbläsaren, eller koppla in slutpunkten i OpenRefine / en notebook / dina egna verktyg. Företag, kontrakt, myndigheter, lobbyister, sanktioner — allt länkat.",
     "limits": "Gränser",
     "method": "Metod",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Okänd widgettyp:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Detta kontrakt har ändrats — klicka för att se vad som ändrades",
@@ -1223,9 +1223,9 @@
     "one_moment": "Ett ögonblick.",
     "email_confirmed": "E-postadress bekräftad",
     "your_account_is_verified": "Ditt konto är verifierat. Du kan nu publicera artiklar, kommentera och följa ämnen.",
-    "continue_to_fontem": "Fortsätt till Arguit",
+    "continue_to_fontem": "Fortsätt till Fontem",
     "the_link_may_have_expired": "Länken kan ha upphört att gälla eller redan ha använts. Logga in och begär ett nytt verifieringsmejl från bannern högst upp.",
-    "go_to_fontem": "Gå till Arguit",
+    "go_to_fontem": "Gå till Fontem",
     "couldnt_confirm_your_email": "Det gick inte att bekräfta din e-postadress"
   },
   "studio_plot": {

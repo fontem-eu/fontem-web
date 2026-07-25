@@ -1,6 +1,6 @@
 <script setup>
 /**
- * The Arguit wordmark — two-tone, theme-aware.
+ * The Fontem wordmark — two-tone, theme-aware.
  *
  * Split on the Latin syllable break (argu-it) so the colour change
  * lands on a natural pause, not mid-glyph. The name is the Latin
@@ -16,11 +16,11 @@ defineProps({
 </script>
 
 <template>
-  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.arguit')">
-    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.argu') }}</span><span
+  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.fontem')">
+    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.font') }}</span><span
       class="wordmark-b"
       aria-hidden="true"
-    >it</span>
+    >em</span>
   </span>
 </template>
 

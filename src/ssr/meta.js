@@ -12,30 +12,30 @@
 
 const TITLES = {
   // Stories — public feed — is the new landing.
-  '/': 'Arguit — Public data stories',
-  '/about': 'About — Arguit',
-  '/privacy': 'Privacy policy — Arguit',
-  '/data-quality': 'Data quality — Arguit',
-  '/sparql': 'SPARQL — Arguit',
-  '/map': 'Map — European statistics on Arguit',
-  '/spending': 'Spending — EU procurement on Arguit',
-  '/login': 'Sign in — Arguit',
-  '/donate': 'Support Arguit',
+  '/': 'Fontem — Public data stories',
+  '/about': 'About — Fontem',
+  '/privacy': 'Privacy policy — Fontem',
+  '/data-quality': 'Data quality — Fontem',
+  '/sparql': 'SPARQL — Fontem',
+  '/map': 'Map — European statistics on Fontem',
+  '/spending': 'Spending — EU procurement on Fontem',
+  '/login': 'Sign in — Fontem',
+  '/donate': 'Support Fontem',
 }
 
 const DESCRIPTIONS = {
-  '/': 'Public data stories from the Arguit community — investigations, cross-checks, and findings grounded in primary sources.',
-  '/about': 'Arguit is the collaborative-argument platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
-  '/privacy': 'How Arguit handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
-  '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Arguit knowledge graph. Transparency about transparency.',
-  '/sparql': 'Query the Arguit knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
+  '/': 'Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.',
+  '/about': 'Fontem is the collaborative-argument platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
+  '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
+  '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
+  '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
   '/map': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
   '/spending': 'Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country.',
-  '/login': 'Sign in to Arguit to publish data stories, raise issues, and save your research.',
-  '/donate': 'Arguit is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
+  '/login': 'Sign in to Fontem to publish data stories, raise issues, and save your research.',
+  '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
 }
 
-const DEFAULT_TITLE = 'Arguit — Argue it. With data. Together.'
+const DEFAULT_TITLE = 'Fontem — Argue it. With data. Together.'
 const DEFAULT_DESCRIPTION =
   'The primary-source transparency platform for EU public procurement and corporate data.'
 

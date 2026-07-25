@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Udgivelse af en datahistorie fra editoren",
     "step_publish_name": "Udgiv",
     "step_search_desc": "Slå enhver virksomhed, ordregivende myndighed, lobbyist eller EU-finansieret projekt op efter navn eller identifikator.",
-    "step_search_gif_alt": "Søger efter en entitet i Arguit",
+    "step_search_gif_alt": "Søger efter en entitet i Fontem",
     "step_search_name": "Søg",
     "try": "Prøv:",
     "walkthrough_searching_a_company_explorin": "Gennemgang: søg et selskab, udforsk udbud og udgiv en datafortælling"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Bidrag &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donationer går gennem en fiscal host-nonprofit på",
     "open_collective": "Open Collective",
-    "support_fontem": "Støt Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Tak til alle der holder Arguit i live.",
+    "support_fontem": "Støt Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Tak til alle der holder Fontem i live.",
     "tier_backer_desc": "Finansierer løbende datapipeline-arbejde: nye kilder, bedre dækning.",
     "tier_backer_name": "Bagmand",
     "tier_oneoff_amount": "Ethvert beløb",
@@ -621,7 +621,7 @@
     "go_to_home": "Gå til forsiden",
     "you_already_have_an_active_session": "Du har allerede en aktiv session.",
     "youre_signed_in": "Du er logget ind",
-    "sign_in_to_fontem": "Log ind på Arguit",
+    "sign_in_to_fontem": "Log ind på Fontem",
     "sign_in_to_start_creating_data_stories": "Log ind for at begynde at skabe datahistorier, rejse sager og samarbejde med fællesskabet.",
     "signing_in": "Logger ind...",
     "sign_in": "Log ind",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
-      "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Arguit-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
-      "donate": "Arguit er gratis at bruge og vil altid være det. Donationer flyder gennem en nonprofit fiskal vært på Open Collective og holder datapipelines kørende, grafen voksende og teamet på kvalitetsarbejde.",
-      "home": "Offentlige datahistorier fra Arguit-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
-      "login": "Log ind på Arguit for at udgive datahistorier, rejse problemer og gemme din forskning.",
+      "about": "Fontem er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
+      "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Fontem-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
+      "donate": "Fontem er gratis at bruge og vil altid være det. Donationer flyder gennem en nonprofit fiskal vært på Open Collective og holder datapipelines kørende, grafen voksende og teamet på kvalitetsarbejde.",
+      "home": "Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
+      "login": "Log ind på Fontem for at udgive datahistorier, rejse problemer og gemme din forskning.",
       "map": "Interaktiv chloroplet af kuraterede Eurostat-datasæt på NUTS-niveau — befolkning, BNP, arbejdsløshed, R&D og mere, kortlagt på tværs af Europa.",
-      "privacy": "Hvordan Arguit håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
-      "sparql": "Forespørg Arguit-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
+      "privacy": "Hvordan Fontem håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
+      "sparql": "Forespørg Fontem-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
       "spending": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Plus hvad er stort i dit land."
     },
     "title": {
-      "about": "Om — Arguit",
-      "data_quality": "Datakvalitet — Arguit",
-      "donate": "Støt Arguit",
-      "home": "Arguit — Offentlige datahistorier",
-      "login": "Log ind — Arguit",
-      "map": "Kort — Europæiske statistikker på Arguit",
-      "privacy": "Privatlivspolitik — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Udgifter — EU offentlige indkøb på Arguit"
+      "about": "Om — Fontem",
+      "data_quality": "Datakvalitet — Fontem",
+      "donate": "Støt Fontem",
+      "home": "Fontem — Offentlige datahistorier",
+      "login": "Log ind — Fontem",
+      "map": "Kort — Europæiske statistikker på Fontem",
+      "privacy": "Privatlivspolitik — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Udgifter — EU offentlige indkøb på Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Adgang",
-    "all_data_in_the_fontem_knowledge_graph_r": "Alle data i Arguit-vidensgrafen vedrører",
+    "all_data_in_the_fontem_knowledge_graph_r": "Alle data i Fontem-vidensgrafen vedrører",
     "conversation_processing_is_performed_by_": "Samtalebehandling udføres af EU-baserede AI-leverandører.",
     "conversations_are_automatically_deleted_": "Samtaler slettes automatisk efter 90 dage.",
     "erase": "Slet",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Under GDPR har du ret til at:",
     "when_you_sign_in_we_collect_and_store": "Når du logger ind, indsamler og opbevarer vi:",
     "your": "Din",
-    "what_fontem_is": "1. Hvad Arguit er",
-    "fontem_is_a_civic_transparency_platform": "Arguit er en platform for borgergennemsigtighed, der forbinder data om EU's offentlige udbud, virksomhedsejerskabsregistre og finansiering under samhørighedspolitikken i én samlet vidensgraf. Formålet er at gøre offentlige udgifter og virksomhedsstrukturer lettere at udforske og forstå.",
+    "what_fontem_is": "1. Hvad Fontem er",
+    "fontem_is_a_civic_transparency_platform": "Fontem er en platform for borgergennemsigtighed, der forbinder data om EU's offentlige udbud, virksomhedsejerskabsregistre og finansiering under samhørighedspolitikken i én samlet vidensgraf. Formålet er at gøre offentlige udgifter og virksomhedsstrukturer lettere at udforske og forstå.",
     "data_in_the_knowledge_graph": "2. Data i vidensgrafen",
     "legal_entities": "juridiske enheder",
     "companies_public_authorities_and_organis": "(virksomheder, offentlige myndigheder og organisationer) — ikke fysiske personer. Vi samler offentligt tilgængelige data fra følgende kilder:",
@@ -815,7 +815,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Vi bruger kun strengt nødvendige sessionscookies til godkendelse. Vi bruger ikke sporingscookies, reklamecookies eller tredjeparts-analysecookies.",
     "changes_to_this_policy": "7. Ændringer af denne politik",
-    "we_may_update_this_policy": "Vi kan opdatere denne politik fra tid til anden. Når vi gør det, ændrer vi datoen for \"senest opdateret\" øverst på denne side. Fortsat brug af Arguit efter ændringer udgør en accept af den opdaterede politik."
+    "we_may_update_this_policy": "Vi kan opdatere denne politik fra tid til anden. Når vi gør det, ændrer vi datoen for \"senest opdateret\" øverst på denne side. Fortsat brug af Fontem efter ændringer udgør en accept af den opdaterede politik."
   },
   "profile": {
     "avg_net_margin": "Gns. nettomargin",
@@ -929,7 +929,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Forespørg Arguits vidensgraf direkte fra browseren, eller plug endpoint i OpenRefine / en notebook / dine egne værktøjer. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
+    "intro": "Forespørg Fontems vidensgraf direkte fra browseren, eller plug endpoint i OpenRefine / en notebook / dine egne værktøjer. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
     "limits": "Grænser",
     "method": "Metode",
     "post": "POST",
@@ -1093,8 +1093,8 @@
     "unknown_widget_type": "Ukendt widget-type:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem"
   },
   "errata": {
     "icon_title": "Denne kontrakt blev ændret — klik for at se, hvad der blev ændret",
@@ -1223,9 +1223,9 @@
     "one_moment": "Et øjeblik.",
     "email_confirmed": "E-mail bekræftet",
     "your_account_is_verified": "Din konto er verificeret. Du kan nu udgive historier, kommentere og følge emner.",
-    "continue_to_fontem": "Fortsæt til Arguit",
+    "continue_to_fontem": "Fortsæt til Fontem",
     "the_link_may_have_expired": "Linket kan være udløbet eller allerede være brugt. Log ind, og anmod om en ny bekræftelses-e-mail fra banneret øverst.",
-    "go_to_fontem": "Gå til Arguit",
+    "go_to_fontem": "Gå til Fontem",
     "couldnt_confirm_your_email": "Kunne ikke bekræfte din e-mail"
   },
   "studio_plot": {
