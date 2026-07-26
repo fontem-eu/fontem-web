@@ -1,5 +1,6 @@
 /**
- * PetitionsView — list + status filter; PetitionDetailView — legislation.
+ * PetitionsView — curated two-section showcase (Collecting / Reached);
+ * PetitionDetailView — legislation buckets.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
@@ -27,35 +28,74 @@ function makeRouter() {
   })
 }
 
+// Route the stub by which status set the view asked for.
+function stubBySection({ collecting = [], reached = [] }) {
+  fetchPetitions.mockImplementation(({ statuses }) => {
+    const results = statuses === 'ONGOING' ? collecting : reached
+    return Promise.resolve({ counts: {}, total: results.length, results })
+  })
+}
+
 beforeEach(() => {
   fetchPetitions.mockReset()
   fetchPetitionDetail.mockReset()
 })
 
 describe('PetitionsView', () => {
-  it('renders cards, counts and filters by status', async () => {
-    fetchPetitions.mockResolvedValue({
-      counts: { ANSWERED: 14, REGISTERED: 40 },
-      total: 54,
-      results: [{
-        petition_id: 'ECI(2024)000007', title: 'Stop Destroying Videogames',
-        status: 'ANSWERED', total_supporters: 1294188,
-        registration_date: '2024-06-19',
-      }],
+  it('requests both curated sections with the right status sets and sorts', async () => {
+    stubBySection({
+      collecting: [
+        { petition_id: 'ECI(2025)000001', title: 'Ongoing One', status: 'ONGOING', total_supporters: 500000, registration_date: '2025-01-01' },
+        { petition_id: 'ECI(2025)000002', title: 'Ongoing Two', status: 'ONGOING', total_supporters: 400000, registration_date: '2025-02-01' },
+        { petition_id: 'ECI(2025)000003', title: 'Ongoing Three', status: 'ONGOING', total_supporters: 300000, registration_date: '2025-03-01' },
+      ],
+      reached: [
+        { petition_id: 'ECI(2024)000007', title: 'Stop Destroying Videogames', status: 'ANSWERED', total_supporters: 1294188, registration_date: '2024-06-19' },
+      ],
     })
     const router = makeRouter()
     router.push('/petitions')
     await router.isReady()
     const w = mount(PetitionsView, { global: { plugins: [router, makeTestI18n()] } })
     await flushPromises()
-    expect(w.text()).toContain('Stop Destroying Videogames')
-    expect(w.find('[data-testid="petition-supporters"]').text()).toContain('1,294,188')
-    expect(w.find('[data-testid="filter-ANSWERED"]').exists()).toBe(true)
 
-    await w.find('[data-testid="filter-ANSWERED"]').trigger('click')
+    expect(fetchPetitions).toHaveBeenCalledWith(
+      expect.objectContaining({ statuses: 'ONGOING', sort: 'supporters', limit: 3, offset: 0 }))
+    expect(fetchPetitions).toHaveBeenCalledWith(
+      expect.objectContaining({ statuses: 'SUBMITTED,VERIFICATION,ANSWERED', sort: 'recent', limit: 5, offset: 0 }))
+
+    expect(w.text()).toContain('Ongoing One')
+    expect(w.text()).toContain('Stop Destroying Videogames')
+    // number formatting still applied to the first card's supporter count
+    expect(w.find('[data-testid="petition-supporters"]').text()).toContain('500,000')
+    // no status filter chips remain
+    expect(w.find('[data-testid="petitions-filters"]').exists()).toBe(false)
+  })
+
+  it('shows "Show more" for a full page and pages the collecting section', async () => {
+    stubBySection({
+      collecting: [
+        { petition_id: 'ECI(2025)000001', title: 'Ongoing One', status: 'ONGOING', total_supporters: 500000, registration_date: '2025-01-01' },
+        { petition_id: 'ECI(2025)000002', title: 'Ongoing Two', status: 'ONGOING', total_supporters: 400000, registration_date: '2025-02-01' },
+        { petition_id: 'ECI(2025)000003', title: 'Ongoing Three', status: 'ONGOING', total_supporters: 300000, registration_date: '2025-03-01' },
+      ],
+      reached: [],
+    })
+    const router = makeRouter()
+    router.push('/petitions')
+    await router.isReady()
+    const w = mount(PetitionsView, { global: { plugins: [router, makeTestI18n()] } })
     await flushPromises()
-    expect(fetchPetitions).toHaveBeenLastCalledWith(
-      expect.objectContaining({ status: 'ANSWERED' }))
+
+    // full page of 3 → collecting offers "Show more"; reached (empty) does not
+    const more = w.find('[data-testid="show-more-collecting"]')
+    expect(more.exists()).toBe(true)
+    expect(w.find('[data-testid="show-more-reached"]').exists()).toBe(false)
+
+    await more.trigger('click')
+    await flushPromises()
+    expect(fetchPetitions).toHaveBeenCalledWith(
+      expect.objectContaining({ statuses: 'ONGOING', sort: 'supporters', limit: 3, offset: 3 }))
   })
 })
 
