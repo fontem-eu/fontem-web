@@ -906,7 +906,9 @@
     "close": "Cerrar",
     "start_writing": "Empieza a escribir tu análisis...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entidades sancionadas — personas, organizaciones, cobertura del régimen y emparejamiento de empresas",

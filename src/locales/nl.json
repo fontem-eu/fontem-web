@@ -906,7 +906,9 @@
     "close": "Sluiten",
     "start_writing": "Begin met het schrijven van uw analyse...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Gesanctioneerde entiteiten — personen, organisaties, dekking van regimes en bedrijfsmatching",
