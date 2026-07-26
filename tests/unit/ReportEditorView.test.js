@@ -139,14 +139,14 @@ describe('ReportEditorView — unified editor', () => {
     expect(communityApi.saveDocument).toHaveBeenCalledWith('r1', expect.any(Object))
   })
 
-  it('saves the selected NUTS region tag', async () => {
+  it('saves the selected country region', async () => {
     const { wrapper } = await mountEditor({ reportId: 'r1', reportExtra: { nuts_region: '' } })
     await flushPromises()
     await flushPromises()
-    const l0 = wrapper.find('[data-testid="nuts-l0"]')
-    expect(l0.exists()).toBe(true)
-    expect(l0.text()).toContain('Portugal')   // regions loaded from the mock
-    await l0.setValue('PT')
+    const sel = wrapper.find('[data-testid="country-region-select"]')
+    expect(sel.exists()).toBe(true)
+    expect(sel.text()).toContain('Portugal')   // level-0 countries from the mock
+    await sel.setValue('PT')
     await flushPromises()
     await wrapper.find('[data-testid="save-story"]').trigger('click')
     await flushPromises()
@@ -155,16 +155,31 @@ describe('ReportEditorView — unified editor', () => {
     )
   })
 
-  it('preloads an existing region tag from the report', async () => {
+  it('collapses a legacy deep region code to its country and saves the country', async () => {
     const { wrapper } = await mountEditor({ reportId: 'r1', reportExtra: { nuts_region: 'PT1' } })
     await flushPromises()
     await flushPromises()
-    // options loaded from the mock, cascade reconstructed from the stored code
-    const l0 = wrapper.find('[data-testid="nuts-l0"]')
-    expect(l0.text()).toContain('Portugal')
-    expect(l0.element.value).toBe('PT')
-    // level 1 reconstructed to the stored PT1
-    expect(wrapper.find('[data-testid="nuts-l1"]').element.value).toBe('PT1')
+    // the stored deep code PT1 collapses to the country Portugal (PT)
+    const sel = wrapper.find('[data-testid="country-region-select"]')
+    expect(sel.text()).toContain('Portugal')
+    expect(sel.element.value).toBe('PT')
+    // and the collapsed country is what gets persisted on next save
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+    expect(communityApi.updateReport).toHaveBeenCalledWith(
+      'r1', expect.objectContaining({ nuts_region: 'PT' }),
+    )
+  })
+
+  it('toggles the mobile header kebab menu open and closed', async () => {
+    const { wrapper } = await mountEditor()
+    const secondary = wrapper.find('[data-testid="header-secondary"]')
+    expect(secondary.exists()).toBe(true)
+    expect(secondary.classes()).not.toContain('open')
+    await wrapper.find('[data-testid="header-kebab"]').trigger('click')
+    expect(secondary.classes()).toContain('open')
+    await wrapper.find('[data-testid="header-kebab"]').trigger('click')
+    expect(secondary.classes()).not.toContain('open')
   })
 
   it('loads v1 reports (section HTML concatenated)', async () => {
