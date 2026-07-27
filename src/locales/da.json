@@ -648,7 +648,7 @@
       "about": "Fontem er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
       "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Fontem-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
       "donate": "Fontem er gratis at bruge og vil altid være det. Donationer flyder gennem en nonprofit fiskal vært på Open Collective og holder datapipelines kørende, grafen voksende og teamet på kvalitetsarbejde.",
-      "home": "Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
+      "home": "Vi krydser EU's digitale grænser, ét datasæt ad gangen. Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
       "login": "Log ind på Fontem for at udgive datahistorier, rejse problemer og gemme din forskning.",
       "map": "Interaktiv chloroplet af kuraterede Eurostat-datasæt på NUTS-niveau — befolkning, BNP, arbejdsløshed, R&D og mere, kortlagt på tværs af Europa.",
       "privacy": "Hvordan Fontem håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
@@ -659,7 +659,7 @@
       "about": "Om — Fontem",
       "data_quality": "Datakvalitet — Fontem",
       "donate": "Støt Fontem",
-      "home": "Fontem — Offentlige datahistorier",
+      "home": "Fontem — Vi krydser EU's digitale grænser, ét datasæt ad gangen",
       "login": "Log ind — Fontem",
       "map": "Kort — Europæiske statistikker på Fontem",
       "privacy": "Privatlivspolitik — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Vi krydser EU's digitale grænser, ét datasæt ad gangen"
   },
   "errata": {
     "icon_title": "Denne kontrakt blev ændret — klik for at se, hvad der blev ændret",

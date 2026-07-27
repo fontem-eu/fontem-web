@@ -648,7 +648,7 @@
       "about": "Fontem hija l-pjattaforma ta' trasparenza minn sorsi primarji. Kumpaniji tal-UE, akkwist pubbliku, lobbyists u finanzjament ta' koeżjoni — marbutin f'graf wieħed u kontroverifikati mar-reġistri uffiċjali.",
       "data_quality": "Kopertura, friskezza u tqassim tas-sorsi għal kull sett tad-data fil-graf tal-għarfien Fontem. Trasparenza dwar it-trasparenza.",
       "donate": "Fontem hija b'xejn għall-użu u dejjem se tibqa'. Id-donazzjonijiet jgħaddu minn host fiskali bla skop ta' qligħ fuq Open Collective u jżommu l-pipelines tad-data jaħdmu, il-graf qed jikber u t-tim fuq xogħol ta' kwalità.",
-      "home": "Stejjer tad-data pubbliċi mill-komunità Fontem — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
+      "home": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba. Stejjer tad-data pubbliċi mill-komunità Fontem — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
       "login": "Idħol f'Fontem biex tippubblika stejjer tad-data, tirrapporta problemi u tissejvja r-riċerka tiegħek.",
       "map": "Choropleth interattiva ta' settijiet tad-data Eurostat magħżula fuq livell NUTS — popolazzjoni, PDG, qgħad, R&Ż u aktar, immappjati madwar l-Ewropa.",
       "privacy": "Kif Fontem timmaniġġja d-data personali. Naħżnu biss l-essenzjali tal-kont, ebda cookies ta' traċċar, ebda analitika ta' partijiet terzi.",
@@ -659,7 +659,7 @@
       "about": "Dwar — Fontem",
       "data_quality": "Kwalità tad-data — Fontem",
       "donate": "Appoġġja Fontem",
-      "home": "Fontem — Stejjer tad-data pubbliċi",
+      "home": "Fontem — Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba",
       "login": "Idħol — Fontem",
       "map": "Mappa — Statistika Ewropea fuq Fontem",
       "privacy": "Politika tal-privatezza — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba"
   },
   "errata": {
     "icon_title": "Dan il-kuntratt ġie modifikat — ikklikkja biex tara x'inbidel",

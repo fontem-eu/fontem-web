@@ -648,7 +648,7 @@
       "about": "Fontem ist die Transparenzplattform aus Primärquellen. EU-Unternehmen, öffentliches Beschaffungswesen, Lobbyisten und Kohäsionsförderung — in einem Graphen verknüpft und mit den offiziellen Registern abgeglichen.",
       "data_quality": "Abdeckung, Aktualität und Quellenaufschlüsselung für jedes Dataset im Fontem-Wissensgraphen. Transparenz über Transparenz.",
       "donate": "Fontem ist kostenlos nutzbar und wird es immer bleiben. Spenden fließen über einen gemeinnützigen Fiskalträger auf Open Collective und halten die Datenpipelines am Laufen, den Graphen wachsen und das Team an Qualitätsarbeit.",
-      "home": "Öffentliche Datengeschichten aus der Fontem-Community — Untersuchungen, Querprüfungen und Erkenntnisse, basierend auf Primärquellen.",
+      "home": "Die digitalen Grenzen der EU überwinden, ein Datensatz nach dem anderen. Öffentliche Datengeschichten aus der Fontem-Community — Untersuchungen, Querprüfungen und Erkenntnisse, basierend auf Primärquellen.",
       "login": "Melden Sie sich bei Fontem an, um Datengeschichten zu veröffentlichen, Probleme zu melden und Ihre Recherche zu speichern.",
       "map": "Interaktive Choroplethenkarte kuratierter Eurostat-Datensätze auf NUTS-Ebene — Bevölkerung, BIP, Arbeitslosigkeit, F&E und mehr, kartiert quer durch Europa.",
       "privacy": "Wie Fontem mit personenbezogenen Daten umgeht. Wir speichern nur Konto-Grunddaten, keine Tracking-Cookies, keine Drittanbieter-Analytik.",
@@ -659,7 +659,7 @@
       "about": "Über — Fontem",
       "data_quality": "Datenqualität — Fontem",
       "donate": "Fontem unterstützen",
-      "home": "Fontem — Öffentliche Datengeschichten",
+      "home": "Fontem — Die digitalen Grenzen der EU überwinden, ein Datensatz nach dem anderen",
       "login": "Anmelden — Fontem",
       "map": "Karte — Europäische Statistiken auf Fontem",
       "privacy": "Datenschutzrichtlinie — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Die digitalen Grenzen der EU überwinden, ein Datensatz nach dem anderen"
   },
   "errata": {
     "icon_title": "Dieser Auftrag wurde geändert — klicken Sie, um die Änderungen zu sehen",

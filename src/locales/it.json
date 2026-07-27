@@ -648,7 +648,7 @@
       "about": "Fontem è la piattaforma di trasparenza basata su fonti primarie. Aziende UE, appalti pubblici, lobbisti e finanziamenti di coesione — collegati in un unico grafo e controllati con i registri ufficiali.",
       "data_quality": "Copertura, freschezza e ripartizione per fonte per ogni dataset nel grafo di conoscenza Fontem. Trasparenza sulla trasparenza.",
       "donate": "Fontem è gratuito e lo sarà sempre. Le donazioni passano per un ospite fiscale non profit su Open Collective e mantengono attive le pipeline di dati, il grafo in crescita e il team su lavoro di qualità.",
-      "home": "Storie di dati pubbliche dalla community Fontem — indagini, controlli incrociati e risultati basati su fonti primarie.",
+      "home": "Attraversiamo i confini digitali dell'UE, un set di dati alla volta. Storie di dati pubbliche dalla community Fontem — indagini, controlli incrociati e risultati basati su fonti primarie.",
       "login": "Accedi a Fontem per pubblicare storie di dati, segnalare problemi e salvare la tua ricerca.",
       "map": "Coroplet interattivo di dataset Eurostat curati a livello NUTS — popolazione, PIL, disoccupazione, R&S e altro, mappati in tutta Europa.",
       "privacy": "Come Fontem gestisce i dati personali. Memorizziamo solo i dati essenziali dell'account, nessun cookie di tracciamento, nessuna analisi di terze parti.",
@@ -659,7 +659,7 @@
       "about": "Informazioni — Fontem",
       "data_quality": "Qualità dei dati — Fontem",
       "donate": "Sostieni Fontem",
-      "home": "Fontem — Storie di dati pubbliche",
+      "home": "Fontem — Attraversiamo i confini digitali dell'UE, un set di dati alla volta",
       "login": "Accedi — Fontem",
       "map": "Mappa — Statistiche europee su Fontem",
       "privacy": "Politica sulla privacy — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Attraversiamo i confini digitali dell'UE, un set di dati alla volta"
   },
   "errata": {
     "icon_title": "Questo contratto è stato modificato — clicca per vedere cosa è cambiato",

@@ -648,7 +648,7 @@
       "about": "A Fontem az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
       "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Fontem tudásgráfjában. Átláthatóság az átláthatóságról.",
       "donate": "A Fontem ingyenes és mindig az is lesz. Az adományok egy nonprofit fiskális gazdán keresztül az Open Collective-en folynak, és életben tartják az adatfolyamokat, a növekvő gráfot és a csapat minőségi munkáját.",
-      "home": "Nyilvános adat-történetek a Fontem közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
+      "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Fontem közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
       "login": "Jelentkezz be a Fontembe adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
       "map": "Interaktív choropleth kurált Eurostat adatkészletekből NUTS szinten — népesség, GDP, munkanélküliség, K+F és több, Európa-szerte feltérképezve.",
       "privacy": "Hogyan kezeli a Fontem a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
@@ -659,7 +659,7 @@
       "about": "Rólunk — Fontem",
       "data_quality": "Adatminőség — Fontem",
       "donate": "Támogasd a Fontemet",
-      "home": "Fontem — Nyilvános adat-történetek",
+      "home": "Fontem — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
       "login": "Bejelentkezés — Fontem",
       "map": "Térkép — Európai statisztikák a Fontemen",
       "privacy": "Adatvédelmi szabályzat — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel"
   },
   "errata": {
     "icon_title": "Ezt a szerződést módosították — kattintson a változások megtekintéséhez",

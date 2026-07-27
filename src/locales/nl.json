@@ -648,7 +648,7 @@
       "about": "Fontem is het transparantieplatform op basis van primaire bronnen. EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering — gekoppeld in één graaf en gekruisverifieerd met de officiële registers.",
       "data_quality": "Dekking, versheid en bron-uitsplitsingen voor elke dataset in de Fontem-kennisgraaf. Transparantie over transparantie.",
       "donate": "Fontem is gratis te gebruiken en zal dat altijd blijven. Donaties lopen via een non-profit fiscale host op Open Collective en houden de datapijplijnen draaiende, de graaf groeiend en het team aan kwaliteitswerk.",
-      "home": "Openbare dataverhalen van de Fontem-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
+      "home": "De digitale grenzen van de EU overschrijden, één dataset tegelijk. Openbare dataverhalen van de Fontem-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
       "login": "Log in op Fontem om dataverhalen te publiceren, problemen te melden en je onderzoek op te slaan.",
       "map": "Interactieve choropleet van gecureerde Eurostat-datasets op NUTS-niveau — bevolking, BBP, werkloosheid, O&O en meer, in kaart gebracht in heel Europa.",
       "privacy": "Hoe Fontem omgaat met persoonsgegevens. We bewaren alleen accountbasisgegevens, geen trackingcookies, geen analytics van derden.",
@@ -659,7 +659,7 @@
       "about": "Over — Fontem",
       "data_quality": "Datakwaliteit — Fontem",
       "donate": "Steun Fontem",
-      "home": "Fontem — Openbare dataverhalen",
+      "home": "Fontem — De digitale grenzen van de EU overschrijden, één dataset tegelijk",
       "login": "Inloggen — Fontem",
       "map": "Kaart — Europese statistieken op Fontem",
       "privacy": "Privacybeleid — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "De digitale grenzen van de EU overschrijden, één dataset tegelijk"
   },
   "errata": {
     "icon_title": "Dit contract is gewijzigd — klik om te zien wat er is veranderd",

@@ -648,7 +648,7 @@
       "about": "Is é Fontem an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
       "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Fontem. Trédhearcacht maidir le trédhearcacht.",
       "donate": "Tá Fontem saor in aisce le húsáid agus beidh i gcónaí. Sruthaíonn síntiúis trí óstach fioscach neamhbhrabúis ar Open Collective agus coinníonn siad píblínte sonraí ag rith, an graf ag fás agus an fhoireann ar obair cháilíochta.",
-      "home": "Scéalta sonraí poiblí ó phobal Fontem — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
+      "home": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am. Scéalta sonraí poiblí ó phobal Fontem — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
       "login": "Sínigh isteach Fontem chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
       "map": "Choropleth idirghníomhach de thacair sonraí Eurostat curtha ar leibhéal NUTS — daonra, OTI, dífhostaíocht, T&F agus níos mó, mapáilte ar fud na hEorpa.",
       "privacy": "Conas a láimhseálann Fontem sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
@@ -659,7 +659,7 @@
       "about": "Maidir le — Fontem",
       "data_quality": "Cáilíocht sonraí — Fontem",
       "donate": "Tacaigh le Fontem",
-      "home": "Fontem — Scéalta sonraí poiblí",
+      "home": "Fontem — Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am",
       "login": "Sínigh isteach — Fontem",
       "map": "Léarscáil — Staitisticí Eorpacha ar Fontem",
       "privacy": "Beartas príobháideachta — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am"
   },
   "errata": {
     "icon_title": "Athraíodh an conradh seo — cliceáil chun a fheiceáil cad a athraíodh",

@@ -648,7 +648,7 @@
       "about": "O Fontem é a plataforma de transparência a partir de fontes primárias. Empresas da UE, contratação pública, lobistas e financiamento da coesão — ligados num único grafo e cruzados com os registos oficiais.",
       "data_quality": "Cobertura, frescura e repartição por fonte para cada conjunto de dados no grafo de conhecimento do Fontem. Transparência sobre a transparência.",
       "donate": "O Fontem é gratuito e sempre o será. As doações passam por um anfitrião fiscal sem fins lucrativos no Open Collective e mantêm as pipelines de dados a correr, o grafo a crescer e a equipa em trabalho de qualidade.",
-      "home": "Histórias com dados públicas da comunidade Fontem — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
+      "home": "A atravessar as fronteiras digitais da UE, um conjunto de dados de cada vez. Histórias com dados públicas da comunidade Fontem — investigações, verificações cruzadas e descobertas assentes em fontes primárias.",
       "login": "Inicia sessão no Fontem para publicar histórias com dados, levantar problemas e guardar a tua pesquisa.",
       "map": "Coroplético interativo de conjuntos Eurostat curados ao nível NUTS — população, PIB, desemprego, I&D e mais, mapeados por toda a Europa.",
       "privacy": "Como o Fontem trata os dados pessoais. Só guardamos o essencial da conta, sem cookies de rastreio e sem analítica de terceiros.",
@@ -659,7 +659,7 @@
       "about": "Sobre — Fontem",
       "data_quality": "Qualidade dos dados — Fontem",
       "donate": "Apoia o Fontem",
-      "home": "Fontem — Histórias com dados públicas",
+      "home": "Fontem — A atravessar as fronteiras digitais da UE, um conjunto de dados de cada vez",
       "login": "Iniciar sessão — Fontem",
       "map": "Mapa — Estatísticas europeias no Fontem",
       "privacy": "Política de privacidade — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "A atravessar as fronteiras digitais da UE, um conjunto de dados de cada vez"
   },
   "errata": {
     "icon_title": "Este contrato foi alterado — clique para ver o que mudou",
