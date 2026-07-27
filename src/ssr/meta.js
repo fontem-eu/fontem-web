@@ -12,7 +12,7 @@
 
 const TITLES = {
   // Stories — public feed — is the new landing.
-  '/': 'Fontem — Public data stories',
+  '/': "Fontem — Crossing the EU's digital borders, one dataset at a time",
   '/about': 'About — Fontem',
   '/privacy': 'Privacy policy — Fontem',
   '/data-quality': 'Data quality — Fontem',
@@ -24,7 +24,7 @@ const TITLES = {
 }
 
 const DESCRIPTIONS = {
-  '/': 'Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.',
+  '/': "Crossing the EU's digital borders, one dataset at a time. Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.",
   '/about': 'Fontem is the collaborative-argument platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
   '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',

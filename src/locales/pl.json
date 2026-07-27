@@ -648,7 +648,7 @@
       "about": "Fontem to platforma transparentności oparta na źródłach pierwotnych. Spółki UE, zamówienia publiczne, lobbyści i finansowanie spójności — połączone w jeden graf i sprawdzone krzyżowo z oficjalnymi rejestrami.",
       "data_quality": "Pokrycie, świeżość i podział źródeł dla każdego zbioru danych w grafie wiedzy Fontem. Transparentność o transparentności.",
       "donate": "Fontem jest darmowy i zawsze taki pozostanie. Darowizny przepływają przez fiskalnego non-profit hosta na Open Collective i utrzymują potoki danych w ruchu, rosnący graf i zespół przy pracy nad jakością.",
-      "home": "Publiczne historie danych ze społeczności Fontem — śledztwa, weryfikacje krzyżowe i ustalenia oparte na źródłach pierwotnych.",
+      "home": "Przekraczamy cyfrowe granice UE, po jednym zbiorze danych. Publiczne historie danych ze społeczności Fontem — śledztwa, weryfikacje krzyżowe i ustalenia oparte na źródłach pierwotnych.",
       "login": "Zaloguj się do Fontem, aby publikować historie danych, zgłaszać problemy i zapisywać swoje badania.",
       "map": "Interaktywna kartogramowa wizualizacja wyselekcjonowanych zbiorów Eurostat na poziomie NUTS — populacja, PKB, bezrobocie, B+R i inne, zmapowane w całej Europie.",
       "privacy": "Jak Fontem obchodzi się z danymi osobowymi. Przechowujemy tylko podstawy konta, bez plików cookie śledzących i bez analityki stron trzecich.",
@@ -659,7 +659,7 @@
       "about": "O nas — Fontem",
       "data_quality": "Jakość danych — Fontem",
       "donate": "Wesprzyj Fontem",
-      "home": "Fontem — Publiczne historie danych",
+      "home": "Fontem — Przekraczamy cyfrowe granice UE, po jednym zbiorze danych",
       "login": "Zaloguj się — Fontem",
       "map": "Mapa — Europejskie statystyki na Fontem",
       "privacy": "Polityka prywatności — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Przekraczamy cyfrowe granice UE, po jednym zbiorze danych"
   },
   "errata": {
     "icon_title": "Ta umowa została zmodyfikowana — kliknij, aby zobaczyć, co się zmieniło",

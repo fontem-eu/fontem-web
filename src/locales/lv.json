@@ -648,7 +648,7 @@
       "about": "Fontem ir primāro avotu caurspīdīguma platforma. ES uzņēmumi, publiskais iepirkums, lobisti un kohēzijas finansējums — savienoti vienā grafā un savstarpēji pārbaudīti pret oficiālajiem reģistriem.",
       "data_quality": "Pārklājums, svaigums un avotu sadalījums katrai datu kopai Fontem zināšanu grafā. Caurspīdīgums par caurspīdīgumu.",
       "donate": "Fontem ir bezmaksas un vienmēr būs. Ziedojumi plūst caur bezpeļņas fiskālo saimnieku Open Collective un uztur datu plūsmas darbībā, grafu augam un komandu kvalitatīvā darbā.",
-      "home": "Publiski datu stāsti no Fontem kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
+      "home": "Šķērsojam ES digitālās robežas, pa vienai datu kopai. Publiski datu stāsti no Fontem kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
       "login": "Piesakies Fontem, lai publicētu datu stāstus, ziņotu par problēmām un saglabātu pētījumus.",
       "map": "Interaktīvs horopletisks atlasītu Eurostat datu kopu attēlojums NUTS līmenī — iedzīvotāji, IKP, bezdarbs, P&A un vairāk, kartēti visā Eiropā.",
       "privacy": "Kā Fontem apstrādā personas datus. Mēs glabājam tikai konta pamatdatus, bez izsekošanas sīkdatnēm un bez trešo pušu analītikas.",
@@ -659,7 +659,7 @@
       "about": "Par — Fontem",
       "data_quality": "Datu kvalitāte — Fontem",
       "donate": "Atbalsti Fontem",
-      "home": "Fontem — Publiski datu stāsti",
+      "home": "Fontem — Šķērsojam ES digitālās robežas, pa vienai datu kopai",
       "login": "Pieteikties — Fontem",
       "map": "Karte — Eiropas statistika Fontem",
       "privacy": "Privātuma politika — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Šķērsojam ES digitālās robežas, pa vienai datu kopai"
   },
   "errata": {
     "icon_title": "Šis līgums tika grozīts — noklikšķiniet, lai redzētu, kas mainījās",

@@ -648,7 +648,7 @@
       "about": "Fontem es la plataforma de transparencia de fuentes primarias. Empresas de la UE, contratación pública, lobistas y financiación de cohesión — enlazados en un grafo y contrastados con los registros oficiales.",
       "data_quality": "Cobertura, frescura y desglose de fuentes para cada dataset del grafo de conocimiento de Fontem. Transparencia sobre transparencia.",
       "donate": "Fontem es gratuito y siempre lo será. Las donaciones pasan por un anfitrión fiscal sin ánimo de lucro en Open Collective y mantienen las tuberías de datos operativas, el grafo creciendo y el equipo en trabajo de calidad.",
-      "home": "Historias de datos públicas de la comunidad Fontem — investigaciones, comprobaciones cruzadas y hallazgos basados en fuentes primarias.",
+      "home": "Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez. Historias de datos públicas de la comunidad Fontem — investigaciones, comprobaciones cruzadas y hallazgos basados en fuentes primarias.",
       "login": "Inicia sesión en Fontem para publicar historias de datos, plantear problemas y guardar tu investigación.",
       "map": "Mapa coroplético interactivo de datasets seleccionados de Eurostat a nivel NUTS — población, PIB, desempleo, I+D y más, cartografiados por toda Europa.",
       "privacy": "Cómo gestiona Fontem los datos personales. Solo almacenamos lo básico de la cuenta, sin cookies de seguimiento ni analítica de terceros.",
@@ -659,7 +659,7 @@
       "about": "Acerca de — Fontem",
       "data_quality": "Calidad de los datos — Fontem",
       "donate": "Apoya a Fontem",
-      "home": "Fontem — Historias de datos públicas",
+      "home": "Fontem — Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez",
       "login": "Iniciar sesión — Fontem",
       "map": "Mapa — Estadísticas europeas en Fontem",
       "privacy": "Política de privacidad — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez"
   },
   "errata": {
     "icon_title": "Este contrato fue modificado — haga clic para ver qué cambió",

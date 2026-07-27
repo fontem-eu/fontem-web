@@ -648,7 +648,7 @@
       "about": "Fontem on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
       "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Fontemin tietämysgraafissa. Avoimuutta avoimuudesta.",
       "donate": "Fontem on ilmainen käyttää ja tulee aina olemaan. Lahjoitukset kulkevat voittoa tavoittelemattoman fiskaalisen isännän kautta Open Collectivessa ja pitävät dataputket toiminnassa, graafin kasvamassa ja tiimin laatutyössä.",
-      "home": "Julkiset datatarinat Fontem-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
+      "home": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan. Julkiset datatarinat Fontem-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
       "login": "Kirjaudu Fontemiin julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
       "map": "Interaktiivinen koropleetti kuratoiduista Eurostat-datajoukoista NUTS-tasolla — väestö, BKT, työttömyys, T&K ja muut, kartoitettuina ympäri Eurooppaa.",
       "privacy": "Miten Fontem käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
@@ -659,7 +659,7 @@
       "about": "Tietoja — Fontem",
       "data_quality": "Datan laatu — Fontem",
       "donate": "Tue Fontemia",
-      "home": "Fontem — Julkiset datatarinat",
+      "home": "Fontem — Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan",
       "login": "Kirjaudu sisään — Fontem",
       "map": "Kartta — Euroopan tilastot Fontemissa",
       "privacy": "Tietosuojakäytäntö — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan"
   },
   "errata": {
     "icon_title": "Tätä sopimusta muutettiin — katso muutokset napsauttamalla",

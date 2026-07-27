@@ -648,7 +648,7 @@
       "about": "Fontem yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
       "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Fontem žinių grafe. Skaidrumas apie skaidrumą.",
       "donate": "Fontem yra nemokamas ir visada bus. Aukos teka per pelno nesiekiantį fiskalinį šeimininką Open Collective ir palaiko duomenų kanalus veikiančius, augantį grafą ir komandą kokybiškame darbe.",
-      "home": "Viešos duomenų istorijos iš Fontem bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
+      "home": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį. Viešos duomenų istorijos iš Fontem bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
       "login": "Prisijunk prie Fontem, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
       "map": "Interaktyvus pasirinktų Eurostat duomenų rinkinių koroplėtas NUTS lygyje — gyventojai, BVP, nedarbas, MTEP ir kt., sužemėlapinta visoje Europoje.",
       "privacy": "Kaip Fontem tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
@@ -659,7 +659,7 @@
       "about": "Apie — Fontem",
       "data_quality": "Duomenų kokybė — Fontem",
       "donate": "Paremk Fontem",
-      "home": "Fontem — Viešos duomenų istorijos",
+      "home": "Fontem — Kertame ES skaitmenines sienas, po vieną duomenų rinkinį",
       "login": "Prisijungti — Fontem",
       "map": "Žemėlapis — Europos statistika Fontem'e",
       "privacy": "Privatumo politika — Fontem",
@@ -1096,7 +1096,8 @@
   },
   "wordmark": {
     "font": "Font",
-    "fontem": "Fontem"
+    "fontem": "Fontem",
+    "tagline": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį"
   },
   "errata": {
     "icon_title": "Ši sutartis buvo pakeista — spustelėkite, kad pamatytumėte, kas pasikeitė",

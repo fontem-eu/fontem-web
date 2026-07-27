@@ -64,6 +64,9 @@ function isActive(path) {
       <MosaicMark :size="30" class="rail-head-mark" />
       <Wordmark v-if="!collapsed" size="sm" class="rail-head-wm" />
     </router-link>
+    <p v-if="!collapsed" class="rail-tagline" data-testid="rail-tagline">
+      {{ $t('wordmark.tagline') }}
+    </p>
 
     <nav class="rail-nav" data-testid="app-nav" :aria-label="$t('nav.menu')">
       <template v-for="(group, gi) in navGroups" :key="group.key">
@@ -115,6 +118,16 @@ function isActive(path) {
 </template>
 
 <style scoped>
+/* Brand line under the wordmark. Muted on purpose: it orients a
+   first-time visitor without competing with the nav. */
+.rail-tagline {
+  margin: 0.15rem 0 0.6rem;
+  padding: 0 0.75rem;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--muted);
+  text-wrap: balance;
+}
 .rail-head {
   display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
   padding: 0.55rem 0.7rem; margin-bottom: 0.35rem; border-radius: 8px;
