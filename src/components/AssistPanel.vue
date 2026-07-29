@@ -682,6 +682,14 @@ defineExpose({ applyProposal, messages })
 
 .assist-messages {
   flex: 1;
+  /* min-height: 0 is load-bearing. A flex item defaults to
+     min-height: auto, which means it refuses to shrink below its
+     content — so this scroller grew to fit the conversation and pushed
+     the input form past the bottom of the panel, which is clipped. There
+     is enough slack on a tall desktop viewport to hide it; at 375x667
+     the input left the panel entirely and stopped being visible at all
+     (Playwright's boundingBox returned null). */
+  min-height: 0;
   overflow-y: auto;
   padding: 0.75rem;
 }
