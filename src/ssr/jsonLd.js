@@ -7,7 +7,7 @@
  *
  * Principle: derive from the SAME data the view rendered, never
  * duplicate.  For now the dataset we know without a fetch is the
- * static metadata about Arguit itself; dynamic pages (data stories,
+ * static metadata about Fontem itself; dynamic pages (data stories,
  * companies) will hook their own per-request data into `context`
  * and use it here.
  */
@@ -17,8 +17,8 @@ const CANONICAL = (globalThis.process?.env?.CANONICAL_URL || 'https://fontem.eu'
 const ORGANIZATION = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Arguit',
-  alternateName: 'arguit.eu',
+  name: 'Fontem',
+  alternateName: 'fontem.eu',
   url: CANONICAL,
   logo: `${CANONICAL}/favicon.svg`,
   description:
@@ -32,7 +32,7 @@ const ORGANIZATION = {
 const WEBSITE = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Arguit',
+  name: 'Fontem',
   url: CANONICAL,
   potentialAction: {
     '@type': 'SearchAction',
@@ -57,7 +57,7 @@ const PRIVACY_PAGE = {
 const DATA_QUALITY_HUB = {
   '@context': 'https://schema.org',
   '@type': 'Dataset',
-  name: 'Arguit knowledge graph',
+  name: 'Fontem knowledge graph',
   description:
     'A linked dataset covering EU companies (from GLEIF), EU public procurement ' +
     '(from TED), EU cohesion projects (from Kohesio), lobbyists (from the EU ' +
@@ -82,7 +82,7 @@ const DATA_QUALITY_HUB = {
 const DONATE_PAGE = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Support Arguit',
+  name: 'Support Fontem',
   url: `${CANONICAL}/donate`,
   isPartOf: { '@type': 'WebSite', url: CANONICAL },
   about: ORGANIZATION,
@@ -122,7 +122,7 @@ function feedItemList(ctx) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Arguit public data stories',
+    name: 'Fontem public data stories',
     url: `${CANONICAL}/`,
     numberOfItems: stories.length,
     itemListElement: stories.map((s, idx) => ({

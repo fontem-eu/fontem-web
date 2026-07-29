@@ -1,30 +1,40 @@
 <script setup>
 /**
- * Petitions list — first-class civic data, same level as data stories.
- * Status filter chips are driven by the backend's per-status counts, so
- * the vocabulary always matches what the register actually contains.
+ * Petitions showcase — a curated, two-section view of European Citizens'
+ * Initiatives (no status filter chips):
+ *
+ *  1. "Collecting signatures" — ONGOING initiatives, most-supported first.
+ *  2. "Reached the required signatures" — SUBMITTED / VERIFICATION / ANSWERED
+ *     (states an ECI only enters after a successful 1,000,000+ collection),
+ *     most-recently-registered first.
+ *
+ * Each section paginates independently with its own "Show more" button,
+ * following the load-more pattern used by SearchView.
  */
-import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchPetitions } from '../api/petitions.js'
 
-const route = useRoute()
-const router = useRouter()
 const { t } = useI18n()
-
-const counts = ref({})
-const results = ref([])
-const total = ref(0)
-const loading = ref(false)
-const error = ref('')
-
-const activeStatus = computed(() => route.query.status || '')
-
 const NUM = new Intl.NumberFormat()
 
-const statuses = computed(() =>
-  Object.entries(counts.value).sort((a, b) => b[1] - a[1]))
+// Status sets + page sizes for each section.
+const COLLECTING_STATUSES = 'ONGOING'
+const REACHED_STATUSES = 'SUBMITTED,VERIFICATION,ANSWERED'
+const COLLECTING_PAGE = 3
+const REACHED_PAGE = 5
+
+const error = ref('')
+
+const collecting = ref([])
+const collectingOffset = ref(0)
+const collectingHasMore = ref(false)
+const collectingLoading = ref(false)
+
+const reached = ref([])
+const reachedOffset = ref(0)
+const reachedHasMore = ref(false)
+const reachedLoading = ref(false)
 
 function statusLabel(s) {
   const key = `petitions.status.${s.toLowerCase()}`
@@ -32,27 +42,80 @@ function statusLabel(s) {
   return label === key ? s : label
 }
 
-function setStatus(s) {
-  router.push({ path: '/petitions', query: s ? { status: s } : {} })
-}
-
-async function load() {
-  loading.value = true
-  error.value = ''
+async function loadCollecting(reset = true) {
+  if (reset) collectingOffset.value = 0
+  collectingLoading.value = true
   try {
-    const data = await fetchPetitions({ status: activeStatus.value || undefined })
-    counts.value = data.counts || {}
-    results.value = data.results || []
-    total.value = data.total || 0
+    const data = await fetchPetitions({
+      statuses: COLLECTING_STATUSES,
+      sort: 'supporters',
+      limit: COLLECTING_PAGE,
+      offset: collectingOffset.value,
+    })
+    const rows = data.results || []
+    collecting.value = reset ? rows : [...collecting.value, ...rows]
+    collectingHasMore.value = rows.length >= COLLECTING_PAGE
   } catch (e) {
     error.value = e?.message || String(e)
   } finally {
-    loading.value = false
+    collectingLoading.value = false
   }
 }
 
-watch(() => route.query.status, load)
-onMounted(load)
+async function loadReached(reset = true) {
+  if (reset) reachedOffset.value = 0
+  reachedLoading.value = true
+  try {
+    const data = await fetchPetitions({
+      statuses: REACHED_STATUSES,
+      sort: 'recent',
+      limit: REACHED_PAGE,
+      offset: reachedOffset.value,
+    })
+    const rows = data.results || []
+    reached.value = reset ? rows : [...reached.value, ...rows]
+    reachedHasMore.value = rows.length >= REACHED_PAGE
+  } catch (e) {
+    error.value = e?.message || String(e)
+  } finally {
+    reachedLoading.value = false
+  }
+}
+
+function loadMoreCollecting() {
+  collectingOffset.value += COLLECTING_PAGE
+  loadCollecting(false)
+}
+
+function loadMoreReached() {
+  reachedOffset.value += REACHED_PAGE
+  loadReached(false)
+}
+
+// A uniform descriptor per section so the template renders both with one loop.
+const sections = computed(() => [
+  {
+    key: 'collecting',
+    title: t('petitions.collecting'),
+    items: collecting.value,
+    hasMore: collectingHasMore.value,
+    loading: collectingLoading.value,
+    loadMore: loadMoreCollecting,
+  },
+  {
+    key: 'reached',
+    title: t('petitions.reached'),
+    items: reached.value,
+    hasMore: reachedHasMore.value,
+    loading: reachedLoading.value,
+    loadMore: loadMoreReached,
+  },
+])
+
+onMounted(() => {
+  loadCollecting(true)
+  loadReached(true)
+})
 </script>
 
 <template>
@@ -62,60 +125,67 @@ onMounted(load)
       <p class="pt-sub">{{ t('petitions.subtitle') }}</p>
     </header>
 
-    <div class="pt-filters" data-testid="petitions-filters">
-      <button
-        type="button"
-        class="pt-chip"
-        :class="{ 'pt-chip--on': !activeStatus }"
-        data-testid="filter-all"
-        @click="setStatus('')"
-      >{{ t('petitions.all') }} <span class="pt-count">{{ NUM.format(total) }}</span></button>
-      <button
-        v-for="[s, n] in statuses"
-        :key="s"
-        type="button"
-        class="pt-chip"
-        :class="{ 'pt-chip--on': activeStatus === s }"
-        :data-testid="`filter-${s}`"
-        @click="setStatus(s)"
-      >{{ statusLabel(s) }} <span class="pt-count">{{ NUM.format(n) }}</span></button>
-    </div>
-
     <p v-if="error" class="pt-error" data-testid="petitions-error">{{ error }}</p>
-    <p v-else-if="loading && !results.length" class="pt-status">{{ t('petitions.loading') }}</p>
-    <p v-else-if="!results.length" class="pt-status" data-testid="petitions-empty">
-      {{ t('petitions.empty') }}
-    </p>
 
-    <ul class="pt-list">
-      <li v-for="r in results" :key="r.petition_id" class="pt-card" data-testid="petition-card">
-        <RouterLink
-          class="pt-title"
-          :to="`/petitions/${encodeURIComponent(r.petition_id)}`"
-        >{{ r.title || r.petition_id }}</RouterLink>
-        <div class="pt-meta">
-          <span class="pt-badge" :data-status="r.status">{{ statusLabel(r.status) }}</span>
-          <span class="pt-supporters" data-testid="petition-supporters">
-            {{ NUM.format(r.total_supporters || 0) }} {{ t('petitions.supporters') }}
-          </span>
-          <span v-if="r.registration_date" class="pt-date">{{ r.registration_date }}</span>
-        </div>
-      </li>
-    </ul>
+    <section
+      v-for="sec in sections"
+      :key="sec.key"
+      class="pt-section"
+      :data-testid="`section-${sec.key}`"
+    >
+      <h2 class="pt-section-title">{{ sec.title }}</h2>
+
+      <p
+        v-if="!sec.items.length && sec.loading"
+        class="pt-status"
+      >{{ t('petitions.loading') }}</p>
+      <p
+        v-else-if="!sec.items.length"
+        class="pt-status"
+        :data-testid="`empty-${sec.key}`"
+      >{{ t('petitions.empty') }}</p>
+
+      <ul v-else class="pt-list">
+        <li
+          v-for="r in sec.items"
+          :key="r.petition_id"
+          class="pt-card"
+          data-testid="petition-card"
+        >
+          <RouterLink
+            class="pt-title"
+            :to="`/petitions/${encodeURIComponent(r.petition_id)}`"
+          >{{ r.title || r.petition_id }}</RouterLink>
+          <div class="pt-meta">
+            <span class="pt-badge" :data-status="r.status">{{ statusLabel(r.status) }}</span>
+            <span class="pt-supporters" data-testid="petition-supporters">
+              {{ NUM.format(r.total_supporters || 0) }} {{ t('petitions.supporters') }}
+            </span>
+            <span v-if="r.registration_date" class="pt-date">{{ r.registration_date }}</span>
+          </div>
+        </li>
+      </ul>
+
+      <button
+        v-if="sec.hasMore"
+        type="button"
+        class="pt-more"
+        :data-testid="`show-more-${sec.key}`"
+        :disabled="sec.loading"
+        @click="sec.loadMore()"
+      >
+        {{ sec.loading ? t('petitions.loading') : t('petitions.show_more') }}
+      </button>
+    </section>
   </main>
 </template>
 
 <style scoped>
 .petitions-view { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .pt-head h1 { margin: 0 0 0.25rem; }
-.pt-sub { color: var(--text); opacity: 0.7; margin: 0 0 1rem; }
-.pt-filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
-.pt-chip {
-  border: 1px solid var(--border); border-radius: 999px; background: none;
-  color: var(--text); padding: 0.3rem 0.75rem; cursor: pointer; font-size: 0.85rem;
-}
-.pt-chip--on { background: var(--accent); color: #fff; border-color: var(--accent); }
-.pt-count { opacity: 0.65; font-variant-numeric: tabular-nums; margin-left: 0.25rem; }
+.pt-sub { color: var(--text); opacity: 0.7; margin: 0 0 1.5rem; }
+.pt-section { margin-bottom: 2rem; }
+.pt-section-title { font-size: 1.15rem; margin: 0 0 0.75rem; }
 .pt-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .pt-card { border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem; background: var(--surface, transparent); }
 .pt-title { font-weight: 600; color: var(--text); text-decoration: none; }
@@ -128,5 +198,10 @@ onMounted(load)
 .pt-badge[data-status="ANSWERED"] { border-color: var(--accent); color: var(--accent); }
 .pt-supporters { font-variant-numeric: tabular-nums; }
 .pt-date, .pt-status { opacity: 0.65; }
+.pt-more {
+  margin-top: 1rem; width: 100%; background: none; border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.5rem 0.75rem; cursor: pointer; color: var(--text); font-size: 0.88rem;
+}
+.pt-more:disabled { opacity: 0.5; cursor: not-allowed; }
 .pt-error { color: #c0392b; }
 </style>

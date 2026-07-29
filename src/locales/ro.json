@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Publicarea unei povești de date din editor",
     "step_publish_name": "Publică",
     "step_search_desc": "Caută orice companie, autoritate contractantă, lobbyist sau proiect finanțat de UE după nume sau identificator.",
-    "step_search_gif_alt": "Căutare entitate în Arguit",
+    "step_search_gif_alt": "Căutare entitate în Fontem",
     "step_search_name": "Caută",
     "try": "Încearcă:",
     "walkthrough_searching_a_company_explorin": "Ghid: căutarea unei companii, explorarea achizițiilor publice și publicarea unei povești de date"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Contribuie &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donațiile trec printr-o organizație non-profit fiscal host pe",
     "open_collective": "Open Collective",
-    "support_fontem": "Sprijină Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Mulțumim tuturor celor care mențin Arguit în viață.",
+    "support_fontem": "Sprijină Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Mulțumim tuturor celor care mențin Fontem în viață.",
     "tier_backer_desc": "Finanțează munca continuă pe pipeline-urile de date: surse noi, acoperire mai bună.",
     "tier_backer_name": "Sprijinitor",
     "tier_oneoff_amount": "Orice sumă",
@@ -621,7 +621,7 @@
     "go_to_home": "Mergi la pagina principală",
     "you_already_have_an_active_session": "Ai deja o sesiune activă.",
     "youre_signed_in": "Ești autentificat(ă)",
-    "sign_in_to_fontem": "Autentificați-vă în Arguit",
+    "sign_in_to_fontem": "Autentificați-vă în Fontem",
     "sign_in_to_start_creating_data_stories": "Autentificați-vă pentru a începe să creați articole bazate pe date, să semnalați probleme și să colaborați cu comunitatea.",
     "signing_in": "Se realizează autentificarea...",
     "sign_in": "Autentificare",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
-      "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Arguit. Transparență despre transparență.",
-      "donate": "Arguit este gratuit de utilizat și va fi întotdeauna. Donațiile trec printr-o gazdă fiscală non-profit pe Open Collective și mențin conductele de date în funcțiune, graful în creștere și echipa la muncă de calitate.",
-      "home": "Povești publice de date din comunitatea Arguit — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
-      "login": "Autentifică-te în Arguit pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
+      "about": "Fontem este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
+      "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Fontem. Transparență despre transparență.",
+      "donate": "Fontem este gratuit de utilizat și va fi întotdeauna. Donațiile trec printr-o gazdă fiscală non-profit pe Open Collective și mențin conductele de date în funcțiune, graful în creștere și echipa la muncă de calitate.",
+      "home": "Trecem granițele digitale ale UE, un set de date pe rând. Povești publice de date din comunitatea Fontem — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
+      "login": "Autentifică-te în Fontem pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
       "map": "Coroplet interactiv al seturilor de date Eurostat curate la nivel NUTS — populație, PIB, șomaj, C&D și altele, mapate în întreaga Europă.",
-      "privacy": "Cum gestionează Arguit datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
-      "sparql": "Interoghează graful de cunoștințe Arguit direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
+      "privacy": "Cum gestionează Fontem datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
+      "sparql": "Interoghează graful de cunoștințe Fontem direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
       "spending": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Plus ce e mare în țara ta."
     },
     "title": {
-      "about": "Despre — Arguit",
-      "data_quality": "Calitatea datelor — Arguit",
-      "donate": "Sprijină Arguit",
-      "home": "Arguit — Povești publice de date",
-      "login": "Autentificare — Arguit",
-      "map": "Hartă — Statistici europene pe Arguit",
-      "privacy": "Politica de confidențialitate — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Cheltuieli — achiziții publice UE pe Arguit"
+      "about": "Despre — Fontem",
+      "data_quality": "Calitatea datelor — Fontem",
+      "donate": "Sprijină Fontem",
+      "home": "Fontem — Trecem granițele digitale ale UE, un set de date pe rând",
+      "login": "Autentificare — Fontem",
+      "map": "Hartă — Statistici europene pe Fontem",
+      "privacy": "Politica de confidențialitate — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Cheltuieli — achiziții publice UE pe Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Acces",
-    "all_data_in_the_fontem_knowledge_graph_r": "Toate datele din graful de cunoștințe Arguit se referă la",
+    "all_data_in_the_fontem_knowledge_graph_r": "Toate datele din graful de cunoștințe Fontem se referă la",
     "conversation_processing_is_performed_by_": "Procesarea conversațiilor este efectuată de furnizori de IA cu sediul în UE.",
     "conversations_are_automatically_deleted_": "Conversațiile sunt șterse automat după 90 de zile.",
     "erase": "Ștergere",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Conform GDPR ai dreptul:",
     "when_you_sign_in_we_collect_and_store": "Când te autentifici, colectăm și stocăm:",
     "your": "Ale tale",
-    "what_fontem_is": "1. Ce este Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit este o platformă de transparență civică ce conectează datele privind achizițiile publice din UE, registrele de proprietate corporativă și finanțările din politica de coeziune într-un singur graf de cunoștințe. Scopul său este de a facilita explorarea și înțelegerea cheltuielilor publice și a structurilor corporative.",
+    "what_fontem_is": "1. Ce este Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem este o platformă de transparență civică ce conectează datele privind achizițiile publice din UE, registrele de proprietate corporativă și finanțările din politica de coeziune într-un singur graf de cunoștințe. Scopul său este de a facilita explorarea și înțelegerea cheltuielilor publice și a structurilor corporative.",
     "data_in_the_knowledge_graph": "2. Datele din graful de cunoștințe",
     "legal_entities": "persoane juridice",
     "companies_public_authorities_and_organis": "(companii, autorități publice și organizații) — nu persoane fizice. Agregăm date disponibile public din următoarele surse:",
@@ -815,7 +815,7 @@
     "cookies": "6. Module cookie",
     "we_only_use_strictly_necessary_cookies": "Utilizăm doar module cookie de sesiune strict necesare pentru autentificare. Nu utilizăm module cookie de urmărire, module cookie publicitare sau module cookie de analiză ale terților.",
     "changes_to_this_policy": "7. Modificări ale acestei politici",
-    "we_may_update_this_policy": "Este posibil să actualizăm periodic această politică. Atunci când o facem, vom revizui data „ultimei actualizări” din partea de sus a acestei pagini. Utilizarea în continuare a Arguit după modificări constituie acceptarea politicii actualizate."
+    "we_may_update_this_policy": "Este posibil să actualizăm periodic această politică. Atunci când o facem, vom revizui data „ultimei actualizări” din partea de sus a acestei pagini. Utilizarea în continuare a Fontem după modificări constituie acceptarea politicii actualizate."
   },
   "profile": {
     "avg_net_margin": "Marja netă medie",
@@ -906,7 +906,9 @@
     "close": "Închide",
     "start_writing": "Începeți să vă redactați analiza...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entități sancționate — persoane, organizații, acoperirea regimului și potrivirea companiilor",
@@ -929,7 +931,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpoint",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Interoghează graful de cunoștințe Arguit direct din browser sau cuplează endpointul la OpenRefine / un notebook / propriile unelte. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
+    "intro": "Interoghează graful de cunoștințe Fontem direct din browser sau cuplează endpointul la OpenRefine / un notebook / propriile unelte. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
     "limits": "Limite",
     "method": "Metodă",
     "post": "POST",
@@ -1093,8 +1095,9 @@
     "unknown_widget_type": "Tip de widget necunoscut:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Trecem granițele digitale ale UE, un set de date pe rând"
   },
   "errata": {
     "icon_title": "Acest contract a fost modificat — faceți clic pentru a vedea ce s-a schimbat",
@@ -1223,9 +1226,9 @@
     "one_moment": "Un moment.",
     "email_confirmed": "E-mail confirmat",
     "your_account_is_verified": "Contul dumneavoastră este verificat. Acum puteți publica articole, comenta și urmări subiecte.",
-    "continue_to_fontem": "Continuă către Arguit",
+    "continue_to_fontem": "Continuă către Fontem",
     "the_link_may_have_expired": "Este posibil ca linkul să fi expirat sau să fi fost deja utilizat. Autentificați-vă și solicitați un nou e-mail de verificare din bannerul din partea de sus.",
-    "go_to_fontem": "Mergi la Arguit",
+    "go_to_fontem": "Mergi la Fontem",
     "couldnt_confirm_your_email": "Nu s-a putut confirma adresa de e-mail"
   },
   "studio_plot": {
@@ -1679,6 +1682,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

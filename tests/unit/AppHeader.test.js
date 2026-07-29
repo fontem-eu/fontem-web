@@ -20,9 +20,9 @@ describe('AppHeader (bezel bar)', () => {
   beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
   afterEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks(); vi.unstubAllGlobals() })
 
-  it('renders the Arguit wordmark', async () => {
+  it('renders the Fontem wordmark', async () => {
     const { wrapper } = await mountAt('/')
-    expect(wrapper.find('h1').text()).toBe('Arguit')
+    expect(wrapper.find('h1').text()).toBe('Fontem')
   })
   it('shows the mobile nav-toggle (hamburger) off the login page', async () => {
     const { wrapper } = await mountAt('/')

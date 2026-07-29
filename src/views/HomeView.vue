@@ -133,7 +133,7 @@ function onCompanyResolved(info) {
   if (info?.name) {
     const view = selectedView.value || 'summary'
     const label = view.charAt(0).toUpperCase() + view.slice(1)
-    document.title = `${info.name} — ${label} | Arguit`
+    document.title = `${info.name} — ${label} | Fontem`
   }
 }
 
@@ -145,7 +145,7 @@ function onViewChange(view) {
 }
 
 function onClose() {
-  document.title = 'Arguit — EU Enterprise Knowledge Graph'
+  document.title = 'Fontem — EU Enterprise Knowledge Graph'
   router.push('/')
 }
 </script>

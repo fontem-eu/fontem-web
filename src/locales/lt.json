@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Duomenų istorijos paskelbimas iš redaktoriaus",
     "step_publish_name": "Paskelbti",
     "step_search_desc": "Ieškok bet kurios įmonės, perkančiosios institucijos, lobisto ar ES finansuoto projekto pagal vardą ar identifikatorių.",
-    "step_search_gif_alt": "Esybės paieška Arguit'e",
+    "step_search_gif_alt": "Esybės paieška Fontem'e",
     "step_search_name": "Ieškoti",
     "try": "Išbandyk:",
     "walkthrough_searching_a_company_explorin": "Vadovas: įmonės paieška, viešųjų pirkimų tyrinėjimas ir duomenų istorijos paskelbimas"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Prisidėk &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Aukos teka per pelno nesiekiantį fiskalinį šeimininką platformoje",
     "open_collective": "Open Collective",
-    "support_fontem": "Paremk Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Ačiū visiems, kurie palaiko Arguit gyvą.",
+    "support_fontem": "Paremk Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Ačiū visiems, kurie palaiko Fontem gyvą.",
     "tier_backer_desc": "Finansuoja nuolatinį darbą su duomenų kanalais: nauji šaltiniai, geresnė aprėptis.",
     "tier_backer_name": "Globėjas",
     "tier_oneoff_amount": "Bet kokia suma",
@@ -621,7 +621,7 @@
     "go_to_home": "Eiti į pradžią",
     "you_already_have_an_active_session": "Jau turi aktyvų seansą.",
     "youre_signed_in": "Esi prisijungęs",
-    "sign_in_to_fontem": "Prisijunkite prie Arguit",
+    "sign_in_to_fontem": "Prisijunkite prie Fontem",
     "sign_in_to_start_creating_data_stories": "Prisijunkite, kad pradėtumėte kurti duomenų istorijas, kelti klausimus ir bendradarbiauti su bendruomene.",
     "signing_in": "Prisijungiama...",
     "sign_in": "Prisijungti",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
-      "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Arguit žinių grafe. Skaidrumas apie skaidrumą.",
-      "donate": "Arguit yra nemokamas ir visada bus. Aukos teka per pelno nesiekiantį fiskalinį šeimininką Open Collective ir palaiko duomenų kanalus veikiančius, augantį grafą ir komandą kokybiškame darbe.",
-      "home": "Viešos duomenų istorijos iš Arguit bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
-      "login": "Prisijunk prie Arguit, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
+      "about": "Fontem yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
+      "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Fontem žinių grafe. Skaidrumas apie skaidrumą.",
+      "donate": "Fontem yra nemokamas ir visada bus. Aukos teka per pelno nesiekiantį fiskalinį šeimininką Open Collective ir palaiko duomenų kanalus veikiančius, augantį grafą ir komandą kokybiškame darbe.",
+      "home": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį. Viešos duomenų istorijos iš Fontem bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
+      "login": "Prisijunk prie Fontem, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
       "map": "Interaktyvus pasirinktų Eurostat duomenų rinkinių koroplėtas NUTS lygyje — gyventojai, BVP, nedarbas, MTEP ir kt., sužemėlapinta visoje Europoje.",
-      "privacy": "Kaip Arguit tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
-      "sparql": "Užklausk Arguit žinių grafą tiesiogiai per SPARQL. Įmonės, sutartys, institucijos, lobistai, sankcijos — visi susieti.",
+      "privacy": "Kaip Fontem tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
+      "sparql": "Užklausk Fontem žinių grafą tiesiogiai per SPARQL. Įmonės, sutartys, institucijos, lobistai, sankcijos — visi susieti.",
       "spending": "Ieškok ES įmonių, perkančiųjų institucijų, lobistų ir ES finansuojamų projektų. Plius kas didžiu tavo šalyje."
     },
     "title": {
-      "about": "Apie — Arguit",
-      "data_quality": "Duomenų kokybė — Arguit",
-      "donate": "Paremk Arguit",
-      "home": "Arguit — Viešos duomenų istorijos",
-      "login": "Prisijungti — Arguit",
-      "map": "Žemėlapis — Europos statistika Arguit'e",
-      "privacy": "Privatumo politika — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Išlaidos — ES viešieji pirkimai Arguit'e"
+      "about": "Apie — Fontem",
+      "data_quality": "Duomenų kokybė — Fontem",
+      "donate": "Paremk Fontem",
+      "home": "Fontem — Kertame ES skaitmenines sienas, po vieną duomenų rinkinį",
+      "login": "Prisijungti — Fontem",
+      "map": "Žemėlapis — Europos statistika Fontem'e",
+      "privacy": "Privatumo politika — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Išlaidos — ES viešieji pirkimai Fontem'e"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Prieiga",
-    "all_data_in_the_fontem_knowledge_graph_r": "Visi Arguit žinių grafo duomenys yra susiję su",
+    "all_data_in_the_fontem_knowledge_graph_r": "Visi Fontem žinių grafo duomenys yra susiję su",
     "conversation_processing_is_performed_by_": "Pokalbius apdoroja ES įsikūrę DI paslaugų teikėjai.",
     "conversations_are_automatically_deleted_": "Pokalbiai automatiškai ištrinami po 90 dienų.",
     "erase": "Ištrynimas",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Pagal BDAR turi teisę:",
     "when_you_sign_in_we_collect_and_store": "Kai prisijungi, mes renkame ir saugome:",
     "your": "Tavo",
-    "what_fontem_is": "1. Kas yra Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit yra pilietinio skaidrumo platforma, jungianti ES viešųjų pirkimų duomenis, įmonių nuosavybės registrus ir sanglaudos politikos finansavimą į vieną žinių grafą. Jos tikslas – padaryti viešąsias išlaidas ir įmonių struktūras lengviau nagrinėjamas ir suprantamas.",
+    "what_fontem_is": "1. Kas yra Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem yra pilietinio skaidrumo platforma, jungianti ES viešųjų pirkimų duomenis, įmonių nuosavybės registrus ir sanglaudos politikos finansavimą į vieną žinių grafą. Jos tikslas – padaryti viešąsias išlaidas ir įmonių struktūras lengviau nagrinėjamas ir suprantamas.",
     "data_in_the_knowledge_graph": "2. Duomenys žinių grafe",
     "legal_entities": "juridiniai asmenys",
     "companies_public_authorities_and_organis": "(įmonės, viešosios institucijos ir organizacijos) – ne fiziniai asmenys. Mes kaupiame viešai prieinamus duomenis iš šių šaltinių:",
@@ -815,7 +815,7 @@
     "cookies": "6. Slapukai",
     "we_only_use_strictly_necessary_cookies": "Mes naudojame tik būtinuosius seanso slapukus autentifikavimui. Nenaudojame stebėjimo slapukų, reklamos slapukų ar trečiųjų šalių analitikos slapukų.",
     "changes_to_this_policy": "7. Šios politikos pakeitimai",
-    "we_may_update_this_policy": "Kartais galime atnaujinti šią politiką. Tai padarę, atnaujinsime „paskutinį kartą atnaujinta“ datą šio puslapio viršuje. Toliau naudodamiesi Arguit po pakeitimų, sutinkate su atnaujinta politika."
+    "we_may_update_this_policy": "Kartais galime atnaujinti šią politiką. Tai padarę, atnaujinsime „paskutinį kartą atnaujinta“ datą šio puslapio viršuje. Toliau naudodamiesi Fontem po pakeitimų, sutinkate su atnaujinta politika."
   },
   "profile": {
     "avg_net_margin": "Vidutinė grynoji marža",
@@ -906,7 +906,9 @@
     "close": "Uždaryti",
     "start_writing": "Pradėkite rašyti savo analizę...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionuotos esybės — asmenys, organizacijos, režimo aprėptis ir įmonių atitikmenys",
@@ -929,7 +931,7 @@
     "endpoint": "Galinis taškas",
     "endpoint_url": "Galinio taško URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Užklausk Arguit žinių grafą tiesiogiai iš naršyklės arba prijunk galinį tašką prie OpenRefine / užrašų / savo įrankių. Įmonės, sutartys, institucijos, lobistai, sankcijos — viskas susieta.",
+    "intro": "Užklausk Fontem žinių grafą tiesiogiai iš naršyklės arba prijunk galinį tašką prie OpenRefine / užrašų / savo įrankių. Įmonės, sutartys, institucijos, lobistai, sankcijos — viskas susieta.",
     "limits": "Ribos",
     "method": "Metodas",
     "post": "POST",
@@ -1093,8 +1095,9 @@
     "unknown_widget_type": "Nežinomas valdiklio tipas:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį"
   },
   "errata": {
     "icon_title": "Ši sutartis buvo pakeista — spustelėkite, kad pamatytumėte, kas pasikeitė",
@@ -1223,9 +1226,9 @@
     "one_moment": "Vieną akimirką.",
     "email_confirmed": "El. paštas patvirtintas",
     "your_account_is_verified": "Jūsų paskyra patvirtinta. Dabar galite skelbti istorijas, komentuoti ir sekti temas.",
-    "continue_to_fontem": "Tęsti į Arguit",
+    "continue_to_fontem": "Tęsti į Fontem",
     "the_link_may_have_expired": "Nuoroda galėjo baigti galioti arba jau buvo panaudota. Prisijunkite ir viršuje esančioje juostoje užsisakykite naują patvirtinimo el. laišką.",
-    "go_to_fontem": "Eiti į Arguit",
+    "go_to_fontem": "Eiti į Fontem",
     "couldnt_confirm_your_email": "Nepavyko patvirtinti jūsų el. pašto"
   },
   "studio_plot": {
@@ -1679,6 +1682,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

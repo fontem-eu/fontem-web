@@ -25,8 +25,8 @@ describe('titleForPath', () => {
     (path) => {
       const title = titleForPath({ path })
       expect(title).toBeTruthy()
-      // Every title should mention Arguit so brand is consistent in tabs.
-      expect(title.toLowerCase()).toContain('arguit')
+      // Every title should mention Fontem so brand is consistent in tabs.
+      expect(title.toLowerCase()).toContain('fontem')
     },
   )
 
@@ -36,7 +36,7 @@ describe('titleForPath', () => {
 
   it('falls back to a default for unknown paths', () => {
     const fallback = titleForPath({ path: '/no-such-route' })
-    expect(fallback.toLowerCase()).toContain('arguit')
+    expect(fallback.toLowerCase()).toContain('fontem')
   })
 })
 

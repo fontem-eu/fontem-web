@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Publikowanie historii danych z edytora",
     "step_publish_name": "Opublikuj",
     "step_search_desc": "Wyszukaj dowolną spółkę, zamawiającego, lobbystę lub projekt finansowany przez UE według nazwy lub identyfikatora.",
-    "step_search_gif_alt": "Wyszukiwanie encji w Arguit",
+    "step_search_gif_alt": "Wyszukiwanie encji w Fontem",
     "step_search_name": "Wyszukaj",
     "try": "Wypróbuj:",
     "walkthrough_searching_a_company_explorin": "Przewodnik: wyszukanie firmy, eksploracja zamówień publicznych i publikacja historii danych"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Wesprzyj &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Darowizny przechodzą przez fiscal-host organizację non-profit w",
     "open_collective": "Open Collective",
-    "support_fontem": "Wesprzyj Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Dziękujemy wszystkim, którzy utrzymują Arguit przy życiu.",
+    "support_fontem": "Wesprzyj Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Dziękujemy wszystkim, którzy utrzymują Fontem przy życiu.",
     "tier_backer_desc": "Finansuje bieżące prace nad potokami danych: nowe źródła, lepsze pokrycie.",
     "tier_backer_name": "Sponsor",
     "tier_oneoff_amount": "Dowolna kwota",
@@ -621,7 +621,7 @@
     "go_to_home": "Przejdź do strony głównej",
     "you_already_have_an_active_session": "Masz już aktywną sesję.",
     "youre_signed_in": "Jesteś zalogowany(-a)",
-    "sign_in_to_fontem": "Zaloguj się do Arguit",
+    "sign_in_to_fontem": "Zaloguj się do Fontem",
     "sign_in_to_start_creating_data_stories": "Zaloguj się, aby zacząć tworzyć reportaże oparte na danych, zgłaszać problemy i współpracować ze społecznością.",
     "signing_in": "Logowanie...",
     "sign_in": "Zaloguj się",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit to platforma transparentności oparta na źródłach pierwotnych. Spółki UE, zamówienia publiczne, lobbyści i finansowanie spójności — połączone w jeden graf i sprawdzone krzyżowo z oficjalnymi rejestrami.",
-      "data_quality": "Pokrycie, świeżość i podział źródeł dla każdego zbioru danych w grafie wiedzy Arguit. Transparentność o transparentności.",
-      "donate": "Arguit jest darmowy i zawsze taki pozostanie. Darowizny przepływają przez fiskalnego non-profit hosta na Open Collective i utrzymują potoki danych w ruchu, rosnący graf i zespół przy pracy nad jakością.",
-      "home": "Publiczne historie danych ze społeczności Arguit — śledztwa, weryfikacje krzyżowe i ustalenia oparte na źródłach pierwotnych.",
-      "login": "Zaloguj się do Arguit, aby publikować historie danych, zgłaszać problemy i zapisywać swoje badania.",
+      "about": "Fontem to platforma transparentności oparta na źródłach pierwotnych. Spółki UE, zamówienia publiczne, lobbyści i finansowanie spójności — połączone w jeden graf i sprawdzone krzyżowo z oficjalnymi rejestrami.",
+      "data_quality": "Pokrycie, świeżość i podział źródeł dla każdego zbioru danych w grafie wiedzy Fontem. Transparentność o transparentności.",
+      "donate": "Fontem jest darmowy i zawsze taki pozostanie. Darowizny przepływają przez fiskalnego non-profit hosta na Open Collective i utrzymują potoki danych w ruchu, rosnący graf i zespół przy pracy nad jakością.",
+      "home": "Przekraczamy cyfrowe granice UE, po jednym zbiorze danych. Publiczne historie danych ze społeczności Fontem — śledztwa, weryfikacje krzyżowe i ustalenia oparte na źródłach pierwotnych.",
+      "login": "Zaloguj się do Fontem, aby publikować historie danych, zgłaszać problemy i zapisywać swoje badania.",
       "map": "Interaktywna kartogramowa wizualizacja wyselekcjonowanych zbiorów Eurostat na poziomie NUTS — populacja, PKB, bezrobocie, B+R i inne, zmapowane w całej Europie.",
-      "privacy": "Jak Arguit obchodzi się z danymi osobowymi. Przechowujemy tylko podstawy konta, bez plików cookie śledzących i bez analityki stron trzecich.",
-      "sparql": "Odpytuj graf wiedzy Arguit bezpośrednio przez SPARQL. Spółki, umowy, organy, lobbyści, sankcje — wszystko powiązane.",
+      "privacy": "Jak Fontem obchodzi się z danymi osobowymi. Przechowujemy tylko podstawy konta, bez plików cookie śledzących i bez analityki stron trzecich.",
+      "sparql": "Odpytuj graf wiedzy Fontem bezpośrednio przez SPARQL. Spółki, umowy, organy, lobbyści, sankcje — wszystko powiązane.",
       "spending": "Wyszukuj spółki UE, zamawiających, lobbystów i projekty finansowane przez UE. Plus to, co jest duże w twoim kraju."
     },
     "title": {
-      "about": "O nas — Arguit",
-      "data_quality": "Jakość danych — Arguit",
-      "donate": "Wesprzyj Arguit",
-      "home": "Arguit — Publiczne historie danych",
-      "login": "Zaloguj się — Arguit",
-      "map": "Mapa — Europejskie statystyki na Arguit",
-      "privacy": "Polityka prywatności — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Wydatki — zamówienia publiczne UE na Arguit"
+      "about": "O nas — Fontem",
+      "data_quality": "Jakość danych — Fontem",
+      "donate": "Wesprzyj Fontem",
+      "home": "Fontem — Przekraczamy cyfrowe granice UE, po jednym zbiorze danych",
+      "login": "Zaloguj się — Fontem",
+      "map": "Mapa — Europejskie statystyki na Fontem",
+      "privacy": "Polityka prywatności — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Wydatki — zamówienia publiczne UE na Fontem"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Dostęp",
-    "all_data_in_the_fontem_knowledge_graph_r": "Wszystkie dane w grafie wiedzy Arguit dotyczą",
+    "all_data_in_the_fontem_knowledge_graph_r": "Wszystkie dane w grafie wiedzy Fontem dotyczą",
     "conversation_processing_is_performed_by_": "Przetwarzanie rozmów odbywa się przez dostawców SI mających siedzibę w UE.",
     "conversations_are_automatically_deleted_": "Rozmowy są automatycznie usuwane po 90 dniach.",
     "erase": "Usuń",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Zgodnie z RODO masz prawo do:",
     "when_you_sign_in_we_collect_and_store": "Po zalogowaniu zbieramy i przechowujemy:",
     "your": "Twoje",
-    "what_fontem_is": "1. Czym jest Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit to platforma transparentności obywatelskiej, która łączy dane o zamówieniach publicznych UE, rejestry własności korporacyjnej oraz finansowanie polityki spójności w jeden graf wiedzy. Jej celem jest ułatwienie eksploracji i zrozumienia wydatków publicznych oraz struktur korporacyjnych.",
+    "what_fontem_is": "1. Czym jest Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem to platforma transparentności obywatelskiej, która łączy dane o zamówieniach publicznych UE, rejestry własności korporacyjnej oraz finansowanie polityki spójności w jeden graf wiedzy. Jej celem jest ułatwienie eksploracji i zrozumienia wydatków publicznych oraz struktur korporacyjnych.",
     "data_in_the_knowledge_graph": "2. Dane w grafie wiedzy",
     "legal_entities": "podmioty prawne",
     "companies_public_authorities_and_organis": "(spółki, organy publiczne i organizacje) — nie osoby fizyczne. Agregujemy publicznie dostępne dane z następujących źródeł:",
@@ -815,7 +815,7 @@
     "cookies": "6. Pliki cookie",
     "we_only_use_strictly_necessary_cookies": "Używamy wyłącznie ściśle niezbędnych sesyjnych plików cookie do uwierzytelniania. Nie stosujemy śledzących plików cookie, reklamowych plików cookie ani plików cookie analitycznych stron trzecich.",
     "changes_to_this_policy": "7. Zmiany niniejszej polityki",
-    "we_may_update_this_policy": "Od czasu do czasu możemy aktualizować niniejszą politykę. Gdy to zrobimy, zaktualizujemy datę \"ostatniej aktualizacji\" u góry tej strony. Dalsze korzystanie z Arguit po wprowadzeniu zmian oznacza akceptację zaktualizowanej polityki."
+    "we_may_update_this_policy": "Od czasu do czasu możemy aktualizować niniejszą politykę. Gdy to zrobimy, zaktualizujemy datę \"ostatniej aktualizacji\" u góry tej strony. Dalsze korzystanie z Fontem po wprowadzeniu zmian oznacza akceptację zaktualizowanej polityki."
   },
   "profile": {
     "avg_net_margin": "Śr. marża netto",
@@ -906,7 +906,9 @@
     "close": "Zamknij",
     "start_writing": "Rozpocznij pisanie swojej analizy...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Podmioty objęte sankcjami — osoby, organizacje, pokrycie reżimu i dopasowanie firm",
@@ -929,7 +931,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpointu",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Odpytuj graf wiedzy Arguit bezpośrednio z przeglądarki lub podłącz endpoint do OpenRefine / notatnika / własnych narzędzi. Spółki, umowy, organy, lobbyści, sankcje — wszystko powiązane.",
+    "intro": "Odpytuj graf wiedzy Fontem bezpośrednio z przeglądarki lub podłącz endpoint do OpenRefine / notatnika / własnych narzędzi. Spółki, umowy, organy, lobbyści, sankcje — wszystko powiązane.",
     "limits": "Limity",
     "method": "Metoda",
     "post": "POST",
@@ -1093,8 +1095,9 @@
     "unknown_widget_type": "Nieznany typ widgetu:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Przekraczamy cyfrowe granice UE, po jednym zbiorze danych"
   },
   "errata": {
     "icon_title": "Ta umowa została zmodyfikowana — kliknij, aby zobaczyć, co się zmieniło",
@@ -1223,9 +1226,9 @@
     "one_moment": "Chwileczkę.",
     "email_confirmed": "Adres e-mail potwierdzony",
     "your_account_is_verified": "Twoje konto zostało zweryfikowane. Możesz teraz publikować artykuły, komentować i śledzić tematy.",
-    "continue_to_fontem": "Przejdź do Arguit",
+    "continue_to_fontem": "Przejdź do Fontem",
     "the_link_may_have_expired": "Link mógł wygasnąć lub został już wykorzystany. Zaloguj się i poproś o nowy e-mail weryfikacyjny za pomocą banera u góry.",
-    "go_to_fontem": "Przejdź do Arguit",
+    "go_to_fontem": "Przejdź do Fontem",
     "couldnt_confirm_your_email": "Nie udało się potwierdzić Twojego adresu e-mail"
   },
   "studio_plot": {
@@ -1679,6 +1682,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

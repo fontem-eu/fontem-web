@@ -51,7 +51,7 @@ import {
 } from '../api/community.js'
 import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
-import NutsRegionPicker from '../components/NutsRegionPicker.vue'
+import CountryRegionPicker from '../components/CountryRegionPicker.vue'
 import { fetchNutsRegions } from '../api/geo.js'
 import TranslationControls from '../components/TranslationControls.vue'
 
@@ -115,6 +115,23 @@ const nutsRegion = ref('')
 const regionNames = ref({})
 const tags = ref([])
 const saving = ref(false)
+
+// ── Mobile header menu (kebab) ──────────────────────────────
+// On narrow viewports the header collapses to just the primary Save
+// button + a 3-dot kebab. The secondary controls (translation,
+// visibility, region, assist, add-to-dossier/investigation) are a
+// SINGLE set of instances — CSS relocates them into a dropdown panel
+// on mobile, so there is no duplicate DOM / duplicate data-testid.
+const headerActionsRef = ref(null)
+const menuOpen = ref(false)
+function toggleMenu() { menuOpen.value = !menuOpen.value }
+function closeMenu() { menuOpen.value = false }
+function onHeaderDocClick(event) {
+  if (headerActionsRef.value && !headerActionsRef.value.contains(event.target)) closeMenu()
+}
+function onHeaderKeydown(event) {
+  if (event.key === 'Escape') closeMenu()
+}
 
 // ── translations ────────────────────────────────────────────
 // transLang '' = editing the original. Switching languages swaps the
@@ -381,6 +398,8 @@ async function loadReport() {
 }
 
 onMounted(async () => {
+  document.addEventListener('click', onHeaderDocClick)
+  document.addEventListener('keydown', onHeaderKeydown)
   try {
     await loadReport()
   } catch (err) {
@@ -400,10 +419,12 @@ onMounted(async () => {
 // Descriptive name of the selected region (or a placeholder) for the summary.
 const regionDisplay = computed(() =>
   nutsRegion.value ? (regionNames.value[nutsRegion.value] || nutsRegion.value)
-    : t('report_editor.region_none'))
+    : t('report_editor.region_eu'))
 
 onBeforeUnmount(() => {
   if (editor) editor.destroy()
+  document.removeEventListener('click', onHeaderDocClick)
+  document.removeEventListener('keydown', onHeaderKeydown)
 })
 
 // ── Save ────────────────────────────────────────────────────
@@ -473,42 +494,65 @@ async function save() {
       <router-link to="/my-stories" class="back-link" data-testid="back-to-my-stories">
         {{ $t('nav.back_my_stories') }}
       </router-link>
-      <div class="header-actions">
-        <TranslationControls
-          :story-language="storyLanguage"
-          :translations="translations"
-          :current="transLang"
-          @switch="switchTranslation"
-          @resolve="resolveOutdated"
-        />
-        <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
-          <option value="private">{{ $t('report_editor.private_only_me') }}</option>
-          <option value="public_auth">{{ $t('report_editor.signed_in_users') }}</option>
-          <option value="public_open">{{ $t('report_editor.public_anyone') }}</option>
-        </select>
-        <details class="region-meta" data-testid="region-meta">
-          <summary class="region-summary">
-            {{ $t('report_editor.region_label') }}: <strong>{{ regionDisplay }}</strong>
-          </summary>
-          <div class="region-picker-wrap">
-            <NutsRegionPicker v-model="nutsRegion" />
-          </div>
-        </details>
-        <AssistPanel
-          :report-context="reportContext"
-          :report-id="reportId"
-          :editor-state="{ editor, title: title, abstract: abstract }"
-          @insert="onAssistInsert"
-          @applied="onProposalApplied"
-        />
-        <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
-          {{ $t('investigations.add_to_dossier') }}
-        </button>
-        <button class="save-btn" data-testid="add-to-investigation-btn" @click="openInvestigationPicker">
-          {{ $t('investigations.add_to_investigation') }}
-        </button>
-        <button class="save-btn" :disabled="saving" data-testid="save-story" @click="save">
+      <div ref="headerActionsRef" class="header-actions">
+        <!-- Secondary controls: a SINGLE set of instances. Inline on
+             desktop; on mobile CSS turns this wrapper into the kebab
+             dropdown panel (shown only when `menuOpen`). No second copy
+             of these controls exists, so the data-testids stay unique. -->
+        <div class="secondary-controls" :class="{ open: menuOpen }" data-testid="header-secondary">
+          <TranslationControls
+            :story-language="storyLanguage"
+            :translations="translations"
+            :current="transLang"
+            @switch="switchTranslation"
+            @resolve="resolveOutdated"
+          />
+          <select v-model="visibility" class="visibility-select" data-testid="visibility-select">
+            <option value="private">{{ $t('report_editor.private_only_me') }}</option>
+            <option value="public_auth">{{ $t('report_editor.signed_in_users') }}</option>
+            <option value="public_open">{{ $t('report_editor.public_anyone') }}</option>
+          </select>
+          <details class="region-meta" data-testid="region-meta">
+            <summary class="region-summary">
+              {{ $t('report_editor.region_label') }}: <strong>{{ regionDisplay }}</strong>
+            </summary>
+            <div class="region-picker-wrap">
+              <CountryRegionPicker v-model="nutsRegion" />
+            </div>
+          </details>
+          <AssistPanel
+            :report-context="reportContext"
+            :report-id="reportId"
+            :editor-state="{ editor, title: title, abstract: abstract }"
+            @insert="onAssistInsert"
+            @applied="onProposalApplied"
+          />
+          <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
+            {{ $t('investigations.add_to_dossier') }}
+          </button>
+          <button class="save-btn" data-testid="add-to-investigation-btn" @click="openInvestigationPicker">
+            {{ $t('investigations.add_to_investigation') }}
+          </button>
+        </div>
+        <!-- Primary Save — always visible, inline, never in the kebab. -->
+        <button class="save-btn save-btn-primary" :disabled="saving" data-testid="save-story" @click="save">
           {{ saving ? $t('report_editor.saving') : $t('report_editor.save') }}
+        </button>
+        <!-- Kebab — mobile only (hidden >640px via CSS). -->
+        <button
+          type="button"
+          class="kebab-btn"
+          :aria-expanded="menuOpen"
+          aria-haspopup="menu"
+          :aria-label="$t('report_editor.more_actions')"
+          data-testid="header-kebab"
+          @click.stop="toggleMenu"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="12" cy="5" r="2" />
+            <circle cx="12" cy="12" r="2" />
+            <circle cx="12" cy="19" r="2" />
+          </svg>
         </button>
       </div>
     </div>
@@ -689,7 +733,23 @@ async function save() {
 .report-editor { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem; }
 .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
 .back-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
-.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.header-actions { display: flex; gap: 0.5rem; align-items: center; position: relative; }
+.secondary-controls { display: flex; gap: 0.5rem; align-items: center; }
+.save-btn-primary { flex-shrink: 0; }
+/* Kebab hidden on desktop — the secondary controls sit inline instead. */
+.kebab-btn {
+  display: none;
+  flex-shrink: 0;
+  padding: 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.kebab-btn:hover { border-color: var(--accent); color: var(--accent); }
 .region-meta { position: relative; font-size: 0.8rem; }
 .region-summary { cursor: pointer; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: var(--text); list-style: none; white-space: nowrap; }
 .region-picker-wrap { position: absolute; z-index: 20; margin-top: 0.3rem; width: 240px; padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
@@ -746,4 +806,38 @@ async function save() {
 .pocket-item-name { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pocket-item-remove { flex-shrink: 0; width: 24px; height: 24px; border: none; background: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
 .pocket-item-remove:hover { color: #dc2626; }
+
+/* ── Mobile header (≤640px) ──────────────────────────────────
+   Collapse the secondary controls into a right-aligned dropdown
+   behind the kebab; keep the primary Save button + kebab inline.
+   One set of control instances is reused — the same DOM node is
+   inline on desktop and inside the panel on mobile. */
+@media (max-width: 640px) {
+  .kebab-btn { display: inline-flex; }
+  /* Hidden by default on mobile; the kebab reveals it as a panel. */
+  .secondary-controls { display: none; }
+  .secondary-controls.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 80;
+    min-width: 12rem;
+    max-width: calc(100vw - 2rem);
+    padding: 0.6rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  }
+  /* Full-width, left-aligned controls inside the dropdown panel. */
+  .secondary-controls.open > * { width: 100%; }
+  .secondary-controls.open .visibility-select,
+  .secondary-controls.open .region-summary,
+  .secondary-controls.open .save-btn { width: 100%; text-align: left; }
+  .secondary-controls.open .region-picker-wrap { position: static; width: 100%; box-shadow: none; }
+}
 </style>

@@ -53,10 +53,10 @@
     "chip_story": "Read a community data story",
     "hero_lead": "An open knowledge graph linking EU companies, public procurement, lobbyists and cohesion funding.",
     "how_it_works": "How it works",
-    "mission_body_1": "Public debate runs on numbers — budgets and contracts, migration and emissions, who owns what, even the text of a law — and they are constantly bent to fit an argument. Arguit links the primary sources behind those claims into one open, cross-checked graph, so a claim can be followed back to the evidence instead of taken on trust.",
-    "mission_body_2": "That is the groundwork, not the goal. Misleading claims thrive when checking them is hard work; we make it a click. And a public that can verify what it is told can take a real part in what comes next — so Arguit surfaces, in context, the concrete ways to do exactly that.",
+    "mission_body_1": "Public debate runs on numbers — budgets and contracts, migration and emissions, who owns what, even the text of a law — and they are constantly bent to fit an argument. Fontem links the primary sources behind those claims into one open, cross-checked graph, so a claim can be followed back to the evidence instead of taken on trust.",
+    "mission_body_2": "That is the groundwork, not the goal. Misleading claims thrive when checking them is hard work; we make it a click. And a public that can verify what it is told can take a real part in what comes next — so Fontem surfaces, in context, the concrete ways to do exactly that.",
     "mission_lead": "We are building the civic layer for European democracy — where any public claim can be traced back to the numbers behind it.",
-    "mission_title": "Why Arguit exists",
+    "mission_title": "Why Fontem exists",
     "recently_published": "Recently published",
     "see_all_public_data_stories": "See all public data stories →",
     "step_crosscheck_desc": "Compare what TED, GLEIF, the Transparency Register, Cohesion and other sources say about the same entity, side by side.",
@@ -66,7 +66,7 @@
     "step_publish_gif_alt": "Publishing a data story from the editor",
     "step_publish_name": "Publish",
     "step_search_desc": "Look up any company, contracting authority, lobbyist or EU-funded project by name or identifier.",
-    "step_search_gif_alt": "Searching for an entity in Arguit",
+    "step_search_gif_alt": "Searching for an entity in Fontem",
     "step_search_name": "Search",
     "try": "Try:",
     "value_open_desc": "The graph, the methods and the code behind it are public.",
@@ -451,8 +451,8 @@
     "contribute_rarr": "Contribute &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Donations flow through a fiscal-host nonprofit on",
     "open_collective": "Open Collective",
-    "support_fontem": "Support Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Thanks to everyone keeping Arguit alive.",
+    "support_fontem": "Support Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Thanks to everyone keeping Fontem alive.",
     "tier_backer_desc": "Funds ongoing data-pipeline work: new sources, better coverage.",
     "tier_backer_name": "Backer",
     "tier_oneoff_amount": "Any amount",
@@ -729,7 +729,7 @@
     "go_to_home": "Go to Home",
     "you_already_have_an_active_session": "You already have an active session.",
     "youre_signed_in": "You're signed in",
-    "sign_in_to_fontem": "Sign in to Arguit",
+    "sign_in_to_fontem": "Sign in to Fontem",
     "sign_in_to_start_creating_data_stories": "Sign in to start creating data stories, raising issues, and collaborating with the community.",
     "signing_in": "Signing in...",
     "sign_in": "Sign in",
@@ -753,26 +753,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.",
-      "data_quality": "Coverage, freshness, and source breakdowns for every dataset in the Arguit knowledge graph. Transparency about transparency.",
-      "donate": "Arguit is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.",
-      "home": "Public data stories from the Arguit community — investigations, cross-checks, and findings grounded in primary sources.",
-      "login": "Sign in to Arguit to publish data stories, raise issues, and save your research.",
+      "about": "Fontem is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.",
+      "data_quality": "Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.",
+      "donate": "Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.",
+      "home": "Crossing the EU's digital borders, one dataset at a time. Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.",
+      "login": "Sign in to Fontem to publish data stories, raise issues, and save your research.",
       "map": "Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.",
-      "privacy": "How Arguit handles personal data. We store only account basics, no tracking cookies, no third-party analytics.",
-      "sparql": "Query the Arguit knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
+      "privacy": "How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.",
+      "sparql": "Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
       "spending": "Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country."
     },
     "title": {
-      "about": "About — Arguit",
-      "data_quality": "Data quality — Arguit",
-      "donate": "Support Arguit",
-      "home": "Arguit — Public data stories",
-      "login": "Sign in — Arguit",
-      "map": "Map — European statistics on Arguit",
-      "privacy": "Privacy policy — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Spending — EU procurement on Arguit"
+      "about": "About — Fontem",
+      "data_quality": "Data quality — Fontem",
+      "donate": "Support Fontem",
+      "home": "Fontem — Crossing the EU's digital borders, one dataset at a time",
+      "login": "Sign in — Fontem",
+      "map": "Map — European statistics on Fontem",
+      "privacy": "Privacy policy — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Spending — EU procurement on Fontem"
     }
   },
   "moderation": {
@@ -875,7 +875,7 @@
   },
   "privacy": {
     "access": "Access",
-    "all_data_in_the_fontem_knowledge_graph_r": "All data in the Arguit knowledge graph relates to",
+    "all_data_in_the_fontem_knowledge_graph_r": "All data in the Fontem knowledge graph relates to",
     "conversation_processing_is_performed_by_": "Conversation processing is performed by EU-based AI providers.",
     "conversations_are_automatically_deleted_": "Conversations are automatically deleted after 90 days.",
     "erase": "Erase",
@@ -892,8 +892,8 @@
     "under_the_gdpr_you_have_the_right_to": "Under the GDPR, you have the right to:",
     "when_you_sign_in_we_collect_and_store": "When you sign in, we collect and store:",
     "your": "Your",
-    "what_fontem_is": "1. What Arguit is",
-    "fontem_is_a_civic_transparency_platform": "Arguit is a civic transparency platform that connects EU public procurement data, corporate ownership registries, and cohesion policy funding into a single knowledge graph. Its goal is to make public spending and corporate structures easier to explore and understand.",
+    "what_fontem_is": "1. What Fontem is",
+    "fontem_is_a_civic_transparency_platform": "Fontem is a civic transparency platform that connects EU public procurement data, corporate ownership registries, and cohesion policy funding into a single knowledge graph. Its goal is to make public spending and corporate structures easier to explore and understand.",
     "data_in_the_knowledge_graph": "2. Data in the knowledge graph",
     "legal_entities": "legal entities",
     "companies_public_authorities_and_organis": "(companies, public authorities, and organisations) — not natural persons. We aggregate publicly available data from the following sources:",
@@ -923,7 +923,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "We only use strictly necessary session cookies for authentication. We do not use tracking cookies, advertising cookies, or third-party analytics cookies.",
     "changes_to_this_policy": "7. Changes to this policy",
-    "we_may_update_this_policy": "We may update this policy from time to time. When we do, we will revise the \"last updated\" date at the top of this page. Continued use of Arguit after changes constitutes acceptance of the updated policy."
+    "we_may_update_this_policy": "We may update this policy from time to time. When we do, we will revise the \"last updated\" date at the top of this page. Continued use of Fontem after changes constitutes acceptance of the updated policy."
   },
   "profile": {
     "account_settings": "Account settings",
@@ -1014,7 +1014,9 @@
     "close": "Close",
     "start_writing": "Start writing your analysis...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanctioned entities — persons, organisations, regime coverage and company matching",
@@ -1037,7 +1039,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Query the Arguit knowledge graph directly from the browser, or plug the endpoint into OpenRefine / a notebook / your own tooling. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
+    "intro": "Query the Fontem knowledge graph directly from the browser, or plug the endpoint into OpenRefine / a notebook / your own tooling. Companies, contracts, authorities, lobbyists, sanctions — all linked.",
     "limits": "Limits",
     "method": "Method",
     "post": "POST",
@@ -1201,8 +1203,9 @@
     "unknown_widget_type": "Unknown widget type:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Crossing the EU's digital borders, one dataset at a time"
   },
   "openfigi_d_q": {
     "title": "OpenFIGI & Investment Funds",
@@ -1262,9 +1265,9 @@
     "one_moment": "One moment.",
     "email_confirmed": "Email confirmed",
     "your_account_is_verified": "Your account is verified. You can now publish stories, comment, and follow topics.",
-    "continue_to_fontem": "Continue to Arguit",
+    "continue_to_fontem": "Continue to Fontem",
     "the_link_may_have_expired": "The link may have expired or already been used. Sign in and request a new verification email from the banner at the top.",
-    "go_to_fontem": "Go to Arguit",
+    "go_to_fontem": "Go to Fontem",
     "couldnt_confirm_your_email": "Couldn't confirm your email"
   },
   "studio_plot": {
@@ -1741,6 +1744,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

@@ -13,10 +13,18 @@ async function get(path) {
   return res.json()
 }
 
-/** @returns {Promise<{counts, total, results}>} */
-export function fetchPetitions({ status, limit = 50, offset = 0 } = {}) {
+/**
+ * @param {object} [opts]
+ * @param {string} [opts.status]   single exact status (register vocabulary)
+ * @param {string} [opts.statuses] comma-separated set; takes precedence server-side
+ * @param {string} [opts.sort]     'supporters' (default) or 'recent'
+ * @returns {Promise<{counts, total, results}>}
+ */
+export function fetchPetitions({ status, statuses, sort, limit = 50, offset = 0 } = {}) {
   const p = new URLSearchParams()
   if (status) p.set('status', status)
+  if (statuses) p.set('statuses', statuses)
+  if (sort) p.set('sort', sort)
   p.set('limit', limit)
   p.set('offset', offset)
   return get(`/api/petitions?${p}`)

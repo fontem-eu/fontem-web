@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Publikování datového příběhu z editoru",
     "step_publish_name": "Publikuj",
     "step_search_desc": "Vyhledej libovolnou firmu, zadavatele, lobbistu nebo projekt financovaný EU podle jména nebo identifikátoru.",
-    "step_search_gif_alt": "Hledání entity ve Arguitu",
+    "step_search_gif_alt": "Hledání entity ve Fontemu",
     "step_search_name": "Hledej",
     "try": "Vyzkoušejte:",
     "walkthrough_searching_a_company_explorin": "Návod: hledání společnosti, průzkum veřejných zakázek a publikace datového příběhu"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Přispět &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Příspěvky procházejí přes neziskovou fiscal-host na",
     "open_collective": "Open Collective",
-    "support_fontem": "Podpořte Arguit",
-    "thanks_to_everyone_keeping_fontem_alive": "Díky všem, kdo udržují Arguit naživu.",
+    "support_fontem": "Podpořte Fontem",
+    "thanks_to_everyone_keeping_fontem_alive": "Díky všem, kdo udržují Fontem naživu.",
     "tier_backer_desc": "Financuje průběžnou práci na datových potrubích: nové zdroje, lepší pokrytí.",
     "tier_backer_name": "Spolufinancující",
     "tier_oneoff_amount": "Libovolná částka",
@@ -621,7 +621,7 @@
     "go_to_home": "Přejít na domovskou stránku",
     "you_already_have_an_active_session": "Již máte aktivní relaci.",
     "youre_signed_in": "Jste přihlášen(a)",
-    "sign_in_to_fontem": "Přihlaste se do Arguit",
+    "sign_in_to_fontem": "Přihlaste se do Fontem",
     "sign_in_to_start_creating_data_stories": "Přihlaste se a začněte vytvářet datové příběhy, hlásit podněty a spolupracovat s komunitou.",
     "signing_in": "Přihlašování...",
     "sign_in": "Přihlásit se",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "Arguit je platforma pro transparentnost z primárních zdrojů. Společnosti EU, veřejné zakázky, lobbisté a soudržná politika — propojeno do jednoho grafu a křížově ověřeno proti oficiálním rejstříkům.",
-      "data_quality": "Pokrytí, aktuálnost a rozdělení zdrojů pro každý datový soubor v grafu znalostí Arguit. Transparentnost o transparentnosti.",
-      "donate": "Arguit je zdarma a vždy bude. Dary plynou skrz neziskového fiskálního hostitele na Open Collective a udržují datové toky v provozu, graf roste a tým u kvalitní práce.",
-      "home": "Veřejné datové příběhy z komunity Arguit — vyšetřování, křížové kontroly a zjištění zakotvená v primárních zdrojích.",
-      "login": "Přihlaste se do Arguitu pro publikování datových příběhů, hlášení problémů a ukládání výzkumu.",
+      "about": "Fontem je platforma pro transparentnost z primárních zdrojů. Společnosti EU, veřejné zakázky, lobbisté a soudržná politika — propojeno do jednoho grafu a křížově ověřeno proti oficiálním rejstříkům.",
+      "data_quality": "Pokrytí, aktuálnost a rozdělení zdrojů pro každý datový soubor v grafu znalostí Fontem. Transparentnost o transparentnosti.",
+      "donate": "Fontem je zdarma a vždy bude. Dary plynou skrz neziskového fiskálního hostitele na Open Collective a udržují datové toky v provozu, graf roste a tým u kvalitní práce.",
+      "home": "Překračujeme digitální hranice EU, jeden datový soubor po druhém. Veřejné datové příběhy z komunity Fontem — vyšetřování, křížové kontroly a zjištění zakotvená v primárních zdrojích.",
+      "login": "Přihlaste se do Fontemu pro publikování datových příběhů, hlášení problémů a ukládání výzkumu.",
       "map": "Interaktivní choropletová mapa kurátorovaných Eurostat datasetů na úrovni NUTS — populace, HDP, nezaměstnanost, R&D a další, mapováno napříč Evropou.",
-      "privacy": "Jak Arguit zachází s osobními údaji. Ukládáme pouze základní údaje účtu, žádné sledovací soubory cookie ani analytiku třetích stran.",
-      "sparql": "Dotazujte se grafu znalostí Arguit přímo přes SPARQL. Společnosti, smlouvy, orgány, lobbisté, sankce — vše propojeno.",
+      "privacy": "Jak Fontem zachází s osobními údaji. Ukládáme pouze základní údaje účtu, žádné sledovací soubory cookie ani analytiku třetích stran.",
+      "sparql": "Dotazujte se grafu znalostí Fontem přímo přes SPARQL. Společnosti, smlouvy, orgány, lobbisté, sankce — vše propojeno.",
       "spending": "Hledejte EU společnosti, zadávající orgány, lobbisty a projekty financované EU. Plus co je velké ve vaší zemi."
     },
     "title": {
-      "about": "O projektu — Arguit",
-      "data_quality": "Kvalita dat — Arguit",
-      "donate": "Podpořte Arguit",
-      "home": "Arguit — Veřejné datové příběhy",
-      "login": "Přihlásit se — Arguit",
-      "map": "Mapa — Evropské statistiky na Arguitu",
-      "privacy": "Zásady ochrany soukromí — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Výdaje — EU zadávání veřejných zakázek na Arguitu"
+      "about": "O projektu — Fontem",
+      "data_quality": "Kvalita dat — Fontem",
+      "donate": "Podpořte Fontem",
+      "home": "Fontem — Překračujeme digitální hranice EU, jeden datový soubor po druhém",
+      "login": "Přihlásit se — Fontem",
+      "map": "Mapa — Evropské statistiky na Fontemu",
+      "privacy": "Zásady ochrany soukromí — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Výdaje — EU zadávání veřejných zakázek na Fontemu"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Přístup",
-    "all_data_in_the_fontem_knowledge_graph_r": "Veškerá data v znalostním grafu Arguit se vztahují k",
+    "all_data_in_the_fontem_knowledge_graph_r": "Veškerá data v znalostním grafu Fontem se vztahují k",
     "conversation_processing_is_performed_by_": "Zpracování konverzací provádějí poskytovatelé AI sídlící v EU.",
     "conversations_are_automatically_deleted_": "Konverzace jsou automaticky mazány po 90 dnech.",
     "erase": "Vymazat",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "Podle GDPR máte právo:",
     "when_you_sign_in_we_collect_and_store": "Při přihlášení shromažďujeme a ukládáme:",
     "your": "Vaše",
-    "what_fontem_is": "1. Co je Arguit",
-    "fontem_is_a_civic_transparency_platform": "Arguit je platforma pro občanskou transparentnost, která propojuje data o veřejných zakázkách EU, rejstříky vlastnictví společností a financování z politiky soudržnosti do jednoho znalostního grafu. Jejím cílem je usnadnit prozkoumávání a pochopení veřejných výdajů a firemních struktur.",
+    "what_fontem_is": "1. Co je Fontem",
+    "fontem_is_a_civic_transparency_platform": "Fontem je platforma pro občanskou transparentnost, která propojuje data o veřejných zakázkách EU, rejstříky vlastnictví společností a financování z politiky soudržnosti do jednoho znalostního grafu. Jejím cílem je usnadnit prozkoumávání a pochopení veřejných výdajů a firemních struktur.",
     "data_in_the_knowledge_graph": "2. Data ve znalostním grafu",
     "legal_entities": "právnické osoby",
     "companies_public_authorities_and_organis": "(společnosti, veřejné orgány a organizace) — nikoli fyzické osoby. Agregujeme veřejně dostupná data z následujících zdrojů:",
@@ -815,7 +815,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Používáme pouze nezbytně nutné relační soubory cookie pro ověřování. Nepoužíváme sledovací cookies, reklamní cookies ani analytické cookies třetích stran.",
     "changes_to_this_policy": "7. Změny těchto zásad",
-    "we_may_update_this_policy": "Tyto zásady můžeme čas od času aktualizovat. Když tak učiníme, upravíme datum „naposledy aktualizováno“ v horní části této stránky. Pokračování v používání Arguit po provedení změn představuje souhlas s aktualizovanými zásadami."
+    "we_may_update_this_policy": "Tyto zásady můžeme čas od času aktualizovat. Když tak učiníme, upravíme datum „naposledy aktualizováno“ v horní části této stránky. Pokračování v používání Fontem po provedení změn představuje souhlas s aktualizovanými zásadami."
   },
   "profile": {
     "avg_net_margin": "Prům. čistá marže",
@@ -906,7 +906,9 @@
     "close": "Zavřít",
     "start_writing": "Začněte psát svou analýzu...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizace, pokrytí režimu a shoda společností",
@@ -929,7 +931,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpointu",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Dotazuj znalostní graf Arguit přímo z prohlížeče, nebo zapoj endpoint do OpenRefine / notebooku / vlastních nástrojů. Firmy, smlouvy, úřady, lobbisté, sankce — vše propojené.",
+    "intro": "Dotazuj znalostní graf Fontem přímo z prohlížeče, nebo zapoj endpoint do OpenRefine / notebooku / vlastních nástrojů. Firmy, smlouvy, úřady, lobbisté, sankce — vše propojené.",
     "limits": "Limity",
     "method": "Metoda",
     "post": "POST",
@@ -1093,8 +1095,9 @@
     "unknown_widget_type": "Neznámý typ widgetu:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Překračujeme digitální hranice EU, jeden datový soubor po druhém"
   },
   "errata": {
     "icon_title": "Tato zakázka byla změněna — kliknutím zobrazíte, co se změnilo",
@@ -1223,9 +1226,9 @@
     "one_moment": "Okamžik.",
     "email_confirmed": "E-mail potvrzen",
     "your_account_is_verified": "Váš účet je ověřen. Nyní můžete publikovat příběhy, komentovat a sledovat témata.",
-    "continue_to_fontem": "Pokračovat do Arguit",
+    "continue_to_fontem": "Pokračovat do Fontem",
     "the_link_may_have_expired": "Odkaz mohl vypršet nebo již byl použit. Přihlaste se a vyžádejte si nový ověřovací e-mail z banneru v horní části.",
-    "go_to_fontem": "Přejít na Arguit",
+    "go_to_fontem": "Přejít na Fontem",
     "couldnt_confirm_your_email": "E-mail se nepodařilo potvrdit"
   },
   "studio_plot": {
@@ -1679,6 +1682,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

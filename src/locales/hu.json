@@ -24,7 +24,7 @@
     "step_publish_gif_alt": "Adat-történet közzététele a szerkesztőből",
     "step_publish_name": "Közzététel",
     "step_search_desc": "Keress bármilyen vállalatot, ajánlatkérőt, lobbistát vagy EU-finanszírozású projektet név vagy azonosító alapján.",
-    "step_search_gif_alt": "Entitás keresése a Arguitben",
+    "step_search_gif_alt": "Entitás keresése a Fontemben",
     "step_search_name": "Keresés",
     "try": "Próbáld ki:",
     "walkthrough_searching_a_company_explorin": "Útmutató: vállalat keresése, közbeszerzések böngészése és adat-történet közzététele"
@@ -384,8 +384,8 @@
     "contribute_rarr": "Hozzájárulok &rarr;",
     "donations_flow_through_a_fiscal_host_non": "Az adományok nonprofit fiskális gazdán keresztül érkeznek",
     "open_collective": "Open Collective",
-    "support_fontem": "Támogasd a Arguitet",
-    "thanks_to_everyone_keeping_fontem_alive": "Köszönet mindenkinek, aki életben tartja a Arguitet.",
+    "support_fontem": "Támogasd a Fontemet",
+    "thanks_to_everyone_keeping_fontem_alive": "Köszönet mindenkinek, aki életben tartja a Fontemet.",
     "tier_backer_desc": "Finanszírozza a folyamatos adatcsatorna-munkát: új források, jobb lefedettség.",
     "tier_backer_name": "Pártfogó",
     "tier_oneoff_amount": "Tetszőleges összeg",
@@ -621,7 +621,7 @@
     "go_to_home": "Ugrás a kezdőlapra",
     "you_already_have_an_active_session": "Már van aktív munkameneted.",
     "youre_signed_in": "Be vagy jelentkezve",
-    "sign_in_to_fontem": "Bejelentkezés a Arguitbe",
+    "sign_in_to_fontem": "Bejelentkezés a Fontembe",
     "sign_in_to_start_creating_data_stories": "Jelentkezzen be, hogy adattörténeteket hozzon létre, problémákat jelezzen és együttműködjön a közösséggel.",
     "signing_in": "Bejelentkezés...",
     "sign_in": "Bejelentkezés",
@@ -645,26 +645,26 @@
   },
   "meta": {
     "description": {
-      "about": "A Arguit az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
-      "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Arguit tudásgráfjában. Átláthatóság az átláthatóságról.",
-      "donate": "A Arguit ingyenes és mindig az is lesz. Az adományok egy nonprofit fiskális gazdán keresztül az Open Collective-en folynak, és életben tartják az adatfolyamokat, a növekvő gráfot és a csapat minőségi munkáját.",
-      "home": "Nyilvános adat-történetek a Arguit közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
-      "login": "Jelentkezz be a Arguitbe adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
+      "about": "A Fontem az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
+      "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Fontem tudásgráfjában. Átláthatóság az átláthatóságról.",
+      "donate": "A Fontem ingyenes és mindig az is lesz. Az adományok egy nonprofit fiskális gazdán keresztül az Open Collective-en folynak, és életben tartják az adatfolyamokat, a növekvő gráfot és a csapat minőségi munkáját.",
+      "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Fontem közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
+      "login": "Jelentkezz be a Fontembe adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
       "map": "Interaktív choropleth kurált Eurostat adatkészletekből NUTS szinten — népesség, GDP, munkanélküliség, K+F és több, Európa-szerte feltérképezve.",
-      "privacy": "Hogyan kezeli a Arguit a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
-      "sparql": "Kérdezd le a Arguit tudásgráfot közvetlenül SPARQL-en keresztül. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — minden összekötve.",
+      "privacy": "Hogyan kezeli a Fontem a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
+      "sparql": "Kérdezd le a Fontem tudásgráfot közvetlenül SPARQL-en keresztül. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — minden összekötve.",
       "spending": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Plusz ami nagy a te országodban."
     },
     "title": {
-      "about": "Rólunk — Arguit",
-      "data_quality": "Adatminőség — Arguit",
-      "donate": "Támogasd a Arguitet",
-      "home": "Arguit — Nyilvános adat-történetek",
-      "login": "Bejelentkezés — Arguit",
-      "map": "Térkép — Európai statisztikák a Arguiten",
-      "privacy": "Adatvédelmi szabályzat — Arguit",
-      "sparql": "SPARQL — Arguit",
-      "spending": "Kiadások — EU közbeszerzések a Arguiten"
+      "about": "Rólunk — Fontem",
+      "data_quality": "Adatminőség — Fontem",
+      "donate": "Támogasd a Fontemet",
+      "home": "Fontem — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
+      "login": "Bejelentkezés — Fontem",
+      "map": "Térkép — Európai statisztikák a Fontemen",
+      "privacy": "Adatvédelmi szabályzat — Fontem",
+      "sparql": "SPARQL — Fontem",
+      "spending": "Kiadások — EU közbeszerzések a Fontemen"
     }
   },
   "moderation": {
@@ -767,7 +767,7 @@
   },
   "privacy": {
     "access": "Hozzáférés",
-    "all_data_in_the_fontem_knowledge_graph_r": "A Arguit tudásgráfjának minden adata erre vonatkozik:",
+    "all_data_in_the_fontem_knowledge_graph_r": "A Fontem tudásgráfjának minden adata erre vonatkozik:",
     "conversation_processing_is_performed_by_": "A beszélgetések feldolgozását EU-ban székelő MI-szolgáltatók végzik.",
     "conversations_are_automatically_deleted_": "A beszélgetések 90 nap után automatikusan törlődnek.",
     "erase": "Törlés",
@@ -784,8 +784,8 @@
     "under_the_gdpr_you_have_the_right_to": "A GDPR alapján jogod van:",
     "when_you_sign_in_we_collect_and_store": "Amikor bejelentkezel, az alábbiakat gyűjtjük és tároljuk:",
     "your": "Saját",
-    "what_fontem_is": "1. Mi a Arguit",
-    "fontem_is_a_civic_transparency_platform": "A Arguit egy civil átláthatósági platform, amely egyetlen tudásgráfba köti össze az EU közbeszerzési adatait, a vállalati tulajdonosi nyilvántartásokat és a kohéziós politika finanszírozását. Célja, hogy a közkiadások és a vállalati struktúrák könnyebben feltárhatók és érthetők legyenek.",
+    "what_fontem_is": "1. Mi a Fontem",
+    "fontem_is_a_civic_transparency_platform": "A Fontem egy civil átláthatósági platform, amely egyetlen tudásgráfba köti össze az EU közbeszerzési adatait, a vállalati tulajdonosi nyilvántartásokat és a kohéziós politika finanszírozását. Célja, hogy a közkiadások és a vállalati struktúrák könnyebben feltárhatók és érthetők legyenek.",
     "data_in_the_knowledge_graph": "2. Adatok a tudásgráfban",
     "legal_entities": "jogi személyek",
     "companies_public_authorities_and_organis": "(vállalatok, hatóságok és szervezetek) — nem természetes személyek. A következő forrásokból származó, nyilvánosan elérhető adatokat aggregáljuk:",
@@ -815,7 +815,7 @@
     "cookies": "6. Sütik",
     "we_only_use_strictly_necessary_cookies": "Kizárólag a hitelesítéshez feltétlenül szükséges munkamenet-sütiket használunk. Nem használunk nyomkövető sütiket, hirdetési sütiket vagy harmadik féltől származó analitikai sütiket.",
     "changes_to_this_policy": "7. A jelen szabályzat módosításai",
-    "we_may_update_this_policy": "Időről időre módosíthatjuk a jelen szabályzatot. Ha ezt megtesszük, frissítjük az oldal tetején szereplő „utolsó frissítés” dátumát. A Arguit módosítások utáni további használata az aktualizált szabályzat elfogadásának minősül."
+    "we_may_update_this_policy": "Időről időre módosíthatjuk a jelen szabályzatot. Ha ezt megtesszük, frissítjük az oldal tetején szereplő „utolsó frissítés” dátumát. A Fontem módosítások utáni további használata az aktualizált szabályzat elfogadásának minősül."
   },
   "profile": {
     "avg_net_margin": "Átlagos nettó haszonkulcs",
@@ -906,7 +906,9 @@
     "close": "Bezárás",
     "start_writing": "Kezdje el írni az elemzését...",
     "region_label": "Region",
-    "region_none": "none"
+    "region_none": "none",
+    "region_eu": "European Union",
+    "more_actions": "More actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Szankcionált entitások — személyek, szervezetek, rezsim-lefedettség és vállalati egyezések",
@@ -929,7 +931,7 @@
     "endpoint": "Végpont",
     "endpoint_url": "Végpont URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Kérdezd le a Arguit tudásgráfot közvetlenül a böngészőből, vagy kösd be a végpontot az OpenRefine-ba / notebookba / saját eszközeidbe. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — mind összekapcsolva.",
+    "intro": "Kérdezd le a Fontem tudásgráfot közvetlenül a böngészőből, vagy kösd be a végpontot az OpenRefine-ba / notebookba / saját eszközeidbe. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — mind összekapcsolva.",
     "limits": "Korlátok",
     "method": "Módszer",
     "post": "POST",
@@ -1093,8 +1095,9 @@
     "unknown_widget_type": "Ismeretlen widget-típus:"
   },
   "wordmark": {
-    "argu": "Argu",
-    "arguit": "Arguit"
+    "font": "Font",
+    "fontem": "Fontem",
+    "tagline": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel"
   },
   "errata": {
     "icon_title": "Ezt a szerződést módosították — kattintson a változások megtekintéséhez",
@@ -1223,9 +1226,9 @@
     "one_moment": "Egy pillanat.",
     "email_confirmed": "E-mail megerősítve",
     "your_account_is_verified": "Fiókja megerősítést nyert. Mostantól publikálhat cikkeket, hozzászólhat és követhet témákat.",
-    "continue_to_fontem": "Tovább a Arguithez",
+    "continue_to_fontem": "Tovább a Fontemhez",
     "the_link_may_have_expired": "Előfordulhat, hogy a hivatkozás lejárt, vagy már felhasználták. Jelentkezzen be, és kérjen új megerősítő e-mailt az oldal tetején lévő sávból.",
-    "go_to_fontem": "Ugrás a Arguithez",
+    "go_to_fontem": "Ugrás a Fontemhez",
     "couldnt_confirm_your_email": "Nem sikerült megerősíteni az e-mail-címét"
   },
   "studio_plot": {
@@ -1679,6 +1682,9 @@
     "supporters": "supporters",
     "loading": "Loading…",
     "empty": "No petitions match this filter.",
+    "collecting": "Collecting signatures",
+    "reached": "Reached the required signatures",
+    "show_more": "Show more",
     "about": "What this petition is about",
     "timeline": "Timeline",
     "legislation": "Legislation",

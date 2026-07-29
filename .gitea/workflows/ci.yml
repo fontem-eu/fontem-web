@@ -90,7 +90,7 @@ jobs:
             fi
             echo "OK   $path — $expect"
           }
-          probe /              "Arguit"
+          probe /              "Fontem"
           probe /about         "About"
           probe /privacy       "Privacy"
           probe /data-quality  "Data quality"
