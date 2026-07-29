@@ -56,8 +56,11 @@ function onTickerSelect(symbol) {
 
     <div class="header-right">
       <!-- Gear before identity: display preferences are open to
-           everyone, so they must not sit behind the account surface. -->
-      <SettingsMenu placement="header" />
+           everyone, so they must not sit behind the account surface.
+           Hidden below the rail breakpoint — see .header-settings. -->
+      <div class="header-settings">
+        <SettingsMenu placement="header" />
+      </div>
       <ProfileMenu />
     </div>
   </header>
@@ -114,4 +117,17 @@ function onTickerSelect(symbol) {
   }
 }
 .header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; margin-left: auto; }
+
+/* The header gear is desktop-only, at the same 900px breakpoint where
+   the rail stops being a drawer.
+   Why: at 412px the bar had ~6px of slack. Adding the gear (32px + a
+   10px gap) took the search input from 206px to 167px, under the 200px
+   minimum responsive.spec.js enforces — a genuinely unusable search box
+   on a phone, not just a failing assertion. Settings stay reachable on
+   mobile from the gear at the bottom of the nav drawer, which is the
+   same component; below 900px that drawer is how all navigation works
+   anyway. Above 900px both affordances are visible, as intended. */
+@media (max-width: 899px) {
+  .header-settings { display: none; }
+}
 </style>
