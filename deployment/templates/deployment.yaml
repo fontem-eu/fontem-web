@@ -54,10 +54,17 @@ spec:
               mountPath: /usr/share/nginx/html/umami-config.js
               subPath: umami-config.js
               readOnly: true
+            - name: quality-config
+              mountPath: /usr/share/nginx/html/quality-config.js
+              subPath: quality-config.js
+              readOnly: true
       volumes:
         - name: umami-config
           configMap:
             name: fontem-web-umami-config
+        - name: quality-config
+          configMap:
+            name: fontem-web-quality-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

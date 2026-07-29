@@ -64,6 +64,9 @@
       Silently ignored in local dev (file does not exist).
     -->
     <script src="/umami-config.js"></script>
+    <!-- Runtime, per-deployment tuning of the article-quality heuristics.
+         Sets window.__QUALITY_CONFIG__ before the app boots. -->
+    <script src="/quality-config.js"></script>
     <!-- Google Identity Services (Sign in with Google) -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
