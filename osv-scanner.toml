@@ -1,0 +1,13 @@
+# TEMPORARY, auto-expiring suppression — do not add to this file casually.
+#
+# GHSA-mh99-v99m-4gvg (brace-expansion, ReDoS, CVSS 7.5) was disclosed
+# 2026-07-29 and immediately blocked every PR via the OSV lockfile gate.
+# A patched brace-expansion is already installed (1.1.16 / 2.1.2, past the
+# 1.1.12 / 2.0.2 fixes); the gate still flags the non-standard registry
+# builds pending OSV/registry reconciliation. This ignore unblocks dev for
+# ~one day and EXPIRES automatically on 2026-07-30 so the gate re-enables
+# itself once the advisory data settles.
+[[IgnoredVulns]]
+id = "GHSA-mh99-v99m-4gvg"
+ignoreUntil = 2026-07-30T00:00:00Z
+reason = "Patched build installed; temporary bypass, auto-expires 2026-07-30."
