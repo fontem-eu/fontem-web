@@ -9,13 +9,7 @@
  *  - Data-to-text balance: prose should be ~half the reading time of the data.
  */
 import { ref, computed } from 'vue'
-import {
-  evaluateQuality,
-  TARGET_MINUTES,
-  TARGET_TEXT_DATA_RATIO,
-  MINUTES_TOLERANCE,
-  RATIO_TOLERANCE,
-} from '../utils/articleQuality.js'
+import { evaluateQuality } from '../utils/articleQuality.js'
 
 const props = defineProps({
   // Static doc (used by tests). In the editor, prefer getDoc so the CURRENT
@@ -34,18 +28,18 @@ function evaluate() {
 
 const readingVerdict = computed(() => {
   if (!result.value) return null
-  const m = result.value.totalMinutes
-  if (m < TARGET_MINUTES - MINUTES_TOLERANCE) return 'too_short'
-  if (m > TARGET_MINUTES + MINUTES_TOLERANCE) return 'too_long'
+  const { totalMinutes, config } = result.value
+  if (totalMinutes < config.targetMinutes - config.minutesTolerance) return 'too_short'
+  if (totalMinutes > config.targetMinutes + config.minutesTolerance) return 'too_long'
   return 'ok'
 })
 
 const balanceVerdict = computed(() => {
   if (!result.value) return null
-  const { dataMinutes, ratio } = result.value
+  const { dataMinutes, ratio, config } = result.value
   if (dataMinutes <= 0) return 'no_data'
-  if (ratio > TARGET_TEXT_DATA_RATIO + RATIO_TOLERANCE) return 'too_much_text'
-  if (ratio < TARGET_TEXT_DATA_RATIO - RATIO_TOLERANCE) return 'too_much_data'
+  if (ratio > config.targetTextDataRatio + config.ratioTolerance) return 'too_much_text'
+  if (ratio < config.targetTextDataRatio - config.ratioTolerance) return 'too_much_data'
   return 'balanced'
 })
 

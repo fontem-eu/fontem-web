@@ -6,3 +6,14 @@ replicas: 1
 # Default empty — environments without a value send no analytics
 # (useAnalytics() no-ops on falsy ID). Only prod overrides this.
 umamiWebsiteId: ""
+
+# Article-quality heuristics (story editor). Tunable per-deployment with NO
+# image rebuild: edit these + redeploy, the SPA reads window.__QUALITY_CONFIG__
+# at page load. Omitted keys fall back to the code DEFAULTS.
+qualityHeuristics:
+  targetMinutes: 10          # ideal read length (min)
+  targetTextDataRatio: 1.0   # prose-time / data-time; 1.0 == half and half
+  minutesTolerance: 3        # +/- minutes still "on target" for suggestions
+  ratioTolerance: 0.2        # +/- ratio still "balanced"
+  wordsPerMinute: 238        # reading-speed model
+  secondsPerPlot: 30         # time to interpret one data plot / table

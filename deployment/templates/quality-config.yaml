@@ -1,0 +1,21 @@
+---
+# Runtime, per-deployment tuning for the story editor's article-quality
+# heuristics. Editing .Values.qualityHeuristics + redeploying re-tunes the
+# quality bars with NO image rebuild — the SPA reads window.__QUALITY_CONFIG__
+# at page load. `default` mirrors the code DEFAULTS so partial overrides work
+# and a missing key never emits invalid JS.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fontem-web-quality-config
+  namespace: {{ .Release.Namespace }}
+data:
+  quality-config.js: |
+    window.__QUALITY_CONFIG__ = {
+      targetMinutes: {{ .Values.qualityHeuristics.targetMinutes | default 10 }},
+      targetTextDataRatio: {{ .Values.qualityHeuristics.targetTextDataRatio | default "1.0" }},
+      minutesTolerance: {{ .Values.qualityHeuristics.minutesTolerance | default 3 }},
+      ratioTolerance: {{ .Values.qualityHeuristics.ratioTolerance | default "0.2" }},
+      wordsPerMinute: {{ .Values.qualityHeuristics.wordsPerMinute | default 238 }},
+      secondsPerPlot: {{ .Values.qualityHeuristics.secondsPerPlot | default 30 }}
+    };
