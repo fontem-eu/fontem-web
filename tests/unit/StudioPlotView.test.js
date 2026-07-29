@@ -110,3 +110,87 @@ describe('StudioPlotView (server-backed, new + edit)', () => {
     expect(pocket[0].config.props).toBeUndefined()
   })
 })
+
+describe('StudioPlotView — line-chart event annotations', () => {
+  beforeEach(() => {
+    // __reset() clears the fake db but not vi.fn call history — clear it so
+    // assertions can't read a call made by an earlier describe block.
+    vi.clearAllMocks()
+    api.__reset(); useStudio().reset(); global.fetch = vi.fn()
+    runTransform.mockReset(); push.mockReset(); replace.mockReset()
+    routeParams = { projectId: 'p1' }
+  })
+
+  // Combine two sources, switch to a line chart, then point the event
+  // markers at the SECOND (uncombined) source — a reform timeline.
+  async function mountWithEvents() {
+    seedProject()
+    global.fetch.mockImplementation(async (url) => ({
+      ok: true,
+      json: async () => (String(url).includes('cypher')
+        ? { columns: ['year', 'rate'], rows: [[2015, 10], [2016, 20]] }
+        : { columns: ['year', 'reform', 'note'], rows: [[2016, 'Consent law', 'Ja betyder ja']] }),
+    }))
+    runTransform.mockResolvedValue({ columns: ['year', 'rate'], rows: [[2015, 10], [2016, 20]] })
+    const w = mount(StudioPlotView, { global: { stubs } }); await flushPromises()
+    const toggles = w.findAll('[data-testid="plot-query-toggle"] input')
+    await toggles[0].setValue(true); await toggles[1].setValue(true)
+    await w.find('[data-testid="plot-combine"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="plot-chart"]').setValue('line')
+    return w
+  }
+
+  it('event controls appear only for line charts', async () => {
+    const w = await mountWithEvents()
+    expect(w.find('[data-testid="plot-events"]').exists()).toBe(true)
+    await w.find('[data-testid="plot-chart"]').setValue('bar_h')
+    expect(w.find('[data-testid="plot-events"]').exists()).toBe(false)
+  })
+
+  it('lists the raw (uncombined) sources as timeline options and their columns', async () => {
+    const w = await mountWithEvents()
+    const opts = w.find('[data-testid="plot-events-source"]').findAll('option').map((o) => o.text())
+    expect(opts).toContain('q2')            // the timeline query is selectable
+    // column pickers only appear once a source is chosen
+    expect(w.find('[data-testid="plot-events-x"]').exists()).toBe(false)
+    await w.find('[data-testid="plot-events-source"]').setValue('q2')
+    const cols = w.find('[data-testid="plot-events-x"]').findAll('option').map((o) => o.text())
+    expect(cols).toEqual(['year', 'reform', 'note'])   // columns of q2, not of the combine
+  })
+
+  it('persists a fully-configured events spec into the saved recipe', async () => {
+    const w = await mountWithEvents()
+    await w.find('[data-testid="plot-events-source"]').setValue('q2')
+    await w.find('[data-testid="plot-events-x"]').setValue('year')
+    await w.find('[data-testid="plot-events-label"]').setValue('reform')
+    await w.find('[data-testid="plot-events-detail"]').setValue('note')
+    await w.find('[data-testid="plot-save"]').trigger('click'); await flushPromises()
+    const spec = api.createPlot.mock.calls.at(-1)[1].spec
+    expect(spec.events).toEqual({ source: 'q2', x: 'year', label: 'reform', detail: 'note' })
+  })
+
+  it('omits events from the spec until source + x + label are all set', async () => {
+    const w = await mountWithEvents()
+    await w.find('[data-testid="plot-events-source"]').setValue('q2')
+    await w.find('[data-testid="plot-events-x"]').setValue('year')
+    // label still unset -> extractEvents could not resolve it, so don't persist
+    await w.find('[data-testid="plot-save"]').trigger('click'); await flushPromises()
+    expect(api.createPlot.mock.calls.at(-1)[1].spec.events).toBeUndefined()
+  })
+
+  it('restores a saved events config when reopening the plot', async () => {
+    const spec = {
+      sources: [{ name: 'q1', lang: 'cypher', query: 'MATCH (c) RETURN c.year AS year, c.v AS rate' }],
+      transform: 'SELECT year, rate FROM q1', chart: 'line', x: 'year', series: ['rate'],
+      events: { source: 'q2', x: 'year', label: 'reform' },
+    }
+    seedProject([{ id: 'pl1', name: 'Rape + reforms', spec }])
+    routeParams = { projectId: 'p1', plotId: 'pl1' }
+    global.fetch.mockResolvedValue({ ok: true, json: async () => ({ columns: ['year', 'rate'], rows: [[2015, 10]] }) })
+    runTransform.mockResolvedValue({ columns: ['year', 'rate'], rows: [[2015, 10]] })
+    const w = mount(StudioPlotView, { global: { stubs } }); await flushPromises()
+    await w.find('[data-testid="plot-save"]').trigger('click'); await flushPromises()
+    expect(api.updatePlot.mock.calls.at(-1)[2].spec.events).toEqual({ source: 'q2', x: 'year', label: 'reform' })
+  })
+})
+
