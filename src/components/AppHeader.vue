@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import TickerSearch from './TickerSearch.vue'
 import ProfileMenu from './ProfileMenu.vue'
+import SettingsMenu from './SettingsMenu.vue'
 import MosaicMark from './MosaicMark.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
@@ -54,6 +55,9 @@ function onTickerSelect(symbol) {
     </div>
 
     <div class="header-right">
+      <!-- Gear before identity: display preferences are open to
+           everyone, so they must not sit behind the account surface. -->
+      <SettingsMenu placement="header" />
       <ProfileMenu />
     </div>
   </header>
