@@ -27,8 +27,8 @@ import {
 export const DEFAULTS = Object.freeze({
   // Ideal read length, minutes.
   targetMinutes: 10,
-  // Ideal prose-time / data-time. 1.0 == "half and half".
-  targetTextDataRatio: 1.0,
+  // Ideal prose-time / data-time. 1 == "half and half".
+  targetTextDataRatio: 1,
   // How far from target still counts as "on target" for suggestions.
   minutesTolerance: 3,
   ratioTolerance: 0.2,
