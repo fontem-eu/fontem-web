@@ -155,3 +155,86 @@ test.describe('Anonymous display settings — mobile', () => {
     await expectAnonymous(page)
   })
 })
+
+/**
+ * Regressions in the gear itself, on top of the anonymous-access flow.
+ *
+ *  - Size: RailIcon's dimensions lived only in AppSidebar's scoped
+ *    style, so the gear rendered from SettingsMenu lost the rule and
+ *    ballooned to the browser default for a sizeless <svg>.
+ *  - Clipping: `.rail` sets `overflow-y: auto` and, below 900px, a
+ *    `transform` for the drawer slide. A transformed ancestor is the
+ *    containing block for `position: fixed` descendants, so the popover
+ *    was trapped inside the rail on mobile. It is teleported to <body>
+ *    now, and these assert it is genuinely on screen and on top.
+ */
+test.describe('Settings gear — rendering', () => {
+  test('the rail gear is the same size as the other rail icons', async ({ page }) => {
+    await page.goto('/')
+    const gear = page.locator('[data-testid="rail-settings"] svg')
+    const stories = page.locator('[data-testid="nav-stories"] svg')
+    await expect(gear).toBeVisible()
+    const g = await gear.boundingBox()
+    const s = await stories.boundingBox()
+    expect(Math.abs(g.width - s.width)).toBeLessThanOrEqual(1)
+    expect(Math.abs(g.height - s.height)).toBeLessThanOrEqual(1)
+    // Guards the actual failure mode: a sizeless SVG renders far larger.
+    expect(g.width).toBeLessThan(40)
+  })
+
+  test('the menu opened from the rail is fully on screen and on top', async ({ page }) => {
+    await page.goto('/')
+    await openSettings(page, 'rail-settings')
+    const menu = page.locator('[data-testid="settings-menu"]')
+    const box = await menu.boundingBox()
+    const vp = page.viewportSize()
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.y).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(vp.width + 1)
+    expect(box.y + box.height).toBeLessThanOrEqual(vp.height + 1)
+    // Clipped-but-laid-out still reports a box, so prove the centre of
+    // the menu is actually the topmost element there.
+    const onTop = await page.evaluate(({ x, y }) => {
+      const el = document.elementFromPoint(x, y)
+      return !!el?.closest('[data-testid="settings-menu"]')
+    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
+    expect(onTop).toBe(true)
+  })
+})
+
+test.describe('Settings gear — rendering on mobile', () => {
+  test.use({ viewport: { width: 412, height: 915 } })
+
+  test('the drawer menu is visible, on screen and on top at 412px', async ({ page }) => {
+    await page.goto('/')
+    await page.locator('[data-testid="nav-toggle"]').click()
+    await page.locator('[data-testid="rail-settings"]').click()
+    const menu = page.locator('[data-testid="settings-menu"]')
+    await expect(menu).toBeVisible()
+
+    const box = await menu.boundingBox()
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.y).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(412 + 1)
+    expect(box.y + box.height).toBeLessThanOrEqual(915 + 1)
+
+    const onTop = await page.evaluate(({ x, y }) => {
+      const el = document.elementFromPoint(x, y)
+      return !!el?.closest('[data-testid="settings-menu"]')
+    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
+    expect(onTop).toBe(true)
+
+    // And it is usable, not merely painted.
+    await page.locator('[data-testid="settings-lang"]').selectOption('de')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de')
+  })
+
+  test('the rail gear is icon-sized in the drawer too', async ({ page }) => {
+    await page.goto('/')
+    await page.locator('[data-testid="nav-toggle"]').click()
+    const g = await page.locator('[data-testid="rail-settings"] svg').boundingBox()
+    const s = await page.locator('[data-testid="nav-stories"] svg').boundingBox()
+    expect(Math.abs(g.width - s.width)).toBeLessThanOrEqual(1)
+    expect(g.width).toBeLessThan(40)
+  })
+})

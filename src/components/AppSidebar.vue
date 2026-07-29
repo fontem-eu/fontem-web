@@ -152,6 +152,14 @@ function isActive(path) {
   background: var(--bezel);
   border-right: 1px solid var(--bezel-border);
   padding: 0.75rem 0.5rem;
+  /* Clear the cookie banner. It is `position: fixed; z-index: 1000` along
+     the bottom edge, and the rail runs full height, so without this it
+     sits on top of the rail's bottom rows — account, settings, collapse.
+     On mobile that made the settings gear literally unclickable:
+     elementFromPoint at its centre returned the banner, not the button.
+     ToastStack and AssistPanel already consume this var; the rail was
+     the one full-height surface that never adopted it. */
+  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px));
   gap: 0.25rem;
   position: sticky;
   top: var(--bezel-h, 3.25rem);

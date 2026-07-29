@@ -18,7 +18,7 @@
  * places people look for settings. Each instance owns its own `open`
  * state, so at most one menu is ever in the DOM.
  */
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useTheme } from '../composables/useTheme.js'
 import { useLang } from '../composables/useLang.js'
 import { useAtlasPalette } from '../composables/useAtlasPalette.js'
@@ -40,7 +40,11 @@ const { palette, setPalette, catalog: paletteCatalog } = useAtlasPalette()
 const open = ref(false)
 const rootRef = ref(null)
 const triggerRef = ref(null)
+const menuRef = ref(null)
 const menuStyle = ref({})
+// Teleport only once we're on the client: during SSR <body> isn't a
+// mountable target and the menu is closed anyway.
+const mounted = ref(false)
 
 const isRail = computed(() => props.placement === 'rail')
 
@@ -55,29 +59,51 @@ const paletteOptions = computed(() => {
 })
 
 /**
- * The rail sets `overflow-y: auto`, which per CSS makes overflow-x
- * `auto` too — an absolutely-positioned popover would be clipped by
- * the rail instead of overlapping the page. So the rail variant is
- * `position: fixed`, anchored off the trigger's rect and clamped to
- * the viewport so it stays on-screen inside the narrow mobile drawer.
+ * The menu is teleported to <body> and positioned in viewport
+ * coordinates. Two separate ancestors would otherwise hide it:
+ *
+ *  - `.rail` sets `overflow-y: auto`, which per CSS forces overflow-x to
+ *    `auto` as well, so an absolutely-positioned popover is clipped by
+ *    the rail rather than overlapping the page;
+ *  - below 900px `.rail` also sets `transform: translateX(...)` for the
+ *    drawer slide, and a transformed ancestor becomes the containing
+ *    block for `position: fixed` descendants — so even fixed positioning
+ *    was still being clipped by the rail on mobile.
+ *
+ * Teleporting sidesteps both: nothing between the menu and <body> can
+ * clip it, whatever the rail does with transforms or overflow later.
  */
+// Fallback only — the menu is min-width 260 / max-width 320 and its
+// real width depends on the longest translated label, so clamping
+// against this constant alone let it overhang the viewport (measured
+// 279px at 412px wide, running to x=423). Once it has rendered we
+// re-clamp against the measured width.
 const MENU_W = 260
 function updatePosition() {
-  if (!isRail.value || !triggerRef.value) return
+  if (!triggerRef.value) return
   const r = triggerRef.value.getBoundingClientRect()
   const vw = globalThis.innerWidth || 0
   const vh = globalThis.innerHeight || 0
-  const left = Math.max(8, Math.min(r.right + 8, vw - MENU_W - 8))
-  menuStyle.value = {
-    position: 'fixed',
-    left: left + 'px',
-    bottom: Math.max(8, vh - r.bottom) + 'px',
+  const mw = menuRef.value?.offsetWidth || MENU_W
+  const style = { position: 'fixed' }
+  if (isRail.value) {
+    // Beside the rail, opening upward from the trigger.
+    style.left = Math.max(8, Math.min(r.right + 8, vw - mw - 8)) + 'px'
+    style.bottom = Math.max(8, vh - r.bottom) + 'px'
+  } else {
+    // Under the gear, right-aligned to it.
+    style.left = Math.max(8, Math.min(r.right - mw, vw - mw - 8)) + 'px'
+    style.top = Math.min(r.bottom + 6, Math.max(8, vh - 8)) + 'px'
   }
+  menuStyle.value = style
 }
 
-function toggleOpen() {
+async function toggleOpen() {
   open.value = !open.value
-  if (open.value) updatePosition()
+  if (!open.value) return
+  updatePosition()      // place it before paint, using the fallback width
+  await nextTick()
+  updatePosition()      // re-clamp now that its real width is known
 }
 function closeMenu() { open.value = false }
 
@@ -90,19 +116,29 @@ function onLangChange(e) { setLang(e.target.value) }
 function onPaletteChange(e) { setPalette(e.target.value) }
 
 function onDocumentClick(event) {
-  if (rootRef.value && !rootRef.value.contains(event.target)) closeMenu()
+  // The menu is teleported out of this component's subtree, so testing
+  // rootRef alone would treat a click on the language picker as an
+  // outside click and shut the menu mid-interaction.
+  if (rootRef.value && rootRef.value.contains(event.target)) return
+  if (menuRef.value && menuRef.value.contains(event.target)) return
+  closeMenu()
 }
 function onKeydown(event) { if (event.key === 'Escape') closeMenu() }
 
 onMounted(() => {
+  mounted.value = true
   document.addEventListener('click', onDocumentClick)
   document.addEventListener('keydown', onKeydown)
   globalThis.addEventListener('resize', updatePosition)
+  // Capture phase: the rail scrolls independently of the page, so a
+  // bubbling listener on window would miss it and leave the menu behind.
+  globalThis.addEventListener('scroll', updatePosition, true)
 })
 onBeforeUnmount(() => {
   document.removeEventListener('click', onDocumentClick)
   document.removeEventListener('keydown', onKeydown)
   globalThis.removeEventListener('resize', updatePosition)
+  globalThis.removeEventListener('scroll', updatePosition, true)
 })
 </script>
 
@@ -131,14 +167,16 @@ onBeforeUnmount(() => {
       <span v-if="isRail" class="rail-label">{{ $t('preferences_menu.preferences') }}</span>
     </button>
 
-    <div
-      v-if="open"
-      class="settings-menu"
-      :class="isRail ? 'settings-menu--rail' : 'settings-menu--header'"
-      :style="isRail ? menuStyle : null"
-      role="menu"
-      data-testid="settings-menu"
-    >
+    <Teleport v-if="mounted" to="body">
+      <div
+        v-if="open"
+        ref="menuRef"
+        class="settings-menu"
+        :class="isRail ? 'settings-menu--rail' : 'settings-menu--header'"
+        :style="menuStyle"
+        role="menu"
+        data-testid="settings-menu"
+      >
       <div class="settings-section">
         <div class="settings-section-title">{{ $t('preferences_menu.display') }}</div>
 
@@ -183,9 +221,10 @@ onBeforeUnmount(() => {
               </option>
             </optgroup>
           </select>
-        </label>
+          </label>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -234,8 +273,9 @@ onBeforeUnmount(() => {
   z-index: 90;
   overflow: hidden;
 }
-.settings-menu--header { position: absolute; top: calc(100% + 6px); right: 0; }
-/* --rail is positioned inline (fixed) by updatePosition(). */
+/* Both variants are positioned inline, in viewport coordinates, by
+   updatePosition() — the menu is teleported to <body> so there is no
+   positioned ancestor to lay it out against. */
 
 .settings-section { padding: 0.55rem 0.5rem; }
 .settings-section-title {
