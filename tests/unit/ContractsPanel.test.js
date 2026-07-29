@@ -417,3 +417,77 @@ describe('ContractsPanel', () => {
     expect(wrapper.text()).toContain('Ministry of Defence')
   })
 })
+
+/**
+ * Regression: the title cell rendered `<RouterLink to="/contract/${c.ted_notice_id}">`
+ * unconditionally. Most contracts still have no ted_notice_id (data-backlog
+ * item 25, ~94% NULL) — for Siemens AG in testing it was 19 of 19 — so every
+ * one of those rows was a link to `/contract/null`, and clicking it landed the
+ * user on a dead page. The row :key was the same field, so all unlinked rows
+ * also collided on the key `null`.
+ */
+describe('ContractsPanel — contracts with no TED notice id', () => {
+  afterEach(() => { vi.clearAllMocks() })
+
+  // UUID symbol so the panel uses it directly as the gmr_id; a
+  // non-UUID triggers a ticker-resolution fetch first and the mock
+  // would answer that call with the contracts payload.
+  const UUID = 'abc12345-1234-1234-1234-123456789abc'
+
+  async function mountWith(contracts) {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contracts, contract_count: contracts.length }),
+    })
+    const w = mount(ContractsPanel, { props: { symbol: UUID, entityKind: 'company' } })
+    await flushPromises()
+    return w
+  }
+
+  it('renders the title as plain text, not a dead link', async () => {
+    const w = await mountWith([makeContract({ ted_notice_id: null, title: 'Unlinkable job' })])
+    expect(w.find('[data-testid="contract-title-unlinked"]').text()).toBe('Unlinkable job')
+    expect(w.find('[data-testid="contract-title-link-null"]').exists()).toBe(false)
+  })
+
+  it('never emits an href pointing at a null contract', async () => {
+    const w = await mountWith([
+      makeContract({ ted_notice_id: null, title: 'A' }),
+      makeContract({ ted_notice_id: null, title: 'B' }),
+      makeContract({ ted_notice_id: '789-2024', title: 'C' }),
+    ])
+    // Assert on hrefs, not raw html(): Vue keeps template comments in
+    // dev builds, so a substring check also matches the explanatory
+    // comment in the component that names the bug.
+    // Both the table and the mobile card list render (CSS hides one), so
+    // each linkable row contributes several hrefs. Assert the property,
+    // not the count: every contract href points at a real notice.
+    const hrefs = w.findAll('a').map((a) => a.attributes('href')).filter(Boolean)
+    const contractHrefs = hrefs.filter((h) => h.includes('/contract/'))
+    expect(contractHrefs.length).toBeGreaterThan(0)
+    expect(contractHrefs.every((h) => h === '/contract/789-2024')).toBe(true)
+  })
+
+  it('still links the rows that do have an id', async () => {
+    const w = await mountWith([
+      makeContract({ ted_notice_id: null, title: 'A' }),
+      makeContract({ ted_notice_id: '789-2024', title: 'C' }),
+    ])
+    const link = w.find('[data-testid="contract-title-link-789-2024"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe('/contract/789-2024')
+  })
+
+  it('gives unlinked rows distinct keys instead of all sharing null', async () => {
+    const w = await mountWith([
+      makeContract({ ted_notice_id: null, title: 'A' }),
+      makeContract({ ted_notice_id: null, title: 'B' }),
+      makeContract({ ted_notice_id: null, title: 'C' }),
+    ])
+    // All three must survive rendering; a shared :key silently drops rows.
+    expect(w.findAll('[data-testid="contract-title-unlinked"]')).toHaveLength(3)
+    const ids = w.findAll('tbody tr').map((r) => r.attributes('data-testid'))
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+

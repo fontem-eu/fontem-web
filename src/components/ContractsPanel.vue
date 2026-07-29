@@ -234,13 +234,24 @@ const topCpv = computed(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="c in sortedContracts" :key="c.ted_notice_id" :data-testid="`contract-row-${c.ted_notice_id}`">
+            <tr v-for="(c, i) in sortedContracts" :key="c.ted_notice_id || `row-${i}`" :data-testid="`contract-row-${c.ted_notice_id ?? i}`">
               <td class="nowrap">{{ c.award_date?.substring(0, 10) || '—' }}</td>
               <td>
-                <RouterLink
-                  :to="`/contract/${c.ted_notice_id}`"
-                  :data-testid="`contract-title-link-${c.ted_notice_id}`"
-                >{{ c.title }}</RouterLink>
+                  <!-- Only link when there is somewhere to link to. Most
+                       contracts still carry no ted_notice_id (data-backlog
+                       item 25, 94% NULL), and this cell used to render a
+                       RouterLink to `/contract/null` for every one of them
+                       (19 of 19 for Siemens AG in testing); clicking any of
+                       them landed on a dead page. Unlinked rows render the
+                       title as plain text now. The row :key was also
+                       `c.ted_notice_id`, so all unlinked rows shared the
+                       key `null`. -->
+                  <RouterLink
+                    v-if="c.ted_notice_id"
+                    :to="`/contract/${c.ted_notice_id}`"
+                    :data-testid="`contract-title-link-${c.ted_notice_id}`"
+                  >{{ c.title }}</RouterLink>
+                  <span v-else data-testid="contract-title-unlinked">{{ c.title }}</span>
               </td>
               <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataConfidenceIcon v-if="contractValueBadness(c)" :badness="contractValueBadness(c)" @click="confidenceContract = c" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" /></td>
               <td>
@@ -248,7 +259,7 @@ const topCpv = computed(() => {
                   <RouterLink
                     :to="`/c/${counterpartyFor(c).profileId}/profile`"
                     class="counterparty-link"
-                    :data-testid="`contract-counterparty-link-${c.ted_notice_id}`"
+                    :data-testid="`contract-counterparty-link-${c.ted_notice_id ?? i}`"
                   >{{ counterpartyFor(c).label || '—' }}</RouterLink>
                 </template>
                 <template v-else>{{ counterpartyFor(c).label || '—' }}</template>
@@ -258,11 +269,13 @@ const topCpv = computed(() => {
               <td class="nowrap">{{ c.procedure_type || '—' }}</td>
               <td class="nowrap">
                 <RouterLink
+                  v-if="c.ted_notice_id"
                   :to="`/contract/${c.ted_notice_id}`"
                   class="ted-link"
                   :data-testid="`contract-details-link-${c.ted_notice_id}`"
                   :title="`Open contract details ${c.ted_notice_id}`"
                 >Details →</RouterLink>
+                <span v-else class="ted-none">—</span>
               </td>
             </tr>
           </tbody>
@@ -272,17 +285,19 @@ const topCpv = computed(() => {
       <!-- Mobile: card list -->
       <div class="contracts-cards">
         <div
-          v-for="c in sortedContracts"
-          :key="c.ted_notice_id"
+          v-for="(c, i) in sortedContracts"
+          :key="c.ted_notice_id || `card-${i}`"
           class="contract-card"
-          :data-testid="`contract-card-${c.ted_notice_id}`"
+          :data-testid="`contract-card-${c.ted_notice_id ?? i}`"
         >
           <div class="cc-header">
             <RouterLink
+              v-if="c.ted_notice_id"
               :to="`/contract/${c.ted_notice_id}`"
               class="cc-title"
               :data-testid="`contract-card-title-link-${c.ted_notice_id}`"
             >{{ c.title }}</RouterLink>
+            <span v-else class="cc-title" data-testid="contract-card-title-unlinked">{{ c.title }}</span>
           </div>
           <div class="cc-details">
             <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataConfidenceIcon v-if="contractValueBadness(c)" :badness="contractValueBadness(c)" @click="confidenceContract = c" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" />
@@ -294,7 +309,7 @@ const topCpv = computed(() => {
               <RouterLink
                 :to="`/c/${counterpartyFor(c).profileId}/profile`"
                 class="counterparty-link"
-                :data-testid="`contract-card-counterparty-link-${c.ted_notice_id}`"
+                :data-testid="`contract-card-counterparty-link-${c.ted_notice_id ?? i}`"
               >{{ counterpartyFor(c).label || '—' }}</RouterLink>
             </template>
             <template v-else>
@@ -304,6 +319,7 @@ const topCpv = computed(() => {
             <span v-if="c.cpv" class="cc-cpv">{{ c.cpv }}</span>
           </div>
           <RouterLink
+            v-if="c.ted_notice_id"
             :to="`/contract/${c.ted_notice_id}`"
             class="cc-ted-link"
             :data-testid="`contract-card-details-link-${c.ted_notice_id}`"
