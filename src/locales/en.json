@@ -1,5 +1,5 @@
 {
-  "article_quality":   {
+  "article_quality": {
     "button": "Evaluate quality",
     "reading_time_label": "Reading time",
     "balance_label": "Data-to-text balance",
@@ -1297,6 +1297,12 @@
     "second_value": "2nd value",
     "level": "Level",
     "series": "Series",
+    "events": "Event markers",
+    "events_source": "Timeline query",
+    "events_none": "None",
+    "events_x": "Date column",
+    "events_label": "Label column",
+    "events_detail": "Detail column",
     "columns": "Columns",
     "loading": "Loading…",
     "bar": "Bar",

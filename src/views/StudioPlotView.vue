@@ -37,7 +37,12 @@ const selection = ref([])          // new mode: selected query ids (ordered)
 const storedSources = ref([])      // edit mode: recipe sources from the saved plot
 const transformSql = ref('')
 const combine = reactive({ result: null, error: null, loading: false })
-const plot = reactive({ chart: 'bar_h', x: '', y: '', y2: '', level: 0, bivariate: 'none', series: [], corrCols: [] })
+const plot = reactive({ chart: 'bar_h', x: '', y: '', y2: '', level: 0, bivariate: 'none', series: [], corrCols: [], events: { source: '', x: '', label: '', detail: '' } })
+// Raw per-source rows kept after a combine. Event annotations are read from a
+// single UNCOMBINED source (a reform timeline is its own query, not something
+// to join into the series), so the preview needs the inputs the way
+// PipelineEmbed keeps rawInputs — the combined result has already lost them.
+const rawInputs = ref([])
 const saved = ref(false)
 const pocketed = ref(false)
 const qCols = reactive({})       // new mode: query id -> columns
@@ -76,6 +81,7 @@ async function hydrate() {
       try { const r = await runSource(src.lang, src.query); editCols[src.name] = r.columns || [] } catch { editCols[src.name] = [] }
     })
     plot.chart = spec.chart || 'bar_h'; plot.x = spec.x || ''; plot.y = spec.y || ''; plot.level = spec.level || 0
+    Object.assign(plot.events, { source: '', x: '', label: '', detail: '' }, spec.events || {})
     plot.y2 = spec.y2 || ''; plot.bivariate = spec.bivariate || 'none'
     plot.series = Array.isArray(spec.series) ? [...spec.series] : []
     plot.corrCols = Array.isArray(spec.corrCols) ? [...spec.corrCols] : []
@@ -165,6 +171,7 @@ async function runCombine() {
       const r = await runSource(s.lang, s.query)
       inputs.push({ name: s.name, columns: r.columns, rows: r.rows })
     }
+    rawInputs.value = inputs
     const sql = transformSql.value.trim() || `SELECT * FROM ${inputs[0].name}`
     combine.result = await runTransform(inputs, sql)
     const cols = combine.result.columns
@@ -197,12 +204,25 @@ const numericCols = computed(() => {
   })
 })
 
-const chartProps = computed(() => buildChartProps(combine.result, plot))
+const chartProps = computed(() => buildChartProps(combine.result, plot, rawInputs.value))
+// Columns of the source chosen as the event timeline (for the x/label pickers).
+const eventCols = computed(
+  () => rawInputs.value.find((i) => i.name === plot.events.source)?.columns || [],
+)
+// Only persist events once they can actually resolve — extractEvents needs
+// source + x + label. Keeps specs of plain line charts free of empty noise.
+const eventSpec = () => {
+  const e = plot.events
+  return e.source && e.x && e.label
+    ? { source: e.source, x: e.x, label: e.label, ...(e.detail ? { detail: e.detail } : {}) }
+    : undefined
+}
 const currentSpec = () => ({
   sources: activeSources.value.map((s) => ({ name: s.name, lang: s.lang, query: s.query })),
   transform: transformSql.value,
   chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level,
   bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols],
+  ...(eventSpec() ? { events: eventSpec() } : {}),
 })
 
 async function savePlot() {
@@ -224,7 +244,11 @@ async function savePlot() {
 function pocket() {
   pocketSave('pipeline', {
     data_params: { sources: currentSpec().sources, transform: transformSql.value },
-    ui_params: { chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level, bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols] },
+    ui_params: {
+      chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level,
+      bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols],
+      ...(eventSpec() ? { events: eventSpec() } : {}),
+    },
   }, `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
   pocketed.value = true
   setTimeout(() => { pocketed.value = false }, 2000)
@@ -305,6 +329,35 @@ function pocket() {
             <span class="pmulti-lbl">{{ $t('studio_plot.series') }}</span>
             <label v-for="c in numericCols" :key="c" class="pmulti-opt"><input v-model="plot.series" type="checkbox" :value="c" /> {{ c }}</label>
           </div>
+          <!-- Event markers: read from ONE uncombined source so a reform/
+               legislation timeline stays its own query. -->
+          <div class="pevents" data-testid="plot-events">
+            <span class="pmulti-lbl">{{ $t('studio_plot.events') }}</span>
+            <label>{{ $t('studio_plot.events_source') }}
+              <select v-model="plot.events.source" data-testid="plot-events-source">
+                <option value="">{{ $t('studio_plot.events_none') }}</option>
+                <option v-for="i in rawInputs" :key="i.name" :value="i.name">{{ i.name }}</option>
+              </select>
+            </label>
+            <template v-if="plot.events.source">
+              <label>{{ $t('studio_plot.events_x') }}
+                <select v-model="plot.events.x" data-testid="plot-events-x">
+                  <option v-for="c in eventCols" :key="c" :value="c">{{ c }}</option>
+                </select>
+              </label>
+              <label>{{ $t('studio_plot.events_label') }}
+                <select v-model="plot.events.label" data-testid="plot-events-label">
+                  <option v-for="c in eventCols" :key="c" :value="c">{{ c }}</option>
+                </select>
+              </label>
+              <label>{{ $t('studio_plot.events_detail') }}
+                <select v-model="plot.events.detail" data-testid="plot-events-detail">
+                  <option value="">{{ $t('studio_plot.events_none') }}</option>
+                  <option v-for="c in eventCols" :key="c" :value="c">{{ c }}</option>
+                </select>
+              </label>
+            </template>
+          </div>
         </template>
         <template v-else-if="plot.chart === 'corr_matrix'">
           <div class="pmulti" data-testid="plot-corrcols">
@@ -328,6 +381,7 @@ function pocket() {
 .plotview { max-width: 60rem; margin: 0 auto; padding: 0.5rem 1rem 4rem; }
 .ploading { max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: var(--muted); }
 .pmulti { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; }
+.pevents { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; padding-left: 0.6rem; border-left: 2px dotted var(--border, #cbd5e1); }
 .pmulti-lbl { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
 .pmulti-opt { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.8rem; }
 .crumbs { font-size: 0.8rem; color: var(--muted); padding: 0.6rem 0; }
