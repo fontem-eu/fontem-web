@@ -322,3 +322,48 @@ test.describe('Assistant consumption metrics', () => {
     }
   })
 })
+
+test.describe('Article quality evaluator', () => {
+  test('evaluate button scores the story and renders both bars + suggestions', async ({ page }) => {
+    const token = makeTestToken()
+    await page.goto('/')
+    await page.evaluate((t) => localStorage.setItem('gmr-token', t), token)
+    const baseUrl = page.url().replace(/\/$/, '')
+
+    // Seed a report via the API.
+    const createResp = await page.request.post(`${baseUrl}/capi/reports`, {
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      data: { title: 'E2E Quality Test', abstract: 'quality heuristic e2e' },
+    })
+    expect(createResp.ok()).toBeTruthy()
+    const reportId = (await createResp.json()).id
+
+    // Open the editor and add some prose (a data-less story).
+    await page.goto(`/reports/${reportId}/edit`)
+    await page.waitForSelector('[data-testid="story-editor"]', { timeout: 10000 })
+    const editor = page.locator('.tiptap-editor .tiptap').first()
+    await editor.click()
+    await editor.fill('Some analysis prose for the article quality heuristic. '.repeat(15))
+
+    // Evaluate quality → the panel with both bars appears.
+    await page.click('[data-testid="evaluate-quality-btn"]')
+    await expect(page.locator('[data-testid="quality-report"]')).toBeVisible()
+    await expect(page.locator('[data-testid="quality-bar-reading-time"]')).toBeVisible()
+    await expect(page.locator('[data-testid="quality-bar-balance"]')).toBeVisible()
+
+    // Both bars carry an explicit width (the score), 0–100%.
+    for (const id of ['reading-time-fill', 'balance-fill']) {
+      const style = await page.locator(`[data-testid="${id}"]`).getAttribute('style')
+      expect(style).toMatch(/width:\s*\d+%/)
+    }
+
+    // A prose-only story must be flagged as missing data.
+    await expect(page.locator('[data-testid="balance-value"]')).toContainText(/no data/i)
+    await expect(page.locator('[data-testid="quality-suggestions"]')).toContainText(/data plots/i)
+
+    // Cleanup.
+    await page.request.delete(`${baseUrl}/capi/reports/${reportId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  })
+})

@@ -26,6 +26,7 @@ import { WidgetNode } from '../extensions/WidgetNode.js'
 import { EntityMention } from '../extensions/EntityMention.js'
 import { MentionTrigger } from '../extensions/MentionTrigger.js'
 import StoryEditorToolbar from '../components/StoryEditorToolbar.vue'
+import ArticleQualityEvaluator from '../components/ArticleQualityEvaluator.vue'
 import AssistPanel from '../components/AssistPanel.vue'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import MentionAutocomplete from '../components/MentionAutocomplete.vue'
@@ -566,6 +567,14 @@ async function save() {
           />
         </div>
       </div>
+
+      <!-- Article-quality heuristics: on-demand reading-time + data/text
+           balance, scored against the ~10-minute, data-first house style. -->
+      <ArticleQualityEvaluator
+        class="quality-panel"
+        :get-doc="() => (editor ? editor.getJSON() : null)"
+        data-testid="article-quality-panel"
+      />
 
       <!-- @-mention autocomplete + side panel. The autocomplete only
            renders while MentionTrigger reports an active query; the

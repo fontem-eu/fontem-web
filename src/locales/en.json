@@ -1,4 +1,29 @@
 {
+  "article_quality":   {
+    "button": "Evaluate quality",
+    "reading_time_label": "Reading time",
+    "balance_label": "Data-to-text balance",
+    "minutes": "{n} min",
+    "all_good": "Looks good — on length and well balanced.",
+    "verdict": {
+      "too_short": "too short",
+      "too_long": "too long",
+      "ok": "on target",
+      "no_data": "no data",
+      "too_much_text": "too much text",
+      "too_much_data": "too much data",
+      "balanced": "balanced"
+    },
+    "suggestion": {
+      "too_long_split": "Consider splitting this into multiple articles.",
+      "too_long_summarize": "Summarize — trim sections that don't earn their length.",
+      "too_short_explain": "Explain more — add analysis and context.",
+      "too_short_add_data": "Add more data plots to support the argument.",
+      "too_much_text_add_plots": "Add more plots — the piece leans on prose over data.",
+      "too_much_data_explain": "Explain more — add text to guide the reader through the data.",
+      "no_data_add_plots": "Add data plots — a data story needs data."
+    }
+  },
   "errata": {
     "icon_title": "This contract was modified — click to see what changed",
     "modal_title": "Contract modification",
