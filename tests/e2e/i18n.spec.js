@@ -1,73 +1,124 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * Language switch smoke. PR 1 lands only the English dictionary, so
- * this spec proves the i18n bridge is wired and the UI labels swap
- * to a locale's keys when the dropdown changes -- it does NOT assert
- * native-language strings yet (those arrive in PR 2). Once the
- * Bulgarian / French / German batches land, the asserts switch from
- * "did the key get evaluated" to "did the key resolve to the local
- * translation".
+ * Display settings must work with no account.
+ *
+ * Regression guard: 5dd542d ("lean profile menu") folded theme /
+ * language / palette into the signed-in-only profile surface and moved
+ * them to /account. /account stayed public, but the only affordance
+ * pointing there reads "Log in" when signed out — so an anonymous
+ * visitor had no discoverable way to change language. These specs
+ * drive the gear from both surfaces it is mounted on (header bezel and
+ * nav rail) as a genuinely signed-out visitor.
+ *
+ * Playwright's default context carries no cookies or localStorage, so
+ * every test below is anonymous; `expectAnonymous` asserts that rather
+ * than relying on it.
  */
-test.describe('Language switching', () => {
-  test('header surfaces a localised label after the picker changes', async ({ page }) => {
+
+async function expectAnonymous(page) {
+  const user = await page.evaluate(() => globalThis.localStorage?.getItem('fontem-user') ?? null)
+  expect(user).toBeNull()
+}
+
+/**
+ * Open the settings popover if it isn't already open. The menu stays
+ * open after a preference changes — deliberately, so the effect is
+ * visible and undoable in the same gesture — so a bare click on the
+ * trigger would toggle it shut on the second interaction.
+ */
+async function openSettings(page, trigger = 'settings-trigger') {
+  const menu = page.locator('[data-testid="settings-menu"]')
+  if (!(await menu.isVisible())) await page.locator(`[data-testid="${trigger}"]`).click()
+  await expect(menu).toBeVisible()
+}
+
+test.describe('Anonymous display settings', () => {
+  test('an unauthenticated visitor can change the language from the header gear', async ({ page }) => {
     await page.goto('/')
+    await expectAnonymous(page)
 
-    // 1) Default lang. The header has "Preferences" as a static label
-    //    keyed by app.preferences -- in PR 1 this is still English.
-    const englishHeader = await page.locator('[data-testid="prefs-menu-trigger"]')
-      .first().getAttribute('aria-label')
-    expect(typeof englishHeader).toBe('string')
-    expect(englishHeader.length).toBeGreaterThan(0)
+    // The gear is present without signing in — this is the regression.
+    const gear = page.locator('[data-testid="settings-trigger"]')
+    await expect(gear).toBeVisible()
 
-    // 2) Open the prefs menu and switch language.
-    await page.locator('[data-testid="prefs-menu-trigger"]').first().click()
-    await page.locator('[data-testid="lang-picker"]').selectOption('fr')
+    const englishLabel = await gear.getAttribute('aria-label')
+    expect(englishLabel).toBeTruthy()
 
-    // 3) The lang attribute on <html> must reflect the choice
-    //    immediately (anti-FOUC + screen-reader correctness).
+    await openSettings(page)
+    await page.locator('[data-testid="settings-lang"]').selectOption('fr')
+
+    // <html lang> flips immediately (anti-FOUC + screen-reader).
     await expect(page.locator('html')).toHaveAttribute('lang', 'fr')
+    await expectAnonymous(page)
 
-    // 4) The lazy import for the locale fires; the aria-label
-    //    re-evaluates against fr.json. In PR 2 fr is still a
-    //    stub (filled in PR 3), so the fallback to en keeps the
-    //    text identical -- we hop to a locale we did translate.
-    await page.locator('[data-testid="prefs-menu-trigger"]').first().click()
-    await page.locator('[data-testid="lang-picker"]').selectOption('de')
+    // German is fully translated, so the label must actually resolve to
+    // the German string rather than falling back to English.
+    await openSettings(page)
+    await page.locator('[data-testid="settings-lang"]').selectOption('de')
     await expect(page.locator('html')).toHaveAttribute('lang', 'de')
-    const deHeader = await page.locator('[data-testid="prefs-menu-trigger"]')
-      .first().getAttribute('aria-label')
-    expect(deHeader).toBe('Einstellungen')
-    expect(deHeader).not.toBe(englishHeader)
+    await expect(gear).toHaveAttribute('aria-label', 'Einstellungen')
+    expect(englishLabel).not.toBe('Einstellungen')
 
-    // 5) Sanity: the persisted preference survives a reload.
+    // The choice survives a reload, still with no account.
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('lang', 'de')
+    await expectAnonymous(page)
   })
 
+  test('an unauthenticated visitor can change the language from the rail gear', async ({ page }) => {
+    await page.goto('/')
+    await expectAnonymous(page)
+
+    await expect(page.locator('[data-testid="rail-settings"]')).toBeVisible()
+    await openSettings(page, 'rail-settings')
+    await page.locator('[data-testid="settings-lang"]').selectOption('de')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de')
+    await expectAnonymous(page)
+  })
+
+  test('the gear also switches theme and palette with no account', async ({ page }) => {
+    await page.goto('/')
+    await expectAnonymous(page)
+
+    await openSettings(page)
+    const before = await page.evaluate(() =>
+      document.documentElement.classList.contains('dark'))
+
+    await page.locator('[data-testid="settings-theme"]').click()
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.classList.contains('dark')))
+      .toBe(!before)
+
+    // The palette control is the third anonymous-safe preference.
+    await expect(page.locator('[data-testid="settings-palette"]')).toBeVisible()
+    await expectAnonymous(page)
+  })
+
+  test('the settings menu exposes no account actions', async ({ page }) => {
+    await page.goto('/')
+    await openSettings(page)
+    const menu = page.locator('[data-testid="settings-menu"]')
+    // Identity belongs to ProfileMenu; keeping the surfaces separate is
+    // what stops display prefs sliding back behind auth.
+    await expect(menu).not.toContainText(/sign out/i)
+    await expect(menu).not.toContainText(/delete account/i)
+  })
+})
+
+test.describe('Language switching', () => {
   test('plural keys render different numerals in the same locale', async ({ page }) => {
     await page.goto('/')
-    // The plural API (app.contracts_count) is exercised by passing a
-    // count through to vue-i18n's $tc. We expose two badges on the
-    // landing footer so the test can verify the form chosen matches
-    // the count. PR 2 adds locale-specific plural forms.
-    await expect(page.locator('[data-testid="i18n-plural-zero"]'))
-      .toContainText('no contracts')
-    await expect(page.locator('[data-testid="i18n-plural-one"]'))
-      .toContainText('1 contract')
-    await expect(page.locator('[data-testid="i18n-plural-many"]'))
-      .toContainText('5 contracts')
+    await expect(page.locator('[data-testid="i18n-plural-zero"]')).toContainText('no contracts')
+    await expect(page.locator('[data-testid="i18n-plural-one"]')).toContainText('1 contract')
+    await expect(page.locator('[data-testid="i18n-plural-many"]')).toContainText('5 contracts')
 
-    // Switch to German and re-read all three plural forms.
     // German uses 2 CLDR forms (one | other); count=0 picks the
     // 'no contracts' form, 1 the singular, 5 the plural.
-    await page.locator('[data-testid="prefs-menu-trigger"]').first().click()
-    await page.locator('[data-testid="lang-picker"]').selectOption('de')
-    await expect(page.locator('[data-testid="i18n-plural-zero"]'))
-      .toContainText('keine Aufträge')
-    await expect(page.locator('[data-testid="i18n-plural-one"]'))
-      .toContainText('1 Auftrag')
-    await expect(page.locator('[data-testid="i18n-plural-many"]'))
-      .toContainText('5 Aufträge')
+    await openSettings(page)
+    await page.locator('[data-testid="settings-lang"]').selectOption('de')
+    await expect(page.locator('[data-testid="i18n-plural-zero"]')).toContainText('keine Aufträge')
+    await expect(page.locator('[data-testid="i18n-plural-one"]')).toContainText('1 Auftrag')
+    await expect(page.locator('[data-testid="i18n-plural-many"]')).toContainText('5 Aufträge')
   })
 })

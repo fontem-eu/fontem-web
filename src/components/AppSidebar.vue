@@ -13,6 +13,7 @@ import MosaicMark from './MosaicMark.vue'
 import Wordmark from './Wordmark.vue'
 import RailIcon from './RailIcon.vue'
 import StudioNav from './StudioNav.vue'
+import SettingsMenu from './SettingsMenu.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
 const route = useRoute()
@@ -91,6 +92,11 @@ function isActive(path) {
     </nav>
 
     <div class="rail-bottom">
+      <!-- Above the account row on purpose: signed out, that row reads
+           "Log in", and display preferences must not look like they
+           live behind it. -->
+      <SettingsMenu placement="rail" :collapsed="collapsed" />
+
       <router-link
         to="/account"
         class="rail-item rail-account"
