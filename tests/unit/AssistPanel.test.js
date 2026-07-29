@@ -25,6 +25,13 @@ describe('AssistPanel', () => {
         reportContext: 'Test Report',
         reportId: 'report-1',
       },
+      // The overlay is teleported to <body> so a hidden ancestor cannot
+      // stop it rendering (ReportEditorView mounts this inside
+      // .secondary-controls, which is display:none below 640px). Stub
+      // Teleport so it renders inline and these assertions can keep
+      // using wrapper.find; the teleport itself is asserted separately
+      // below, and the real-viewport behaviour by ASSIST-PRE-19.
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
   })
 
@@ -80,6 +87,7 @@ describe('AssistPanel', () => {
 
     const w = mount(AssistPanel, {
       props: { reportContext: 'Test', reportId: 'report-2' },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await w.find('[data-testid="assist-toggle"]').trigger('click')
@@ -103,6 +111,7 @@ describe('AssistPanel — accept-all / bypass-permissions toggle', () => {
   it('toggle is off by default and the checkbox is unchecked', async () => {
     const w = mount(AssistPanel, {
       props: { reportContext: 'r', reportId: 'r1' },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await open(w)
@@ -114,6 +123,7 @@ describe('AssistPanel — accept-all / bypass-permissions toggle', () => {
   it('toggling on persists "1" to localStorage', async () => {
     const w = mount(AssistPanel, {
       props: { reportContext: 'r', reportId: 'r1' },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await open(w)
@@ -125,6 +135,7 @@ describe('AssistPanel — accept-all / bypass-permissions toggle', () => {
     localStorage.setItem(BYPASS_KEY, '1')
     const w = mount(AssistPanel, {
       props: { reportContext: 'r', reportId: 'r1' },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await open(w)
@@ -138,9 +149,37 @@ describe('AssistPanel — accept-all / bypass-permissions toggle', () => {
     localStorage.setItem(BYPASS_KEY, '1')
     const w = mount(AssistPanel, {
       props: { reportContext: 'r', reportId: 'r1' },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await open(w)
     expect(w.find('[data-testid="assist-bypass-toggle"]').element.checked).toBe(true)
+  })
+})
+
+describe('AssistPanel — overlay teleport', () => {
+  /**
+   * Regression: ReportEditorView renders <AssistPanel> inside
+   * .secondary-controls, which is `display: none` below 640px unless the
+   * kebab opens it. display:none on an ancestor stops a position:fixed
+   * child rendering at all — the panel sat in the DOM with a 619px
+   * computed height and a 0x0 bounding rect, so the input was
+   * unreachable on mobile.
+   */
+  it('renders the panel under <body>, not inside the mount point', async () => {
+    const w = mount(AssistPanel, {
+      props: { reportContext: 'Test Report', reportId: 'report-1' },
+      attachTo: document.body,
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
+    })
+    await w.find('[data-testid="assist-toggle"]').trigger('click')
+    await flushPromises()
+    const panel = document.body.querySelector('[data-testid="assist-panel"]')
+    expect(panel).not.toBeNull()
+    // Outside this component's own subtree — that subtree is what gets
+    // hidden by the collapsible toolbar.
+    expect(w.element.contains(panel)).toBe(false)
+    w.unmount()
+    document.body.innerHTML = ''
   })
 })

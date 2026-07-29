@@ -83,6 +83,7 @@ describe('AssistPanel — apply flow', () => {
         reportId: 'r-42',
         editorState: { editor, title: 'T', abstract: 'A' },
       },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     pushProposal(wrapper.vm, {
@@ -111,6 +112,7 @@ describe('AssistPanel — apply flow', () => {
     const editor = makeEditor()
     const wrapper = mount(AssistPanel, {
       props: { reportContext: 'ctx', reportId: 'r-42', editorState: { editor } },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     pushProposal(wrapper.vm, {
@@ -130,6 +132,7 @@ describe('AssistPanel — apply flow', () => {
     const editor = makeEditor()
     const wrapper = mount(AssistPanel, {
       props: { reportContext: 'ctx', reportId: 'r-42', editorState: { editor } },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await wrapper.find('[data-testid="assist-toggle"]').trigger('click')
@@ -149,6 +152,7 @@ describe('AssistPanel — apply flow', () => {
     const editor = makeEditor()
     const wrapper = mount(AssistPanel, {
       props: { reportContext: 'ctx', reportId: 'r-42', editorState: { editor } },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     pushProposal(wrapper.vm, {
@@ -170,6 +174,7 @@ describe('AssistPanel — apply flow', () => {
   it('does NOT emit applied when the executor fails (e.g. no editor)', async () => {
     const wrapper = mount(AssistPanel, {
       props: { reportContext: 'ctx', reportId: 'r-42', editorState: { /* no editor */ } },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     // Open the panel so the error bar inside it actually renders into
@@ -195,6 +200,7 @@ describe('AssistPanel — apply flow', () => {
     const editor = makeEditor()
     const wrapper = mount(AssistPanel, {
       props: { reportContext: 'ctx', reportId: 'r-42', editorState: { editor } },
+      global: { stubs: { Teleport: { template: '<div><slot /></div>' } } },
     })
     await flushPromises()
     await wrapper.find('[data-testid="assist-toggle"]').trigger('click')

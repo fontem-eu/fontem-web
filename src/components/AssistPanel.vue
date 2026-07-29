@@ -33,6 +33,8 @@ function conversationKey() {
 const emit = defineEmits(['insert', 'refresh', 'applied'])
 
 const open = ref(false)
+// Teleport target only exists client-side; the panel is closed during SSR.
+const mounted = ref(false)
 const input = ref('')
 const inputEl = ref(null)
 
@@ -142,7 +144,12 @@ async function loadConversation() {
   }
 }
 
-onMounted(loadConversation)
+onMounted(() => {
+  // Gate the Teleport: <body> is not a mountable target during SSR, and
+  // the panel is closed then anyway.
+  mounted.value = true
+  loadConversation()
+})
 
 // ── Send message ─────────────────────────────────────────────
 
@@ -387,6 +394,16 @@ defineExpose({ applyProposal, messages })
     </button>
 
     <!-- Panel overlay (click outside to close on mobile) -->
+    <!-- Both the backdrop and the panel are position:fixed overlays, so
+         they must not be laid out inside this component's mount point.
+         ReportEditorView renders <AssistPanel> inside .secondary-controls,
+         which is `display: none` below 640px unless the kebab opens it —
+         and display:none on an ancestor stops a fixed child rendering at
+         all. Opening the panel on desktop and narrowing to 375px left the
+         panel present in the DOM with a 619px computed height and a 0x0
+         bounding rect. Teleporting to <body> puts the overlay outside any
+         collapsible container; the toggle button above stays in place. -->
+    <Teleport v-if="mounted" to="body">
     <div v-if="open" class="assist-backdrop" @click="close"></div>
 
     <!-- Panel -->
@@ -515,6 +532,7 @@ defineExpose({ applyProposal, messages })
         <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
       </form>
     </div>
+    </Teleport>
   </div>
 </template>
 
