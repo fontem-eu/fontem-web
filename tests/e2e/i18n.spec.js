@@ -122,3 +122,36 @@ test.describe('Language switching', () => {
     await expect(page.locator('[data-testid="i18n-plural-many"]')).toContainText('5 Aufträge')
   })
 })
+
+/**
+ * Mobile. The header bar at 412px had roughly 6px of slack, so adding
+ * the gear to it pushed the search input from 206px to 167px — under
+ * the 200px floor responsive.spec.js enforces, i.e. a search box too
+ * narrow to type in. The header gear is therefore desktop-only, and on
+ * mobile the same component is reached from the bottom of the nav
+ * drawer. These assert both halves of that trade.
+ */
+test.describe('Anonymous display settings — mobile', () => {
+  test.use({ viewport: { width: 412, height: 915 } })
+
+  test('the header gear is not in the mobile bar, and search stays usable', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('[data-testid="settings-trigger"]')).toBeHidden()
+    const box = await page.locator('input[type="search"]').boundingBox()
+    expect(box.width).toBeGreaterThan(200)
+  })
+
+  test('settings are still reachable from the nav drawer', async ({ page }) => {
+    await page.goto('/')
+    await expectAnonymous(page)
+    // The brand mark is the menu control below the rail breakpoint.
+    await page.locator('[data-testid="nav-toggle"]').click()
+    const railGear = page.locator('[data-testid="rail-settings"]')
+    await expect(railGear).toBeVisible()
+    await railGear.click()
+    await expect(page.locator('[data-testid="settings-menu"]')).toBeVisible()
+    await page.locator('[data-testid="settings-lang"]').selectOption('de')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de')
+    await expectAnonymous(page)
+  })
+})
