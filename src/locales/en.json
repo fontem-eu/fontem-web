@@ -256,6 +256,7 @@
     "label": "Translations",
     "original": "Original",
     "outdated": "This translation may be outdated — the original was edited after it was written.",
+    "stale_fallback": "The {lang} translation is out of date, so the original text is shown below. Switch language again once it has been updated.",
     "outdated_short": "possibly outdated",
     "resolve": "Mark as up to date"
   },

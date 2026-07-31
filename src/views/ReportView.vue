@@ -56,13 +56,21 @@ const { lang: uiLang } = useLang()
 // re-points the read-only editor at the corresponding document.
 const activeLang = ref('')
 const activeTranslation = ref(null)
-const displayTitle = computed(() => activeTranslation.value?.title || report.value?.title)
+// A translation whose source moved after it was written is not shown at
+// all — we fall back to the original text and say so. Keeping the picker
+// on the chosen language (rather than snapping back) makes the fallback
+// legible: you see what you asked for, and why you did not get it.
+const translationStale = computed(() => !!(activeLang.value && activeTranslation.value?.outdated))
+const displayTitle = computed(() => (translationStale.value
+  ? report.value?.title
+  : activeTranslation.value?.title || report.value?.title))
 const regionName = computed(() => {
   const code = report.value?.nuts_region
   return code ? (regionNames.value[code] || code) : ''
 })
-const displayAbstract = computed(() =>
-  activeLang.value ? activeTranslation.value?.abstract : report.value?.abstract)
+const displayAbstract = computed(() => (activeLang.value && !translationStale.value
+  ? activeTranslation.value?.abstract
+  : report.value?.abstract))
 
 // Estimated reading time (minutes) for the *currently displayed* content —
 // the active translation's doc when one is selected, else the original.
@@ -71,7 +79,7 @@ const displayAbstract = computed(() =>
 const readingMinutes = computed(() => {
   const r = report.value
   if (!r) return 0
-  const tr = activeLang.value ? activeTranslation.value : null
+  const tr = activeLang.value && !translationStale.value ? activeTranslation.value : null
   const doc = (tr?.content_doc?.version === 2 && tr.content_doc.tiptap)
     || (r.content_doc?.version === 2 && r.content_doc.tiptap)
   const tally = doc ? tallyTiptap(doc) : tallyLegacySections(r.sections || [])
@@ -91,8 +99,10 @@ async function switchLanguage(lang) {
       const t = await getTranslation(reportId, lang)
       activeTranslation.value = t
       activeLang.value = lang
-      if (readOnlyEditor && t.content_doc?.version === 2) {
-        readOnlyEditor.commands.setContent(t.content_doc.tiptap)
+      // Stale translation -> show the ORIGINAL document, never the drifted one.
+      const doc = t.outdated ? report.value.content_doc : t.content_doc
+      if (readOnlyEditor && doc?.version === 2) {
+        readOnlyEditor.commands.setContent(doc.tiptap)
       }
     }
     requestAnimationFrame(() => { bodyVersion.value += 1 })
@@ -307,6 +317,17 @@ function parseSectionContent(content) {
         @switch="switchLanguage"
       />
 
+      <!-- The chosen translation is out of date, so the original text is
+           rendered instead. Say so plainly rather than showing stale facts. -->
+      <p
+        v-if="translationStale"
+        class="stale-translation"
+        data-testid="stale-translation-notice"
+        role="status"
+      >
+        {{ $t('translations.stale_fallback', { lang: activeLang.toUpperCase() }) }}
+      </p>
+
       <p v-if="displayAbstract" class="report-abstract" data-testid="story-abstract">
         {{ displayAbstract }}
       </p>
@@ -506,4 +527,23 @@ function parseSectionContent(content) {
 .section-html :deep(pre) { background: var(--bg); padding: 0.75rem; border-radius: 4px; overflow-x: auto; }
 .section-html :deep(a) { color: var(--accent); }
 .section-html :deep(blockquote) { border-left: 3px solid var(--border); padding-left: 1rem; color: var(--muted); margin: 0.5rem 0; }
+</style>
+
+<style scoped>
+/* Same amber vocabulary as the picker's outdated badge, at notice weight. */
+.stale-translation {
+  margin: 0.5rem 0 0.9rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #f59e0b;
+  border-left-width: 4px;
+  border-radius: 6px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.87rem;
+}
+:global(html.dark) .stale-translation {
+  background: #451a03;
+  color: #fbbf24;
+  border-color: #b45309;
+}
 </style>
