@@ -5,6 +5,9 @@ import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
 import { useAssistantContext } from '../composables/useAssistantContext.js'
+import { useRoute, useRouter } from 'vue-router'
+import routeManifest from '../generated/route-manifest.json'
+import { navigableRoutes, isNavigable as isNavigablePath } from '../agent/routeManifest.js'
 import { sanitizeMarkdown } from '../utils/sanitize.js'
 import { useVisibleViewportHeight } from '../composables/useVisibleViewportHeight.js'
 
@@ -30,6 +33,13 @@ const props = defineProps({
 })
 
 const ctx = useAssistantContext()
+const route = useRoute()
+const router = useRouter()
+
+/** Local guard before we move the user anywhere. */
+function isNavigable(path) {
+  return isNavigablePath(path, routeManifest)
+}
 
 const reportContext = computed(() => props.reportContext ?? ctx.reportContext.value)
 const reportId = computed(() => props.reportId ?? ctx.reportId.value)
@@ -207,6 +217,16 @@ async function send() {
         message: text,
         conversation_key: conversationKey(),
         context_block: reportContext.value,
+          // Where the user is, and every page they can reach. Sent from
+          // here rather than held server-side so there is one source of
+          // truth: this is the same generated manifest the app routes
+          // with, so the backend can never authorise a path this build
+          // cannot serve.
+          nav: {
+            current: route.fullPath,
+            title: typeof document !== 'undefined' ? document.title : undefined,
+            routes: navigableRoutes(routeManifest),
+          },
       }),
     })
 
@@ -263,6 +283,15 @@ async function send() {
             await nextTick()
             scrollToBottom()
           } catch { /* skip malformed */ }
+        } else if (eventType === 'navigate' && eventData) {
+          // The one tool that cannot run on the server. The backend already
+          // validated the path against the manifest we sent, but validate
+          // again here: this is the process that actually moves the user,
+          // and it should not take a path on trust from anywhere.
+          try {
+            const target = JSON.parse(eventData).path
+            if (isNavigable(target)) router.push(target)
+          } catch { /* malformed event: stay put */ }
         } else if (eventType === 'error') {
           try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
         }

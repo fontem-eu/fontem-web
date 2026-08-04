@@ -13,7 +13,7 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createFontemRouter } from '../../src/app.js'
-import { buildRouteManifest, navigableRoutes, ROUTE_DESCRIPTIONS, NOT_NAVIGABLE } from '../../src/agent/routeManifest.js'
+import { buildRouteManifest, navigableRoutes, isNavigable, ROUTE_DESCRIPTIONS, NOT_NAVIGABLE } from '../../src/agent/routeManifest.js'
 
 const ARTIFACT = path.resolve(__dirname, '../../src/generated/route-manifest.json')
 
@@ -75,5 +75,36 @@ describe('route manifest', () => {
     const withParams = fresh().routes.filter((r) => r.params)
     expect(withParams.length).toBeGreaterThan(0)
     expect(withParams.every((r) => Array.isArray(r.params) && r.params.length)).toBe(true)
+  })
+})
+
+describe('isNavigable — the guard before we move the user', () => {
+  const manifest = fresh()
+
+  it('accepts real routes, with params filled in', () => {
+    expect(isNavigable('/', manifest)).toBe(true)
+    expect(isNavigable('/map', manifest)).toBe(true)
+    expect(isNavigable('/c/AAPL/summary', manifest)).toBe(true)
+    expect(isNavigable('/map?zoom=3', manifest)).toBe(true)
+  })
+
+  it('refuses anything that leaves the site', () => {
+    // A path arriving over the wire is untrusted; off-site "navigation"
+    // is an open redirect with extra steps.
+    for (const p of ['https://evil.example', '//evil.example', 'http://x.example/y']) {
+      expect(isNavigable(p, manifest), p).toBe(false)
+    }
+  })
+
+  it('refuses unknown paths and non-strings', () => {
+    expect(isNavigable('/not-a-real-page', manifest)).toBe(false)
+    expect(isNavigable('', manifest)).toBe(false)
+    expect(isNavigable(null, manifest)).toBe(false)
+    expect(isNavigable(undefined, manifest)).toBe(false)
+  })
+
+  it('refuses routes explicitly excluded from navigation', () => {
+    expect(isNavigable('/admin', manifest)).toBe(false)
+    expect(isNavigable('/reset-password', manifest)).toBe(false)
   })
 })

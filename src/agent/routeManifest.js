@@ -135,3 +135,25 @@ export function buildRouteManifest(router) {
 export function navigableRoutes(manifest) {
   return manifest.routes.filter((r) => !r.redirects_to && !NOT_NAVIGABLE.has(r.path))
 }
+
+/**
+ * Does `path` match a route the agent is allowed to send the user to?
+ *
+ * The backend validates too, against the same manifest this sends it. This
+ * is not redundant: the browser is the process that actually moves the
+ * user, and a path arriving over the wire is not something it should
+ * follow on trust — an off-site "navigation" is an open redirect.
+ */
+export function isNavigable(path, manifest) {
+  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) return false
+  if (path.includes('://')) return false
+  const clean = path.split('?')[0].split('#')[0]
+  return navigableRoutes(manifest).some((r) => {
+    const re = new RegExp(
+      '^' + r.path.split('/').filter(Boolean)
+        .map((seg) => (seg.startsWith(':') ? '[^/]+' : seg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+        .map((seg) => '/' + seg).join('') + '/?$',
+    )
+    return r.path === '/' ? clean === '/' : re.test(clean)
+  })
+}
