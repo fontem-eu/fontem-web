@@ -1,4 +1,5 @@
 <script setup>
+import ProviderKeysCard from '../components/ProviderKeysCard.vue'
 /** Account & settings screen — reached from the rail's bottom item and the
  * top-right profile menu. Consolidates profile, preferences, activity/usage
  * links, and the account/data (GDPR) actions. */
@@ -72,6 +73,10 @@ async function doDeleteAccount() {
       <router-link to="/activity" class="av-linkrow">{{ $t('account.your_activity') }}</router-link>
       <router-link to="/privacy" class="av-linkrow">{{ $t('account.privacy') }}</router-link>
     </section>
+
+    <!-- Bring-your-own LLM key. Signed-in only: the credential is
+         stored against the account. -->
+    <ProviderKeysCard v-if="authed" />
 
     <section v-if="authed" class="av-card">
       <h2 class="av-h2">{{ $t('account.account_data') }}</h2>

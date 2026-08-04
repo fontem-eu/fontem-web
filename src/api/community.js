@@ -315,6 +315,25 @@ export function getAssistUsage() {
   return request('GET', '/assist/usage')
 }
 
+// ── Provider credentials ──────────────────────────────────────
+// Write-only by design: putProviderCredential sends a key and nothing
+// ever reads one back. listProviderCredentials returns which providers
+// are configured plus a fingerprint, never key material.
+
+export function listProviderCredentials() {
+  return request('GET', '/assist/credentials')
+}
+
+export function putProviderCredential({ provider, apiKey, model }) {
+  return request('PUT', '/assist/credentials', {
+    provider, api_key: apiKey, model: model || null,
+  })
+}
+
+export function deleteProviderCredential(provider) {
+  return request('DELETE', `/assist/credentials/${encodeURIComponent(provider)}`)
+}
+
 export function getAssistUsageHistory(days = 30) {
   return request('GET', `/assist/usage-history?days=${days}`)
 }
