@@ -1,9 +1,13 @@
 <script setup>
 import { getAccessToken } from '../api/session.js'
-import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
+import { useAssistantContext } from '../composables/useAssistantContext.js'
+import { useRoute, useRouter } from 'vue-router'
+import routeManifest from '../generated/route-manifest.json'
+import { navigableRoutes, isNavigable as isNavigablePath } from '../agent/routeManifest.js'
 import { sanitizeMarkdown } from '../utils/sanitize.js'
 import { useVisibleViewportHeight } from '../composables/useVisibleViewportHeight.js'
 
@@ -15,14 +19,34 @@ import { useVisibleViewportHeight } from '../composables/useVisibleViewportHeigh
 // alongside the `dvh` fallback in the stylesheet.
 useVisibleViewportHeight()
 
+/*
+ * Props are still accepted so existing callers and tests keep working,
+ * but the panel is mounted once in the app shell now and has no parent to
+ * hand it editor state. When a prop is absent it falls back to whatever
+ * surface has registered itself in the shared assistant context — the
+ * report editor does so while it is mounted, and withdraws on unmount.
+ */
 const props = defineProps({
-  reportContext: { type: String, default: '' },
-  reportId: { type: String, default: '' },
-  editorState: { type: Object, default: () => ({}) },
+  reportContext: { type: String, default: null },
+  reportId: { type: String, default: null },
+  editorState: { type: Object, default: null },
 })
 
+const ctx = useAssistantContext()
+const route = useRoute()
+const router = useRouter()
+
+/** Local guard before we move the user anywhere. */
+function isNavigable(path) {
+  return isNavigablePath(path, routeManifest)
+}
+
+const reportContext = computed(() => props.reportContext ?? ctx.reportContext.value)
+const reportId = computed(() => props.reportId ?? ctx.reportId.value)
+const editorState = computed(() => props.editorState ?? ctx.editorState.value)
+
 function conversationKey() {
-  return props.reportId ? `report:${props.reportId}` : ''
+  return reportId.value ? `report:${reportId.value}` : 'global'
 }
 
 // `applied` carries the executed proposal so the parent can decide
@@ -30,7 +54,18 @@ function conversationKey() {
 // `refresh` is kept for legacy callers but is no longer emitted by
 // applyProposal — the old behaviour blew away unsaved local edits
 // because the parent re-fetched the entire report from the server.
-const emit = defineEmits(['insert', 'refresh', 'applied'])
+const rawEmit = defineEmits(['insert', 'refresh', 'applied'])
+
+/*
+ * Mounted globally there is no parent listening, so an emit alone would
+ * drop the proposal on the floor. Forward to the registered handler too;
+ * whichever surface can actually act on it gets it.
+ */
+function emit(event, payload) {
+  rawEmit(event, payload)
+  const handler = ctx.handlers.value?.[event]
+  if (typeof handler === 'function') handler(payload)
+}
 
 const open = ref(false)
 // Teleport target only exists client-side; the panel is closed during SSR.
@@ -181,7 +216,17 @@ async function send() {
       body: JSON.stringify({
         message: text,
         conversation_key: conversationKey(),
-        context_block: props.reportContext,
+        context_block: reportContext.value,
+          // Where the user is, and every page they can reach. Sent from
+          // here rather than held server-side so there is one source of
+          // truth: this is the same generated manifest the app routes
+          // with, so the backend can never authorise a path this build
+          // cannot serve.
+          nav: {
+            current: route.fullPath,
+            title: typeof document !== 'undefined' ? document.title : undefined,
+            routes: navigableRoutes(routeManifest),
+          },
       }),
     })
 
@@ -238,6 +283,15 @@ async function send() {
             await nextTick()
             scrollToBottom()
           } catch { /* skip malformed */ }
+        } else if (eventType === 'navigate' && eventData) {
+          // The one tool that cannot run on the server. The backend already
+          // validated the path against the manifest we sent, but validate
+          // again here: this is the process that actually moves the user,
+          // and it should not take a path on trust from anywhere.
+          try {
+            const target = JSON.parse(eventData).path
+            if (isNavigable(target)) router.push(target)
+          } catch { /* malformed event: stay put */ }
         } else if (eventType === 'error') {
           try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
         }
@@ -327,7 +381,7 @@ function parseProposals(text) {
 }
 
 async function applyProposal(proposal, msgIndex, auto = false) {
-  const result = await executeProposal(props.reportId, proposal, props.editorState)
+  const result = await executeProposal(reportId.value, proposal, editorState.value)
   if (result.ok) {
     const msg = messages.value[msgIndex]
     if (msg?.proposals) {

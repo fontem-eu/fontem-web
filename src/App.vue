@@ -11,6 +11,7 @@ import { useSidebar } from './composables/useSidebar.js'
 import AppFooter from './components/AppFooter.vue'
 import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
+import AssistPanel from './components/AssistPanel.vue'
 import ToastStack from './components/ToastStack.vue'
 import I18nPluralProbe from './components/I18nPluralProbe.vue'
 
@@ -37,6 +38,10 @@ const route = useRoute()
 // displace the form and add link noise during sign-in).
 const showFooter = computed(() => route.path !== '/login')
 const showSidebar = computed(() => route.path !== '/login')
+// Hidden on /login only: an assistant that can navigate the app is no use
+// to someone who cannot yet get into it, and the panel's own requests need
+// a token anyway.
+const showAssistant = computed(() => route.path !== '/login')
 const { collapsed } = useSidebar()
 </script>
 
@@ -61,6 +66,13 @@ const { collapsed } = useSidebar()
     </div>
     <CookieConsentBanner />
     <ToastStack />
+    <!-- The assistant is part of the shell, not of any one page. It was
+         mounted inside ReportEditorView, so it existed only while you were
+         editing an article — the one moment you least need help finding
+         your way around. It teleports to <body> and owns its own toggle,
+         so the shell renders it once; editing surfaces publish their state
+         through useAssistantContext rather than passing props down. -->
+    <AssistPanel v-if="showAssistant" />
   </div>
 </template>
 

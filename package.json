@@ -77,19 +77,19 @@
     "vitest": "^3.2.6"
   },
   "overrides": {
-    "fast-uri": "^3.1.4",
+    "fast-uri": "^4.1.2",
     "tmp": "^0.2.6",
     "linkify-it": "^5.0.1",
     "js-cookie": "^3.0.7",
-    "brace-expansion@1": "1.1.16",
-    "brace-expansion@2": "2.1.2",
-    "brace-expansion@5": "5.0.8",
     "js-yaml@4": "4.3.0",
     "vitest": {
       "vite": "^6.4.3"
     },
     "vite-node": {
       "vite": "^6.4.3"
-    }
+    },
+    "brace-expansion@1": "1.1.18",
+    "brace-expansion@2": "2.1.4",
+    "brace-expansion@5": "5.0.9"
   }
 }

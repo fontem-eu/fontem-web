@@ -8,7 +8,7 @@
  * - Inline image upload (to MinIO)
  * - Widget nodes (interactive Vue components inline)
  */
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -27,7 +27,7 @@ import { EntityMention } from '../extensions/EntityMention.js'
 import { MentionTrigger } from '../extensions/MentionTrigger.js'
 import StoryEditorToolbar from '../components/StoryEditorToolbar.vue'
 import ArticleQualityEvaluator from '../components/ArticleQualityEvaluator.vue'
-import AssistPanel from '../components/AssistPanel.vue'
+import { registerEditorContext } from '../composables/useAssistantContext.js'
 import EntitySidePanel from '../components/EntitySidePanel.vue'
 import MentionAutocomplete from '../components/MentionAutocomplete.vue'
 import ChapterRail from '../components/ChapterRail.vue'
@@ -192,6 +192,9 @@ const loading = ref(true)
 // content mutates a lot (every keystroke is a transaction), so we
 // bump `bodyVersion` on TipTap's `update` hook and the rail re-extracts.
 const editorBodyRef = ref(null)
+// Bumped when the TipTap editor instance is (re)created, so the assistant
+// context re-registers with a live editor rather than the initial null.
+const editorReady = ref(0)
 const bodyVersion = ref(0)
 
 const toast = useToast()
@@ -386,16 +389,44 @@ async function loadReport() {
     // v2: TipTap JSON document
     if (report.content_doc?.version === 2) {
       editor = createEditor(report.content_doc.tiptap)
+      editorReady.value++
     } else {
       // v1: concatenate section HTML into a single document
       const html = (report.sections || []).map(s => s.content || '').join('')
       editor = createEditor(html || '')
+      editorReady.value++
     }
   } catch (err) {
     error.value = err.message
-    if (!editor) editor = createEditor()
+    if (!editor) { editor = createEditor(); editorReady.value++ }
   }
 }
+
+/*
+ * Publish the editing surface to the globally-mounted assistant, and
+ * withdraw it on unmount. Without the withdrawal the assistant would keep
+ * offering to edit an article the user navigated away from ten minutes
+ * ago, and `applied` proposals would be executed against a dead editor.
+ */
+let disposeAssistantContext = null
+// `editor` is a plain `let`, assigned once the report loads, so it is not
+// reactive and watchEffect cannot see it. editorReady is bumped when it is
+// created, which is what makes this re-register at the right moment.
+watchEffect(() => {
+  void editorReady.value
+  disposeAssistantContext?.()
+  disposeAssistantContext = registerEditorContext({
+    context: reportContext.value,
+    id: reportId,                       // plain string from route.params
+    state: { editor, title: title.value, abstract: abstract.value },
+    onInsert: onAssistInsert,
+    onApplied: onProposalApplied,
+  })
+})
+onBeforeUnmount(() => {
+  disposeAssistantContext?.()
+  disposeAssistantContext = null
+})
 
 onMounted(async () => {
   document.addEventListener('click', onHeaderDocClick)
@@ -520,13 +551,6 @@ async function save() {
               <CountryRegionPicker v-model="nutsRegion" />
             </div>
           </details>
-          <AssistPanel
-            :report-context="reportContext"
-            :report-id="reportId"
-            :editor-state="{ editor, title: title, abstract: abstract }"
-            @insert="onAssistInsert"
-            @applied="onProposalApplied"
-          />
           <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
             {{ $t('investigations.add_to_dossier') }}
           </button>

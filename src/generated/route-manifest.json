@@ -1,0 +1,381 @@
+{
+  "generated_from": "createFontemRouter()",
+  "routes": [
+    {
+      "path": "/",
+      "description": "Home feed of published data stories."
+    },
+    {
+      "path": "/:pathMatch(.*)*",
+      "params": [
+        "pathMatch"
+      ]
+    },
+    {
+      "path": "/about",
+      "description": "What Fontem is, how it works, and how to get started."
+    },
+    {
+      "path": "/account",
+      "description": "Account settings: display preferences, profile, and LLM provider keys."
+    },
+    {
+      "path": "/activity",
+      "requires_auth": true,
+      "description": "Recent community activity."
+    },
+    {
+      "path": "/admin",
+      "requires_auth": true
+    },
+    {
+      "path": "/admin/data-quality/:page*",
+      "params": [
+        "page"
+      ],
+      "requires_auth": true
+    },
+    {
+      "path": "/admin/entity-resolution",
+      "requires_auth": true
+    },
+    {
+      "path": "/admin/moderation",
+      "requires_auth": true
+    },
+    {
+      "path": "/admin/value-review",
+      "requires_auth": true
+    },
+    {
+      "path": "/ai-usage",
+      "requires_auth": true,
+      "description": "Your assistant usage and token history."
+    },
+    {
+      "path": "/atlas",
+      "redirects_to": "/map"
+    },
+    {
+      "path": "/c/:ticker",
+      "params": [
+        "ticker"
+      ],
+      "description": "Company page by ticker symbol."
+    },
+    {
+      "path": "/c/:ticker/:view",
+      "params": [
+        "ticker",
+        "view"
+      ],
+      "description": "A specific view of a company (summary, balance, cashflow, profile)."
+    },
+    {
+      "path": "/company/:gmr_id",
+      "params": [
+        "gmr_id"
+      ],
+      "description": "Company page by internal entity id."
+    },
+    {
+      "path": "/contract/:noticeId",
+      "params": [
+        "noticeId"
+      ],
+      "description": "A single public procurement contract, with its award details."
+    },
+    {
+      "path": "/data-quality",
+      "description": "Data quality dashboards and coverage reports."
+    },
+    {
+      "path": "/data-quality/assertions",
+      "description": "Automated data quality assertions and their results."
+    },
+    {
+      "path": "/data-quality/cdp",
+      "description": "Coverage of CDP environmental disclosures."
+    },
+    {
+      "path": "/data-quality/connectedness",
+      "description": "How well entities are linked to one another."
+    },
+    {
+      "path": "/data-quality/contracts",
+      "description": "Coverage and quality of procurement contracts."
+    },
+    {
+      "path": "/data-quality/dedup",
+      "description": "Duplicate entity detection and resolution status."
+    },
+    {
+      "path": "/data-quality/edgar",
+      "description": "Coverage of SEC EDGAR filings."
+    },
+    {
+      "path": "/data-quality/esef",
+      "description": "Coverage of ESEF financial filings."
+    },
+    {
+      "path": "/data-quality/etl-runs",
+      "description": "Recent ETL pipeline runs and their outcomes."
+    },
+    {
+      "path": "/data-quality/eu-knowledge-graph",
+      "description": "Coverage of the EU knowledge graph sources."
+    },
+    {
+      "path": "/data-quality/firds",
+      "description": "Coverage of FIRDS instrument reference data."
+    },
+    {
+      "path": "/data-quality/gleif",
+      "description": "Coverage of GLEIF legal entity identifiers."
+    },
+    {
+      "path": "/data-quality/legislative",
+      "description": "Coverage of legislative and CELEX documents."
+    },
+    {
+      "path": "/data-quality/lobbying",
+      "description": "Coverage of lobbying and transparency register data."
+    },
+    {
+      "path": "/data-quality/nuts",
+      "description": "Coverage of NUTS regional codes."
+    },
+    {
+      "path": "/data-quality/openfigi",
+      "description": "Coverage of OpenFIGI instrument identifiers."
+    },
+    {
+      "path": "/data-quality/overview",
+      "description": "Data quality at a glance, across all sources."
+    },
+    {
+      "path": "/data-quality/prices",
+      "description": "Coverage and quality of the securities price layer."
+    },
+    {
+      "path": "/data-quality/sanctions",
+      "description": "Coverage of sanctions lists and their entity links."
+    },
+    {
+      "path": "/data-quality/theme/:themeId",
+      "params": [
+        "themeId"
+      ],
+      "description": "Data quality for one theme."
+    },
+    {
+      "path": "/data-quality/theme/procurement",
+      "description": "Data quality for procurement and tendering data."
+    },
+    {
+      "path": "/data-quality/trade-edges",
+      "description": "Coverage of trade relationship edges."
+    },
+    {
+      "path": "/data-quality/triples",
+      "description": "Raw triple counts in the graph store."
+    },
+    {
+      "path": "/donate",
+      "description": "Support the project."
+    },
+    {
+      "path": "/dossiers/:id",
+      "params": [
+        "id"
+      ],
+      "description": "An entity dossier."
+    },
+    {
+      "path": "/explore",
+      "description": "Data exploration hub — the entry point to the datasets."
+    },
+    {
+      "path": "/feed",
+      "redirects_to": "/"
+    },
+    {
+      "path": "/forgot-password"
+    },
+    {
+      "path": "/geo",
+      "description": "Geographic data browser."
+    },
+    {
+      "path": "/help",
+      "description": "Help and FAQ, including how to connect your own AI assistant to Fontem."
+    },
+    {
+      "path": "/investigations",
+      "description": "Collaborative investigations you can see."
+    },
+    {
+      "path": "/investigations/:id",
+      "params": [
+        "id"
+      ],
+      "description": "A single investigation and its members and stories."
+    },
+    {
+      "path": "/issues",
+      "requires_auth": true,
+      "description": "Data quality issues raised by the community."
+    },
+    {
+      "path": "/issues/:id",
+      "params": [
+        "id"
+      ],
+      "requires_auth": true,
+      "description": "A single data quality issue and its discussion."
+    },
+    {
+      "path": "/login",
+      "description": "Sign in or create an account."
+    },
+    {
+      "path": "/map",
+      "description": "Atlas: geographic view of the data by region."
+    },
+    {
+      "path": "/my-reports",
+      "redirects_to": "/my-stories",
+      "requires_auth": true
+    },
+    {
+      "path": "/my-stories",
+      "requires_auth": true,
+      "description": "Data stories you have written."
+    },
+    {
+      "path": "/petitions",
+      "description": "Browse and sign public petitions."
+    },
+    {
+      "path": "/petitions/:id",
+      "params": [
+        "id"
+      ],
+      "description": "A single petition, with its signatures and status."
+    },
+    {
+      "path": "/privacy",
+      "description": "Privacy policy and data handling."
+    },
+    {
+      "path": "/public-spending",
+      "redirects_to": "/spending"
+    },
+    {
+      "path": "/reports",
+      "redirects_to": "/my-stories"
+    },
+    {
+      "path": "/reports/:id",
+      "params": [
+        "id"
+      ],
+      "description": "Read a data story (legacy path)."
+    },
+    {
+      "path": "/reports/:id/edit",
+      "params": [
+        "id"
+      ],
+      "requires_auth": true,
+      "description": "Edit a data story (legacy path)."
+    },
+    {
+      "path": "/reset-password"
+    },
+    {
+      "path": "/search",
+      "description": "Full-text search across entities and stories."
+    },
+    {
+      "path": "/sparql",
+      "description": "Advanced: run SPARQL queries directly against the graph."
+    },
+    {
+      "path": "/spending",
+      "description": "Public spending overview and search."
+    },
+    {
+      "path": "/stories",
+      "redirects_to": "/my-stories"
+    },
+    {
+      "path": "/stories/:id",
+      "params": [
+        "id"
+      ],
+      "description": "Read a published data story."
+    },
+    {
+      "path": "/stories/:id/edit",
+      "params": [
+        "id"
+      ],
+      "requires_auth": true,
+      "description": "Edit one of your data stories."
+    },
+    {
+      "path": "/studio",
+      "requires_auth": true,
+      "description": "Studio: build queries and plots for a data story."
+    },
+    {
+      "path": "/studio/p/:projectId",
+      "params": [
+        "projectId"
+      ],
+      "requires_auth": true,
+      "description": "A studio project."
+    },
+    {
+      "path": "/studio/p/:projectId/plot",
+      "params": [
+        "projectId"
+      ],
+      "requires_auth": true,
+      "description": "Plots in a studio project."
+    },
+    {
+      "path": "/studio/p/:projectId/plot/:plotId",
+      "params": [
+        "projectId",
+        "plotId"
+      ],
+      "requires_auth": true,
+      "description": "A single plot in a studio project."
+    },
+    {
+      "path": "/studio/p/:projectId/q/:queryId",
+      "params": [
+        "projectId",
+        "queryId"
+      ],
+      "requires_auth": true,
+      "description": "A saved query in a studio project."
+    },
+    {
+      "path": "/support",
+      "redirects_to": "/donate"
+    },
+    {
+      "path": "/users/:id",
+      "params": [
+        "id"
+      ],
+      "description": "A contributor profile."
+    },
+    {
+      "path": "/verify-email"
+    }
+  ]
+}
