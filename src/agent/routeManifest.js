@@ -113,14 +113,14 @@ export function buildRouteManifest(router) {
     // path is enough for navigation and duplicates only confuse the model.
     .filter((r) => !r.aliasOf)
     .map((r) => {
-      const params = (r.path.match(/:[A-Za-z0-9_]+/g) || []).map((p) => p.slice(1))
+      const params = (r.path.match(/:\w+/g) || []).map((p) => p.slice(1))
       const entry = {
         path: r.path,
         // A redirect target is where the user actually lands, so the agent
         // should navigate straight there rather than via a bouncing alias.
         redirects_to: typeof r.redirect === 'string' ? r.redirect : undefined,
         params: params.length ? params : undefined,
-        requires_auth: requiresAuth(r.path.replace(/:[A-Za-z0-9_]+/g, 'x')) || undefined,
+        requires_auth: requiresAuth(r.path.replace(/:\w+/g, 'x')) || undefined,
         description: ROUTE_DESCRIPTIONS[r.path],
       }
       Object.keys(entry).forEach((k) => entry[k] === undefined && delete entry[k])
@@ -152,7 +152,7 @@ export function isNavigable(path, manifest) {
   return navigableRoutes(manifest).some((r) => {
     const re = new RegExp(
       '^' + r.path.split('/').filter(Boolean)
-        .map((seg) => (seg.startsWith(':') ? '[^/]+' : seg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+        .map((seg) => (seg.startsWith(':') ? '[^/]+' : seg.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)))
         .map((seg) => '/' + seg).join('') + '/?$',
     )
     return r.path === '/' ? clean === '/' : re.test(clean)
