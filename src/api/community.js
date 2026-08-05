@@ -466,3 +466,19 @@ export function revokeDossierAccess(id, uid) {
 export function reportEffectiveAccess(id) {
   return request('GET', `/data-stories/${encodeURIComponent(id)}/effective-access`)
 }
+
+// ── MCP access tokens ─────────────────────────────────────────
+// What a user pastes into their own LLM client. The plaintext comes back
+// exactly once, from createMcpToken; nothing reads one afterwards.
+
+export function listMcpTokens() {
+  return request('GET', '/assist/mcp-tokens')
+}
+
+export function createMcpToken(label) {
+  return request('POST', '/assist/mcp-tokens', { label: label || '' })
+}
+
+export function revokeMcpToken(id) {
+  return request('DELETE', `/assist/mcp-tokens/${encodeURIComponent(id)}`)
+}

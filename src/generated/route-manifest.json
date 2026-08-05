@@ -207,6 +207,10 @@
       "description": "Geographic data browser."
     },
     {
+      "path": "/help",
+      "description": "Help and FAQ, including how to connect your own AI assistant to Fontem."
+    },
+    {
       "path": "/investigations",
       "description": "Collaborative investigations you can see."
     },

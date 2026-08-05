@@ -19,6 +19,7 @@ import { createFontemI18n } from './i18n.js'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
+import HelpView from './views/HelpView.vue'
 import PetitionsView from './views/PetitionsView.vue'
 import PetitionDetailView from './views/PetitionDetailView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
@@ -91,6 +92,9 @@ const ROUTES = [
 
   // About — the marketing/onboarding page that used to live at `/`.
   { path: '/about', component: AboutView },
+
+  // Help / FAQ, including how to connect your own AI client.
+  { path: '/help', component: HelpView },
 
   // Legacy aliases: existing bookmarks land on the right page.
   { path: '/feed', redirect: '/' },

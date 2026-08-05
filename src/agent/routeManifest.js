@@ -35,6 +35,7 @@ export const NOT_NAVIGABLE = new Set([
 export const ROUTE_DESCRIPTIONS = {
   '/': 'Home feed of published data stories.',
   '/about': 'What Fontem is, how it works, and how to get started.',
+  '/help': 'Help and FAQ, including how to connect your own AI assistant to Fontem.',
   '/login': 'Sign in or create an account.',
   '/account': 'Account settings: display preferences, profile, and LLM provider keys.',
   '/privacy': 'Privacy policy and data handling.',
