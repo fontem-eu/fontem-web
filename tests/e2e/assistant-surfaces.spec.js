@@ -17,6 +17,30 @@ import { test, expect } from '@playwright/test'
 const EMAIL = process.env.TEST_EMAIL || 'researcher@fontem.eu'
 const PASSWORD = process.env.TEST_PASSWORD || 'TestPass123!'
 
+/**
+ * Unique per run. These tests create real tokens against a shared
+ * account, so a fixed label collides with leftovers from earlier runs and
+ * a revoke assertion fails because a same-named row from last week is
+ * still there.
+ */
+const stamp = () => `e2e-${Date.now()}-${Math.floor(Math.random() * 1e4)}`
+
+/**
+ * Dismiss the cookie banner, as a real visitor would.
+ *
+ * It is `position: fixed` along the bottom edge at z-index 1000, so until
+ * it is answered it covers the footer — including the Help link. This is
+ * the one bit of setup that is not the thing under test, and it is still
+ * done through the UI rather than by writing consent into storage.
+ */
+async function acceptCookies(page) {
+  const accept = page.locator('[data-testid="cookie-consent-accept"]')
+  if (await accept.isVisible().catch(() => false)) {
+    await accept.click()
+    await expect(page.locator('[data-testid="cookie-consent-banner"]')).toHaveCount(0)
+  }
+}
+
 async function uiLogin(page) {
   await page.goto('/login')
   await page.fill('[data-testid="login-email"]', EMAIL)
@@ -28,6 +52,7 @@ async function uiLogin(page) {
 test.describe('Help is reachable without knowing the URL', () => {
   test('a signed-out visitor can find Help from the page furniture', async ({ page }) => {
     await page.goto('/')
+    await acceptCookies(page)
     // The regression this guards: /help existed as a route with no link to
     // it anywhere, so it was only reachable by typing the address.
     const link = page.locator('a[href="/help"], a[href$="/help"]').first()
@@ -79,7 +104,8 @@ test.describe('Account settings — assistant configuration', () => {
 
   test('creating a token shows it once, with the warning', async ({ page }) => {
     await page.goto('/account')
-    await page.fill('[data-testid="mcp-token-label"]', 'e2e smoke client')
+    const label = stamp()
+    await page.fill('[data-testid="mcp-token-label"]', label)
     await page.click('[data-testid="mcp-token-create"]')
 
     const fresh = page.locator('[data-testid="mcp-token-fresh"]')
@@ -94,18 +120,19 @@ test.describe('Account settings — assistant configuration', () => {
 
     // And it is now listed, by label, without the secret.
     const list = page.locator('[data-testid="mcp-tokens-list"]')
-    await expect(list).toContainText('e2e smoke client')
+    await expect(list).toContainText(label)
     await expect(list).not.toContainText('fontem_mcp_')
   })
 
   test('a created token can be revoked from the UI', async ({ page }) => {
     await page.goto('/account')
-    await page.fill('[data-testid="mcp-token-label"]', 'e2e revoke me')
+    const label = stamp()
+    await page.fill('[data-testid="mcp-token-label"]', label)
     await page.click('[data-testid="mcp-token-create"]')
     await expect(page.locator('[data-testid="mcp-token-fresh"]')).toBeVisible({ timeout: 15_000 })
     await page.click('[data-testid="mcp-token-dismiss"]')
 
-    const row = page.locator('[data-testid="mcp-tokens-list"] li', { hasText: 'e2e revoke me' })
+    const row = page.locator('[data-testid="mcp-tokens-list"] li', { hasText: label })
     await expect(row).toBeVisible()
     await row.getByRole('button', { name: /revoke/i }).click()
     await expect(row).toHaveCount(0, { timeout: 15_000 })
