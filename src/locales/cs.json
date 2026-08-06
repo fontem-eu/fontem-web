@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Zdroj dat: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (veřejné zakázky EU)",
     "footer": "Patička",
     "sparql": "SPARQL",
-    "support": "Podpora"
+    "support": "Podpora",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Přijmout vše",

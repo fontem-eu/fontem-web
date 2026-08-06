@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Adatok forrása: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU közbeszerzések)",
     "footer": "Lábléc",
     "sparql": "SPARQL",
-    "support": "Támogasd"
+    "support": "Támogasd",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Mindet elfogadom",

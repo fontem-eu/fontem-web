@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Údaje pochádzajú zo SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Verejné obstarávanie EÚ)",
     "footer": "Päta",
     "sparql": "SPARQL",
-    "support": "Podpor"
+    "support": "Podpor",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Prijať všetko",

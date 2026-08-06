@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Datos de SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (contratación pública de la UE)",
     "footer": "Pie de página",
     "sparql": "SPARQL",
-    "support": "Apoyar"
+    "support": "Apoyar",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Aceptar todo",

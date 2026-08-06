@@ -1,0 +1,177 @@
+import { test, expect } from '@playwright/test'
+
+/**
+ * The screens added for the assistant work: Help, the provider-key card
+ * and the external-client token card.
+ *
+ * Everything here drives the UI. Nothing calls the API directly — the
+ * whole point is to catch the case where an endpoint works perfectly and
+ * the feature is still unreachable, which is exactly what happened: /help
+ * shipped as a route that nothing linked to, so it existed and no user
+ * could find it.
+ *
+ * Signing in is done through the login form for the same reason. Seeding
+ * a token would skip the surface most likely to be broken.
+ */
+
+const EMAIL = process.env.TEST_EMAIL || 'researcher@fontem.eu'
+const PASSWORD = process.env.TEST_PASSWORD || 'TestPass123!'
+
+async function uiLogin(page) {
+  await page.goto('/login')
+  await page.fill('[data-testid="login-email"]', EMAIL)
+  await page.fill('[data-testid="login-password"]', PASSWORD)
+  await page.click('[data-testid="login-submit"]')
+  await expect(page.locator('[data-testid="rail-account"]')).toBeVisible({ timeout: 20_000 })
+}
+
+test.describe('Help is reachable without knowing the URL', () => {
+  test('a signed-out visitor can find Help from the page furniture', async ({ page }) => {
+    await page.goto('/')
+    // The regression this guards: /help existed as a route with no link to
+    // it anywhere, so it was only reachable by typing the address.
+    const link = page.locator('a[href="/help"], a[href$="/help"]').first()
+    await expect(link).toBeVisible()
+    await link.click()
+    await expect(page).toHaveURL(/\/help$/)
+    await expect(page.locator('[data-testid="help-view"]')).toBeVisible()
+  })
+
+  test('Help explains how to connect an external AI client', async ({ page }) => {
+    await page.goto('/help')
+    await expect(page.locator('[data-testid="help-connect-ai"]')).toBeVisible()
+    // The endpoint is the one thing a user must copy correctly.
+    await expect(page.locator('[data-testid="help-mcp-url"]')).toContainText('/mcp')
+    await expect(page.locator('[data-testid="help-why-own-key"]')).toBeVisible()
+    await expect(page.locator('[data-testid="help-privacy"]')).toBeVisible()
+  })
+
+  test('Help links onward to where the token is actually created', async ({ page }) => {
+    await page.goto('/help')
+    const acct = page.locator('[data-testid="help-connect-ai"] a[href="/account"]').first()
+    await expect(acct).toBeVisible()
+    await acct.click()
+    await expect(page).toHaveURL(/\/account$/)
+  })
+})
+
+test.describe('Account settings — assistant configuration', () => {
+  test.beforeEach(async ({ page }) => { await uiLogin(page) })
+
+  test('the provider-key card is visible on the account page', async ({ page }) => {
+    await page.goto('/account')
+    const card = page.locator('[data-testid="provider-keys-card"]')
+    await expect(card).toBeVisible()
+    await expect(page.locator('[data-testid="provider-select"]')).toBeVisible()
+    await expect(page.locator('[data-testid="provider-key-input"]')).toBeVisible()
+    // Never a plain-text field: it is an API key.
+    await expect(page.locator('[data-testid="provider-key-input"]'))
+      .toHaveAttribute('type', 'password')
+  })
+
+  test('the external-client token card is visible, and points at Help', async ({ page }) => {
+    await page.goto('/account')
+    await expect(page.locator('[data-testid="mcp-tokens-card"]')).toBeVisible()
+    await expect(page.locator('[data-testid="mcp-token-create"]')).toBeVisible()
+    const guide = page.locator('[data-testid="mcp-tokens-card"] a[href^="/help"]').first()
+    await expect(guide).toBeVisible()
+  })
+
+  test('creating a token shows it once, with the warning', async ({ page }) => {
+    await page.goto('/account')
+    await page.fill('[data-testid="mcp-token-label"]', 'e2e smoke client')
+    await page.click('[data-testid="mcp-token-create"]')
+
+    const fresh = page.locator('[data-testid="mcp-token-fresh"]')
+    await expect(fresh).toBeVisible({ timeout: 15_000 })
+    await expect(page.locator('[data-testid="mcp-token-value"]')).toContainText('fontem_mcp_')
+    await expect(fresh).toContainText(/shown once/i)
+
+    // Dismissing must actually remove it from the page — it cannot be
+    // retrieved later, so leaving it on screen is the only exposure.
+    await page.click('[data-testid="mcp-token-dismiss"]')
+    await expect(page.locator('[data-testid="mcp-token-value"]')).toHaveCount(0)
+
+    // And it is now listed, by label, without the secret.
+    const list = page.locator('[data-testid="mcp-tokens-list"]')
+    await expect(list).toContainText('e2e smoke client')
+    await expect(list).not.toContainText('fontem_mcp_')
+  })
+
+  test('a created token can be revoked from the UI', async ({ page }) => {
+    await page.goto('/account')
+    await page.fill('[data-testid="mcp-token-label"]', 'e2e revoke me')
+    await page.click('[data-testid="mcp-token-create"]')
+    await expect(page.locator('[data-testid="mcp-token-fresh"]')).toBeVisible({ timeout: 15_000 })
+    await page.click('[data-testid="mcp-token-dismiss"]')
+
+    const row = page.locator('[data-testid="mcp-tokens-list"] li', { hasText: 'e2e revoke me' })
+    await expect(row).toBeVisible()
+    await row.getByRole('button', { name: /revoke/i }).click()
+    await expect(row).toHaveCount(0, { timeout: 15_000 })
+  })
+})
+
+test.describe('The assistant is reachable everywhere', () => {
+  const ROUTES = ['/', '/about', '/explore', '/help']
+
+  for (const path of ROUTES) {
+    test(`the assistant toggle is present on ${path}`, async ({ page }) => {
+      await page.goto(path)
+      await expect(page.locator('[data-testid="assist-toggle"]')).toBeVisible()
+    })
+  }
+
+  test('it is absent on /login, where it would be useless', async ({ page }) => {
+    await page.goto('/login')
+    await expect(page.locator('[data-testid="assist-toggle"]')).toHaveCount(0)
+  })
+
+  test('the toggle is pinned in the viewport, not parked down the page', async ({ page }) => {
+    await page.goto('/')
+    const el = page.locator('[data-testid="assist-toggle"]')
+
+    // The regression this exists for: the toggle was `position: static`,
+    // inherited from when it lived inline in the report editor. Mounted
+    // globally it rendered 1600px down a 720px-tall viewport — present on
+    // every page and visible on none of them without scrolling.
+    await expect(el).toHaveCSS('position', 'fixed')
+
+    const box = await el.boundingBox()
+    const vp = page.viewportSize()
+    // Actually on screen, before any scrolling.
+    expect(box.y).toBeGreaterThanOrEqual(0)
+    expect(box.y + box.height).toBeLessThanOrEqual(vp.height + 1)
+    // Bottom-left: left half, bottom third.
+    expect(box.x).toBeLessThan(vp.width / 2)
+    expect(box.y).toBeGreaterThan(vp.height * 0.66)
+  })
+
+  test('the toggle clears the nav rail rather than sitting on it', async ({ page }) => {
+    await page.goto('/')
+    const toggle = await page.locator('[data-testid="assist-toggle"]').boundingBox()
+    const rail = await page.locator('[data-testid="app-sidebar"]').boundingBox()
+    // Beside the rail, not over its account and collapse rows.
+    expect(toggle.x).toBeGreaterThanOrEqual(rail.x + rail.width - 1)
+  })
+
+  test('on mobile it sits at the left edge, and the open drawer covers it', async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    const el = page.locator('[data-testid="assist-toggle"]')
+    const box = await el.boundingBox()
+    // The rail is off-canvas here, so the button takes the left edge.
+    expect(box.x).toBeLessThan(60)
+    expect(box.y).toBeGreaterThan(915 * 0.66)
+
+    // With the drawer open the scrim must sit above it: a button floating
+    // over an open nav drawer is a misclick waiting to happen.
+    await page.locator('[data-testid="nav-toggle"]').click()
+    await expect(page.locator('[data-testid="rail-scrim"]')).toBeVisible()
+    const onTop = await page.evaluate(({ x, y }) => {
+      const e = document.elementFromPoint(x, y)
+      return !!e?.closest('[data-testid="assist-toggle"]')
+    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
+    expect(onTop).toBe(false)
+  })
+})

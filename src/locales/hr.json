@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Izvori podataka SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Javna nabava EU)",
     "footer": "Podnožje",
     "sparql": "SPARQL",
-    "support": "Podrška"
+    "support": "Podrška",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Prihvati sve",

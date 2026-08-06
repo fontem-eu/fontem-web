@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Andmed pärinevad SEC EDGAR-ist, ESMA ESEF-ist, GLEIF-ist &amp; TED-ist (EL riigihanked)",
     "footer": "Jalus",
     "sparql": "SPARQL",
-    "support": "Toeta"
+    "support": "Toeta",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Aktsepteeri kõik",

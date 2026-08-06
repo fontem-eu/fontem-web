@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Източници на данни: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (обществени поръчки на ЕС)",
     "footer": "Долен колонтитул",
     "sparql": "SPARQL",
-    "support": "Подкрепа"
+    "support": "Подкрепа",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Приеми всички",

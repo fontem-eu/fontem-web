@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Πηγές δεδομένων: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (δημόσιες συμβάσεις ΕΕ)",
     "footer": "Υποσέλιδο",
     "sparql": "SPARQL",
-    "support": "Υποστήριξη"
+    "support": "Υποστήριξη",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Αποδοχή όλων",

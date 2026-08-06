@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Data från SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU offentlig upphandling)",
     "footer": "Sidfot",
     "sparql": "SPARQL",
-    "support": "Stöd"
+    "support": "Stöd",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Acceptera alla",
