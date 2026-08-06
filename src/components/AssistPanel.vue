@@ -633,7 +633,8 @@ defineExpose({ applyProposal, messages })
 .assist-toggle {
   position: fixed;
   left: 0.75rem;
-  bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px));
+  bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px)
+                + var(--vv-bottom-gap, 0px));
   z-index: 50;
   display: inline-flex;
   align-items: center;

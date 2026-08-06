@@ -174,11 +174,17 @@ function isActive(path) {
      elementFromPoint at its centre returned the banner, not the button.
      ToastStack and AssistPanel already consume this var; the rail was
      the one full-height surface that never adopted it. */
-  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px));
+  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px)
+                       + var(--vv-bottom-gap, 0px));
   gap: 0.25rem;
   position: sticky;
   top: var(--bezel-h, 3.25rem);
   height: calc(100vh - var(--bezel-h, 3.25rem));
+  /* 100vh is the layout viewport, so the rail runs behind the
+     address bar and its bottom rows — account, collapse — sit
+     below the fold until you scroll. --visible-vh tracks what is
+     actually on screen. */
+  height: calc(var(--visible-vh, 100dvh) - var(--bezel-h, 3.25rem));
   overflow-y: auto;
   transition: width 0.16s ease;
 }
@@ -217,6 +223,11 @@ function isActive(path) {
     top: var(--bezel-h, 3.25rem);
     left: 0;
     height: calc(100vh - var(--bezel-h, 3.25rem));
+  /* 100vh is the layout viewport, so the rail runs behind the
+     address bar and its bottom rows — account, collapse — sit
+     below the fold until you scroll. --visible-vh tracks what is
+     actually on screen. */
+  height: calc(var(--visible-vh, 100dvh) - var(--bezel-h, 3.25rem));
     width: 15rem;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
