@@ -49,6 +49,18 @@ async function uiLogin(page) {
   await expect(page.locator('[data-testid="rail-account"]')).toBeVisible({ timeout: 20_000 })
 }
 
+test.describe('Signing in through the form', () => {
+  // The one place the login UI itself is exercised. Everything else
+  // reuses the session, the way a real visitor does.
+  test.use({ storageState: { cookies: [], origins: [] } })
+
+  test('a visitor can sign in and reach their account', async ({ page }) => {
+    await uiLogin(page)
+    await page.goto('/account')
+    await expect(page.locator('[data-testid="provider-keys-card"]')).toBeVisible()
+  })
+})
+
 test.describe('Help is reachable without knowing the URL', () => {
   test('a signed-out visitor can find Help from the page furniture', async ({ page }) => {
     await page.goto('/')
@@ -81,29 +93,38 @@ test.describe('Help is reachable without knowing the URL', () => {
 })
 
 test.describe('Account settings — assistant configuration', () => {
-  test.beforeEach(async ({ page }) => { await uiLogin(page) })
+  /*
+   * One sign-in for the whole group, not one per test.
+   *
+   * /auth/login is rate limited to 5 per minute per IP — global-setup.js
+   * says so explicitly, and a beforeEach here tripped it, so the failures
+   * were the limiter rather than the account page. These are smoke tests:
+   * a few longer journeys through the UI beat many short ones that spend
+   * their budget re-authenticating.
+   */
+  test.describe.configure({ mode: 'serial' })
 
-  test('the provider-key card is visible on the account page', async ({ page }) => {
+  test('both assistant cards are present and safe by default', async ({ page }) => {
+    await uiLogin(page)
     await page.goto('/account')
-    const card = page.locator('[data-testid="provider-keys-card"]')
-    await expect(card).toBeVisible()
+
+    await expect(page.locator('[data-testid="provider-keys-card"]')).toBeVisible()
     await expect(page.locator('[data-testid="provider-select"]')).toBeVisible()
-    await expect(page.locator('[data-testid="provider-key-input"]')).toBeVisible()
     // Never a plain-text field: it is an API key.
     await expect(page.locator('[data-testid="provider-key-input"]'))
       .toHaveAttribute('type', 'password')
-  })
 
-  test('the external-client token card is visible, and points at Help', async ({ page }) => {
-    await page.goto('/account')
     await expect(page.locator('[data-testid="mcp-tokens-card"]')).toBeVisible()
     await expect(page.locator('[data-testid="mcp-token-create"]')).toBeVisible()
-    const guide = page.locator('[data-testid="mcp-tokens-card"] a[href^="/help"]').first()
-    await expect(guide).toBeVisible()
+    await expect(
+      page.locator('[data-testid="mcp-tokens-card"] a[href^="/help"]').first(),
+    ).toBeVisible()
   })
 
-  test('creating a token shows it once, with the warning', async ({ page }) => {
+  test('a token is shown once, listed without its secret, and revocable', async ({ page }) => {
+    await uiLogin(page)
     await page.goto('/account')
+
     const label = stamp()
     await page.fill('[data-testid="mcp-token-label"]', label)
     await page.click('[data-testid="mcp-token-create"]')
@@ -113,26 +134,19 @@ test.describe('Account settings — assistant configuration', () => {
     await expect(page.locator('[data-testid="mcp-token-value"]')).toContainText('fontem_mcp_')
     await expect(fresh).toContainText(/shown once/i)
 
-    // Dismissing must actually remove it from the page — it cannot be
-    // retrieved later, so leaving it on screen is the only exposure.
+    // Dismissing must actually remove it: it cannot be retrieved later, so
+    // leaving it on screen is the only exposure.
     await page.click('[data-testid="mcp-token-dismiss"]')
     await expect(page.locator('[data-testid="mcp-token-value"]')).toHaveCount(0)
 
-    // And it is now listed, by label, without the secret.
+    // Listed by label, without the secret — and visible immediately,
+    // without a reload. A refetch straight after the create came back
+    // stale often enough that you could not see your own new token.
     const list = page.locator('[data-testid="mcp-tokens-list"]')
     await expect(list).toContainText(label)
     await expect(list).not.toContainText('fontem_mcp_')
-  })
 
-  test('a created token can be revoked from the UI', async ({ page }) => {
-    await page.goto('/account')
-    const label = stamp()
-    await page.fill('[data-testid="mcp-token-label"]', label)
-    await page.click('[data-testid="mcp-token-create"]')
-    await expect(page.locator('[data-testid="mcp-token-fresh"]')).toBeVisible({ timeout: 15_000 })
-    await page.click('[data-testid="mcp-token-dismiss"]')
-
-    const row = page.locator('[data-testid="mcp-tokens-list"] li', { hasText: label })
+    const row = list.locator('li', { hasText: label })
     await expect(row).toBeVisible()
     await row.getByRole('button', { name: /revoke/i }).click()
     await expect(row).toHaveCount(0, { timeout: 15_000 })
