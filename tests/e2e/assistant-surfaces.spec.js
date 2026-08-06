@@ -260,15 +260,18 @@ test.describe('Bottom controls clear the system navigation bar', () => {
     await page.locator('[data-testid="nav-toggle"]').click()
     const account = page.locator('[data-testid="rail-account"]')
     await expect(account).toBeVisible()
+
     const box = await account.boundingBox()
     // Fully inside the viewport, so a tap lands on it rather than on the
-    // system navigation.
+    // system navigation bar.
     expect(box.y + box.height).toBeLessThanOrEqual(915)
-    const onTop = await page.evaluate(({ x, y }) => {
-      const el = document.elementFromPoint(x, y)
-      return !!el?.closest('[data-testid="rail-account"]')
-    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
-    expect(onTop).toBe(true)
+
+    // And actually clickable. Playwright refuses to click an element that
+    // something else covers, so this asserts hit-testability far more
+    // honestly than elementFromPoint — which returns null often enough at
+    // viewport edges to make it a flaky proxy for the real question.
+    await account.click({ timeout: 5000 })
+    await expect(page).toHaveURL(/\/(account|login)$/)
   })
 })
 

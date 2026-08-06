@@ -33,7 +33,14 @@ async function create() {
     const res = await createMcpToken(label.value)
     fresh.value = res.token
     label.value = ''
-    await load()
+    // Insert from the response rather than re-fetching. The create call
+    // already returns the summary, and a GET straight after the POST came
+    // back without the new row often enough to be visible: you created a
+    // token and your own list did not show it until you reloaded. Newest
+    // first, matching the server's ordering.
+    const summary = { id: res.id, label: res.label,
+                      created_at: res.created_at, last_used_at: res.last_used_at }
+    tokens.value = [summary, ...tokens.value]
   } catch (err) { error.value = err.message } finally { busy.value = false }
 }
 
