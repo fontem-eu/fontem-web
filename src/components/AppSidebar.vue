@@ -174,17 +174,19 @@ function isActive(path) {
      elementFromPoint at its centre returned the banner, not the button.
      ToastStack and AssistPanel already consume this var; the rail was
      the one full-height surface that never adopted it. */
-  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px)
-                       + var(--vv-bottom-gap, 0px));
+  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px));
   gap: 0.25rem;
   position: sticky;
   top: var(--bezel-h, 3.25rem);
   height: calc(100vh - var(--bezel-h, 3.25rem));
-  /* 100vh is the layout viewport, so the rail runs behind the
-     address bar and its bottom rows — account, collapse — sit
-     below the fold until you scroll. --visible-vh tracks what is
-     actually on screen. */
-  height: calc(var(--visible-vh, 100dvh) - var(--bezel-h, 3.25rem));
+  /* svh is the viewport with the address bar SHOWING — the smallest
+     it gets, and a CONSTANT. Sizing to it puts the rail's bottom rows
+     on screen before any scrolling, and stops the rail resizing when
+     the bar slides away.
+     It was --visible-vh, which tracked the bar live: the rail grew as
+     you scrolled, which is the gap that opened underneath it and why
+     everything shifted. A static height cannot do that. */
+  height: calc(100svh - var(--bezel-h, 3.25rem));
   overflow-y: auto;
   transition: width 0.16s ease;
 }
@@ -223,11 +225,14 @@ function isActive(path) {
     top: var(--bezel-h, 3.25rem);
     left: 0;
     height: calc(100vh - var(--bezel-h, 3.25rem));
-  /* 100vh is the layout viewport, so the rail runs behind the
-     address bar and its bottom rows — account, collapse — sit
-     below the fold until you scroll. --visible-vh tracks what is
-     actually on screen. */
-  height: calc(var(--visible-vh, 100dvh) - var(--bezel-h, 3.25rem));
+    /* svh is the viewport with the address bar SHOWING — the smallest
+       it gets, and a CONSTANT. Sizing to it puts the rail's bottom rows
+       on screen before any scrolling, and stops the rail resizing when
+       the bar slides away.
+       It was --visible-vh, which tracked the bar live: the rail grew as
+       you scrolled, which is the gap that opened underneath it and why
+       everything shifted. A static height cannot do that. */
+    height: calc(100svh - var(--bezel-h, 3.25rem));
     width: 15rem;
     transform: translateX(-100%);
     transition: transform 0.2s ease;

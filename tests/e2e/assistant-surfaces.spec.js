@@ -247,6 +247,37 @@ test.describe('Bottom controls clear the system navigation bar', () => {
     expect(content).toContain('viewport-fit=cover')
   })
 
+  test('the toggle does not move when the page scrolls', async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    const el = page.locator('[data-testid="assist-toggle"]')
+
+    const before = await el.boundingBox()
+    await page.mouse.wheel(0, 600)
+    await page.waitForTimeout(400)
+    const after = await el.boundingBox()
+
+    // Anything that tracks the address bar live shifts here. That wiggle
+    // on every scroll is what the static svh/lvh anchoring removes.
+    expect(Math.abs(after.y - before.y)).toBeLessThanOrEqual(1)
+    expect(Math.abs(after.x - before.x)).toBeLessThanOrEqual(1)
+  })
+
+  test('the rail does not resize when the page scrolls', async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    await page.locator('[data-testid="nav-toggle"]').click()
+    const rail = page.locator('[data-testid="app-sidebar"]')
+
+    const before = await rail.boundingBox()
+    await page.mouse.wheel(0, 600)
+    await page.waitForTimeout(400)
+    const after = await rail.boundingBox()
+
+    // A growing rail is the gap that appeared underneath it.
+    expect(Math.abs(after.height - before.height)).toBeLessThanOrEqual(1)
+  })
+
   test('the assistant toggle and the account row both consume the inset', async ({ page }) => {
     await page.setViewportSize({ width: 412, height: 915 })
     await page.goto('/')
