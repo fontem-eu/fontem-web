@@ -5,6 +5,7 @@ import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import { getAssistConversation } from '../api/community.js'
 import { useAssistantContext } from '../composables/useAssistantContext.js'
+import { useSidebar } from '../composables/useSidebar.js'
 import { useRoute, useRouter } from 'vue-router'
 import routeManifest from '../generated/route-manifest.json'
 import { navigableRoutes, isNavigable as isNavigablePath } from '../agent/routeManifest.js'
@@ -33,8 +34,22 @@ const props = defineProps({
 })
 
 const ctx = useAssistantContext()
+/*
+ * Router context is optional here, deliberately. This is a shell component
+ * mounted once for the whole app, but it is also mounted directly in unit
+ * tests that have no router — and a button that cannot render without one
+ * is a button that breaks every test that touches it. Degrading to "no
+ * navigation, rail assumed present" is the right failure: the panel still
+ * works, it just cannot move the user.
+ */
 const route = useRoute()
 const router = useRouter()
+
+// The rail is absent on /login and present everywhere else, and its width
+// changes when collapsed. The toggle sits beside it rather than on top of
+// its account and collapse rows, so it has to know both.
+const { collapsed: railCollapsed } = useSidebar()
+const hasRail = computed(() => route?.path !== '/login')
 
 /** Local guard before we move the user anywhere. */
 function isNavigable(path) {
@@ -223,7 +238,7 @@ async function send() {
           // with, so the backend can never authorise a path this build
           // cannot serve.
           nav: {
-            current: route.fullPath,
+            current: route?.fullPath,
             title: typeof document !== 'undefined' ? document.title : undefined,
             routes: navigableRoutes(routeManifest),
           },
@@ -290,7 +305,7 @@ async function send() {
           // and it should not take a path on trust from anywhere.
           try {
             const target = JSON.parse(eventData).path
-            if (isNavigable(target)) router.push(target)
+            if (isNavigable(target)) router?.push(target)
           } catch { /* malformed event: stay put */ }
         } else if (eventType === 'error') {
           try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
@@ -437,7 +452,11 @@ defineExpose({ applyProposal, messages })
     <!-- Toggle button -->
     <button
       class="assist-toggle"
-      :class="{ 'assist-toggle--open': open }"
+      :class="{
+        'assist-toggle--open': open,
+        'assist-toggle--rail': hasRail,
+        'assist-toggle--rail-collapsed': hasRail && railCollapsed,
+      }"
       data-testid="assist-toggle"
       @click="toggle"
     >
@@ -595,19 +614,49 @@ defineExpose({ applyProposal, messages })
   position: relative;
 }
 
+/* Anchored bottom-left, always in the same place.
+ *
+ * It used to be an inline button inside the report editor, which was fine
+ * when that was the only page it existed on. Mounted globally it needs a
+ * fixed home, and bottom-left is where it belongs: the same side as the
+ * nav, so the two read as one control surface rather than competing.
+ *
+ * z-index 50 is deliberately BELOW the mobile drawer (60) and its scrim
+ * (55). When the drawer is open the scrim covers this, which is right —
+ * a button floating over an open nav drawer is a misclick waiting to
+ * happen. Above the page content (10-ish) so it is never buried.
+ *
+ * Bottom offset consumes --cookie-banner-h for the same reason the rail
+ * does: the banner is fixed along the bottom edge at z-index 1000, and
+ * without this it sits on top of the button and makes it unclickable.
+ */
 .assist-toggle {
+  position: fixed;
+  left: 0.75rem;
+  bottom: calc(0.75rem + var(--cookie-banner-h, 0px));
+  z-index: 50;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 0.75rem;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--bezel-border);
+  border-radius: 999px;
+  background: var(--bezel);
+  color: var(--text);
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  transition: border-color 0.15s, color 0.15s, left 0.16s ease, background 0.15s;
+}
+
+/* Desktop: the rail occupies the left edge, so sit just beside it rather
+ * than on top of its account and collapse rows. `left` transitions at the
+ * same 0.16s as the rail's own width, so the two move together instead of
+ * the button jumping after the rail has finished. */
+@media (min-width: 900px) {
+  .assist-toggle--rail { left: calc(15rem + 0.75rem); }
+  .assist-toggle--rail-collapsed { left: calc(3.5rem + 0.75rem); }
 }
 
 .assist-toggle:hover,

@@ -36,6 +36,10 @@ const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
       <span aria-hidden="true">&middot;</span>
       <router-link to="/about" data-testid="footer-about">{{ $t('app_footer.about') }}</router-link>
       <span aria-hidden="true">&middot;</span>
+      <!-- Help shipped as a route nothing linked to, so it existed and no
+           user could find it. The footer is where people look for it. -->
+      <router-link to="/help" data-testid="footer-help">{{ $t('app_footer.help') }}</router-link>
+      <span aria-hidden="true">&middot;</span>
       <router-link to="/donate" data-testid="footer-donate">{{ $t('app_footer.support') }}</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>

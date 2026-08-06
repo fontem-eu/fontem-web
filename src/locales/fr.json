@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Données issues de SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (marchés publics de l'UE)",
     "footer": "Pied de page",
     "sparql": "SPARQL",
-    "support": "Soutenir"
+    "support": "Soutenir",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Tout accepter",

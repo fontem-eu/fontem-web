@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Podatki iz SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU javna naročila)",
     "footer": "Noga",
     "sparql": "SPARQL",
-    "support": "Podpri"
+    "support": "Podpri",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Sprejmi vse",

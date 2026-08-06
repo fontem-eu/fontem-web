@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Duomenys iš SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (ES viešieji pirkimai)",
     "footer": "Poraštė",
     "sparql": "SPARQL",
-    "support": "Paremk"
+    "support": "Paremk",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Priimti viską",

@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Datu avoti: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (ES publiskais iepirkums)",
     "footer": "Kājene",
     "sparql": "SPARQL",
-    "support": "Atbalsti"
+    "support": "Atbalsti",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Pieņemt visus",

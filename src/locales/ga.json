@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Foinsí sonraí ó SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Soláthar poiblí AE)",
     "footer": "Buntásc",
     "sparql": "SPARQL",
-    "support": "Tacaigh"
+    "support": "Tacaigh",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Glac le gach",

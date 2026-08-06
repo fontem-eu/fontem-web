@@ -120,7 +120,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Tiedot lähteistä SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU:n julkiset hankinnat)",
     "footer": "Alatunniste",
     "sparql": "SPARQL",
-    "support": "Tue"
+    "support": "Tue",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Hyväksy kaikki",

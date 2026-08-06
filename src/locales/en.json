@@ -183,7 +183,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Data sourced from SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU Procurement)",
     "footer": "Footer",
     "sparql": "SPARQL",
-    "support": "Support"
+    "support": "Support",
+    "help": "Help"
   },
   "assist": {
     "accept_all": "Accept all",
