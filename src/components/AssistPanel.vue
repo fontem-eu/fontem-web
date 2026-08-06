@@ -514,8 +514,7 @@ defineExpose({ applyProposal, messages })
       <!-- Messages -->
       <div ref="messagesEl" class="assist-messages" data-testid="assist-messages">
         <div v-if="!messages.length && !loading" class="assist-empty">
-          Ask me about the data — I can search entities, find connections,
-          and suggest visualizations for your data story.
+          {{ $t('assistant.empty_hint') }}
         </div>
         <div
           v-for="(msg, i) in messages"

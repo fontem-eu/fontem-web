@@ -19,125 +19,76 @@ const mcpUrl = computed(() => {
 
 <template>
   <div class="help-view" data-testid="help-view">
-    <h1>Help</h1>
+    <h1>{{ $t('help.title') }}</h1>
 
-    <nav class="help-toc" aria-label="Contents">
-      <a href="#connect-ai">Connect your AI assistant</a>
-      <a href="#why-own-key">Why my own account?</a>
-      <a href="#assistant-in-app">The assistant inside Fontem</a>
-      <a href="#privacy">What the assistant can see</a>
+    <nav class="help-toc" :aria-label="$t('help.toc')">
+      <a href="#connect-ai">{{ $t('help.connect_title') }}</a>
+      <a href="#why-own-key">{{ $t('help.why_key_short') }}</a>
+      <a href="#assistant-in-app">{{ $t('help.in_app_title') }}</a>
+      <a href="#privacy">{{ $t('help.privacy_short') }}</a>
     </nav>
 
     <section id="connect-ai" data-testid="help-connect-ai">
-      <h2>Connect your AI assistant</h2>
+      <h2>{{ $t('help.connect_title') }}</h2>
+      <p>{{ $t('help.connect_intro') }}</p>
+
+      <h3>{{ $t('help.step_token') }}</h3>
       <p>
-        Fontem exposes its data as tools your own AI client can call —
-        company records, contracts, the entity graph, SPARQL. You use the
-        assistant you already pay for, and Fontem never sees your
-        provider account.
+        {{ $t('help.step_token_body_pre') }}
+        <router-link to="/account">{{ $t('help.step_token_account') }}</router-link>
+        {{ $t('help.step_token_body_post', {
+          section: $t('mcp_tokens.title'), action: $t('mcp_tokens.create') }) }}
       </p>
 
-      <h3>1. Create a token</h3>
-      <p>
-        Go to <router-link to="/account">Account settings</router-link> →
-        <em>Connect your AI assistant</em> → <strong>Create token</strong>.
-        Copy it immediately: it is shown once and cannot be retrieved
-        afterwards. If you lose it, revoke it and make another.
-      </p>
-
-      <h3>2. Point your client at Fontem</h3>
-      <p>The endpoint is:</p>
+      <h3>{{ $t('help.step_endpoint') }}</h3>
+      <p>{{ $t('help.step_endpoint_body') }}</p>
       <pre class="help-pre" data-testid="help-mcp-url"><code>{{ mcpUrl }}</code></pre>
 
-      <h4>Claude Desktop</h4>
-      <p>
-        Settings → Connectors → Add custom connector. Paste the URL above,
-        and your token as the bearer token.
-      </p>
+      <h4>{{ $t('help.claude_desktop') }}</h4>
+      <p>{{ $t('help.claude_desktop_body') }}</p>
 
-      <h4>Claude Code</h4>
+      <h4>{{ $t('help.claude_code') }}</h4>
       <pre class="help-pre"><code>claude mcp add --transport http fontem {{ mcpUrl }} \
   --header "Authorization: Bearer YOUR_TOKEN"</code></pre>
 
-      <h4>ChatGPT</h4>
-      <p>
-        Settings → Connectors → Add. ChatGPT's connector support requires
-        a paid plan; the URL and token are the same.
-      </p>
+      <h4>{{ $t('help.chatgpt') }}</h4>
+      <p>{{ $t('help.chatgpt_body') }}</p>
 
-      <h4>Anything else</h4>
-      <p>
-        Any client speaking MCP over Streamable HTTP works. Send the token
-        as <code>Authorization: Bearer …</code>.
-      </p>
+      <h4>{{ $t('help.anything_else') }}</h4>
+      <p>{{ $t('help.anything_else_body', { header: 'Authorization: Bearer …' }) }}</p>
 
-      <h3>3. Ask it something</h3>
-      <p>
-        Try <em>“Use Fontem to find contracts awarded to companies linked
-        to X”</em>. Your client decides when to call Fontem's tools.
-      </p>
+      <h3>{{ $t('help.step_ask') }}</h3>
+      <p>{{ $t('help.step_ask_body', { example: $t('help.step_ask_example') }) }}</p>
 
-      <h3>Revoking</h3>
-      <p>
-        Account settings lists every connected client with when it was
-        last used. Revoking takes effect on the next request. If you no
-        longer recognise a client, revoke it.
-      </p>
+      <h3>{{ $t('help.revoking') }}</h3>
+      <p>{{ $t('help.revoking_body') }}</p>
     </section>
 
     <section id="why-own-key" data-testid="help-why-own-key">
-      <h2>Why do I need my own AI account?</h2>
-      <p>
-        Because no AI provider sells what would otherwise be the obvious
-        arrangement. Anthropic prohibited using a Claude subscription
-        inside third-party tools in February 2026 and blocked it that
-        April; OpenAI's ChatGPT plans have never included API access; and
-        Mistral bills Le Chat and its API separately. A site like Fontem
-        genuinely cannot spend your subscription on your behalf.
-      </p>
-      <p>
-        What it can do is hand your own assistant the data. That is better
-        than the alternative, not merely cheaper for us: you keep your
-        provider, your history and your privacy settings, you are not
-        rationed by a budget we set, and nothing breaks here when a vendor
-        changes its terms.
-      </p>
+      <h2>{{ $t('help.why_key_title') }}</h2>
+      <p>{{ $t('help.why_key_body_1') }}</p>
+      <p>{{ $t('help.why_key_body_2') }}</p>
     </section>
 
     <section id="assistant-in-app" data-testid="help-assistant-in-app">
-      <h2>The assistant inside Fontem</h2>
+      <h2>{{ $t('help.in_app_title') }}</h2>
+      <p>{{ $t('help.in_app_body_1') }}</p>
       <p>
-        There is also an assistant built into the site, on every page. It
-        can search the data, explain what you are looking at, move you
-        around the platform, and — while you are editing an article —
-        propose changes to it.
-      </p>
-      <p>
-        It needs an API key from Anthropic, Mistral or OpenAI, added in
-        <router-link to="/account">Account settings</router-link>. That is
-        pay-per-use and typically costs very little; a subscription is not
-        required and would not work here anyway, for the reasons above.
+        {{ $t('help.in_app_body_2_pre') }}
+        <router-link to="/account">{{ $t('help.step_token_account') }}</router-link
+        >{{ $t('help.in_app_body_2_post') }}
       </p>
     </section>
 
     <section id="privacy" data-testid="help-privacy">
-      <h2>What can the assistant see?</h2>
+      <h2>{{ $t('help.privacy_title') }}</h2>
       <ul>
-        <li>The page you are on, and the list of pages it can take you to.</li>
-        <li>The public data it looks up on your behalf.</li>
-        <li>The article you are editing, while you are editing it.</li>
+        <li>{{ $t('help.privacy_item_page') }}</li>
+        <li>{{ $t('help.privacy_item_data') }}</li>
+        <li>{{ $t('help.privacy_item_article') }}</li>
       </ul>
-      <p>
-        It cannot see other people's private drafts, and it is offered
-        only the tools that make sense where you are — it cannot propose
-        edits when no article is open.
-      </p>
-      <p>
-        Your provider key is stored encrypted and is never shown again
-        after you save it. Tokens for external clients are stored only as
-        a hash, so they cannot be recovered from our database — which is
-        why a new one is shown exactly once.
-      </p>
+      <p>{{ $t('help.privacy_body_1') }}</p>
+      <p>{{ $t('help.privacy_body_2') }}</p>
     </section>
   </div>
 </template>

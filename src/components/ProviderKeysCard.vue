@@ -12,6 +12,7 @@
  * because the tail of an API key is still key material.
  */
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   listProviderCredentials,
   putProviderCredential,
@@ -25,6 +26,13 @@ const PROVIDER_LABELS = {
 }
 
 const supported = ref([])
+const { t, locale } = useI18n()
+
+// Without an explicit locale, toLocaleDateString() follows the browser
+// rather than the site, so a French page printed dates in the user's OS
+// format instead of the one they chose here.
+const fmtDate = (iso) => new Date(iso).toLocaleDateString(locale.value)
+
 const credentials = ref([])
 const provider = ref('anthropic')
 const apiKey = ref('')
@@ -63,7 +71,7 @@ async function save() {
     // Clear immediately: there is no reason for the key to stay in a DOM
     // node once it has been sent.
     apiKey.value = ''
-    notice.value = 'Key saved. The assistant will use it from your next message.'
+    notice.value = t('provider_keys.saved_notice')
     await load()
   } catch (err) {
     error.value = err.message
@@ -78,7 +86,7 @@ async function remove(p) {
   busy.value = true
   try {
     await deleteProviderCredential(p)
-    notice.value = 'Key removed.'
+    notice.value = t('provider_keys.removed_notice')
     await load()
   } catch (err) {
     error.value = err.message
@@ -92,36 +100,36 @@ onMounted(load)
 
 <template>
   <section class="pk-card" data-testid="provider-keys-card">
-    <h2 class="pk-title">Assistant provider</h2>
-    <p class="pk-intro">
-      The assistant runs on your own LLM account. Add a key from Anthropic,
-      Mistral or OpenAI — usage is billed to you by them, not by Fontem.
-      Keys are stored encrypted and are never shown again after saving.
-    </p>
+    <h2 class="pk-title">{{ $t('provider_keys.title') }}</h2>
+    <p class="pk-intro">{{ $t('provider_keys.intro') }}</p>
 
     <ul v-if="credentials.length" class="pk-list" data-testid="provider-keys-list">
       <li v-for="c in credentials" :key="c.provider" class="pk-item">
         <div>
           <strong>{{ PROVIDER_LABELS[c.provider] || c.provider }}</strong>
-          <span class="pk-fp" data-testid="provider-fingerprint">key #{{ c.fingerprint }}</span>
+          <span class="pk-fp" data-testid="provider-fingerprint">
+            {{ $t('provider_keys.fingerprint', { fp: c.fingerprint }) }}
+          </span>
           <span v-if="c.model" class="pk-model">{{ c.model }}</span>
           <span class="pk-used">
-            {{ c.last_used_at ? `last used ${new Date(c.last_used_at).toLocaleDateString()}` : 'not used yet' }}
+            {{ c.last_used_at
+              ? $t('provider_keys.last_used', { date: fmtDate(c.last_used_at) })
+              : $t('provider_keys.not_used') }}
           </span>
         </div>
         <button
           type="button" class="pk-remove" :disabled="busy"
           :data-testid="`remove-${c.provider}`" @click="remove(c.provider)"
-        >Remove</button>
+        >{{ $t('provider_keys.remove') }}</button>
       </li>
     </ul>
     <p v-else class="pk-empty" data-testid="provider-keys-empty">
-      No provider configured — the assistant is unavailable until you add one.
+      {{ $t('provider_keys.empty') }}
     </p>
 
     <form class="pk-form" @submit.prevent="save">
       <label class="pk-label">
-        Provider
+        {{ $t('provider_keys.provider') }}
         <select v-model="provider" class="pk-input" data-testid="provider-select">
           <option v-for="p in supported" :key="p" :value="p">
             {{ PROVIDER_LABELS[p] || p }}
@@ -129,22 +137,22 @@ onMounted(load)
         </select>
       </label>
       <label class="pk-label">
-        API key
+        {{ $t('provider_keys.api_key') }}
         <input
           v-model="apiKey" type="password" autocomplete="off"
           class="pk-input" data-testid="provider-key-input"
-          placeholder="Paste your key"
+          :placeholder="$t('provider_keys.api_key_placeholder')"
         >
       </label>
       <label class="pk-label">
-        Model <span class="pk-optional">(optional)</span>
+        {{ $t('provider_keys.model') }} <span class="pk-optional">{{ $t('provider_keys.optional') }}</span>
         <input
           v-model="model" type="text" class="pk-input"
-          data-testid="provider-model-input" placeholder="Provider default"
+          data-testid="provider-model-input" :placeholder="$t('provider_keys.model_placeholder')"
         >
       </label>
       <button type="submit" class="pk-save" :disabled="busy" data-testid="provider-key-save">
-        {{ busy ? 'Saving…' : 'Save key' }}
+        {{ busy ? $t('provider_keys.saving') : $t('provider_keys.save') }}
       </button>
     </form>
 
