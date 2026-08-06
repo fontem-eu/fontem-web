@@ -45,10 +45,11 @@ const showSidebar = computed(() => route.path !== '/login')
 const showAssistant = computed(() => route.path !== '/login')
 const { collapsed } = useSidebar()
 
-// Publishes --visible-vh and --vv-bottom-gap for the whole app. It used to
-// be called only by AssistPanel, which made the nav rail's bottom rows
-// depend on the assistant happening to be mounted. The shell is where a
-// document-level variable belongs.
+// Publishes --visible-vh for the whole app. Only the assistant's own
+// full-height panel uses it now — the rail and the toggle moved to static
+// svh/lvh units, because anything that tracks the address bar live moves
+// on every scroll. The shell is still where a document-level variable
+// belongs.
 useVisibleViewportHeight()
 </script>
 

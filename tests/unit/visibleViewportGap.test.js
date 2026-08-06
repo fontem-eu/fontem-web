@@ -1,45 +1,46 @@
 /**
- * The gap below the visible viewport.
+ * Bottom-anchored controls must not move when the address bar does.
  *
- * `position: fixed; bottom: 0` resolves against the LAYOUT viewport. On
- * Android Chrome that is the tallest the page can be — address bar
- * collapsed — so while the bar is showing, bottom-anchored controls
- * render below the fold and only appear once you scroll. That was the
- * reported symptom: the assistant button half-cut, the rail's account row
- * invisible until scrolled.
+ * The earlier approach measured the gap between the layout and visual
+ * viewports in JS and fed it into a CSS variable. It worked, and it was
+ * wrong: the value changes on every scroll, so the assistant button and
+ * the nav rail visibly shifted each time the bar slid in or out, and on
+ * first paint the variable was not set yet so the button started half
+ * hidden.
+ *
+ * The replacement is static: `100svh` is the viewport with the bar
+ * showing, `100lvh` with it hidden, and their difference is the bar's
+ * height — a constant the browser resolves once. These assert the CSS
+ * says so, because the failure mode is somebody reintroducing a live
+ * measurement to "fix" the small gap that svh leaves behind.
  */
 import { describe, it, expect } from 'vitest'
+import fs from 'node:fs'
+import path from 'node:path'
 
-// Mirrors the computation in useVisibleViewportHeight.
-const MAX_GAP_PX = 200
-const gap = (innerHeight, vvHeight, vvOffsetTop = 0) =>
-  Math.min(MAX_GAP_PX, Math.max(0, Math.round(innerHeight - vvHeight - vvOffsetTop)))
+const read = (f) => fs.readFileSync(path.resolve(__dirname, '../../src', f), 'utf8')
 
-describe('visible-viewport bottom gap', () => {
-  it('compensates for the address bar at the top of the page', () => {
-    expect(gap(915, 838)).toBe(77)
+describe('bottom anchoring is static', () => {
+  it('the nav rail is sized to the small viewport', () => {
+    const css = read('components/AppSidebar.vue')
+    expect(css).toContain('100svh')
+    // A live height is what made a gap open under the rail mid-scroll.
+    expect(css).not.toContain('--vv-bottom-gap')
+    expect(css).not.toMatch(/height:\s*calc\(var\(--visible-vh/)
   })
 
-  it('is zero once the bar collapses, and on desktop', () => {
-    expect(gap(915, 915)).toBe(0)
-    expect(gap(1080, 1080)).toBe(0)
+  it('the assistant toggle is offset by the address bar height, not by a measurement', () => {
+    const css = read('components/AssistPanel.vue')
+    expect(css).toContain('100lvh - 100svh')
+    expect(css).not.toContain('--vv-bottom-gap')
   })
 
-  it('never goes negative when the visual viewport reports taller', () => {
-    // Happens transiently mid-animation; a negative gap would push
-    // controls off the top instead.
-    expect(gap(915, 940)).toBe(0)
-  })
-
-  it('accounts for the visual viewport being scrolled within the layout', () => {
-    expect(gap(915, 800, 60)).toBe(55)
-  })
-
-  it('caps at the address-bar range so a keyboard does not launch controls upward', () => {
-    // A keyboard shrinks the visual viewport by 250-450px. Uncapped, the
-    // assistant button would jump a third of the way up the screen while
-    // you typed in an unrelated field.
-    expect(gap(915, 480)).toBe(MAX_GAP_PX)
-    expect(gap(915, 465)).toBe(MAX_GAP_PX)
+  it('nothing publishes a live bottom gap any more', () => {
+    const js = read('composables/useVisibleViewportHeight.js')
+    expect(js).not.toContain('vv-bottom-gap')
+    // --visible-vh survives: the assistant's own full-height panel should
+    // track the bar, because it fills the screen and a fixed height would
+    // put its input row under the keyboard.
+    expect(js).toContain('--visible-vh')
   })
 })

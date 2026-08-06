@@ -633,8 +633,20 @@ defineExpose({ applyProposal, messages })
 .assist-toggle {
   position: fixed;
   left: 0.75rem;
+  /* Fallback for browsers without svh/lvh (older Android Chromium): sits
+     at the layout-viewport bottom, i.e. behind the address bar until you
+     scroll. Not ideal, but never worse than before. */
+  bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px));
+  /* The real rule. `100lvh - 100svh` is the address bar's height — a
+     CONSTANT, not a live measurement — so this pins the button to the
+     small viewport's bottom edge: the position it settles into once you
+     have scrolled. It is therefore visible before any scrolling AND never
+     moves afterwards.
+     The previous version added a JS-measured gap that tracked the bar in
+     real time, which is precisely why everything wiggled on every scroll.
+     Nothing here recalculates. */
   bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px)
-                + var(--vv-bottom-gap, 0px));
+               + (100lvh - 100svh));
   z-index: 50;
   display: inline-flex;
   align-items: center;
