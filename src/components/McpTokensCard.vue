@@ -11,7 +11,14 @@
  * re-read later.
  */
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { listMcpTokens, createMcpToken, revokeMcpToken } from '../api/community.js'
+
+const { locale } = useI18n()
+
+// toLocaleDateString() with no argument follows the browser, not the site.
+// Reading the site locale keeps a French page from printing US dates.
+const fmtDate = (iso) => new Date(iso).toLocaleDateString(locale.value)
 
 const tokens = ref([])
 const label = ref('')
@@ -70,24 +77,21 @@ onMounted(load)
 
 <template>
   <section class="mt-card" data-testid="mcp-tokens-card">
-    <h2 class="mt-title">Connect your AI assistant</h2>
+    <h2 class="mt-title">{{ $t('mcp_tokens.title') }}</h2>
     <p class="mt-intro">
-      Use Fontem's data from Claude, ChatGPT or any MCP-capable client —
-      on your own subscription. Create a token here, then follow
-      <router-link to="/help#connect-ai">the setup guide</router-link>.
+      {{ $t('mcp_tokens.intro_pre') }}
+      <router-link to="/help#connect-ai">{{ $t('mcp_tokens.intro_link') }}</router-link>.
     </p>
 
     <div v-if="fresh" class="mt-fresh" data-testid="mcp-token-fresh">
-      <p class="mt-fresh-warn">
-        Copy this now — it is shown once and cannot be retrieved again.
-      </p>
+      <p class="mt-fresh-warn">{{ $t('mcp_tokens.fresh_warn') }}</p>
       <code class="mt-token" data-testid="mcp-token-value">{{ fresh }}</code>
       <div class="mt-fresh-actions">
         <button type="button" class="mt-btn" data-testid="mcp-token-copy" @click="copy">
-          {{ copied ? 'Copied' : 'Copy' }}
+          {{ copied ? $t('mcp_tokens.copied') : $t('mcp_tokens.copy') }}
         </button>
         <button type="button" class="mt-btn" data-testid="mcp-token-dismiss" @click="fresh = ''">
-          Done
+          {{ $t('mcp_tokens.done') }}
         </button>
       </div>
     </div>
@@ -97,23 +101,27 @@ onMounted(load)
         <div>
           <strong>{{ t.label }}</strong>
           <span class="mt-meta">
-            added {{ new Date(t.created_at).toLocaleDateString() }} ·
-            {{ t.last_used_at ? `last used ${new Date(t.last_used_at).toLocaleDateString()}` : 'never used' }}
+            {{ $t('mcp_tokens.added', { date: fmtDate(t.created_at) }) }} ·
+            {{ t.last_used_at
+              ? $t('mcp_tokens.last_used', { date: fmtDate(t.last_used_at) })
+              : $t('mcp_tokens.never_used') }}
           </span>
         </div>
         <button
-type="button" class="mt-btn" :disabled="busy"
-                :data-testid="`mcp-revoke-${t.id}`" @click="revoke(t.id)">Revoke</button>
+          type="button" class="mt-btn" :disabled="busy"
+          :data-testid="`mcp-revoke-${t.id}`" @click="revoke(t.id)"
+        >{{ $t('mcp_tokens.revoke') }}</button>
       </li>
     </ul>
-    <p v-else class="mt-empty" data-testid="mcp-tokens-empty">No clients connected yet.</p>
+    <p v-else class="mt-empty" data-testid="mcp-tokens-empty">{{ $t('mcp_tokens.empty') }}</p>
 
     <form class="mt-form" @submit.prevent="create">
       <input
-v-model="label" class="mt-input" data-testid="mcp-token-label"
-             placeholder="Which client? e.g. Claude Desktop" >
+        v-model="label" class="mt-input" data-testid="mcp-token-label"
+        :placeholder="$t('mcp_tokens.label_placeholder')"
+      >
       <button type="submit" class="mt-btn mt-primary" :disabled="busy" data-testid="mcp-token-create">
-        {{ busy ? 'Creating…' : 'Create token' }}
+        {{ busy ? $t('mcp_tokens.creating') : $t('mcp_tokens.create') }}
       </button>
     </form>
 
