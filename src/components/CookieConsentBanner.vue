@@ -136,13 +136,25 @@ function decline() {
   max-width: none;
   max-height: none;
   width: auto;
-  /* Bottom padding folded into the shorthand rather than declared
-     separately: a later `padding` overrides an earlier `padding-bottom`,
-     so the inset was being silently dropped. This banner sits on the very
-     bottom edge, so its buttons land under the Android gesture bar
-     without it — and it publishes its own height as --cookie-banner-h,
-     so everything that clears the banner depends on this being right. */
-  padding: 0.85rem 1.2rem calc(0.85rem + var(--safe-bottom, 0px));
+  /* Static padding, deliberately.
+     
+     This element's rendered height is measured by a ResizeObserver and
+     broadcast as --cookie-banner-h, which the nav rail and the assistant
+     toggle both position against. So its height must not depend on
+     anything that changes at runtime — and env(safe-area-inset-bottom)
+     does exactly that on Android, shifting as the address bar slides in
+     and out. Folding the inset in here created a feedback loop: inset
+     changes -> banner height changes -> observer fires -> every consumer
+     moves. That was the wiggle, and it was worse in languages where the
+     banner text wraps to an extra line, French among them, because a
+     taller banner makes the same relative change more visible.
+     
+     The inset is still honoured — the consumers add --safe-bottom
+     themselves. It just is not measured through this element. */
+  padding: 0.85rem 1.2rem;
+  /* Keeps the banner's own buttons off the system bar without changing
+     the element's border-box height, which is what gets broadcast. */
+  margin-bottom: var(--safe-bottom, 0px);
   background: var(--surface);
   border: 0;
   border-top: 1px solid var(--border);

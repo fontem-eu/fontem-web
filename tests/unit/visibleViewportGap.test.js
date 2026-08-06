@@ -35,6 +35,18 @@ describe('bottom anchoring is static', () => {
     expect(css).not.toContain('--vv-bottom-gap')
   })
 
+  it('the cookie banner height cannot change at runtime', () => {
+    // Its rendered height is measured and broadcast as --cookie-banner-h,
+    // which the rail and the toggle position against. If that height
+    // depends on env(safe-area-inset-bottom) — which shifts as the Android
+    // address bar moves — the observer fires on every scroll and drags
+    // every consumer with it. The inset belongs outside the border box.
+    const css = read('components/CookieConsentBanner.vue')
+    expect(css).not.toMatch(/padding:[^;]*--safe-bottom/)
+    expect(css).not.toMatch(/padding-bottom:[^;]*--safe-bottom/)
+    expect(css).toMatch(/margin-bottom:\s*var\(--safe-bottom/)
+  })
+
   it('nothing publishes a live bottom gap any more', () => {
     const js = read('composables/useVisibleViewportHeight.js')
     expect(js).not.toContain('vv-bottom-gap')
