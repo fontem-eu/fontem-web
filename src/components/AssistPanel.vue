@@ -34,6 +34,14 @@ const props = defineProps({
 })
 
 const ctx = useAssistantContext()
+/*
+ * Router context is optional here, deliberately. This is a shell component
+ * mounted once for the whole app, but it is also mounted directly in unit
+ * tests that have no router — and a button that cannot render without one
+ * is a button that breaks every test that touches it. Degrading to "no
+ * navigation, rail assumed present" is the right failure: the panel still
+ * works, it just cannot move the user.
+ */
 const route = useRoute()
 const router = useRouter()
 
@@ -41,7 +49,7 @@ const router = useRouter()
 // changes when collapsed. The toggle sits beside it rather than on top of
 // its account and collapse rows, so it has to know both.
 const { collapsed: railCollapsed } = useSidebar()
-const hasRail = computed(() => route.path !== '/login')
+const hasRail = computed(() => route?.path !== '/login')
 
 /** Local guard before we move the user anywhere. */
 function isNavigable(path) {
@@ -230,7 +238,7 @@ async function send() {
           // with, so the backend can never authorise a path this build
           // cannot serve.
           nav: {
-            current: route.fullPath,
+            current: route?.fullPath,
             title: typeof document !== 'undefined' ? document.title : undefined,
             routes: navigableRoutes(routeManifest),
           },
@@ -297,7 +305,7 @@ async function send() {
           // and it should not take a path on trust from anywhere.
           try {
             const target = JSON.parse(eventData).path
-            if (isNavigable(target)) router.push(target)
+            if (isNavigable(target)) router?.push(target)
           } catch { /* malformed event: stay put */ }
         } else if (eventType === 'error') {
           try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
