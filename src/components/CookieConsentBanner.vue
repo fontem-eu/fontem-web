@@ -125,11 +125,6 @@ function decline() {
 .ccb {
   position: fixed;
   bottom: 0;
-  /* Sits on the very bottom edge, so its own buttons land under the
-     system bar without this. It also publishes its height as
-     --cookie-banner-h, so padding here keeps everything that clears
-     the banner correct too. */
-  padding-bottom: var(--safe-bottom, 0px);
   left: var(--rail-w, 0);
   right: 0;
   z-index: 1000;
@@ -141,7 +136,13 @@ function decline() {
   max-width: none;
   max-height: none;
   width: auto;
-  padding: 0.85rem 1.2rem;
+  /* Bottom padding folded into the shorthand rather than declared
+     separately: a later `padding` overrides an earlier `padding-bottom`,
+     so the inset was being silently dropped. This banner sits on the very
+     bottom edge, so its buttons land under the Android gesture bar
+     without it — and it publishes its own height as --cookie-banner-h,
+     so everything that clears the banner depends on this being right. */
+  padding: 0.85rem 1.2rem calc(0.85rem + var(--safe-bottom, 0px));
   background: var(--surface);
   border: 0;
   border-top: 1px solid var(--border);
