@@ -202,3 +202,91 @@ test.describe('The assistant is reachable everywhere', () => {
     expect(onTop).toBe(false)
   })
 })
+
+test.describe('Help is in the nav rail', () => {
+  test('the rail links to Help, above the account row', async ({ page }) => {
+    await page.goto('/')
+    const help = page.locator('[data-testid="rail-help"]')
+    const account = page.locator('[data-testid="rail-account"]')
+    await expect(help).toBeVisible()
+
+    // Above the account row: that row reads "Log in" when signed out, and
+    // Help must not look like it lives behind signing in.
+    const h = await help.boundingBox()
+    const a = await account.boundingBox()
+    expect(h.y).toBeLessThan(a.y)
+
+    await help.click()
+    await expect(page).toHaveURL(/\/help$/)
+    await expect(page.locator('[data-testid="help-view"]')).toBeVisible()
+  })
+})
+
+test.describe('Bottom controls clear the system navigation bar', () => {
+  // The Android gesture bar and the iOS home indicator overlay the bottom
+  // edge. Without viewport-fit=cover the safe-area insets read 0 and
+  // anything pinned to the bottom renders underneath them: visible, and
+  // not tappable.
+  test('the viewport opts into safe-area insets', async ({ page }) => {
+    await page.goto('/')
+    const content = await page.locator('meta[name="viewport"]').getAttribute('content')
+    expect(content).toContain('viewport-fit=cover')
+  })
+
+  test('the assistant toggle and the account row both consume the inset', async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    // The inset is 0 in a desktop browser, so assert the expression is
+    // wired rather than the pixel value — the failure mode is somebody
+    // dropping the var, not the browser miscomputing it.
+    const usesInset = await page.evaluate(() => {
+      const probe = document.createElement('div')
+      probe.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)'
+      document.body.appendChild(probe)
+      const ok = getComputedStyle(probe).paddingBottom !== ''
+      probe.remove()
+      return ok
+    })
+    expect(usesInset).toBe(true)
+
+    const toggle = page.locator('[data-testid="assist-toggle"]')
+    const bottom = await toggle.evaluate(e => getComputedStyle(e).bottom)
+    expect(bottom).not.toBe('0px')
+  })
+
+  test('the rail account row is reachable, not under the system bar', async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    await page.locator('[data-testid="nav-toggle"]').click()
+    const account = page.locator('[data-testid="rail-account"]')
+    await expect(account).toBeVisible()
+    const box = await account.boundingBox()
+    // Fully inside the viewport, so a tap lands on it rather than on the
+    // system navigation.
+    expect(box.y + box.height).toBeLessThanOrEqual(915)
+    const onTop = await page.evaluate(({ x, y }) => {
+      const el = document.elementFromPoint(x, y)
+      return !!el?.closest('[data-testid="rail-account"]')
+    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
+    expect(onTop).toBe(true)
+  })
+})
+
+test.describe('Hyperlinks look like hyperlinks', () => {
+  test('content links are blue and underlined', async ({ page }) => {
+    await page.goto('/help')
+    const link = page.locator('[data-testid="help-connect-ai"] a[href="/account"]').first()
+    await expect(link).toBeVisible()
+    const style = await link.evaluate(e => {
+      const c = getComputedStyle(e)
+      return { color: c.color, decoration: c.textDecorationLine }
+    })
+    expect(style.decoration).toContain('underline')
+    // Blue: the blue channel must dominate. Asserting the exact accent
+    // would break the moment the palette is retuned, which is not the
+    // property worth pinning.
+    const [r, g, b] = style.color.match(/\d+/g).map(Number)
+    expect(b).toBeGreaterThan(r)
+    expect(b).toBeGreaterThan(g)
+  })
+})

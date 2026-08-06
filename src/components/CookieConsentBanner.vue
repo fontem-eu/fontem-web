@@ -125,6 +125,11 @@ function decline() {
 .ccb {
   position: fixed;
   bottom: 0;
+  /* Sits on the very bottom edge, so its own buttons land under the
+     system bar without this. It also publishes its height as
+     --cookie-banner-h, so padding here keeps everything that clears
+     the banner correct too. */
+  padding-bottom: var(--safe-bottom, 0px);
   left: var(--rail-w, 0);
   right: 0;
   z-index: 1000;

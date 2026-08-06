@@ -95,6 +95,21 @@ function isActive(path) {
       <!-- Above the account row on purpose: signed out, that row reads
            "Log in", and display preferences must not look like they
            live behind it. -->
+      <!-- Help sits above the account row for the same reason settings do:
+           it is not something you should have to be signed in to find, and
+           the account row reads as "Log in" when you are not. -->
+      <router-link
+        to="/help"
+        class="rail-item"
+        :class="{ active: isActive('/help') }"
+        data-testid="rail-help"
+        :title="collapsed ? $t('app_footer.help') : null"
+        @click="closeMobile"
+      >
+        <RailIcon name="help" />
+        <span class="rail-label">{{ $t('app_footer.help') }}</span>
+      </router-link>
+
       <SettingsMenu placement="rail" :collapsed="collapsed" />
 
       <router-link
@@ -159,7 +174,7 @@ function isActive(path) {
      elementFromPoint at its centre returned the banner, not the button.
      ToastStack and AssistPanel already consume this var; the rail was
      the one full-height surface that never adopted it. */
-  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px));
+  padding-bottom: calc(0.75rem + var(--cookie-banner-h, 0px) + var(--safe-bottom, 0px));
   gap: 0.25rem;
   position: sticky;
   top: var(--bezel-h, 3.25rem);

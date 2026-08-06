@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover is what makes env(safe-area-inset-*) report real
+         values. Without it those insets are always 0, so bottom-anchored
+         controls sit underneath the Android gesture bar and the iOS home
+         indicator and cannot be tapped. Everything fixed to an edge pads
+         itself with the matching inset — see .assist-toggle, .rail, .ccb. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!--ssr-head-->
     <title>Fontem — Argue it. With data. Together.</title>
     <meta name="description" content="Crossing the EU's digital borders, one dataset at a time. Fontem links EU companies, public procurement, legislation, lobbyists, petitions and cohesion funding into one graph, cross-checked against the official registers."/>
