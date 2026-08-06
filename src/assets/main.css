@@ -18,6 +18,14 @@
    ─────────────────────────────────────────────────────────── */
 @layer base {
   :root {
+  /* How much of the bottom edge the OS has taken: the Android gesture
+     bar, the iOS home indicator. Zero on desktop. Every control fixed to
+     the bottom adds this, or it renders underneath the system UI and
+     cannot be tapped — which is exactly what happened to the assistant
+     button and the rail's account row. Requires viewport-fit=cover on
+     the viewport meta, or it is always 0. */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
     /* Light — aged linen + espresso */
     --bg: #faf3e6;       /* aged linen */
 
@@ -521,4 +529,50 @@
       display: none;
     }
   }
+}
+
+/* ── Hyperlinks look like hyperlinks ──────────────────────────────────
+ *
+ * Blue and underlined, the classic. A link the reader cannot distinguish
+ * from surrounding text is not a link to them, and on a platform whose
+ * whole claim is traceability, "click here to see the source" has to be
+ * visibly clickable.
+ *
+ * Uses the existing lapis accent rather than browser blue: it is already
+ * the manuscript blue in both themes and meets contrast on both surfaces
+ * (7.6:1 on the dusk sky), where #0000EE does not.
+ *
+ * Scoped to content, not chrome. `a:not([class])` catches prose links —
+ * markdown, article bodies, the Help page — while leaving every
+ * deliberately styled control alone: nav rail items, footer links,
+ * buttons that happen to be anchors. Router-link adds its own active
+ * classes, so those two are matched explicitly; without that, a link
+ * would lose its underline at the moment you were on its page.
+ */
+main a:not([class]),
+main a[class="router-link-active"],
+main a[class="router-link-active router-link-exact-active"],
+main a[class="router-link-exact-active router-link-active"],
+.assist-msg a,
+.msg-markdown a,
+.comment-body a,
+.section-html a {
+  color: var(--accent);
+  text-decoration: underline;
+  /* Descenders through the rule read as noise at body size. */
+  text-underline-offset: 0.15em;
+}
+
+main a:not([class]):hover,
+.assist-msg a:hover,
+.msg-markdown a:hover,
+.comment-body a:hover,
+.section-html a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Focus has to be visible for the same reason the underline does. */
+main a:not([class]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
