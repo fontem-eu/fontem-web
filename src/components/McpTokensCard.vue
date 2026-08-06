@@ -46,7 +46,14 @@ async function create() {
 
 async function revoke(id) {
   busy.value = true
-  try { await revokeMcpToken(id); await load() }
+  try {
+    await revokeMcpToken(id)
+    // Drop it locally rather than re-fetching, for the same reason create
+    // inserts locally: a GET straight after the write came back stale, so
+    // a revoked client kept appearing in the list until you reloaded —
+    // which for a security control reads as "revoke did not work".
+    tokens.value = tokens.value.filter((t) => t.id !== id)
+  }
   catch (err) { error.value = err.message } finally { busy.value = false }
 }
 
