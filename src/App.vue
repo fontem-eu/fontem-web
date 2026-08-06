@@ -8,6 +8,7 @@ import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import { useSidebar } from './composables/useSidebar.js'
+import { useVisibleViewportHeight } from './composables/useVisibleViewportHeight.js'
 import AppFooter from './components/AppFooter.vue'
 import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
@@ -43,6 +44,12 @@ const showSidebar = computed(() => route.path !== '/login')
 // a token anyway.
 const showAssistant = computed(() => route.path !== '/login')
 const { collapsed } = useSidebar()
+
+// Publishes --visible-vh and --vv-bottom-gap for the whole app. It used to
+// be called only by AssistPanel, which made the nav rail's bottom rows
+// depend on the assistant happening to be mounted. The shell is where a
+// document-level variable belongs.
+useVisibleViewportHeight()
 </script>
 
 <template>
