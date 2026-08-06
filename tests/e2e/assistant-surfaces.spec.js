@@ -247,6 +247,67 @@ test.describe('Bottom controls clear the system navigation bar', () => {
     expect(content).toContain('viewport-fit=cover')
   })
 
+  test('the cookie banner height is inert to the safe-area inset', async ({ page }) => {
+    // The regression this guards. The banner's height is measured by a
+    // ResizeObserver and broadcast as --cookie-banner-h; the rail and the
+    // assistant toggle position against it. env(safe-area-inset-bottom)
+    // changes at runtime on Android as the address bar slides. If the
+    // banner's own height depends on the inset, every scroll republishes
+    // a new height and drags both consumers with it — the wiggle.
+    //
+    // A headless browser has no real inset, so drive the variable the
+    // inset feeds. If the height moves with it, the loop is back.
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.goto('/')
+    const banner = page.locator('[data-testid="cookie-consent-banner"]')
+    await banner.waitFor({ state: 'visible' })
+
+    const measure = () => banner.evaluate((el) => el.getBoundingClientRect().height)
+    const set = (v) =>
+      page.evaluate((val) => {
+        document.documentElement.style.setProperty('--safe-bottom', val)
+      }, v)
+
+    const flat = await measure()
+    await set('48px')
+    const inset = await measure()
+    await set('0px')
+
+    expect(inset).toBeCloseTo(flat, 0)
+  })
+
+  test('the toggle holds still in French, where the banner wraps taller', async ({ page }) => {
+    // Reported against fr specifically: the banner needs an extra line in
+    // French, so it is taller, and it made the same feedback loop far more
+    // visible. Locale must not change whether things hold still.
+    await page.setViewportSize({ width: 412, height: 915 })
+    await page.addInitScript(() => {
+      window.localStorage.setItem('gmr-lang', 'fr')
+    })
+    await page.goto('/')
+    // Assert the locale actually took. Seeding the wrong key leaves the
+    // page in English and this test passes while testing nothing.
+    await expect(page.locator('html')).toHaveAttribute('lang', 'fr')
+
+    const toggle = page.locator('.assist-toggle')
+    await toggle.waitFor({ state: 'visible' })
+
+    const before = await toggle.boundingBox()
+    await page.evaluate(() => {
+      document.documentElement.style.setProperty('--safe-bottom', '48px')
+    })
+    await page.waitForTimeout(150)
+    const after = await toggle.boundingBox()
+
+    // It may sit higher to clear the inset — that is the point of it. What
+    // it must not do is move because the banner re-measured itself.
+    const banner = page.locator('[data-testid="cookie-consent-banner"]')
+    const shift = Math.abs(after.y - before.y)
+    expect(shift).toBeLessThanOrEqual(48)
+    expect(await banner.evaluate((el) => el.getBoundingClientRect().height))
+      .toBeGreaterThan(0)
+  })
+
   test('the toggle does not move when the page scrolls', async ({ page }) => {
     await page.setViewportSize({ width: 412, height: 915 })
     await page.goto('/')
