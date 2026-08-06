@@ -550,6 +550,10 @@
  * would lose its underline at the moment you were on its page.
  */
 main a:not([class]),
+/* router-link renders class="" — an EMPTY attribute, which :not([class])
+   does not match. Without this line the rule silently missed every
+   in-app link, which is most of them. */
+main a[class=""],
 main a[class="router-link-active"],
 main a[class="router-link-active router-link-exact-active"],
 main a[class="router-link-exact-active router-link-active"],
@@ -564,6 +568,7 @@ main a[class="router-link-exact-active router-link-active"],
 }
 
 main a:not([class]):hover,
+main a[class=""]:hover,
 .assist-msg a:hover,
 .msg-markdown a:hover,
 .comment-body a:hover,
@@ -572,7 +577,8 @@ main a:not([class]):hover,
 }
 
 /* Focus has to be visible for the same reason the underline does. */
-main a:not([class]):focus-visible {
+main a:not([class]):focus-visible,
+main a[class=""]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
