@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Minflok qed tintuża ċ-ċavetta tiegħek. Neħħiha biex terġa' lura għall-mudell inkorporat.",
     "byo_title": "Uża l-mudell tiegħek minflok",
     "byo_intro": "Fakultattiv. Ċavetta mingħand Anthropic, Mistral jew OpenAI tagħtik mudell akbar u aktar mgħaġġel, iffatturat lilek minnhom.",
-    "model_fast": "Aktar mgħaġġel",
-    "model_balanced": "Tweġibiet aħjar",
-    "model_rate": "~{n} kliem/s"
+    "model_rate": "~{n} kliem/s",
+    "model_short_context": "memorja qasira ({n} tokens)"
   },
   "assistant": {
     "empty_hint": "Staqsini dwar id-data — nista' nfittex entitajiet, insib konnessjonijiet u nissuġġerixxi viżwalizzazzjonijiet għall-istorja tad-data tiegħek."

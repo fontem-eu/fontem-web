@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Vietoj jo naudojamas jūsų raktas. Pašalinkite jį, kad grįžtumėte prie įtaisytojo modelio.",
     "byo_title": "Naudokite vietoj to savo modelį",
     "byo_intro": "Neprivaloma. „Anthropic“, „Mistral“ arba „OpenAI“ raktas suteiks didesnį ir greitesnį modelį, už kurį apmokestins jie.",
-    "model_fast": "Greičiau",
-    "model_balanced": "Geresni atsakymai",
-    "model_rate": "~{n} žodžiai/s"
+    "model_rate": "~{n} žodžiai/s",
+    "model_short_context": "trumpa atmintis ({n} žetonų)"
   },
   "assistant": {
     "empty_hint": "Klauskite manęs apie duomenis — galiu ieškoti subjektų, rasti sąsajų ir siūlyti vizualizacijas jūsų duomenų istorijai."

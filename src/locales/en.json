@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Your own key is being used instead. Remove it to go back to the built-in model.",
     "byo_title": "Use your own model instead",
     "byo_intro": "Optional. A key from Anthropic, Mistral or OpenAI gets you a larger, faster model, billed to you by them.",
-    "model_fast": "Faster",
-    "model_balanced": "Better answers",
-    "model_rate": "~{n} words/sec"
+    "model_rate": "~{n} words/sec",
+    "model_short_context": "short memory ({n} tokens)"
   },
   "assistant": {
     "empty_hint": "Ask me about the data — I can search entities, find connections, and suggest visualizations for your data story."

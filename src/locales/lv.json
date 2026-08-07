@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Tā vietā tiek izmantota jūsu pašu atslēga. Noņemiet to, lai atgrieztos pie iebūvētā modeļa.",
     "byo_title": "Tā vietā izmantojiet savu modeli",
     "byo_intro": "Neobligāti. Anthropic, Mistral vai OpenAI atslēga sniedz lielāku un ātrāku modeli, par ko rēķinu izraksta viņi.",
-    "model_fast": "Ātrāk",
-    "model_balanced": "Labākas atbildes",
-    "model_rate": "~{n} vārdi/s"
+    "model_rate": "~{n} vārdi/s",
+    "model_short_context": "īsa atmiņa ({n} marķieri)"
   },
   "assistant": {
     "empty_hint": "Jautājiet man par datiem — varu meklēt entītijas, atrast saiknes un ieteikt vizualizācijas jūsu datu stāstam."
