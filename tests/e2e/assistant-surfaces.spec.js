@@ -233,6 +233,14 @@ test.describe('Account settings — assistant configuration', () => {
     await select.selectOption('fast')
     await expect(select).toHaveValue('fast')
 
+    // Reload before believing it. The control moving proves nothing —
+    // binding the select with v-model made it move while the write was
+    // silently skipped, so the only honest check is whether the value
+    // comes back from the server.
+    await page.reload()
+    await page.locator('.assist-toggle').click()
+    await expect(page.locator('[data-testid="assist-model-select"]')).toHaveValue('fast')
+
     // The two surfaces are one setting, not two. If they diverge the user
     // has no way to tell which one the turn actually used.
     await page.goto('/account')
