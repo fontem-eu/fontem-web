@@ -215,6 +215,35 @@ test.describe('Account settings — assistant configuration', () => {
       .toHaveAttribute('aria-pressed', 'true')
   })
 
+  test('the model can also be switched from inside the assistant panel', async ({ page }) => {
+    // Switching model from Account settings while mid-conversation is the
+    // wrong place to have to go, so the picker is in the panel too. Both
+    // write the same preference.
+    await page.goto('/')
+    await page.locator('.assist-toggle').click()
+    const select = page.locator('[data-testid="assist-model-select"]')
+    await expect(select).toBeVisible()
+
+    const values = await select.locator('option').evaluateAll(
+      (os) => os.map((o) => o.value),
+    )
+    expect(values).toContain('fast')
+    expect(values).toContain('balanced')
+
+    await select.selectOption('fast')
+    await expect(select).toHaveValue('fast')
+
+    // The two surfaces are one setting, not two. If they diverge the user
+    // has no way to tell which one the turn actually used.
+    await page.goto('/account')
+    await expect(page.locator('[data-testid="builtin-model-fast"]'))
+      .toHaveAttribute('aria-pressed', 'true')
+
+    await page.locator('[data-testid="builtin-model-balanced"]').click()
+    await expect(page.locator('[data-testid="builtin-model-balanced"]'))
+      .toHaveAttribute('aria-pressed', 'true')
+  })
+
   test('the assistant accepts a turn with no key configured', async ({ page }) => {
     // Serial with the test above, so the session is already warm and this
     // needs no second sign-in.

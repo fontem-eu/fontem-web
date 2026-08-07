@@ -198,7 +198,8 @@
     "insert_into_story": "Вмъкни в история",
     "see_our_privacy_policy": "Вижте нашата политика за поверителност.",
     "send": "Изпрати",
-    "thinking": "Обработва се"
+    "thinking": "Обработва се",
+    "model_label": "Модел"
   },
   "atlas": {
     "atlas": "Атлас",

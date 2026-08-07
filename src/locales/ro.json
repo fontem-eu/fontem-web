@@ -198,7 +198,8 @@
     "insert_into_story": "Inserează în poveste",
     "see_our_privacy_policy": "Vezi politica noastră de confidențialitate.",
     "send": "Trimite",
-    "thinking": "Se analizează"
+    "thinking": "Se analizează",
+    "model_label": "Model"
   },
   "atlas": {
     "atlas": "Atlas",

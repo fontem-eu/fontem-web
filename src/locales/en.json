@@ -198,7 +198,8 @@
     "insert_into_story": "Insert into story",
     "see_our_privacy_policy": "See our privacy policy.",
     "send": "Send",
-    "thinking": "Working it out"
+    "thinking": "Working it out",
+    "model_label": "Model"
   },
   "atlas": {
     "atlas": "Atlas",

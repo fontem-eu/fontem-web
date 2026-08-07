@@ -3,7 +3,11 @@ import { getAccessToken } from '../api/session.js'
 import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
-import { getAssistConversation } from '../api/community.js'
+import {
+  getAssistConversation,
+  listAssistantModels,
+  chooseAssistantModel,
+} from '../api/community.js'
 import { useAssistantContext } from '../composables/useAssistantContext.js'
 import { useSidebar } from '../composables/useSidebar.js'
 import { useRoute, useRouter } from 'vue-router'
@@ -83,6 +87,17 @@ function emit(event, payload) {
 }
 
 const open = ref(false)
+
+// The built-in model picker. Loaded when the panel is first opened rather
+// than on mount: this component is mounted on every page, and a request
+// per page-load for a control nobody has looked at yet is not worth it.
+const models = ref([])
+const selectedModel = ref('')
+// False when the user has their own provider key: the turn spends that,
+// so the built-in choice would change nothing and the picker stays hidden.
+const modelChoiceApplies = ref(false)
+const modelsLoaded = ref(false)
+const modelBusy = ref(false)
 // Teleport target only exists client-side; the panel is closed during SSR.
 const mounted = ref(false)
 const input = ref('')
@@ -149,6 +164,37 @@ function renderMarkdown(text) {
 
 function toggle() {
   open.value = !open.value
+  if (open.value) loadModels()
+}
+
+async function loadModels() {
+  if (modelsLoaded.value) return
+  modelsLoaded.value = true          // set first: one attempt, not one per open
+  try {
+    const data = await listAssistantModels()
+    models.value = data.models || []
+    selectedModel.value = data.selected || ''
+    modelChoiceApplies.value = data.active !== false
+  } catch {
+    // A picker that will not load is not worth an error message in a chat
+    // window — the assistant still works on whatever the default is.
+    models.value = []
+  }
+}
+
+async function pickModel(id) {
+  if (!id || id === selectedModel.value || modelBusy.value) return
+  const previous = selectedModel.value
+  selectedModel.value = id
+  modelBusy.value = true
+  try {
+    const res = await chooseAssistantModel(id)
+    selectedModel.value = res.selected || id
+  } catch {
+    selectedModel.value = previous   // put it back rather than lying
+  } finally {
+    modelBusy.value = false
+  }
 }
 
 function close() {
@@ -502,6 +548,23 @@ defineExpose({ applyProposal, messages })
       <div class="assist-header">
         <span class="assist-title">{{ $t('assist.ai_assistant') }}</span>
         <div class="assist-header-actions">
+          <!-- Only when the built-in is what runs. With a provider key
+               stored the choice has no effect, and a control that does
+               nothing is worse than no control. -->
+          <select
+            v-if="modelChoiceApplies && models.length > 1"
+            v-model="selectedModel"
+            class="assist-model"
+            :disabled="modelBusy"
+            :aria-label="$t('assist.model_label')"
+            :title="$t('assist.model_label')"
+            data-testid="assist-model-select"
+            @change="pickModel(selectedModel)"
+          >
+            <option v-for="m in models" :key="m.id" :value="m.id">
+              {{ $t('provider_keys.model_' + m.id) }}
+            </option>
+          </select>
           <label
             class="assist-bypass"
             :class="{ 'assist-bypass--on': bypassPermissions }"
@@ -785,6 +848,10 @@ defineExpose({ applyProposal, messages })
   color: var(--text);
 }
 
+.assist-model { font-size: 0.72rem; padding: 0.15rem 0.3rem; max-width: 9rem;
+                border: 1px solid var(--bezel-border); border-radius: 6px;
+                background: var(--bezel); color: inherit; }
+.assist-model:disabled { opacity: 0.6; }
 .assist-header-actions {
   display: flex;
   align-items: center;

@@ -198,7 +198,8 @@
     "insert_into_story": "Insertar en historia",
     "see_our_privacy_policy": "Consulta nuestra política de privacidad.",
     "send": "Enviar",
-    "thinking": "Analizando"
+    "thinking": "Analizando",
+    "model_label": "Modelo"
   },
   "atlas": {
     "atlas": "Atlas",

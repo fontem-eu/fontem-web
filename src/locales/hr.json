@@ -198,7 +198,8 @@
     "insert_into_story": "Umetni u priču",
     "see_our_privacy_policy": "Pogledaj naša pravila privatnosti.",
     "send": "Pošalji",
-    "thinking": "Obrađujem"
+    "thinking": "Obrađujem",
+    "model_label": "Model"
   },
   "atlas": {
     "atlas": "Atlas",

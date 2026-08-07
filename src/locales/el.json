@@ -198,7 +198,8 @@
     "insert_into_story": "Εισαγωγή στην ιστορία",
     "see_our_privacy_policy": "Δείτε την πολιτική απορρήτου μας.",
     "send": "Αποστολή",
-    "thinking": "Επεξεργασία"
+    "thinking": "Επεξεργασία",
+    "model_label": "Μοντέλο"
   },
   "atlas": {
     "atlas": "Άτλας",
