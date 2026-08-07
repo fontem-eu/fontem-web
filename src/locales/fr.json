@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Fournisseur de l'assistant",
-    "intro": "L'assistant fonctionne avec votre propre compte LLM. Ajoutez une clé d'Anthropic, Mistral ou OpenAI — la consommation vous est facturée par eux, pas par Fontem. Les clés sont stockées chiffrées et ne sont jamais réaffichées après enregistrement.",
+    "intro": "L'assistant fonctionne par défaut avec le modèle intégré de Fontem — rien à configurer. Vous pouvez à la place le connecter à votre propre compte LLM si vous souhaitez un modèle plus grand ; les clés sont stockées chiffrées et ne sont jamais réaffichées après enregistrement.",
     "fingerprint": "clé n° {fp}",
     "last_used": "dernière utilisation le {date}",
     "not_used": "pas encore utilisée",
@@ -1860,7 +1860,13 @@
     "save": "Enregistrer la clé",
     "saving": "Enregistrement…",
     "saved_notice": "Clé enregistrée. L'assistant l'utilisera dès votre prochain message.",
-    "removed_notice": "Clé supprimée."
+    "removed_notice": "Clé supprimée.",
+    "builtin_title": "Modèle intégré",
+    "builtin_active": "Utilisé",
+    "builtin_note": "Fonctionne sur le matériel de Fontem. Pas de compte, pas de clé, rien qui vous soit facturé. C'est un petit modèle : il est donc plus lent et moins performant qu'un modèle payant — mais il ne demande rien de votre part pour fonctionner.",
+    "builtin_superseded": "Votre propre clé est utilisée à la place. Supprimez-la pour revenir au modèle intégré.",
+    "byo_title": "Utiliser plutôt votre propre modèle",
+    "byo_intro": "Facultatif. Une clé d'Anthropic, Mistral ou OpenAI vous donne un modèle plus grand et plus rapide, qu'ils vous facturent directement."
   },
   "assistant": {
     "empty_hint": "Posez-moi des questions sur les données — je peux chercher des entités, trouver des liens et suggérer des visualisations pour votre récit de données."

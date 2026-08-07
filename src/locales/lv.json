@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Asistenta pakalpojumu sniedzējs",
-    "intro": "Asistents darbojas ar jūsu paša LLM kontu. Pievienojiet atslēgu no Anthropic, Mistral vai OpenAI — par lietojumu rēķinu izraksta viņi, nevis Fontem. Atslēgas tiek glabātas šifrētas un pēc saglabāšanas vairs nekad netiek parādītas.",
+    "intro": "Asistents pēc noklusējuma darbojas ar Fontem iebūvēto modeli — nekas nav jāiestata. Ja vēlaties lielāku modeli, varat to novirzīt uz savu LLM kontu; atslēgas tiek glabātas šifrētas un pēc saglabāšanas vairs nekad netiek parādītas.",
     "fingerprint": "atslēga Nr. {fp}",
     "last_used": "pēdējoreiz lietota {date}",
     "not_used": "vēl nav lietota",
@@ -1860,7 +1860,13 @@
     "save": "Saglabāt atslēgu",
     "saving": "Notiek saglabāšana…",
     "saved_notice": "Atslēga saglabāta. Asistents to izmantos, sākot ar jūsu nākamo ziņojumu.",
-    "removed_notice": "Atslēga noņemta."
+    "removed_notice": "Atslēga noņemta.",
+    "builtin_title": "Iebūvētais modelis",
+    "builtin_active": "Tiek izmantots",
+    "builtin_note": "Darbojas uz paša Fontem aparatūras. Bez konta, bez atslēgas un bez maksas jums. Tas ir neliels modelis, tāpēc lēnāks un mazāk spējīgs nekā maksas modelis — taču, lai darbotos, tam no jums nekas nav vajadzīgs.",
+    "builtin_superseded": "Tā vietā tiek izmantota jūsu pašu atslēga. Noņemiet to, lai atgrieztos pie iebūvētā modeļa.",
+    "byo_title": "Tā vietā izmantojiet savu modeli",
+    "byo_intro": "Neobligāti. Anthropic, Mistral vai OpenAI atslēga sniedz lielāku un ātrāku modeli, par ko rēķinu izraksta viņi."
   },
   "assistant": {
     "empty_hint": "Jautājiet man par datiem — varu meklēt entītijas, atrast saiknes un ieteikt vizualizācijas jūsu datu stāstam."

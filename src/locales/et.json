@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Assistendi teenusepakkuja",
-    "intro": "Assistent töötab teie enda LLM-kontol. Lisage võti Anthropicult, Mistralilt või OpenAI-lt — kasutuse eest esitavad arve nemad, mitte Fontem. Võtmeid hoitakse krüpteeritult ja neid ei kuvata pärast salvestamist enam kunagi.",
+    "intro": "Assistent töötab vaikimisi Fontemi enda sisseehitatud mudeliga — midagi pole vaja seadistada. Soovi korral võite selle suunata oma LLM-kontole, kui tahate suuremat mudelit; võtmeid hoitakse krüpteeritult ja neid ei kuvata pärast salvestamist enam kunagi.",
     "fingerprint": "võti nr {fp}",
     "last_used": "viimati kasutatud {date}",
     "not_used": "pole veel kasutatud",
@@ -1860,7 +1860,13 @@
     "save": "Salvesta võti",
     "saving": "Salvestamine…",
     "saved_notice": "Võti salvestatud. Assistent kasutab seda alates teie järgmisest sõnumist.",
-    "removed_notice": "Võti eemaldatud."
+    "removed_notice": "Võti eemaldatud.",
+    "builtin_title": "Sisseehitatud mudel",
+    "builtin_active": "Kasutusel",
+    "builtin_note": "Töötab Fontemi enda riistvaral. Ei mingit kontot, võtit ega tasu teie jaoks. Tegu on väikese mudeliga, seega on see aeglasem ja vähem võimekas kui tasuline — kuid töötamiseks ei vaja see teilt midagi.",
+    "builtin_superseded": "Selle asemel kasutatakse teie enda võtit. Eemaldage see, et naasta sisseehitatud mudeli juurde.",
+    "byo_title": "Kasuta selle asemel oma mudelit",
+    "byo_intro": "Valikuline. Anthropicu, Mistrali või OpenAI võti annab suurema ja kiirema mudeli, mille eest esitavad arve nemad."
   },
   "assistant": {
     "empty_hint": "Küsige minult andmete kohta — oskan otsida olemeid, leida seoseid ja soovitada visualiseeringuid teie andmeloo jaoks."

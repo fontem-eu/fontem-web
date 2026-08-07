@@ -236,6 +236,51 @@ test.describe('Help is in the nav rail', () => {
   })
 })
 
+test.describe('The built-in model is the default', () => {
+  // The assistant used to tell you it was unavailable until you pasted an
+  // API key. That is the single thing this feature changes, so it is the
+  // single thing worth asserting on: a signed-in user with no credential
+  // must see the built-in as active, not a dead end.
+  test('a user with no key sees the built-in model in use', async ({ page }) => {
+    await uiLogin(page)
+    await page.goto('/account')
+    const builtin = page.locator('[data-testid="provider-builtin"]')
+    await expect(builtin).toBeVisible()
+    await expect(page.locator('[data-testid="provider-builtin-active"]')).toBeVisible()
+
+    // The old copy. If this comes back, the page is telling users the
+    // assistant does not work when it does.
+    await expect(page.locator('[data-testid="provider-keys-empty"]')).toHaveCount(0)
+  })
+
+  test('the built-in names the model it is actually running', async ({ page }) => {
+    // Rendered from the server's response, not a hardcoded string, so
+    // this also catches the API field going missing.
+    await uiLogin(page)
+    await page.goto('/account')
+    const text = await page.locator('[data-testid="provider-builtin"]').innerText()
+    expect(text.trim()).not.toHaveLength(0)
+    expect(text).toMatch(/qwen|llama|mistral|gpt|\d+b/i)
+  })
+
+  test('the assistant is reachable without configuring anything', async ({ page }) => {
+    // Not "does the model answer" — that is a CPU-bound minute and
+    // belongs in a slower suite. This asserts the turn is accepted
+    // rather than refused up front with no_credential.
+    await uiLogin(page)
+    await page.goto('/')
+    await page.locator('.assist-toggle').click()
+    const input = page.locator('[data-testid="assist-input"]')
+    await expect(input).toBeVisible()
+    await input.fill('hello')
+    await page.locator('[data-testid="assist-send"]').click()
+
+    // The refusal is immediate when it happens; a real turn is not.
+    const refusal = page.locator('text=/No LLM provider configured/i')
+    await expect(refusal).toHaveCount(0, { timeout: 10_000 })
+  })
+})
+
 test.describe('Bottom controls clear the system navigation bar', () => {
   // The Android gesture bar and the iOS home indicator overlay the bottom
   // edge. Without viewport-fit=cover the safe-area insets read 0 and

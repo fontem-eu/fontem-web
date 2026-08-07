@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Avustajan palveluntarjoaja",
-    "intro": "Avustaja toimii omalla LLM-tililläsi. Lisää avain Anthropicilta, Mistralilta tai OpenAI:lta — he laskuttavat käytön sinulta, ei Fontem. Avaimet säilytetään salattuina eikä niitä näytetä enää tallennuksen jälkeen.",
+    "intro": "Avustaja toimii oletuksena Fontemin omalla sisäänrakennetulla mallilla — mitään ei tarvitse määrittää. Voit sen sijaan osoittaa sen omaan LLM-tiliisi, jos haluat suuremman mallin; avaimet säilytetään salattuina eikä niitä näytetä enää tallennuksen jälkeen.",
     "fingerprint": "avain nro {fp}",
     "last_used": "viimeksi käytetty {date}",
     "not_used": "ei vielä käytetty",
@@ -1860,7 +1860,13 @@
     "save": "Tallenna avain",
     "saving": "Tallennetaan…",
     "saved_notice": "Avain tallennettu. Avustaja käyttää sitä seuraavasta viestistäsi alkaen.",
-    "removed_notice": "Avain poistettu."
+    "removed_notice": "Avain poistettu.",
+    "builtin_title": "Sisäänrakennettu malli",
+    "builtin_active": "Käytössä",
+    "builtin_note": "Toimii Fontemin omalla laitteistolla. Ei tiliä, ei avainta, ei mitään sinulta veloitettavaa. Se on pieni malli, joten se on hitaampi ja heikompi kuin maksullinen — mutta se ei vaadi sinulta mitään toimiakseen.",
+    "builtin_superseded": "Sen sijaan käytetään omaa avaintasi. Poista se palataksesi sisäänrakennettuun malliin.",
+    "byo_title": "Käytä sen sijaan omaa malliasi",
+    "byo_intro": "Valinnainen. Anthropicin, Mistralin tai OpenAI:n avain antaa suuremman ja nopeamman mallin, jonka he laskuttavat sinulta."
   },
   "assistant": {
     "empty_hint": "Kysy minulta tiedoista — voin hakea entiteettejä, löytää yhteyksiä ja ehdottaa visualisointeja datatarinaasi."

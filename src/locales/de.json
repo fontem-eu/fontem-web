@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Assistenz-Anbieter",
-    "intro": "Der Assistent läuft über Ihr eigenes LLM-Konto. Hinterlegen Sie einen Schlüssel von Anthropic, Mistral oder OpenAI — die Nutzung wird Ihnen von dort in Rechnung gestellt, nicht von Fontem. Schlüssel werden verschlüsselt gespeichert und nach dem Speichern nie wieder angezeigt.",
+    "intro": "Der Assistent läuft standardmäßig mit Fontems eigenem integriertem Modell — nichts einzurichten. Sie können ihn stattdessen mit Ihrem eigenen LLM-Konto verbinden, wenn Sie ein größeres Modell möchten; Schlüssel werden verschlüsselt gespeichert und nach dem Speichern nie wieder angezeigt.",
     "fingerprint": "Schlüssel Nr. {fp}",
     "last_used": "zuletzt genutzt am {date}",
     "not_used": "noch nicht genutzt",
@@ -1860,7 +1860,13 @@
     "save": "Schlüssel speichern",
     "saving": "Wird gespeichert…",
     "saved_notice": "Schlüssel gespeichert. Der Assistent nutzt ihn ab Ihrer nächsten Nachricht.",
-    "removed_notice": "Schlüssel entfernt."
+    "removed_notice": "Schlüssel entfernt.",
+    "builtin_title": "Integriertes Modell",
+    "builtin_active": "In Verwendung",
+    "builtin_note": "Läuft auf Fontems eigener Hardware. Kein Konto, kein Schlüssel, nichts wird Ihnen berechnet. Es ist ein kleines Modell und daher langsamer und weniger leistungsfähig als ein kostenpflichtiges — aber es braucht nichts von Ihnen, um zu funktionieren.",
+    "builtin_superseded": "Stattdessen wird Ihr eigener Schlüssel verwendet. Entfernen Sie ihn, um zum integrierten Modell zurückzukehren.",
+    "byo_title": "Stattdessen Ihr eigenes Modell verwenden",
+    "byo_intro": "Optional. Ein Schlüssel von Anthropic, Mistral oder OpenAI verschafft Ihnen ein größeres, schnelleres Modell, das Ihnen von dort berechnet wird."
   },
   "assistant": {
     "empty_hint": "Fragen Sie mich zu den Daten — ich kann Entitäten suchen, Verbindungen finden und Visualisierungen für Ihre Datengeschichte vorschlagen."

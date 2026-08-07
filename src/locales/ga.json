@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Soláthraí an chúntóra",
-    "intro": "Ritheann an cúntóir ar do chuntas LLM féin. Cuir eochair leis ó Anthropic, Mistral nó OpenAI — gearrann siadsan táille ort as an úsáid, ní Fontem. Stóráiltear eochracha criptithe agus ní thaispeántar arís iad tar éis a sábhála.",
+    "intro": "Ritheann an cúntóir ar mhúnla ionsuite Fontem féin de réir réamhshocraithe — níl aon rud le socrú. Is féidir leat é a dhíriú ar do chuntas LLM féin ina ionad sin más mian leat múnla níos mó; stóráiltear eochracha criptithe agus ní thaispeántar arís iad tar éis a sábhála.",
     "fingerprint": "eochair uimh. {fp}",
     "last_used": "úsáidte go deireanach {date}",
     "not_used": "gan úsáid fós",
@@ -1860,7 +1860,13 @@
     "save": "Sábháil an eochair",
     "saving": "Á shábháil…",
     "saved_notice": "Eochair sábháilte. Úsáidfidh an cúntóir í ó do chéad teachtaireacht eile.",
-    "removed_notice": "Eochair bainte."
+    "removed_notice": "Eochair bainte.",
+    "builtin_title": "Múnla ionsuite",
+    "builtin_active": "In úsáid",
+    "builtin_note": "Ritheann sé ar chrua-earraí Fontem féin. Gan chuntas, gan eochair, gan aon rud a ghearrfar ort. Is múnla beag é, mar sin tá sé níos moille agus níos lú cumais ná ceann íoctha — ach ní theastaíonn aon rud uait chun é a chur ag obair.",
+    "builtin_superseded": "Tá d'eochair féin á húsáid ina ionad. Bain í chun filleadh ar an múnla ionsuite.",
+    "byo_title": "Úsáid do mhúnla féin ina ionad",
+    "byo_intro": "Roghnach. Tugann eochair ó Anthropic, Mistral nó OpenAI múnla níos mó agus níos tapúla duit, a ghearrfaidh siadsan ort."
   },
   "assistant": {
     "empty_hint": "Cuir ceist orm faoi na sonraí — is féidir liom aonáin a chuardach, naisc a aimsiú agus léirithe amhairc a mholadh do do scéal sonraí."

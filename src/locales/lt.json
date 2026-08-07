@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Asistento tiekėjas",
-    "intro": "Asistentas veikia su jūsų pačių LLM paskyra. Pridėkite raktą iš „Anthropic“, „Mistral“ arba „OpenAI“ — už naudojimą sąskaitą pateikia jie, ne Fontem. Raktai saugomi užšifruoti ir po išsaugojimo daugiau niekada nerodomi.",
+    "intro": "Asistentas pagal numatytuosius nustatymus veikia su Fontem įtaisytuoju modeliu — nieko konfigūruoti nereikia. Jei norite didesnio modelio, galite jį nukreipti į savo LLM paskyrą; raktai saugomi užšifruoti ir po išsaugojimo daugiau niekada nerodomi.",
     "fingerprint": "raktas Nr. {fp}",
     "last_used": "paskutinį kartą naudotas {date}",
     "not_used": "dar nenaudotas",
@@ -1860,7 +1860,13 @@
     "save": "Išsaugoti raktą",
     "saving": "Išsaugoma…",
     "saved_notice": "Raktas išsaugotas. Asistentas jį naudos nuo kito jūsų pranešimo.",
-    "removed_notice": "Raktas pašalintas."
+    "removed_notice": "Raktas pašalintas.",
+    "builtin_title": "Įtaisytasis modelis",
+    "builtin_active": "Naudojamas",
+    "builtin_note": "Veikia paties Fontem aparatinėje įrangoje. Jokios paskyros, jokio rakto, jokių jums tenkančių mokesčių. Tai nedidelis modelis, todėl lėtesnis ir mažiau pajėgus nei mokamas — bet kad veiktų, iš jūsų jam nieko nereikia.",
+    "builtin_superseded": "Vietoj jo naudojamas jūsų raktas. Pašalinkite jį, kad grįžtumėte prie įtaisytojo modelio.",
+    "byo_title": "Naudokite vietoj to savo modelį",
+    "byo_intro": "Neprivaloma. „Anthropic“, „Mistral“ arba „OpenAI“ raktas suteiks didesnį ir greitesnį modelį, už kurį apmokestins jie."
   },
   "assistant": {
     "empty_hint": "Klauskite manęs apie duomenis — galiu ieškoti subjektų, rasti sąsajų ir siūlyti vizualizacijas jūsų duomenų istorijai."

@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Assistant provider",
-    "intro": "The assistant runs on your own LLM account. Add a key from Anthropic, Mistral or OpenAI — usage is billed to you by them, not by Fontem. Keys are stored encrypted and are never shown again after saving.",
+    "intro": "The assistant runs on Fontem's own built-in model by default — nothing to configure. You can point it at your own LLM account instead if you want a larger model; keys are stored encrypted and are never shown again after saving.",
     "fingerprint": "key #{fp}",
     "last_used": "last used {date}",
     "not_used": "not used yet",
@@ -1860,7 +1860,13 @@
     "save": "Save key",
     "saving": "Saving…",
     "saved_notice": "Key saved. The assistant will use it from your next message.",
-    "removed_notice": "Key removed."
+    "removed_notice": "Key removed.",
+    "builtin_title": "Built-in model",
+    "builtin_active": "In use",
+    "builtin_note": "Runs on Fontem's own hardware. No account, no key, nothing billed to you. It is a small model, so it is slower and less capable than a paid one — but it needs nothing from you to work.",
+    "builtin_superseded": "Your own key is being used instead. Remove it to go back to the built-in model.",
+    "byo_title": "Use your own model instead",
+    "byo_intro": "Optional. A key from Anthropic, Mistral or OpenAI gets you a larger, faster model, billed to you by them."
   },
   "assistant": {
     "empty_hint": "Ask me about the data — I can search entities, find connections, and suggest visualizations for your data story."

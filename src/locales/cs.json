@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Poskytovatel asistenta",
-    "intro": "Asistent běží na vašem vlastním účtu u LLM. Přidejte klíč od Anthropicu, Mistralu nebo OpenAI — spotřebu vám účtují oni, ne Fontem. Klíče ukládáme šifrovaně a po uložení se už nikdy nezobrazí.",
+    "intro": "Asistent běží ve výchozím nastavení na vestavěném modelu Fontemu — není co nastavovat. Místo toho jej můžete nasměrovat na svůj vlastní účet u LLM, pokud chcete větší model; klíče ukládáme šifrovaně a po uložení se už nikdy nezobrazí.",
     "fingerprint": "klíč č. {fp}",
     "last_used": "naposledy použit {date}",
     "not_used": "zatím nepoužit",
@@ -1860,7 +1860,13 @@
     "save": "Uložit klíč",
     "saving": "Ukládání…",
     "saved_notice": "Klíč uložen. Asistent jej použije od vaší příští zprávy.",
-    "removed_notice": "Klíč odebrán."
+    "removed_notice": "Klíč odebrán.",
+    "builtin_title": "Vestavěný model",
+    "builtin_active": "Používá se",
+    "builtin_note": "Běží na vlastním hardwaru Fontemu. Žádný účet, žádný klíč, nic vám není účtováno. Je to malý model, takže je pomalejší a slabší než placený — ale k fungování od vás nic nepotřebuje.",
+    "builtin_superseded": "Místo něj se používá váš vlastní klíč. Odeberte jej, chcete-li se vrátit k vestavěnému modelu.",
+    "byo_title": "Použít místo toho vlastní model",
+    "byo_intro": "Volitelné. Klíč od Anthropicu, Mistralu nebo OpenAI vám dá větší a rychlejší model, který vám účtují oni."
   },
   "assistant": {
     "empty_hint": "Zeptejte se mě na data — umím vyhledávat subjekty, nacházet souvislosti a navrhovat vizualizace pro váš datový příběh."

@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Ponudnik pomočnika",
-    "intro": "Pomočnik teče na vašem lastnem računu LLM. Dodajte ključ od Anthropica, Mistrala ali OpenAI — porabo vam zaračunajo oni, ne Fontem. Ključi so shranjeni šifrirano in po shranjevanju niso nikoli več prikazani.",
+    "intro": "Pomočnik privzeto teče na Fontemovem vgrajenem modelu — nič ni treba nastavljati. Namesto tega ga lahko usmerite na svoj račun pri ponudniku LLM, če želite večji model; ključi so shranjeni šifrirano in po shranjevanju niso nikoli več prikazani.",
     "fingerprint": "ključ št. {fp}",
     "last_used": "nazadnje uporabljen {date}",
     "not_used": "še ni bil uporabljen",
@@ -1860,7 +1860,13 @@
     "save": "Shrani ključ",
     "saving": "Shranjevanje…",
     "saved_notice": "Ključ shranjen. Pomočnik ga bo uporabljal od vašega naslednjega sporočila.",
-    "removed_notice": "Ključ odstranjen."
+    "removed_notice": "Ključ odstranjen.",
+    "builtin_title": "Vgrajeni model",
+    "builtin_active": "V uporabi",
+    "builtin_note": "Teče na Fontemovi lastni strojni opremi. Brez računa, brez ključa, brez česar koli, kar bi vam zaračunali. Gre za majhen model, zato je počasnejši in zmogljivostno šibkejši od plačljivega — a za delovanje od vas ne potrebuje ničesar.",
+    "builtin_superseded": "Namesto njega se uporablja vaš ključ. Odstranite ga, če se želite vrniti k vgrajenemu modelu.",
+    "byo_title": "Namesto tega uporabite svoj model",
+    "byo_intro": "Neobvezno. Ključ od Anthropica, Mistrala ali OpenAI vam da večji in hitrejši model, ki vam ga zaračunajo oni."
   },
   "assistant": {
     "empty_hint": "Vprašajte me o podatkih — lahko iščem subjekte, odkrivam povezave in predlagam vizualizacije za vašo podatkovno zgodbo."

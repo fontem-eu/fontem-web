@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Assistentens leverantör",
-    "intro": "Assistenten körs på ditt eget LLM-konto. Lägg till en nyckel från Anthropic, Mistral eller OpenAI — användningen faktureras dig av dem, inte av Fontem. Nycklar lagras krypterade och visas aldrig igen efter att de sparats.",
+    "intro": "Assistenten körs som standard på Fontems egen inbyggda modell — inget behöver ställas in. Du kan i stället peka den mot ditt eget LLM-konto om du vill ha en större modell; nycklar lagras krypterade och visas aldrig igen efter att de sparats.",
     "fingerprint": "nyckel nr {fp}",
     "last_used": "senast använd {date}",
     "not_used": "inte använd ännu",
@@ -1860,7 +1860,13 @@
     "save": "Spara nyckel",
     "saving": "Sparar…",
     "saved_notice": "Nyckeln sparad. Assistenten använder den från ditt nästa meddelande.",
-    "removed_notice": "Nyckeln borttagen."
+    "removed_notice": "Nyckeln borttagen.",
+    "builtin_title": "Inbyggd modell",
+    "builtin_active": "Används",
+    "builtin_note": "Körs på Fontems egen hårdvara. Inget konto, ingen nyckel, inget som faktureras dig. Det är en liten modell och därför långsammare och mindre kapabel än en betald — men den kräver ingenting av dig för att fungera.",
+    "builtin_superseded": "Din egen nyckel används i stället. Ta bort den för att återgå till den inbyggda modellen.",
+    "byo_title": "Använd din egen modell i stället",
+    "byo_intro": "Valfritt. En nyckel från Anthropic, Mistral eller OpenAI ger dig en större och snabbare modell, som de fakturerar dig för."
   },
   "assistant": {
     "empty_hint": "Fråga mig om data — jag kan söka efter entiteter, hitta samband och föreslå visualiseringar till din databerättelse."
