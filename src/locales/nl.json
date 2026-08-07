@@ -1867,7 +1867,10 @@
     "builtin_note": "Draait op Fontems eigen hardware. Geen account, geen sleutel, niets dat aan jou wordt gefactureerd. Het is een klein model, dus trager en minder capabel dan een betaald model — maar het heeft niets van jou nodig om te werken.",
     "builtin_superseded": "In plaats daarvan wordt je eigen sleutel gebruikt. Verwijder hem om terug te gaan naar het ingebouwde model.",
     "byo_title": "Gebruik in plaats daarvan je eigen model",
-    "byo_intro": "Optioneel. Een sleutel van Anthropic, Mistral of OpenAI geeft je een groter, sneller model, door hen aan jou gefactureerd."
+    "byo_intro": "Optioneel. Een sleutel van Anthropic, Mistral of OpenAI geeft je een groter, sneller model, door hen aan jou gefactureerd.",
+    "model_fast": "Sneller",
+    "model_balanced": "Betere antwoorden",
+    "model_rate": "~{n} woorden/s"
   },
   "assistant": {
     "empty_hint": "Vraag me iets over de gegevens — ik kan entiteiten zoeken, verbanden vinden en visualisaties voorstellen voor je dataverhaal."

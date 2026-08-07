@@ -1867,7 +1867,10 @@
     "builtin_note": "Teče na Fontemovi lastni strojni opremi. Brez računa, brez ključa, brez česar koli, kar bi vam zaračunali. Gre za majhen model, zato je počasnejši in zmogljivostno šibkejši od plačljivega — a za delovanje od vas ne potrebuje ničesar.",
     "builtin_superseded": "Namesto njega se uporablja vaš ključ. Odstranite ga, če se želite vrniti k vgrajenemu modelu.",
     "byo_title": "Namesto tega uporabite svoj model",
-    "byo_intro": "Neobvezno. Ključ od Anthropica, Mistrala ali OpenAI vam da večji in hitrejši model, ki vam ga zaračunajo oni."
+    "byo_intro": "Neobvezno. Ključ od Anthropica, Mistrala ali OpenAI vam da večji in hitrejši model, ki vam ga zaračunajo oni.",
+    "model_fast": "Hitreje",
+    "model_balanced": "Boljši odgovori",
+    "model_rate": "~{n} besed/s"
   },
   "assistant": {
     "empty_hint": "Vprašajte me o podatkih — lahko iščem subjekte, odkrivam povezave in predlagam vizualizacije za vašo podatkovno zgodbo."

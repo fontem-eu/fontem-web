@@ -1867,7 +1867,10 @@
     "builtin_note": "Jaħdem fuq il-hardware ta' Fontem stess. L-ebda kont, l-ebda ċavetta, xejn li jiġi ffatturat lilek. Huwa mudell żgħir, għalhekk aktar bil-mod u inqas kapaċi minn wieħed imħallas — imma biex jaħdem ma jitlob xejn mingħandek.",
     "builtin_superseded": "Minflok qed tintuża ċ-ċavetta tiegħek. Neħħiha biex terġa' lura għall-mudell inkorporat.",
     "byo_title": "Uża l-mudell tiegħek minflok",
-    "byo_intro": "Fakultattiv. Ċavetta mingħand Anthropic, Mistral jew OpenAI tagħtik mudell akbar u aktar mgħaġġel, iffatturat lilek minnhom."
+    "byo_intro": "Fakultattiv. Ċavetta mingħand Anthropic, Mistral jew OpenAI tagħtik mudell akbar u aktar mgħaġġel, iffatturat lilek minnhom.",
+    "model_fast": "Aktar mgħaġġel",
+    "model_balanced": "Tweġibiet aħjar",
+    "model_rate": "~{n} kliem/s"
   },
   "assistant": {
     "empty_hint": "Staqsini dwar id-data — nista' nfittex entitajiet, insib konnessjonijiet u nissuġġerixxi viżwalizzazzjonijiet għall-istorja tad-data tiegħek."

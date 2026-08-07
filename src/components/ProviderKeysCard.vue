@@ -14,6 +14,8 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
+  listAssistantModels,
+  chooseAssistantModel,
   listProviderCredentials,
   putProviderCredential,
   deleteProviderCredential,
@@ -27,6 +29,9 @@ const PROVIDER_LABELS = {
 
 const supported = ref([])
 const builtinModel = ref('')
+const models = ref([])
+const selectedModel = ref('')
+const modelBusy = ref(false)
 const { t, locale } = useI18n()
 
 // Without an explicit locale, toLocaleDateString() follows the browser
@@ -50,6 +55,13 @@ async function load() {
     // Null when the deployment has no local server wired up — then the
     // built-in row hides itself and a key really is required again.
     builtinModel.value = data.builtin?.model || ''
+    // Only meaningful when the built-in is in use; a stored key overrides
+    // it entirely, so the selector hides itself in that case.
+    if (builtinModel.value) {
+      const m = await listAssistantModels()
+      models.value = m.models || []
+      selectedModel.value = m.selected || ''
+    }
     if (supported.value.length && !supported.value.includes(provider.value)) {
       provider.value = supported.value[0]
     }
@@ -81,6 +93,23 @@ async function save() {
     error.value = err.message
   } finally {
     busy.value = false
+  }
+}
+
+async function pickModel(id) {
+  if (id === selectedModel.value || modelBusy.value) return
+  const previous = selectedModel.value
+  selectedModel.value = id          // optimistic: the control must feel instant
+  modelBusy.value = true
+  error.value = ''
+  try {
+    const res = await chooseAssistantModel(id)
+    selectedModel.value = res.selected || id
+  } catch (err) {
+    selectedModel.value = previous  // put it back rather than lying
+    error.value = err.message
+  } finally {
+    modelBusy.value = false
   }
 }
 
@@ -124,6 +153,25 @@ onMounted(load)
         v-if="!credentials.length" class="pk-badge" data-testid="provider-builtin-active"
       >{{ $t('provider_keys.builtin_active') }}</span>
     </div>
+    <!-- Only meaningful while the built-in is what runs. A stored key
+         overrides it entirely, so offering a choice then would be a
+         control that does nothing. -->
+    <div v-if="builtinModel && models.length > 1 && !credentials.length"
+         class="pk-models" data-testid="builtin-model-choice">
+      <button
+        v-for="m in models" :key="m.id" type="button"
+        class="pk-model-opt"
+        :class="{ 'pk-model-opt--on': m.id === selectedModel }"
+        :disabled="modelBusy"
+        :aria-pressed="m.id === selectedModel"
+        :data-testid="`builtin-model-${m.id}`"
+        @click="pickModel(m.id)"
+      >
+        <span class="pk-model-name">{{ $t('provider_keys.model_' + m.id) }}</span>
+        <span class="pk-model-rate">{{ $t('provider_keys.model_rate', { n: m.tokens_per_second }) }}</span>
+      </button>
+    </div>
+
     <p v-if="builtinModel" class="pk-builtin-note">
       {{ credentials.length
         ? $t('provider_keys.builtin_superseded')
@@ -192,6 +240,14 @@ onMounted(load)
 </template>
 
 <style scoped>
+.pk-models { display: flex; gap: 0.4rem; margin: 0.5rem 0 0.2rem; flex-wrap: wrap; }
+.pk-model-opt { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem;
+                padding: 0.4rem 0.7rem; border: 1px solid var(--bezel-border);
+                border-radius: 8px; background: none; cursor: pointer; text-align: left; }
+.pk-model-opt--on { border-color: var(--accent); }
+.pk-model-opt:disabled { opacity: 0.6; cursor: default; }
+.pk-model-name { font-size: 0.85rem; font-weight: 600; }
+.pk-model-rate { font-size: 0.72rem; color: var(--muted); }
 .pk-builtin { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
                padding: 0.55rem 0.65rem; border: 1px solid var(--bezel-border); border-radius: 8px; }
 .pk-builtin--active { border-color: var(--accent); }

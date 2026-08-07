@@ -1867,7 +1867,10 @@
     "builtin_note": "Rulează pe hardware-ul propriu al Fontem. Fără cont, fără cheie, fără nimic facturat dvs. Este un model mic, deci mai lent și mai puțin capabil decât unul plătit — dar nu are nevoie de nimic de la dvs. ca să funcționeze.",
     "builtin_superseded": "În locul lui se folosește cheia dvs. Eliminați-o pentru a reveni la modelul integrat.",
     "byo_title": "Folosiți în schimb propriul model",
-    "byo_intro": "Opțional. O cheie de la Anthropic, Mistral sau OpenAI vă oferă un model mai mare și mai rapid, facturat de ei."
+    "byo_intro": "Opțional. O cheie de la Anthropic, Mistral sau OpenAI vă oferă un model mai mare și mai rapid, facturat de ei.",
+    "model_fast": "Mai rapid",
+    "model_balanced": "Răspunsuri mai bune",
+    "model_rate": "~{n} cuvinte/s"
   },
   "assistant": {
     "empty_hint": "Întrebați-mă despre date — pot căuta entități, găsi conexiuni și sugera vizualizări pentru povestea dvs. bazată pe date."

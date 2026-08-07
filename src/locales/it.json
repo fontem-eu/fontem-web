@@ -1867,7 +1867,10 @@
     "builtin_note": "Funziona sull'hardware di Fontem. Nessun account, nessuna chiave, nulla addebitato a te. È un modello piccolo, quindi più lento e meno capace di uno a pagamento — ma non ti chiede nulla per funzionare.",
     "builtin_superseded": "Al suo posto viene usata la tua chiave. Rimuovila per tornare al modello integrato.",
     "byo_title": "Usa invece il tuo modello",
-    "byo_intro": "Facoltativo. Una chiave di Anthropic, Mistral o OpenAI ti dà un modello più grande e più veloce, fatturato a te da loro."
+    "byo_intro": "Facoltativo. Una chiave di Anthropic, Mistral o OpenAI ti dà un modello più grande e più veloce, fatturato a te da loro.",
+    "model_fast": "Più veloce",
+    "model_balanced": "Risposte migliori",
+    "model_rate": "~{n} parole/s"
   },
   "assistant": {
     "empty_hint": "Chiedimi qualcosa sui dati: posso cercare entità, trovare collegamenti e suggerire visualizzazioni per il tuo racconto di dati."

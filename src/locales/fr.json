@@ -1867,7 +1867,10 @@
     "builtin_note": "Fonctionne sur le matériel de Fontem. Pas de compte, pas de clé, rien qui vous soit facturé. C'est un petit modèle : il est donc plus lent et moins performant qu'un modèle payant — mais il ne demande rien de votre part pour fonctionner.",
     "builtin_superseded": "Votre propre clé est utilisée à la place. Supprimez-la pour revenir au modèle intégré.",
     "byo_title": "Utiliser plutôt votre propre modèle",
-    "byo_intro": "Facultatif. Une clé d'Anthropic, Mistral ou OpenAI vous donne un modèle plus grand et plus rapide, qu'ils vous facturent directement."
+    "byo_intro": "Facultatif. Une clé d'Anthropic, Mistral ou OpenAI vous donne un modèle plus grand et plus rapide, qu'ils vous facturent directement.",
+    "model_fast": "Plus rapide",
+    "model_balanced": "Meilleures réponses",
+    "model_rate": "~{n} mots/s"
   },
   "assistant": {
     "empty_hint": "Posez-moi des questions sur les données — je peux chercher des entités, trouver des liens et suggérer des visualisations pour votre récit de données."

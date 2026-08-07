@@ -1867,7 +1867,10 @@
     "builtin_note": "Toimii Fontemin omalla laitteistolla. Ei tiliä, ei avainta, ei mitään sinulta veloitettavaa. Se on pieni malli, joten se on hitaampi ja heikompi kuin maksullinen — mutta se ei vaadi sinulta mitään toimiakseen.",
     "builtin_superseded": "Sen sijaan käytetään omaa avaintasi. Poista se palataksesi sisäänrakennettuun malliin.",
     "byo_title": "Käytä sen sijaan omaa malliasi",
-    "byo_intro": "Valinnainen. Anthropicin, Mistralin tai OpenAI:n avain antaa suuremman ja nopeamman mallin, jonka he laskuttavat sinulta."
+    "byo_intro": "Valinnainen. Anthropicin, Mistralin tai OpenAI:n avain antaa suuremman ja nopeamman mallin, jonka he laskuttavat sinulta.",
+    "model_fast": "Nopeampi",
+    "model_balanced": "Parempia vastauksia",
+    "model_rate": "~{n} sanaa/s"
   },
   "assistant": {
     "empty_hint": "Kysy minulta tiedoista — voin hakea entiteettejä, löytää yhteyksiä ja ehdottaa visualisointeja datatarinaasi."
