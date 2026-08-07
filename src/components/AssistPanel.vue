@@ -191,7 +191,9 @@ async function pickModel(id) {
     const res = await chooseAssistantModel(id)
     selectedModel.value = res.selected || id
   } catch {
-    selectedModel.value = previous   // put it back rather than lying
+    // Put it back rather than lying. With :value bound the DOM follows
+    // selectedModel, so reverting the ref reverts the visible control.
+    selectedModel.value = previous
   } finally {
     modelBusy.value = false
   }
@@ -551,15 +553,20 @@ defineExpose({ applyProposal, messages })
           <!-- Only when the built-in is what runs. With a provider key
                stored the choice has no effect, and a control that does
                nothing is worse than no control. -->
+          <!-- :value, not v-model. v-model writes selectedModel before
+               @change fires, so pickModel's "already on that one" guard
+               would see them equal and return without saving — the
+               control moved and nothing persisted. selectedModel is
+               owned by pickModel alone. -->
           <select
             v-if="modelChoiceApplies && models.length > 1"
-            v-model="selectedModel"
+            :value="selectedModel"
             class="assist-model"
             :disabled="modelBusy"
             :aria-label="$t('assist.model_label')"
             :title="$t('assist.model_label')"
             data-testid="assist-model-select"
-            @change="pickModel(selectedModel)"
+            @change="pickModel($event.target.value)"
           >
             <option v-for="m in models" :key="m.id" :value="m.id">
               {{ $t('provider_keys.model_' + m.id) }}
