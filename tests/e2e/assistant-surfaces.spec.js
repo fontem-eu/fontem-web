@@ -50,6 +50,18 @@ async function uiLogin(page) {
 }
 
 test.describe('Signing in through the form', () => {
+  // Sign-in journeys run under one browser only. /auth/login is capped at
+  // 5 per minute per IP, and this file needs four sign-ins; running them
+  // under both chromium and firefox makes eight, which the limiter
+  // rejects. Firefox goes second and lost that race on every run — as
+  // "the element isn't there", never as "you were rate limited".
+  //
+  // Nothing here is browser-specific: these assert on markup and page
+  // wiring. The genuinely browser-dependent behaviour is viewport and
+  // safe-area geometry, and those tests do not sign in, so they still run
+  // everywhere.
+  test.skip(({ browserName }) => browserName !== 'chromium', 'one browser: login budget')
+
   // The one place the login UI itself is exercised. Everything else
   // reuses the session, the way a real visitor does.
   test.use({ storageState: { cookies: [], origins: [] } })
@@ -93,37 +105,55 @@ test.describe('Help is reachable without knowing the URL', () => {
 })
 
 test.describe('Account settings — assistant configuration', () => {
-  /*
-   * One sign-in for the whole group, not one per test.
-   *
-   * /auth/login is rate limited to 5 per minute per IP — global-setup.js
-   * says so explicitly, and a beforeEach here tripped it, so the failures
-   * were the limiter rather than the account page. These are smoke tests:
-   * a few longer journeys through the UI beat many short ones that spend
-   * their budget re-authenticating.
-   */
+  // ONE sign-in for everything the account page does.
+  //
+  // /auth/login allows 5 per minute per IP. This file previously spent
+  // four of those on four separate account journeys, and the fourth was
+  // rejected — surfacing as "the element isn't there" rather than "you
+  // were rate limited", which reads like a product bug and sent me
+  // looking in the wrong place twice.
+  //
+  // The account page is one surface; testing it as one journey is both
+  // cheaper and closer to how it is actually used. Kept serial so a
+  // failure stops the chain rather than cascading confusingly.
+  test.skip(({ browserName }) => browserName !== 'chromium', 'one browser: login budget')
   test.describe.configure({ mode: 'serial' })
 
-  test('both assistant cards are present and safe by default', async ({ page }) => {
+  test('the account page offers a built-in model, provider keys and MCP tokens', async ({
+    page,
+  }) => {
     await uiLogin(page)
     await page.goto('/account')
 
+    // ── The built-in model is the default ────────────────────────────
+    // Previously this page told signed-in users the assistant was
+    // unavailable until they added a key. That sentence is the single
+    // thing the built-in model changes, so it is asserted first.
+    await expect(page.locator('[data-testid="provider-builtin"]')).toBeVisible()
+    await expect(page.locator('[data-testid="provider-builtin-active"]')).toBeVisible()
+    await expect(page.locator('[data-testid="provider-keys-empty"]')).toHaveCount(0)
+
+    // Named from the API's `builtin` field rather than hardcoded, so this
+    // also catches that field going missing — which is how it shipped the
+    // first time: the frontend read a field the backend never returned
+    // and nothing errored.
+    const named = await page.locator('[data-testid="provider-builtin"]').innerText()
+    expect(named.trim()).not.toHaveLength(0)
+    expect(named).toMatch(/qwen|llama|mistral|gpt|\d+b/i)
+
+    // ── Bring-your-own key stays available, and safe ─────────────────
     await expect(page.locator('[data-testid="provider-keys-card"]')).toBeVisible()
     await expect(page.locator('[data-testid="provider-select"]')).toBeVisible()
     // Never a plain-text field: it is an API key.
     await expect(page.locator('[data-testid="provider-key-input"]'))
       .toHaveAttribute('type', 'password')
 
+    // ── MCP tokens ───────────────────────────────────────────────────
     await expect(page.locator('[data-testid="mcp-tokens-card"]')).toBeVisible()
     await expect(page.locator('[data-testid="mcp-token-create"]')).toBeVisible()
     await expect(
       page.locator('[data-testid="mcp-tokens-card"] a[href^="/help"]').first(),
     ).toBeVisible()
-  })
-
-  test('a token is shown once, listed without its secret, and revocable', async ({ page }) => {
-    await uiLogin(page)
-    await page.goto('/account')
 
     const label = stamp()
     await page.fill('[data-testid="mcp-token-label"]', label)
@@ -150,6 +180,24 @@ test.describe('Account settings — assistant configuration', () => {
     await expect(row).toBeVisible()
     await row.getByRole('button', { name: /revoke/i }).click()
     await expect(row).toHaveCount(0, { timeout: 15_000 })
+  })
+
+  test('the assistant accepts a turn with no key configured', async ({ page }) => {
+    // Serial with the test above, so the session is already warm and this
+    // needs no second sign-in.
+    await page.goto('/')
+    await page.locator('.assist-toggle').click()
+    const input = page.locator('[data-testid="assist-input"]')
+    await expect(input).toBeVisible()
+    await input.fill('hello')
+    await page.locator('[data-testid="assist-send"]').click()
+
+    // Not "does the model answer" — that is a CPU-bound minute and
+    // belongs in a slower suite. The refusal, when it happens, is
+    // immediate.
+    await expect(page.locator('text=/No LLM provider configured/i')).toHaveCount(0, {
+      timeout: 10_000,
+    })
   })
 })
 
@@ -233,51 +281,6 @@ test.describe('Help is in the nav rail', () => {
     await help.click()
     await expect(page).toHaveURL(/\/help$/)
     await expect(page.locator('[data-testid="help-view"]')).toBeVisible()
-  })
-})
-
-test.describe('The built-in model is the default', () => {
-  // The assistant used to tell you it was unavailable until you pasted an
-  // API key. That is the single thing this feature changes, so it is the
-  // single thing worth asserting on: a signed-in user with no credential
-  // must see the built-in as active, not a dead end.
-  test('a user with no key sees the built-in model in use', async ({ page }) => {
-    await uiLogin(page)
-    await page.goto('/account')
-    const builtin = page.locator('[data-testid="provider-builtin"]')
-    await expect(builtin).toBeVisible()
-    await expect(page.locator('[data-testid="provider-builtin-active"]')).toBeVisible()
-
-    // The old copy. If this comes back, the page is telling users the
-    // assistant does not work when it does.
-    await expect(page.locator('[data-testid="provider-keys-empty"]')).toHaveCount(0)
-  })
-
-  test('the built-in names the model it is actually running', async ({ page }) => {
-    // Rendered from the server's response, not a hardcoded string, so
-    // this also catches the API field going missing.
-    await uiLogin(page)
-    await page.goto('/account')
-    const text = await page.locator('[data-testid="provider-builtin"]').innerText()
-    expect(text.trim()).not.toHaveLength(0)
-    expect(text).toMatch(/qwen|llama|mistral|gpt|\d+b/i)
-  })
-
-  test('the assistant is reachable without configuring anything', async ({ page }) => {
-    // Not "does the model answer" — that is a CPU-bound minute and
-    // belongs in a slower suite. This asserts the turn is accepted
-    // rather than refused up front with no_credential.
-    await uiLogin(page)
-    await page.goto('/')
-    await page.locator('.assist-toggle').click()
-    const input = page.locator('[data-testid="assist-input"]')
-    await expect(input).toBeVisible()
-    await input.fill('hello')
-    await page.locator('[data-testid="assist-send"]').click()
-
-    // The refusal is immediate when it happens; a real turn is not.
-    const refusal = page.locator('text=/No LLM provider configured/i')
-    await expect(refusal).toHaveCount(0, { timeout: 10_000 })
   })
 })
 
