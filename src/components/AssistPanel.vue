@@ -285,6 +285,24 @@ async function send() {
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
+        } else if (eventType === 'thinking' && eventData) {
+          // Working-out, not the answer. The model narrates what it is
+          // about to look up, and a turn that takes a minute used to show
+          // nothing at all while it did it. Kept on its own field so it
+          // can be styled as commentary and folded away once the real
+          // answer arrives.
+          try {
+            const text = JSON.parse(eventData).text || ''
+            if (text) {
+              if (!assistMsg) {
+                assistMsg = { role: 'assistant', text: '' }
+                messages.value.push(assistMsg)
+              }
+              assistMsg.thinking = (assistMsg.thinking || '') + text + '\n'
+              await nextTick()
+              scrollToBottom()
+            }
+          } catch { /* skip malformed */ }
         } else if (eventType === 'chunk' && eventData) {
           try {
             const chunkText = JSON.parse(eventData).text || ''
@@ -525,6 +543,14 @@ defineExpose({ applyProposal, messages })
           <div v-if="msg.role === 'user'" class="msg-user">{{ msg.text }}</div>
           <div v-else-if="msg.role === 'assistant'" class="msg-assistant">
             <!-- eslint-disable-next-line vue/no-v-html -->
+            <!-- The assistant's working-out. Shown expanded while it is
+                 still the only thing there, folded to a summary once the
+                 answer arrives, so a long turn is legible without the
+                 commentary competing with the result. -->
+            <details v-if="msg.thinking" class="msg-thinking" :open="!msg.text">
+              <summary>{{ $t('assist.thinking') }}</summary>
+              <div class="msg-thinking-body">{{ msg.thinking }}</div>
+            </details>
             <div class="msg-text msg-markdown" v-html="renderMarkdown(msg.text)"></div>
             <div class="msg-actions">
               <button class="msg-action" @click="insertText(msg.text)">{{ $t('assist.insert_into_story') }}</button>
@@ -834,6 +860,10 @@ defineExpose({ applyProposal, messages })
   padding: 1rem 0;
 }
 
+.msg-thinking { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem;
+                border-left: 2px solid var(--bezel-border); padding-left: 0.6rem; }
+.msg-thinking summary { cursor: pointer; user-select: none; }
+.msg-thinking-body { white-space: pre-wrap; margin-top: 0.3rem; opacity: 0.9; }
 .assist-msg {
   margin-bottom: 0.75rem;
 }
