@@ -198,7 +198,8 @@
     "insert_into_story": "Lisää tarinaan",
     "see_our_privacy_policy": "Katso tietosuojakäytäntömme.",
     "send": "Lähetä",
-    "thinking": "Selvitetään"
+    "thinking": "Selvitetään",
+    "model_label": "Malli"
   },
   "atlas": {
     "atlas": "Atlas",

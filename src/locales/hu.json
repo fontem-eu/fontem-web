@@ -198,7 +198,8 @@
     "insert_into_story": "Beszúrás a történetbe",
     "see_our_privacy_policy": "Lásd az adatvédelmi szabályzatunkat.",
     "send": "Küldés",
-    "thinking": "Kidolgozás"
+    "thinking": "Kidolgozás",
+    "model_label": "Modell"
   },
   "atlas": {
     "atlas": "Atlas",

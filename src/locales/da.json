@@ -198,7 +198,8 @@
     "insert_into_story": "Indsæt i fortælling",
     "see_our_privacy_policy": "Se vores privatlivspolitik.",
     "send": "Send",
-    "thinking": "Arbejder på det"
+    "thinking": "Arbejder på det",
+    "model_label": "Model"
   },
   "atlas": {
     "atlas": "Atlas",

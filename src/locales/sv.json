@@ -198,7 +198,8 @@
     "insert_into_story": "Infoga i historia",
     "see_our_privacy_policy": "Se vår integritetspolicy.",
     "send": "Skicka",
-    "thinking": "Arbetar på det"
+    "thinking": "Arbetar på det",
+    "model_label": "Modell"
   },
   "atlas": {
     "atlas": "Atlas",

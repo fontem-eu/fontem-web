@@ -198,7 +198,8 @@
     "insert_into_story": "Vložiť do príbehu",
     "see_our_privacy_policy": "Pozri naše zásady ochrany súkromia.",
     "send": "Odoslať",
-    "thinking": "Zisťujem"
+    "thinking": "Zisťujem",
+    "model_label": "Model"
   },
   "atlas": {
     "atlas": "Atlas",
