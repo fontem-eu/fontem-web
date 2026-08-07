@@ -26,6 +26,7 @@ const PROVIDER_LABELS = {
 }
 
 const supported = ref([])
+const builtinModel = ref('')
 const { t, locale } = useI18n()
 
 // Without an explicit locale, toLocaleDateString() follows the browser
@@ -46,6 +47,9 @@ async function load() {
     const data = await listProviderCredentials()
     supported.value = data.supported || []
     credentials.value = data.credentials || []
+    // Null when the deployment has no local server wired up — then the
+    // built-in row hides itself and a key really is required again.
+    builtinModel.value = data.builtin?.model || ''
     if (supported.value.length && !supported.value.includes(provider.value)) {
       provider.value = supported.value[0]
     }
@@ -103,6 +107,29 @@ onMounted(load)
     <h2 class="pk-title">{{ $t('provider_keys.title') }}</h2>
     <p class="pk-intro">{{ $t('provider_keys.intro') }}</p>
 
+    <!-- The built-in is what you get with no key, so it is stated as a
+         fact rather than offered as a choice. It stops being active the
+         moment a key is stored, and the Remove button on that key is the
+         way back — there is no separate selector to keep in sync. -->
+    <div
+      v-if="builtinModel"
+      class="pk-builtin" :class="{ 'pk-builtin--active': !credentials.length }"
+      data-testid="provider-builtin"
+    >
+      <div>
+        <strong>{{ $t('provider_keys.builtin_title') }}</strong>
+        <span class="pk-builtin-model">{{ builtinModel }}</span>
+      </div>
+      <span
+        v-if="!credentials.length" class="pk-badge" data-testid="provider-builtin-active"
+      >{{ $t('provider_keys.builtin_active') }}</span>
+    </div>
+    <p v-if="builtinModel" class="pk-builtin-note">
+      {{ credentials.length
+        ? $t('provider_keys.builtin_superseded')
+        : $t('provider_keys.builtin_note') }}
+    </p>
+
     <ul v-if="credentials.length" class="pk-list" data-testid="provider-keys-list">
       <li v-for="c in credentials" :key="c.provider" class="pk-item">
         <div>
@@ -123,9 +150,12 @@ onMounted(load)
         >{{ $t('provider_keys.remove') }}</button>
       </li>
     </ul>
-    <p v-else class="pk-empty" data-testid="provider-keys-empty">
+    <p v-else-if="!builtinModel" class="pk-empty" data-testid="provider-keys-empty">
       {{ $t('provider_keys.empty') }}
     </p>
+
+    <h3 class="pk-subhead">{{ $t('provider_keys.byo_title') }}</h3>
+    <p class="pk-intro">{{ $t('provider_keys.byo_intro') }}</p>
 
     <form class="pk-form" @submit.prevent="save">
       <label class="pk-label">
@@ -162,6 +192,14 @@ onMounted(load)
 </template>
 
 <style scoped>
+.pk-builtin { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+               padding: 0.55rem 0.65rem; border: 1px solid var(--bezel-border); border-radius: 8px; }
+.pk-builtin--active { border-color: var(--accent); }
+.pk-builtin-model { color: var(--muted); font-size: 0.78rem; margin-left: 0.5rem; }
+.pk-builtin-note { color: var(--muted); font-size: 0.8rem; margin: 0.4rem 0 0.9rem; }
+.pk-badge { font-size: 0.72rem; font-weight: 600; color: var(--accent);
+            border: 1px solid var(--accent); border-radius: 999px; padding: 0.1rem 0.5rem; }
+.pk-subhead { font-size: 0.9rem; font-weight: 600; margin: 1rem 0 0.25rem; }
 .pk-card { border: 1px solid var(--bezel-border); border-radius: 10px; padding: 1rem; margin-block: 1rem; }
 .pk-title { font-size: 1rem; font-weight: 600; margin: 0 0 0.35rem; }
 .pk-intro { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.8rem; }

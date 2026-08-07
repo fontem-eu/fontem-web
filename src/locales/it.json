@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Fornitore dell'assistente",
-    "intro": "L'assistente funziona con il tuo account LLM. Aggiungi una chiave di Anthropic, Mistral o OpenAI: il consumo ti viene fatturato da loro, non da Fontem. Le chiavi sono conservate cifrate e non vengono mai più mostrate dopo il salvataggio.",
+    "intro": "L'assistente funziona per impostazione predefinita con il modello integrato di Fontem: non c'è nulla da configurare. Puoi invece collegarlo al tuo account LLM se vuoi un modello più grande; le chiavi sono conservate cifrate e non vengono mai più mostrate dopo il salvataggio.",
     "fingerprint": "chiave n. {fp}",
     "last_used": "ultimo utilizzo il {date}",
     "not_used": "non ancora usata",
@@ -1860,7 +1860,13 @@
     "save": "Salva chiave",
     "saving": "Salvataggio…",
     "saved_notice": "Chiave salvata. L'assistente la userà dal tuo prossimo messaggio.",
-    "removed_notice": "Chiave rimossa."
+    "removed_notice": "Chiave rimossa.",
+    "builtin_title": "Modello integrato",
+    "builtin_active": "In uso",
+    "builtin_note": "Funziona sull'hardware di Fontem. Nessun account, nessuna chiave, nulla addebitato a te. È un modello piccolo, quindi più lento e meno capace di uno a pagamento — ma non ti chiede nulla per funzionare.",
+    "builtin_superseded": "Al suo posto viene usata la tua chiave. Rimuovila per tornare al modello integrato.",
+    "byo_title": "Usa invece il tuo modello",
+    "byo_intro": "Facoltativo. Una chiave di Anthropic, Mistral o OpenAI ti dà un modello più grande e più veloce, fatturato a te da loro."
   },
   "assistant": {
     "empty_hint": "Chiedimi qualcosa sui dati: posso cercare entità, trovare collegamenti e suggerire visualizzazioni per il tuo racconto di dati."

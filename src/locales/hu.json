@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Az asszisztens szolgáltatója",
-    "intro": "Az asszisztens az Ön saját LLM-fiókján fut. Adjon meg egy kulcsot az Anthropictól, a Mistraltól vagy az OpenAI-tól — a használatot ők számlázzák Önnek, nem a Fontem. A kulcsokat titkosítva tároljuk, és mentés után soha többé nem jelenítjük meg.",
+    "intro": "Az asszisztens alapértelmezetten a Fontem saját beépített modelljén fut — nincs mit beállítani. Ehelyett a saját LLM-fiókjára is irányíthatja, ha nagyobb modellt szeretne; a kulcsokat titkosítva tároljuk, és mentés után soha többé nem jelenítjük meg.",
     "fingerprint": "{fp}. kulcs",
     "last_used": "utoljára használva: {date}",
     "not_used": "még nem használt",
@@ -1860,7 +1860,13 @@
     "save": "Kulcs mentése",
     "saving": "Mentés…",
     "saved_notice": "Kulcs elmentve. Az asszisztens a következő üzenetétől kezdve használja.",
-    "removed_notice": "Kulcs eltávolítva."
+    "removed_notice": "Kulcs eltávolítva.",
+    "builtin_title": "Beépített modell",
+    "builtin_active": "Használatban",
+    "builtin_note": "A Fontem saját hardverén fut. Nincs fiók, nincs kulcs, semmit nem számlázunk Önnek. Kis modell, ezért lassabb és kevesebbet tud egy fizetősnél — de a működéséhez semmit nem kér Öntől.",
+    "builtin_superseded": "Helyette a saját kulcsát használjuk. Távolítsa el, ha vissza szeretne térni a beépített modellhez.",
+    "byo_title": "Használja inkább a saját modelljét",
+    "byo_intro": "Nem kötelező. Egy Anthropic-, Mistral- vagy OpenAI-kulcs nagyobb és gyorsabb modellt ad, amelyet ők számláznak Önnek."
   },
   "assistant": {
     "empty_hint": "Kérdezzen az adatokról — kereshetek entitásokat, feltárhatok összefüggéseket, és vizualizációkat javasolhatok az adattörténetéhez."

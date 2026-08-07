@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Pružatelj asistenta",
-    "intro": "Asistent radi na vašem vlastitom LLM računu. Dodajte ključ od Anthropica, Mistrala ili OpenAI-ja — potrošnju vam naplaćuju oni, a ne Fontem. Ključevi se pohranjuju šifrirano i nakon spremanja se više nikada ne prikazuju.",
+    "intro": "Asistent prema zadanim postavkama radi na Fontemovu ugrađenom modelu — nema se što postavljati. Umjesto toga možete ga usmjeriti na vlastiti LLM račun ako želite veći model; ključevi se pohranjuju šifrirano i nakon spremanja se više nikada ne prikazuju.",
     "fingerprint": "ključ br. {fp}",
     "last_used": "posljednja uporaba {date}",
     "not_used": "još nije korišten",
@@ -1860,7 +1860,13 @@
     "save": "Spremi ključ",
     "saving": "Spremanje…",
     "saved_notice": "Ključ spremljen. Asistent će ga koristiti od vaše sljedeće poruke.",
-    "removed_notice": "Ključ uklonjen."
+    "removed_notice": "Ključ uklonjen.",
+    "builtin_title": "Ugrađeni model",
+    "builtin_active": "U uporabi",
+    "builtin_note": "Radi na Fontemovu vlastitom hardveru. Bez računa, bez ključa, bez ičega što bi vam se naplatilo. Riječ je o malom modelu pa je sporiji i slabiji od plaćenoga — ali za rad od vas ne traži ništa.",
+    "builtin_superseded": "Umjesto njega koristi se vaš ključ. Uklonite ga za povratak na ugrađeni model.",
+    "byo_title": "Umjesto toga upotrijebite vlastiti model",
+    "byo_intro": "Neobavezno. Ključ od Anthropica, Mistrala ili OpenAI-ja daje vam veći i brži model koji vam oni naplaćuju."
   },
   "assistant": {
     "empty_hint": "Pitajte me o podacima — mogu pretraživati subjekte, pronalaziti veze i predlagati vizualizacije za vašu priču utemeljenu na podacima."

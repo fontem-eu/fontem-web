@@ -1845,7 +1845,7 @@
   },
   "provider_keys": {
     "title": "Dostawca asystenta",
-    "intro": "Asystent działa na Twoim własnym koncie LLM. Dodaj klucz od Anthropic, Mistral lub OpenAI — za zużycie rozliczają Cię oni, nie Fontem. Klucze przechowujemy zaszyfrowane i po zapisaniu nigdy nie są ponownie pokazywane.",
+    "intro": "Asystent domyślnie działa na wbudowanym modelu Fontem — nie trzeba nic konfigurować. Możesz zamiast tego wskazać własne konto LLM, jeśli chcesz większy model; klucze przechowujemy zaszyfrowane i po zapisaniu nigdy nie są ponownie pokazywane.",
     "fingerprint": "klucz nr {fp}",
     "last_used": "ostatnio użyto {date}",
     "not_used": "jeszcze nieużywany",
@@ -1860,7 +1860,13 @@
     "save": "Zapisz klucz",
     "saving": "Zapisywanie…",
     "saved_notice": "Klucz zapisany. Asystent użyje go od Twojej następnej wiadomości.",
-    "removed_notice": "Klucz usunięty."
+    "removed_notice": "Klucz usunięty.",
+    "builtin_title": "Model wbudowany",
+    "builtin_active": "W użyciu",
+    "builtin_note": "Działa na sprzęcie samego Fontem. Bez konta, bez klucza, bez żadnych opłat dla Ciebie. To mały model, więc jest wolniejszy i słabszy niż płatny — ale do działania nie potrzebuje od Ciebie niczego.",
+    "builtin_superseded": "Zamiast niego używany jest Twój własny klucz. Usuń go, aby wrócić do modelu wbudowanego.",
+    "byo_title": "Użyj zamiast tego własnego modelu",
+    "byo_intro": "Opcjonalnie. Klucz od Anthropic, Mistral lub OpenAI daje większy i szybszy model, rozliczany przez nich bezpośrednio z Tobą."
   },
   "assistant": {
     "empty_hint": "Zapytaj mnie o dane — mogę wyszukiwać podmioty, znajdować powiązania i proponować wizualizacje do Twojej opowieści opartej na danych."
