@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Stattdessen wird Ihr eigener Schlüssel verwendet. Entfernen Sie ihn, um zum integrierten Modell zurückzukehren.",
     "byo_title": "Stattdessen Ihr eigenes Modell verwenden",
     "byo_intro": "Optional. Ein Schlüssel von Anthropic, Mistral oder OpenAI verschafft Ihnen ein größeres, schnelleres Modell, das Ihnen von dort berechnet wird.",
-    "model_fast": "Schneller",
-    "model_balanced": "Bessere Antworten",
-    "model_rate": "~{n} Wörter/s"
+    "model_rate": "~{n} Wörter/s",
+    "model_short_context": "kurzes Gedächtnis ({n} Token)"
   },
   "assistant": {
     "empty_hint": "Fragen Sie mich zu den Daten — ich kann Entitäten suchen, Verbindungen finden und Visualisierungen für Ihre Datengeschichte vorschlagen."

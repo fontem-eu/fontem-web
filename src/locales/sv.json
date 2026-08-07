@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Din egen nyckel används i stället. Ta bort den för att återgå till den inbyggda modellen.",
     "byo_title": "Använd din egen modell i stället",
     "byo_intro": "Valfritt. En nyckel från Anthropic, Mistral eller OpenAI ger dig en större och snabbare modell, som de fakturerar dig för.",
-    "model_fast": "Snabbare",
-    "model_balanced": "Bättre svar",
-    "model_rate": "~{n} ord/s"
+    "model_rate": "~{n} ord/s",
+    "model_short_context": "kort minne ({n} tokens)"
   },
   "assistant": {
     "empty_hint": "Fråga mig om data — jag kan söka efter entiteter, hitta samband och föreslå visualiseringar till din databerättelse."

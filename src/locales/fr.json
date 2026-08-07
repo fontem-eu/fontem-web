@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Votre propre clé est utilisée à la place. Supprimez-la pour revenir au modèle intégré.",
     "byo_title": "Utiliser plutôt votre propre modèle",
     "byo_intro": "Facultatif. Une clé d'Anthropic, Mistral ou OpenAI vous donne un modèle plus grand et plus rapide, qu'ils vous facturent directement.",
-    "model_fast": "Plus rapide",
-    "model_balanced": "Meilleures réponses",
-    "model_rate": "~{n} mots/s"
+    "model_rate": "~{n} mots/s",
+    "model_short_context": "mémoire courte ({n} jetons)"
   },
   "assistant": {
     "empty_hint": "Posez-moi des questions sur les données — je peux chercher des entités, trouver des liens et suggérer des visualisations pour votre récit de données."

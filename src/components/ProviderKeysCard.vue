@@ -167,8 +167,13 @@ onMounted(load)
         :data-testid="`builtin-model-${m.id}`"
         @click="pickModel(m.id)"
       >
-        <span class="pk-model-name">{{ $t('provider_keys.model_' + m.id) }}</span>
-        <span class="pk-model-rate">{{ $t('provider_keys.model_rate', { n: m.tokens_per_second }) }}</span>
+        <span class="pk-model-name">{{ m.label }}</span>
+        <span class="pk-model-rate">
+          {{ $t('provider_keys.model_rate', { n: m.tokens_per_second }) }}
+          <template v-if="m.context_tokens < 8192">
+            · {{ $t('provider_keys.model_short_context', { n: m.context_tokens }) }}
+          </template>
+        </span>
       </button>
     </div>
 

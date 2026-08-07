@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Místo něj se používá váš vlastní klíč. Odeberte jej, chcete-li se vrátit k vestavěnému modelu.",
     "byo_title": "Použít místo toho vlastní model",
     "byo_intro": "Volitelné. Klíč od Anthropicu, Mistralu nebo OpenAI vám dá větší a rychlejší model, který vám účtují oni.",
-    "model_fast": "Rychlejší",
-    "model_balanced": "Lepší odpovědi",
-    "model_rate": "~{n} slov/s"
+    "model_rate": "~{n} slov/s",
+    "model_short_context": "krátká paměť ({n} tokenů)"
   },
   "assistant": {
     "empty_hint": "Zeptejte se mě na data — umím vyhledávat subjekty, nacházet souvislosti a navrhovat vizualizace pro váš datový příběh."

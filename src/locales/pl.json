@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Zamiast niego używany jest Twój własny klucz. Usuń go, aby wrócić do modelu wbudowanego.",
     "byo_title": "Użyj zamiast tego własnego modelu",
     "byo_intro": "Opcjonalnie. Klucz od Anthropic, Mistral lub OpenAI daje większy i szybszy model, rozliczany przez nich bezpośrednio z Tobą.",
-    "model_fast": "Szybciej",
-    "model_balanced": "Lepsze odpowiedzi",
-    "model_rate": "~{n} słów/s"
+    "model_rate": "~{n} słów/s",
+    "model_short_context": "krótka pamięć ({n} tokenów)"
   },
   "assistant": {
     "empty_hint": "Zapytaj mnie o dane — mogę wyszukiwać podmioty, znajdować powiązania i proponować wizualizacje do Twojej opowieści opartej na danych."

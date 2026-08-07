@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Helyette a saját kulcsát használjuk. Távolítsa el, ha vissza szeretne térni a beépített modellhez.",
     "byo_title": "Használja inkább a saját modelljét",
     "byo_intro": "Nem kötelező. Egy Anthropic-, Mistral- vagy OpenAI-kulcs nagyobb és gyorsabb modellt ad, amelyet ők számláznak Önnek.",
-    "model_fast": "Gyorsabb",
-    "model_balanced": "Jobb válaszok",
-    "model_rate": "~{n} szó/mp"
+    "model_rate": "~{n} szó/mp",
+    "model_short_context": "rövid memória ({n} token)"
   },
   "assistant": {
     "empty_hint": "Kérdezzen az adatokról — kereshetek entitásokat, feltárhatok összefüggéseket, és vizualizációkat javasolhatok az adattörténetéhez."

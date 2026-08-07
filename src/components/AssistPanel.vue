@@ -568,8 +568,11 @@ defineExpose({ applyProposal, messages })
             data-testid="assist-model-select"
             @change="pickModel($event.target.value)"
           >
+            <!-- The model's own name, served by the API. Product names
+                 are proper nouns; running them through i18n would only
+                 create 24 chances to misspell one. -->
             <option v-for="m in models" :key="m.id" :value="m.id">
-              {{ $t('provider_keys.model_' + m.id) }}
+              {{ m.label }}
             </option>
           </select>
           <label

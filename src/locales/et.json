@@ -1869,9 +1869,8 @@
     "builtin_superseded": "Selle asemel kasutatakse teie enda võtit. Eemaldage see, et naasta sisseehitatud mudeli juurde.",
     "byo_title": "Kasuta selle asemel oma mudelit",
     "byo_intro": "Valikuline. Anthropicu, Mistrali või OpenAI võti annab suurema ja kiirema mudeli, mille eest esitavad arve nemad.",
-    "model_fast": "Kiirem",
-    "model_balanced": "Paremad vastused",
-    "model_rate": "~{n} sõna/s"
+    "model_rate": "~{n} sõna/s",
+    "model_short_context": "lühike mälu ({n} märki)"
   },
   "assistant": {
     "empty_hint": "Küsige minult andmete kohta — oskan otsida olemeid, leida seoseid ja soovitada visualiseeringuid teie andmeloo jaoks."
