@@ -1867,7 +1867,10 @@
     "builtin_note": "Corre no hardware do próprio Fontem. Sem conta, sem chave, sem nada que lhe seja faturado. É um modelo pequeno, por isso é mais lento e menos capaz do que um pago — mas não precisa de nada da sua parte para funcionar.",
     "builtin_superseded": "Está a ser usada a sua própria chave. Remova-a para voltar ao modelo integrado.",
     "byo_title": "Usar antes o seu próprio modelo",
-    "byo_intro": "Opcional. Uma chave da Anthropic, Mistral ou OpenAI dá-lhe um modelo maior e mais rápido, faturado a si por eles."
+    "byo_intro": "Opcional. Uma chave da Anthropic, Mistral ou OpenAI dá-lhe um modelo maior e mais rápido, faturado a si por eles.",
+    "model_fast": "Mais rápido",
+    "model_balanced": "Melhores respostas",
+    "model_rate": "~{n} palavras/s"
   },
   "assistant": {
     "empty_hint": "Pergunte-me sobre os dados — posso procurar entidades, encontrar ligações e sugerir visualizações para a sua história de dados."

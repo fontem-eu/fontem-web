@@ -1867,7 +1867,10 @@
     "builtin_note": "Runs on Fontem's own hardware. No account, no key, nothing billed to you. It is a small model, so it is slower and less capable than a paid one — but it needs nothing from you to work.",
     "builtin_superseded": "Your own key is being used instead. Remove it to go back to the built-in model.",
     "byo_title": "Use your own model instead",
-    "byo_intro": "Optional. A key from Anthropic, Mistral or OpenAI gets you a larger, faster model, billed to you by them."
+    "byo_intro": "Optional. A key from Anthropic, Mistral or OpenAI gets you a larger, faster model, billed to you by them.",
+    "model_fast": "Faster",
+    "model_balanced": "Better answers",
+    "model_rate": "~{n} words/sec"
   },
   "assistant": {
     "empty_hint": "Ask me about the data — I can search entities, find connections, and suggest visualizations for your data story."

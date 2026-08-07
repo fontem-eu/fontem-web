@@ -1867,7 +1867,10 @@
     "builtin_note": "Veikia paties Fontem aparatinėje įrangoje. Jokios paskyros, jokio rakto, jokių jums tenkančių mokesčių. Tai nedidelis modelis, todėl lėtesnis ir mažiau pajėgus nei mokamas — bet kad veiktų, iš jūsų jam nieko nereikia.",
     "builtin_superseded": "Vietoj jo naudojamas jūsų raktas. Pašalinkite jį, kad grįžtumėte prie įtaisytojo modelio.",
     "byo_title": "Naudokite vietoj to savo modelį",
-    "byo_intro": "Neprivaloma. „Anthropic“, „Mistral“ arba „OpenAI“ raktas suteiks didesnį ir greitesnį modelį, už kurį apmokestins jie."
+    "byo_intro": "Neprivaloma. „Anthropic“, „Mistral“ arba „OpenAI“ raktas suteiks didesnį ir greitesnį modelį, už kurį apmokestins jie.",
+    "model_fast": "Greičiau",
+    "model_balanced": "Geresni atsakymai",
+    "model_rate": "~{n} žodžiai/s"
   },
   "assistant": {
     "empty_hint": "Klauskite manęs apie duomenis — galiu ieškoti subjektų, rasti sąsajų ir siūlyti vizualizacijas jūsų duomenų istorijai."

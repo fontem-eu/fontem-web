@@ -320,6 +320,16 @@ export function getAssistUsage() {
 // ever reads one back. listProviderCredentials returns which providers
 // are configured plus a fingerprint, never key material.
 
+// Which built-in models are on offer, and which one this user picked.
+// Ids are curated server-side; the browser never names a model file.
+export function listAssistantModels() {
+  return request('GET', '/assist/models')
+}
+
+export function chooseAssistantModel(modelId) {
+  return request('PUT', '/assist/models', { model_id: modelId })
+}
+
 export function listProviderCredentials() {
   return request('GET', '/assist/credentials')
 }

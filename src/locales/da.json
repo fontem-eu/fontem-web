@@ -1867,7 +1867,10 @@
     "builtin_note": "Kører på Fontems eget hardware. Ingen konto, ingen nøgle, intet der faktureres dig. Det er en lille model, så den er langsommere og mindre kapabel end en betalt — men den kræver ikke noget af dig for at virke.",
     "builtin_superseded": "Din egen nøgle bruges i stedet. Fjern den for at vende tilbage til den indbyggede model.",
     "byo_title": "Brug din egen model i stedet",
-    "byo_intro": "Valgfrit. En nøgle fra Anthropic, Mistral eller OpenAI giver dig en større og hurtigere model, som de fakturerer dig for."
+    "byo_intro": "Valgfrit. En nøgle fra Anthropic, Mistral eller OpenAI giver dig en større og hurtigere model, som de fakturerer dig for.",
+    "model_fast": "Hurtigere",
+    "model_balanced": "Bedre svar",
+    "model_rate": "~{n} ord/s"
   },
   "assistant": {
     "empty_hint": "Spørg mig om data — jeg kan søge efter entiteter, finde forbindelser og foreslå visualiseringer til din datafortælling."

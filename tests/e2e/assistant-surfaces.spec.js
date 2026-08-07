@@ -182,6 +182,39 @@ test.describe('Account settings — assistant configuration', () => {
     await expect(row).toHaveCount(0, { timeout: 15_000 })
   })
 
+  test('the built-in model can be switched between speed and quality', async ({ page }) => {
+    // Serial with the journey above, so the session is already warm.
+    await page.goto('/account')
+    const choice = page.locator('[data-testid="builtin-model-choice"]')
+    await expect(choice).toBeVisible()
+
+    const fast = page.locator('[data-testid="builtin-model-fast"]')
+    const balanced = page.locator('[data-testid="builtin-model-balanced"]')
+    await expect(fast).toBeVisible()
+    await expect(balanced).toBeVisible()
+
+    // Exactly one is selected at any time — aria-pressed is what a screen
+    // reader uses to say which, so it is asserted rather than the class.
+    const pressed = async () =>
+      (await choice.locator('[aria-pressed="true"]').count())
+    expect(await pressed()).toBe(1)
+
+    await fast.click()
+    await expect(fast).toHaveAttribute('aria-pressed', 'true')
+    expect(await pressed()).toBe(1)
+
+    // It must survive a reload — a preference that forgets itself is
+    // worse than no preference, because the user thinks it took.
+    await page.reload()
+    await expect(page.locator('[data-testid="builtin-model-fast"]'))
+      .toHaveAttribute('aria-pressed', 'true')
+
+    // Put it back so the rest of the suite runs on the default.
+    await page.locator('[data-testid="builtin-model-balanced"]').click()
+    await expect(page.locator('[data-testid="builtin-model-balanced"]'))
+      .toHaveAttribute('aria-pressed', 'true')
+  })
+
   test('the assistant accepts a turn with no key configured', async ({ page }) => {
     // Serial with the test above, so the session is already warm and this
     // needs no second sign-in.
