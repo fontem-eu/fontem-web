@@ -389,8 +389,25 @@ async function send() {
         params: { content: p.content, ...p },
         description: p.description || `${p.action}: ${(p.content || '').slice(0, 80)}`,
       }))
-      assistMsg.proposals = [...toolProposals, ...textProposals]
+      // Assign THROUGH the reactive array, not onto the raw object.
+      //
+      // `assistMsg` is the plain object we pushed into `messages.value`, so
+      // mutating it never hits the proxy's set trap and never schedules a
+      // render. Streaming text got away with it only by accident: every
+      // status event also writes streamPhase/streamDetail, and those
+      // re-renders happen to read the fresher text off the raw target.
+      //
+      // Proposals are assigned after the last status event, so nothing came
+      // along to trigger a render — the Apply card simply never appeared,
+      // even though the model had called propose_edit and the payload was
+      // sitting right here. ASSIST-20 has been failing on this, and it read
+      // as a model limitation for far too long.
       delete assistMsg._toolProposals
+      const msgIdx = messages.value.indexOf(assistMsg)
+      const withProposals = { ...assistMsg,
+                              proposals: [...toolProposals, ...textProposals] }
+      if (msgIdx !== -1) messages.value[msgIdx] = withProposals
+      assistMsg = withProposals
       // Accept-all mode: fire each proposal serially through the same
       // applyProposal path users would click, so the "Applied" badge
       // and the parent's `applied` emit fire the same way. Awaiting
