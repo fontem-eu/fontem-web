@@ -1,6 +1,6 @@
 <script setup>
 import { getAccessToken } from '../api/session.js'
-import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import {
@@ -128,6 +128,16 @@ watch(input, async (v) => {
 })
 const loading = ref(false)
 const messages = ref([])
+
+// One shape for a tool-call proposal, used both mid-stream (the moment a
+// status event carries one) and at the final merge.
+function mapToolProposal(p) {
+  return {
+    action: p.action,
+    params: { content: p.content, ...p },
+    description: p.description || `${p.action}: ${(p.content || '').slice(0, 80)}`,
+  }
+}
 const error = ref(null)
 const messagesEl = ref(null)
 
@@ -321,14 +331,21 @@ async function send() {
             const status = JSON.parse(eventData)
             streamPhase.value = status.phase
             streamDetail.value = status.detail || ''
-            // Capture propose_edit proposals from tool_use events
+            // Capture propose_edit proposals from tool_use events — and
+            // surface them immediately. The card used to exist only after
+            // the final merge at stream end, so nothing clickable appeared
+            // until the model finished its prose tail: tens of seconds at
+            // local-model speed, and the reason ASSIST-20 kept timing out
+            // ten seconds after the first chunk. The proposal is complete
+            // the moment this event arrives; there is nothing to wait for.
             if (status.proposal && status.proposal.action) {
               if (!assistMsg) {
-                assistMsg = { role: 'assistant', text: '' }
+                assistMsg = reactive({ role: 'assistant', text: '' })
                 messages.value.push(assistMsg)
               }
               if (!assistMsg._toolProposals) assistMsg._toolProposals = []
               assistMsg._toolProposals.push(status.proposal)
+              assistMsg.proposals = assistMsg._toolProposals.map(mapToolProposal)
             }
             await nextTick()
             scrollToBottom()
@@ -343,7 +360,7 @@ async function send() {
             const text = JSON.parse(eventData).text || ''
             if (text) {
               if (!assistMsg) {
-                assistMsg = { role: 'assistant', text: '' }
+                assistMsg = reactive({ role: 'assistant', text: '' })
                 messages.value.push(assistMsg)
               }
               assistMsg.thinking = (assistMsg.thinking || '') + text + '\n'
@@ -355,7 +372,7 @@ async function send() {
           try {
             const chunkText = JSON.parse(eventData).text || ''
             if (!assistMsg) {
-              assistMsg = { role: 'assistant', text: '' }
+              assistMsg = reactive({ role: 'assistant', text: '' })
               messages.value.push(assistMsg)
             }
             assistMsg.text += chunkText
@@ -384,30 +401,9 @@ async function send() {
     } else {
       // Merge proposals from text parsing and from tool_use events
       const textProposals = parseProposals(assistMsg.text)
-      const toolProposals = (assistMsg._toolProposals || []).map(p => ({
-        action: p.action,
-        params: { content: p.content, ...p },
-        description: p.description || `${p.action}: ${(p.content || '').slice(0, 80)}`,
-      }))
-      // Assign THROUGH the reactive array, not onto the raw object.
-      //
-      // `assistMsg` is the plain object we pushed into `messages.value`, so
-      // mutating it never hits the proxy's set trap and never schedules a
-      // render. Streaming text got away with it only by accident: every
-      // status event also writes streamPhase/streamDetail, and those
-      // re-renders happen to read the fresher text off the raw target.
-      //
-      // Proposals are assigned after the last status event, so nothing came
-      // along to trigger a render — the Apply card simply never appeared,
-      // even though the model had called propose_edit and the payload was
-      // sitting right here. ASSIST-20 has been failing on this, and it read
-      // as a model limitation for far too long.
+      const toolProposals = (assistMsg._toolProposals || []).map(mapToolProposal)
+      assistMsg.proposals = [...toolProposals, ...textProposals]
       delete assistMsg._toolProposals
-      const msgIdx = messages.value.indexOf(assistMsg)
-      const withProposals = { ...assistMsg,
-                              proposals: [...toolProposals, ...textProposals] }
-      if (msgIdx !== -1) messages.value[msgIdx] = withProposals
-      assistMsg = withProposals
       // Accept-all mode: fire each proposal serially through the same
       // applyProposal path users would click, so the "Applied" badge
       // and the parent's `applied` emit fire the same way. Awaiting
