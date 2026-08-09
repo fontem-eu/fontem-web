@@ -11,6 +11,7 @@ import {
 import { useAssistantContext } from '../composables/useAssistantContext.js'
 import { useSidebar } from '../composables/useSidebar.js'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import routeManifest from '../generated/route-manifest.json'
 import { navigableRoutes, isNavigable as isNavigablePath } from '../agent/routeManifest.js'
 import { sanitizeMarkdown } from '../utils/sanitize.js'
@@ -46,6 +47,7 @@ const ctx = useAssistantContext()
  * navigation, rail assumed present" is the right failure: the panel still
  * works, it just cannot move the user.
  */
+const { locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
@@ -279,6 +281,13 @@ async function send() {
       body: JSON.stringify({
         message: text,
         conversation_key: conversationKey(),
+        // The language the platform is currently displayed in. The model
+        // used to infer it from the question alone, which broke the moment
+        // a tool call put English JSON into the conversation: it would
+        // answer a French question in English because everything it had
+        // just read was English. Sent explicitly so the instruction is
+        // about the user's chosen locale, not about guessing.
+        locale: locale.value,
         context_block: reportContext.value,
           // Where the user is, and every page they can reach. Sent from
           // here rather than held server-side so there is one source of
