@@ -289,6 +289,18 @@ async function send() {
       body: JSON.stringify({
         message: text,
         conversation_key: conversationKey(),
+        // Whether there is an editor to propose into. The server scopes
+        // propose_edit out of the tool array unless this is true, so
+        // omitting it did not merely lose a hint — it removed the tool.
+        // The model, asked to use a tool it had never been given, narrated
+        // instead: "the string has been added to the report as requested".
+        // ASSIST-20 failed on exactly that, and it read for a long time as
+        // the model declining to call a tool it was in fact never offered.
+        //
+        // executeProposal needs reportId AND editorState to apply an edit,
+        // so that pair IS the condition for the tool to be useful — not a
+        // separate flag that can drift away from it.
+        has_editor: Boolean(reportId.value && editorState.value),
         context_block: reportContext.value,
           // Where the user is, and every page they can reach. Sent from
           // here rather than held server-side so there is one source of
