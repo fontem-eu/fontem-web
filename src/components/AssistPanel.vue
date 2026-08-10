@@ -411,10 +411,20 @@ async function send() {
     if (!assistMsg) {
       messages.value.push({ role: 'error', text: 'assist_panel.no_response' })
     } else {
-      // Merge proposals from text parsing and from tool_use events
+      // Add the proposals parsed out of the prose. The tool_use ones are
+      // already in `proposals` — rendered the moment their event arrived —
+      // and must NOT be rebuilt from `_toolProposals` here.
+      //
+      // Rebuilding produced fresh objects and threw away the state the user
+      // had already put on them. A proposal applied while the model was
+      // still writing lost its `applied` flag when the turn ended: the
+      // "Applied" badge disappeared and the Apply button came back, so a
+      // second click re-inserted the same paragraph. A dismissed proposal
+      // reappeared the same way. Both are invisible until the turn settles,
+      // which is why they survived the end-to-end test — it asserts after
+      // `done`, when the damage looks like the normal initial state.
       const textProposals = parseProposals(assistMsg.text)
-      const toolProposals = (assistMsg._toolProposals || []).map(mapToolProposal)
-      assistMsg.proposals = [...toolProposals, ...textProposals]
+      assistMsg.proposals = [...(assistMsg.proposals || []), ...textProposals]
       delete assistMsg._toolProposals
       // Accept-all mode: fire each proposal serially through the same
       // applyProposal path users would click, so the "Applied" badge
