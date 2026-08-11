@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Ara l-politika tal-privatezza tagħna.",
     "send": "Ibgħat",
     "thinking": "Qed naħdem fuqha",
-    "model_label": "Mudell"
+    "model_label": "Mudell",
+    "tool_running": "għaddej…",
+    "tool_arguments": "Argumenti",
+    "tool_result": "Riżultat",
+    "tool_truncated": "imqassar qabel ma rah il-mudell",
+    "tool_no_result": "(l-ebda output)"
   },
   "atlas": {
     "atlas": "Atlas",

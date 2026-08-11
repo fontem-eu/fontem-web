@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Katso tietosuojakäytäntömme.",
     "send": "Lähetä",
     "thinking": "Selvitetään",
-    "model_label": "Malli"
+    "model_label": "Malli",
+    "tool_running": "suoritetaan…",
+    "tool_arguments": "Argumentit",
+    "tool_result": "Tulos",
+    "tool_truncated": "katkaistu ennen kuin malli näki sen",
+    "tool_no_result": "(ei tulostetta)"
   },
   "atlas": {
     "atlas": "Atlas",

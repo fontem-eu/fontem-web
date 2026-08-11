@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Oglej si našo politiko zasebnosti.",
     "send": "Pošlji",
     "thinking": "Obdelujem",
-    "model_label": "Model"
+    "model_label": "Model",
+    "tool_running": "poteka…",
+    "tool_arguments": "Argumenti",
+    "tool_result": "Rezultat",
+    "tool_truncated": "skrajšano, preden je model to videl",
+    "tool_no_result": "(ni izhoda)"
   },
   "atlas": {
     "atlas": "Atlas",

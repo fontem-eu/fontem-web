@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Zie ons privacybeleid.",
     "send": "Verzenden",
     "thinking": "Aan het uitzoeken",
-    "model_label": "Model"
+    "model_label": "Model",
+    "tool_running": "bezig…",
+    "tool_arguments": "Argumenten",
+    "tool_result": "Resultaat",
+    "tool_truncated": "ingekort voordat het model het zag",
+    "tool_no_result": "(geen uitvoer)"
   },
   "atlas": {
     "atlas": "Atlas",

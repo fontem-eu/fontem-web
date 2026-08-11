@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Žiūrėk mūsų privatumo politiką.",
     "send": "Siųsti",
     "thinking": "Aiškinuosi",
-    "model_label": "Modelis"
+    "model_label": "Modelis",
+    "tool_running": "vykdoma…",
+    "tool_arguments": "Argumentai",
+    "tool_result": "Rezultatas",
+    "tool_truncated": "sutrumpinta prieš modeliui pamatant",
+    "tool_no_result": "(nėra išvesties)"
   },
   "atlas": {
     "atlas": "Atlas",

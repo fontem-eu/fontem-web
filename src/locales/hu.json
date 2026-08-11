@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Lásd az adatvédelmi szabályzatunkat.",
     "send": "Küldés",
     "thinking": "Kidolgozás",
-    "model_label": "Modell"
+    "model_label": "Modell",
+    "tool_running": "fut…",
+    "tool_arguments": "Argumentumok",
+    "tool_result": "Eredmény",
+    "tool_truncated": "csonkítva, mielőtt a modell látta volna",
+    "tool_no_result": "(nincs kimenet)"
   },
   "atlas": {
     "atlas": "Atlas",
