@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Pozri naše zásady ochrany súkromia.",
     "send": "Odoslať",
     "thinking": "Zisťujem",
-    "model_label": "Model"
+    "model_label": "Model",
+    "tool_running": "prebieha…",
+    "tool_arguments": "Argumenty",
+    "tool_result": "Výsledok",
+    "tool_truncated": "skrátené skôr, než to model videl",
+    "tool_no_result": "(žiadny výstup)"
   },
   "atlas": {
     "atlas": "Atlas",

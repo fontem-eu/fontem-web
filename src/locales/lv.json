@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Skatīt mūsu privātuma politiku.",
     "send": "Sūtīt",
     "thinking": "Noskaidroju",
-    "model_label": "Modelis"
+    "model_label": "Modelis",
+    "tool_running": "darbojas…",
+    "tool_arguments": "Argumenti",
+    "tool_result": "Rezultāts",
+    "tool_truncated": "saīsināts, pirms modelis to redzēja",
+    "tool_no_result": "(nav izvades)"
   },
   "atlas": {
     "atlas": "Atlas",

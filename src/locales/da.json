@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Se vores privatlivspolitik.",
     "send": "Send",
     "thinking": "Arbejder på det",
-    "model_label": "Model"
+    "model_label": "Model",
+    "tool_running": "kører…",
+    "tool_arguments": "Argumenter",
+    "tool_result": "Resultat",
+    "tool_truncated": "forkortet, før modellen så det",
+    "tool_no_result": "(intet output)"
   },
   "atlas": {
     "atlas": "Atlas",

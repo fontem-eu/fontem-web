@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Вижте нашата политика за поверителност.",
     "send": "Изпрати",
     "thinking": "Обработва се",
-    "model_label": "Модел"
+    "model_label": "Модел",
+    "tool_running": "изпълнява се…",
+    "tool_arguments": "Аргументи",
+    "tool_result": "Резултат",
+    "tool_truncated": "съкратен, преди моделът да го види",
+    "tool_no_result": "(без изход)"
   },
   "atlas": {
     "atlas": "Атлас",

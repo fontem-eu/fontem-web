@@ -167,6 +167,14 @@ let elapsedTimer = null
 // Configure marked for safe rendering
 marked.setOptions({ breaks: true, gfm: true })
 
+/** Size of what the model got back, for the collapsed line. */
+function formatBytes(n) {
+  if (!n) return ''
+  if (n < 1024) return `${n} B`
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`
+}
+
 function renderMarkdown(text) {
   if (!text) return ''
   return sanitizeMarkdown(marked.parse(text))
@@ -277,6 +285,7 @@ async function send() {
   scrollToBottom()
 
   let assistMsg = null
+  let toolMsg = null
 
   try {
     const token = getAccessToken()
@@ -350,6 +359,25 @@ async function send() {
             // local-model speed, and the reason ASSIST-20 kept timing out
             // ten seconds after the first chunk. The proposal is complete
             // the moment this event arrives; there is nothing to wait for.
+            // One bubble per tool call, pushed as it happens so the
+            // chat reads as the model's working: what it reached for, in
+            // what order, and what came back. The result arrives later on
+            // a `tool_result` event and fills this in.
+            if (status.phase === 'tool_use' && status.tool) {
+              toolMsg = reactive({
+                role: 'tool',
+                name: status.tool,
+                detail: status.detail || status.tool,
+                elapsed: status.elapsed,
+                running: true,
+                expanded: false,
+                args: null,
+                result: '',
+                bytes: 0,
+                truncated: false,
+              })
+              messages.value.push(toolMsg)
+            }
             if (status.proposal && status.proposal.action) {
               if (!assistMsg) {
                 assistMsg = reactive({ role: 'assistant', text: '' })
@@ -402,6 +430,25 @@ async function send() {
             const target = JSON.parse(eventData).path
             if (isNavigable(target)) router?.push(target)
           } catch { /* malformed event: stay put */ }
+        } else if (eventType === 'tool_result' && eventData) {
+          // Matched by name to the newest still-running bubble rather than
+          // by position: a turn can run several tools, and the executors do
+          // not all resolve them in the order they were announced.
+          try {
+            const r = JSON.parse(eventData)
+            const target = [...messages.value].reverse().find(
+              (m) => m.role === 'tool' && m.running && m.name === r.tool)
+            if (target) {
+              target.running = false
+              target.result = r.result || ''
+              target.bytes = r.bytes || 0
+              target.truncated = Boolean(r.truncated)
+              if (r.args && Object.keys(r.args).length) target.args = r.args
+              if (typeof r.elapsed === 'number') target.elapsed = r.elapsed
+            }
+            await nextTick()
+            scrollToBottom()
+          } catch { /* skip */ }
         } else if (eventType === 'error') {
           try { error.value = JSON.parse(eventData).error } catch { /* skip */ }
         }
@@ -701,6 +748,35 @@ defineExpose({ applyProposal, messages })
                 <span class="suggestion-caption">{{ s.caption }}</span>
                 <button class="msg-action" @click="insertSuggestion(s)">{{ $t('assist.embed') }}</button>
               </div>
+            </div>
+          </div>
+          <!-- One tool call, as the model's working. Collapsed to a line;
+               expanded it shows the arguments and exactly what came back,
+               so an odd answer can be traced to a bad result or a bad
+               reading of a good one. -->
+          <div v-else-if="msg.role === 'tool'" class="msg-tool">
+            <button
+              class="tool-head"
+              :class="{ 'tool-head--running': msg.running }"
+              :aria-expanded="msg.expanded ? 'true' : 'false'"
+              :data-testid="`tool-call-${msg.name}`"
+              @click="msg.expanded = !msg.expanded"
+            >
+              <span class="tool-chevron" aria-hidden="true">{{ msg.expanded ? '▾' : '▸' }}</span>
+              <span class="tool-name">{{ msg.detail }}</span>
+              <span v-if="msg.running" class="tool-meta">{{ $t('assist.tool_running') }}</span>
+              <span v-else class="tool-meta">{{ formatBytes(msg.bytes) }}</span>
+            </button>
+            <div v-if="msg.expanded" class="tool-body" data-testid="tool-call-body">
+              <template v-if="msg.args">
+                <div class="tool-label">{{ $t('assist.tool_arguments') }}</div>
+                <pre class="tool-pre">{{ JSON.stringify(msg.args, null, 2) }}</pre>
+              </template>
+              <div class="tool-label">
+                {{ $t('assist.tool_result') }}
+                <span v-if="msg.truncated" class="tool-warn">{{ $t('assist.tool_truncated') }}</span>
+              </div>
+              <pre class="tool-pre">{{ msg.result || $t('assist.tool_no_result') }}</pre>
             </div>
           </div>
           <div v-else-if="msg.role === 'error'" class="msg-error">{{ $t(msg.text) }}</div>
@@ -1068,6 +1144,55 @@ defineExpose({ applyProposal, messages })
   white-space: nowrap;
 }
 
+.msg-tool {
+  margin: 0.25rem 0;
+}
+.tool-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border-color, #d8dee4);
+  border-radius: 4px;
+  background: var(--bg-subtle, #f6f8fa);
+  color: var(--text-secondary, #57606a);
+  font: 500 0.78rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  cursor: pointer;
+  text-align: left;
+}
+.tool-head:hover { border-color: var(--accent-color, #0969da); }
+.tool-head--running { opacity: 0.75; }
+.tool-chevron { flex: 0 0 auto; }
+.tool-name { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tool-meta { flex: 0 0 auto; font-size: 0.72rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
+.tool-body {
+  margin-top: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color, #d8dee4);
+  border-radius: 4px;
+  background: var(--bg-subtle, #f6f8fa);
+}
+.tool-label {
+  font: 600 0.68rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #57606a);
+  margin-bottom: 0.25rem;
+}
+.tool-warn { color: var(--warning-color, #9a6700); text-transform: none; letter-spacing: 0; }
+.tool-pre {
+  margin: 0 0 0.5rem;
+  padding: 0.4rem;
+  max-height: 18rem;
+  overflow: auto;
+  background: var(--bg-default, #fff);
+  border-radius: 3px;
+  font: 400 0.72rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-primary, #1f2328);
+}
 .msg-proposals {
   margin-top: 0.5rem;
   display: flex;

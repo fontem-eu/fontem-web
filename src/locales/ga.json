@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Féach ár mbeartas príobháideachta.",
     "send": "Seol",
     "thinking": "Á oibriú amach",
-    "model_label": "Múnla"
+    "model_label": "Múnla",
+    "tool_running": "ar siúl…",
+    "tool_arguments": "Argóintí",
+    "tool_result": "Toradh",
+    "tool_truncated": "gearrtha sula bhfaca an tsamhail é",
+    "tool_no_result": "(gan aschur)"
   },
   "atlas": {
     "atlas": "Atlas",

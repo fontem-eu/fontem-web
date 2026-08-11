@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Consulta la nostra informativa sulla privacy.",
     "send": "Invia",
     "thinking": "Sto ragionando",
-    "model_label": "Modello"
+    "model_label": "Modello",
+    "tool_running": "in corso…",
+    "tool_arguments": "Argomenti",
+    "tool_result": "Risultato",
+    "tool_truncated": "troncato prima che il modello lo vedesse",
+    "tool_no_result": "(nessun output)"
   },
   "atlas": {
     "atlas": "Atlas",

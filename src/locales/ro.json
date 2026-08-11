@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Vezi politica noastră de confidențialitate.",
     "send": "Trimite",
     "thinking": "Se analizează",
-    "model_label": "Model"
+    "model_label": "Model",
+    "tool_running": "în curs…",
+    "tool_arguments": "Argumente",
+    "tool_result": "Rezultat",
+    "tool_truncated": "trunchiat înainte ca modelul să îl vadă",
+    "tool_no_result": "(fără ieșire)"
   },
   "atlas": {
     "atlas": "Atlas",

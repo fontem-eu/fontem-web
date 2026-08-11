@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Δείτε την πολιτική απορρήτου μας.",
     "send": "Αποστολή",
     "thinking": "Επεξεργασία",
-    "model_label": "Μοντέλο"
+    "model_label": "Μοντέλο",
+    "tool_running": "εκτελείται…",
+    "tool_arguments": "Ορίσματα",
+    "tool_result": "Αποτέλεσμα",
+    "tool_truncated": "περικόπηκε πριν το δει το μοντέλο",
+    "tool_no_result": "(καμία έξοδος)"
   },
   "atlas": {
     "atlas": "Άτλας",

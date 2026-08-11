@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Vaata meie privaatsuspoliitikat.",
     "send": "Saada",
     "thinking": "Töötan selle kallal",
-    "model_label": "Mudel"
+    "model_label": "Mudel",
+    "tool_running": "töötab…",
+    "tool_arguments": "Argumendid",
+    "tool_result": "Tulemus",
+    "tool_truncated": "kärbitud enne, kui mudel seda nägi",
+    "tool_no_result": "(väljundit pole)"
   },
   "atlas": {
     "atlas": "Atlas",

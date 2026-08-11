@@ -199,7 +199,12 @@
     "see_our_privacy_policy": "Siehe unsere Datenschutzerklärung.",
     "send": "Senden",
     "thinking": "Wird ausgearbeitet",
-    "model_label": "Modell"
+    "model_label": "Modell",
+    "tool_running": "läuft…",
+    "tool_arguments": "Argumente",
+    "tool_result": "Ergebnis",
+    "tool_truncated": "gekürzt, bevor das Modell es sah",
+    "tool_no_result": "(keine Ausgabe)"
   },
   "atlas": {
     "atlas": "Atlas",
