@@ -96,7 +96,9 @@
     "loading_activity": "Načítava sa aktivita...",
     "no_activity_yet": "Zatiaľ žiadna aktivita. Začni preskúmaním grafu alebo vytvorením dátového príbehu.",
     "sign_in": "Prihlásiť sa",
-    "sign_in_to_see_your_activity": "Prihlás sa, aby si videl svoju aktivitu."
+    "sign_in_to_see_your_activity": "Prihlás sa, aby si videl svoju aktivitu.",
+    "by_assistant": "asistent",
+    "by_assistant_hint": "Vykonané asistentom vo vašom mene"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Prevádzkové nástroje, architektonické dokumenty a stav platformy",
@@ -209,7 +211,8 @@
     "navigate_go": "Prejsť",
     "navigate_stay": "Zostať tu",
     "navigate_went": "Otvorené",
-    "navigate_stayed": "Zostalo tu"
+    "navigate_stayed": "Zostalo tu",
+    "tool_result_not_kept": "Výsledok sa neukladá — zaznamenáva sa iba volanie a jeho argumenty."
   },
   "atlas": {
     "atlas": "Atlas",

@@ -96,7 +96,9 @@
     "loading_activity": "Laddar aktivitet...",
     "no_activity_yet": "Ingen aktivitet ännu. Börja med att utforska grafen eller skapa en datahistoria.",
     "sign_in": "Logga in",
-    "sign_in_to_see_your_activity": "Logga in för att se din aktivitet."
+    "sign_in_to_see_your_activity": "Logga in för att se din aktivitet.",
+    "by_assistant": "assistent",
+    "by_assistant_hint": "Utfört av assistenten å dina vägnar"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Driftverktyg, arkitekturdokument och plattformens hälsa",
@@ -209,7 +211,8 @@
     "navigate_go": "Gå dit",
     "navigate_stay": "Stanna här",
     "navigate_went": "Öppnad",
-    "navigate_stayed": "Stannade här"
+    "navigate_stayed": "Stannade här",
+    "tool_result_not_kept": "Resultatet sparas inte — endast anropet och dess argument registreras."
   },
   "atlas": {
     "atlas": "Atlas",

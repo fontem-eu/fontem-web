@@ -96,7 +96,9 @@
     "loading_activity": "Cargando actividad...",
     "no_activity_yet": "Aún no hay actividad. Empieza explorando el grafo o creando una historia de datos.",
     "sign_in": "Iniciar sesión",
-    "sign_in_to_see_your_activity": "Inicia sesión para ver tu actividad."
+    "sign_in_to_see_your_activity": "Inicia sesión para ver tu actividad.",
+    "by_assistant": "asistente",
+    "by_assistant_hint": "Realizado por el asistente en su nombre"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Herramientas operativas, documentación de arquitectura y estado de la plataforma",
@@ -209,7 +211,8 @@
     "navigate_go": "Ir",
     "navigate_stay": "Quedarse aquí",
     "navigate_went": "Abierto",
-    "navigate_stayed": "Se quedó aquí"
+    "navigate_stayed": "Se quedó aquí",
+    "tool_result_not_kept": "Resultado no conservado: solo se registran la llamada y sus argumentos."
   },
   "atlas": {
     "atlas": "Atlas",

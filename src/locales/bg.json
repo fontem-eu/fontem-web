@@ -96,7 +96,9 @@
     "loading_activity": "Зареждане на активност...",
     "no_activity_yet": "Все още няма активност. Започни като разгледаш графа или създадеш история с данни.",
     "sign_in": "Вход",
-    "sign_in_to_see_your_activity": "Влезте, за да видите вашата активност."
+    "sign_in_to_see_your_activity": "Влезте, за да видите вашата активност.",
+    "by_assistant": "асистент",
+    "by_assistant_hint": "Извършено от асистента от ваше име"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Оперативни инструменти, документация на архитектурата и състояние на платформата",
@@ -209,7 +211,8 @@
     "navigate_go": "Отиди",
     "navigate_stay": "Остани тук",
     "navigate_went": "Отворено",
-    "navigate_stayed": "Остана тук"
+    "navigate_stayed": "Остана тук",
+    "tool_result_not_kept": "Резултатът не се запазва — записват се само извикването и аргументите му."
   },
   "atlas": {
     "atlas": "Атлас",

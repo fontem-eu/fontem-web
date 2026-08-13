@@ -251,7 +251,26 @@ async function loadConversation() {
   try {
     const conv = await getAssistConversation(key)
     if (conv && Array.isArray(conv.messages) && conv.messages.length > 0) {
-      messages.value = conv.messages.map(m => ({ role: m.role, text: m.content }))
+      // Tool rows rehydrate into the same bubbles the live stream draws.
+      // They used to exist only as SSE events, so reloading the page lost
+      // every trace of what the agent had actually done — which is the
+      // evidence, not the decoration. The result was never stored, so the
+      // bubble shows the call and its arguments and says so.
+      messages.value = conv.messages.map(m => (
+        m.role === 'tool'
+          ? {
+              role: 'tool',
+              name: m.content,
+              running: false,
+              args: m.extras?.args || {},
+              bytes: m.extras?.bytes || 0,
+              truncated: Boolean(m.extras?.truncated),
+              elapsed: m.extras?.elapsed,
+              result: '',
+              historical: true,
+            }
+          : { role: m.role, text: m.content }
+      ))
       await nextTick()
       scrollToBottom()
     }
@@ -833,7 +852,12 @@ defineExpose({ applyProposal, messages })
                 {{ $t('assist.tool_result') }}
                 <span v-if="msg.truncated" class="tool-warn">{{ $t('assist.tool_truncated') }}</span>
               </div>
-              <pre class="tool-pre">{{ msg.result || $t('assist.tool_no_result') }}</pre>
+              <!-- A reloaded call has no result to show: tool output is
+                   deliberately not stored, so what is kept is the call and
+                   its arguments. Saying so beats an empty box that reads
+                   like the tool returned nothing. -->
+              <pre v-if="!msg.historical" class="tool-pre">{{ msg.result || $t('assist.tool_no_result') }}</pre>
+              <pre v-else class="tool-pre tool-pre--historical">{{ $t('assist.tool_result_not_kept') }}</pre>
             </div>
           </div>
           <div v-else-if="msg.role === 'error'" class="msg-error">{{ $t(msg.text) }}</div>

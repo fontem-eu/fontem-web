@@ -96,7 +96,9 @@
     "loading_activity": "Ladataan toimintaa...",
     "no_activity_yet": "Ei vielä toimintaa. Aloita tutkimalla graafia tai luomalla datatarina.",
     "sign_in": "Kirjaudu sisään",
-    "sign_in_to_see_your_activity": "Kirjaudu sisään nähdäksesi toimintasi."
+    "sign_in_to_see_your_activity": "Kirjaudu sisään nähdäksesi toimintasi.",
+    "by_assistant": "avustaja",
+    "by_assistant_hint": "Avustajan tekemä puolestasi"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operatiiviset työkalut, arkkitehtuuridokumentit ja alustan tilakatsaus",
@@ -209,7 +211,8 @@
     "navigate_go": "Siirry",
     "navigate_stay": "Pysy tässä",
     "navigate_went": "Avattu",
-    "navigate_stayed": "Pysyi tässä"
+    "navigate_stayed": "Pysyi tässä",
+    "tool_result_not_kept": "Tulosta ei säilytetä — vain kutsu ja sen argumentit tallennetaan."
   },
   "atlas": {
     "atlas": "Atlas",

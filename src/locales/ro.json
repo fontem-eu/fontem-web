@@ -96,7 +96,9 @@
     "loading_activity": "Se încarcă activitatea...",
     "no_activity_yet": "Încă fără activitate. Începe explorând graful sau creând o poveste de date.",
     "sign_in": "Autentifică-te",
-    "sign_in_to_see_your_activity": "Autentifică-te pentru a-ți vedea activitatea."
+    "sign_in_to_see_your_activity": "Autentifică-te pentru a-ți vedea activitatea.",
+    "by_assistant": "asistent",
+    "by_assistant_hint": "Efectuat de asistent în numele dvs."
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Instrumente operaționale, documentație arhitecturală și starea platformei",
@@ -209,7 +211,8 @@
     "navigate_go": "Mergi",
     "navigate_stay": "Rămâi aici",
     "navigate_went": "Deschis",
-    "navigate_stayed": "A rămas aici"
+    "navigate_stayed": "A rămas aici",
+    "tool_result_not_kept": "Rezultatul nu este păstrat — se înregistrează doar apelul și argumentele sale."
   },
   "atlas": {
     "atlas": "Atlas",

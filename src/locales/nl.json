@@ -96,7 +96,9 @@
     "loading_activity": "Activiteit laden...",
     "no_activity_yet": "Nog geen activiteit. Begin met het verkennen van de graaf of het maken van een dataverhaal.",
     "sign_in": "Inloggen",
-    "sign_in_to_see_your_activity": "Log in om uw activiteit te zien."
+    "sign_in_to_see_your_activity": "Log in om uw activiteit te zien.",
+    "by_assistant": "assistent",
+    "by_assistant_hint": "Door de assistent namens jou gedaan"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operationele tools, architectuurdocumentatie en platformstatus",
@@ -209,7 +211,8 @@
     "navigate_go": "Ga erheen",
     "navigate_stay": "Hier blijven",
     "navigate_went": "Geopend",
-    "navigate_stayed": "Hier gebleven"
+    "navigate_stayed": "Hier gebleven",
+    "tool_result_not_kept": "Resultaat niet bewaard — alleen de aanroep en de argumenten worden vastgelegd."
   },
   "atlas": {
     "atlas": "Atlas",

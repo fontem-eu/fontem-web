@@ -96,7 +96,9 @@
     "loading_activity": "Tevékenység betöltése...",
     "no_activity_yet": "Még nincs tevékenység. Kezdd a gráf felfedezésével vagy egy adat-történet létrehozásával.",
     "sign_in": "Bejelentkezés",
-    "sign_in_to_see_your_activity": "Jelentkezz be, hogy lásd a tevékenységed."
+    "sign_in_to_see_your_activity": "Jelentkezz be, hogy lásd a tevékenységed.",
+    "by_assistant": "asszisztens",
+    "by_assistant_hint": "Az asszisztens végezte az Ön nevében"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Üzemeltetési eszközök, architektúra-dokumentumok és a platform állapota",
@@ -209,7 +211,8 @@
     "navigate_go": "Megnyitás",
     "navigate_stay": "Maradok itt",
     "navigate_went": "Megnyitva",
-    "navigate_stayed": "Itt maradt"
+    "navigate_stayed": "Itt maradt",
+    "tool_result_not_kept": "Az eredmény nincs eltárolva – csak a hívás és annak argumentumai kerülnek naplózásra."
   },
   "atlas": {
     "atlas": "Atlas",
