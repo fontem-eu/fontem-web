@@ -204,7 +204,12 @@
     "tool_arguments": "Argumendid",
     "tool_result": "Tulemus",
     "tool_truncated": "kärbitud enne, kui mudel seda nägi",
-    "tool_no_result": "(väljundit pole)"
+    "tool_no_result": "(väljundit pole)",
+    "navigate_ask": "Fontem saab viia teid lehele {page}. Kas soovite minna?",
+    "navigate_go": "Mine",
+    "navigate_stay": "Jää siia",
+    "navigate_went": "Avatud",
+    "navigate_stayed": "Jäi siia"
   },
   "atlas": {
     "atlas": "Atlas",

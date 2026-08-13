@@ -204,7 +204,12 @@
     "tool_arguments": "Argumente",
     "tool_result": "Ergebnis",
     "tool_truncated": "gekürzt, bevor das Modell es sah",
-    "tool_no_result": "(keine Ausgabe)"
+    "tool_no_result": "(keine Ausgabe)",
+    "navigate_ask": "Fontem kann Sie zu {page} bringen. Möchten Sie dorthin?",
+    "navigate_go": "Öffnen",
+    "navigate_stay": "Hier bleiben",
+    "navigate_went": "Geöffnet",
+    "navigate_stayed": "Hier geblieben"
   },
   "atlas": {
     "atlas": "Atlas",

@@ -204,7 +204,12 @@
     "tool_arguments": "Argumentos",
     "tool_result": "Resultado",
     "tool_truncated": "truncado antes de que el modelo lo viera",
-    "tool_no_result": "(sin salida)"
+    "tool_no_result": "(sin salida)",
+    "navigate_ask": "Fontem puede llevarle a {page}. ¿Quiere ir?",
+    "navigate_go": "Ir",
+    "navigate_stay": "Quedarse aquí",
+    "navigate_went": "Abierto",
+    "navigate_stayed": "Se quedó aquí"
   },
   "atlas": {
     "atlas": "Atlas",

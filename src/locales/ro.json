@@ -204,7 +204,12 @@
     "tool_arguments": "Argumente",
     "tool_result": "Rezultat",
     "tool_truncated": "trunchiat înainte ca modelul să îl vadă",
-    "tool_no_result": "(fără ieșire)"
+    "tool_no_result": "(fără ieșire)",
+    "navigate_ask": "Fontem vă poate duce la {page}. Doriți să mergeți?",
+    "navigate_go": "Mergi",
+    "navigate_stay": "Rămâi aici",
+    "navigate_went": "Deschis",
+    "navigate_stayed": "A rămas aici"
   },
   "atlas": {
     "atlas": "Atlas",

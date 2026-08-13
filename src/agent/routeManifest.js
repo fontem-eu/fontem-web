@@ -146,15 +146,36 @@ export function navigableRoutes(manifest) {
  * follow on trust — an off-site "navigation" is an open redirect.
  */
 export function isNavigable(path, manifest) {
-  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) return false
-  if (path.includes('://')) return false
+  return matchRoute(path, manifest) !== null
+}
+
+/**
+ * The manifest entry `path` resolves to, or null.
+ *
+ * Same matching as isNavigable — one implementation, so a path can never be
+ * navigable but undescribable, or described by a route it would not go to.
+ */
+export function matchRoute(path, manifest) {
+  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) return null
+  if (path.includes('://')) return null
   const clean = path.split('?')[0].split('#')[0]
-  return navigableRoutes(manifest).some((r) => {
+  return navigableRoutes(manifest).find((r) => {
     const re = new RegExp(
       '^' + r.path.split('/').filter(Boolean)
         .map((seg) => (seg.startsWith(':') ? '[^/]+' : seg.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)))
         .map((seg) => '/' + seg).join('') + '/?$',
     )
     return r.path === '/' ? clean === '/' : re.test(clean)
-  })
+  }) || null
+}
+
+/**
+ * A human label for a destination, for the confirmation prompt.
+ *
+ * Falls back to the path itself: "Fontem wants to open /studio/x" is worse
+ * than "the Data Studio" but far better than an empty sentence, and the
+ * manifest does not describe every route.
+ */
+export function describeRoute(path, manifest) {
+  return matchRoute(path, manifest)?.description || null
 }

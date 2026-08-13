@@ -204,7 +204,12 @@
     "tool_arguments": "Аргументи",
     "tool_result": "Резултат",
     "tool_truncated": "съкратен, преди моделът да го види",
-    "tool_no_result": "(без изход)"
+    "tool_no_result": "(без изход)",
+    "navigate_ask": "Fontem може да ви отведе до {page}. Искате ли да отидете?",
+    "navigate_go": "Отиди",
+    "navigate_stay": "Остани тук",
+    "navigate_went": "Отворено",
+    "navigate_stayed": "Остана тук"
   },
   "atlas": {
     "atlas": "Атлас",

@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenti",
     "tool_result": "Rezultat",
     "tool_truncated": "skraćeno prije nego što ga je model vidio",
-    "tool_no_result": "(nema izlaza)"
+    "tool_no_result": "(nema izlaza)",
+    "navigate_ask": "Fontem vas može odvesti na {page}. Želite li otići?",
+    "navigate_go": "Idi",
+    "navigate_stay": "Ostani ovdje",
+    "navigate_went": "Otvoreno",
+    "navigate_stayed": "Ostalo ovdje"
   },
   "atlas": {
     "atlas": "Atlas",
