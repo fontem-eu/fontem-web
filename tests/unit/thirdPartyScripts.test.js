@@ -70,7 +70,11 @@ describe('security headers', () => {
     // The shell and the prerendered pages carry whatever the logged-in user
     // is looking at once Vue hydrates; they must not sit in a shared cache.
     const root = nginx.match(/location \/ {[\s\S]*?\n {4}}/)[0]
-    expect(root).toContain('add_header Cache-Control "no-store" always;')
+    // no-store alone was not enough for ZAP's rule 10015; the rest is what
+    // older intermediaries actually honour.
+    for (const directive of ['no-store', 'no-cache', 'must-revalidate', 'private']) {
+      expect(root).toContain(directive)
+    }
   })
 
   it('re-includes the header snippet in every location that sets a header', () => {
