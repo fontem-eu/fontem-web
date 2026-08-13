@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenty",
     "tool_result": "Výsledek",
     "tool_truncated": "zkráceno dříve, než to model viděl",
-    "tool_no_result": "(žádný výstup)"
+    "tool_no_result": "(žádný výstup)",
+    "navigate_ask": "Fontem vás může přenést na {page}. Chcete tam přejít?",
+    "navigate_go": "Přejít",
+    "navigate_stay": "Zůstat zde",
+    "navigate_went": "Otevřeno",
+    "navigate_stayed": "Zůstalo zde"
   },
   "atlas": {
     "atlas": "Atlas",

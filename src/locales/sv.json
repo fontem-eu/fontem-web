@@ -204,7 +204,12 @@
     "tool_arguments": "Argument",
     "tool_result": "Resultat",
     "tool_truncated": "avkortat innan modellen såg det",
-    "tool_no_result": "(ingen utdata)"
+    "tool_no_result": "(ingen utdata)",
+    "navigate_ask": "Fontem kan ta dig till {page}. Vill du gå dit?",
+    "navigate_go": "Gå dit",
+    "navigate_stay": "Stanna här",
+    "navigate_went": "Öppnad",
+    "navigate_stayed": "Stannade här"
   },
   "atlas": {
     "atlas": "Atlas",

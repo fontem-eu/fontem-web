@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenti",
     "tool_result": "Riżultat",
     "tool_truncated": "imqassar qabel ma rah il-mudell",
-    "tool_no_result": "(l-ebda output)"
+    "tool_no_result": "(l-ebda output)",
+    "navigate_ask": "Fontem jista' jeħodok għal {page}. Trid tmur?",
+    "navigate_go": "Mur",
+    "navigate_stay": "Ibqa' hawn",
+    "navigate_went": "Miftuħ",
+    "navigate_stayed": "Baqa' hawn"
   },
   "atlas": {
     "atlas": "Atlas",

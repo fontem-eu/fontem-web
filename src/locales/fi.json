@@ -204,7 +204,12 @@
     "tool_arguments": "Argumentit",
     "tool_result": "Tulos",
     "tool_truncated": "katkaistu ennen kuin malli näki sen",
-    "tool_no_result": "(ei tulostetta)"
+    "tool_no_result": "(ei tulostetta)",
+    "navigate_ask": "Fontem voi viedä sinut sivulle {page}. Haluatko siirtyä?",
+    "navigate_go": "Siirry",
+    "navigate_stay": "Pysy tässä",
+    "navigate_went": "Avattu",
+    "navigate_stayed": "Pysyi tässä"
   },
   "atlas": {
     "atlas": "Atlas",

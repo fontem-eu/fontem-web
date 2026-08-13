@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenten",
     "tool_result": "Resultaat",
     "tool_truncated": "ingekort voordat het model het zag",
-    "tool_no_result": "(geen uitvoer)"
+    "tool_no_result": "(geen uitvoer)",
+    "navigate_ask": "Fontem kan je naar {page} brengen. Wil je daarheen?",
+    "navigate_go": "Ga erheen",
+    "navigate_stay": "Hier blijven",
+    "navigate_went": "Geopend",
+    "navigate_stayed": "Hier gebleven"
   },
   "atlas": {
     "atlas": "Atlas",

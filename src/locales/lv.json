@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenti",
     "tool_result": "Rezultāts",
     "tool_truncated": "saīsināts, pirms modelis to redzēja",
-    "tool_no_result": "(nav izvades)"
+    "tool_no_result": "(nav izvades)",
+    "navigate_ask": "Fontem var jūs aizvest uz {page}. Vai vēlaties doties?",
+    "navigate_go": "Doties",
+    "navigate_stay": "Palikt šeit",
+    "navigate_went": "Atvērts",
+    "navigate_stayed": "Palika šeit"
   },
   "atlas": {
     "atlas": "Atlas",

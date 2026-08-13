@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenter",
     "tool_result": "Resultat",
     "tool_truncated": "forkortet, før modellen så det",
-    "tool_no_result": "(intet output)"
+    "tool_no_result": "(intet output)",
+    "navigate_ask": "Fontem kan tage dig til {page}. Vil du derhen?",
+    "navigate_go": "Gå dertil",
+    "navigate_stay": "Bliv her",
+    "navigate_went": "Åbnet",
+    "navigate_stayed": "Blev her"
   },
   "atlas": {
     "atlas": "Atlas",

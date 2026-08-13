@@ -12,7 +12,7 @@ import { useAssistantContext } from '../composables/useAssistantContext.js'
 import { useSidebar } from '../composables/useSidebar.js'
 import { useRoute, useRouter } from 'vue-router'
 import routeManifest from '../generated/route-manifest.json'
-import { navigableRoutes, isNavigable as isNavigablePath } from '../agent/routeManifest.js'
+import { navigableRoutes, isNavigable as isNavigablePath, describeRoute } from '../agent/routeManifest.js'
 import { sanitizeMarkdown } from '../utils/sanitize.js'
 import { useVisibleViewportHeight } from '../composables/useVisibleViewportHeight.js'
 
@@ -426,9 +426,28 @@ async function send() {
           // validated the path against the manifest we sent, but validate
           // again here: this is the process that actually moves the user,
           // and it should not take a path on trust from anywhere.
+          //
+          // Validated, it is still only a REQUEST. Navigation is the one
+          // action that takes the page out from under the user — mid-read,
+          // mid-edit, mid-scroll — so it asks, every time.
+          //
+          // Deliberately NOT gated on `bypassPermissions`: accept-all is a
+          // statement about proposed edits to an article, which the user is
+          // looking at and can undo. It is not consent to be moved somewhere
+          // else, and reading it as such would make the one irreversible-
+          // feeling action the one nobody agreed to.
           try {
             const target = JSON.parse(eventData).path
-            if (isNavigable(target)) router?.push(target)
+            if (isNavigable(target)) {
+              messages.value.push(reactive({
+                role: 'nav',
+                path: target,
+                label: describeRoute(target, routeManifest) || target,
+                state: 'pending',
+              }))
+              await nextTick()
+              scrollToBottom()
+            }
           } catch { /* malformed event: stay put */ }
         } else if (eventType === 'tool_result' && eventData) {
           // Matched by name to the newest still-running bubble rather than
@@ -569,6 +588,25 @@ function dismissProposal(proposal, msgIndex) {
   if (msg?.proposals) {
     msg.proposals = msg.proposals.filter(p => p !== proposal)
   }
+}
+
+/**
+ * The user said yes to a navigation the assistant asked for.
+ *
+ * Re-validates rather than trusting the stored path: the bubble may have
+ * been sitting in the transcript for a while, and this is still the process
+ * that actually moves someone.
+ */
+function acceptNavigation(msg) {
+  if (!msg || msg.state !== 'pending') return
+  msg.state = 'accepted'
+  if (isNavigable(msg.path)) router?.push(msg.path)
+}
+
+/** The user said no. The bubble stays, as a record of what was offered. */
+function declineNavigation(msg) {
+  if (!msg || msg.state !== 'pending') return
+  msg.state = 'declined'
 }
 
 function insertSuggestion(suggestion) {
@@ -754,6 +792,25 @@ defineExpose({ applyProposal, messages })
                expanded it shows the arguments and exactly what came back,
                so an odd answer can be traced to a bad result or a bad
                reading of a good one. -->
+          <!-- A navigation the assistant asked for. It asks every time,
+               including when accept-all is on: that toggle is about edits
+               to an article the user is looking at, not about being moved
+               to another page. -->
+          <div v-else-if="msg.role === 'nav'" class="msg-nav" data-testid="assist-nav">
+            <div class="nav-ask">{{ $t('assist.navigate_ask', { page: msg.label }) }}</div>
+            <div class="nav-path">{{ msg.path }}</div>
+            <div v-if="msg.state === 'pending'" class="nav-buttons">
+              <button class="nav-go" data-testid="assist-nav-go" @click="acceptNavigation(msg)">
+                {{ $t('assist.navigate_go') }}
+              </button>
+              <button class="nav-stay" data-testid="assist-nav-stay" @click="declineNavigation(msg)">
+                {{ $t('assist.navigate_stay') }}
+              </button>
+            </div>
+            <div v-else class="nav-state" data-testid="assist-nav-state">
+              {{ msg.state === 'accepted' ? $t('assist.navigate_went') : $t('assist.navigate_stayed') }}
+            </div>
+          </div>
           <div v-else-if="msg.role === 'tool'" class="msg-tool">
             <button
               class="tool-head"
@@ -1265,6 +1322,58 @@ defineExpose({ applyProposal, messages })
   border: 1px solid var(--border);
   border-radius: 3px;
   cursor: pointer;
+}
+
+/* Navigation request. Same visual weight as a proposal — it is the same
+   kind of thing: something the assistant wants to do, pending consent. */
+.msg-nav {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
+  margin: 0.25rem 0;
+  background: var(--surface-2, transparent);
+}
+
+.nav-ask {
+  font-size: 0.75rem;
+}
+
+.nav-path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  margin: 0.15rem 0 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.nav-go {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.nav-stay {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.nav-state {
+  font-size: 0.65rem;
+  color: var(--muted);
 }
 
 .msg-error {

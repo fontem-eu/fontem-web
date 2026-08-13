@@ -204,7 +204,12 @@
     "tool_arguments": "Argumenty",
     "tool_result": "Wynik",
     "tool_truncated": "skrócone, zanim model to zobaczył",
-    "tool_no_result": "(brak danych wyjściowych)"
+    "tool_no_result": "(brak danych wyjściowych)",
+    "navigate_ask": "Fontem może przenieść Cię do {page}. Chcesz przejść?",
+    "navigate_go": "Przejdź",
+    "navigate_stay": "Zostań tutaj",
+    "navigate_went": "Otwarto",
+    "navigate_stayed": "Pozostano tutaj"
   },
   "atlas": {
     "atlas": "Atlas",

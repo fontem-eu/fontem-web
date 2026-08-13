@@ -204,7 +204,12 @@
     "tool_arguments": "Argumentos",
     "tool_result": "Resultado",
     "tool_truncated": "truncado antes de o modelo o ver",
-    "tool_no_result": "(sem saída)"
+    "tool_no_result": "(sem saída)",
+    "navigate_ask": "O Fontem pode levá-lo a {page}. Quer ir?",
+    "navigate_go": "Ir",
+    "navigate_stay": "Ficar aqui",
+    "navigate_went": "Aberto",
+    "navigate_stayed": "Ficou aqui"
   },
   "atlas": {
     "atlas": "Atlas",

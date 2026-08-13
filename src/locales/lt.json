@@ -204,7 +204,12 @@
     "tool_arguments": "Argumentai",
     "tool_result": "Rezultatas",
     "tool_truncated": "sutrumpinta prieš modeliui pamatant",
-    "tool_no_result": "(nėra išvesties)"
+    "tool_no_result": "(nėra išvesties)",
+    "navigate_ask": "„Fontem“ gali nuvesti jus į {page}. Ar norite pereiti?",
+    "navigate_go": "Pereiti",
+    "navigate_stay": "Likti čia",
+    "navigate_went": "Atidaryta",
+    "navigate_stayed": "Liko čia"
   },
   "atlas": {
     "atlas": "Atlas",

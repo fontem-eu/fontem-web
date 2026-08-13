@@ -204,7 +204,12 @@
     "tool_arguments": "Argumentumok",
     "tool_result": "Eredmény",
     "tool_truncated": "csonkítva, mielőtt a modell látta volna",
-    "tool_no_result": "(nincs kimenet)"
+    "tool_no_result": "(nincs kimenet)",
+    "navigate_ask": "A Fontem elviheti a következő oldalra: {page}. Odamegy?",
+    "navigate_go": "Megnyitás",
+    "navigate_stay": "Maradok itt",
+    "navigate_went": "Megnyitva",
+    "navigate_stayed": "Itt maradt"
   },
   "atlas": {
     "atlas": "Atlas",

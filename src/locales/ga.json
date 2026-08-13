@@ -204,7 +204,12 @@
     "tool_arguments": "Argóintí",
     "tool_result": "Toradh",
     "tool_truncated": "gearrtha sula bhfaca an tsamhail é",
-    "tool_no_result": "(gan aschur)"
+    "tool_no_result": "(gan aschur)",
+    "navigate_ask": "Is féidir le Fontem tú a thabhairt go {page}. Ar mhaith leat dul ann?",
+    "navigate_go": "Téigh ann",
+    "navigate_stay": "Fan anseo",
+    "navigate_went": "Oscailte",
+    "navigate_stayed": "D'fhan anseo"
   },
   "atlas": {
     "atlas": "Atlas",
