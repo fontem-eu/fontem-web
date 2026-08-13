@@ -243,6 +243,28 @@ export function whenSessionReady() {
 }
 
 
+/**
+ * Release a response we are not going to read.
+ *
+ * A `fetch` whose body is never consumed leaves the stream open. The
+ * browser will usually drain it into the HTTP cache and the request
+ * completes anyway — but a response marked `Cache-Control: no-store`
+ * cannot be cached, so nothing drains it and the request stays pending
+ * for the lifetime of the page.
+ *
+ * That is not theoretical: adding no-store to the API (correctly — these
+ * are private records) made every anonymous page load hang on the 401
+ * from /auth/refresh, because the failure path below returned without
+ * touching the body. Playwright's `networkidle` never fired and the i18n
+ * landing tests timed out at 60s with exactly one request in flight.
+ */
+function _drain(res) {
+  try {
+    res?.body?.cancel?.()
+  } catch { /* already consumed or unsupported: nothing to release */ }
+  return res
+}
+
 export function refresh() {
   if (refreshInFlight) return refreshInFlight
   refreshInFlight = (async () => {
@@ -252,6 +274,8 @@ export function refresh() {
         credentials: 'include',
       })
       if (!res.ok) {
+        // Anonymous cold boot lands here on every page load.
+        _drain(res)
         _clear()
         return false
       }
@@ -267,10 +291,10 @@ export function refresh() {
 
 export async function logout() {
   try {
-    await fetch('/capi/auth/logout', {
+    _drain(await fetch('/capi/auth/logout', {
       method: 'POST',
       credentials: 'include',
-    })
+    }))
   } catch { /* network failure on logout shouldn't trap the user */ }
   _clear()
 }
@@ -282,11 +306,11 @@ export async function signOutEverywhere() {
     return
   }
   try {
-    await fetch('/capi/auth/sign_out_everywhere', {
+    _drain(await fetch('/capi/auth/sign_out_everywhere', {
       method: 'POST',
       credentials: 'include',
       headers: { Authorization: `Bearer ${accessToken}` },
-    })
+    }))
   } finally {
     _clear()
   }
