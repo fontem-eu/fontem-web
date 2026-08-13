@@ -96,7 +96,9 @@
     "loading_activity": "Nalaganje aktivnosti...",
     "no_activity_yet": "Še ni aktivnosti. Začni z raziskovanjem grafa ali ustvarjanjem podatkovne zgodbe.",
     "sign_in": "Prijava",
-    "sign_in_to_see_your_activity": "Prijavi se, da vidiš svojo aktivnost."
+    "sign_in_to_see_your_activity": "Prijavi se, da vidiš svojo aktivnost.",
+    "by_assistant": "pomočnik",
+    "by_assistant_hint": "Izvedel pomočnik v vašem imenu"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operativna orodja, arhitekturni dokumenti in stanje platforme",
@@ -209,7 +211,8 @@
     "navigate_go": "Pojdi",
     "navigate_stay": "Ostani tukaj",
     "navigate_went": "Odprto",
-    "navigate_stayed": "Ostalo tukaj"
+    "navigate_stayed": "Ostalo tukaj",
+    "tool_result_not_kept": "Rezultat ni shranjen — zabeležen je samo klic in njegovi argumenti."
   },
   "atlas": {
     "atlas": "Atlas",

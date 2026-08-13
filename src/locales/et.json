@@ -96,7 +96,9 @@
     "loading_activity": "Tegevust laaditakse...",
     "no_activity_yet": "Veel pole tegevust. Alusta graafi uurimisest või andmeloo loomisest.",
     "sign_in": "Logi sisse",
-    "sign_in_to_see_your_activity": "Logi sisse, et näha oma tegevust."
+    "sign_in_to_see_your_activity": "Logi sisse, et näha oma tegevust.",
+    "by_assistant": "assistent",
+    "by_assistant_hint": "Tehtud assistendi poolt teie nimel"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Töövahendid, arhitektuuridokumendid ja platvormi tervis",
@@ -209,7 +211,8 @@
     "navigate_go": "Mine",
     "navigate_stay": "Jää siia",
     "navigate_went": "Avatud",
-    "navigate_stayed": "Jäi siia"
+    "navigate_stayed": "Jäi siia",
+    "tool_result_not_kept": "Tulemust ei säilitata — salvestatakse ainult kutse ja selle argumendid."
   },
   "atlas": {
     "atlas": "Atlas",

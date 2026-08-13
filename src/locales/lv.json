@@ -96,7 +96,9 @@
     "loading_activity": "Ielādē aktivitāti...",
     "no_activity_yet": "Vēl nav aktivitātes. Sāc pētot grafu vai veidojot datu stāstu.",
     "sign_in": "Ielogoties",
-    "sign_in_to_see_your_activity": "Ielogojies, lai redzētu savu aktivitāti."
+    "sign_in_to_see_your_activity": "Ielogojies, lai redzētu savu aktivitāti.",
+    "by_assistant": "asistents",
+    "by_assistant_hint": "Veicis asistents jūsu vārdā"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Darbības rīki, arhitektūras dokumenti un platformas stāvoklis",
@@ -209,7 +211,8 @@
     "navigate_go": "Doties",
     "navigate_stay": "Palikt šeit",
     "navigate_went": "Atvērts",
-    "navigate_stayed": "Palika šeit"
+    "navigate_stayed": "Palika šeit",
+    "tool_result_not_kept": "Rezultāts netiek saglabāts — tiek reģistrēts tikai izsaukums un tā argumenti."
   },
   "atlas": {
     "atlas": "Atlas",

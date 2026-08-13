@@ -96,7 +96,9 @@
     "loading_activity": "Qed jitgħabba l-attività...",
     "no_activity_yet": "L-ebda attività s'issa. Ibda billi tesplora l-graf jew toħloq storja tad-data.",
     "sign_in": "Idħol",
-    "sign_in_to_see_your_activity": "Idħol biex tara l-attività tiegħek."
+    "sign_in_to_see_your_activity": "Idħol biex tara l-attività tiegħek.",
+    "by_assistant": "assistent",
+    "by_assistant_hint": "Sar mill-assistent f'ismek"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Għodod operazzjonali, dokumenti tal-arkitettura u s-saħħa tal-pjattaforma",
@@ -209,7 +211,8 @@
     "navigate_go": "Mur",
     "navigate_stay": "Ibqa' hawn",
     "navigate_went": "Miftuħ",
-    "navigate_stayed": "Baqa' hawn"
+    "navigate_stayed": "Baqa' hawn",
+    "tool_result_not_kept": "Ir-riżultat ma jinżammx — jiġu rreġistrati biss is-sejħa u l-argumenti tagħha."
   },
   "atlas": {
     "atlas": "Atlas",

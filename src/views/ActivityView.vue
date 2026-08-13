@@ -36,6 +36,13 @@ onMounted(async () => {
         title: e.summary || '(untitled)',
         date: e.created_at,
         link: linkFor(e),
+        /* Who actually did it. An entry saying the user created a Data
+           Studio project is false when the assistant created it on their
+           behalf, and until the log carried provenance there was no way to
+           tell them apart. Absent (the rows written before the column
+           existed) means a person did it, which is true of all of them. */
+        byAgent: e.actor_kind === 'agent',
+        conversationId: e.conversation_id || null,
       }))
     }
   } catch (err) {
@@ -114,6 +121,14 @@ function typeLabel(type) {
         <div class="activity-body">
           <span class="activity-action">{{ item.action }}</span>
           <span class="activity-title">{{ item.title }}</span>
+          <!-- Not decoration: this is the difference between "you did this"
+               and "something did this for you". -->
+          <span
+            v-if="item.byAgent"
+            class="activity-agent"
+            data-testid="activity-by-agent"
+            :title="$t('activity.by_assistant_hint')"
+          >{{ $t('activity.by_assistant') }}</span>
         </div>
         <span class="activity-date">{{ formatDate(item.date) }}</span>
       </li>
@@ -220,6 +235,15 @@ function typeLabel(type) {
   display: flex;
   gap: 0.35rem;
   align-items: baseline;
+}
+
+.activity-agent {
+  font-size: 0.68rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 .activity-action {
