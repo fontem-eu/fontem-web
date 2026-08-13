@@ -69,7 +69,7 @@ describe('security headers', () => {
   it('serves HTML with no-store', () => {
     // The shell and the prerendered pages carry whatever the logged-in user
     // is looking at once Vue hydrates; they must not sit in a shared cache.
-    const root = nginx.match(/location \/ \{[\s\S]*?\n {4}\}/)[0]
+    const root = nginx.match(/location \/ {[\s\S]*?\n {4}}/)[0]
     expect(root).toContain('add_header Cache-Control "no-store" always;')
   })
 
@@ -77,7 +77,7 @@ describe('security headers', () => {
     // nginx drops ALL inherited add_header directives the moment a location
     // sets one of its own. Every location that adds a header must therefore
     // pull the snippet back in, or it silently loses CSP.
-    const locations = [...nginx.matchAll(/location [^\{]*\{[\s\S]*?\n {4}\}/g)].map((m) => m[0])
+    const locations = [...nginx.matchAll(/location [^{]*{[\s\S]*?\n {4}}/g)].map((m) => m[0])
     const offenders = locations
       .filter((b) => /add_header/.test(b))
       .filter((b) => !/include .*security-headers\.conf/.test(b))
