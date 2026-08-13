@@ -2,8 +2,31 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
+/**
+ * Drop HTML comments from the built shell.
+ *
+ * index.html carries the reasoning behind the anti-FOUC script, the viewport
+ * choice and the OpenGraph defaults — useful to whoever edits it, and shipped
+ * verbatim to every visitor. ZAP reads them as "Information Disclosure -
+ * Suspicious Comments"; the plainer objection is that build notes are not
+ * part of the page.
+ *
+ * Conditional comments and the SSR/prerender markers are left alone: they are
+ * instructions to something, not prose. Comments in .vue files never reach the
+ * browser, so this is only about the shell.
+ */
+function stripHtmlComments() {
+  return {
+    name: 'strip-html-comments',
+    enforce: 'post',
+    transformIndexHtml(html) {
+      return html.replace(/<!--(?!\[if|\s*\/?\s*(?:ssr|prerender|vite))[\s\S]*?-->/g, '')
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [vue(), tailwindcss(), stripHtmlComments()],
 
   // vue-i18n@9 ships two message-compilation paths:
   //   1. "compileToFunction"  — wraps the message-AST source in `new

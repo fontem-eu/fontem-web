@@ -32,10 +32,37 @@ const GOOGLE_CLIENT_ID =
 
 const hasToken = computed(() => isAuthed.value)
 
+//: Google Identity Services. Loaded here and nowhere else.
+const GSI_SRC = 'https://accounts.google.com/gsi/client'
+
+/**
+ * Fetch the Google Identity script on demand.
+ *
+ * It used to sit in index.html, so Google's code ran on every page of the
+ * app — the Atlas, the editor, the Data Studio, every authenticated view —
+ * when the only thing that needs it is this button. DAST saw it as
+ * cross-domain script inclusion on 41 pages; the real objection is that a
+ * third-party script with full DOM access on an authenticated page can read
+ * whatever is on that page, and none of those pages were signing anybody in.
+ *
+ * No SRI attribute: Google serves this URL mutably and publishes no hash for
+ * it, so pinning one would turn their next routine update into a sign-in
+ * outage. Scope is the control that works here — one page instead of forty.
+ */
+function loadGoogleScript() {
+  if (document.querySelector(`script[src="${GSI_SRC}"]`)) return
+  const el = document.createElement('script')
+  el.src = GSI_SRC
+  el.async = true
+  el.defer = true
+  document.head.appendChild(el)
+}
+
 onMounted(() => {
   if (hasToken.value) return
 
-  /* Wait for the Google GSI script to load, then render the button */
+  /* Load the Google GSI script, wait for it, then render the button */
+  loadGoogleScript()
   waitForGoogle(() => {
     window.google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
