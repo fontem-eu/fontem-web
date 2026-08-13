@@ -492,3 +492,72 @@ export function createMcpToken(label) {
 export function revokeMcpToken(id) {
   return request('DELETE', `/assist/mcp-tokens/${encodeURIComponent(id)}`)
 }
+
+// ── Feed-query catalogue (admin) ──────────────────────────────
+// Named queries are editorially-curated queries against the platform's
+// stores; query groups are ordered sets of them, and a query can belong to
+// several. Everything here except listPublicQueryGroups is admin-only —
+// the server gates it, these helpers just call the endpoints.
+
+export function listNamedQueries(status) {
+  const qs = status ? `?status=${encodeURIComponent(status)}` : ''
+  return request('GET', `/admin/named-queries${qs}`)
+}
+
+export function getNamedQuery(id) {
+  return request('GET', `/admin/named-queries/${encodeURIComponent(id)}`)
+}
+
+export function createNamedQuery(fields) {
+  return request('POST', '/admin/named-queries', fields)
+}
+
+export function updateNamedQuery(id, fields) {
+  return request('PATCH', `/admin/named-queries/${encodeURIComponent(id)}`, fields)
+}
+
+export function deleteNamedQuery(id) {
+  return request('DELETE', `/admin/named-queries/${encodeURIComponent(id)}`)
+}
+
+// Runs the saved query and STORES the verdict. Use previewNamedQuery for
+// unsaved work — this one changes the catalogue.
+export function validateNamedQuery(id) {
+  return request('POST', `/admin/named-queries/${encodeURIComponent(id)}/validate`)
+}
+
+// Runs an unsaved draft: rows plus the same contract verdict, stored nowhere.
+export function previewNamedQuery({ lang, query, params, waivers }) {
+  return request('POST', '/admin/named-queries/preview', {
+    lang, query, params: params || {}, waivers: waivers || {},
+  })
+}
+
+export function listQueryGroups() {
+  return request('GET', '/admin/query-groups')
+}
+
+export function createQueryGroup(fields) {
+  return request('POST', '/admin/query-groups', fields)
+}
+
+export function updateQueryGroup(id, fields) {
+  return request('PATCH', `/admin/query-groups/${encodeURIComponent(id)}`, fields)
+}
+
+export function deleteQueryGroup(id) {
+  return request('DELETE', `/admin/query-groups/${encodeURIComponent(id)}`)
+}
+
+// Replaces the whole membership, in the order given — the UI edits an
+// ordered list, and expressing a positional edit as a diff is where
+// ordering bugs live.
+export function setQueryGroupQueries(id, queryIds) {
+  return request('PUT', `/admin/query-groups/${encodeURIComponent(id)}/queries`,
+    { query_ids: queryIds })
+}
+
+// Anonymous: published queries in public groups. What the feed picker reads.
+export function listPublicQueryGroups() {
+  return request('GET', '/query-groups')
+}

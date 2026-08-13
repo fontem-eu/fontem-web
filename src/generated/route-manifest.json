@@ -40,7 +40,15 @@
       "requires_auth": true
     },
     {
+      "path": "/admin/feed-queries",
+      "requires_auth": true
+    },
+    {
       "path": "/admin/moderation",
+      "requires_auth": true
+    },
+    {
+      "path": "/admin/query-groups",
       "requires_auth": true
     },
     {

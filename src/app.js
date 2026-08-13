@@ -28,6 +28,8 @@ import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import ValueReviewView from './views/ValueReviewView.vue'
 import AdminView from './views/AdminView.vue'
+import FeedQueriesView from './views/FeedQueriesView.vue'
+import QueryGroupsView from './views/QueryGroupsView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
 import ContractsDQView from './views/dq/ContractsDQView.vue'
 import GleifDQView from './views/dq/GleifDQView.vue'
@@ -106,6 +108,8 @@ const ROUTES = [
   { path: '/admin/entity-resolution', component: EntityResolutionView },
   { path: '/admin/value-review', component: ValueReviewView },
   { path: '/admin/moderation', component: ModerationView },
+  { path: '/admin/feed-queries', component: FeedQueriesView },
+  { path: '/admin/query-groups', component: QueryGroupsView },
 
   // Explore — top-level hub that groups the data-quality, SPARQL,
   // and geo destinations under a single nav entry. Replaces direct
