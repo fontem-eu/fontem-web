@@ -28,6 +28,8 @@ export const NOT_NAVIGABLE = new Set([
   '/admin/entity-resolution',
   '/admin/moderation',
   '/admin/value-review',
+  '/admin/feed-queries',
+  '/admin/query-groups',
   '/admin/data-quality/:page*',
 ])
 

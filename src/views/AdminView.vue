@@ -8,6 +8,8 @@ const tools = [
   { path: '/data-quality', title: 'admin.data_quality', desc: 'admin.per_pipeline_dashboards_contracts_gleif_edgar_esef_lobbying' },
   { path: '/admin/entity-resolution', title: 'admin.entity_resolution', desc: 'admin.review_and_merge_duplicate_company_nodes' },
   { path: '/admin/moderation', title: 'admin.moderation', desc: 'admin.review_flagged_content_resolve_disputes_view_log' },
+  { path: '/admin/feed-queries', title: 'feeds.named_queries', desc: 'feeds.named_queries_intro' },
+  { path: '/admin/query-groups', title: 'feeds.query_groups', desc: 'feeds.query_groups_intro' },
   { path: 'http://docs.void42.internal/shelves/architecture', title: 'admin.architecture', desc: 'admin.system_diagrams_infrastructure_data_model_apis_etl', external: true },
   { path: 'http://docs.void42.internal/books/testing', title: 'admin.testing', desc: 'admin.e2e_coverage_matrix_and_production_smoke_test', external: true },
   { path: 'http://docs.void42.internal/books/developer-guide', title: 'admin.developer_guide', desc: 'admin.service_directory_repositories_and_quick_commands', external: true },
