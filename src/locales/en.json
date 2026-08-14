@@ -218,7 +218,9 @@
     "navigate_stay": "Stay here",
     "navigate_went": "Opened",
     "navigate_stayed": "Stayed here",
-    "tool_result_not_kept": "Result not kept — only the call and its arguments are recorded."
+    "tool_result_not_kept": "Result not kept — only the call and its arguments are recorded.",
+    "signed_out_notice": "You're not signed in, so the assistant can only answer questions about Fontem and take you to a page. Searching the data, writing and saving work need an account.",
+    "characters_used": "Characters used"
   },
   "atlas": {
     "atlas": "Atlas",

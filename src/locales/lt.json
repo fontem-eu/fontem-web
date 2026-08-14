@@ -218,7 +218,9 @@
     "navigate_stay": "Likti čia",
     "navigate_went": "Atidaryta",
     "navigate_stayed": "Liko čia",
-    "tool_result_not_kept": "Rezultatas nesaugomas — įrašomas tik iškvietimas ir jo argumentai."
+    "tool_result_not_kept": "Rezultatas nesaugomas — įrašomas tik iškvietimas ir jo argumentai.",
+    "signed_out_notice": "Nesate prisijungę, todėl asistentas gali tik atsakyti į klausimus apie „Fontem“ ir nuvesti jus į puslapį. Duomenų paieškai, rašymui ir darbo išsaugojimui reikia paskyros.",
+    "characters_used": "Panaudoti simboliai"
   },
   "atlas": {
     "atlas": "Atlas",

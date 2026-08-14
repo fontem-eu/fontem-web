@@ -218,7 +218,9 @@
     "navigate_stay": "Zostań tutaj",
     "navigate_went": "Otwarto",
     "navigate_stayed": "Pozostano tutaj",
-    "tool_result_not_kept": "Wynik nie jest przechowywany — zapisywane są tylko wywołanie i jego argumenty."
+    "tool_result_not_kept": "Wynik nie jest przechowywany — zapisywane są tylko wywołanie i jego argumenty.",
+    "signed_out_notice": "Nie jesteś zalogowany, więc asystent może tylko odpowiadać na pytania o Fontem i przenieść Cię na stronę. Wyszukiwanie w danych, pisanie i zapisywanie wymagają konta.",
+    "characters_used": "Użyte znaki"
   },
   "atlas": {
     "atlas": "Atlas",

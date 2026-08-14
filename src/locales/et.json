@@ -218,7 +218,9 @@
     "navigate_stay": "Jää siia",
     "navigate_went": "Avatud",
     "navigate_stayed": "Jäi siia",
-    "tool_result_not_kept": "Tulemust ei säilitata — salvestatakse ainult kutse ja selle argumendid."
+    "tool_result_not_kept": "Tulemust ei säilitata — salvestatakse ainult kutse ja selle argumendid.",
+    "signed_out_notice": "Te ei ole sisse loginud, seega saab assistent üksnes vastata Fontemi kohta käivatele küsimustele ja viia teid lehele. Andmete otsimine, kirjutamine ja salvestamine eeldavad kontot.",
+    "characters_used": "Kasutatud märgid"
   },
   "atlas": {
     "atlas": "Atlas",

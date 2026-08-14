@@ -218,7 +218,9 @@
     "navigate_stay": "Hier bleiben",
     "navigate_went": "Geöffnet",
     "navigate_stayed": "Hier geblieben",
-    "tool_result_not_kept": "Ergebnis nicht gespeichert – nur der Aufruf und seine Argumente werden protokolliert."
+    "tool_result_not_kept": "Ergebnis nicht gespeichert – nur der Aufruf und seine Argumente werden protokolliert.",
+    "signed_out_notice": "Sie sind nicht angemeldet, daher kann der Assistent nur Fragen zu Fontem beantworten und Sie zu einer Seite führen. Für die Suche in den Daten sowie zum Schreiben und Speichern ist ein Konto erforderlich.",
+    "characters_used": "Verwendete Zeichen"
   },
   "atlas": {
     "atlas": "Atlas",

@@ -218,7 +218,9 @@
     "navigate_stay": "Pysy tässä",
     "navigate_went": "Avattu",
     "navigate_stayed": "Pysyi tässä",
-    "tool_result_not_kept": "Tulosta ei säilytetä — vain kutsu ja sen argumentit tallennetaan."
+    "tool_result_not_kept": "Tulosta ei säilytetä — vain kutsu ja sen argumentit tallennetaan.",
+    "signed_out_notice": "Et ole kirjautunut sisään, joten avustaja voi vain vastata Fontemia koskeviin kysymyksiin ja viedä sinut sivulle. Tietojen haku, kirjoittaminen ja tallentaminen vaativat tilin.",
+    "characters_used": "Käytetyt merkit"
   },
   "atlas": {
     "atlas": "Atlas",

@@ -218,7 +218,9 @@
     "navigate_stay": "Ibqa' hawn",
     "navigate_went": "Miftuħ",
     "navigate_stayed": "Baqa' hawn",
-    "tool_result_not_kept": "Ir-riżultat ma jinżammx — jiġu rreġistrati biss is-sejħa u l-argumenti tagħha."
+    "tool_result_not_kept": "Ir-riżultat ma jinżammx — jiġu rreġistrati biss is-sejħa u l-argumenti tagħha.",
+    "signed_out_notice": "M'intix illoggjat, għalhekk l-assistent jista' biss iwieġeb mistoqsijiet dwar Fontem u jeħodok f'paġna. It-tfittxija fid-data, il-kitba u l-issejvjar jeħtieġu kont.",
+    "characters_used": "Karattri użati"
   },
   "atlas": {
     "atlas": "Atlas",

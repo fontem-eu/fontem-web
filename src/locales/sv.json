@@ -218,7 +218,9 @@
     "navigate_stay": "Stanna här",
     "navigate_went": "Öppnad",
     "navigate_stayed": "Stannade här",
-    "tool_result_not_kept": "Resultatet sparas inte — endast anropet och dess argument registreras."
+    "tool_result_not_kept": "Resultatet sparas inte — endast anropet och dess argument registreras.",
+    "signed_out_notice": "Du är inte inloggad, så assistenten kan bara svara på frågor om Fontem och ta dig till en sida. Att söka i data, skriva och spara kräver ett konto.",
+    "characters_used": "Använda tecken"
   },
   "atlas": {
     "atlas": "Atlas",

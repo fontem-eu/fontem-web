@@ -218,7 +218,9 @@
     "navigate_stay": "Resta qui",
     "navigate_went": "Aperto",
     "navigate_stayed": "Rimasto qui",
-    "tool_result_not_kept": "Risultato non conservato — vengono registrati solo la chiamata e i suoi argomenti."
+    "tool_result_not_kept": "Risultato non conservato — vengono registrati solo la chiamata e i suoi argomenti.",
+    "signed_out_notice": "Non hai effettuato l'accesso, quindi l'assistente può solo rispondere a domande su Fontem e portarti a una pagina. La ricerca nei dati, la scrittura e il salvataggio richiedono un account.",
+    "characters_used": "Caratteri utilizzati"
   },
   "atlas": {
     "atlas": "Atlas",

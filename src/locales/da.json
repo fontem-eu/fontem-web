@@ -218,7 +218,9 @@
     "navigate_stay": "Bliv her",
     "navigate_went": "Åbnet",
     "navigate_stayed": "Blev her",
-    "tool_result_not_kept": "Resultatet gemmes ikke — kun kaldet og dets argumenter registreres."
+    "tool_result_not_kept": "Resultatet gemmes ikke — kun kaldet og dets argumenter registreres.",
+    "signed_out_notice": "Du er ikke logget ind, så assistenten kan kun besvare spørgsmål om Fontem og føre dig til en side. Søgning i data, skrivning og lagring kræver en konto.",
+    "characters_used": "Anvendte tegn"
   },
   "atlas": {
     "atlas": "Atlas",

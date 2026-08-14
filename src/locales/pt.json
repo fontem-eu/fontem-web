@@ -218,7 +218,9 @@
     "navigate_stay": "Ficar aqui",
     "navigate_went": "Aberto",
     "navigate_stayed": "Ficou aqui",
-    "tool_result_not_kept": "Resultado não guardado — apenas a chamada e os seus argumentos são registados."
+    "tool_result_not_kept": "Resultado não guardado — apenas a chamada e os seus argumentos são registados.",
+    "signed_out_notice": "Não iniciou sessão, por isso o assistente só pode responder a perguntas sobre o Fontem e levá-lo a uma página. Pesquisar nos dados, escrever e guardar trabalho exigem uma conta.",
+    "characters_used": "Caracteres utilizados"
   },
   "atlas": {
     "atlas": "Atlas",

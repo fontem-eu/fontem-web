@@ -218,7 +218,9 @@
     "navigate_stay": "Zůstat zde",
     "navigate_went": "Otevřeno",
     "navigate_stayed": "Zůstalo zde",
-    "tool_result_not_kept": "Výsledek se neukládá — zaznamenává se pouze volání a jeho argumenty."
+    "tool_result_not_kept": "Výsledek se neukládá — zaznamenává se pouze volání a jeho argumenty.",
+    "signed_out_notice": "Nejste přihlášeni, takže asistent může pouze odpovídat na otázky o Fontemu a přejít s vámi na stránku. Vyhledávání v datech, psaní a ukládání vyžadují účet.",
+    "characters_used": "Použité znaky"
   },
   "atlas": {
     "atlas": "Atlas",

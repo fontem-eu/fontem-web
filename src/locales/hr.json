@@ -218,7 +218,9 @@
     "navigate_stay": "Ostani ovdje",
     "navigate_went": "Otvoreno",
     "navigate_stayed": "Ostalo ovdje",
-    "tool_result_not_kept": "Rezultat nije pohranjen — bilježe se samo poziv i njegovi argumenti."
+    "tool_result_not_kept": "Rezultat nije pohranjen — bilježe se samo poziv i njegovi argumenti.",
+    "signed_out_notice": "Niste prijavljeni pa asistent može samo odgovarati na pitanja o Fontemu i odvesti vas na stranicu. Pretraživanje podataka, pisanje i spremanje zahtijevaju račun.",
+    "characters_used": "Upotrijebljeni znakovi"
   },
   "atlas": {
     "atlas": "Atlas",
