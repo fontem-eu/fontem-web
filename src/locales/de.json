@@ -98,7 +98,13 @@
     "sign_in": "Anmelden",
     "sign_in_to_see_your_activity": "Anmelden, um Ihre Aktivität zu sehen.",
     "by_assistant": "Assistent",
-    "by_assistant_hint": "Vom Assistenten in Ihrem Namen ausgeführt"
+    "by_assistant_hint": "Vom Assistenten in Ihrem Namen ausgeführt",
+    "context_prompt": "Ihre Anfrage",
+    "context_calls": "Was der Assistent tat",
+    "context_answer": "Seine Antwort",
+    "context_loading": "Wird geladen…",
+    "context_unavailable": "Diese Konversation ist nicht mehr verfügbar.",
+    "context_no_prompt": "(Anfrage nicht aufgezeichnet)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Betriebs-Tools, Architektur-Dokumente und Plattform-Zustand",

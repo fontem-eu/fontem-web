@@ -98,7 +98,13 @@
     "sign_in": "Prijava",
     "sign_in_to_see_your_activity": "Prijavi se, da vidiš svojo aktivnost.",
     "by_assistant": "pomočnik",
-    "by_assistant_hint": "Izvedel pomočnik v vašem imenu"
+    "by_assistant_hint": "Izvedel pomočnik v vašem imenu",
+    "context_prompt": "Kaj ste zahtevali",
+    "context_calls": "Kaj je pomočnik naredil",
+    "context_answer": "Kaj je odgovoril",
+    "context_loading": "Nalaganje…",
+    "context_unavailable": "Ta pogovor ni več na voljo.",
+    "context_no_prompt": "(zahteva ni zabeležena)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operativna orodja, arhitekturni dokumenti in stanje platforme",

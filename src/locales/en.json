@@ -98,7 +98,13 @@
     "sign_in": "Sign in",
     "sign_in_to_see_your_activity": "Sign in to see your activity.",
     "by_assistant": "assistant",
-    "by_assistant_hint": "Done by the assistant on your behalf"
+    "by_assistant_hint": "Done by the assistant on your behalf",
+    "context_prompt": "What you asked",
+    "context_calls": "What the assistant did",
+    "context_answer": "What it answered",
+    "context_loading": "Loading…",
+    "context_unavailable": "That conversation is no longer available.",
+    "context_no_prompt": "(prompt not recorded)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operational tools, architecture docs, and platform health",

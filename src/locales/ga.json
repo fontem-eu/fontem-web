@@ -98,7 +98,13 @@
     "sign_in": "Sínigh isteach",
     "sign_in_to_see_your_activity": "Sínigh isteach chun do ghníomhaíocht a fheiceáil.",
     "by_assistant": "cúntóir",
-    "by_assistant_hint": "Rinne an cúntóir thar do cheann é"
+    "by_assistant_hint": "Rinne an cúntóir thar do cheann é",
+    "context_prompt": "Ar iarr tú",
+    "context_calls": "A rinne an cúntóir",
+    "context_answer": "A d'fhreagair sé",
+    "context_loading": "Á lódáil…",
+    "context_unavailable": "Níl an comhrá sin ar fáil a thuilleadh.",
+    "context_no_prompt": "(iarratas gan taifead)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Uirlisí oibríochtúla, doiciméid ailtireachta agus sláinte an ardáin",

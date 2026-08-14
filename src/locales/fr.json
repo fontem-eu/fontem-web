@@ -98,7 +98,13 @@
     "sign_in": "Se connecter",
     "sign_in_to_see_your_activity": "Connectez-vous pour voir votre activité.",
     "by_assistant": "assistant",
-    "by_assistant_hint": "Effectué par l'assistant en votre nom"
+    "by_assistant_hint": "Effectué par l'assistant en votre nom",
+    "context_prompt": "Votre demande",
+    "context_calls": "Ce que l'assistant a fait",
+    "context_answer": "Sa réponse",
+    "context_loading": "Chargement…",
+    "context_unavailable": "Cette conversation n'est plus disponible.",
+    "context_no_prompt": "(demande non enregistrée)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Outils opérationnels, documentation d'architecture et état de la plateforme",

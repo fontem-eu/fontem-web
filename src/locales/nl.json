@@ -98,7 +98,13 @@
     "sign_in": "Inloggen",
     "sign_in_to_see_your_activity": "Log in om uw activiteit te zien.",
     "by_assistant": "assistent",
-    "by_assistant_hint": "Door de assistent namens jou gedaan"
+    "by_assistant_hint": "Door de assistent namens jou gedaan",
+    "context_prompt": "Wat je vroeg",
+    "context_calls": "Wat de assistent deed",
+    "context_answer": "Wat het antwoordde",
+    "context_loading": "Laden…",
+    "context_unavailable": "Dat gesprek is niet meer beschikbaar.",
+    "context_no_prompt": "(vraag niet vastgelegd)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operationele tools, architectuurdocumentatie en platformstatus",

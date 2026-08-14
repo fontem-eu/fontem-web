@@ -98,7 +98,13 @@
     "sign_in": "Autentifică-te",
     "sign_in_to_see_your_activity": "Autentifică-te pentru a-ți vedea activitatea.",
     "by_assistant": "asistent",
-    "by_assistant_hint": "Efectuat de asistent în numele dvs."
+    "by_assistant_hint": "Efectuat de asistent în numele dvs.",
+    "context_prompt": "Ce ați cerut",
+    "context_calls": "Ce a făcut asistentul",
+    "context_answer": "Ce a răspuns",
+    "context_loading": "Se încarcă…",
+    "context_unavailable": "Acea conversație nu mai este disponibilă.",
+    "context_no_prompt": "(cerere neînregistrată)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Instrumente operaționale, documentație arhitecturală și starea platformei",

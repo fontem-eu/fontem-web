@@ -98,7 +98,13 @@
     "sign_in": "Zaloguj się",
     "sign_in_to_see_your_activity": "Zaloguj się, aby zobaczyć swoją aktywność.",
     "by_assistant": "asystent",
-    "by_assistant_hint": "Wykonane przez asystenta w Twoim imieniu"
+    "by_assistant_hint": "Wykonane przez asystenta w Twoim imieniu",
+    "context_prompt": "O co poproszono",
+    "context_calls": "Co zrobił asystent",
+    "context_answer": "Co odpowiedział",
+    "context_loading": "Ładowanie…",
+    "context_unavailable": "Ta rozmowa nie jest już dostępna.",
+    "context_no_prompt": "(prośba niezapisana)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Narzędzia operacyjne, dokumentacja architektury i stan platformy",

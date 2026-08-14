@@ -307,6 +307,18 @@ export function getAssistConversation(conversationKey) {
   return request('GET', `/assist/conversations/${encodeURIComponent(conversationKey)}`)
 }
 
+/**
+ * What led the agent to take an action: the prompt, the tool calls it made,
+ * and the answer it gave. Keyed by the tool call an activity entry names.
+ *
+ * 404 covers both "no such call" and "not yours" — the server does not
+ * distinguish them, because saying which ids exist is what an enumeration
+ * attack needs.
+ */
+export function getAgentContext(messageId) {
+  return request('GET', `/assist/provenance/${encodeURIComponent(messageId)}`)
+}
+
 export function deleteAssistConversations() {
   return request('DELETE', '/assist/conversations')
 }

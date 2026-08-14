@@ -98,7 +98,13 @@
     "sign_in": "Prihlásiť sa",
     "sign_in_to_see_your_activity": "Prihlás sa, aby si videl svoju aktivitu.",
     "by_assistant": "asistent",
-    "by_assistant_hint": "Vykonané asistentom vo vašom mene"
+    "by_assistant_hint": "Vykonané asistentom vo vašom mene",
+    "context_prompt": "Čo ste požadovali",
+    "context_calls": "Čo asistent urobil",
+    "context_answer": "Čo odpovedal",
+    "context_loading": "Načítava sa…",
+    "context_unavailable": "Táto konverzácia už nie je dostupná.",
+    "context_no_prompt": "(požiadavka nezaznamenaná)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Prevádzkové nástroje, architektonické dokumenty a stav platformy",

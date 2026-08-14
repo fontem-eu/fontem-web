@@ -98,7 +98,13 @@
     "sign_in": "Log ind",
     "sign_in_to_see_your_activity": "Log ind for at se din aktivitet.",
     "by_assistant": "assistent",
-    "by_assistant_hint": "Udført af assistenten på dine vegne"
+    "by_assistant_hint": "Udført af assistenten på dine vegne",
+    "context_prompt": "Hvad du bad om",
+    "context_calls": "Hvad assistenten gjorde",
+    "context_answer": "Hvad den svarede",
+    "context_loading": "Indlæser…",
+    "context_unavailable": "Den samtale er ikke længere tilgængelig.",
+    "context_no_prompt": "(anmodning ikke registreret)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Driftsværktøjer, arkitekturdokumenter og platformsstatus",

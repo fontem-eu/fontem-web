@@ -98,7 +98,13 @@
     "sign_in": "Accedi",
     "sign_in_to_see_your_activity": "Accedi per vedere la tua attività.",
     "by_assistant": "assistente",
-    "by_assistant_hint": "Eseguito dall'assistente per tuo conto"
+    "by_assistant_hint": "Eseguito dall'assistente per tuo conto",
+    "context_prompt": "Cosa hai chiesto",
+    "context_calls": "Cosa ha fatto l'assistente",
+    "context_answer": "Cosa ha risposto",
+    "context_loading": "Caricamento…",
+    "context_unavailable": "Quella conversazione non è più disponibile.",
+    "context_no_prompt": "(richiesta non registrata)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Strumenti operativi, documentazione dell'architettura e stato della piattaforma",
