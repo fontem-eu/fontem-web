@@ -1,5 +1,7 @@
 <script setup>
 import { computed } from 'vue'
+import { currentUser } from '../api/session.js'
+import { isPrivileged as privilegedUser } from '../utils/privilege.js'
 
 /**
  * Global footer, rendered on every non-login page.
@@ -9,19 +11,18 @@ import { computed } from 'vue'
  *   - Privacy policy           (always)
  *   - Data quality             (always — public surface)
  *   - Support                  (always — links to /donate)
- *   - Admin                    (trust_level in {moderator, admin})
+ *   - Admin                    (moderators and admins)
  *
- * The trust_level check is a UX hint only; the backend still enforces
+ * The privilege check is a UX hint only; the backend still enforces
  * authorization on every admin endpoint.
+ *
+ * This used to parse `gmr-user` out of localStorage. The session has written
+ * `fontem-user` since the rename and only ever *clears* the old key, so the
+ * admin link had quietly shown to nobody. Read the session store instead —
+ * it is reactive, so the link now appears on sign-in rather than on reload.
  */
-const PRIVILEGED = new Set(['moderator', 'admin'])
-
-const user = computed(() => {
-  if (typeof localStorage === 'undefined') return null
-  try { return JSON.parse(localStorage.getItem('gmr-user') || 'null') }
-  catch { return null }
-})
-const isPrivileged = computed(() => PRIVILEGED.has(user.value?.trust_level))
+const user = computed(() => currentUser.value)
+const isPrivileged = computed(() => privilegedUser(user.value))
 </script>
 
 <template>

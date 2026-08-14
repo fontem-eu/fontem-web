@@ -8,7 +8,7 @@ import * as community from '../../src/api/community.js'
 import ProfileMenu from '../../src/components/ProfileMenu.vue'
 
 function makeRouter() {
-  return createRouter({ history: createMemoryHistory(), routes: ['/', '/login', '/account', '/ai-usage', '/activity'].map((p) => ({ path: p, component: { template: '<div/>' } })) })
+  return createRouter({ history: createMemoryHistory(), routes: ['/', '/login', '/account', '/ai-usage', '/activity', '/admin'].map((p) => ({ path: p, component: { template: '<div/>' } })) })
 }
 async function mountMenu() {
   const router = makeRouter(); await router.push('/'); await router.isReady()
@@ -121,4 +121,49 @@ describe('ProfileMenu', () => {
     expect(router.currentRoute.value.fullPath).toBe('/users/u-9')
   })
 
+})
+
+describe('ProfileMenu — admin area', () => {
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear(); vi.restoreAllMocks() })
+
+  async function openFor(user) {
+    _internal.setAccessToken('t')
+    _internal.setUserForTests(user)
+    const { w, router } = await mountMenu()
+    await w.find('[data-testid="profile-trigger"]').trigger('click')
+    await flushPromises()
+    return { w, router }
+  }
+
+  it('offers the admin area to an admin', async () => {
+    const { w } = await openFor({ name: 'A', email: 'a@x.com', trust_level: 'admin' })
+    expect(w.find('[data-testid="profile-admin"]').exists()).toBe(true)
+  })
+
+  it('offers it to a moderator too — the admin hub is where moderation lives', async () => {
+    const { w } = await openFor({ name: 'M', email: 'm@x.com', trust_level: 'moderator' })
+    expect(w.find('[data-testid="profile-admin"]').exists()).toBe(true)
+  })
+
+  it('hides it from everyone else', async () => {
+    for (const trust_level of ['new_user', 'commenter', 'contributor', undefined]) {
+      const { w } = await openFor({ name: 'U', email: 'u@x.com', trust_level })
+      expect(w.find('[data-testid="profile-admin"]').exists()).toBe(false)
+    }
+  })
+
+  it('navigates to /admin', async () => {
+    const { w, router } = await openFor({ name: 'A', email: 'a@x.com', trust_level: 'admin' })
+    await w.find('[data-testid="profile-admin"]').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/admin')
+  })
+
+  it('honours an explicit role even when trust_level has not caught up', async () => {
+    // Mirrors the backend, which allows either. /users/me does not send roles
+    // yet; when it does, this needs no further change.
+    const { w } = await openFor({ name: 'R', email: 'r@x.com', trust_level: 'contributor', roles: ['admin'] })
+    expect(w.find('[data-testid="profile-admin"]').exists()).toBe(true)
+  })
 })
