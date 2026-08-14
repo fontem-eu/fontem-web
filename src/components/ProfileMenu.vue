@@ -4,10 +4,18 @@
  * link. Signed-in: an avatar button opening a lean menu — account settings,
  * AI usage, activity, sign out, and the GDPR actions. Display preferences
  * (theme/lang/palette) live on the /account screen, not here.
+ *
+ * Moderators and admins also get a row into the admin area. The footer has
+ * carried that link for a while, but nobody looks in the footer for a tool
+ * they use daily — and it was reading a localStorage key the session stopped
+ * writing at the rename, so in practice it showed to nobody. Both surfaces
+ * now share one predicate (utils/privilege.js) and one source of truth (the
+ * session store), so they cannot disagree again.
  */
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { isAuthed, currentUser, logout, signOutEverywhere } from '../api/session.js'
+import { isPrivileged } from '../utils/privilege.js'
 import { deleteAssistConversations, deleteCurrentUser } from '../api/community.js'
 import UserAvatar from './UserAvatar.vue'
 import { useI18n } from 'vue-i18n'
@@ -20,6 +28,7 @@ const busy = ref('')
 
 const authed = computed(() => typeof localStorage !== 'undefined' && isAuthed.value)
 const user = computed(() => currentUser.value)
+const privileged = computed(() => isPrivileged(user.value))
 
 function toggle() { open.value = !open.value }
 function close() { open.value = false }
@@ -77,6 +86,13 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDocClick); docum
         <button class="pm-row" role="menuitem" data-testid="profile-account" @click="go('/account')">{{ $t('profile.account_settings') }}</button>
         <button class="pm-row" role="menuitem" data-testid="profile-ai-usage" @click="go('/ai-usage')">{{ $t('profile.ai_usage') }}</button>
         <button class="pm-row" role="menuitem" @click="go('/activity')">{{ $t('profile.activity') }}</button>
+        <template v-if="privileged">
+          <div class="pm-sep" />
+          <button
+            class="pm-row" role="menuitem" data-testid="profile-admin"
+            @click="go('/admin')"
+          >{{ $t('app.admin') }}</button>
+        </template>
         <div class="pm-sep" />
         <button class="pm-row" role="menuitem" data-testid="profile-logout" @click="onSignOut">{{ $t('profile.sign_out') }}</button>
         <button class="pm-row" role="menuitem" :disabled="busy==='all'" @click="onSignOutAll">{{ $t('profile.sign_out_all') }}</button>
