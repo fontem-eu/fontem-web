@@ -1,4 +1,8 @@
 version: "vbf141f7"
+# Immutable digest pin (sha256:...). When set (CI writes it on deploy) the
+# Deployment references the image by digest and `version` is used only for
+# display/labels; empty falls back to the `version` tag.
+digest: ""
 domain: localhost
 serviceType: ClusterIP
 replicas: 1

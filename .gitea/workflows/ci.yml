@@ -219,9 +219,10 @@ jobs:
       # (environments/<env>/image-tag.yaml) that doesn't match
       # fontem/gitops's testing/<svc>.yaml layout. Same shape as
       # the consolidator + sinks workflows.
-      - name: Bump image tag in gitops/testing
+      - name: Bump image digest in gitops/testing
         env:
           TAG: ${{ steps.image.outputs.tag }}
+          DIGEST: ${{ steps.image.outputs.digest }}
         run: |
           set -euo pipefail
           rm -rf /tmp/gitops
@@ -229,13 +230,25 @@ jobs:
             "https://${{ secrets.REGISTRY_USER }}:${{ secrets.REGISTRY_PASSWORD }}@contribute.void42.internal/fontem/gitops.git" \
             /tmp/gitops
           cd /tmp/gitops
+          # Always refresh version (display/labels + fallback if digest is
+          # ever empty). Then pin the digest so the deploy references exactly
+          # the image cosign signed — promotion carries this digest forward.
           sed -i 's/version: ".*"/version: "'"$TAG"'"/' testing/fontem-web.yaml
+          if [ -n "${DIGEST:-}" ]; then
+            if grep -q '^digest:' testing/fontem-web.yaml; then
+              sed -i 's|^digest: .*|digest: "'"$DIGEST"'"|' testing/fontem-web.yaml
+            else
+              sed -i '/^version: /a digest: "'"$DIGEST"'"' testing/fontem-web.yaml
+            fi
+          else
+            echo "::warning::docker-build-sign returned no digest; deployed by tag $TAG only"
+          fi
           git config user.name "GMR CI"
           git config user.email "ci@void42.internal"
           git add testing/fontem-web.yaml
           if git diff --cached --quiet; then
-            echo "No version change; skipping commit"
+            echo "No image change; skipping commit"
             exit 0
           fi
-          git commit -m "ci: deploy fontem-web $TAG to testing"
+          git commit -m "ci: deploy fontem-web $TAG${DIGEST:+ ($DIGEST)} to testing"
           git push origin main
