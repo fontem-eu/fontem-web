@@ -218,7 +218,9 @@
     "navigate_stay": "Ostani tukaj",
     "navigate_went": "Odprto",
     "navigate_stayed": "Ostalo tukaj",
-    "tool_result_not_kept": "Rezultat ni shranjen — zabeležen je samo klic in njegovi argumenti."
+    "tool_result_not_kept": "Rezultat ni shranjen — zabeležen je samo klic in njegovi argumenti.",
+    "signed_out_notice": "Niste prijavljeni, zato lahko pomočnik samo odgovarja na vprašanja o Fontemu in vas popelje na stran. Iskanje po podatkih, pisanje in shranjevanje zahtevajo račun.",
+    "characters_used": "Uporabljeni znaki"
   },
   "atlas": {
     "atlas": "Atlas",

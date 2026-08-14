@@ -218,7 +218,9 @@
     "navigate_stay": "Maradok itt",
     "navigate_went": "Megnyitva",
     "navigate_stayed": "Itt maradt",
-    "tool_result_not_kept": "Az eredmény nincs eltárolva – csak a hívás és annak argumentumai kerülnek naplózásra."
+    "tool_result_not_kept": "Az eredmény nincs eltárolva – csak a hívás és annak argumentumai kerülnek naplózásra.",
+    "signed_out_notice": "Nincs bejelentkezve, ezért az asszisztens csak a Fontemmel kapcsolatos kérdésekre tud válaszolni, és egy oldalra tudja vinni. Az adatokban való kereséshez, az íráshoz és a mentéshez fiók szükséges.",
+    "characters_used": "Felhasznált karakterek"
   },
   "atlas": {
     "atlas": "Atlas",

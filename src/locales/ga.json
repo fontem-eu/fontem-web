@@ -218,7 +218,9 @@
     "navigate_stay": "Fan anseo",
     "navigate_went": "Oscailte",
     "navigate_stayed": "D'fhan anseo",
-    "tool_result_not_kept": "Ní choinnítear an toradh — ní thaifeadtar ach an glao agus a argóintí."
+    "tool_result_not_kept": "Ní choinnítear an toradh — ní thaifeadtar ach an glao agus a argóintí.",
+    "signed_out_notice": "Níl tú sínithe isteach, mar sin ní féidir leis an gcúntóir ach ceisteanna faoi Fontem a fhreagairt agus tú a thabhairt chuig leathanach. Teastaíonn cuntas chun na sonraí a chuardach, chun scríobh agus chun obair a shábháil.",
+    "characters_used": "Carachtair a úsáideadh"
   },
   "atlas": {
     "atlas": "Atlas",

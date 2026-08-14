@@ -218,7 +218,9 @@
     "navigate_stay": "Hier blijven",
     "navigate_went": "Geopend",
     "navigate_stayed": "Hier gebleven",
-    "tool_result_not_kept": "Resultaat niet bewaard — alleen de aanroep en de argumenten worden vastgelegd."
+    "tool_result_not_kept": "Resultaat niet bewaard — alleen de aanroep en de argumenten worden vastgelegd.",
+    "signed_out_notice": "Je bent niet ingelogd, dus de assistent kan alleen vragen over Fontem beantwoorden en je naar een pagina brengen. Zoeken in de data, schrijven en opslaan vereisen een account.",
+    "characters_used": "Gebruikte tekens"
   },
   "atlas": {
     "atlas": "Atlas",

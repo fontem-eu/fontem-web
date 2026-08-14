@@ -103,6 +103,32 @@ const mounted = ref(false)
 const input = ref('')
 const inputEl = ref(null)
 
+// How long a signed-out visitor's message may be. Mirrors
+// ANONYMOUS_MAX_PROMPT_CHARS in fontem-community-api
+// (src/assistant/service.py); the server refuses anything longer with a 422
+// naming the number, so the worst a drift can do is show the user that
+// message instead of stopping them at the input.
+const ANONYMOUS_MAX_PROMPT_CHARS = 1000
+
+// Whether there is a session at all. Read on demand rather than held: the
+// token can be cleared by a 401 anywhere in the app, and a stale `true`
+// here would offer the full-size input to someone the server will refuse.
+const signedIn = computed(() => {
+  // `mounted` is in the dependency list on purpose — getAccessToken() reads
+  // storage, which does not exist during SSR, and the panel renders closed
+  // there. Touching it makes this recompute once the client takes over.
+  void mounted.value
+  return Boolean(getAccessToken())
+})
+
+const promptLimit = computed(() =>
+  signedIn.value ? null : ANONYMOUS_MAX_PROMPT_CHARS)
+
+// Only worth showing as the user approaches it; a counter sitting at
+// 3/1000 is noise on every keystroke.
+const showCounter = computed(() =>
+  promptLimit.value !== null && input.value.length > promptLimit.value * 0.8)
+
 // Auto-grow the textarea up to ``--assist-input-max-h`` (8 lines /
 // ~12rem). Past that the box stops growing and scrolls vertically.
 // We measure scrollHeight on every input event after collapsing
@@ -877,6 +903,15 @@ defineExpose({ applyProposal, messages })
         </div>
       </div>
 
+      <!-- What a signed-out visitor is actually getting. Without this the
+           panel looks identical either way, and the assistant appears to
+           have simply declined to search rather than to have been asked
+           for directions only. -->
+      <p v-if="!signedIn" class="assist-signed-out" data-testid="assist-signed-out-notice">
+        {{ $t('assist.signed_out_notice') }}
+        <router-link to="/login">{{ $t('login.sign_in') }}</router-link>
+      </p>
+
       <p class="assist-disclosure">{{ $t('assist.conversations_are_processed_by_an_eu_bas') }}<router-link to="/privacy">{{ $t('assist.see_our_privacy_policy') }}</router-link>
       </p>
 
@@ -887,11 +922,18 @@ defineExpose({ applyProposal, messages })
           v-model="input"
           :placeholder="$t('assist.ask_about_the_data')"
           :disabled="loading"
+          :maxlength="promptLimit"
           data-testid="assist-input"
           rows="1"
           @input="autoGrow"
           @keydown.enter.exact.prevent="send"
         />
+        <span
+          v-if="showCounter"
+          class="assist-charcount"
+          data-testid="assist-charcount"
+          :aria-label="$t('assist.characters_used')"
+        >{{ input.length }}/{{ promptLimit }}</span>
         <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
       </form>
     </div>
@@ -1490,6 +1532,34 @@ defineExpose({ applyProposal, messages })
   font-size: 0.65rem;
   color: var(--muted);
   line-height: 1.4;
+  flex-shrink: 0;
+}
+/* A statement of what this assistant can do, not a warning — it sits a
+   step above the privacy line in weight and stops short of an alert
+   colour. Nothing has gone wrong; the visitor is simply not signed in. */
+.assist-signed-out {
+  padding: 0.4rem 0.75rem;
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--text-secondary, var(--muted));
+  border-top: 1px solid var(--border);
+  background: var(--surface-2, transparent);
+  flex-shrink: 0;
+}
+.assist-signed-out a {
+  color: inherit;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+/* Only rendered near the cap, so it can afford to be quiet: the maxlength
+   already stops the typing, and this says why the keys stopped working. */
+.assist-charcount {
+  align-self: center;
+  padding: 0 0.35rem;
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
   flex-shrink: 0;
 }
 .assist-disclosure a {

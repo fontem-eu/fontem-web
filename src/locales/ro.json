@@ -218,7 +218,9 @@
     "navigate_stay": "Rămâi aici",
     "navigate_went": "Deschis",
     "navigate_stayed": "A rămas aici",
-    "tool_result_not_kept": "Rezultatul nu este păstrat — se înregistrează doar apelul și argumentele sale."
+    "tool_result_not_kept": "Rezultatul nu este păstrat — se înregistrează doar apelul și argumentele sale.",
+    "signed_out_notice": "Nu v-ați autentificat, așa că asistentul poate doar să răspundă la întrebări despre Fontem și să vă ducă la o pagină. Căutarea în date, scrierea și salvarea necesită un cont.",
+    "characters_used": "Caractere utilizate"
   },
   "atlas": {
     "atlas": "Atlas",

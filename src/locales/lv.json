@@ -218,7 +218,9 @@
     "navigate_stay": "Palikt šeit",
     "navigate_went": "Atvērts",
     "navigate_stayed": "Palika šeit",
-    "tool_result_not_kept": "Rezultāts netiek saglabāts — tiek reģistrēts tikai izsaukums un tā argumenti."
+    "tool_result_not_kept": "Rezultāts netiek saglabāts — tiek reģistrēts tikai izsaukums un tā argumenti.",
+    "signed_out_notice": "Jūs neesat pieteicies, tāpēc asistents var tikai atbildēt uz jautājumiem par Fontem un aizvest jūs uz lapu. Datu meklēšanai, rakstīšanai un saglabāšanai ir nepieciešams konts.",
+    "characters_used": "Izmantotās rakstzīmes"
   },
   "atlas": {
     "atlas": "Atlas",
