@@ -98,7 +98,13 @@
     "sign_in": "Logi sisse",
     "sign_in_to_see_your_activity": "Logi sisse, et näha oma tegevust.",
     "by_assistant": "assistent",
-    "by_assistant_hint": "Tehtud assistendi poolt teie nimel"
+    "by_assistant_hint": "Tehtud assistendi poolt teie nimel",
+    "context_prompt": "Mida küsisite",
+    "context_calls": "Mida assistent tegi",
+    "context_answer": "Mida ta vastas",
+    "context_loading": "Laadimine…",
+    "context_unavailable": "See vestlus pole enam saadaval.",
+    "context_no_prompt": "(päringut ei salvestatud)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Töövahendid, arhitektuuridokumendid ja platvormi tervis",

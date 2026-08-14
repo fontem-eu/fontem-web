@@ -98,7 +98,13 @@
     "sign_in": "Prijavi se",
     "sign_in_to_see_your_activity": "Prijavi se da bi vidio/vidjela svoju aktivnost.",
     "by_assistant": "asistent",
-    "by_assistant_hint": "Izvršio asistent u vaše ime"
+    "by_assistant_hint": "Izvršio asistent u vaše ime",
+    "context_prompt": "Što ste zatražili",
+    "context_calls": "Što je asistent učinio",
+    "context_answer": "Što je odgovorio",
+    "context_loading": "Učitavanje…",
+    "context_unavailable": "Taj razgovor više nije dostupan.",
+    "context_no_prompt": "(zahtjev nije zabilježen)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operativni alati, arhitekturalni dokumenti i stanje platforme",

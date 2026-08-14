@@ -98,7 +98,13 @@
     "sign_in": "Iniciar sessão",
     "sign_in_to_see_your_activity": "Inicie sessão para ver a sua atividade.",
     "by_assistant": "assistente",
-    "by_assistant_hint": "Feito pelo assistente em seu nome"
+    "by_assistant_hint": "Feito pelo assistente em seu nome",
+    "context_prompt": "O que pediu",
+    "context_calls": "O que o assistente fez",
+    "context_answer": "O que respondeu",
+    "context_loading": "A carregar…",
+    "context_unavailable": "Essa conversa já não está disponível.",
+    "context_no_prompt": "(pedido não registado)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Ferramentas operacionais, documentação de arquitetura e estado da plataforma",

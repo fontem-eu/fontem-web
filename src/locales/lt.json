@@ -98,7 +98,13 @@
     "sign_in": "Prisijungti",
     "sign_in_to_see_your_activity": "Prisijunk, kad matytum savo veiklą.",
     "by_assistant": "asistentas",
-    "by_assistant_hint": "Atliko asistentas jūsų vardu"
+    "by_assistant_hint": "Atliko asistentas jūsų vardu",
+    "context_prompt": "Ko paprašėte",
+    "context_calls": "Ką asistentas padarė",
+    "context_answer": "Ką jis atsakė",
+    "context_loading": "Įkeliama…",
+    "context_unavailable": "Tas pokalbis nebepasiekiamas.",
+    "context_no_prompt": "(užklausa neįrašyta)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Eksploatavimo įrankiai, architektūros dokumentai ir platformos būsena",

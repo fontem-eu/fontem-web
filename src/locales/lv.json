@@ -98,7 +98,13 @@
     "sign_in": "Ielogoties",
     "sign_in_to_see_your_activity": "Ielogojies, lai redzētu savu aktivitāti.",
     "by_assistant": "asistents",
-    "by_assistant_hint": "Veicis asistents jūsu vārdā"
+    "by_assistant_hint": "Veicis asistents jūsu vārdā",
+    "context_prompt": "Ko lūdzāt",
+    "context_calls": "Ko asistents izdarīja",
+    "context_answer": "Ko tas atbildēja",
+    "context_loading": "Ielādē…",
+    "context_unavailable": "Šī saruna vairs nav pieejama.",
+    "context_no_prompt": "(pieprasījums nav reģistrēts)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Darbības rīki, arhitektūras dokumenti un platformas stāvoklis",

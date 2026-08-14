@@ -98,7 +98,13 @@
     "sign_in": "Přihlásit se",
     "sign_in_to_see_your_activity": "Přihlaste se, abyste viděli svou aktivitu.",
     "by_assistant": "asistent",
-    "by_assistant_hint": "Provedeno asistentem vaším jménem"
+    "by_assistant_hint": "Provedeno asistentem vaším jménem",
+    "context_prompt": "Co jste požadovali",
+    "context_calls": "Co asistent udělal",
+    "context_answer": "Co odpověděl",
+    "context_loading": "Načítání…",
+    "context_unavailable": "Tato konverzace už není dostupná.",
+    "context_no_prompt": "(požadavek nezaznamenán)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Provozní nástroje, dokumentace architektury a stav platformy",

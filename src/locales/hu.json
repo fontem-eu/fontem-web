@@ -98,7 +98,13 @@
     "sign_in": "Bejelentkezés",
     "sign_in_to_see_your_activity": "Jelentkezz be, hogy lásd a tevékenységed.",
     "by_assistant": "asszisztens",
-    "by_assistant_hint": "Az asszisztens végezte az Ön nevében"
+    "by_assistant_hint": "Az asszisztens végezte az Ön nevében",
+    "context_prompt": "Amit kért",
+    "context_calls": "Amit az asszisztens tett",
+    "context_answer": "Amit válaszolt",
+    "context_loading": "Betöltés…",
+    "context_unavailable": "Ez a beszélgetés már nem érhető el.",
+    "context_no_prompt": "(a kérés nincs rögzítve)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Üzemeltetési eszközök, architektúra-dokumentumok és a platform állapota",

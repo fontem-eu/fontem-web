@@ -98,7 +98,13 @@
     "sign_in": "Σύνδεση",
     "sign_in_to_see_your_activity": "Συνδεθείτε για να δείτε τη δραστηριότητά σας.",
     "by_assistant": "βοηθός",
-    "by_assistant_hint": "Έγινε από τον βοηθό εκ μέρους σας"
+    "by_assistant_hint": "Έγινε από τον βοηθό εκ μέρους σας",
+    "context_prompt": "Τι ζητήσατε",
+    "context_calls": "Τι έκανε ο βοηθός",
+    "context_answer": "Τι απάντησε",
+    "context_loading": "Φόρτωση…",
+    "context_unavailable": "Αυτή η συνομιλία δεν είναι πλέον διαθέσιμη.",
+    "context_no_prompt": "(το αίτημα δεν καταγράφηκε)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Λειτουργικά εργαλεία, τεκμηρίωση αρχιτεκτονικής και κατάσταση πλατφόρμας",

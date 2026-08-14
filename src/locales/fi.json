@@ -98,7 +98,13 @@
     "sign_in": "Kirjaudu sisään",
     "sign_in_to_see_your_activity": "Kirjaudu sisään nähdäksesi toimintasi.",
     "by_assistant": "avustaja",
-    "by_assistant_hint": "Avustajan tekemä puolestasi"
+    "by_assistant_hint": "Avustajan tekemä puolestasi",
+    "context_prompt": "Mitä pyysit",
+    "context_calls": "Mitä avustaja teki",
+    "context_answer": "Mitä se vastasi",
+    "context_loading": "Ladataan…",
+    "context_unavailable": "Kyseinen keskustelu ei ole enää saatavilla.",
+    "context_no_prompt": "(pyyntöä ei tallennettu)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Operatiiviset työkalut, arkkitehtuuridokumentit ja alustan tilakatsaus",

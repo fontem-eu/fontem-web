@@ -98,7 +98,13 @@
     "sign_in": "Вход",
     "sign_in_to_see_your_activity": "Влезте, за да видите вашата активност.",
     "by_assistant": "асистент",
-    "by_assistant_hint": "Извършено от асистента от ваше име"
+    "by_assistant_hint": "Извършено от асистента от ваше име",
+    "context_prompt": "Какво поискахте",
+    "context_calls": "Какво направи асистентът",
+    "context_answer": "Какво отговори",
+    "context_loading": "Зареждане…",
+    "context_unavailable": "Този разговор вече не е достъпен.",
+    "context_no_prompt": "(заявката не е записана)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Оперативни инструменти, документация на архитектурата и състояние на платформата",

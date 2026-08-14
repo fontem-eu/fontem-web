@@ -98,7 +98,13 @@
     "sign_in": "Idħol",
     "sign_in_to_see_your_activity": "Idħol biex tara l-attività tiegħek.",
     "by_assistant": "assistent",
-    "by_assistant_hint": "Sar mill-assistent f'ismek"
+    "by_assistant_hint": "Sar mill-assistent f'ismek",
+    "context_prompt": "Dak li tlabt",
+    "context_calls": "Dak li għamel l-assistent",
+    "context_answer": "Dak li wieġeb",
+    "context_loading": "Qed jitgħabba…",
+    "context_unavailable": "Dik il-konversazzjoni m'għadhiex disponibbli.",
+    "context_no_prompt": "(talba mhux irreġistrata)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Għodod operazzjonali, dokumenti tal-arkitettura u s-saħħa tal-pjattaforma",

@@ -98,7 +98,13 @@
     "sign_in": "Logga in",
     "sign_in_to_see_your_activity": "Logga in för att se din aktivitet.",
     "by_assistant": "assistent",
-    "by_assistant_hint": "Utfört av assistenten å dina vägnar"
+    "by_assistant_hint": "Utfört av assistenten å dina vägnar",
+    "context_prompt": "Vad du bad om",
+    "context_calls": "Vad assistenten gjorde",
+    "context_answer": "Vad den svarade",
+    "context_loading": "Läser in…",
+    "context_unavailable": "Den konversationen är inte längre tillgänglig.",
+    "context_no_prompt": "(begäran inte registrerad)"
   },
   "admin": {
     "operational_tools_architecture_docs_and_": "Driftverktyg, arkitekturdokument och plattformens hälsa",
