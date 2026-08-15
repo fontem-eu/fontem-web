@@ -13,7 +13,6 @@
 
 import { withLang } from './_lang.js'
 import { getAccessToken, refresh, whenSessionReady } from './session.js'
-import { RETRYABLE, MAX_ATTEMPTS, backoffMs, retryAfterMs } from './retry.js'
 
 
 function authHeaders() {
@@ -58,26 +57,15 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
     throw new Error('Session expired')
   }
 
-  // Retry the statuses that mean "not now" rather than "no".
+  // Retry on transient server errors (GET only).
   //
-  // 429 was missing here, which is backwards: a 500 may be permanent, a
-  // rate limit almost never is, and the server usually says when to come
-  // back. One unretried 429 is what left TRANS-01 showing an English title
-  // under a Portuguese picker — see src/api/retry.js.
-  //
-  // GET only. A retried POST can create a second story, and no rate limit
-  // is worth that.
-  if (RETRYABLE.has(res.status) && method === 'GET' && retries < MAX_ATTEMPTS - 1) {
-    const wait = retryAfterMs(res.headers?.get?.('retry-after')) ?? backoffMs(retries)
-    if (typeof console !== 'undefined') {
-      // Deliberately visible. Every one of these failures was invisible
-      // until someone read a test log: a silent retry that then fails is
-      // indistinguishable from a request nobody made.
-      console.warn(
-        `[api] ${method} ${path} -> ${res.status}; retrying in ${wait}ms `
-        + `(attempt ${retries + 2}/${MAX_ATTEMPTS})`)
-    }
-    await new Promise((r) => setTimeout(r, wait))
+  // Deliberately NOT extended to 429 or gateway timeouts. A retry turns a
+  // server error into a slow success and takes the evidence with it: the
+  // three flaky e2e failures this was briefly used to paper over were all
+  // worth diagnosing, and one of them (a 60s SPARQL scan ending in 504)
+  // got materially worse when retried.
+  if (res.status >= 500 && method === 'GET' && retries < 2) {
+    await new Promise((r) => setTimeout(r, 1000 * (retries + 1)))
     return request(method, path, body, { retries: retries + 1, refreshed })
   }
 
