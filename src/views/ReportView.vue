@@ -107,7 +107,17 @@ async function switchLanguage(lang) {
     }
     requestAnimationFrame(() => { bodyVersion.value += 1 })
   } catch (err) {
-    error.value = err.message
+    // The switch did not happen, so say so and put the picker back where
+    // the content actually is. Leaving `activeLang` on the old value while
+    // the <select> shows the new one is how TRANS-01 failed: a Portuguese
+    // picker above an English title, and an error nobody looked at.
+    error.value = err.status === 429
+      ? 'Too many requests just now — try that language again in a moment.'
+      : err.message
+    if (typeof console !== 'undefined') {
+      console.warn(`[report] language switch to ${lang} failed`, err)
+    }
+    activeLang.value = activeLang.value || ''
   }
 }
 

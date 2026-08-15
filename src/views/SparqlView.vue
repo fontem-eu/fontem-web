@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
+import { withRetry } from '../api/retry.js'
 
 onMounted(() => { document.title = 'SPARQL — Fontem' })
 
@@ -59,6 +60,8 @@ const results = ref(null)   // { head: { vars }, results: { bindings } }
 const error = ref(null)
 const elapsedMs = ref(null)
 
+const retryNotice = ref('')
+
 async function runQuery() {
   if (running.value) return
   running.value = true
@@ -66,11 +69,24 @@ async function runQuery() {
   results.value = null
   const startedAt = performance.now()
   try {
-    const res = await fetch('/api/sparql', {
+    // Retried on the "not now" statuses. This is a read-only proxy — it
+    // refuses write keywords outright — so running the query twice costs a
+    // query and changes nothing. One unretried 429 is what failed
+    // SPARQL-EDITOR in the promote gate, reported to the user as a
+    // permanent "HTTP 429".
+    const res = await withRetry(() => fetch('/api/sparql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query.value }),
+    }), {
+      onRetry: ({ status, attempt, wait }) => {
+        retryNotice.value = `Busy (HTTP ${status}) — retrying in ${Math.round(wait / 100) / 10}s…`
+        if (typeof console !== 'undefined') {
+          console.warn(`[sparql] ${status}; retry ${attempt} in ${wait}ms`)
+        }
+      },
     })
+    retryNotice.value = ''
     const body = await res.json().catch(() => null)
     if (!res.ok) {
       // FastAPI shape: `{ detail: "..." }` for HTTPException; fall

@@ -13,6 +13,8 @@
 
 import { withLang } from './_lang.js'
 import { getAccessToken, refresh, whenSessionReady } from './session.js'
+import { RETRYABLE, MAX_ATTEMPTS, backoffMs, retryAfterMs } from './retry.js'
+
 
 function authHeaders() {
   const token = getAccessToken()
@@ -56,15 +58,39 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
     throw new Error('Session expired')
   }
 
-  // Retry on transient server errors (GET only)
-  if (res.status >= 500 && method === 'GET' && retries < 2) {
-    await new Promise((r) => setTimeout(r, 1000 * (retries + 1)))
+  // Retry the statuses that mean "not now" rather than "no".
+  //
+  // 429 was missing here, which is backwards: a 500 may be permanent, a
+  // rate limit almost never is, and the server usually says when to come
+  // back. One unretried 429 is what left TRANS-01 showing an English title
+  // under a Portuguese picker — see src/api/retry.js.
+  //
+  // GET only. A retried POST can create a second story, and no rate limit
+  // is worth that.
+  if (RETRYABLE.has(res.status) && method === 'GET' && retries < MAX_ATTEMPTS - 1) {
+    const wait = retryAfterMs(res.headers?.get?.('retry-after')) ?? backoffMs(retries)
+    if (typeof console !== 'undefined') {
+      // Deliberately visible. Every one of these failures was invisible
+      // until someone read a test log: a silent retry that then fails is
+      // indistinguishable from a request nobody made.
+      console.warn(
+        `[api] ${method} ${path} -> ${res.status}; retrying in ${wait}ms `
+        + `(attempt ${retries + 2}/${MAX_ATTEMPTS})`)
+    }
+    await new Promise((r) => setTimeout(r, wait))
     return request(method, path, body, { retries: retries + 1, refreshed })
   }
 
   if (!res.ok) {
     const text = await res.text().catch(() => '')
-    throw new Error(`HTTP ${res.status}: ${text}`)
+    const err = new Error(`HTTP ${res.status}: ${text}`)
+    // The status, reachable without parsing the message. Callers that want
+    // to say "we were rate limited" rather than "something went wrong"
+    // could not tell before.
+    err.status = res.status
+    err.method = method
+    err.path = path
+    throw err
   }
   if (res.status === 204) return null
   return res.json()
