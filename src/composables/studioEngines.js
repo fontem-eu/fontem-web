@@ -4,8 +4,6 @@
  * (Cypher -> Neo4j, SQL -> stats/Eurostat, SPARQL -> Virtuoso). Returns a tidy
  * { columns, rows } table (SPARQL bindings are normalized to the same shape).
  */
-
-import { withRetry } from '../api/retry.js'
 export const ENGINES = [
   {
     key: 'cypher', label: 'Cypher', store: 'Neo4j graph', path: '/api/query/cypher',
@@ -51,27 +49,13 @@ export const ENGINES = [
 
 export function engine(lang) { return ENGINES.find((e) => e.key === lang) || ENGINES[0] }
 
-/**
- * Run one source query. Returns { columns, rows }. Throws on error.
- *
- * Retried on the "not now" statuses. A POST, but a read-only one — these
- * proxies refuse write keywords outright — so running it twice costs a
- * query and changes nothing. SPARQL-EDITOR failed the gate on a single 429
- * that the editor turned into a permanent "Query failed: HTTP 429".
- */
+/** Run one source query. Returns { columns, rows }. Throws on error. */
 export async function runSource(lang, query) {
   const eng = engine(lang)
-  const res = await withRetry(() => fetch(eng.path, {
+  const res = await fetch(eng.path, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query }),
-  }), {
-    onRetry: ({ status, attempt, wait }) => {
-      if (typeof console !== 'undefined') {
-        console.warn(`[studio] ${lang} query -> ${status}; retrying in `
-          + `${wait}ms (attempt ${attempt + 1})`)
-      }
-    },
   })
   const body = await res.json().catch(() => ({}))
   if (!res.ok) {

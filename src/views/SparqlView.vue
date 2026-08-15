@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
-import { withRetry } from '../api/retry.js'
 
 onMounted(() => { document.title = 'SPARQL — Fontem' })
 
@@ -9,18 +8,7 @@ onMounted(() => { document.title = 'SPARQL — Fontem' })
 // query the textarea ships with so the user can hit Run on landing
 // without having to write SPARQL from scratch.
 const EXAMPLES = [
-  {
-    title: 'sparql.triple_store_inventory',
-    description: 'sparql.sanity_check_store_data',
-    query:
-`SELECT ?g (COUNT(*) AS ?triples) WHERE {
-  GRAPH ?g { ?s ?p ?o }
-  FILTER(STRSTARTS(STR(?g), "http://data.fontem.eu/graph/"))
-}
-GROUP BY ?g
-ORDER BY DESC(?triples)`,
-  },
-  {
+    {
     title: 'sparql.sample_sanctioned_entities',
     description: 'sparql.replace_limit_hint',
     query:
@@ -51,7 +39,23 @@ GROUP BY ?authority ?name
 ORDER BY DESC(?total)
 LIMIT 20`,
   },
-]
+    {
+    title: 'sparql.triple_store_inventory',
+    description: 'sparql.sanity_check_store_data',
+      // Counts every triple in every graph. Useful, and expensive: on a
+      // populated store it runs past the API's 60s ceiling and comes back
+      // a timeout. It is NOT the default for that reason — the first thing
+      // someone clicks should answer.
+      slow: true,
+    query:
+`SELECT ?g (COUNT(*) AS ?triples) WHERE {
+  GRAPH ?g { ?s ?p ?o }
+  FILTER(STRSTARTS(STR(?g), "http://data.fontem.eu/graph/"))
+}
+GROUP BY ?g
+ORDER BY DESC(?triples)`,
+  },
+  ]
 
 // ── Editor state ────────────────────────────────────────────────
 const query = ref(EXAMPLES[0].query)
@@ -60,8 +64,6 @@ const results = ref(null)   // { head: { vars }, results: { bindings } }
 const error = ref(null)
 const elapsedMs = ref(null)
 
-const retryNotice = ref('')
-
 async function runQuery() {
   if (running.value) return
   running.value = true
@@ -69,24 +71,11 @@ async function runQuery() {
   results.value = null
   const startedAt = performance.now()
   try {
-    // Retried on the "not now" statuses. This is a read-only proxy — it
-    // refuses write keywords outright — so running the query twice costs a
-    // query and changes nothing. One unretried 429 is what failed
-    // SPARQL-EDITOR in the promote gate, reported to the user as a
-    // permanent "HTTP 429".
-    const res = await withRetry(() => fetch('/api/sparql', {
+    const res = await fetch('/api/sparql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query.value }),
-    }), {
-      onRetry: ({ status, attempt, wait }) => {
-        retryNotice.value = `Busy (HTTP ${status}) — retrying in ${Math.round(wait / 100) / 10}s…`
-        if (typeof console !== 'undefined') {
-          console.warn(`[sparql] ${status}; retry ${attempt} in ${wait}ms`)
-        }
-      },
     })
-    retryNotice.value = ''
     const body = await res.json().catch(() => null)
     if (!res.ok) {
       // FastAPI shape: `{ detail: "..." }` for HTTPException; fall

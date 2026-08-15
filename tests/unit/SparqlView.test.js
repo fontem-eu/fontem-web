@@ -137,11 +137,26 @@ describe('SparqlView — editor + docs', () => {
   })
 
   it('clicking "Use this query" on an example loads it into the editor', async () => {
+    // Order-independent on purpose: this used to click example 1 and expect
+    // the sanctioned-entities sample, which broke the moment the examples
+    // were reordered to put a cheap query first. What matters is that a
+    // click loads THAT example, not which slot it sits in.
     const wrapper = mount(SparqlView)
-    await wrapper.find('[data-testid="sparql-example-load-1"]').trigger('click')
-    const editor = wrapper.find('[data-testid="sparql-editor"]')
-    expect(editor.element.value).toContain('Organization')
-    expect(editor.element.value).toContain('schema:name')
+    const loaders = wrapper.findAll('[data-testid^="sparql-example-load-"]')
+    expect(loaders.length).toBeGreaterThan(1)
+    const editor = () => wrapper.find('[data-testid="sparql-editor"]')
+    const seen = new Set()
+    for (const [i, loader] of loaders.entries()) {
+      await loader.trigger('click')
+      const loaded = editor().element.value
+      expect(loaded.length, `example ${i} loaded nothing`).toBeGreaterThan(0)
+      seen.add(loaded)
+    }
+    expect(seen.size, 'every example should load a distinct query')
+      .toBe(loaders.length)
+    // And the sanctioned-entities sample is still among them.
+    expect([...seen].some((q) => q.includes('Organization') && q.includes('schema:name')))
+      .toBe(true)
   })
 
   it('Cmd/Ctrl+Enter in the editor runs the query (keyboard shortcut)', async () => {
