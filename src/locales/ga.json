@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Clúdach torthaí SPARQL 1.1 JSON:",
     "sparql_endpoint": "Críochphointe SPARQL",
     "try_a_query": "Bain triail as ceist",
-    "no_rows": "Gan rónna.",
+    "no_rows": "Rith an t-iarratas agus níor aimsigh sé aon rud.",
     "query_returned_no_projected_columns": "Níor aisíoc an t-iarratas aon cholún teilgthe.",
     "example_queries": "Iarratais shamplacha",
     "click": "Cliceáil",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Sampla de chúig eintiteas smachtbhannaithe",
     "replace_limit_hint": "Cuir an LIMIT in ionad chun tuilleadh sraitheanna a scrúdú.",
     "top_authorities_by_awarded_value": "Na 20 údarás conarthach is airde de réir luach iomlán dámhachtana",
-    "shape_compatible_procurement_graph": "Coinnítear an cruth comhoiriúnach leis an ngraf soláthair beo."
+    "shape_compatible_procurement_graph": "Coinnítear an cruth comhoiriúnach leis an ngraf soláthair beo.",
+    "first_look": "An chéad amharc ar an stór",
+    "first_look_hint": "Deich dtriarán díreach ón ngraf — an seiceáil is tapúla go bhfuil gach rud ag obair."
   },
   "story_editor_toolbar": {
     "blockquote": "Bloc-luachan",

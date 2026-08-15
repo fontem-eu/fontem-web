@@ -41,12 +41,33 @@ describe('SparqlView — editor + docs', () => {
       .toContain('/api/sparql')
   })
 
-  it('seeds the textarea with an inventory query so Run works on landing', () => {
+  it('seeds the textarea with a query that lands quickly', () => {
+    // The seeded query is the first thing a visitor runs, so what matters
+    // is that it comes back — not that it mentions GRAPH. It has been
+    // wrong twice: a whole-store triple count (60s, gateway timeout) and
+    // then a query against a graph that is empty in testing (200, blank
+    // panel). Both were "a SELECT with a GRAPH in it".
     const wrapper = mount(SparqlView)
     const editor = wrapper.find('[data-testid="sparql-editor"]')
     expect(editor.exists()).toBe(true)
-    expect(editor.element.value).toContain('SELECT')
-    expect(editor.element.value).toContain('GRAPH')
+    const seeded = editor.element.value
+    expect(seeded).toContain('SELECT')
+    expect(seeded).toMatch(/\bLIMIT\b/i)
+    expect(seeded).not.toMatch(/COUNT\s*\(/i)
+  })
+
+  it('shows an explicit message when a query matches nothing', async () => {
+    // An empty answer used to render neither table nor message: the server
+    // said 200 in 24ms and the page stayed blank, which is what SPARQL-
+    // EDITOR spent 65 seconds waiting for.
+    global.fetch = vi.fn(() => jsonResponse(
+      { head: { vars: [] }, results: { bindings: [] } }, 200))
+    const wrapper = mount(SparqlView)
+    await wrapper.find('[data-testid="sparql-run"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="sparql-empty"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="sparql-results"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="sparql-error"]').exists()).toBe(false)
   })
 
   it('Run button POSTs the textarea content to /api/sparql', async () => {

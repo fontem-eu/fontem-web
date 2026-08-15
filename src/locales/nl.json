@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultaten-envelop:",
     "sparql_endpoint": "SPARQL-endpoint",
     "try_a_query": "Probeer een query",
-    "no_rows": "Geen rijen.",
+    "no_rows": "De query is uitgevoerd en heeft niets gevonden.",
     "query_returned_no_projected_columns": "Query gaf geen geprojecteerde kolommen terug.",
     "example_queries": "Voorbeeldquery's",
     "click": "Klik",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Voorbeeld van vijf gesanctioneerde entiteiten",
     "replace_limit_hint": "Vervang de LIMIT om meer rijen te bekijken.",
     "top_authorities_by_awarded_value": "Top 20 aanbestedende diensten op totale gegunde waarde",
-    "shape_compatible_procurement_graph": "Vorm blijft compatibel met de live aanbestedingsgraaf."
+    "shape_compatible_procurement_graph": "Vorm blijft compatibel met de live aanbestedingsgraaf.",
+    "first_look": "Eerste blik op de opslag",
+    "first_look_hint": "Tien triples rechtstreeks uit de graaf — de snelste controle dat alles werkt."
   },
   "story_editor_toolbar": {
     "blockquote": "Citaat",

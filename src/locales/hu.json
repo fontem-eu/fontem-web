@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-eredmények borítéka:",
     "sparql_endpoint": "SPARQL-végpont",
     "try_a_query": "Próbálj ki egy lekérdezést",
-    "no_rows": "Nincs sor.",
+    "no_rows": "A lekérdezés lefutott, és nem talált egyezést.",
     "query_returned_no_projected_columns": "A lekérdezés nem tért vissza projektált oszloppal.",
     "example_queries": "Példalekérdezések",
     "click": "Kattintson a",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Öt szankcionált entitás mintája",
     "replace_limit_hint": "Cserélje ki a LIMIT értékét további sorok megtekintéséhez.",
     "top_authorities_by_awarded_value": "Az első 20 ajánlatkérő hatóság összes odaítélt érték szerint",
-    "shape_compatible_procurement_graph": "A séma az élő közbeszerzési gráffal kompatibilis maradt."
+    "shape_compatible_procurement_graph": "A séma az élő közbeszerzési gráffal kompatibilis maradt.",
+    "first_look": "Első pillantás a tárolóra",
+    "first_look_hint": "Tíz hármas közvetlenül a gráfból — a leggyorsabb ellenőrzés, hogy minden működik."
   },
   "story_editor_toolbar": {
     "blockquote": "Blokk-idézet",

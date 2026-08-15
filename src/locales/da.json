@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkonvolut:",
     "sparql_endpoint": "SPARQL-endpoint",
     "try_a_query": "Prøv en forespørgsel",
-    "no_rows": "Ingen rækker.",
+    "no_rows": "Forespørgslen kørte og fandt ingenting.",
     "query_returned_no_projected_columns": "Forespørgslen returnerede ingen projicerede kolonner.",
     "example_queries": "Eksempelforespørgsler",
     "click": "Klik",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Udtag fem sanktionerede entiteter",
     "replace_limit_hint": "Erstat LIMIT for at inspicere flere rækker.",
     "top_authorities_by_awarded_value": "Top 20 ordregivende myndigheder efter samlet tildelt værdi",
-    "shape_compatible_procurement_graph": "Formen holdes kompatibel med den live udbudsgraf."
+    "shape_compatible_procurement_graph": "Formen holdes kompatibel med den live udbudsgraf.",
+    "first_look": "Første kig på lageret",
+    "first_look_hint": "Ti tripler direkte fra grafen — den hurtigste kontrol af, at alt virker."
   },
   "story_editor_toolbar": {
     "blockquote": "Blokcitat",

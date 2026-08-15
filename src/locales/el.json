@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON envelope αποτελεσμάτων:",
     "sparql_endpoint": "SPARQL endpoint",
     "try_a_query": "Δοκιμάστε ένα ερώτημα",
-    "no_rows": "Δεν υπάρχουν γραμμές.",
+    "no_rows": "Το ερώτημα εκτελέστηκε και δεν βρήκε αποτελέσματα.",
     "query_returned_no_projected_columns": "Το ερώτημα δεν επέστρεψε προβαλλόμενες στήλες.",
     "example_queries": "Παραδείγματα ερωτημάτων",
     "click": "Κάντε κλικ",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Δείγμα πέντε οντοτήτων υπό κυρώσεις",
     "replace_limit_hint": "Αντικαταστήστε το LIMIT για να εξετάσετε περισσότερες γραμμές.",
     "top_authorities_by_awarded_value": "Κορυφαίες 20 αναθέτουσες αρχές κατά συνολική ανατεθείσα αξία",
-    "shape_compatible_procurement_graph": "Η μορφή διατηρείται συμβατή με τον ζωντανό γράφο συμβάσεων."
+    "shape_compatible_procurement_graph": "Η μορφή διατηρείται συμβατή με τον ζωντανό γράφο συμβάσεων.",
+    "first_look": "Πρώτη ματιά στον χώρο αποθήκευσης",
+    "first_look_hint": "Δέκα τριπλέτες απευθείας από τον γράφο — ο ταχύτερος έλεγχος ότι όλα λειτουργούν."
   },
   "story_editor_toolbar": {
     "blockquote": "Παράθεμα",

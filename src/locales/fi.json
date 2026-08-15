@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulosten kuori:",
     "sparql_endpoint": "SPARQL-päätepiste",
     "try_a_query": "Kokeile kyselyä",
-    "no_rows": "Ei rivejä.",
+    "no_rows": "Kysely suoritettiin eikä löytänyt osumia.",
     "query_returned_no_projected_columns": "Kysely ei palauttanut projisoituja sarakkeita.",
     "example_queries": "Esimerkkikyselyt",
     "click": "Napsauta",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Näyte viidestä pakotteen kohteena olevasta entiteetistä",
     "replace_limit_hint": "Muuta LIMIT-arvoa tarkastellaksesi useampia rivejä.",
     "top_authorities_by_awarded_value": "20 suurinta hankintaviranomaista ratkaistujen sopimusten kokonaisarvon mukaan",
-    "shape_compatible_procurement_graph": "Rakenne pidetty yhteensopivana elävän hankintagraafin kanssa."
+    "shape_compatible_procurement_graph": "Rakenne pidetty yhteensopivana elävän hankintagraafin kanssa.",
+    "first_look": "Ensisilmäys tietovarastoon",
+    "first_look_hint": "Kymmenen kolmikkoa suoraan graafista — nopein tarkistus, että kaikki toimii."
   },
   "story_editor_toolbar": {
     "blockquote": "Lainaus",

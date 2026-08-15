@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Obálka výsledkov SPARQL 1.1 JSON:",
     "sparql_endpoint": "SPARQL koncový bod",
     "try_a_query": "Vyskúšaj dopyt",
-    "no_rows": "Žiadne riadky.",
+    "no_rows": "Dotaz prebehol a nič nenašiel.",
     "query_returned_no_projected_columns": "Dopyt nevrátil žiadne premietnuté stĺpce.",
     "example_queries": "Príklady dopytov",
     "click": "Kliknite na",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Vzorka piatich sankcionovaných entít",
     "replace_limit_hint": "Nahraďte LIMIT, ak chcete preskúmať viac riadkov.",
     "top_authorities_by_awarded_value": "Top 20 obstarávateľov podľa celkovej hodnoty zadaných zákaziek",
-    "shape_compatible_procurement_graph": "Štruktúra zostáva kompatibilná so živým grafom obstarávania."
+    "shape_compatible_procurement_graph": "Štruktúra zostáva kompatibilná so živým grafom obstarávania.",
+    "first_look": "Prvý pohľad na úložisko",
+    "first_look_hint": "Desať trojíc priamo z grafu — najrýchlejšia kontrola, že všetko funguje."
   },
   "story_editor_toolbar": {
     "blockquote": "Blokový citát",

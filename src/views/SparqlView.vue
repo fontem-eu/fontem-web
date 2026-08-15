@@ -9,6 +9,18 @@ onMounted(() => { document.title = 'SPARQL — Fontem' })
 // without having to write SPARQL from scratch.
 const EXAMPLES = [
     {
+      title: 'sparql.first_look',
+      description: 'sparql.first_look_hint',
+      // The default, and chosen to be boring: LIMIT pushes straight down,
+      // so it answers in milliseconds against any store, populated or
+      // empty. The previous default counted every triple in every graph —
+      // 60s and a gateway timeout on real data — and its replacement
+      // queried a graph that happens to be empty in testing, which showed
+      // the user a blank panel. The first thing someone clicks has to
+      // come back, and come back with something.
+      query: `SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 10`,
+    },
+    {
     title: 'sparql.sample_sanctioned_entities',
     description: 'sparql.replace_limit_hint',
     query:
@@ -188,6 +200,19 @@ function cellIsIri(row, varName) {
       <!-- ── Output ─────────────────────────────────────────── -->
       <div v-if="error" class="sparql-error" data-testid="sparql-error">
         <strong>{{ $t('sparql.query_failed') }}</strong> {{ error }}
+      </div>
+
+      <!-- A query that matched nothing is a result, not a blank panel.
+           Before this, `results && headVars.length` rendered neither table
+           nor message for an empty answer: the user clicked Run, the
+           server said 200 in 24ms, and the page showed nothing at all.
+           SPARQL-EDITOR waited 65s for an element that was never coming. -->
+      <div
+        v-else-if="results && !headVars.length"
+        class="sparql-empty"
+        data-testid="sparql-empty"
+      >
+        {{ $t('sparql.no_rows') }}
       </div>
 
       <div

@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON results envelope:",
     "sparql_endpoint": "SPARQL endpoint",
     "try_a_query": "Try a query",
-    "no_rows": "No rows.",
+    "no_rows": "The query ran and matched nothing.",
     "query_returned_no_projected_columns": "Query returned no projected columns.",
     "example_queries": "Example queries",
     "click": "Click",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Sample five sanctioned entities",
     "replace_limit_hint": "Replace the LIMIT to inspect more rows.",
     "top_authorities_by_awarded_value": "Top 20 contracting authorities by total awarded value",
-    "shape_compatible_procurement_graph": "Shape kept compatible with the live procurement graph."
+    "shape_compatible_procurement_graph": "Shape kept compatible with the live procurement graph.",
+    "first_look": "First look at the store",
+    "first_look_hint": "Ten triples, straight from the graph — the quickest check that everything is wired up."
   },
   "story_editor_toolbar": {
     "blockquote": "Blockquote",

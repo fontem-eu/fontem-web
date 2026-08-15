@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL-1.1-JSON-Ergebnishülle:",
     "sparql_endpoint": "SPARQL-Endpunkt",
     "try_a_query": "Abfrage ausprobieren",
-    "no_rows": "Keine Zeilen.",
+    "no_rows": "Die Abfrage wurde ausgeführt und ergab keine Treffer.",
     "query_returned_no_projected_columns": "Die Abfrage hat keine projizierten Spalten zurückgegeben.",
     "example_queries": "Beispielabfragen",
     "click": "Klicken Sie auf",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Fünf sanktionierte Entitäten als Stichprobe",
     "replace_limit_hint": "Ersetzen Sie das LIMIT, um mehr Zeilen einzusehen.",
     "top_authorities_by_awarded_value": "Top 20 Vergabestellen nach vergebenem Gesamtwert",
-    "shape_compatible_procurement_graph": "Struktur bleibt kompatibel mit dem Live-Vergabegraphen."
+    "shape_compatible_procurement_graph": "Struktur bleibt kompatibel mit dem Live-Vergabegraphen.",
+    "first_look": "Erster Blick in den Speicher",
+    "first_look_hint": "Zehn Tripel direkt aus dem Graphen — die schnellste Prüfung, dass alles läuft."
   },
   "story_editor_toolbar": {
     "blockquote": "Blockzitat",

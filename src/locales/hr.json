@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Omotač SPARQL 1.1 JSON rezultata:",
     "sparql_endpoint": "SPARQL krajnja točka",
     "try_a_query": "Pokušaj upit",
-    "no_rows": "Nema redaka.",
+    "no_rows": "Upit je izvršen i nije pronašao ništa.",
     "query_returned_no_projected_columns": "Upit nije vratio projicirane stupce.",
     "example_queries": "Primjeri upita",
     "click": "Kliknite",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Uzorak od pet sankcioniranih entiteta",
     "replace_limit_hint": "Zamijenite LIMIT za pregled više redaka.",
     "top_authorities_by_awarded_value": "20 najvećih javnih naručitelja prema ukupnoj dodijeljenoj vrijednosti",
-    "shape_compatible_procurement_graph": "Oblik ostaje kompatibilan s aktivnim grafom nabave."
+    "shape_compatible_procurement_graph": "Oblik ostaje kompatibilan s aktivnim grafom nabave.",
+    "first_look": "Prvi pogled na spremište",
+    "first_look_hint": "Deset trojki izravno iz grafa — najbrža provjera da sve radi."
   },
   "story_editor_toolbar": {
     "blockquote": "Blok citat",

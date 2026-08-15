@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-resultatkuvert:",
     "sparql_endpoint": "SPARQL-ändpunkt",
     "try_a_query": "Prova en fråga",
-    "no_rows": "Inga rader.",
+    "no_rows": "Frågan kördes och hittade ingenting.",
     "query_returned_no_projected_columns": "Frågan returnerade inga projicerade kolumner.",
     "example_queries": "Exempelfrågor",
     "click": "Klicka",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Exempel på fem sanktionerade entiteter",
     "replace_limit_hint": "Byt ut LIMIT för att granska fler rader.",
     "top_authorities_by_awarded_value": "Topp 20 upphandlande myndigheter efter totalt tilldelat värde",
-    "shape_compatible_procurement_graph": "Formen hålls kompatibel med den aktiva upphandlingsgrafen."
+    "shape_compatible_procurement_graph": "Formen hålls kompatibel med den aktiva upphandlingsgrafen.",
+    "first_look": "Första titten på lagret",
+    "first_look_hint": "Tio tripplar direkt från grafen — den snabbaste kontrollen att allt fungerar."
   },
   "story_editor_toolbar": {
     "blockquote": "Blockcitat",

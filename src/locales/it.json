@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Envelope dei risultati SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Prova una query",
-    "no_rows": "Nessuna riga.",
+    "no_rows": "La query è stata eseguita e non ha trovato corrispondenze.",
     "query_returned_no_projected_columns": "La query non ha restituito colonne proiettate.",
     "example_queries": "Query di esempio",
     "click": "Clicchi",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Campione di cinque entità sanzionate",
     "replace_limit_hint": "Sostituire il LIMIT per ispezionare più righe.",
     "top_authorities_by_awarded_value": "Prime 20 amministrazioni aggiudicatrici per valore aggiudicato totale",
-    "shape_compatible_procurement_graph": "Struttura mantenuta compatibile con il grafo degli appalti attivo."
+    "shape_compatible_procurement_graph": "Struttura mantenuta compatibile con il grafo degli appalti attivo.",
+    "first_look": "Primo sguardo all'archivio",
+    "first_look_hint": "Dieci triple direttamente dal grafo: la verifica più rapida che tutto funzioni."
   },
   "story_editor_toolbar": {
     "blockquote": "Citazione",
