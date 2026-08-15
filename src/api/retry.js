@@ -62,24 +62,52 @@ export const MAX_WAIT_MS = 5000
 export const MAX_ATTEMPTS = 3
 
 /**
+ * A gateway status is only worth retrying if it came back FAST.
+ *
+ * 502/504 mean "no answer in time". If the attempt itself took a minute,
+ * the work is slow — trying again buys another minute and the same answer.
+ * The SPARQL editor's default query is exactly this: a full-store scan
+ * that takes ~60s and ends in a 504, documented in the smoke test. Making
+ * 504 retryable turned one 60s wait into three, and the editor showed
+ * nothing at all inside the test's 65s window.
+ *
+ * 408 and 429 are exempt: they arrive immediately and say nothing about
+ * how long the work takes.
+ */
+export const SLOW_FAILURE_MS = 5000
+const RETRY_ONLY_IF_FAST = new Set([502, 504])
+
+/**
  * Run `send()` until it returns a non-retryable response or the attempts
  * run out. `send` must perform one request and resolve to a Response.
  *
  * Returns the last response either way — the caller still decides what a
  * failure means. Nothing here swallows a status.
  */
+export function worthRetrying(status, elapsedMs) {
+  if (!RETRYABLE.has(status)) return false
+  if (RETRY_ONLY_IF_FAST.has(status) && elapsedMs >= SLOW_FAILURE_MS) return false
+  return true
+}
+
 export async function withRetry(send, {
   attempts = MAX_ATTEMPTS,
   sleep = (ms) => new Promise((r) => setTimeout(r, ms)),
   onRetry = null,
+  now = () => Date.now(),
 } = {}) {
-  let res = await send()
+  const timed = async () => {
+    const started = now()
+    const res = await send()
+    return { res, elapsed: now() - started }
+  }
+  let { res, elapsed } = await timed()
   for (let attempt = 0; attempt < attempts - 1; attempt += 1) {
-    if (!RETRYABLE.has(res.status)) return res
+    if (!worthRetrying(res.status, elapsed)) return res
     const wait = retryAfterMs(res.headers?.get?.('retry-after')) ?? backoffMs(attempt)
-    if (onRetry) onRetry({ status: res.status, attempt: attempt + 1, wait })
+    if (onRetry) onRetry({ status: res.status, attempt: attempt + 1, wait, elapsed })
     await sleep(wait)
-    res = await send()
+    ;({ res, elapsed } = await timed())
   }
   return res
 }

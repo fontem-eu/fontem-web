@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import {
-  RETRYABLE, MAX_ATTEMPTS, backoffMs, retryAfterMs, withRetry,
+  RETRYABLE, MAX_ATTEMPTS, SLOW_FAILURE_MS, backoffMs, retryAfterMs,
+  withRetry, worthRetrying,
 } from '../../src/api/retry.js'
 
 // Three e2e tests failed on the same event and none of them said so:
@@ -124,5 +125,48 @@ describe('withRetry', () => {
     await withRetry(send, { sleep, onRetry })
     expect(onRetry).toHaveBeenCalledWith(
       expect.objectContaining({ status: 429, attempt: 1 }))
+  })
+})
+
+describe('a slow failure is not a busy failure', () => {
+  // Retrying 504 cost the SPARQL editor three full minutes on a query that
+  // legitimately takes one: the default query is a whole-store scan that
+  // ends in a gateway timeout at ~60s. Three attempts meant nothing at all
+  // appeared inside the smoke test's 65s window.
+  it('retries a gateway timeout that came back quickly', () => {
+    expect(worthRetrying(504, 200)).toBe(true)
+    expect(worthRetrying(502, 1000)).toBe(true)
+  })
+
+  it('does not retry a gateway timeout that took a minute', () => {
+    expect(worthRetrying(504, 60_000)).toBe(false)
+    expect(worthRetrying(502, SLOW_FAILURE_MS)).toBe(false)
+  })
+
+  it('still retries a rate limit however long the attempt took', () => {
+    // A 429 arrives immediately and says nothing about how slow the work
+    // is; the elapsed time is somebody else's queue, not ours.
+    expect(worthRetrying(429, 60_000)).toBe(true)
+    expect(worthRetrying(408, 60_000)).toBe(true)
+  })
+
+  it('withRetry stops after one slow gateway failure', async () => {
+    let clock = 0
+    const send = vi.fn(async () => { clock += 60_000; return res(504) })
+    const out = await withRetry(send, {
+      sleep: async () => {}, now: () => clock,
+    })
+    expect(out.status).toBe(504)
+    expect(send).toHaveBeenCalledTimes(1)
+  })
+
+  it('withRetry keeps going when the gateway fails fast', async () => {
+    let clock = 0
+    const send = vi.fn()
+      .mockImplementationOnce(async () => { clock += 100; return res(504) })
+      .mockImplementationOnce(async () => { clock += 100; return res(200) })
+    const out = await withRetry(send, { sleep: async () => {}, now: () => clock })
+    expect(out.status).toBe(200)
+    expect(send).toHaveBeenCalledTimes(2)
   })
 })
