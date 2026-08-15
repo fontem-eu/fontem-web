@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultatų vokas:",
     "sparql_endpoint": "SPARQL galinis taškas",
     "try_a_query": "Išbandyk užklausą",
-    "no_rows": "Nėra eilučių.",
+    "no_rows": "Užklausa įvykdyta ir nieko nerado.",
     "query_returned_no_projected_columns": "Užklausa negrąžino jokių projektuojamų stulpelių.",
     "example_queries": "Užklausų pavyzdžiai",
     "click": "Spustelėkite",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Penkių sankcionuotų esybių pavyzdys",
     "replace_limit_hint": "Pakeiskite LIMIT, kad peržiūrėtumėte daugiau eilučių.",
     "top_authorities_by_awarded_value": "20 perkančiųjų institucijų pagal bendrą sudarytų sutarčių vertę",
-    "shape_compatible_procurement_graph": "Struktūra išlaikyta suderinama su gyvu viešųjų pirkimų grafu."
+    "shape_compatible_procurement_graph": "Struktūra išlaikyta suderinama su gyvu viešųjų pirkimų grafu.",
+    "first_look": "Pirmas žvilgsnis į saugyklą",
+    "first_look_hint": "Dešimt trejetų tiesiai iš grafo — greičiausias patikrinimas, kad viskas veikia."
   },
   "story_editor_toolbar": {
     "blockquote": "Bloko citata",

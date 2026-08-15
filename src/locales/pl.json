@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Obwiednia wyników SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Wypróbuj zapytanie",
-    "no_rows": "Brak wierszy.",
+    "no_rows": "Zapytanie zostało wykonane i nic nie znalazło.",
     "query_returned_no_projected_columns": "Zapytanie nie zwróciło żadnych rzutowanych kolumn.",
     "example_queries": "Przykładowe zapytania",
     "click": "Kliknij",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Przykładowe pięć podmiotów objętych sankcjami",
     "replace_limit_hint": "Zmień wartość LIMIT, aby przejrzeć więcej wierszy.",
     "top_authorities_by_awarded_value": "20 instytucji zamawiających o najwyższej łącznej wartości udzielonych zamówień",
-    "shape_compatible_procurement_graph": "Struktura zachowana zgodnie z aktywnym grafem zamówień."
+    "shape_compatible_procurement_graph": "Struktura zachowana zgodnie z aktywnym grafem zamówień.",
+    "first_look": "Pierwsze spojrzenie na magazyn",
+    "first_look_hint": "Dziesięć trójek prosto z grafu — najszybsze sprawdzenie, że wszystko działa."
   },
   "story_editor_toolbar": {
     "blockquote": "Cytat",

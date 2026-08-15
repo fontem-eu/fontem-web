@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Obálka výsledků SPARQL 1.1 JSON:",
     "sparql_endpoint": "SPARQL endpoint",
     "try_a_query": "Vyzkoušet dotaz",
-    "no_rows": "Žádné řádky.",
+    "no_rows": "Dotaz proběhl a nic nenašel.",
     "query_returned_no_projected_columns": "Dotaz nevrátil žádné projektované sloupce.",
     "example_queries": "Ukázkové dotazy",
     "click": "Klikněte na",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Ukázka pěti sankcionovaných entit",
     "replace_limit_hint": "Nahraďte LIMIT pro zobrazení více řádků.",
     "top_authorities_by_awarded_value": "20 nejvýznamnějších zadavatelů podle celkové zadané hodnoty",
-    "shape_compatible_procurement_graph": "Struktura zůstává kompatibilní s aktivním grafem veřejných zakázek."
+    "shape_compatible_procurement_graph": "Struktura zůstává kompatibilní s aktivním grafem veřejných zakázek.",
+    "first_look": "První pohled do úložiště",
+    "first_look_hint": "Deset trojic přímo z grafu — nejrychlejší kontrola, že vše funguje."
   },
   "story_editor_toolbar": {
     "blockquote": "Citace",

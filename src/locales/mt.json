@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Envelope tar-riżultati SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Ipprova mistoqsija",
-    "no_rows": "L-ebda ringiela.",
+    "no_rows": "Il-mistoqsija ġiet eżegwita u ma sabet xejn.",
     "query_returned_no_projected_columns": "Il-query ma rritornat l-ebda kolonna pproġettata.",
     "example_queries": "Queries ta' eżempju",
     "click": "Ikklikkja",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Kampjun ta' ħames entitajiet sanzjonati",
     "replace_limit_hint": "Ibdel il-LIMIT biex tispezzjona aktar ringieli.",
     "top_authorities_by_awarded_value": "L-aqwa 20 awtorità kontraenti skont il-valur totali aġġudikat",
-    "shape_compatible_procurement_graph": "Il-forma nżammet kompatibbli mal-graf tal-akkwist attiv."
+    "shape_compatible_procurement_graph": "Il-forma nżammet kompatibbli mal-graf tal-akkwist attiv.",
+    "first_look": "L-ewwel ħarsa lejn il-maħżen",
+    "first_look_hint": "Għaxar tripli dirett mill-graf — l-aktar verifika mgħaġġla li kollox jaħdem."
   },
   "story_editor_toolbar": {
     "blockquote": "Kwotazzjoni",

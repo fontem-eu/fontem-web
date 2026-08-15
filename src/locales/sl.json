@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Ovojnica rezultatov SPARQL 1.1 JSON:",
     "sparql_endpoint": "SPARQL končna točka",
     "try_a_query": "Poskusi poizvedbo",
-    "no_rows": "Ni vrstic.",
+    "no_rows": "Poizvedba se je izvedla in ni našla ničesar.",
     "query_returned_no_projected_columns": "Poizvedba ni vrnila nobenih projiciranih stolpcev.",
     "example_queries": "Primeri poizvedb",
     "click": "Kliknite",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Vzorec petih sankcioniranih entitet",
     "replace_limit_hint": "Zamenjajte LIMIT za pregled več vrstic.",
     "top_authorities_by_awarded_value": "Prvih 20 naročnikov po skupni oddani vrednosti",
-    "shape_compatible_procurement_graph": "Oblika ostaja združljiva z živim grafom javnih naročil."
+    "shape_compatible_procurement_graph": "Oblika ostaja združljiva z živim grafom javnih naročil.",
+    "first_look": "Prvi pogled na shrambo",
+    "first_look_hint": "Deset trojčkov naravnost iz grafa — najhitrejša preverba, da vse deluje."
   },
   "story_editor_toolbar": {
     "blockquote": "Blokovni navedek",

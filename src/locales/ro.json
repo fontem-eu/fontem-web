@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "Plic rezultate SPARQL 1.1 JSON:",
     "sparql_endpoint": "Endpoint SPARQL",
     "try_a_query": "Încearcă o interogare",
-    "no_rows": "Niciun rând.",
+    "no_rows": "Interogarea a rulat și nu a găsit nimic.",
     "query_returned_no_projected_columns": "Interogarea nu a returnat nicio coloană proiectată.",
     "example_queries": "Interogări exemplu",
     "click": "Faceți clic pe",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Eșantion de cinci entități sancționate",
     "replace_limit_hint": "Înlocuiește LIMIT pentru a inspecta mai multe rânduri.",
     "top_authorities_by_awarded_value": "Primele 20 de autorități contractante după valoarea totală atribuită",
-    "shape_compatible_procurement_graph": "Structură menținută compatibilă cu graful de achiziții activ."
+    "shape_compatible_procurement_graph": "Structură menținută compatibilă cu graful de achiziții activ.",
+    "first_look": "O primă privire asupra depozitului",
+    "first_look_hint": "Zece triplete direct din graf — cea mai rapidă verificare că totul funcționează."
   },
   "story_editor_toolbar": {
     "blockquote": "Citat",

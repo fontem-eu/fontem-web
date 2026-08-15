@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON rezultātu aploksne:",
     "sparql_endpoint": "SPARQL galapunkts",
     "try_a_query": "Izmēģini vaicājumu",
-    "no_rows": "Nav rindu.",
+    "no_rows": "Vaicājums tika izpildīts un neko neatrada.",
     "query_returned_no_projected_columns": "Vaicājums neatgrieza projicētas kolonnas.",
     "example_queries": "Vaicājumu piemēri",
     "click": "Noklikšķiniet",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Piecu sankcionēto entītiju paraugs",
     "replace_limit_hint": "Nomainiet LIMIT, lai apskatītu vairāk rindu.",
     "top_authorities_by_awarded_value": "20 vadošās līgumslēdzējas iestādes pēc kopējās piešķirtās vērtības",
-    "shape_compatible_procurement_graph": "Forma saglabāta savietojama ar aktīvo iepirkuma grafu."
+    "shape_compatible_procurement_graph": "Forma saglabāta savietojama ar aktīvo iepirkuma grafu.",
+    "first_look": "Pirmais ieskats krātuvē",
+    "first_look_hint": "Desmit trijnieki tieši no grafa — ātrākā pārbaude, ka viss darbojas."
   },
   "story_editor_toolbar": {
     "blockquote": "Bloka citāts",

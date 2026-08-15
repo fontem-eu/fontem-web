@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON-tulemuste ümbrik:",
     "sparql_endpoint": "SPARQL-lõpp-punkt",
     "try_a_query": "Proovi päringut",
-    "no_rows": "Ridu pole.",
+    "no_rows": "Päring käivitus ja ei leidnud midagi.",
     "query_returned_no_projected_columns": "Päring ei tagastanud ühtki projitseeritud veergu.",
     "example_queries": "Näidispäringud",
     "click": "Klõpsake",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Näidis viiest sanktsioneeritud üksusest",
     "replace_limit_hint": "Asenda LIMIT, et vaadata rohkem ridu.",
     "top_authorities_by_awarded_value": "20 suurimat hankijat kogu sõlmitud lepingute väärtuse järgi",
-    "shape_compatible_procurement_graph": "Kuju hoitud ühilduvana aktiivse hankegraafiga."
+    "shape_compatible_procurement_graph": "Kuju hoitud ühilduvana aktiivse hankegraafiga.",
+    "first_look": "Esimene pilk hoidlale",
+    "first_look_hint": "Kümme kolmikut otse graafist — kiireim kontroll, et kõik toimib."
   },
   "story_editor_toolbar": {
     "blockquote": "Plokktsitaat",

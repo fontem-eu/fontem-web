@@ -1075,7 +1075,7 @@
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON обвивка на резултатите:",
     "sparql_endpoint": "SPARQL крайна точка",
     "try_a_query": "Опитай заявка",
-    "no_rows": "Няма редове.",
+    "no_rows": "Заявката беше изпълнена и не откри съвпадения.",
     "query_returned_no_projected_columns": "Заявката не върна проектирани колони.",
     "example_queries": "Примерни заявки",
     "click": "Кликнете",
@@ -1090,7 +1090,9 @@
     "sample_sanctioned_entities": "Извадка от пет санкционирани обекта",
     "replace_limit_hint": "Заменете LIMIT, за да прегледате повече редове.",
     "top_authorities_by_awarded_value": "Топ 20 възлагащи органи по обща възложена стойност",
-    "shape_compatible_procurement_graph": "Структурата е запазена съвместима с активния граф на обществените поръчки."
+    "shape_compatible_procurement_graph": "Структурата е запазена съвместима с активния граф на обществените поръчки.",
+    "first_look": "Първи поглед към хранилището",
+    "first_look_hint": "Десет тройки директно от графа — най-бързата проверка, че всичко работи."
   },
   "story_editor_toolbar": {
     "blockquote": "Блок цитат",
