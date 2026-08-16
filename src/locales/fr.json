@@ -1962,7 +1962,6 @@
     "none_yet": "Aucun bulletin publié pour l'instant.",
     "nothing_here_yet": "Rien pour ces réglages pour l'instant.",
     "nothing_new": "Rien de nouveau pour le moment.",
-    "region_hint": "Laissez vide pour toute l'Europe.",
     "see_my_briefings": "Voir mes bulletins",
     "sign_in_to_watch": "Connectez-vous pour suivre",
     "title": "Bulletins",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Vous suivez ce bulletin.",
     "your_feeds": "Vos flux",
     "your_region": "Votre région"
+  },
+  "region_input": {
+    "placeholder": "Rechercher une région ou un pays",
+    "everywhere": "Europe",
+    "everywhere_hint": "Toutes les régions",
+    "clear": "Effacer la région",
+    "no_match": "Aucune région ne correspond à « {term} »"
   }
 }

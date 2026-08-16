@@ -1962,7 +1962,6 @@
     "none_yet": "Nog geen briefings gepubliceerd.",
     "nothing_here_yet": "Nog niets voor deze instellingen.",
     "nothing_new": "Op dit moment niets nieuws.",
-    "region_hint": "Laat leeg voor heel Europa.",
     "see_my_briefings": "Mijn briefings bekijken",
     "sign_in_to_watch": "Meld je aan om te volgen",
     "title": "Briefings",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Je volgt deze briefing.",
     "your_feeds": "Jouw feeds",
     "your_region": "Jouw regio"
+  },
+  "region_input": {
+    "placeholder": "Zoek een regio of land",
+    "everywhere": "Europa",
+    "everywhere_hint": "Alle regio's",
+    "clear": "Regio wissen",
+    "no_match": "Geen regio komt overeen met “{term}”"
   }
 }

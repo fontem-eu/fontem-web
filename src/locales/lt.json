@@ -1962,7 +1962,6 @@
     "none_yet": "Apžvalgų dar nepaskelbta.",
     "nothing_here_yet": "Šiems nustatymams dar nieko nėra.",
     "nothing_new": "Šiuo metu nieko naujo.",
-    "region_hint": "Palik tuščią visai Europai.",
     "see_my_briefings": "Žiūrėti mano apžvalgas",
     "sign_in_to_watch": "Prisijunk, kad galėtum sekti",
     "title": "Apžvalgos",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Tu seki šią apžvalgą.",
     "your_feeds": "Tavo srautai",
     "your_region": "Tavo regionas"
+  },
+  "region_input": {
+    "placeholder": "Ieškoti regiono ar šalies",
+    "everywhere": "Europa",
+    "everywhere_hint": "Visi regionai",
+    "clear": "Išvalyti regioną",
+    "no_match": "Nė vienas regionas neatitinka „{term}“"
   }
 }

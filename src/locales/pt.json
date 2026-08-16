@@ -1962,7 +1962,6 @@
     "none_yet": "Ainda não há boletins publicados.",
     "nothing_here_yet": "Ainda não há nada para estas opções.",
     "nothing_new": "Nada de novo neste momento.",
-    "region_hint": "Deixe vazio para toda a Europa.",
     "see_my_briefings": "Ver os meus boletins",
     "sign_in_to_watch": "Inicie sessão para seguir",
     "title": "Boletins",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Está a seguir este boletim.",
     "your_feeds": "Os seus feeds",
     "your_region": "A sua região"
+  },
+  "region_input": {
+    "placeholder": "Procure uma região ou país",
+    "everywhere": "Europa",
+    "everywhere_hint": "Todas as regiões",
+    "clear": "Limpar região",
+    "no_match": "Nenhuma região corresponde a “{term}”"
   }
 }

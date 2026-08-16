@@ -1962,7 +1962,6 @@
     "none_yet": "Nessun bollettino pubblicato finora.",
     "nothing_here_yet": "Ancora niente per queste impostazioni.",
     "nothing_new": "Nulla di nuovo al momento.",
-    "region_hint": "Lascia vuoto per tutta l'Europa.",
     "see_my_briefings": "Vedi i miei bollettini",
     "sign_in_to_watch": "Accedi per seguire",
     "title": "Bollettini",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Stai seguendo questo bollettino.",
     "your_feeds": "I tuoi feed",
     "your_region": "La tua regione"
+  },
+  "region_input": {
+    "placeholder": "Cerca una regione o un paese",
+    "everywhere": "Europa",
+    "everywhere_hint": "Tutte le regioni",
+    "clear": "Cancella regione",
+    "no_match": "Nessuna regione corrisponde a “{term}”"
   }
 }

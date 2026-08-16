@@ -17,7 +17,7 @@
  */
 import { ref, computed, onMounted, watch as vueWatch } from 'vue'
 import { isAuthed } from '../api/session.js'
-import NutsRegionPicker from '../components/NutsRegionPicker.vue'
+import NutsRegionInput from '../components/NutsRegionInput.vue'
 import {
   listBriefings, getBriefing, watchBriefing, listMyWatches, unwatch,
 } from '../api/community.js'
@@ -35,6 +35,9 @@ const busy = ref(false)
 const error = ref(null)
 
 const authed = computed(() => isAuthed.value)
+// The input can return 'EU' explicitly, which already means everywhere;
+// anything else is a single NUTS prefix. An empty box means the reader has
+// not chosen, and the whole of Europe is the sane default for a preview.
 const regions = computed(() => (region.value ? [region.value] : ['EU']))
 const currentWatch = computed(
   () => watches.value.find((w) => w.group_id === detail.value?.id) || null,
@@ -149,8 +152,7 @@ function fmtValue(value) {
         <div class="bf-controls">
           <label class="bf-field">
             <span>{{ $t('briefings.your_region') }}</span>
-            <NutsRegionPicker v-model="region" />
-            <small>{{ $t('briefings.region_hint') }}</small>
+            <NutsRegionInput v-model="region" />
           </label>
           <label class="bf-field bf-narrow">
             <span>{{ $t('briefings.how_much') }}</span>

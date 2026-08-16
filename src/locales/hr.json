@@ -1962,7 +1962,6 @@
     "none_yet": "Još nema objavljenih biltena.",
     "nothing_here_yet": "Za ove postavke još nema ničega.",
     "nothing_new": "Trenutno ništa novo.",
-    "region_hint": "Ostavite prazno za cijelu Europu.",
     "see_my_briefings": "Pogledaj moje biltene",
     "sign_in_to_watch": "Prijavite se za praćenje",
     "title": "Bilteni",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Pratite ovaj bilten.",
     "your_feeds": "Vaši kanali",
     "your_region": "Vaša regija"
+  },
+  "region_input": {
+    "placeholder": "Pretraži regiju ili državu",
+    "everywhere": "Europa",
+    "everywhere_hint": "Sve regije",
+    "clear": "Očisti regiju",
+    "no_match": "Nijedna regija ne odgovara pojmu „{term}”"
   }
 }

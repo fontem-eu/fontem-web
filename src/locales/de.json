@@ -1962,7 +1962,6 @@
     "none_yet": "Noch keine Briefings veröffentlicht.",
     "nothing_here_yet": "Für diese Einstellungen noch nichts vorhanden.",
     "nothing_new": "Momentan nichts Neues.",
-    "region_hint": "Leer lassen für ganz Europa.",
     "see_my_briefings": "Meine Briefings ansehen",
     "sign_in_to_watch": "Zum Beobachten anmelden",
     "title": "Briefings",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Sie beobachten dieses Briefing.",
     "your_feeds": "Ihre Feeds",
     "your_region": "Ihre Region"
+  },
+  "region_input": {
+    "placeholder": "Region oder Land suchen",
+    "everywhere": "Europa",
+    "everywhere_hint": "Alle Regionen",
+    "clear": "Region löschen",
+    "no_match": "Keine Region passt zu „{term}“"
   }
 }

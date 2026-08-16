@@ -1962,7 +1962,6 @@
     "none_yet": "Ülevaateid pole veel avaldatud.",
     "nothing_here_yet": "Nende seadete jaoks pole veel midagi.",
     "nothing_new": "Praegu pole midagi uut.",
-    "region_hint": "Jäta tühjaks kogu Euroopa jaoks.",
     "see_my_briefings": "Vaata minu ülevaateid",
     "sign_in_to_watch": "Jälgimiseks logi sisse",
     "title": "Ülevaated",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Sa jälgid seda ülevaadet.",
     "your_feeds": "Sinu vood",
     "your_region": "Sinu piirkond"
+  },
+  "region_input": {
+    "placeholder": "Otsi piirkonda või riiki",
+    "everywhere": "Euroopa",
+    "everywhere_hint": "Kõik piirkonnad",
+    "clear": "Tühjenda piirkond",
+    "no_match": "Ükski piirkond ei vasta otsingule „{term}”"
   }
 }
