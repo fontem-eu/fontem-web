@@ -43,6 +43,8 @@ export const ROUTE_DESCRIPTIONS = {
   '/privacy': 'Privacy policy and data handling.',
   '/donate': 'Support the project.',
 
+  '/briefings': 'Browse briefings — curated subjects you can watch to get new findings as they appear.',
+  '/my-briefings': 'The briefings you watch, newest findings first, with their feed URLs.',
   '/petitions': 'Browse and sign public petitions.',
   '/petitions/:id': 'A single petition, with its signatures and status.',
 

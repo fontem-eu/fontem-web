@@ -587,3 +587,40 @@ export function setQueryGroupQueries(id, queryIds) {
 export function listPublicQueryGroups() {
   return request('GET', '/query-groups')
 }
+
+// ── Briefings ─────────────────────────────────────────────────
+// A briefing is a curated set of queries you can watch. Browsing is
+// anonymous — deciding whether one is worth watching means seeing inside it.
+// Watching needs a session and hands back an Atom URL.
+
+export function listBriefings() {
+  return request('GET', '/briefings')
+}
+
+// `nuts` is a list of region prefixes; ['EU'] means everywhere. `volume` is
+// how many items a week the caller wants — a volume, not a threshold, because
+// the same threshold cannot serve a NUTS-3 region and the whole EU.
+export function getBriefing(slug, { nuts, volume } = {}) {
+  const params = new URLSearchParams()
+  for (const region of nuts || []) params.append('nuts', region)
+  if (volume) params.set('volume', String(volume))
+  const qs = params.toString()
+  return request('GET', `/briefings/${encodeURIComponent(slug)}${qs ? `?${qs}` : ''}`)
+}
+
+// PUT, not POST: watching twice adjusts the existing watch rather than
+// minting a second feed URL for the same briefing.
+export function watchBriefing(slug, { nuts, volume_per_week } = {}) {
+  return request('PUT', `/briefings/${encodeURIComponent(slug)}/watch`, {
+    nuts: nuts || ['EU'],
+    volume_per_week: volume_per_week || 10,
+  })
+}
+
+export function listMyWatches() {
+  return request('GET', '/me/watches')
+}
+
+export function unwatch(watchId) {
+  return request('DELETE', `/me/watches/${encodeURIComponent(watchId)}`)
+}

@@ -30,6 +30,9 @@ export function requiresAuth(path) {
   if (path === '/issues' || path.startsWith('/issues/')) return true
   if (path === '/studio' || path.startsWith('/studio/')) return true
   if (path === '/activity') return true
+  // /briefings is the public catalogue; /my-briefings is a personal reading
+  // list, so only the second needs a session.
+  if (path === '/my-briefings') return true
   if (path === '/ai-usage') return true
   if (path === '/admin' || path.startsWith('/admin/')) return true
   return false
