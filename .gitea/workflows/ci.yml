@@ -194,7 +194,6 @@ jobs:
           language: node
           project-name: fontem-web
           project-version: ${{ github.sha }}
-          dtrack-key: ${{ secrets.DTRACK_API_KEY }}
 
       - id: image
         name: Build, push, sign, attest
