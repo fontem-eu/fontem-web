@@ -65,6 +65,10 @@
       "redirects_to": "/map"
     },
     {
+      "path": "/briefings",
+      "description": "Browse briefings — curated subjects you can watch to get new findings as they appear."
+    },
+    {
       "path": "/c/:ticker",
       "params": [
         "ticker"
@@ -249,6 +253,11 @@
     {
       "path": "/map",
       "description": "Atlas: geographic view of the data by region."
+    },
+    {
+      "path": "/my-briefings",
+      "requires_auth": true,
+      "description": "The briefings you watch, newest findings first, with their feed URLs."
     },
     {
       "path": "/my-reports",

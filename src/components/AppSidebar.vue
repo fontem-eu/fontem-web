@@ -33,6 +33,7 @@ const navGroups = computed(() => {
     { key: 'view', items: [
       { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
       { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
+      { key: 'briefings', label: t('nav.briefings'), path: '/briefings', icon: 'stories' },
     ] },
     { key: 'data', items: [
       { key: 'data-stats', label: t('nav.data_stats'), path: '/explore', icon: 'explore' },
@@ -43,6 +44,7 @@ const navGroups = computed(() => {
     groups.push({ key: 'contribute', items: [
       { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
       { key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' },
+      { key: 'my-briefings', label: t('nav.my_briefings'), path: '/my-briefings', icon: 'stories' },
     ] })
   }
   return groups
