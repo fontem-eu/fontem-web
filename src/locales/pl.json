@@ -1962,7 +1962,6 @@
     "none_yet": "Nie opublikowano jeszcze żadnych biuletynów.",
     "nothing_here_yet": "Na razie nic dla tych ustawień.",
     "nothing_new": "Na razie nic nowego.",
-    "region_hint": "Zostaw puste dla całej Europy.",
     "see_my_briefings": "Zobacz moje biuletyny",
     "sign_in_to_watch": "Zaloguj się, aby obserwować",
     "title": "Biuletyny",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Obserwujesz ten biuletyn.",
     "your_feeds": "Twoje kanały",
     "your_region": "Twój region"
+  },
+  "region_input": {
+    "placeholder": "Wyszukaj region lub kraj",
+    "everywhere": "Europa",
+    "everywhere_hint": "Wszystkie regiony",
+    "clear": "Wyczyść region",
+    "no_match": "Żaden region nie pasuje do „{term}”"
   }
 }

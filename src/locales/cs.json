@@ -1962,7 +1962,6 @@
     "none_yet": "Zatím nejsou publikovány žádné přehledy.",
     "nothing_here_yet": "Pro tato nastavení zatím nic není.",
     "nothing_new": "Právě teď nic nového.",
-    "region_hint": "Nechte prázdné pro celou Evropu.",
     "see_my_briefings": "Zobrazit moje přehledy",
     "sign_in_to_watch": "Pro sledování se přihlaste",
     "title": "Přehledy",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Tento přehled sledujete.",
     "your_feeds": "Vaše kanály",
     "your_region": "Váš region"
+  },
+  "region_input": {
+    "placeholder": "Vyhledat region nebo zemi",
+    "everywhere": "Evropa",
+    "everywhere_hint": "Všechny regiony",
+    "clear": "Vymazat region",
+    "no_match": "Žádný region neodpovídá „{term}“"
   }
 }

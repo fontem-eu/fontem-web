@@ -1962,7 +1962,6 @@
     "none_yet": "Der er endnu ingen offentliggjorte briefinger.",
     "nothing_here_yet": "Intet for disse indstillinger endnu.",
     "nothing_new": "Intet nyt lige nu.",
-    "region_hint": "Lad stå tomt for hele Europa.",
     "see_my_briefings": "Se mine briefinger",
     "sign_in_to_watch": "Log ind for at følge",
     "title": "Briefinger",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Du følger denne briefing.",
     "your_feeds": "Dine feeds",
     "your_region": "Din region"
+  },
+  "region_input": {
+    "placeholder": "Søg efter en region eller et land",
+    "everywhere": "Europa",
+    "everywhere_hint": "Alle regioner",
+    "clear": "Ryd region",
+    "no_match": "Ingen region matcher “{term}”"
   }
 }

@@ -1962,7 +1962,6 @@
     "none_yet": "Għad m'hemm ebda taqsira ppubblikata.",
     "nothing_here_yet": "Għad m'hemm xejn għal dawn is-settings.",
     "nothing_new": "Xejn ġdid bħalissa.",
-    "region_hint": "Ħalli vojt għall-Ewropa kollha.",
     "see_my_briefings": "Ara t-taqsiriet tiegħi",
     "sign_in_to_watch": "Idħol biex issegwi",
     "title": "Taqsiriet",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Qed issegwi din it-taqsira.",
     "your_feeds": "Il-feeds tiegħek",
     "your_region": "Ir-reġjun tiegħek"
+  },
+  "region_input": {
+    "placeholder": "Fittex reġjun jew pajjiż",
+    "everywhere": "L-Ewropa",
+    "everywhere_hint": "Ir-reġjuni kollha",
+    "clear": "Neħħi r-reġjun",
+    "no_match": "L-ebda reġjun ma jaqbel ma' “{term}”"
   }
 }

@@ -1962,7 +1962,6 @@
     "none_yet": "Katsauksia ei ole vielä julkaistu.",
     "nothing_here_yet": "Näillä asetuksilla ei vielä ole mitään.",
     "nothing_new": "Ei mitään uutta juuri nyt.",
-    "region_hint": "Jätä tyhjäksi koko Euroopalle.",
     "see_my_briefings": "Näytä omat katsaukseni",
     "sign_in_to_watch": "Kirjaudu seurataksesi",
     "title": "Katsaukset",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Seuraat tätä katsausta.",
     "your_feeds": "Syötteesi",
     "your_region": "Alueesi"
+  },
+  "region_input": {
+    "placeholder": "Hae aluetta tai maata",
+    "everywhere": "Eurooppa",
+    "everywhere_hint": "Kaikki alueet",
+    "clear": "Tyhjennä alue",
+    "no_match": "Mikään alue ei vastaa hakua ”{term}”"
   }
 }

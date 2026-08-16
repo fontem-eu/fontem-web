@@ -1962,7 +1962,6 @@
     "none_yet": "Pārskati vēl nav publicēti.",
     "nothing_here_yet": "Šiem iestatījumiem vēl nekā nav.",
     "nothing_new": "Šobrīd nekā jauna.",
-    "region_hint": "Atstāj tukšu visai Eiropai.",
     "see_my_briefings": "Skatīt manus pārskatus",
     "sign_in_to_watch": "Piesakies, lai sekotu",
     "title": "Pārskati",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Tu seko šim pārskatam.",
     "your_feeds": "Tavas plūsmas",
     "your_region": "Tavs reģions"
+  },
+  "region_input": {
+    "placeholder": "Meklēt reģionu vai valsti",
+    "everywhere": "Eiropa",
+    "everywhere_hint": "Visi reģioni",
+    "clear": "Notīrīt reģionu",
+    "no_match": "Neviens reģions neatbilst “{term}”"
   }
 }

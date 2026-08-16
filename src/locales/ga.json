@@ -1962,7 +1962,6 @@
     "none_yet": "Níl aon fhaisnéisiú foilsithe fós.",
     "nothing_here_yet": "Níl aon rud ann do na socruithe seo fós.",
     "nothing_new": "Níl aon rud nua faoi láthair.",
-    "region_hint": "Fág folamh don Eoraip ar fad.",
     "see_my_briefings": "Féach ar mo chuid faisnéisithe",
     "sign_in_to_watch": "Sínigh isteach chun faire",
     "title": "Faisnéisithe",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Tá tú ag faire air seo.",
     "your_feeds": "Do chuid fothaí",
     "your_region": "Do réigiún"
+  },
+  "region_input": {
+    "placeholder": "Cuardaigh réigiún nó tír",
+    "everywhere": "An Eoraip",
+    "everywhere_hint": "Gach réigiún",
+    "clear": "Glan an réigiún",
+    "no_match": "Níl aon réigiún ag teacht le “{term}”"
   }
 }

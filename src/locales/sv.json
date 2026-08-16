@@ -1962,7 +1962,6 @@
     "none_yet": "Inga nyhetsbrev är publicerade ännu.",
     "nothing_here_yet": "Inget för de här inställningarna ännu.",
     "nothing_new": "Inget nytt just nu.",
-    "region_hint": "Lämna tomt för hela Europa.",
     "see_my_briefings": "Visa mina nyhetsbrev",
     "sign_in_to_watch": "Logga in för att bevaka",
     "title": "Nyhetsbrev",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Du bevakar det här.",
     "your_feeds": "Dina flöden",
     "your_region": "Din region"
+  },
+  "region_input": {
+    "placeholder": "Sök efter en region eller ett land",
+    "everywhere": "Europa",
+    "everywhere_hint": "Alla regioner",
+    "clear": "Rensa region",
+    "no_match": "Ingen region matchar ”{term}”"
   }
 }

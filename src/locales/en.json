@@ -1962,7 +1962,6 @@
     "none_yet": "No briefings are published yet.",
     "nothing_here_yet": "Nothing here for these settings yet.",
     "nothing_new": "Nothing new right now.",
-    "region_hint": "Leave empty for all of Europe.",
     "see_my_briefings": "See my briefings",
     "sign_in_to_watch": "Sign in to watch",
     "title": "Briefings",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "You're watching this.",
     "your_feeds": "Your feeds",
     "your_region": "Your region"
+  },
+  "region_input": {
+    "placeholder": "Search for a region or country",
+    "everywhere": "Europe",
+    "everywhere_hint": "All regions",
+    "clear": "Clear region",
+    "no_match": "No region matches “{term}”"
   }
 }

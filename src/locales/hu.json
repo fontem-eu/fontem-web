@@ -1962,7 +1962,6 @@
     "none_yet": "Még nincs közzétett tájékoztató.",
     "nothing_here_yet": "Ezekhez a beállításokhoz még nincs semmi.",
     "nothing_new": "Jelenleg nincs újdonság.",
-    "region_hint": "Hagyja üresen egész Európához.",
     "see_my_briefings": "Tájékoztatóim megtekintése",
     "sign_in_to_watch": "Jelentkezzen be a követéshez",
     "title": "Tájékoztatók",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Ezt a tájékoztatót követi.",
     "your_feeds": "Az Ön hírcsatornái",
     "your_region": "Az Ön régiója"
+  },
+  "region_input": {
+    "placeholder": "Keressen régiót vagy országot",
+    "everywhere": "Európa",
+    "everywhere_hint": "Minden régió",
+    "clear": "Régió törlése",
+    "no_match": "Egyetlen régió sem felel meg ennek: „{term}”"
   }
 }

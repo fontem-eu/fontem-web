@@ -11,11 +11,12 @@ vi.mock('../../src/api/community.js', () => ({
   unwatch: vi.fn(),
 }))
 vi.mock('../../src/api/session.js', () => ({ isAuthed: { value: true } }))
-// The picker fetches the NUTS tree from the API; a plain input keeps this
-// test about briefings rather than about region loading.
-vi.mock('../../src/components/NutsRegionPicker.vue', () => ({
+// The region input fetches the NUTS tree from the API; a plain input keeps
+// this test about briefings rather than about region loading. The input has
+// its own tests in NutsRegionInput.test.js.
+vi.mock('../../src/components/NutsRegionInput.vue', () => ({
   default: {
-    name: 'NutsRegionPicker',
+    name: 'NutsRegionInput',
     props: ['modelValue'],
     emits: ['update:modelValue'],
     template: '<input data-testid="region" :value="modelValue" '

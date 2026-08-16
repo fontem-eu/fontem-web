@@ -1962,7 +1962,6 @@
     "none_yet": "Objavljenih poročil še ni.",
     "nothing_here_yet": "Za te nastavitve še ni ničesar.",
     "nothing_new": "Trenutno nič novega.",
-    "region_hint": "Pustite prazno za vso Evropo.",
     "see_my_briefings": "Poglej moja poročila",
     "sign_in_to_watch": "Za spremljanje se prijavite",
     "title": "Poročila",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "To poročilo spremljate.",
     "your_feeds": "Vaši viri",
     "your_region": "Vaša regija"
+  },
+  "region_input": {
+    "placeholder": "Poiščite regijo ali državo",
+    "everywhere": "Evropa",
+    "everywhere_hint": "Vse regije",
+    "clear": "Počisti regijo",
+    "no_match": "Nobena regija ne ustreza iskanju »{term}«"
   }
 }

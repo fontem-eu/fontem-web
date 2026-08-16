@@ -1962,7 +1962,6 @@
     "none_yet": "Încă nu există buletine publicate.",
     "nothing_here_yet": "Încă nimic pentru aceste setări.",
     "nothing_new": "Nimic nou momentan.",
-    "region_hint": "Lasă gol pentru toată Europa.",
     "see_my_briefings": "Vezi buletinele mele",
     "sign_in_to_watch": "Autentifică-te pentru a urmări",
     "title": "Buletine",
@@ -1974,5 +1973,12 @@
     "you_are_watching": "Urmărești acest buletin.",
     "your_feeds": "Fluxurile tale",
     "your_region": "Regiunea ta"
+  },
+  "region_input": {
+    "placeholder": "Caută o regiune sau o țară",
+    "everywhere": "Europa",
+    "everywhere_hint": "Toate regiunile",
+    "clear": "Șterge regiunea",
+    "no_match": "Nicio regiune nu corespunde cu „{term}”"
   }
 }
