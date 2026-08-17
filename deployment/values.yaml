@@ -4,6 +4,7 @@ version: "vbf141f7"
 # display/labels; empty falls back to the `version` tag.
 digest: ""
 domain: localhost
+containerPort: 80   # 80 for the old nginx base; 8080 for the hardened nonroot Chainguard nginx
 serviceType: ClusterIP
 replicas: 1
 

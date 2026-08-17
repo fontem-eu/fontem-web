@@ -59,7 +59,7 @@ jobs:
         # Bind host 8080 → container 80. If the image ever stops
         # listening on 80 (the SSR port-mismatch that broke staging),
         # the readiness probe below fails and the job errors out.
-        run: docker run -d --name fontem-web-smoke -p 8080:80 fontem-web:smoke
+        run: docker run -d --name fontem-web-smoke -p 8080:8080 fontem-web:smoke
       - name: Wait for readiness
         run: |
           for i in $(seq 1 30); do

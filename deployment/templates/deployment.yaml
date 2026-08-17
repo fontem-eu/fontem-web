@@ -45,7 +45,7 @@ spec:
             - name: MINIO_BUCKET
               value: {{ .Values.minioBucket | default "fontem-uploads" | quote }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.containerPort | default 80 }}
           resources:
             requests:
               memory: "32Mi"

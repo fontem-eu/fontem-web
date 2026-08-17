@@ -26,15 +26,21 @@ RUN npm run build
 # Plain nginx serving the prerendered HTML + client assets.  The
 # SSR-era Fastify runtime is gone — every URL we index is baked into a
 # static file at build time and cached hard by the CDN / Traefik edge.
-FROM nginx:1.31
+# ── Stage 2: static busybox (render entrypoint; distroless has no shell) ──────
+FROM dockerhub.void42.internal/library/busybox:musl AS busybox
+
+# ── Stage 3: serve — hardened distroless Chainguard nginx (nonroot uid 65532) ─
+FROM cgr.void42.internal/chainguard/nginx:latest
+COPY --from=busybox /bin/busybox /usr/local/bin/busybox
 COPY --from=build /app/dist/client /usr/share/nginx/html
-COPY rate-limit.conf /etc/nginx/conf.d/00-rate-limit.conf
+COPY nginx.conf            /etc/nginx/templates/default.conf.template
+COPY rate-limit.conf       /etc/nginx/rate-limit.conf
 COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
-COPY nginx.conf /etc/nginx/templates/default.conf.template
-# nginx's image envsubst-templates only substitute vars listed in
-# NGINX_ENVSUBST_FILTER; explicit defaults below double as the
-# allowlist (nginx will only replace these — anything else like
-# ${remote_addr} in nginx variables is left alone).
+COPY nginx-main.conf       /etc/nginx/nginx.conf
+COPY docker-entrypoint.sh  /usr/local/bin/docker-entrypoint.sh
+# Same env contract as before (per-env overrides via k8s); rendered at start.
 ENV POD_NAMESPACE=fontem-prod \
     MINIO_NAMESPACE=fontem-prod \
     MINIO_BUCKET=fontem-uploads
+EXPOSE 8080
+ENTRYPOINT ["/usr/local/bin/busybox", "sh", "/usr/local/bin/docker-entrypoint.sh"]
