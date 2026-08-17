@@ -56,20 +56,17 @@ describe('MyBriefingsView', () => {
       { nuts: ['PT'], volume: 10 })
   })
 
-  it('shows the Atom URL so a real reader can take over', async () => {
+  it('is a reading surface only — managing lives on /briefings', async () => {
     const w = await mountView()
-    expect(w.find('[data-testid="feeds"]').exists()).toBe(true)
-    expect(w.find('[data-testid="copy-w1"]').exists()).toBe(true)
+    expect(w.find('[data-testid="feeds"]').exists()).toBe(false)
+    expect(w.find('[data-testid="copy-w1"]').exists()).toBe(false)
+    expect(w.find('[data-testid="manage-link"]').exists()).toBe(true)
   })
 
-  it('copies the feed URL to the clipboard', async () => {
-    const writeText = vi.fn().mockResolvedValue()
-    vi.stubGlobal('navigator', { clipboard: { writeText } })
+  it('tags each item with the briefing it came from', async () => {
     const w = await mountView()
-    await w.find('[data-testid="copy-w1"]').trigger('click')
-    await flushPromises()
-    expect(writeText).toHaveBeenCalledWith(WATCH.feed_url)
-    vi.unstubAllGlobals()
+    const tags = w.findAll('[data-testid="source-tag"]').map((t) => t.text())
+    expect(tags).toEqual(['Public investment'])
   })
 
   it('marks what arrived since the last visit', async () => {
@@ -108,6 +105,9 @@ describe('MyBriefingsView', () => {
     const w = await mountView()
     const titles = w.findAll('[data-testid="items"] a').map((a) => a.text())
     expect(titles).toEqual(['Item newest', 'Item older'])
+    // Merged from two briefings, and each item still says which.
+    expect(w.findAll('[data-testid="source-tag"]').map((t) => t.text()))
+      .toEqual(['Law', 'Public investment'])
   })
 
   it('points a reader with no watches at the catalogue', async () => {

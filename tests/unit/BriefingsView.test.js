@@ -11,9 +11,8 @@ vi.mock('../../src/api/community.js', () => ({
   unwatch: vi.fn(),
 }))
 vi.mock('../../src/api/session.js', () => ({ isAuthed: { value: true } }))
-// The region input fetches the NUTS tree from the API; a plain input keeps
-// this test about briefings rather than about region loading. The input has
-// its own tests in NutsRegionInput.test.js.
+// The region input has its own tests; a plain field keeps this one about
+// briefings rather than about loading the NUTS tree.
 vi.mock('../../src/components/NutsRegionInput.vue', () => ({
   default: {
     name: 'NutsRegionInput',
@@ -29,15 +28,18 @@ import {
   listBriefings, getBriefing, watchBriefing, listMyWatches, unwatch,
 } from '../../src/api/community.js'
 
-const GROUP = {
+const INVEST = {
   id: 'g1', slug: 'public-investment', name: 'Public investment',
   description: 'Where public money goes.', queries: [],
 }
-const ITEM = {
-  item_id: 'c1', item_time: '2026-08-13T00:00:00Z', nuts: ['PT17'],
-  rank_value: 11000000, title: 'A big contract', link: 'https://fontem.eu/c/1',
-  summary: 'Details',
+const INFLUENCE = {
+  id: 'g2', slug: 'corporate-influence', name: 'Corporate influence',
+  description: 'Who shapes the rules.', queries: [],
 }
+const item = (id) => ({
+  item_id: id, item_time: '2026-08-13T00:00:00Z', nuts: ['PT17'],
+  rank_value: 11000000, title: `Item ${id}`, link: `https://x/${id}`, summary: '',
+})
 
 async function mountView() {
   const router = createRouter({
@@ -52,91 +54,160 @@ async function mountView() {
   return w
 }
 
+async function open(w, slug) {
+  await w.find(`[data-testid="briefing-${slug}"]`).trigger('click')
+  await flushPromises()
+}
+
 beforeEach(() => {
   vi.clearAllMocks()
-  listBriefings.mockResolvedValue([GROUP])
-  getBriefing.mockResolvedValue({ ...GROUP, items: [ITEM] })
+  listBriefings.mockResolvedValue([INVEST, INFLUENCE])
+  getBriefing.mockResolvedValue({ ...INVEST, items: [item('a'), item('b')] })
   listMyWatches.mockResolvedValue([])
 })
 
-describe('BriefingsView', () => {
-  it('lists briefings and previews the first without being asked', async () => {
+describe('BriefingsView — cards', () => {
+  it('lists briefings collapsed, fetching nothing until one is opened', async () => {
     const w = await mountView()
-    expect(w.find('[data-testid="briefing-public-investment"]').text())
-      .toContain('Public investment')
-    expect(w.find('[data-testid="items"]').text()).toContain('A big contract')
+    expect(w.find('[data-testid="briefing-public-investment"]').exists()).toBe(true)
+    expect(w.find('[data-testid="panel-public-investment"]').exists()).toBe(false)
+    expect(getBriefing).not.toHaveBeenCalled()
   })
 
-  it('previews anonymously — deciding to watch means seeing inside first', async () => {
-    // The preview call carries no auth of its own; the endpoint is public.
-    await mountView()
-    expect(getBriefing).toHaveBeenCalled()
-    expect(watchBriefing).not.toHaveBeenCalled()
+  it('expands in place, with the controls inside the card', async () => {
+    const w = await mountView()
+    await open(w, 'public-investment')
+    const panel = w.find('[data-testid="panel-public-investment"]')
+    expect(panel.exists()).toBe(true)
+    expect(panel.find('[data-testid="region"]').exists()).toBe(true)
+    expect(panel.find('[data-testid="volume-public-investment"]').exists()).toBe(true)
+    expect(panel.find('[data-testid="watch-public-investment"]').exists()).toBe(true)
   })
 
-  it('re-previews when the region changes, so the sample matches the settings', async () => {
+  it('shows a short sample inside the card, not the whole briefing', async () => {
+    getBriefing.mockResolvedValue({
+      ...INVEST, items: ['a', 'b', 'c', 'd', 'e', 'f'].map(item),
+    })
     const w = await mountView()
+    await open(w, 'public-investment')
+    expect(w.findAll('[data-testid="items-public-investment"] li')).toHaveLength(4)
+  })
+
+  it('only one card is open at a time', async () => {
+    const w = await mountView()
+    await open(w, 'public-investment')
+    await open(w, 'corporate-influence')
+    expect(w.find('[data-testid="panel-public-investment"]').exists()).toBe(false)
+    expect(w.find('[data-testid="panel-corporate-influence"]').exists()).toBe(true)
+  })
+
+  it('clicking the open card closes it', async () => {
+    const w = await mountView()
+    await open(w, 'public-investment')
+    await open(w, 'public-investment')
+    expect(w.find('[data-testid="panel-public-investment"]').exists()).toBe(false)
+  })
+
+  it('re-samples when the region or the volume changes', async () => {
+    const w = await mountView()
+    await open(w, 'public-investment')
     getBriefing.mockClear()
     await w.find('[data-testid="region"]').setValue('PT16')
     await flushPromises()
     expect(getBriefing.mock.calls.at(-1)[1].nuts).toEqual(['PT16'])
-  })
 
-  it('sends EU when no region is chosen', async () => {
-    await mountView()
-    expect(getBriefing.mock.calls.at(-1)[1].nuts).toEqual(['EU'])
-  })
-
-  it('re-previews when the volume changes', async () => {
-    const w = await mountView()
-    getBriefing.mockClear()
-    await w.find('[data-testid="volume"]').setValue('25')
+    await w.find('[data-testid="volume-public-investment"]').setValue('25')
     await flushPromises()
     expect(getBriefing.mock.calls.at(-1)[1].volume).toBe(25)
   })
 
-  it('watches with the settings currently shown', async () => {
+  it('watches with the settings shown in that card', async () => {
     const w = await mountView()
+    await open(w, 'public-investment')
     await w.find('[data-testid="region"]').setValue('PT')
-    await w.find('[data-testid="volume"]').setValue('3')
     await flushPromises()
     watchBriefing.mockResolvedValue({ id: 'w1', group_id: 'g1' })
-    listMyWatches.mockResolvedValue([{ id: 'w1', group_id: 'g1', nuts: ['PT'] }])
-
-    await w.find('[data-testid="watch"]').trigger('click')
+    listMyWatches.mockResolvedValue([
+      { id: 'w1', group_id: 'g1', nuts: ['PT'], volume_per_week: 10, feed_url: 'https://f/1.atom' },
+    ])
+    await w.find('[data-testid="watch-public-investment"]').trigger('click')
     await flushPromises()
     expect(watchBriefing).toHaveBeenCalledWith('public-investment',
-      { nuts: ['PT'], volume_per_week: 3 })
+      { nuts: ['PT'], volume_per_week: 10 })
   })
 
-  it('offers update and stop once already watching', async () => {
-    listMyWatches.mockResolvedValue([{ id: 'w1', group_id: 'g1', nuts: ['EU'] }])
+  it('opens a watched briefing with that watch’s own settings', async () => {
+    /** Otherwise the sample answers a question the reader did not ask. */
+    listMyWatches.mockResolvedValue([
+      { id: 'w1', group_id: 'g1', nuts: ['ES30'], volume_per_week: 25, feed_url: 'https://f/1.atom' },
+    ])
     const w = await mountView()
-    expect(w.find('[data-testid="watch"]').exists()).toBe(false)
-    expect(w.find('[data-testid="update-watch"]').exists()).toBe(true)
-    expect(w.find('[data-testid="watching-note"]').exists()).toBe(true)
-
-    unwatch.mockResolvedValue(null)
-    listMyWatches.mockResolvedValue([])
-    await w.find('[data-testid="unwatch"]').trigger('click')
-    await flushPromises()
-    expect(unwatch).toHaveBeenCalledWith('w1')
-    expect(w.find('[data-testid="watch"]').exists()).toBe(true)
+    await open(w, 'public-investment')
+    expect(getBriefing.mock.calls.at(-1)[1]).toEqual({ nuts: ['ES30'], volume: 25 })
   })
 
-  it('sends an anonymous visitor to sign in rather than hiding the button', async () => {
+  it('marks which briefings are watched without opening them', async () => {
+    listMyWatches.mockResolvedValue([
+      { id: 'w1', group_id: 'g1', nuts: ['EU'], volume_per_week: 10, feed_url: 'https://f/1.atom' },
+    ])
+    const w = await mountView()
+    expect(w.find('[data-testid="watching-public-investment"]').exists()).toBe(true)
+    expect(w.find('[data-testid="watching-corporate-influence"]').exists()).toBe(false)
+  })
+
+  it('sends an anonymous visitor to sign in rather than hiding the option', async () => {
     const session = await import('../../src/api/session.js')
     session.isAuthed.value = false
     const w = await mountView()
-    expect(w.find('[data-testid="watch-login"]').exists()).toBe(true)
-    expect(w.find('[data-testid="watch"]').exists()).toBe(false)
+    await open(w, 'public-investment')
+    expect(w.find('[data-testid="watch-login-public-investment"]').exists()).toBe(true)
+    expect(w.find('[data-testid="watch-public-investment"]').exists()).toBe(false)
     session.isAuthed.value = true
   })
+})
 
-  it('says so when a briefing has nothing for these settings', async () => {
-    getBriefing.mockResolvedValue({ ...GROUP, items: [] })
+describe('BriefingsView — managing what you watch', () => {
+  beforeEach(() => {
+    listMyWatches.mockResolvedValue([
+      { id: 'w1', group_id: 'g1', nuts: ['PT'], volume_per_week: 10,
+        feed_url: 'https://fontem.eu/capi/feeds/tok.atom' },
+    ])
+  })
+
+  it('lists the watched briefings with their settings and feed', async () => {
     const w = await mountView()
-    expect(w.find('[data-testid="no-items"]').exists()).toBe(true)
+    const manage = w.find('[data-testid="manage"]')
+    expect(manage.exists()).toBe(true)
+    expect(manage.text()).toContain('Public investment')
+    expect(manage.text()).toContain('PT')
+    expect(w.find('[data-testid="copy-public-investment"]').exists()).toBe(true)
+  })
+
+  it('is absent entirely when nothing is watched', async () => {
+    listMyWatches.mockResolvedValue([])
+    const w = await mountView()
+    expect(w.find('[data-testid="manage"]').exists()).toBe(false)
+  })
+
+  it('copies the Atom URL', async () => {
+    const writeText = vi.fn().mockResolvedValue()
+    vi.stubGlobal('navigator', { clipboard: { writeText } })
+    const w = await mountView()
+    await w.find('[data-testid="copy-public-investment"]').trigger('click')
+    await flushPromises()
+    expect(writeText).toHaveBeenCalledWith('https://fontem.eu/capi/feeds/tok.atom')
+    vi.unstubAllGlobals()
+  })
+
+  it('stops watching from inside the card', async () => {
+    unwatch.mockResolvedValue(null)
+    const w = await mountView()
+    await open(w, 'public-investment')
+    listMyWatches.mockResolvedValue([])
+    await w.find('[data-testid="unwatch-public-investment"]').trigger('click')
+    await flushPromises()
+    expect(unwatch).toHaveBeenCalledWith('w1')
+    expect(w.find('[data-testid="manage"]').exists()).toBe(false)
   })
 
   it('shows the server error instead of failing silently', async () => {
