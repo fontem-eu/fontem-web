@@ -1,24 +1,25 @@
 <script setup>
 /**
- * Briefings — browse them, manage the ones you watch.
+ * Briefings — your subscriptions, and what else there is to subscribe to.
  *
- * This page is the CONTROL surface. Reading is /my-briefings; nothing here
- * tries to be a feed. Keeping the two apart is deliberate: a page that both
- * configures a subscription and streams its contents makes you scroll past
- * settings to read, and past content to change a setting.
+ * Two lists, in that order, because they answer different questions. The top
+ * one is "what am I getting?", the bottom is "what else could I get?".
  *
- * Cards expand in place. The earlier version put the region picker, the
- * volume and the Watch button in a pane below the list, so choosing a
- * briefing meant looking somewhere else for the controls that belonged to it.
- * Everything about a briefing now lives inside its own card, including a
- * sample of what is actually in it — because the sample is the thing that
- * tells you whether the settings you just picked are any good.
+ * A WATCH IS NOT A BRIEFING. One briefing can be watched several times at
+ * different scopes — fifty a week from Coimbra, ten from Portugal, ten from
+ * the whole EU — because a local award and a European one are different kinds
+ * of news to the same reader. An earlier version modelled this as at most one
+ * watch per briefing and silently overwrote the previous settings, which made
+ * a second subscription look like it worked while destroying the first. So
+ * the top list is of WATCHES, each editable in place and each with its own
+ * feed URL; the bottom list is of briefings, and every one of them can be
+ * added again.
  */
 import { ref, computed, onMounted } from 'vue'
 import { isAuthed } from '../api/session.js'
 import NutsRegionInput from '../components/NutsRegionInput.vue'
 import {
-  listBriefings, getBriefing, watchBriefing, listMyWatches, unwatch,
+  listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
 } from '../api/community.js'
 
 const VOLUMES = [3, 10, 25, 50]
@@ -28,24 +29,36 @@ const PREVIEW_ITEMS = 4
 const briefings = ref([])
 const watches = ref([])
 const expanded = ref('')
-/** Per-card working state, keyed by slug: what the reader is currently
- *  choosing, plus the sample fetched for those choices. */
 const cards = ref({})
+const editing = ref('')
+const drafts = ref({})
 const loading = ref(true)
 const busy = ref('')
 const error = ref(null)
+const copied = ref('')
 
 const authed = computed(() => isAuthed.value)
-const watchedIds = computed(() => new Set(watches.value.map((w) => w.group_id)))
-const watched = computed(() => briefings.value.filter((b) => watchedIds.value.has(b.id)))
+const byId = computed(() => Object.fromEntries(briefings.value.map((b) => [b.id, b])))
 
-function watchFor(briefing) {
-  return watches.value.find((w) => w.group_id === briefing.id) || null
-}
+/** Watches, each resolved to the briefing it belongs to. */
+const subscriptions = computed(() => watches.value.map((w) => ({
+  watch: w,
+  briefing: byId.value[w.group_id] || { name: '—', slug: '' },
+})))
 
 function cardOf(slug) {
   if (!cards.value[slug]) cards.value[slug] = { region: '', volume: 10, items: [], loaded: false }
   return cards.value[slug]
+}
+
+function draftOf(watch) {
+  if (!drafts.value[watch.id]) {
+    drafts.value[watch.id] = {
+      region: watch.nuts.includes('EU') ? '' : watch.nuts[0],
+      volume: watch.volume_per_week,
+    }
+  }
+  return drafts.value[watch.id]
 }
 
 onMounted(async () => {
@@ -66,20 +79,55 @@ async function load() {
   }
 }
 
+async function run(key, fn) {
+  busy.value = key
+  error.value = null
+  try {
+    await fn()
+    watches.value = await listMyWatches()
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    busy.value = ''
+  }
+}
+
+// ── the subscription list ───────────────────────────────────
+function startEditing(watch) {
+  editing.value = editing.value === watch.id ? '' : watch.id
+  draftOf(watch)
+}
+
+async function saveWatch(watch) {
+  const draft = draftOf(watch)
+  await run(watch.id, () => adjustWatch(watch.id, {
+    nuts: draft.region ? [draft.region] : ['EU'],
+    volume_per_week: draft.volume,
+  }))
+  editing.value = ''
+}
+
+async function removeWatch(watch) {
+  await run(watch.id, () => unwatch(watch.id))
+}
+
+async function copyFeed(url) {
+  try {
+    await navigator.clipboard.writeText(url)
+    copied.value = url
+    setTimeout(() => { copied.value = '' }, 2000)
+  } catch {
+    error.value = 'clipboard'
+  }
+}
+
+// ── the catalogue ───────────────────────────────────────────
 async function toggle(briefing) {
   if (expanded.value === briefing.slug) {
     expanded.value = ''
     return
   }
   expanded.value = briefing.slug
-  const card = cardOf(briefing.slug)
-  // Opening a briefing you already watch should show YOUR settings, not the
-  // defaults — otherwise the sample answers a question you did not ask.
-  const existing = watchFor(briefing)
-  if (existing && !card.loaded) {
-    card.region = existing.nuts.includes('EU') ? '' : existing.nuts[0]
-    card.volume = existing.volume_per_week
-  }
   await refresh(briefing)
 }
 
@@ -94,52 +142,21 @@ async function refresh(briefing) {
     const detail = await getBriefing(briefing.slug,
       { nuts: regionsOf(card), volume: card.volume })
     card.items = (detail.items || []).slice(0, PREVIEW_ITEMS)
-    card.total = detail.items ? detail.items.length : 0
     card.loaded = true
   } catch (err) {
     error.value = err.message
   }
 }
 
-async function onWatch(briefing) {
+async function onAdd(briefing) {
   const card = cardOf(briefing.slug)
-  busy.value = briefing.slug
-  error.value = null
-  try {
-    await watchBriefing(briefing.slug,
-      { nuts: regionsOf(card), volume_per_week: card.volume })
-    watches.value = await listMyWatches()
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    busy.value = ''
-  }
+  await run(briefing.slug, () => addWatch(briefing.slug, {
+    nuts: regionsOf(card), volume_per_week: card.volume,
+  }))
 }
 
-async function onUnwatch(briefing) {
-  const existing = watchFor(briefing)
-  if (!existing) return
-  busy.value = briefing.slug
-  error.value = null
-  try {
-    await unwatch(existing.id)
-    watches.value = await listMyWatches()
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    busy.value = ''
-  }
-}
-
-const copied = ref('')
-async function copyFeed(url) {
-  try {
-    await navigator.clipboard.writeText(url)
-    copied.value = url
-    setTimeout(() => { copied.value = '' }, 2000)
-  } catch {
-    error.value = 'clipboard'
-  }
+function countFor(briefing) {
+  return watches.value.filter((w) => w.group_id === briefing.id).length
 }
 
 function fmtDate(iso) {
@@ -163,48 +180,89 @@ function fmtValue(value) {
 
     <p v-if="error" class="bf-error" data-testid="error">{{ error }}</p>
     <p v-if="loading" class="bf-muted">{{ $t('app.loading') }}</p>
-    <p v-else-if="!briefings.length" class="bf-muted" data-testid="empty">
-      {{ $t('briefings.none_yet') }}
-    </p>
 
-    <!-- Manage: only the ones you watch, with their feed URLs. -->
-    <section v-if="watched.length" class="bf-manage" data-testid="manage">
+    <!-- 1. What you are getting. -->
+    <section v-if="authed && !loading" class="bf-subs" data-testid="subscriptions">
       <h2>{{ $t('briefings.manage') }}</h2>
-      <p class="bf-muted">{{ $t('briefings.feeds_hint') }}</p>
-      <ul class="bf-manage-list">
-        <li v-for="b in watched" :key="b.id">
-          <span class="bf-manage-name">{{ b.name }}</span>
-          <span class="bf-chips">
-            <span v-for="r in watchFor(b).nuts" :key="r" class="bf-chip">{{ r }}</span>
-            <span class="bf-chip">
-              {{ $t('briefings.n_a_week', { n: watchFor(b).volume_per_week }) }}
+      <p v-if="!subscriptions.length" class="bf-muted" data-testid="no-subs">
+        {{ $t('briefings.watch_nothing_yet') }}
+      </p>
+      <ul v-else class="bf-sub-list">
+        <li v-for="{ watch, briefing } in subscriptions" :key="watch.id" class="bf-sub-row">
+          <div class="bf-sub-head">
+            <span class="bf-sub-name">{{ briefing.name }}</span>
+            <span class="bf-chips">
+              <span v-for="r in watch.nuts" :key="r" class="bf-chip">{{ r }}</span>
+              <span class="bf-chip">
+                {{ $t('briefings.n_a_week', { n: watch.volume_per_week }) }}
+              </span>
             </span>
-          </span>
-          <button
-            class="bf-mini" :data-testid="`copy-${b.slug}`"
-            @click="copyFeed(watchFor(b).feed_url)"
-          >{{ copied === watchFor(b).feed_url ? $t('briefings.copied') : $t('briefings.copy_feed') }}</button>
-          <router-link to="/my-briefings" class="bf-mini">
-            {{ $t('briefings.see_my_briefings') }}
-          </router-link>
+            <button
+class="bf-mini" :data-testid="`edit-${watch.id}`"
+                    @click="startEditing(watch)">{{ $t('briefings.edit') }}</button>
+            <button
+class="bf-mini" :data-testid="`copy-${watch.id}`"
+                    @click="copyFeed(watch.feed_url)">
+              {{ copied === watch.feed_url ? $t('briefings.copied') : $t('briefings.copy_feed') }}
+            </button>
+            <button
+class="bf-mini bf-danger" :disabled="busy === watch.id"
+                    :data-testid="`remove-${watch.id}`"
+                    @click="removeWatch(watch)">{{ $t('briefings.unwatch') }}</button>
+          </div>
+
+          <div
+v-if="editing === watch.id" class="bf-controls"
+               :data-testid="`editor-${watch.id}`">
+            <label class="bf-field">
+              <span>{{ $t('briefings.your_region') }}</span>
+              <NutsRegionInput
+                :model-value="draftOf(watch).region"
+                @update:model-value="(v) => { draftOf(watch).region = v }"
+              />
+            </label>
+            <label class="bf-field bf-narrow">
+              <span>{{ $t('briefings.how_much') }}</span>
+              <select
+                :value="draftOf(watch).volume" :data-testid="`edit-volume-${watch.id}`"
+                @change="(e) => { draftOf(watch).volume = Number(e.target.value) }"
+              >
+                <option v-for="v in VOLUMES" :key="v" :value="v">
+                  {{ $t('briefings.n_a_week', { n: v }) }}
+                </option>
+              </select>
+            </label>
+            <button
+class="bf-btn bf-primary" :disabled="busy === watch.id"
+                    :data-testid="`save-${watch.id}`"
+                    @click="saveWatch(watch)">{{ $t('app.save') }}</button>
+          </div>
         </li>
       </ul>
     </section>
 
-    <!-- Browse: every briefing, expanding in place. -->
+    <!-- 2. What else there is. -->
+    <h2 v-if="!loading && briefings.length" class="bf-catalogue-title">
+      {{ $t('briefings.available') }}
+    </h2>
+    <p v-if="!loading && !briefings.length" class="bf-muted" data-testid="empty">
+      {{ $t('briefings.none_yet') }}
+    </p>
+
     <ul v-if="briefings.length" class="bf-cards" data-testid="briefing-list">
       <li
 v-for="b in briefings" :key="b.slug" class="bf-card"
           :class="{ 'is-open': expanded === b.slug }">
         <button
-          class="bf-card-head" :data-testid="`briefing-${b.slug}`"
-          :aria-expanded="expanded === b.slug" @click="toggle(b)"
-        >
+class="bf-card-head" :data-testid="`briefing-${b.slug}`"
+                :aria-expanded="expanded === b.slug" @click="toggle(b)">
           <span class="bf-card-title">
             {{ b.name }}
             <span
-v-if="watchedIds.has(b.id)" class="bf-chip is-watching"
-                  :data-testid="`watching-${b.slug}`">{{ $t('briefings.watching') }}</span>
+v-if="countFor(b)" class="bf-chip is-watching"
+                  :data-testid="`watching-${b.slug}`">
+              {{ $t('briefings.n_watches', { n: countFor(b) }) }}
+            </span>
           </span>
           <span class="bf-card-desc">{{ b.description }}</span>
           <span class="bf-caret" aria-hidden="true">{{ expanded === b.slug ? '▾' : '▸' }}</span>
@@ -231,17 +289,11 @@ v-if="watchedIds.has(b.id)" class="bf-chip is-watching"
               </select>
             </label>
             <div class="bf-actions">
-              <template v-if="authed">
-                <button
-                  class="bf-btn bf-primary" :disabled="busy === b.slug"
-                  :data-testid="`watch-${b.slug}`" @click="onWatch(b)"
-                >{{ watchedIds.has(b.id) ? $t('briefings.update_watch') : $t('briefings.watch') }}</button>
-                <button
-                  v-if="watchedIds.has(b.id)" class="bf-btn bf-danger"
-                  :disabled="busy === b.slug" :data-testid="`unwatch-${b.slug}`"
-                  @click="onUnwatch(b)"
-                >{{ $t('briefings.unwatch') }}</button>
-              </template>
+              <button
+v-if="authed" class="bf-btn bf-primary" :disabled="busy === b.slug"
+                      :data-testid="`add-${b.slug}`" @click="onAdd(b)">
+                {{ countFor(b) ? $t('briefings.add_another') : $t('briefings.watch') }}
+              </button>
               <router-link
 v-else to="/login" class="bf-btn bf-primary"
                            :data-testid="`watch-login-${b.slug}`">
@@ -279,11 +331,14 @@ v-if="!cardOf(b.slug).items.length" class="bf-muted"
 .bf-sub { font-size: 0.9rem; color: var(--muted); margin-top: 0.4rem; max-width: 55ch; }
 .bf-muted { color: var(--muted); font-size: 0.88rem; }
 .bf-error { color: #c0392b; font-size: 0.85rem; margin: 0.5rem 0; }
-.bf-manage { border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1.5rem; }
-.bf-manage h2 { font-size: 1rem; margin: 0 0 0.2rem; }
-.bf-manage-list { list-style: none; margin: 0.6rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
-.bf-manage-list li { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; font-size: 0.88rem; }
-.bf-manage-name { font-weight: 600; flex: 1; }
+.bf-subs { border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1.75rem; }
+.bf-subs h2 { font-size: 1rem; margin: 0 0 0.5rem; }
+.bf-sub-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.bf-sub-row { display: grid; gap: 0.6rem; }
+.bf-sub-row + .bf-sub-row { border-top: 1px solid var(--border); padding-top: 0.6rem; }
+.bf-sub-head { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; font-size: 0.88rem; }
+.bf-sub-name { font-weight: 600; }
+.bf-catalogue-title { font-size: 1rem; margin: 0 0 0.6rem; }
 .bf-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
 .bf-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .bf-card.is-open { border-color: var(--accent); }
@@ -301,14 +356,14 @@ v-if="!cardOf(b.slug).items.length" class="bf-muted"
 .bf-btn { font: inherit; font-size: 0.86rem; padding: 0.48rem 0.95rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface, #f6f8fa); color: inherit; cursor: pointer; text-decoration: none; white-space: nowrap; }
 .bf-btn:disabled { opacity: 0.5; cursor: default; }
 .bf-primary { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-.bf-danger { border-color: #c0392b; color: #c0392b; }
 .bf-mini { font: inherit; font-size: 0.78rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 7px; background: none; color: var(--accent); cursor: pointer; text-decoration: none; }
+.bf-mini.bf-danger { color: #c0392b; border-color: color-mix(in srgb, #c0392b 40%, transparent); }
 .bf-sample-title { font-size: 0.85rem; margin: 0; color: var(--muted); }
 .bf-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
 .bf-entry a { font-weight: 600; font-size: 0.92rem; color: var(--text); text-decoration: none; }
 .bf-entry a:hover { color: var(--accent); text-decoration: underline; }
 .bf-entry-meta { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; font-size: 0.74rem; color: var(--muted); margin: 0.25rem 0 0; }
-.bf-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.bf-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; flex: 1; }
 .bf-chip { font-size: 0.7rem; padding: 0.05rem 0.4rem; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
 .bf-chip.is-watching { border-color: var(--accent); color: var(--accent); }
 .bf-value { font-variant-numeric: tabular-nums; }

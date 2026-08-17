@@ -128,3 +128,41 @@ describe('MyBriefingsView', () => {
     expect(w.find('[data-testid="error"]').text()).toContain('boom')
   })
 })
+
+describe('MyBriefingsView — overlapping watches', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    localStorage.clear()
+  })
+
+  it('shows an item once even when two watches both cover it', async () => {
+    /** Coimbra and Portugal overlap on purpose — each feed answers its own
+     *  question — but the merged reading view is one stream. */
+    listMyWatches.mockResolvedValue([
+      { ...WATCH, id: 'w1', nuts: ['PT16'], volume_per_week: 50 },
+      { ...WATCH, id: 'w2', nuts: ['PT'], volume_per_week: 10 },
+    ])
+    listBriefings.mockResolvedValue([GROUP])
+    getBriefing.mockResolvedValue({
+      ...GROUP, items: [item('same-contract', '2026-08-13T00:00:00Z')],
+    })
+    const w = await mountView()
+    expect(w.findAll('[data-testid="items"] > li')).toHaveLength(1)
+  })
+
+  it('still shows the same record twice if two different briefings surface it', async () => {
+    /** Two briefings finding the same thing is two findings, not a duplicate. */
+    listMyWatches.mockResolvedValue([
+      { ...WATCH, id: 'w1', group_id: 'g1' },
+      { ...WATCH, id: 'w2', group_id: 'g2' },
+    ])
+    listBriefings.mockResolvedValue([GROUP, { ...GROUP, id: 'g2', slug: 'law', name: 'Law' }])
+    getBriefing.mockResolvedValue({
+      ...GROUP, items: [item('shared', '2026-08-13T00:00:00Z')],
+    })
+    const w = await mountView()
+    expect(w.findAll('[data-testid="items"] > li')).toHaveLength(2)
+    expect(w.findAll('[data-testid="source-tag"]').map((t) => t.text()).sort())
+      .toEqual(['Law', 'Public investment'])
+  })
+})

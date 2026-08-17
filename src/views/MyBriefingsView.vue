@@ -68,7 +68,17 @@ async function load() {
         { nuts: watch.nuts, volume: watch.volume_per_week })
       return (detail.items || []).map((i) => ({ ...i, _from: briefing.name }))
     }))
-    items.value = perWatch.flat().sort(
+    // Watches overlap on purpose — Coimbra and Portugal both cover Coimbra —
+    // so the same item arrives from several of them. Each feed answers its
+    // own question, but the merged reading view is one stream and must show
+    // a thing once. Keyed by briefing + item so the same record appearing in
+    // two different briefings still reads as two findings, which it is.
+    const seen = new Map()
+    for (const item of perWatch.flat()) {
+      const key = `${item._from}::${item.item_id}`
+      if (!seen.has(key)) seen.set(key, item)
+    }
+    items.value = [...seen.values()].sort(
       (a, b) => new Date(b.item_time) - new Date(a.item_time),
     )
   } catch (err) {
