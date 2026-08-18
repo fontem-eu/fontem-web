@@ -608,13 +608,21 @@ export function getBriefing(slug, { nuts, volume } = {}) {
   return request('GET', `/briefings/${encodeURIComponent(slug)}${qs ? `?${qs}` : ''}`)
 }
 
-// PUT, not POST: watching twice adjusts the existing watch rather than
-// minting a second feed URL for the same briefing.
-export function watchBriefing(slug, { nuts, volume_per_week } = {}) {
-  return request('PUT', `/briefings/${encodeURIComponent(slug)}/watch`, {
+// POST, not PUT: a reader can hold several watches on one briefing at
+// different scopes — 50 a week from Coimbra, 10 from Portugal, 10 from the
+// EU — and each is an independent subscription with its own feed URL. An
+// exact duplicate comes back as the existing watch rather than a second feed.
+export function addWatch(slug, { nuts, volume_per_week } = {}) {
+  return request('POST', `/briefings/${encodeURIComponent(slug)}/watches`, {
     nuts: nuts || ['EU'],
     volume_per_week: volume_per_week || 10,
   })
+}
+
+// By id, because "the watch on Public investment" no longer identifies one.
+// Omitted fields are left alone, and the feed URL never changes.
+export function adjustWatch(watchId, fields) {
+  return request('PATCH', `/me/watches/${encodeURIComponent(watchId)}`, fields)
 }
 
 export function listMyWatches() {
