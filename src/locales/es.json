@@ -120,14 +120,14 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matriz de cobertura E2E y plan de pruebas de humo en producción.",
     "developer_guide": "Guía del desarrollador",
     "service_directory_repositories_and_quick_commands": "Directorio de servicios, repositorios y comandos rápidos.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Revisión de valores",
+    "value_review_desc": "Revise los valores de contratos puestos en cuarentena por considerarse inverosímiles.",
+    "issues": "Problemas de datos",
+    "issues_desc": "Clasifique los problemas de datos notificados por la comunidad."
   },
   "app": {
     "activity": "Actividad",
-    "admin": "Admin",
+    "admin": "Administración",
     "all": "Todos",
     "anonymous": "Anónimo",
     "applied": "Aplicado",
@@ -196,7 +196,7 @@
     "footer": "Pie de página",
     "sparql": "SPARQL",
     "support": "Apoyar",
-    "help": "Help"
+    "help": "Ayuda"
   },
   "assist": {
     "accept_all": "Aceptar todo",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Monitor de aserciones",
     "assertions_desc": "Estado en vivo de cada aserción de calidad de datos: solo se muestran los fallos, con descripción y fecha de inicio. Se actualiza cada 4 horas.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Elija un dashboard — uno por cada canal de datos, más una visión general de todas las fuentes.",
+    "overview": "Resumen"
   },
   "data_view_selector": {
     "data_view": "Vista de datos",
@@ -881,7 +881,7 @@
     "projects": "proyectos",
     "companies": "Empresas",
     "companies_2": "empresas",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Totales del grafo"
   },
   "pocket_button": {
     "add_to_investigation": "Añadir a la investigación",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Su bolsillo está vacío. Guarde primero las visualizaciones con el botón Bolsillo.",
     "close": "Cerrar",
     "start_writing": "Empieza a escribir tu análisis...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Región",
+    "region_none": "ninguna",
+    "region_eu": "Unión Europea",
+    "more_actions": "Más acciones"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entidades sancionadas — personas, organizaciones, cobertura del régimen y emparejamiento de empresas",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "No hay tripletas en este grafo.",
     "top_classes": "Clases principales",
     "top_predicates": "Predicados principales",
-    "triple_store": "Triple store",
+    "triple_store": "Almacén de triples",
     "triples_per_named_graph": "Tripletas por grafo nombrado",
     "virtuoso_not_configured_in_this_environm": "Virtuoso no está configurado en este entorno",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Tipo de widget desconocido:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Fuente",
     "fontem": "Fontem",
     "tagline": "Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez"
   },
@@ -1309,7 +1309,7 @@
     "couldnt_confirm_your_email": "No se ha podido confirmar su correo electrónico"
   },
   "studio_plot": {
-    "studio": "Studio",
+    "studio": "Estudio",
     "plot_name": "Nombre del gráfico",
     "saved": "Guardado ✓",
     "save_plot": "Guardar gráfico",
@@ -1421,7 +1421,7 @@
     "new_project": "Nuevo proyecto"
   },
   "studio_home": {
-    "data_studio": "Data Studio",
+    "data_studio": "Estudio de datos",
     "pull_data_with_read_only_queries": "Extraiga datos con consultas de solo lectura, combínelos en su navegador y represéntelos gráficamente.",
     "new_project": "Nuevo proyecto",
     "loading_your_projects": "Cargando sus proyectos…",
@@ -1438,7 +1438,7 @@
     "former": "(anterior)"
   },
   "studio_project": {
-    "studio": "Studio",
+    "studio": "Estudio",
     "project_name": "Nombre del proyecto",
     "share": "Compartir",
     "view_only_access": "Tiene acceso de solo lectura a este proyecto compartido.",
@@ -1511,7 +1511,7 @@
     "price_only_hint": "Sin criterios de calidad: el precio fue el único criterio de adjudicación."
   },
   "studio_query": {
-    "studio": "Studio",
+    "studio": "Estudio",
     "query_name": "Nombre de la consulta",
     "duplicate": "Duplicar",
     "confirm_delete": "Confirmar eliminación",
@@ -1583,7 +1583,7 @@
     "avg_div_yield": "Rentabilidad media por dividendo",
     "avg_op_margin": "Margen operativo medio",
     "op_cashflow": "Flujo de explotación",
-    "capex": "CapEx",
+    "capex": "Gastos de capital",
     "free_cashflow": "Flujo de caja libre",
     "fcf_per_share": "FCF/acción",
     "div_per_share": "Div./acción",
@@ -1718,44 +1718,44 @@
     "email_heading": "Correo electrónico",
     "display_email": "Mostrar correo electrónico",
     "use_different_email": "Usar otro correo electrónico",
-    "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "email_address": "usted@ejemplo.com",
+    "home_region_heading": "De dónde eres",
+    "home_region_hint": "Déjalo en blanco para usar tu ubicación detectada:",
+    "home_detected": "(detectado a partir de tu ubicación)"
   },
   "article": {
     "by": "por"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Buscar empresas, organismos, personas, contratos, leyes…",
+    "button": "Buscar",
+    "results_for": "Resultados para",
+    "filter_by_type": "Filtrar por tipo",
+    "advanced": "Búsqueda avanzada",
+    "region": "Región NUTS",
+    "region_hint": "p. ej. PT o PT17",
+    "date_from": "Desde",
+    "date_to": "Hasta",
+    "clear_filters": "Borrar filtros",
+    "loading": "Buscando…",
+    "no_results": "No se encontraron resultados.",
+    "load_more": "Cargar más",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Empresas",
+      "authority": "Organismos públicos",
+      "person": "Personas",
+      "lobbyist": "Lobistas",
+      "contract": "Contratos",
+      "cohesion": "Proyectos de cohesión",
+      "sanction": "Sanciones",
+      "story": "Reportajes de datos",
       "legislation": "Legislación"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "País…",
+      "1": "Región (NUTS 1)…",
+      "2": "Región (NUTS 2)…",
+      "3": "Región (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Aún no se ha registrado ninguna ejecución de aserciones: el cron de monitorización de 4 horas no se ha disparado."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Peticiones",
+    "subtitle": "Iniciativas Ciudadanas Europeas — quién las organiza, cuántas personas firmaron y qué legislación se derivó.",
+    "all": "Todas",
+    "supporters": "partidarios",
+    "loading": "Cargando…",
+    "empty": "Ninguna petición coincide con este filtro.",
+    "collecting": "Recogiendo firmas",
+    "reached": "Alcanzó las firmas necesarias",
+    "show_more": "Mostrar más",
+    "about": "De qué trata esta petición",
+    "timeline": "Cronología",
+    "legislation": "Legislación",
+    "organizers": "Organizadores",
+    "funding": "Financiación",
+    "sponsors": "patrocinadores",
+    "official_page": "Página oficial de la petición",
+    "answer_documented": "Respuesta de la Comisión documentada, aún no enlazable",
+    "no_legislation": "Todavía no hay legislación vinculada.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registrada",
+      "collection": "Comenzó la recogida de firmas",
+      "closed": "Recogida cerrada",
+      "submitted": "Presentada a la Comisión",
+      "answered": "Respondida por la Comisión"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Decisión de registro",
+      "answered_by": "Respuesta de la Comisión",
+      "led_to": "Legislación resultante"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registrada",
+      "ongoing": "Recogiendo firmas",
+      "closed": "Recogida cerrada",
+      "submitted": "Presentada",
+      "verification": "Verificación",
+      "answered": "Respondida",
+      "conditions_not_fulfilled": "Condiciones no cumplidas",
+      "withdrawn": "Retirada"
     }
   },
   "help": {

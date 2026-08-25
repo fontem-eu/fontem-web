@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Πίνακας κάλυψης E2E και σχέδιο δοκιμής καπνού παραγωγής.",
     "developer_guide": "Οδηγός προγραμματιστή",
     "service_directory_repositories_and_quick_commands": "Κατάλογος υπηρεσιών, αποθετήρια και γρήγορες εντολές.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Έλεγχος τιμών",
+    "value_review_desc": "Ελέγξτε τις τιμές συμβάσεων που τέθηκαν σε καραντίνα ως μη εύλογες.",
+    "issues": "Ζητήματα δεδομένων",
+    "issues_desc": "Διαλογή προβλημάτων δεδομένων που αναφέρθηκαν από την κοινότητα."
   },
   "app": {
     "activity": "Δραστηριότητα",
@@ -196,7 +196,7 @@
     "footer": "Υποσέλιδο",
     "sparql": "SPARQL",
     "support": "Υποστήριξη",
-    "help": "Help"
+    "help": "Βοήθεια"
   },
   "assist": {
     "accept_all": "Αποδοχή όλων",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Παρακολούθηση ισχυρισμών",
     "assertions_desc": "Ζωντανή κατάσταση κάθε ισχυρισμού ποιότητας δεδομένων — εμφανίζονται μόνο οι αποτυχίες, με περιγραφή και χρόνο έναρξης. Ανανεώνεται κάθε 4 ώρες.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Επιλέξτε ένα dashboard — ένα ανά ροή δεδομένων, συν μια συνολική επισκόπηση όλων των πηγών.",
+    "overview": "Επισκόπηση"
   },
   "data_view_selector": {
     "data_view": "Προβολή δεδομένων",
@@ -881,7 +881,7 @@
     "projects": "έργα",
     "companies": "Εταιρείες",
     "companies_2": "εταιρείες",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Σύνολα γράφου"
   },
   "pocket_button": {
     "add_to_investigation": "Προσθήκη στην έρευνα",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Η τσέπη σας είναι άδεια. Αποθηκεύστε πρώτα οπτικοποιήσεις χρησιμοποιώντας το κουμπί Τσέπη.",
     "close": "Κλείσιμο",
     "start_writing": "Ξεκινήστε να γράφετε την ανάλυσή σας...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Περιοχή",
+    "region_none": "καμία",
+    "region_eu": "Ευρωπαϊκή Ένωση",
+    "more_actions": "Περισσότερες ενέργειες"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Οντότητες υπό κυρώσεις — πρόσωπα, οργανισμοί, κάλυψη καθεστώτος και αντιστοίχιση εταιρειών",
@@ -1072,7 +1072,7 @@
   },
   "sparql": {
     "discoverable_json": "επιστρέφει την ίδια τεκμηρίωση ως JSON.",
-    "endpoint": "Endpoint",
+    "endpoint": "Τελικό σημείο",
     "endpoint_url": "URL endpoint",
     "get_apisparql": "GET /api/sparql",
     "intro": "Κάνε ερώτημα στον γράφο γνώσης Fontem απευθείας από το πρόγραμμα περιήγησης ή σύνδεσε το endpoint στο OpenRefine / σε σημειωματάριο / στα δικά σου εργαλεία. Εταιρείες, συμβόλαια, αρχές, εκπρόσωποι, κυρώσεις — όλα συνδεδεμένα.",
@@ -1084,7 +1084,7 @@
     "response": "Απόκριση",
     "run_shortcut": "⌘/Ctrl + Enter για εκτέλεση",
     "sparql_11_json_results_envelope": "SPARQL 1.1 JSON envelope αποτελεσμάτων:",
-    "sparql_endpoint": "SPARQL endpoint",
+    "sparql_endpoint": "Τελικό σημείο SPARQL",
     "try_a_query": "Δοκιμάστε ένα ερώτημα",
     "no_rows": "Το ερώτημα εκτελέστηκε και δεν βρήκε αποτελέσματα.",
     "query_returned_no_projected_columns": "Το ερώτημα δεν επέστρεψε προβαλλόμενες στήλες.",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Δεν υπάρχουν τριάδες σε αυτό τον γράφο.",
     "top_classes": "Κορυφαίες κλάσεις",
     "top_predicates": "Κορυφαία κατηγορήματα",
-    "triple_store": "Triple store",
+    "triple_store": "Αποθήκη τριάδων",
     "triples_per_named_graph": "Τριάδες ανά ονομασμένο γράφο",
     "virtuoso_not_configured_in_this_environm": "Το Virtuoso δεν έχει διαμορφωθεί σε αυτό το περιβάλλον",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Άγνωστος τύπος widget:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Γραμματοσειρά",
     "fontem": "Fontem",
     "tagline": "Διασχίζουμε τα ψηφιακά σύνορα της ΕΕ, ένα σύνολο δεδομένων τη φορά"
   },
@@ -1394,7 +1394,7 @@
   "forgot_password": {
     "reset_your_password": "Επαναφορά του κωδικού σας",
     "enter_your_email_send_link": "Εισαγάγετε το email σας και θα σας στείλουμε έναν σύνδεσμο για να ορίσετε νέο κωδικό πρόσβασης.",
-    "you_example_com": "you@example.com",
+    "you_example_com": "esy@paradeigma.com",
     "sending": "Αποστολή…",
     "send_reset_link": "Αποστολή συνδέσμου επαναφοράς",
     "check_your_email": "Ελέγξτε το email σας",
@@ -1718,44 +1718,44 @@
     "email_heading": "Email",
     "display_email": "Εμφάνιση email",
     "use_different_email": "Χρήση διαφορετικού email",
-    "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "email_address": "esy@paradeigma.com",
+    "home_region_heading": "Από πού είστε",
+    "home_region_hint": "Αφήστε το κενό για να χρησιμοποιηθεί η εντοπισμένη τοποθεσία σας:",
+    "home_detected": "(εντοπίστηκε από την τοποθεσία σας)"
   },
   "article": {
     "by": "από"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Αναζήτηση εταιρειών, φορέων, προσώπων, συμβάσεων, νόμων…",
+    "button": "Αναζήτηση",
+    "results_for": "Αποτελέσματα για",
+    "filter_by_type": "Φιλτράρισμα κατά τύπο",
+    "advanced": "Σύνθετη αναζήτηση",
+    "region": "Περιφέρεια NUTS",
+    "region_hint": "π.χ. PT ή PT17",
+    "date_from": "Από",
+    "date_to": "Έως",
+    "clear_filters": "Καθαρισμός φίλτρων",
+    "loading": "Αναζήτηση…",
+    "no_results": "Δεν βρέθηκαν αποτελέσματα.",
+    "load_more": "Φόρτωση περισσότερων",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Εταιρείες",
+      "authority": "Δημόσιοι φορείς",
+      "person": "Πρόσωπα",
+      "lobbyist": "Λομπίστες",
+      "contract": "Συμβάσεις",
+      "cohesion": "Έργα συνοχής",
+      "sanction": "Κυρώσεις",
+      "story": "Ιστορίες δεδομένων",
       "legislation": "Νομοθεσία"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Χώρα…",
+      "1": "Περιφέρεια (NUTS 1)…",
+      "2": "Περιφέρεια (NUTS 2)…",
+      "3": "Περιφέρεια (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Δεν έχει καταγραφεί ακόμη καμία εκτέλεση ισχυρισμών — το cron παρακολούθησης των 4 ωρών δεν έχει ενεργοποιηθεί."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Αναφορές",
+    "subtitle": "Ευρωπαϊκές Πρωτοβουλίες Πολιτών — ποιος τις διοργανώνει, πόσοι υπέγραψαν και ποια νομοθεσία ακολούθησε.",
+    "all": "Όλες",
+    "supporters": "υποστηρικτές",
+    "loading": "Φόρτωση…",
+    "empty": "Καμία αναφορά δεν ταιριάζει με αυτό το φίλτρο.",
+    "collecting": "Συλλογή υπογραφών",
+    "reached": "Συγκέντρωσε τις απαιτούμενες υπογραφές",
+    "show_more": "Εμφάνιση περισσότερων",
+    "about": "Σχετικά με αυτή την αναφορά",
+    "timeline": "Χρονολόγιο",
+    "legislation": "Νομοθεσία",
+    "organizers": "Διοργανωτές",
+    "funding": "Χρηματοδότηση",
+    "sponsors": "χορηγοί",
+    "official_page": "Επίσημη σελίδα αναφοράς",
+    "answer_documented": "Η απάντηση της Επιτροπής έχει καταγραφεί, δεν είναι ακόμη διαθέσιμος σύνδεσμος",
+    "no_legislation": "Δεν υπάρχει ακόμη συνδεδεμένη νομοθεσία.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Καταχωρήθηκε",
+      "collection": "Ξεκίνησε η συλλογή υπογραφών",
+      "closed": "Η συλλογή έκλεισε",
+      "submitted": "Υποβλήθηκε στην Επιτροπή",
+      "answered": "Απαντήθηκε από την Επιτροπή"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Απόφαση καταχώρισης",
+      "answered_by": "Απάντηση της Επιτροπής",
+      "led_to": "Προκύπτουσα νομοθεσία"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Καταχωρήθηκε",
+      "ongoing": "Συλλογή υπογραφών",
+      "closed": "Η συλλογή έκλεισε",
+      "submitted": "Υποβλήθηκε",
+      "verification": "Επαλήθευση",
+      "answered": "Απαντήθηκε",
+      "conditions_not_fulfilled": "Δεν πληρούνται οι προϋποθέσεις",
+      "withdrawn": "Αποσύρθηκε"
     }
   },
   "help": {

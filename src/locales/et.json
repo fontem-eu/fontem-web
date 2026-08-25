@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E katvuse maatriks ja tootmiskeskkonna suitsutesti plaan.",
     "developer_guide": "Arendaja juhend",
     "service_directory_repositories_and_quick_commands": "Teenuste kataloog, hoidlad ja kiirkäsud.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Väärtuste ülevaatus",
+    "value_review_desc": "Vaadake üle lepinguväärtused, mis on ebausutavana karantiini pandud.",
+    "issues": "Andmeprobleemid",
+    "issues_desc": "Sortige kogukonna teatatud andmeprobleeme."
   },
   "app": {
     "activity": "Tegevus",
@@ -196,7 +196,7 @@
     "footer": "Jalus",
     "sparql": "SPARQL",
     "support": "Toeta",
-    "help": "Help"
+    "help": "Abi"
   },
   "assist": {
     "accept_all": "Aktsepteeri kõik",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Väidete jälgija",
     "assertions_desc": "Iga andmekvaliteedi väite reaalajas olek — kuvatakse ainult tõrked koos kirjelduse ja alguse ajaga. Värskendatakse iga 4 tunni järel.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Valige dashboard — üks iga andmekonveieri kohta, pluss allikateülene ülevaade.",
+    "overview": "Ülevaade"
   },
   "data_view_selector": {
     "data_view": "Andmevaade",
@@ -881,7 +881,7 @@
     "projects": "projektid",
     "companies": "Ettevõtted",
     "companies_2": "ettevõtted",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Graafi kogusummad"
   },
   "pocket_button": {
     "add_to_investigation": "Lisa uurimisse",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Teie kogum on tühi. Salvestage esmalt visualiseeringud nupu Kogu abil.",
     "close": "Sulge",
     "start_writing": "Alusta oma analüüsi kirjutamist...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Piirkond",
+    "region_none": "puudub",
+    "region_eu": "Euroopa Liit",
+    "more_actions": "Rohkem toiminguid"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktsioneeritud olemid — isikud, organisatsioonid, režiimi kaetus ja ettevõtete sobitamine",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Selles graafis triplite pole.",
     "top_classes": "Põhiklassid",
     "top_predicates": "Põhipredikaadid",
-    "triple_store": "Triple store",
+    "triple_store": "Kolmikute hoidla",
     "triples_per_named_graph": "Triplid nimetatud graafi kohta",
     "virtuoso_not_configured_in_this_environm": "Virtuoso pole selles keskkonnas seadistatud",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1583,7 +1583,7 @@
     "avg_div_yield": "Keskm. div. tootlus",
     "avg_op_margin": "Keskm. ärimarginaal",
     "op_cashflow": "Äritegevuse rahavoog",
-    "capex": "CapEx",
+    "capex": "Kapitalikulud",
     "free_cashflow": "Vaba rahavoog",
     "fcf_per_share": "FCF/aktsia",
     "div_per_share": "Div./aktsia",
@@ -1718,44 +1718,44 @@
     "email_heading": "E-post",
     "display_email": "Näita e-posti",
     "use_different_email": "Kasuta teist e-posti",
-    "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "email_address": "teie@näide.ee",
+    "home_region_heading": "Kust te pärit olete",
+    "home_region_hint": "Jätke tühjaks, et kasutada tuvastatud asukohta:",
+    "home_detected": "(tuvastatud teie asukoha järgi)"
   },
   "article": {
     "by": "autor:"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Otsi ettevõtteid, asutusi, isikuid, lepinguid, seadusi…",
+    "button": "Otsi",
+    "results_for": "Tulemused päringule",
+    "filter_by_type": "Filtreeri tüübi järgi",
+    "advanced": "Täpsem otsing",
+    "region": "NUTS-piirkond",
+    "region_hint": "nt PT või PT17",
+    "date_from": "Alates",
+    "date_to": "Kuni",
+    "clear_filters": "Tühjenda filtrid",
+    "loading": "Otsin…",
+    "no_results": "Tulemusi ei leitud.",
+    "load_more": "Laadi rohkem",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Ettevõtted",
+      "authority": "Avaliku sektori asutused",
+      "person": "Isikud",
+      "lobbyist": "Lobistid",
+      "contract": "Lepingud",
+      "cohesion": "Ühtekuuluvusprojektid",
+      "sanction": "Sanktsioonid",
+      "story": "Andmelood",
       "legislation": "Õigusaktid"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Riik…",
+      "1": "Piirkond (NUTS 1)…",
+      "2": "Piirkond (NUTS 2)…",
+      "3": "Piirkond (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Ühtegi väidete käivitust pole veel salvestatud — 4-tunnine jälgimiscron pole käivitunud."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petitsioonid",
+    "subtitle": "Euroopa kodanikualgatused — kes neid korraldab, kui paljud allkirjastasid ja milline õigusakt järgnes.",
+    "all": "Kõik",
+    "supporters": "toetajat",
+    "loading": "Laadimine…",
+    "empty": "Ükski petitsioon ei vasta sellele filtrile.",
+    "collecting": "Allkirjade kogumine",
+    "reached": "Saavutas nõutud allkirjade arvu",
+    "show_more": "Näita rohkem",
+    "about": "Millest see petitsioon räägib",
+    "timeline": "Ajajoon",
+    "legislation": "Õigusaktid",
+    "organizers": "Korraldajad",
+    "funding": "Rahastus",
+    "sponsors": "sponsorit",
+    "official_page": "Petitsiooni ametlik leht",
+    "answer_documented": "Komisjoni vastus on dokumenteeritud, kuid pole veel lingitav",
+    "no_legislation": "Seotud õigusakte veel pole.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registreeritud",
+      "collection": "Allkirjade kogumine algas",
+      "closed": "Kogumine suletud",
+      "submitted": "Esitatud komisjonile",
+      "answered": "Komisjon vastas"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Registreerimisotsus",
+      "answered_by": "Komisjoni vastus",
+      "led_to": "Tulenev õigusakt"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registreeritud",
+      "ongoing": "Allkirjade kogumine",
+      "closed": "Kogumine suletud",
+      "submitted": "Esitatud",
+      "verification": "Kontrollimine",
+      "answered": "Vastatud",
+      "conditions_not_fulfilled": "Tingimused täitmata",
+      "withdrawn": "Tagasi võetud"
     }
   },
   "help": {

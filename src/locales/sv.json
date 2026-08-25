@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E-täckningsmatris och plan för produktionsröktest.",
     "developer_guide": "Utvecklarguide",
     "service_directory_repositories_and_quick_commands": "Tjänstekatalog, kodförvar och snabbkommandon.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Värdegranskning",
+    "value_review_desc": "Granska kontraktsvärden som satts i karantän som osannolika.",
+    "issues": "Dataproblem",
+    "issues_desc": "Sortera dataproblem som rapporterats av gemenskapen."
   },
   "app": {
     "activity": "Aktivitet",
@@ -196,7 +196,7 @@
     "footer": "Sidfot",
     "sparql": "SPARQL",
     "support": "Stöd",
-    "help": "Help"
+    "help": "Hjälp"
   },
   "assist": {
     "accept_all": "Acceptera alla",
@@ -462,9 +462,9 @@
     "legislative_desc": "CELLAR CDM-spegel — rättsakter sedan 1949, språkversioner, publicerade format, täckning av ELI-identifierare.",
     "assertion_monitor": "Assertionsövervakning",
     "assertions_desc": "Livestatus för varje datakvalitetsassertion — endast fel visas, med beskrivning och sedan när. Uppdateras var fjärde timme.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Instrumentpaneler",
+    "dashboards_sub": "Välj en instrumentpanel — en per datapipeline, plus en översikt över alla källor.",
+    "overview": "Översikt"
   },
   "data_view_selector": {
     "data_view": "Datavy",
@@ -849,7 +849,7 @@
     "spending": "Utgifter",
     "stories": "Berättelser",
     "studio": "Studio",
-    "dashboards": "Dashboards"
+    "dashboards": "Instrumentpaneler"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",
@@ -881,14 +881,14 @@
     "projects": "projekt",
     "companies": "Företag",
     "companies_2": "företag",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Grafsummor"
   },
   "pocket_button": {
     "add_to_investigation": "Lägg till i granskning",
     "chart_actions": "Diagramåtgärder",
     "download_image": "Ladda ner som bild",
     "name_this_snapshot": "Namnge denna ögonblicksbild",
-    "pocket": "Pocket",
+    "pocket": "Ficka",
     "save": "Spara",
     "save_to_pocket": "Spara till Pocket",
     "save_to_pocket_tooltip": "Spara till Pocket",
@@ -1050,9 +1050,9 @@
     "close": "Stäng",
     "start_writing": "Börja skriva din analys...",
     "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_none": "ingen",
+    "region_eu": "Europeiska unionen",
+    "more_actions": "Fler åtgärder"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionerade entiteter — personer, organisationer, regimtäckning och företagsmatchning",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Inga trippel i denna graf.",
     "top_classes": "Främsta klasser",
     "top_predicates": "Främsta predikat",
-    "triple_store": "Triple store",
+    "triple_store": "Trippellager",
     "triples_per_named_graph": "Trippel per namngiven graf",
     "virtuoso_not_configured_in_this_environm": "Virtuoso är inte konfigurerat i denna miljö",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Okänd widgettyp:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Teckensnitt",
     "fontem": "Fontem",
     "tagline": "Vi korsar EU:s digitala gränser, ett dataset i taget"
   },
@@ -1719,40 +1719,40 @@
     "display_email": "Visa e-post",
     "use_different_email": "Använd en annan e-post",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Var du kommer ifrån",
+    "home_region_hint": "Lämna tomt för att använda din upptäckta plats:",
+    "home_detected": "(upptäckt från din plats)"
   },
   "article": {
     "by": "av"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Sök företag, organ, personer, kontrakt, lagar…",
+    "button": "Sök",
+    "results_for": "Resultat för",
+    "filter_by_type": "Filtrera efter typ",
+    "advanced": "Avancerad sökning",
+    "region": "NUTS-region",
+    "region_hint": "t.ex. PT eller PT17",
+    "date_from": "Från",
+    "date_to": "Till",
+    "clear_filters": "Rensa filter",
+    "loading": "Söker…",
+    "no_results": "Inga resultat hittades.",
+    "load_more": "Ladda mer",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Företag",
+      "authority": "Offentliga organ",
+      "person": "Personer",
+      "lobbyist": "Lobbyister",
+      "contract": "Kontrakt",
+      "cohesion": "Sammanhållningsprojekt",
+      "sanction": "Sanktioner",
+      "story": "Databerättelser",
       "legislation": "Lagstiftning"
     },
     "region_level": {
-      "0": "Country…",
+      "0": "Land…",
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
@@ -1782,45 +1782,45 @@
     "no_runs": "Inga assertionskörningar registrerade ännu — fyratimmarscronen har inte utlösts."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petitioner",
+    "subtitle": "Europeiska medborgarinitiativ — vem som organiserar, hur många som skrivit under och vilken lagstiftning som följde.",
+    "all": "Alla",
+    "supporters": "stödjare",
+    "loading": "Laddar…",
+    "empty": "Inga petitioner matchar detta filter.",
+    "collecting": "Samlar in underskrifter",
+    "reached": "Nådde det antal underskrifter som krävs",
+    "show_more": "Visa mer",
+    "about": "Vad denna petition handlar om",
+    "timeline": "Tidslinje",
+    "legislation": "Lagstiftning",
+    "organizers": "Organisatörer",
+    "funding": "Finansiering",
+    "sponsors": "sponsorer",
+    "official_page": "Officiell petitionssida",
+    "answer_documented": "Kommissionens svar dokumenterat, ännu inte länkbart",
+    "no_legislation": "Ingen länkad lagstiftning ännu.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registrerad",
+      "collection": "Insamling av underskrifter påbörjad",
+      "closed": "Insamlingen avslutad",
+      "submitted": "Inlämnad till kommissionen",
+      "answered": "Besvarad av kommissionen"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Registreringsbeslut",
+      "answered_by": "Kommissionens svar",
+      "led_to": "Resulterande lagstiftning"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registrerad",
+      "ongoing": "Samlar in underskrifter",
+      "closed": "Insamlingen avslutad",
+      "submitted": "Inlämnad",
+      "verification": "Verifiering",
+      "answered": "Besvarad",
+      "conditions_not_fulfilled": "Villkoren ej uppfyllda",
+      "withdrawn": "Tillbakadragen"
     }
   },
   "help": {

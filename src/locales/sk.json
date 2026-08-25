@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matica pokrytia E2E a plán produkčného smoke testu.",
     "developer_guide": "Príručka pre vývojárov",
     "service_directory_repositories_and_quick_commands": "Adresár služieb, repozitáre a rýchle príkazy.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Kontrola hodnôt",
+    "value_review_desc": "Kontrola hodnôt zmlúv izolovaných ako nepravdepodobné.",
+    "issues": "Dátové problémy",
+    "issues_desc": "Triedenie dátových problémov nahlásených komunitou."
   },
   "app": {
     "activity": "Aktivita",
@@ -196,7 +196,7 @@
     "footer": "Päta",
     "sparql": "SPARQL",
     "support": "Podpor",
-    "help": "Help"
+    "help": "Pomoc"
   },
   "assist": {
     "accept_all": "Prijať všetko",
@@ -462,9 +462,9 @@
     "legislative_desc": "Zrkadlo CDM z CELLARu — akty od roku 1949, jazykové verzie, publikované formáty, pokrytie identifikátormi ELI.",
     "assertion_monitor": "Monitor tvrdení",
     "assertions_desc": "Aktuálny stav každého tvrdenia o kvalite údajov — zobrazujú sa iba zlyhania, s popisom a časom, odkedy trvajú. Obnovuje sa každé 4 hodiny.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Dashboardy",
+    "dashboards_sub": "Vyberte dashboard — jeden na každú dátovú pipeline, plus prehľad naprieč zdrojmi.",
+    "overview": "Prehľad"
   },
   "data_view_selector": {
     "data_view": "Zobrazenie údajov",
@@ -701,7 +701,7 @@
     "from_your_pocket": "Z vašej schránky",
     "invite": "Pozvať",
     "invite_email": "Pozvať e-mailom",
-    "level_editor": "Editor",
+    "level_editor": "Redaktor",
     "level_owner": "Vlastník",
     "level_viewer": "Divák",
     "members": "Členovia",
@@ -849,7 +849,7 @@
     "spending": "Výdavky",
     "stories": "Príbehy",
     "studio": "Štúdio",
-    "dashboards": "Dashboards"
+    "dashboards": "Dashboardy"
   },
   "not_found": {
     "back_to_home": "Späť na domovskú stránku",
@@ -881,14 +881,14 @@
     "projects": "projekty",
     "companies": "Spoločnosti",
     "companies_2": "spoločnosti",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Celkové počty grafu"
   },
   "pocket_button": {
     "add_to_investigation": "Pridať do vyšetrovania",
     "chart_actions": "Akcie grafu",
     "download_image": "Stiahnuť ako obrázok",
     "name_this_snapshot": "Pomenuj tento snímok",
-    "pocket": "Pocket",
+    "pocket": "Schránka",
     "save": "Uložiť",
     "save_to_pocket": "Uložiť do Pocket",
     "save_to_pocket_tooltip": "Uložiť do Pocket",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Vaše vrecko je prázdne. Najprv uložte vizualizácie pomocou tlačidla Do vrecka.",
     "close": "Zavrieť",
     "start_writing": "Začnite písať svoju analýzu...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Región",
+    "region_none": "žiadny",
+    "region_eu": "Európska únia",
+    "more_actions": "Ďalšie akcie"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizácie, pokrytie režimu a zhody firiem",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "V tomto grafe nie sú žiadne trojice.",
     "top_classes": "Hlavné triedy",
     "top_predicates": "Hlavné predikáty",
-    "triple_store": "Triple store",
+    "triple_store": "Úložisko trojíc",
     "triples_per_named_graph": "Trojice na pomenovaný graf",
     "virtuoso_not_configured_in_this_environm": "Virtuoso nie je nakonfigurované v tomto prostredí",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Neznámy typ widgetu:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Písmo",
     "fontem": "Fontem",
     "tagline": "Prekračujeme digitálne hranice EÚ, jeden dátový súbor za druhým"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Zobraziť e-mail",
     "use_different_email": "Použiť iný e-mail",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Odkiaľ pochádzate",
+    "home_region_hint": "Nechajte prázdne, ak chcete použiť zistenú polohu:",
+    "home_detected": "(zistené z vašej polohy)"
   },
   "article": {
     "by": "od"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Hľadajte firmy, orgány, ľudí, zmluvy, zákony…",
+    "button": "Hľadať",
+    "results_for": "Výsledky pre",
+    "filter_by_type": "Filtrovať podľa typu",
+    "advanced": "Rozšírené vyhľadávanie",
+    "region": "Región NUTS",
+    "region_hint": "napr. PT alebo PT17",
+    "date_from": "Od",
+    "date_to": "Do",
+    "clear_filters": "Vymazať filtre",
+    "loading": "Vyhľadáva sa…",
+    "no_results": "Nenašli sa žiadne výsledky.",
+    "load_more": "Načítať viac",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Firmy",
+      "authority": "Verejné orgány",
+      "person": "Ľudia",
+      "lobbyist": "Lobisti",
+      "contract": "Zmluvy",
+      "cohesion": "Kohézne projekty",
+      "sanction": "Sankcie",
+      "story": "Dátové príbehy",
       "legislation": "Legislatíva"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Krajina…",
+      "1": "Región (NUTS 1)…",
+      "2": "Región (NUTS 2)…",
+      "3": "Región (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Zatiaľ nebol zaznamenaný žiadny beh tvrdení — štvorhodinový monitorovací cron sa nespustil."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petície",
+    "subtitle": "Európske iniciatívy občanov — kto ich organizuje, koľko ľudí ich podpísalo a aká legislatíva nasledovala.",
+    "all": "Všetky",
+    "supporters": "podporovateľov",
+    "loading": "Načítava sa…",
+    "empty": "Tomuto filtru nezodpovedajú žiadne petície.",
+    "collecting": "Zbieranie podpisov",
+    "reached": "Dosiahnutý potrebný počet podpisov",
+    "show_more": "Zobraziť viac",
+    "about": "O čom je táto petícia",
+    "timeline": "Časová os",
+    "legislation": "Legislatíva",
+    "organizers": "Organizátori",
+    "funding": "Financovanie",
+    "sponsors": "sponzorov",
+    "official_page": "Oficiálna stránka petície",
+    "answer_documented": "Odpoveď Komisie zdokumentovaná, zatiaľ neprepojiteľná",
+    "no_legislation": "Zatiaľ žiadna prepojená legislatíva.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Zaregistrovaná",
+      "collection": "Zbieranie podpisov sa začalo",
+      "closed": "Zbieranie ukončené",
+      "submitted": "Predložená Komisii",
+      "answered": "Zodpovedaná Komisiou"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Rozhodnutie o registrácii",
+      "answered_by": "Odpoveď Komisie",
+      "led_to": "Výsledná legislatíva"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Zaregistrovaná",
+      "ongoing": "Zbieranie podpisov",
+      "closed": "Zbieranie ukončené",
+      "submitted": "Predložená",
+      "verification": "Overovanie",
+      "answered": "Zodpovedaná",
+      "conditions_not_fulfilled": "Podmienky nesplnené",
+      "withdrawn": "Stiahnutá"
     }
   },
   "help": {
@@ -1920,7 +1920,7 @@
     "create": "Vytvoriť",
     "delete": "Zmazať",
     "description": "Popis",
-    "engine": "Engine",
+    "engine": "Motor",
     "group_empty": "V tejto skupine zatiaľ nie sú žiadne dopyty.",
     "in_groups": "V skupinách:",
     "membership_hint": "Poradie platí len pre túto skupinu; ten istý dopyt môže byť inde na inej pozícii.",

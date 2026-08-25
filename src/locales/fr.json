@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matrice de couverture e2e et plan de tests de fumée en production.",
     "developer_guide": "Guide du développeur",
     "service_directory_repositories_and_quick_commands": "Répertoire des services, dépôts et commandes rapides.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Contrôle des valeurs",
+    "value_review_desc": "Examinez les valeurs de marchés mises en quarantaine car jugées improbables.",
+    "issues": "Problèmes de données",
+    "issues_desc": "Triez les problèmes de données signalés par la communauté."
   },
   "app": {
     "activity": "Activité",
@@ -196,7 +196,7 @@
     "footer": "Pied de page",
     "sparql": "SPARQL",
     "support": "Soutenir",
-    "help": "Help"
+    "help": "Aide"
   },
   "assist": {
     "accept_all": "Tout accepter",
@@ -462,9 +462,9 @@
     "legislative_desc": "Miroir CDM de CELLAR — actes depuis 1949, versions linguistiques, formats publiés, couverture des identifiants ELI.",
     "assertion_monitor": "Moniteur d'assertions",
     "assertions_desc": "État en direct de chaque assertion de qualité des données — seuls les échecs sont affichés, avec description et date de début. Actualisé toutes les 4 heures.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Tableaux de bord",
+    "dashboards_sub": "Choisissez un tableau de bord — un par pipeline de données, plus une vue d'ensemble inter-sources.",
+    "overview": "Vue d'ensemble"
   },
   "data_view_selector": {
     "data_view": "Vue de données",
@@ -614,7 +614,7 @@
   "geo_choropleth": {
     "companies": "Entreprises",
     "connected_to_3": "Connecté à (α-3)",
-    "parent_nuts_1": "Parent NUTS 1",
+    "parent_nuts_1": "NUTS 1 parent",
     "level_0_country": "0 — Pays",
     "level_1_macro_region_coming_soon": "1 — Macro-région (bientôt disponible)",
     "level_2_region_coming_soon": "2 — Région (bientôt disponible)",
@@ -849,7 +849,7 @@
     "spending": "Dépenses",
     "stories": "Histoires",
     "studio": "Studio",
-    "dashboards": "Dashboards"
+    "dashboards": "Tableaux de bord"
   },
   "not_found": {
     "back_to_home": "Retour à l'accueil",
@@ -869,7 +869,7 @@
     "cross_source_overlap_country_code_consis": "Chevauchement entre sources, cohérence des codes pays et complétude des champs entre toutes les sources",
     "data_quality_overview": "Aperçu de la qualité des données",
     "listings": "Cotations",
-    "lobby": "Lobby",
+    "lobby": "Lobbying",
     "top_alpha_2_codes": "Principaux codes Alpha-2",
     "how_many_entities_appear_in_multiple_data_sources": "Nombre d'entités présentes dans plusieurs sources de données — une mesure de la connectivité du graphe.",
     "companies_still_use_alpha_2_country_codes": "des entreprises utilisent encore des codes pays alpha-2 au lieu de l'ISO 3166-1 alpha-2/alpha-3.",
@@ -881,7 +881,7 @@
     "projects": "projets",
     "companies": "Entreprises",
     "companies_2": "entreprises",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Totaux du graphe"
   },
   "pocket_button": {
     "add_to_investigation": "Ajouter à l'enquête",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Votre poche est vide. Enregistrez d'abord des visualisations à l'aide du bouton Poche.",
     "close": "Fermer",
     "start_writing": "Commencez à rédiger votre analyse...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Région",
+    "region_none": "aucune",
+    "region_eu": "Union européenne",
+    "more_actions": "Plus d'actions"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entités sanctionnées — personnes, organisations, couverture des régimes et correspondance d'entreprises",
@@ -1072,7 +1072,7 @@
   },
   "sparql": {
     "discoverable_json": "renvoie la même documentation en JSON.",
-    "endpoint": "Endpoint",
+    "endpoint": "Point de terminaison",
     "endpoint_url": "URL de l'endpoint",
     "get_apisparql": "GET /api/sparql",
     "intro": "Interroge le graphe de connaissances Fontem directement depuis le navigateur, ou branche le point de terminaison sur OpenRefine / un notebook / tes propres outils. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est relié.",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Aucun triplet dans ce graphe.",
     "top_classes": "Classes principales",
     "top_predicates": "Prédicats principaux",
-    "triple_store": "Triple store",
+    "triple_store": "Triplestore",
     "triples_per_named_graph": "Triplets par graphe nommé",
     "virtuoso_not_configured_in_this_environm": "Virtuoso n'est pas configuré dans cet environnement",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Type de widget inconnu :"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Police",
     "fontem": "Fontem",
     "tagline": "Franchir les frontières numériques de l'UE, un jeu de données à la fois"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Afficher l’e-mail",
     "use_different_email": "Utiliser une autre adresse e-mail",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "D'où vous venez",
+    "home_region_hint": "Laissez vide pour utiliser votre localisation détectée :",
+    "home_detected": "(détecté à partir de votre localisation)"
   },
   "article": {
     "by": "par"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Rechercher entreprises, organismes, personnes, marchés, lois…",
+    "button": "Rechercher",
+    "results_for": "Résultats pour",
+    "filter_by_type": "Filtrer par type",
+    "advanced": "Recherche avancée",
+    "region": "Région NUTS",
+    "region_hint": "p. ex. PT ou PT17",
+    "date_from": "Du",
+    "date_to": "Au",
+    "clear_filters": "Effacer les filtres",
+    "loading": "Recherche…",
+    "no_results": "Aucun résultat trouvé.",
+    "load_more": "Charger plus",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
+      "company": "Entreprises",
+      "authority": "Organismes publics",
+      "person": "Personnes",
+      "lobbyist": "Lobbyistes",
+      "contract": "Marchés",
+      "cohesion": "Projets de cohésion",
       "sanction": "Sanctions",
-      "story": "Data stories",
+      "story": "Récits de données",
       "legislation": "Législation"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Pays…",
+      "1": "Région (NUTS 1)…",
+      "2": "Région (NUTS 2)…",
+      "3": "Région (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1788,15 +1788,15 @@
     "supporters": "signataires",
     "loading": "Chargement…",
     "empty": "Aucune pétition ne correspond à ce filtre.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
+    "collecting": "Collecte de signatures",
+    "reached": "Nombre requis de signatures atteint",
+    "show_more": "Afficher plus",
     "about": "Objet de la pétition",
     "timeline": "Chronologie",
     "legislation": "Législation",
     "organizers": "Organisateurs",
     "funding": "Financement",
-    "sponsors": "sponsors",
+    "sponsors": "parrains",
     "official_page": "Page officielle de la pétition",
     "answer_documented": "Réponse de la Commission documentée, pas encore reliable",
     "no_legislation": "Aucune législation liée pour l'instant.",

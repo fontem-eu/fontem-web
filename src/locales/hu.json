@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E lefedettségi mátrix és éles füsttesztterv.",
     "developer_guide": "Fejlesztői útmutató",
     "service_directory_repositories_and_quick_commands": "Szolgáltatáskatalógus, tárolók és gyors parancsok.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Értékellenőrzés",
+    "value_review_desc": "Tekintse át a valószínűtlenként karanténba helyezett szerződésértékeket.",
+    "issues": "Adatproblémák",
+    "issues_desc": "A közösség által jelentett adatproblémák rendszerezése."
   },
   "app": {
     "activity": "Tevékenység",
@@ -196,7 +196,7 @@
     "footer": "Lábléc",
     "sparql": "SPARQL",
     "support": "Támogasd",
-    "help": "Help"
+    "help": "Súgó"
   },
   "assist": {
     "accept_all": "Mindet elfogadom",
@@ -462,9 +462,9 @@
     "legislative_desc": "CELLAR CDM-tükör — jogi aktusok 1949 óta, nyelvi változatok, közzétett formátumok, ELI-azonosítók lefedettsége.",
     "assertion_monitor": "Állításfigyelő",
     "assertions_desc": "Minden adatminőségi állítás élő állapota — csak a hibák jelennek meg, leírással és a hiba kezdetével. Négyóránként frissül.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Irányítópultok",
+    "dashboards_sub": "Válasszon egy irányítópultot — egyet adatcsatornánként, valamint egy forrásokon átívelő áttekintést.",
+    "overview": "Áttekintés"
   },
   "data_view_selector": {
     "data_view": "Adatnézet",
@@ -849,7 +849,7 @@
     "spending": "Kiadások",
     "stories": "Történetek",
     "studio": "Stúdió",
-    "dashboards": "Dashboards"
+    "dashboards": "Irányítópultok"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",
@@ -881,7 +881,7 @@
     "projects": "projekt",
     "companies": "Vállalatok",
     "companies_2": "vállalat",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Gráf összesítései"
   },
   "pocket_button": {
     "add_to_investigation": "Hozzáadás a vizsgálathoz",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "A zsebe üres. Először mentsen vizualizációkat a Zsebbe gombbal.",
     "close": "Bezárás",
     "start_writing": "Kezdje el írni az elemzését...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Régió",
+    "region_none": "nincs",
+    "region_eu": "Európai Unió",
+    "more_actions": "További műveletek"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Szankcionált entitások — személyek, szervezetek, rezsim-lefedettség és vállalati egyezések",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Nincsenek hármasok ebben a gráfban.",
     "top_classes": "Fő osztályok",
     "top_predicates": "Fő predikátumok",
-    "triple_store": "Triple store",
+    "triple_store": "Hármastár",
     "triples_per_named_graph": "Hármasok elnevezett gráfonként",
     "virtuoso_not_configured_in_this_environm": "A Virtuoso nincs konfigurálva ebben a környezetben",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Ismeretlen widget-típus:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Betűtípus",
     "fontem": "Fontem",
     "tagline": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel"
   },
@@ -1309,7 +1309,7 @@
     "couldnt_confirm_your_email": "Nem sikerült megerősíteni az e-mail-címét"
   },
   "studio_plot": {
-    "studio": "Studio",
+    "studio": "Stúdió",
     "plot_name": "Ábra neve",
     "saved": "Mentve ✓",
     "save_plot": "Ábra mentése",
@@ -1438,7 +1438,7 @@
     "former": "(korábbi)"
   },
   "studio_project": {
-    "studio": "Studio",
+    "studio": "Stúdió",
     "project_name": "Projekt neve",
     "share": "Megosztás",
     "view_only_access": "Csak megtekintési hozzáférése van ehhez a megosztott projekthez.",
@@ -1511,7 +1511,7 @@
     "price_only_hint": "Nincs minőségi szempont — az ár volt az egyetlen odaítélési szempont."
   },
   "studio_query": {
-    "studio": "Studio",
+    "studio": "Stúdió",
     "query_name": "Lekérdezés neve",
     "duplicate": "Másolat",
     "confirm_delete": "Törlés megerősítése",
@@ -1719,43 +1719,43 @@
     "display_email": "E-mail megjelenítése",
     "use_different_email": "Másik e-mail használata",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Honnan származik",
+    "home_region_hint": "Hagyja üresen az észlelt helyének használatához:",
+    "home_detected": "(az Ön helye alapján észlelve)"
   },
   "article": {
     "by": "szerző:"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Cégek, szervek, személyek, szerződések, jogszabályok keresése…",
+    "button": "Keresés",
+    "results_for": "Találatok erre:",
+    "filter_by_type": "Szűrés típus szerint",
+    "advanced": "Speciális keresés",
+    "region": "NUTS régió",
+    "region_hint": "pl. PT vagy PT17",
+    "date_from": "Ettől",
+    "date_to": "Eddig",
+    "clear_filters": "Szűrők törlése",
+    "loading": "Keresés…",
+    "no_results": "Nincs találat.",
+    "load_more": "Több betöltése",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Cégek",
+      "authority": "Közintézmények",
+      "person": "Személyek",
+      "lobbyist": "Lobbisták",
+      "contract": "Szerződések",
+      "cohesion": "Kohéziós projektek",
+      "sanction": "Szankciók",
+      "story": "Adattörténetek",
       "legislation": "Jogszabályok"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Ország…",
+      "1": "Régió (NUTS 1)…",
+      "2": "Régió (NUTS 2)…",
+      "3": "Régió (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Még nincs rögzített állításfuttatás — a négyórás figyelő cron nem indult el."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petíciók",
+    "subtitle": "Európai polgári kezdeményezések — ki szervezi, hányan írták alá, és milyen jogszabály követte.",
+    "all": "Összes",
+    "supporters": "támogatók",
+    "loading": "Betöltés…",
+    "empty": "Egyetlen petíció sem felel meg ennek a szűrőnek.",
+    "collecting": "Aláírások gyűjtése",
+    "reached": "Elérte a szükséges aláírásszámot",
+    "show_more": "Több megjelenítése",
+    "about": "Miről szól ez a petíció",
+    "timeline": "Idővonal",
+    "legislation": "Jogszabály",
+    "organizers": "Szervezők",
+    "funding": "Finanszírozás",
+    "sponsors": "szponzorok",
+    "official_page": "Hivatalos petíciós oldal",
+    "answer_documented": "A Bizottság válasza dokumentálva, még nem hivatkozható",
+    "no_legislation": "Még nincs kapcsolódó jogszabály.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Regisztrálva",
+      "collection": "Aláírásgyűjtés megkezdődött",
+      "closed": "Gyűjtés lezárva",
+      "submitted": "Benyújtva a Bizottságnak",
+      "answered": "A Bizottság megválaszolta"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Regisztrációs döntés",
+      "answered_by": "A Bizottság válasza",
+      "led_to": "Eredményül született jogszabály"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Regisztrálva",
+      "ongoing": "Aláírások gyűjtése",
+      "closed": "Gyűjtés lezárva",
+      "submitted": "Benyújtva",
+      "verification": "Ellenőrzés",
+      "answered": "Megválaszolva",
+      "conditions_not_fulfilled": "A feltételek nem teljesültek",
+      "withdrawn": "Visszavonva"
     }
   },
   "help": {

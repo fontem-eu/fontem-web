@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E-kattavuusmatriisi ja tuotannon savutestisuunnitelma.",
     "developer_guide": "Kehittäjän opas",
     "service_directory_repositories_and_quick_commands": "Palveluhakemisto, repositoriot ja pikakomennot.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Arvojen tarkistus",
+    "value_review_desc": "Tarkista sopimusarvot, jotka on eristetty epäuskottavina.",
+    "issues": "Dataongelmat",
+    "issues_desc": "Käsittele yhteisön ilmoittamia dataongelmia."
   },
   "app": {
     "activity": "Toiminta",
@@ -196,7 +196,7 @@
     "footer": "Alatunniste",
     "sparql": "SPARQL",
     "support": "Tue",
-    "help": "Help"
+    "help": "Ohje"
   },
   "assist": {
     "accept_all": "Hyväksy kaikki",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Väittämien valvonta",
     "assertions_desc": "Jokaisen datanlaatuväittämän tila reaaliajassa — vain epäonnistumiset näytetään, kuvauksineen ja alkamisajankohtineen. Päivitetään 4 tunnin välein.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Valitse dashboard — yksi kutakin dataputkea kohti sekä lähteiden välinen yleiskatsaus.",
+    "overview": "Yleiskatsaus"
   },
   "data_view_selector": {
     "data_view": "Datanäkymä",
@@ -881,7 +881,7 @@
     "projects": "hankkeet",
     "companies": "Yritykset",
     "companies_2": "yritykset",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Graafin summat"
   },
   "pocket_button": {
     "add_to_investigation": "Lisää tutkintaan",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Taskusi on tyhjä. Tallenna visualisointeja ensin Tasku-painikkeella.",
     "close": "Sulje",
     "start_writing": "Aloita analyysisi kirjoittaminen...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Alue",
+    "region_none": "ei mitään",
+    "region_eu": "Euroopan unioni",
+    "more_actions": "Lisää toimintoja"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Pakotteiden alaiset entiteetit — henkilöt, organisaatiot, järjestelmän kattavuus ja yritysvastaavuudet",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Tässä graafissa ei ole triippeleitä.",
     "top_classes": "Pääluokat",
     "top_predicates": "Pääpredikaatit",
-    "triple_store": "Triple store",
+    "triple_store": "Triplevarasto",
     "triples_per_named_graph": "Triplit nimettyä graafia kohti",
     "virtuoso_not_configured_in_this_environm": "Virtuosoa ei ole määritetty tässä ympäristössä",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Tuntematon vimpaintyyppi:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Fontti",
     "fontem": "Fontem",
     "tagline": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan"
   },
@@ -1718,44 +1718,44 @@
     "email_heading": "Sähköposti",
     "display_email": "Näytä sähköposti",
     "use_different_email": "Käytä eri sähköpostia",
-    "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "email_address": "sinä@esimerkki.com",
+    "home_region_heading": "Mistä olet kotoisin",
+    "home_region_hint": "Jätä tyhjäksi käyttääksesi tunnistettua sijaintiasi:",
+    "home_detected": "(tunnistettu sijaintisi perusteella)"
   },
   "article": {
     "by": "kirjoittanut"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Hae yrityksiä, viranomaisia, henkilöitä, sopimuksia, lakeja…",
+    "button": "Hae",
+    "results_for": "Hakutulokset haulle",
+    "filter_by_type": "Suodata tyypin mukaan",
+    "advanced": "Tarkennettu haku",
+    "region": "NUTS-alue",
+    "region_hint": "esim. PT tai PT17",
+    "date_from": "Alkaen",
+    "date_to": "Päättyen",
+    "clear_filters": "Tyhjennä suodattimet",
+    "loading": "Haetaan…",
+    "no_results": "Ei tuloksia.",
+    "load_more": "Lataa lisää",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Yritykset",
+      "authority": "Viranomaiset",
+      "person": "Henkilöt",
+      "lobbyist": "Lobbaajat",
+      "contract": "Sopimukset",
+      "cohesion": "Koheesiohankkeet",
+      "sanction": "Pakotteet",
+      "story": "Datatarinat",
       "legislation": "Lainsäädäntö"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Maa…",
+      "1": "Alue (NUTS 1)…",
+      "2": "Alue (NUTS 2)…",
+      "3": "Alue (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Väittämäajoja ei ole vielä kirjattu — 4 tunnin valvonta-ajastin ei ole lauennut."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Vetoomukset",
+    "subtitle": "Eurooppalaiset kansalaisaloitteet — kuka niitä järjestää, kuinka moni allekirjoitti ja mitä lainsäädäntöä seurasi.",
+    "all": "Kaikki",
+    "supporters": "kannattajaa",
+    "loading": "Ladataan…",
+    "empty": "Yksikään vetoomus ei vastaa tätä suodatinta.",
+    "collecting": "Kerätään allekirjoituksia",
+    "reached": "Saavutti vaaditun allekirjoitusmäärän",
+    "show_more": "Näytä lisää",
+    "about": "Mistä tässä vetoomuksessa on kyse",
+    "timeline": "Aikajana",
+    "legislation": "Lainsäädäntö",
+    "organizers": "Järjestäjät",
+    "funding": "Rahoitus",
+    "sponsors": "sponsoria",
+    "official_page": "Vetoomuksen virallinen sivu",
+    "answer_documented": "Komission vastaus on dokumentoitu, mutta siihen ei voi vielä linkittää",
+    "no_legislation": "Ei vielä linkitettyä lainsäädäntöä.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Rekisteröity",
+      "collection": "Allekirjoitusten keräys alkoi",
+      "closed": "Keräys päättyi",
+      "submitted": "Toimitettu komissiolle",
+      "answered": "Komissio vastasi"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Rekisteröintipäätös",
+      "answered_by": "Komission vastaus",
+      "led_to": "Seurannut lainsäädäntö"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Rekisteröity",
+      "ongoing": "Kerätään allekirjoituksia",
+      "closed": "Keräys päättyi",
+      "submitted": "Toimitettu",
+      "verification": "Tarkistus",
+      "answered": "Vastattu",
+      "conditions_not_fulfilled": "Ehdot eivät täyty",
+      "withdrawn": "Peruutettu"
     }
   },
   "help": {

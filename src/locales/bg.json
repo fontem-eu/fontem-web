@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Матрица на E2E покритието и план за продукционен smoke тест.",
     "developer_guide": "Ръководство за разработчици",
     "service_directory_repositories_and_quick_commands": "Директория на услугите, хранилища и бързи команди.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Преглед на стойности",
+    "value_review_desc": "Преглед на стойности на договори, поставени под карантина като неправдоподобни.",
+    "issues": "Проблеми с данните",
+    "issues_desc": "Сортиране на проблеми с данните, докладвани от общността."
   },
   "app": {
     "activity": "Активност",
@@ -196,7 +196,7 @@
     "footer": "Долен колонтитул",
     "sparql": "SPARQL",
     "support": "Подкрепа",
-    "help": "Help"
+    "help": "Помощ"
   },
   "assist": {
     "accept_all": "Приеми всички",
@@ -462,9 +462,9 @@
     "legislative_desc": "CDM огледало на CELLAR — актове от 1949 г., езикови версии, публикувани формати, покритие с идентификатори ELI.",
     "assertion_monitor": "Монитор на твърденията",
     "assertions_desc": "Актуално състояние на всяко твърдение за качество на данните — показват се само неуспехите, с описание и от кога са налице. Обновява се на всеки 4 часа.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Табла",
+    "dashboards_sub": "Изберете табло — по едно за всеки конвейер от данни, плюс общ преглед на всички източници.",
+    "overview": "Преглед"
   },
   "data_view_selector": {
     "data_view": "Изглед на данни",
@@ -849,7 +849,7 @@
     "spending": "Разходи",
     "stories": "Истории",
     "studio": "Студио",
-    "dashboards": "Dashboards"
+    "dashboards": "Табла"
   },
   "not_found": {
     "back_to_home": "Към началната страница",
@@ -881,7 +881,7 @@
     "projects": "проекти",
     "companies": "Дружества",
     "companies_2": "дружества",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Общо за графа"
   },
   "pocket_button": {
     "add_to_investigation": "Добави към разследване",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Вашият джоб е празен. Първо запазете визуализации с бутона „В джоба“.",
     "close": "Затваряне",
     "start_writing": "Започнете да пишете анализа си...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Регион",
+    "region_none": "няма",
+    "region_eu": "Европейски съюз",
+    "more_actions": "Още действия"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Санкционирани обекти — лица, организации, покритие на режима и съответствие на компании",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Няма тройки в този граф.",
     "top_classes": "Топ класове",
     "top_predicates": "Топ предикати",
-    "triple_store": "Triple store",
+    "triple_store": "Хранилище на тройки",
     "triples_per_named_graph": "Тройки на именуван граф",
     "virtuoso_not_configured_in_this_environm": "Virtuoso не е конфигуриран в тази среда",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Неизвестен тип уиджет:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Шрифт",
     "fontem": "Fontem",
     "tagline": "Преминаваме цифровите граници на ЕС, по един набор от данни"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Показване на имейл",
     "use_different_email": "Използване на друг имейл",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Откъде сте",
+    "home_region_hint": "Оставете празно, за да се използва установеното ви местоположение:",
+    "home_detected": "(установено от местоположението ви)"
   },
   "article": {
     "by": "от"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Търсене на компании, органи, хора, договори, закони…",
+    "button": "Търсене",
+    "results_for": "Резултати за",
+    "filter_by_type": "Филтриране по тип",
+    "advanced": "Разширено търсене",
+    "region": "NUTS регион",
+    "region_hint": "напр. PT или PT17",
+    "date_from": "От",
+    "date_to": "До",
+    "clear_filters": "Изчистване на филтрите",
+    "loading": "Търсене…",
+    "no_results": "Няма намерени резултати.",
+    "load_more": "Зареди още",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Компании",
+      "authority": "Публични органи",
+      "person": "Хора",
+      "lobbyist": "Лобисти",
+      "contract": "Договори",
+      "cohesion": "Проекти на сближаване",
+      "sanction": "Санкции",
+      "story": "Истории с данни",
       "legislation": "Законодателство"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Държава…",
+      "1": "Регион (NUTS 1)…",
+      "2": "Регион (NUTS 2)…",
+      "3": "Регион (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Все още няма записани изпълнения на твърдения — четиричасовият монитор не се е задействал."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Петиции",
+    "subtitle": "Европейски граждански инициативи — кой ги организира, колко души са ги подписали и какво законодателство е последвало.",
+    "all": "Всички",
+    "supporters": "поддръжници",
+    "loading": "Зареждане…",
+    "empty": "Няма петиции, отговарящи на този филтър.",
+    "collecting": "Събиране на подписи",
+    "reached": "Достигнати са необходимите подписи",
+    "show_more": "Покажи още",
+    "about": "За какво е тази петиция",
+    "timeline": "Времева линия",
+    "legislation": "Законодателство",
+    "organizers": "Организатори",
+    "funding": "Финансиране",
+    "sponsors": "спонсори",
+    "official_page": "Официална страница на петицията",
+    "answer_documented": "Отговорът на Комисията е документиран, но все още не може да се свърже",
+    "no_legislation": "Все още няма свързано законодателство.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Регистрирана",
+      "collection": "Събирането на подписи започна",
+      "closed": "Събирането е приключено",
+      "submitted": "Внесена в Комисията",
+      "answered": "Отговорена от Комисията"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Решение за регистрация",
+      "answered_by": "Отговор на Комисията",
+      "led_to": "Произтичащо законодателство"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Регистрирана",
+      "ongoing": "Събиране на подписи",
+      "closed": "Събирането е приключено",
+      "submitted": "Внесена",
+      "verification": "Проверка",
+      "answered": "Отговорена",
+      "conditions_not_fulfilled": "Условията не са изпълнени",
+      "withdrawn": "Оттеглена"
     }
   },
   "help": {
