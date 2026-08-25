@@ -5,8 +5,9 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 onMounted(() => { document.title = 'Admin — Fontem' })
 
 const tools = [
-  { path: '/data-quality', title: 'admin.data_quality', desc: 'admin.per_pipeline_dashboards_contracts_gleif_edgar_esef_lobbying' },
   { path: '/admin/entity-resolution', title: 'admin.entity_resolution', desc: 'admin.review_and_merge_duplicate_company_nodes' },
+  { path: '/admin/value-review', title: 'admin.value_review', desc: 'admin.value_review_desc' },
+  { path: '/issues', title: 'admin.issues', desc: 'admin.issues_desc' },
   { path: '/admin/moderation', title: 'admin.moderation', desc: 'admin.review_flagged_content_resolve_disputes_view_log' },
   { path: '/admin/feed-queries', title: 'feeds.named_queries', desc: 'feeds.named_queries_intro' },
   { path: '/admin/query-groups', title: 'feeds.query_groups', desc: 'feeds.query_groups_intro' },

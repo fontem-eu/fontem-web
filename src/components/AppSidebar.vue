@@ -37,6 +37,7 @@ const navGroups = computed(() => {
     ] },
     { key: 'data', items: [
       { key: 'data-stats', label: t('nav.data_stats'), path: '/explore', icon: 'explore' },
+      { key: 'dashboards', label: t('nav.dashboards'), path: '/data-quality', icon: 'dashboards' },
       { key: 'atlas', label: t('nav.atlas'), path: '/map', icon: 'map' },
     ] },
   ]

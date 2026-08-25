@@ -8,7 +8,7 @@ import AppSidebar from '../../src/components/AppSidebar.vue'
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
-    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
+    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/data-quality', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
   })
 }
 async function mountAt(path = '/') {
@@ -36,6 +36,9 @@ describe('AppSidebar (nav rail)', () => {
     expect(wrapper.find('[data-testid="nav-studio"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href')).toBe('/map')
+    // Dashboards selector lives in the data group
+    expect(wrapper.find('[data-testid="nav-dashboards"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="nav-dashboards"]').attributes('href')).toBe('/data-quality')
   })
 
   it('shows the contribution section (Studio, My Stories) when authenticated, after the data group', async () => {

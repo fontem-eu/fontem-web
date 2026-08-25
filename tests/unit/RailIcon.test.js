@@ -10,7 +10,7 @@ import RailIcon from '../../src/components/RailIcon.vue'
  * fell back to the browser default for a sizeless replaced element.
  */
 describe('RailIcon', () => {
-  const NAMES = ['stories', 'petitions', 'explore', 'map', 'studio', 'mystories', 'account', 'chevron', 'settings']
+  const NAMES = ['stories', 'petitions', 'explore', 'map', 'studio', 'mystories', 'account', 'chevron', 'settings', 'dashboards']
 
   it.each(NAMES)('renders %s at 20x20 regardless of the parent', (name) => {
     const svg = mount(RailIcon, { props: { name } }).find('svg')
