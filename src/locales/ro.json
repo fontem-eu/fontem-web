@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matricea de acoperire E2E și planul de test de fum în producție.",
     "developer_guide": "Ghidul dezvoltatorului",
     "service_directory_repositories_and_quick_commands": "Directorul serviciilor, depozitele și comenzile rapide.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Revizuire valori",
+    "value_review_desc": "Revizuiți valorile contractelor puse în carantină ca fiind neplauzibile.",
+    "issues": "Probleme de date",
+    "issues_desc": "Trierea problemelor de date raportate de comunitate."
   },
   "app": {
     "activity": "Activitate",
@@ -196,7 +196,7 @@
     "footer": "Subsol",
     "sparql": "SPARQL",
     "support": "Susține",
-    "help": "Help"
+    "help": "Ajutor"
   },
   "assist": {
     "accept_all": "Acceptă tot",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Monitor de aserțiuni",
     "assertions_desc": "Starea în timp real a fiecărei aserțiuni de calitate a datelor — se afișează doar eșecurile, cu descriere și momentul de la care eșuează. Reîmprospătat la fiecare 4 ore.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Alegeți un dashboard — unul pentru fiecare flux de date, plus o prezentare generală între surse.",
+    "overview": "Prezentare generală"
   },
   "data_view_selector": {
     "data_view": "Vizualizare date",
@@ -881,7 +881,7 @@
     "projects": "proiecte",
     "companies": "Companii",
     "companies_2": "companii",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Totaluri graf"
   },
   "pocket_button": {
     "add_to_investigation": "Adaugă la investigație",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Buzunarul dumneavoastră este gol. Salvați mai întâi vizualizări folosind butonul Buzunar.",
     "close": "Închide",
     "start_writing": "Începeți să vă redactați analiza...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Regiune",
+    "region_none": "niciuna",
+    "region_eu": "Uniunea Europeană",
+    "more_actions": "Mai multe acțiuni"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entități sancționate — persoane, organizații, acoperirea regimului și potrivirea companiilor",
@@ -1719,43 +1719,43 @@
     "display_email": "Afișează e-mailul",
     "use_different_email": "Folosește alt e-mail",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "De unde sunteți",
+    "home_region_hint": "Lăsați necompletat pentru a folosi locația detectată:",
+    "home_detected": "(detectată din locația dumneavoastră)"
   },
   "article": {
     "by": "de"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Caută companii, organisme, persoane, contracte, legi…",
+    "button": "Caută",
+    "results_for": "Rezultate pentru",
+    "filter_by_type": "Filtrează după tip",
+    "advanced": "Căutare avansată",
+    "region": "Regiune NUTS",
+    "region_hint": "ex.: PT sau PT17",
+    "date_from": "De la",
+    "date_to": "Până la",
+    "clear_filters": "Șterge filtrele",
+    "loading": "Se caută…",
+    "no_results": "Niciun rezultat găsit.",
+    "load_more": "Încarcă mai multe",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Companii",
+      "authority": "Organisme publice",
+      "person": "Persoane",
+      "lobbyist": "Lobbyiști",
+      "contract": "Contracte",
+      "cohesion": "Proiecte de coeziune",
+      "sanction": "Sancțiuni",
+      "story": "Reportaje de date",
       "legislation": "Legislație"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Țară…",
+      "1": "Regiune (NUTS 1)…",
+      "2": "Regiune (NUTS 2)…",
+      "3": "Regiune (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Nicio rulare de aserțiuni înregistrată încă — cronul de monitorizare la 4 ore nu s-a declanșat."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petiții",
+    "subtitle": "Inițiative cetățenești europene — cine le organizează, câți oameni au semnat și ce legislație a urmat.",
+    "all": "Toate",
+    "supporters": "susținători",
+    "loading": "Se încarcă…",
+    "empty": "Nicio petiție nu corespunde acestui filtru.",
+    "collecting": "Se colectează semnături",
+    "reached": "A atins numărul necesar de semnături",
+    "show_more": "Arată mai multe",
+    "about": "Despre ce este această petiție",
+    "timeline": "Cronologie",
+    "legislation": "Legislație",
+    "organizers": "Organizatori",
+    "funding": "Finanțare",
+    "sponsors": "sponsori",
+    "official_page": "Pagina oficială a petiției",
+    "answer_documented": "Răspunsul Comisiei este documentat, încă fără link",
+    "no_legislation": "Încă nu există legislație asociată.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Înregistrată",
+      "collection": "Colectarea semnăturilor a început",
+      "closed": "Colectare încheiată",
+      "submitted": "Depusă la Comisie",
+      "answered": "Răspuns primit de la Comisie"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Decizie de înregistrare",
+      "answered_by": "Răspunsul Comisiei",
+      "led_to": "Legislație rezultată"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Înregistrată",
+      "ongoing": "Se colectează semnături",
+      "closed": "Colectare încheiată",
+      "submitted": "Depusă",
+      "verification": "Verificare",
+      "answered": "Cu răspuns",
+      "conditions_not_fulfilled": "Condiții neîndeplinite",
+      "withdrawn": "Retrasă"
     }
   },
   "help": {

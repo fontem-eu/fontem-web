@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Maitrís chumhdaigh E2E agus plean tástála deataigh táirgthe.",
     "developer_guide": "Treoir Forbróra",
     "service_directory_repositories_and_quick_commands": "Eolaire seirbhísí, stórlanna, agus orduithe tapa.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Athbhreithniú Luachanna",
+    "value_review_desc": "Déan athbhreithniú ar luachanna conartha atá curtha i gcoraintín toisc go meastar iad a bheith neamhchreidiúnach.",
+    "issues": "Fadhbanna Sonraí",
+    "issues_desc": "Sórtáil fadhbanna sonraí a thuairiscigh an pobal."
   },
   "app": {
     "activity": "Gníomhaíocht",
@@ -196,7 +196,7 @@
     "footer": "Buntásc",
     "sparql": "SPARQL",
     "support": "Tacaigh",
-    "help": "Help"
+    "help": "Cabhair"
   },
   "assist": {
     "accept_all": "Glac le gach",
@@ -388,7 +388,7 @@
     "modal_title": "Muinín sna sonraí",
     "level_withheld": "Luach coinnithe siar — droch-shonraí foinse",
     "level_low_confidence": "Íseal-mhuinín",
-    "level_caveat": "Caveat",
+    "level_caveat": "Foláireamh",
     "detail_reason": "Cúis",
     "detail_confidence": "Scór muiníne",
     "detail_status": "Stádas",
@@ -462,9 +462,9 @@
     "legislative_desc": "Scáthán CDM CELLAR — gníomhartha ó 1949 i leith, leaganacha teanga, formáidí foilsithe, clúdach aitheantóirí ELI.",
     "assertion_monitor": "Monatóir dearbhuithe",
     "assertions_desc": "Stádas beo gach dearbhaithe cáilíochta sonraí — ní thaispeántar ach na teipeanna, le tuairiscí agus ó cathain a theip orthu. Athnuaite gach 4 uair an chloig.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Deaiseanna",
+    "dashboards_sub": "Roghnaigh deais — ceann in aghaidh gach píblíne sonraí, chomh maith le forléargas trasfhoinseach.",
+    "overview": "Forléargas"
   },
   "data_view_selector": {
     "data_view": "Amharc sonraí",
@@ -849,7 +849,7 @@
     "spending": "Caiteachas",
     "stories": "Scéalta",
     "studio": "Stiúideo",
-    "dashboards": "Dashboards"
+    "dashboards": "Deaiseanna"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",
@@ -881,7 +881,7 @@
     "projects": "tionscadail",
     "companies": "Cuideachtaí",
     "companies_2": "cuideachtaí",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Iomláin an ghraif"
   },
   "pocket_button": {
     "add_to_investigation": "Cuir leis an imscrúdú",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Tá do phóca folamh. Sábháil léirshamhluithe leis an gcnaipe Póca ar dtús.",
     "close": "Dún",
     "start_writing": "Tosaigh ag scríobh do anailíse...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Réigiún",
+    "region_none": "gan aon cheann",
+    "region_eu": "An tAontas Eorpach",
+    "more_actions": "Tuilleadh gníomhartha"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Aonáin smachtbhannacha — daoine, eagraíochtaí, clúdach réimis agus meaitseáil chomhlachtaí",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Níl aon trí-fhocail sa ghraf seo.",
     "top_classes": "Príomhaicmí",
     "top_predicates": "Príomhthuarthaigh",
-    "triple_store": "Triple store",
+    "triple_store": "Stór trí-fhocal",
     "triples_per_named_graph": "Trí-fhocail in aghaidh graif ainmnithe",
     "virtuoso_not_configured_in_this_environm": "Níl Virtuoso cumraithe sa timpeallacht seo",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Cineál giuirléide anaithnid:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Cló",
     "fontem": "Fontem",
     "tagline": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Taispeáin ríomhphost",
     "use_different_email": "Úsáid ríomhphost eile",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Cé as duit",
+    "home_region_hint": "Fág folamh chun an suíomh a braitheadh a úsáid:",
+    "home_detected": "(braite ó do shuíomh)"
   },
   "article": {
     "by": "le"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Cuardaigh cuideachtaí, comhlachtaí, daoine, conarthaí, dlíthe…",
+    "button": "Cuardaigh",
+    "results_for": "Torthaí do",
+    "filter_by_type": "Scag de réir cineáil",
+    "advanced": "Cuardach casta",
+    "region": "Réigiún NUTS",
+    "region_hint": "m.sh. PT nó PT17",
+    "date_from": "Ó",
+    "date_to": "Go",
+    "clear_filters": "Glan na scagairí",
+    "loading": "Ag cuardach…",
+    "no_results": "Níor aimsíodh aon toradh.",
+    "load_more": "Luchtaigh tuilleadh",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Cuideachtaí",
+      "authority": "Comhlachtaí poiblí",
+      "person": "Daoine",
+      "lobbyist": "Brústocairí",
+      "contract": "Conarthaí",
+      "cohesion": "Tionscadail chomhtháthaithe",
+      "sanction": "Smachtbhannaí",
+      "story": "Scéalta sonraí",
       "legislation": "Reachtaíocht"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Tír…",
+      "1": "Réigiún (NUTS 1)…",
+      "2": "Réigiún (NUTS 2)…",
+      "3": "Réigiún (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Níl aon rith dearbhuithe taifeadta fós — níor thosaigh an cron monatóireachta 4 uair an chloig."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Achainíocha",
+    "subtitle": "Tionscnaimh Eorpacha na Saoránach — cé atá á n-eagrú, cé mhéad a shínigh, agus cén reachtaíocht a lean.",
+    "all": "Uile",
+    "supporters": "tacadóirí",
+    "loading": "Á luchtú…",
+    "empty": "Níl aon achainí ag teacht leis an scagaire seo.",
+    "collecting": "Sínithe á mbailiú",
+    "reached": "Baineadh amach an líon sínithe riachtanach",
+    "show_more": "Taispeáin tuilleadh",
+    "about": "Cad faoi a bhfuil an achainí seo",
+    "timeline": "Amlíne",
+    "legislation": "Reachtaíocht",
+    "organizers": "Eagraithe",
+    "funding": "Maoiniú",
+    "sponsors": "urraitheoirí",
+    "official_page": "Leathanach oifigiúil na hachainí",
+    "answer_documented": "Freagra an Choimisiúin doiciméadaithe, gan a bheith nasctha go fóill",
+    "no_legislation": "Níl aon reachtaíocht nasctha ann fós.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Cláraithe",
+      "collection": "Tosaíodh ar bhailiú sínithe",
+      "closed": "Bailiú dúnta",
+      "submitted": "Curtha faoi bhráid an Choimisiúin",
+      "answered": "Freagartha ag an gCoimisiún"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Cinneadh cláraithe",
+      "answered_by": "Freagra an Choimisiúin",
+      "led_to": "Reachtaíocht dá thoradh"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Cláraithe",
+      "ongoing": "Sínithe á mbailiú",
+      "closed": "Bailiú dúnta",
+      "submitted": "Curtha isteach",
+      "verification": "Fíorú",
+      "answered": "Freagartha",
+      "conditions_not_fulfilled": "Coinníollacha gan chomhlíonadh",
+      "withdrawn": "Tarraingthe siar"
     }
   },
   "help": {

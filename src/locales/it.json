@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matrice di copertura E2E e piano di smoke test in produzione.",
     "developer_guide": "Guida per sviluppatori",
     "service_directory_repositories_and_quick_commands": "Directory dei servizi, repository e comandi rapidi.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Revisione dei valori",
+    "value_review_desc": "Rivedi i valori dei contratti messi in quarantena come non plausibili.",
+    "issues": "Problemi sui dati",
+    "issues_desc": "Analizza i problemi sui dati segnalati dalla comunità."
   },
   "app": {
     "activity": "Attività",
@@ -196,7 +196,7 @@
     "footer": "Piè di pagina",
     "sparql": "SPARQL",
     "support": "Supporto",
-    "help": "Help"
+    "help": "Aiuto"
   },
   "assist": {
     "accept_all": "Accetta tutto",
@@ -227,12 +227,12 @@
     "characters_used": "Caratteri utilizzati"
   },
   "atlas": {
-    "atlas": "Atlas",
+    "atlas": "Atlante",
     "code": "Codice",
     "colour_scale": "Scala cromatica",
     "coverage": "Copertura",
     "data_slice": "Sezione dati",
-    "dataset": "Dataset",
+    "dataset": "Set di dati",
     "dataset_metadata": "Metadati del dataset",
     "distribution_is_right_skewed_log_scale_r": "La distribuzione è asimmetrica a destra — si consiglia scala logaritmica.",
     "hide_low_coverage_datasets": "Nascondi dataset a bassa copertura",
@@ -462,9 +462,9 @@
     "legislative_desc": "Mirror CDM di CELLAR: atti dal 1949, versioni linguistiche, formati pubblicati, copertura degli identificatori ELI.",
     "assertion_monitor": "Monitor delle asserzioni",
     "assertions_desc": "Stato in tempo reale di ogni asserzione sulla qualità dei dati: vengono mostrati solo i fallimenti, con descrizione e data di inizio. Aggiornato ogni 4 ore.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Dashboard",
+    "dashboards_sub": "Scegli una dashboard — una per pipeline di dati, più una panoramica trasversale alle fonti.",
+    "overview": "Panoramica"
   },
   "data_view_selector": {
     "data_view": "Vista dati",
@@ -849,7 +849,7 @@
     "spending": "Spesa",
     "stories": "Storie",
     "studio": "Studio",
-    "dashboards": "Dashboards"
+    "dashboards": "Dashboard"
   },
   "not_found": {
     "back_to_home": "Torna alla home",
@@ -881,14 +881,14 @@
     "projects": "progetti",
     "companies": "Società",
     "companies_2": "società",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Totali del grafo"
   },
   "pocket_button": {
     "add_to_investigation": "Aggiungi all'inchiesta",
     "chart_actions": "Azioni sul grafico",
     "download_image": "Scarica come immagine",
     "name_this_snapshot": "Nomina questo snapshot",
-    "pocket": "Pocket",
+    "pocket": "Tasca",
     "save": "Salva",
     "save_to_pocket": "Salva in Pocket",
     "save_to_pocket_tooltip": "Salva in Pocket",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "La Sua tasca è vuota. Salvi prima le visualizzazioni utilizzando il pulsante Tasca.",
     "close": "Chiudi",
     "start_writing": "Inizi a scrivere la sua analisi...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Regione",
+    "region_none": "nessuna",
+    "region_eu": "Unione europea",
+    "more_actions": "Altre azioni"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entità sanzionate — persone, organizzazioni, copertura del regime e corrispondenza aziendale",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Tipo di widget sconosciuto:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Carattere",
     "fontem": "Fontem",
     "tagline": "Attraversiamo i confini digitali dell'UE, un set di dati alla volta"
   },
@@ -1421,7 +1421,7 @@
     "new_project": "Nuovo progetto"
   },
   "studio_home": {
-    "data_studio": "Data Studio",
+    "data_studio": "Studio dati",
     "pull_data_with_read_only_queries": "Estragga i dati con query di sola lettura, li combini nel Suo browser e li rappresenti su un grafico.",
     "new_project": "Nuovo progetto",
     "loading_your_projects": "Caricamento dei Suoi progetti…",
@@ -1719,43 +1719,43 @@
     "display_email": "Mostra email",
     "use_different_email": "Usa un’altra email",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Da dove vieni",
+    "home_region_hint": "Lascia vuoto per usare la posizione rilevata:",
+    "home_detected": "(rilevata dalla tua posizione)"
   },
   "article": {
     "by": "di"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Cerca aziende, enti, persone, contratti, leggi…",
+    "button": "Cerca",
+    "results_for": "Risultati per",
+    "filter_by_type": "Filtra per tipo",
+    "advanced": "Ricerca avanzata",
+    "region": "Regione NUTS",
+    "region_hint": "es. PT o PT17",
+    "date_from": "Da",
+    "date_to": "A",
+    "clear_filters": "Cancella filtri",
+    "loading": "Ricerca in corso…",
+    "no_results": "Nessun risultato trovato.",
+    "load_more": "Carica altri",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Aziende",
+      "authority": "Enti pubblici",
+      "person": "Persone",
+      "lobbyist": "Lobbisti",
+      "contract": "Contratti",
+      "cohesion": "Progetti di coesione",
+      "sanction": "Sanzioni",
+      "story": "Storie di dati",
       "legislation": "Legislazione"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Paese…",
+      "1": "Regione (NUTS 1)…",
+      "2": "Regione (NUTS 2)…",
+      "3": "Regione (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Nessuna esecuzione di asserzioni registrata finora: il cron di monitoraggio ogni 4 ore non è ancora scattato."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petizioni",
+    "subtitle": "Iniziative dei cittadini europei — chi le organizza, quante persone hanno firmato e quale legislazione ne è seguita.",
+    "all": "Tutte",
+    "supporters": "sostenitori",
+    "loading": "Caricamento…",
+    "empty": "Nessuna petizione corrisponde a questo filtro.",
+    "collecting": "Raccolta firme in corso",
+    "reached": "Firme richieste raggiunte",
+    "show_more": "Mostra altro",
+    "about": "Di cosa tratta questa petizione",
+    "timeline": "Cronologia",
+    "legislation": "Legislazione",
+    "organizers": "Organizzatori",
+    "funding": "Finanziamento",
+    "sponsors": "sponsor",
+    "official_page": "Pagina ufficiale della petizione",
+    "answer_documented": "Risposta della Commissione documentata, non ancora collegabile",
+    "no_legislation": "Nessuna legislazione collegata al momento.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registrata",
+      "collection": "Raccolta firme avviata",
+      "closed": "Raccolta chiusa",
+      "submitted": "Presentata alla Commissione",
+      "answered": "Risposta dalla Commissione"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Decisione di registrazione",
+      "answered_by": "Risposta della Commissione",
+      "led_to": "Legislazione risultante"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registrata",
+      "ongoing": "Raccolta firme in corso",
+      "closed": "Raccolta chiusa",
+      "submitted": "Presentata",
+      "verification": "Verifica",
+      "answered": "Risposta",
+      "conditions_not_fulfilled": "Condizioni non soddisfatte",
+      "withdrawn": "Ritirata"
     }
   },
   "help": {

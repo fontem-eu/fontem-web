@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matice pokrytí E2E a plán produkčního kouřového testu.",
     "developer_guide": "Příručka pro vývojáře",
     "service_directory_repositories_and_quick_commands": "Adresář služeb, repozitáře a rychlé příkazy.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Kontrola hodnot",
+    "value_review_desc": "Kontrola hodnot zakázek odložených jako nevěrohodné.",
+    "issues": "Problémy s daty",
+    "issues_desc": "Třídění problémů s daty nahlášených komunitou."
   },
   "app": {
     "activity": "Aktivita",
@@ -196,7 +196,7 @@
     "footer": "Patička",
     "sparql": "SPARQL",
     "support": "Podpora",
-    "help": "Help"
+    "help": "Nápověda"
   },
   "assist": {
     "accept_all": "Přijmout vše",
@@ -462,9 +462,9 @@
     "legislative_desc": "Zrcadlo CDM z CELLARu — akty od roku 1949, jazykové verze, publikované formáty, pokrytí identifikátory ELI.",
     "assertion_monitor": "Monitor asercí",
     "assertions_desc": "Živý stav každé asercie kvality dat — zobrazují se pouze selhání, s popisem a datem začátku. Aktualizováno každé 4 hodiny.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Dashboardy",
+    "dashboards_sub": "Vyberte dashboard — jeden pro každou datovou pipeline, plus přehled napříč zdroji.",
+    "overview": "Přehled"
   },
   "data_view_selector": {
     "data_view": "Zobrazení dat",
@@ -849,7 +849,7 @@
     "spending": "Výdaje",
     "stories": "Příběhy",
     "studio": "Studio",
-    "dashboards": "Dashboards"
+    "dashboards": "Dashboardy"
   },
   "not_found": {
     "back_to_home": "Zpět na domovskou stránku",
@@ -869,7 +869,7 @@
     "cross_source_overlap_country_code_consis": "Překryv mezi zdroji, konzistence kódů zemí a úplnost polí napříč všemi datovými zdroji",
     "data_quality_overview": "Přehled kvality dat",
     "listings": "Kotace",
-    "lobby": "Lobby",
+    "lobby": "Lobbing",
     "top_alpha_2_codes": "Hlavní kódy Alpha-2",
     "how_many_entities_appear_in_multiple_data_sources": "Kolik subjektů se objevuje ve více zdrojích dat — míra propojenosti grafu.",
     "companies_still_use_alpha_2_country_codes": "společnosti stále používají dvoupísmenné kódy zemí namísto ISO 3166-1 alpha-2/alpha-3.",
@@ -881,7 +881,7 @@
     "projects": "projekty",
     "companies": "Společnosti",
     "companies_2": "společnosti",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Součty grafu"
   },
   "pocket_button": {
     "add_to_investigation": "Přidat do vyšetřování",
@@ -1050,9 +1050,9 @@
     "close": "Zavřít",
     "start_writing": "Začněte psát svou analýzu...",
     "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_none": "žádný",
+    "region_eu": "Evropská unie",
+    "more_actions": "Další akce"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionované entity — osoby, organizace, pokrytí režimu a shoda společností",
@@ -1072,7 +1072,7 @@
   },
   "sparql": {
     "discoverable_json": "vrací tutéž dokumentaci jako JSON.",
-    "endpoint": "Endpoint",
+    "endpoint": "Koncový bod",
     "endpoint_url": "URL endpointu",
     "get_apisparql": "GET /api/sparql",
     "intro": "Dotazuj znalostní graf Fontem přímo z prohlížeče, nebo zapoj endpoint do OpenRefine / notebooku / vlastních nástrojů. Firmy, smlouvy, úřady, lobbisté, sankce — vše propojené.",
@@ -1084,7 +1084,7 @@
     "response": "Odpověď",
     "run_shortcut": "⌘/Ctrl + Enter pro spuštění",
     "sparql_11_json_results_envelope": "Obálka výsledků SPARQL 1.1 JSON:",
-    "sparql_endpoint": "SPARQL endpoint",
+    "sparql_endpoint": "Koncový bod SPARQL",
     "try_a_query": "Vyzkoušet dotaz",
     "no_rows": "Dotaz proběhl a nic nenašel.",
     "query_returned_no_projected_columns": "Dotaz nevrátil žádné projektované sloupce.",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "V tomto grafu nejsou žádné trojice.",
     "top_classes": "Hlavní třídy",
     "top_predicates": "Hlavní predikáty",
-    "triple_store": "Triple store",
+    "triple_store": "Úložiště trojic",
     "triples_per_named_graph": "Trojice na pojmenovaný graf",
     "virtuoso_not_configured_in_this_environm": "Virtuoso není v tomto prostředí nakonfigurován",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Neznámý typ widgetu:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Písmo",
     "fontem": "Fontem",
     "tagline": "Překračujeme digitální hranice EU, jeden datový soubor po druhém"
   },
@@ -1719,40 +1719,40 @@
     "display_email": "Zobrazit e-mail",
     "use_different_email": "Použít jiný e-mail",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Odkud jste",
+    "home_region_hint": "Ponechte prázdné, chcete-li použít zjištěnou polohu:",
+    "home_detected": "(zjištěno z vaší polohy)"
   },
   "article": {
     "by": "od"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Hledat firmy, orgány, osoby, zakázky, zákony…",
+    "button": "Hledat",
+    "results_for": "Výsledky pro",
+    "filter_by_type": "Filtrovat podle typu",
+    "advanced": "Rozšířené hledání",
+    "region": "Region NUTS",
+    "region_hint": "např. PT nebo PT17",
+    "date_from": "Od",
+    "date_to": "Do",
+    "clear_filters": "Vymazat filtry",
+    "loading": "Hledání…",
+    "no_results": "Nebyly nalezeny žádné výsledky.",
+    "load_more": "Načíst další",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Firmy",
+      "authority": "Veřejné orgány",
+      "person": "Osoby",
+      "lobbyist": "Lobbisté",
+      "contract": "Zakázky",
+      "cohesion": "Projekty soudržnosti",
+      "sanction": "Sankce",
+      "story": "Datové příběhy",
       "legislation": "Legislativa"
     },
     "region_level": {
-      "0": "Country…",
+      "0": "Země…",
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
@@ -1782,45 +1782,45 @@
     "no_runs": "Zatím nebyl zaznamenán žádný běh asercí — čtyřhodinový monitorovací cron se nespustil."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petice",
+    "subtitle": "Evropské občanské iniciativy — kdo je organizuje, kolik lidí je podepsalo a jaká legislativa následovala.",
+    "all": "Vše",
+    "supporters": "podporovatelů",
+    "loading": "Načítání…",
+    "empty": "Tomuto filtru neodpovídají žádné petice.",
+    "collecting": "Sběr podpisů",
+    "reached": "Dosažen požadovaný počet podpisů",
+    "show_more": "Zobrazit více",
+    "about": "O čem je tato petice",
+    "timeline": "Časová osa",
+    "legislation": "Legislativa",
+    "organizers": "Organizátoři",
+    "funding": "Financování",
+    "sponsors": "sponzoři",
+    "official_page": "Oficiální stránka petice",
+    "answer_documented": "Odpověď Komise je zdokumentována, zatím ji nelze odkázat",
+    "no_legislation": "Zatím žádná propojená legislativa.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Zaregistrována",
+      "collection": "Sběr podpisů zahájen",
+      "closed": "Sběr ukončen",
+      "submitted": "Předloženo Komisi",
+      "answered": "Zodpovězeno Komisí"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Rozhodnutí o registraci",
+      "answered_by": "Odpověď Komise",
+      "led_to": "Výsledná legislativa"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Zaregistrována",
+      "ongoing": "Sběr podpisů",
+      "closed": "Sběr ukončen",
+      "submitted": "Předloženo",
+      "verification": "Ověřování",
+      "answered": "Zodpovězeno",
+      "conditions_not_fulfilled": "Podmínky nesplněny",
+      "withdrawn": "Staženo"
     }
   },
   "help": {

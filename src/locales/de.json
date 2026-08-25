@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E-Abdeckungsmatrix und Smoke-Test-Plan für die Produktion.",
     "developer_guide": "Entwicklerhandbuch",
     "service_directory_repositories_and_quick_commands": "Service-Verzeichnis, Repositories und Schnellbefehle.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Wertprüfung",
+    "value_review_desc": "Auftragswerte prüfen, die als unplausibel in Quarantäne gestellt wurden.",
+    "issues": "Datenprobleme",
+    "issues_desc": "Von der Community gemeldete Datenprobleme sichten."
   },
   "app": {
     "activity": "Aktivität",
@@ -196,7 +196,7 @@
     "footer": "Fußzeile",
     "sparql": "SPARQL",
     "support": "Unterstützen",
-    "help": "Help"
+    "help": "Hilfe"
   },
   "assist": {
     "accept_all": "Alle akzeptieren",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Assertions-Monitor",
     "assertions_desc": "Live-Status jeder Datenqualitäts-Assertion — nur Fehlschläge, mit Beschreibung und Beginn des Fehlers. Alle 4 Stunden aktualisiert.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Wählen Sie ein Dashboard — eines pro Datenpipeline, plus eine quellenübergreifende Übersicht.",
+    "overview": "Übersicht"
   },
   "data_view_selector": {
     "data_view": "Datenansicht",
@@ -868,8 +868,8 @@
     "cross_source_overlap": "Quellenübergreifende Überschneidung",
     "cross_source_overlap_country_code_consis": "Quellenübergreifende Überschneidung, Ländercode-Konsistenz und Feldvollständigkeit über alle Datenquellen",
     "data_quality_overview": "Datenqualitäts-Übersicht",
-    "listings": "Listings",
-    "lobby": "Lobby",
+    "listings": "Notierungen",
+    "lobby": "Lobbying",
     "top_alpha_2_codes": "Top Alpha-2-Codes",
     "how_many_entities_appear_in_multiple_data_sources": "Wie viele Einheiten in mehreren Datenquellen erscheinen — ein Maß für die Vernetzung des Graphen.",
     "companies_still_use_alpha_2_country_codes": "Unternehmen verwenden weiterhin Alpha-2-Ländercodes anstelle von ISO 3166-1 Alpha-2/Alpha-3.",
@@ -881,7 +881,7 @@
     "projects": "Projekte",
     "companies": "Unternehmen",
     "companies_2": "Unternehmen",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Graph-Gesamtwerte"
   },
   "pocket_button": {
     "add_to_investigation": "Zur Recherche hinzufügen",
@@ -1050,9 +1050,9 @@
     "close": "Schließen",
     "start_writing": "Beginnen Sie mit dem Verfassen Ihrer Analyse...",
     "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_none": "keine",
+    "region_eu": "Europäische Union",
+    "more_actions": "Weitere Aktionen"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionierte Entitäten — Personen, Organisationen, Regimeabdeckung und Unternehmenszuordnung",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Unbekannter Widget-Typ:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Schriftart",
     "fontem": "Fontem",
     "tagline": "Die digitalen Grenzen der EU überwinden, ein Datensatz nach dem anderen"
   },
@@ -1719,40 +1719,40 @@
     "display_email": "E-Mail anzeigen",
     "use_different_email": "Andere E-Mail verwenden",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Woher Sie kommen",
+    "home_region_hint": "Leer lassen, um Ihren erkannten Standort zu verwenden:",
+    "home_detected": "(aus Ihrem Standort erkannt)"
   },
   "article": {
     "by": "von"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Unternehmen, Behörden, Personen, Aufträge, Gesetze suchen…",
+    "button": "Suchen",
+    "results_for": "Ergebnisse für",
+    "filter_by_type": "Nach Typ filtern",
+    "advanced": "Erweiterte Suche",
+    "region": "NUTS-Region",
+    "region_hint": "z. B. PT oder PT17",
+    "date_from": "Von",
+    "date_to": "Bis",
+    "clear_filters": "Filter löschen",
+    "loading": "Wird gesucht…",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "load_more": "Mehr laden",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Unternehmen",
+      "authority": "Öffentliche Stellen",
+      "person": "Personen",
+      "lobbyist": "Lobbyisten",
+      "contract": "Aufträge",
+      "cohesion": "Kohäsionsprojekte",
+      "sanction": "Sanktionen",
+      "story": "Datengeschichten",
       "legislation": "Rechtsvorschriften"
     },
     "region_level": {
-      "0": "Country…",
+      "0": "Land…",
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
@@ -1782,45 +1782,45 @@
     "no_runs": "Bisher keine Assertions-Läufe erfasst — der 4-Stunden-Monitor-Cron wurde noch nicht ausgelöst."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petitionen",
+    "subtitle": "Europäische Bürgerinitiativen — wer organisiert, wie viele unterschrieben haben und welche Gesetzgebung folgte.",
+    "all": "Alle",
+    "supporters": "Unterstützer",
+    "loading": "Wird geladen…",
+    "empty": "Keine Petitionen entsprechen diesem Filter.",
+    "collecting": "Unterschriften werden gesammelt",
+    "reached": "Erforderliche Unterschriften erreicht",
+    "show_more": "Mehr anzeigen",
+    "about": "Worum es in dieser Petition geht",
+    "timeline": "Zeitachse",
+    "legislation": "Gesetzgebung",
+    "organizers": "Organisatoren",
+    "funding": "Finanzierung",
+    "sponsors": "Sponsoren",
+    "official_page": "Offizielle Petitionsseite",
+    "answer_documented": "Antwort der Kommission dokumentiert, noch nicht verlinkbar",
+    "no_legislation": "Noch keine verknüpfte Gesetzgebung.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registriert",
+      "collection": "Unterschriftensammlung gestartet",
+      "closed": "Sammlung abgeschlossen",
+      "submitted": "Bei der Kommission eingereicht",
+      "answered": "Von der Kommission beantwortet"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Registrierungsentscheidung",
+      "answered_by": "Antwort der Kommission",
+      "led_to": "Resultierende Gesetzgebung"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registriert",
+      "ongoing": "Unterschriften werden gesammelt",
+      "closed": "Sammlung abgeschlossen",
+      "submitted": "Eingereicht",
+      "verification": "Überprüfung",
+      "answered": "Beantwortet",
+      "conditions_not_fulfilled": "Bedingungen nicht erfüllt",
+      "withdrawn": "Zurückgezogen"
     }
   },
   "help": {

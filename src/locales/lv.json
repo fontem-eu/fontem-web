@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E pārklājuma matrica un produkcijas dūmu testa plāns.",
     "developer_guide": "Izstrādātāja rokasgrāmata",
     "service_directory_repositories_and_quick_commands": "Pakalpojumu direktorijs, repozitoriji un ātrās komandas.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Vērtību pārskatīšana",
+    "value_review_desc": "Pārskatiet līgumu vērtības, kas karantinētas kā neticamas.",
+    "issues": "Datu problēmas",
+    "issues_desc": "Šķirojiet kopienas ziņotās datu problēmas."
   },
   "app": {
     "activity": "Aktivitāte",
@@ -196,7 +196,7 @@
     "footer": "Kājene",
     "sparql": "SPARQL",
     "support": "Atbalsti",
-    "help": "Help"
+    "help": "Palīdzība"
   },
   "assist": {
     "accept_all": "Pieņemt visus",
@@ -227,7 +227,7 @@
     "characters_used": "Izmantotās rakstzīmes"
   },
   "atlas": {
-    "atlas": "Atlas",
+    "atlas": "Atlants",
     "code": "Kods",
     "colour_scale": "Krāsu skala",
     "coverage": "Pārklājums",
@@ -462,9 +462,9 @@
     "legislative_desc": "CELLAR CDM spogulis — akti kopš 1949. gada, valodu versijas, publicētie formāti, ELI identifikatoru pārklājums.",
     "assertion_monitor": "Apgalvojumu uzraugs",
     "assertions_desc": "Katra datu kvalitātes apgalvojuma pašreizējais statuss — tiek rādītas tikai neveiksmes ar aprakstu un laiku, kopš kura tās pastāv. Atsvaidzina ik pēc 4 stundām.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Informācijas paneļi",
+    "dashboards_sub": "Izvēlieties informācijas paneli — vienu katram datu konveijeram, plus pārskatu starp avotiem.",
+    "overview": "Pārskats"
   },
   "data_view_selector": {
     "data_view": "Datu skats",
@@ -849,7 +849,7 @@
     "spending": "Tēriņi",
     "stories": "Stāsti",
     "studio": "Studija",
-    "dashboards": "Dashboards"
+    "dashboards": "Informācijas paneļi"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",
@@ -881,14 +881,14 @@
     "projects": "projekti",
     "companies": "Uzņēmumi",
     "companies_2": "uzņēmumi",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Grafa kopsummas"
   },
   "pocket_button": {
     "add_to_investigation": "Pievienot izmeklēšanai",
     "chart_actions": "Diagrammas darbības",
     "download_image": "Lejupielādēt kā attēlu",
     "name_this_snapshot": "Nosauc šo momentuzņēmumu",
-    "pocket": "Pocket",
+    "pocket": "Kabata",
     "save": "Saglabāt",
     "save_to_pocket": "Saglabāt Pocket",
     "save_to_pocket_tooltip": "Saglabāt Pocket",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Jūsu kabata ir tukša. Vispirms saglabājiet vizualizācijas, izmantojot pogu Kabata.",
     "close": "Aizvērt",
     "start_writing": "Sāciet rakstīt savu analīzi...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Reģions",
+    "region_none": "nav",
+    "region_eu": "Eiropas Savienība",
+    "more_actions": "Vairāk darbību"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionētas entītes — personas, organizācijas, režīma pārklājums un uzņēmumu salāgojumi",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Nezināms logrīka tips:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Fonts",
     "fontem": "Fontem",
     "tagline": "Šķērsojam ES digitālās robežas, pa vienai datu kopai"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Rādīt e-pastu",
     "use_different_email": "Izmantot citu e-pastu",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "No kurienes esat",
+    "home_region_hint": "Atstājiet tukšu, lai izmantotu noteikto atrašanās vietu:",
+    "home_detected": "(noteikts pēc jūsu atrašanās vietas)"
   },
   "article": {
     "by": "autors:"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Meklējiet uzņēmumus, iestādes, cilvēkus, līgumus, likumus…",
+    "button": "Meklēt",
+    "results_for": "Rezultāti vaicājumam",
+    "filter_by_type": "Filtrēt pēc tipa",
+    "advanced": "Paplašinātā meklēšana",
+    "region": "NUTS reģions",
+    "region_hint": "piem., PT vai PT17",
+    "date_from": "No",
+    "date_to": "Līdz",
+    "clear_filters": "Notīrīt filtrus",
+    "loading": "Meklē…",
+    "no_results": "Rezultāti nav atrasti.",
+    "load_more": "Ielādēt vairāk",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Uzņēmumi",
+      "authority": "Publiskās iestādes",
+      "person": "Cilvēki",
+      "lobbyist": "Lobisti",
+      "contract": "Līgumi",
+      "cohesion": "Kohēzijas projekti",
+      "sanction": "Sankcijas",
+      "story": "Datu stāsti",
       "legislation": "Tiesību akti"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Valsts…",
+      "1": "Reģions (NUTS 1)…",
+      "2": "Reģions (NUTS 2)…",
+      "3": "Reģions (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Vēl nav reģistrēta neviena apgalvojumu izpilde — 4 stundu uzraudzības cron nav nostrādājis."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Petīcijas",
+    "subtitle": "Eiropas pilsoņu iniciatīvas — kas tās organizē, cik cilvēku parakstījās un kāds tiesību akts sekoja.",
+    "all": "Visas",
+    "supporters": "atbalstītāji",
+    "loading": "Ielādē…",
+    "empty": "Neviena petīcija neatbilst šim filtram.",
+    "collecting": "Paraksti tiek vākti",
+    "reached": "Sasniegts nepieciešamais parakstu skaits",
+    "show_more": "Rādīt vairāk",
+    "about": "Par ko ir šī petīcija",
+    "timeline": "Laika skala",
+    "legislation": "Tiesību akti",
+    "organizers": "Organizatori",
+    "funding": "Finansējums",
+    "sponsors": "sponsori",
+    "official_page": "Oficiālā petīcijas lapa",
+    "answer_documented": "Komisijas atbilde dokumentēta, vēl nav sasaistāma",
+    "no_legislation": "Vēl nav saistīto tiesību aktu.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Reģistrēta",
+      "collection": "Sākta parakstu vākšana",
+      "closed": "Vākšana slēgta",
+      "submitted": "Iesniegta Komisijai",
+      "answered": "Komisija atbildēja"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Reģistrācijas lēmums",
+      "answered_by": "Komisijas atbilde",
+      "led_to": "Rezultējošie tiesību akti"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Reģistrēta",
+      "ongoing": "Paraksti tiek vākti",
+      "closed": "Vākšana slēgta",
+      "submitted": "Iesniegta",
+      "verification": "Pārbaude",
+      "answered": "Atbildēts",
+      "conditions_not_fulfilled": "Nosacījumi nav izpildīti",
+      "withdrawn": "Atsaukta"
     }
   },
   "help": {

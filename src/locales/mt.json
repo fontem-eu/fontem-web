@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matriċi ta' kopertura E2E u pjan ta' smoke test tal-produzzjoni.",
     "developer_guide": "Gwida għall-Iżviluppaturi",
     "service_directory_repositories_and_quick_commands": "Direttorju tas-servizzi, repożitorji, u kmandi mgħaġġla.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Reviżjoni tal-Valuri",
+    "value_review_desc": "Irrevedi l-valuri tal-kuntratti li tqiegħdu fi kwarantina bħala mhux plawżibbli.",
+    "issues": "Problemi tad-Data",
+    "issues_desc": "Ipprijoritizza l-problemi tad-data rrappurtati mill-komunità."
   },
   "app": {
     "activity": "Attività",
@@ -193,10 +193,10 @@
     "about": "Dwar",
     "data_quality": "Kwalità tad-data",
     "data_sourced_from_sec_edgar_esma_esef_gl": "Data minn SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Akkwist pubbliku tal-UE)",
-    "footer": "Footer",
+    "footer": "Qiegħ tal-paġna",
     "sparql": "SPARQL",
     "support": "Appoġġja",
-    "help": "Help"
+    "help": "Għajnuna"
   },
   "assist": {
     "accept_all": "Aċċetta kollox",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Monitor tal-asserzjonijiet",
     "assertions_desc": "Stat fil-ħin reali ta' kull asserzjoni dwar il-kwalità tad-data — jintwerew biss il-falliment, bid-deskrizzjoni u minn meta qed ifallu. Aġġornat kull 4 sigħat.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Agħżel dashboard — waħda għal kull pipeline tad-data, flimkien ma' ħarsa ġenerali bejn is-sorsi.",
+    "overview": "Ħarsa ġenerali"
   },
   "data_view_selector": {
     "data_view": "Veduta tad-data",
@@ -661,11 +661,11 @@
     "timeline_2": "✕ Linja tal-ħin",
     "saved": "Salvat",
     "depth_2": "fond",
-    "path": "path",
+    "path": "mogħdija",
     "found": "misjub.",
     "shortest": "L-iqsar:",
     "hop": "qabża",
-    "path_2": "Path",
+    "path_2": "Mogħdija",
     "contracts": "kuntratti",
     "directors": "diretturi",
     "companies": "kumpaniji",
@@ -881,7 +881,7 @@
     "projects": "proġetti",
     "companies": "Kumpaniji",
     "companies_2": "kumpaniji",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Totali tal-graff"
   },
   "pocket_button": {
     "add_to_investigation": "Żid mal-investigazzjoni",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Il-but tiegħek huwa vojt. L-ewwel salva viżwalizzazzjonijiet bl-użu tal-buttuna Pocket.",
     "close": "Agħlaq",
     "start_writing": "Ibda ikteb l-analiżi tiegħek...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Reġjun",
+    "region_none": "l-ebda",
+    "region_eu": "Unjoni Ewropea",
+    "more_actions": "Aktar azzjonijiet"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Entitajiet sanzjonati — persuni, organizzazzjonijiet, kopertura tar-reġim u qbil tal-kumpaniji",
@@ -1415,7 +1415,7 @@
     "confirm_delete": "Ikkonferma t-tħassir",
     "new_query": "Query ġdida",
     "duplicate": "Idduplika",
-    "queries": "Queries",
+    "queries": "Mistoqsijiet",
     "plots": "Plottijiet",
     "new_plot": "Plott ġdid",
     "new_project": "Proġett ġdid"
@@ -1426,8 +1426,8 @@
     "new_project": "Proġett ġdid",
     "loading_your_projects": "Qed jitgħabbew il-proġetti tiegħek…",
     "no_data_projects_yet": "L-ebda proġett tad-data s'issa. Oħloq l-ewwel wieħed biex tibda.",
-    "query": "query",
-    "queries": "queries",
+    "query": "mistoqsija",
+    "queries": "mistoqsijiet",
     "plot": "plott",
     "plots": "plottijiet"
   },
@@ -1442,7 +1442,7 @@
     "project_name": "Isem il-proġett",
     "share": "Ixxerja",
     "view_only_access": "Għandek aċċess ta' viżjoni biss għal dan il-proġett maqsum.",
-    "queries": "Queries",
+    "queries": "Mistoqsijiet",
     "new_query": "+ Query ġdida",
     "no_queries_yet": "L-ebda query s'issa. Oħloq waħda biex tibda tiġbed data.",
     "plots": "Plottijiet",
@@ -1474,7 +1474,7 @@
     "untitled": "Bla titlu",
     "data_projects": "Proġetti tad-data",
     "no_data_projects": "L-ebda proġett tad-data maqsum ma' din l-investigazzjoni s'issa.",
-    "queries": "queries",
+    "queries": "mistoqsijiet",
     "plots": "plottijiet",
     "detach": "Aqla'"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Uri l-email",
     "use_different_email": "Uża email ieħor",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Minn fejn int",
+    "home_region_hint": "Ħalli vojt biex tuża l-post misjub tiegħek:",
+    "home_detected": "(misjub mill-post tiegħek)"
   },
   "article": {
     "by": "minn"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Fittex kumpaniji, entitajiet, nies, kuntratti, liġijiet…",
+    "button": "Fittex",
+    "results_for": "Riżultati għal",
+    "filter_by_type": "Iffiltra skont it-tip",
+    "advanced": "Tfittxija avvanzata",
+    "region": "Reġjun NUTS",
+    "region_hint": "e.ż. PT jew PT17",
+    "date_from": "Minn",
+    "date_to": "Sa",
+    "clear_filters": "Naddaf il-filtri",
+    "loading": "Qed ifittex…",
+    "no_results": "Ma nstab l-ebda riżultat.",
+    "load_more": "Għabbi aktar",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Kumpaniji",
+      "authority": "Entitajiet pubbliċi",
+      "person": "Nies",
+      "lobbyist": "Lobbisti",
+      "contract": "Kuntratti",
+      "cohesion": "Proġetti ta' koeżjoni",
+      "sanction": "Sanzjonijiet",
+      "story": "Stejjer tad-data",
       "legislation": "Leġiżlazzjoni"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Pajjiż…",
+      "1": "Reġjun (NUTS 1)…",
+      "2": "Reġjun (NUTS 2)…",
+      "3": "Reġjun (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Għadha ma ġiet irreġistrata l-ebda eżekuzzjoni ta' asserzjonijiet — il-cron ta' monitoraġġ ta' 4 sigħat ma ħadimx."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
+    "title": "Petizzjonijiet",
+    "subtitle": "Inizjattivi taċ-Ċittadini Ewropej — min qed jorganizza, kemm iffirmaw, u liema leġiżlazzjoni segwiet.",
+    "all": "Kollha",
+    "supporters": "sostenituri",
+    "loading": "Qed jitgħabba…",
+    "empty": "L-ebda petizzjoni ma taqbel ma' dan il-filtru.",
+    "collecting": "Qed jinġabru l-firem",
+    "reached": "Intlaħqu l-firem meħtieġa",
+    "show_more": "Uri aktar",
+    "about": "Dwar xiex hija din il-petizzjoni",
+    "timeline": "Kronoloġija",
+    "legislation": "Leġiżlazzjoni",
+    "organizers": "Organizzaturi",
+    "funding": "Finanzjament",
     "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "official_page": "Paġna uffiċjali tal-petizzjoni",
+    "answer_documented": "It-tweġiba tal-Kummissjoni ddokumentata, għadha ma tistax tintrabat",
+    "no_legislation": "Għad m'hemm l-ebda leġiżlazzjoni marbuta.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Irreġistrata",
+      "collection": "Bdiet il-ġbir tal-firem",
+      "closed": "Il-ġbir ingħalaq",
+      "submitted": "Ippreżentata lill-Kummissjoni",
+      "answered": "Imwieġba mill-Kummissjoni"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Deċiżjoni ta' reġistrazzjoni",
+      "answered_by": "Tweġiba tal-Kummissjoni",
+      "led_to": "Leġiżlazzjoni li rriżultat"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Irreġistrata",
+      "ongoing": "Qed jinġabru l-firem",
+      "closed": "Il-ġbir ingħalaq",
+      "submitted": "Ippreżentata",
+      "verification": "Verifika",
+      "answered": "Imwieġba",
+      "conditions_not_fulfilled": "Kundizzjonijiet mhux issodisfati",
+      "withdrawn": "Irtirata"
     }
   },
   "help": {

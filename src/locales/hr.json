@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "Matrica E2E pokrivenosti i plan produkcijskog smoke testa.",
     "developer_guide": "Vodič za razvijatelje",
     "service_directory_repositories_and_quick_commands": "Direktorij usluga, repozitoriji i brze naredbe.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Provjera vrijednosti",
+    "value_review_desc": "Pregledajte vrijednosti ugovora stavljene u karantenu kao nevjerojatne.",
+    "issues": "Problemi s podacima",
+    "issues_desc": "Trijaža problema s podacima koje je prijavila zajednica."
   },
   "app": {
     "activity": "Aktivnost",
@@ -196,7 +196,7 @@
     "footer": "Podnožje",
     "sparql": "SPARQL",
     "support": "Podrška",
-    "help": "Help"
+    "help": "Pomoć"
   },
   "assist": {
     "accept_all": "Prihvati sve",
@@ -462,9 +462,9 @@
     "legislative_desc": "CELLAR CDM zrcalo — akti od 1949., jezične inačice, objavljeni formati, pokrivenost ELI identifikatorima.",
     "assertion_monitor": "Nadzor tvrdnji",
     "assertions_desc": "Trenutačno stanje svake tvrdnje o kvaliteti podataka — prikazuju se samo neuspjesi, s opisom i vremenom od kojeg traju. Osvježava se svaka 4 sata.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Nadzorne ploče",
+    "dashboards_sub": "Odaberite nadzornu ploču — jednu po podatkovnom cjevovodu, plus pregled više izvora.",
+    "overview": "Pregled"
   },
   "data_view_selector": {
     "data_view": "Prikaz podataka",
@@ -849,7 +849,7 @@
     "spending": "Potrošnja",
     "stories": "Priče",
     "studio": "Studio",
-    "dashboards": "Dashboards"
+    "dashboards": "Nadzorne ploče"
   },
   "not_found": {
     "back_to_home": "Natrag na početnu",
@@ -881,7 +881,7 @@
     "projects": "projekti",
     "companies": "Trgovačka društva",
     "companies_2": "trgovačka društva",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Ukupno u grafu"
   },
   "pocket_button": {
     "add_to_investigation": "Dodaj u istragu",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Vaš je džep prazan. Najprije spremite vizualizacije pomoću gumba Džep.",
     "close": "Zatvori",
     "start_writing": "Započnite pisati svoju analizu...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Regija",
+    "region_none": "nijedna",
+    "region_eu": "Europska unija",
+    "more_actions": "Više radnji"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionirani entiteti — osobe, organizacije, pokrivenost režima i podudaranje tvrtki",
@@ -1221,7 +1221,7 @@
     "no_triples_in_this_graph": "Nema trojki u ovom grafu.",
     "top_classes": "Glavne klase",
     "top_predicates": "Glavni predikati",
-    "triple_store": "Triple store",
+    "triple_store": "Spremište trojki",
     "triples_per_named_graph": "Trojke po imenovanom grafu",
     "virtuoso_not_configured_in_this_environm": "Virtuoso nije konfiguriran u ovom okruženju",
     "virtuoso_sparql_url": "VIRTUOSO_SPARQL_URL",
@@ -1719,43 +1719,43 @@
     "display_email": "Prikaži e-poštu",
     "use_different_email": "Koristi drugu e-poštu",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Odakle ste",
+    "home_region_hint": "Ostavite prazno da bi se koristila vaša otkrivena lokacija:",
+    "home_detected": "(otkriveno iz vaše lokacije)"
   },
   "article": {
     "by": "autor:"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Pretražite trgovačka društva, tijela, osobe, ugovore, zakone…",
+    "button": "Pretraži",
+    "results_for": "Rezultati za",
+    "filter_by_type": "Filtriraj po vrsti",
+    "advanced": "Napredno pretraživanje",
+    "region": "NUTS regija",
+    "region_hint": "npr. PT ili PT17",
+    "date_from": "Od",
+    "date_to": "Do",
+    "clear_filters": "Očisti filtre",
+    "loading": "Pretraživanje…",
+    "no_results": "Nema pronađenih rezultata.",
+    "load_more": "Učitaj više",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Trgovačka društva",
+      "authority": "Javna tijela",
+      "person": "Osobe",
+      "lobbyist": "Lobisti",
+      "contract": "Ugovori",
+      "cohesion": "Kohezijski projekti",
+      "sanction": "Sankcije",
+      "story": "Podatkovne priče",
       "legislation": "Zakonodavstvo"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Država…",
+      "1": "Regija (NUTS 1)…",
+      "2": "Regija (NUTS 2)…",
+      "3": "Regija (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Još nije zabilježeno nijedno izvođenje tvrdnji — četverosatni nadzorni cron nije se pokrenuo."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Peticije",
+    "subtitle": "Europske građanske inicijative — tko ih organizira, koliko ih je potpisalo i koje je zakonodavstvo uslijedilo.",
+    "all": "Sve",
+    "supporters": "podupiratelji",
+    "loading": "Učitavanje…",
+    "empty": "Nijedna peticija ne odgovara ovom filtru.",
+    "collecting": "Prikupljanje potpisa",
+    "reached": "Dosegnut potreban broj potpisa",
+    "show_more": "Prikaži više",
+    "about": "O čemu je ova peticija",
+    "timeline": "Vremenska crta",
+    "legislation": "Zakonodavstvo",
+    "organizers": "Organizatori",
+    "funding": "Financiranje",
+    "sponsors": "sponzori",
+    "official_page": "Službena stranica peticije",
+    "answer_documented": "Odgovor Komisije dokumentiran, još nije moguće povezati",
+    "no_legislation": "Još nema povezanog zakonodavstva.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registrirano",
+      "collection": "Prikupljanje potpisa započelo",
+      "closed": "Prikupljanje zatvoreno",
+      "submitted": "Podneseno Komisiji",
+      "answered": "Komisija je odgovorila"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Odluka o registraciji",
+      "answered_by": "Odgovor Komisije",
+      "led_to": "Proizašlo zakonodavstvo"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registrirano",
+      "ongoing": "Prikupljanje potpisa",
+      "closed": "Prikupljanje zatvoreno",
+      "submitted": "Podneseno",
+      "verification": "Provjera",
+      "answered": "Odgovoreno",
+      "conditions_not_fulfilled": "Uvjeti nisu ispunjeni",
+      "withdrawn": "Povučeno"
     }
   },
   "help": {
@@ -1920,7 +1920,7 @@
     "create": "Stvori",
     "delete": "Izbriši",
     "description": "Opis",
-    "engine": "Engine",
+    "engine": "Pogon",
     "group_empty": "U ovoj grupi još nema upita.",
     "in_groups": "U grupama:",
     "membership_hint": "Redoslijed vrijedi samo za ovu grupu; isti upit drugdje može biti na drugom mjestu.",

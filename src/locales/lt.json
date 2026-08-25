@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E aprėpties matrica ir gamybos dūmų testo planas.",
     "developer_guide": "Kūrėjo vadovas",
     "service_directory_repositories_and_quick_commands": "Paslaugų katalogas, saugyklos ir greitosios komandos.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Verčių peržiūra",
+    "value_review_desc": "Peržiūrėkite sutarčių vertes, karantinuotas kaip neįtikėtinos.",
+    "issues": "Duomenų problemos",
+    "issues_desc": "Rūšiuokite bendruomenės praneštas duomenų problemas."
   },
   "app": {
     "activity": "Veikla",
@@ -196,7 +196,7 @@
     "footer": "Poraštė",
     "sparql": "SPARQL",
     "support": "Paremk",
-    "help": "Help"
+    "help": "Pagalba"
   },
   "assist": {
     "accept_all": "Priimti viską",
@@ -227,7 +227,7 @@
     "characters_used": "Panaudoti simboliai"
   },
   "atlas": {
-    "atlas": "Atlas",
+    "atlas": "Atlasas",
     "code": "Kodas",
     "colour_scale": "Spalvų skalė",
     "coverage": "Aprėptis",
@@ -462,9 +462,9 @@
     "legislative_desc": "CELLAR CDM veidrodis — aktai nuo 1949 m., kalbinės versijos, paskelbti formatai, ELI identifikatorių aprėptis.",
     "assertion_monitor": "Teiginių stebėsena",
     "assertions_desc": "Kiekvieno duomenų kokybės teiginio dabartinė būsena — rodomi tik nesėkmingi, su aprašymu ir nuo kada nepavyksta. Atnaujinama kas 4 valandas.",
-    "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards": "Skydeliai",
+    "dashboards_sub": "Pasirinkite skydelį — po vieną kiekvienam duomenų konvejeriui, plius apžvalgą tarp šaltinių.",
+    "overview": "Apžvalga"
   },
   "data_view_selector": {
     "data_view": "Duomenų vaizdas",
@@ -849,7 +849,7 @@
     "spending": "Išlaidos",
     "stories": "Istorijos",
     "studio": "Studija",
-    "dashboards": "Dashboards"
+    "dashboards": "Skydeliai"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",
@@ -881,14 +881,14 @@
     "projects": "projektai",
     "companies": "Įmonės",
     "companies_2": "įmonės",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Grafo sumos"
   },
   "pocket_button": {
     "add_to_investigation": "Pridėti į tyrimą",
     "chart_actions": "Diagramos veiksmai",
     "download_image": "Atsisiųsti kaip paveikslėlį",
     "name_this_snapshot": "Įvardink šį momentą",
-    "pocket": "Pocket",
+    "pocket": "Kišenė",
     "save": "Įrašyti",
     "save_to_pocket": "Įrašyti į Pocket",
     "save_to_pocket_tooltip": "Įrašyti į Pocket",
@@ -1049,10 +1049,10 @@
     "your_pocket_is_empty": "Jūsų kišenė tuščia. Pirmiausia išsaugokite vizualizacijas mygtuku „Įdėti“.",
     "close": "Uždaryti",
     "start_writing": "Pradėkite rašyti savo analizę...",
-    "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_label": "Regionas",
+    "region_none": "nėra",
+    "region_eu": "Europos Sąjunga",
+    "more_actions": "Daugiau veiksmų"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sankcionuotos esybės — asmenys, organizacijos, režimo aprėptis ir įmonių atitikmenys",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Nežinomas valdiklio tipas:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Šriftas",
     "fontem": "Fontem",
     "tagline": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį"
   },
@@ -1719,43 +1719,43 @@
     "display_email": "Rodyti el. paštą",
     "use_different_email": "Naudoti kitą el. paštą",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Iš kur esate",
+    "home_region_hint": "Palikite tuščią, kad būtų naudojama aptikta vieta:",
+    "home_detected": "(aptikta pagal jūsų vietą)"
   },
   "article": {
     "by": "autorius:"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Ieškokite įmonių, įstaigų, žmonių, sutarčių, įstatymų…",
+    "button": "Ieškoti",
+    "results_for": "Rezultatai užklausai",
+    "filter_by_type": "Filtruoti pagal tipą",
+    "advanced": "Išplėstinė paieška",
+    "region": "NUTS regionas",
+    "region_hint": "pvz., PT arba PT17",
+    "date_from": "Nuo",
+    "date_to": "Iki",
+    "clear_filters": "Išvalyti filtrus",
+    "loading": "Ieškoma…",
+    "no_results": "Rezultatų nerasta.",
+    "load_more": "Įkelti daugiau",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Įmonės",
+      "authority": "Viešosios įstaigos",
+      "person": "Žmonės",
+      "lobbyist": "Lobistai",
+      "contract": "Sutartys",
+      "cohesion": "Sanglaudos projektai",
+      "sanction": "Sankcijos",
+      "story": "Duomenų istorijos",
       "legislation": "Teisės aktai"
     },
     "region_level": {
-      "0": "Country…",
-      "1": "Region (NUTS 1)…",
-      "2": "Region (NUTS 2)…",
-      "3": "Region (NUTS 3)…"
+      "0": "Šalis…",
+      "1": "Regionas (NUTS 1)…",
+      "2": "Regionas (NUTS 2)…",
+      "3": "Regionas (NUTS 3)…"
     }
   },
   "legislative_d_q": {
@@ -1782,45 +1782,45 @@
     "no_runs": "Kol kas neužfiksuotas nė vienas teiginių paleidimas — 4 valandų stebėsenos cron nesuveikė."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Peticijos",
+    "subtitle": "Europos piliečių iniciatyvos — kas jas organizuoja, kiek žmonių pasirašė ir kokie teisės aktai buvo priimti.",
+    "all": "Visos",
+    "supporters": "rėmėjai",
+    "loading": "Įkeliama…",
+    "empty": "Šio filtro neatitinka jokia peticija.",
+    "collecting": "Renkami parašai",
+    "reached": "Surinkta reikiamų parašų",
+    "show_more": "Rodyti daugiau",
+    "about": "Apie ką ši peticija",
+    "timeline": "Laiko juosta",
+    "legislation": "Teisės aktai",
+    "organizers": "Organizatoriai",
+    "funding": "Finansavimas",
+    "sponsors": "finansuotojai",
+    "official_page": "Oficialus peticijos puslapis",
+    "answer_documented": "Komisijos atsakymas užfiksuotas, dar negalima pateikti nuorodos",
+    "no_legislation": "Kol kas nėra susietų teisės aktų.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Užregistruota",
+      "collection": "Pradėtas parašų rinkimas",
+      "closed": "Rinkimas baigtas",
+      "submitted": "Pateikta Komisijai",
+      "answered": "Komisija atsakė"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Registracijos sprendimas",
+      "answered_by": "Komisijos atsakymas",
+      "led_to": "Priimti teisės aktai"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Užregistruota",
+      "ongoing": "Renkami parašai",
+      "closed": "Rinkimas baigtas",
+      "submitted": "Pateikta",
+      "verification": "Tikrinama",
+      "answered": "Atsakyta",
+      "conditions_not_fulfilled": "Sąlygos neįvykdytos",
+      "withdrawn": "Atsiimta"
     }
   },
   "help": {

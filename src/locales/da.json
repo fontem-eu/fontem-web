@@ -120,10 +120,10 @@
     "e2e_coverage_matrix_and_production_smoke_test": "E2E-dækningsmatrix og plan for produktions-smoketest.",
     "developer_guide": "Udviklervejledning",
     "service_directory_repositories_and_quick_commands": "Servicekatalog, repositorier og hurtige kommandoer.",
-    "value_review": "Value Review",
-    "value_review_desc": "Review contract values quarantined as implausible.",
-    "issues": "Data Issues",
-    "issues_desc": "Triage community-reported data problems."
+    "value_review": "Værdigennemgang",
+    "value_review_desc": "Gennemgå kontraktværdier, der er sat i karantæne som usandsynlige.",
+    "issues": "Dataproblemer",
+    "issues_desc": "Prioritér dataproblemer indrapporteret af fællesskabet."
   },
   "app": {
     "activity": "Aktivitet",
@@ -196,7 +196,7 @@
     "footer": "Sidefod",
     "sparql": "SPARQL",
     "support": "Support",
-    "help": "Help"
+    "help": "Hjælp"
   },
   "assist": {
     "accept_all": "Accepter alle",
@@ -463,8 +463,8 @@
     "assertion_monitor": "Assertionsovervågning",
     "assertions_desc": "Live-status for hver datakvalitetsassertion — kun fejl vises, med beskrivelse og hvornår fejlen begyndte. Opdateres hver 4. time.",
     "dashboards": "Dashboards",
-    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
-    "overview": "Overview"
+    "dashboards_sub": "Vælg et dashboard — ét pr. datapipeline, plus en oversigt på tværs af kilder.",
+    "overview": "Oversigt"
   },
   "data_view_selector": {
     "data_view": "Datavisning",
@@ -869,7 +869,7 @@
     "cross_source_overlap_country_code_consis": "Overlap på tværs af kilder, konsistens i landekoder og feltkomplethed på tværs af alle datakilder",
     "data_quality_overview": "Datakvalitets-oversigt",
     "listings": "Notater",
-    "lobby": "Lobby",
+    "lobby": "Lobbyisme",
     "top_alpha_2_codes": "Top alpha-2-koder",
     "how_many_entities_appear_in_multiple_data_sources": "Hvor mange enheder der optræder i flere datakilder — et mål for grafens forbundethed.",
     "companies_still_use_alpha_2_country_codes": "virksomheder bruger stadig alpha-2-landekoder i stedet for ISO 3166-1 alpha-2/alpha-3.",
@@ -881,7 +881,7 @@
     "projects": "projekter",
     "companies": "Virksomheder",
     "companies_2": "virksomheder",
-    "graph_totals": "Graph totals"
+    "graph_totals": "Graftotaler"
   },
   "pocket_button": {
     "add_to_investigation": "Føj til undersøgelse",
@@ -1050,9 +1050,9 @@
     "close": "Luk",
     "start_writing": "Begynd at skrive din analyse ...",
     "region_label": "Region",
-    "region_none": "none",
-    "region_eu": "European Union",
-    "more_actions": "More actions"
+    "region_none": "ingen",
+    "region_eu": "Den Europæiske Union",
+    "more_actions": "Flere handlinger"
   },
   "sanctions_d_q": {
     "sanctioned_entities_persons_organisation": "Sanktionerede entiteter — personer, organisationer, regimedækning og selskabsmatchning",
@@ -1241,7 +1241,7 @@
     "unknown_widget_type": "Ukendt widget-type:"
   },
   "wordmark": {
-    "font": "Font",
+    "font": "Skrifttype",
     "fontem": "Fontem",
     "tagline": "Vi krydser EU's digitale grænser, ét datasæt ad gangen"
   },
@@ -1719,40 +1719,40 @@
     "display_email": "Vis e-mail",
     "use_different_email": "Brug en anden e-mail",
     "email_address": "you@example.com",
-    "home_region_heading": "Where you're from",
-    "home_region_hint": "Leave blank to use your detected location:",
-    "home_detected": "(detected from your location)"
+    "home_region_heading": "Hvor du er fra",
+    "home_region_hint": "Lad stå tomt for at bruge din registrerede placering:",
+    "home_detected": "(registreret ud fra din placering)"
   },
   "article": {
     "by": "af"
   },
   "search": {
-    "placeholder": "Search companies, bodies, people, contracts, laws…",
-    "button": "Search",
-    "results_for": "Results for",
-    "filter_by_type": "Filter by type",
-    "advanced": "Advanced search",
-    "region": "NUTS region",
-    "region_hint": "e.g. PT or PT17",
-    "date_from": "From",
-    "date_to": "To",
-    "clear_filters": "Clear filters",
-    "loading": "Searching…",
-    "no_results": "No results found.",
-    "load_more": "Load more",
+    "placeholder": "Søg efter virksomheder, myndigheder, personer, kontrakter, love…",
+    "button": "Søg",
+    "results_for": "Resultater for",
+    "filter_by_type": "Filtrér efter type",
+    "advanced": "Avanceret søgning",
+    "region": "NUTS-region",
+    "region_hint": "f.eks. PT eller PT17",
+    "date_from": "Fra",
+    "date_to": "Til",
+    "clear_filters": "Ryd filtre",
+    "loading": "Søger…",
+    "no_results": "Ingen resultater fundet.",
+    "load_more": "Indlæs flere",
     "type": {
-      "company": "Companies",
-      "authority": "Public bodies",
-      "person": "People",
-      "lobbyist": "Lobbyists",
-      "contract": "Contracts",
-      "cohesion": "Cohesion projects",
-      "sanction": "Sanctions",
-      "story": "Data stories",
+      "company": "Virksomheder",
+      "authority": "Offentlige myndigheder",
+      "person": "Personer",
+      "lobbyist": "Lobbyister",
+      "contract": "Kontrakter",
+      "cohesion": "Samhørighedsprojekter",
+      "sanction": "Sanktioner",
+      "story": "Datafortællinger",
       "legislation": "Lovgivning"
     },
     "region_level": {
-      "0": "Country…",
+      "0": "Land…",
       "1": "Region (NUTS 1)…",
       "2": "Region (NUTS 2)…",
       "3": "Region (NUTS 3)…"
@@ -1782,45 +1782,45 @@
     "no_runs": "Der er endnu ikke registreret nogen assertionskørsler — 4-timers overvågningscron er ikke udløst."
   },
   "petitions": {
-    "title": "Petitions",
-    "subtitle": "European Citizens' Initiatives — who is organizing, how many signed, and what legislation followed.",
-    "all": "All",
-    "supporters": "supporters",
-    "loading": "Loading…",
-    "empty": "No petitions match this filter.",
-    "collecting": "Collecting signatures",
-    "reached": "Reached the required signatures",
-    "show_more": "Show more",
-    "about": "What this petition is about",
-    "timeline": "Timeline",
-    "legislation": "Legislation",
-    "organizers": "Organizers",
-    "funding": "Funding",
-    "sponsors": "sponsors",
-    "official_page": "Official petition page",
-    "answer_documented": "Commission answer documented, not yet linkable",
-    "no_legislation": "No linked legislation yet.",
+    "title": "Underskriftindsamlinger",
+    "subtitle": "Europæiske borgerinitiativer — hvem der organiserer, hvor mange der har skrevet under, og hvilken lovgivning der fulgte.",
+    "all": "Alle",
+    "supporters": "støtter",
+    "loading": "Indlæser…",
+    "empty": "Ingen underskriftindsamlinger matcher dette filter.",
+    "collecting": "Indsamler underskrifter",
+    "reached": "Nåede det krævede antal underskrifter",
+    "show_more": "Vis mere",
+    "about": "Hvad denne underskriftindsamling handler om",
+    "timeline": "Tidslinje",
+    "legislation": "Lovgivning",
+    "organizers": "Organisatorer",
+    "funding": "Finansiering",
+    "sponsors": "sponsorer",
+    "official_page": "Officiel side for underskriftindsamlingen",
+    "answer_documented": "Kommissionens svar er dokumenteret, men kan endnu ikke linkes",
+    "no_legislation": "Ingen tilknyttet lovgivning endnu.",
     "milestone": {
-      "registered": "Registered",
-      "collection": "Signature collection started",
-      "closed": "Collection closed",
-      "submitted": "Submitted to the Commission",
-      "answered": "Answered by the Commission"
+      "registered": "Registreret",
+      "collection": "Underskriftindsamling påbegyndt",
+      "closed": "Indsamling afsluttet",
+      "submitted": "Indsendt til Kommissionen",
+      "answered": "Besvaret af Kommissionen"
     },
     "rel": {
-      "registered_by": "Registration decision",
-      "answered_by": "Commission response",
-      "led_to": "Resulting legislation"
+      "registered_by": "Registreringsafgørelse",
+      "answered_by": "Kommissionens svar",
+      "led_to": "Resulterende lovgivning"
     },
     "status": {
-      "registered": "Registered",
-      "ongoing": "Collecting signatures",
-      "closed": "Collection closed",
-      "submitted": "Submitted",
-      "verification": "Verification",
-      "answered": "Answered",
-      "conditions_not_fulfilled": "Conditions not fulfilled",
-      "withdrawn": "Withdrawn"
+      "registered": "Registreret",
+      "ongoing": "Indsamler underskrifter",
+      "closed": "Indsamling afsluttet",
+      "submitted": "Indsendt",
+      "verification": "Verificering",
+      "answered": "Besvaret",
+      "conditions_not_fulfilled": "Betingelser ikke opfyldt",
+      "withdrawn": "Trukket tilbage"
     }
   },
   "help": {
