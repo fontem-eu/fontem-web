@@ -28,20 +28,16 @@ const isPrivileged = computed(() => privilegedUser(user.value))
 <template>
   <footer class="app-footer" data-testid="app-footer">
     <p class="app-footer-sources">{{ $t('app_footer.data_sourced_from_sec_edgar_esma_esef_gl') }}</p>
+    <!-- Kept intentionally minimal: the everyday surfaces (Dashboards, Help)
+         live in the left rail now, so the footer carries only the three
+         links people look for HERE. Admin stays but is privilege-gated, so
+         it is invisible to the public. -->
     <nav class="app-footer-links" :aria-label="$t('app_footer.footer')">
       <router-link to="/privacy" data-testid="footer-privacy">{{ $t('app.privacy') }}</router-link>
-      <span aria-hidden="true">&middot;</span>
-      <router-link to="/data-quality" data-testid="footer-data-quality">{{ $t('app_footer.data_quality') }}</router-link>
       <span aria-hidden="true">&middot;</span>
       <router-link to="/sparql" data-testid="footer-sparql">{{ $t('app_footer.sparql') }}</router-link>
       <span aria-hidden="true">&middot;</span>
       <router-link to="/about" data-testid="footer-about">{{ $t('app_footer.about') }}</router-link>
-      <span aria-hidden="true">&middot;</span>
-      <!-- Help shipped as a route nothing linked to, so it existed and no
-           user could find it. The footer is where people look for it. -->
-      <router-link to="/help" data-testid="footer-help">{{ $t('app_footer.help') }}</router-link>
-      <span aria-hidden="true">&middot;</span>
-      <router-link to="/donate" data-testid="footer-donate">{{ $t('app_footer.support') }}</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>
         <router-link to="/admin" data-testid="footer-admin">{{ $t('app.admin') }}</router-link>
@@ -71,6 +67,8 @@ const isPrivileged = computed(() => privilegedUser(user.value))
 }
 .app-footer-links {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.72rem;
