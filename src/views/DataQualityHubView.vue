@@ -4,14 +4,16 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 import SourceHealthBadge from '../components/SourceHealthBadge.vue'
 import { THEMES } from './themes/themeConfig.js'
 
-onMounted(() => { document.title = 'Data Quality — Fontem Admin' })
+onMounted(() => { document.title = 'Dashboards — Fontem' })
 
-const loading = ref(true)
-const stats = ref(null)
-const error = ref(null)
-
+// The hub is a fast SELECTOR, not a dashboard. It used to block its whole
+// render on GET /api/data-quality (a heavy cross-graph aggregate) just to
+// paint an overview strip + per-tile count badges — which made the page
+// crawl. That overview now lives on its own "Overview" dashboard
+// (/data-quality/overview). Here we render the static grid immediately and
+// only fetch the lightweight per-source health badges, asynchronously.
 const pipelines = [
-  { id: 'overview', title: 'data_quality_hub.data_quality_overview', desc: 'data_quality_hub.overview_desc', icon: '📊', featured: true, theme: 'analytical'  },
+  { id: 'overview', title: 'data_quality_hub.overview', desc: 'data_quality_hub.overview_desc', icon: '📊', featured: true, theme: 'analytical'  },
   { id: 'connectedness', title: 'data_quality_hub.graph_connectedness', desc: 'data_quality_hub.connectedness_desc', icon: '🔗', theme: 'analytical'  },
   { id: 'triples', title: 'data_quality_hub.triple_store', desc: 'data_quality_hub.triples_desc', icon: '🧬', theme: 'analytical'  },
   { id: 'contracts', title: 'data_quality_hub.ted_contracts', desc: 'data_quality_hub.contracts_desc', icon: '📄', theme: 'procurement'  },
@@ -34,20 +36,6 @@ const pipelines = [
 ]
 
 const themes = THEMES
-
-async function loadOverview() {
-  try {
-    const resp = await fetch('/api/data-quality')
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
-    stats.value = await resp.json()
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(loadOverview)
 
 const pipelineHealth = ref([])
 async function loadPipeline() {
@@ -103,107 +91,64 @@ const THEME_ORDER = ['procurement', 'corporate', 'securities', 'influence',
 const groupedPipelines = computed(() => THEME_ORDER
   .map(t => ({ theme: t, label: THEME_LABEL[t], tiles: pipelines.filter(p => p.theme === t) }))
   .filter(g => g.tiles.length))
-
-
-function fmt(n) {
-  if (n === '—' || n == null) return '—'
-  return Number(n).toLocaleString()
-}
-
-function pipelineStat(id) {
-  if (!stats.value) return ''
-  const g = stats.value.graph?.nodes || {}
-  const m = {
-    contracts: g.Contract,
-    gleif: g.Company,
-    edgar: null,
-    esef: null,
-    lobbying: g.Lobbyist,
-    'trade-edges': null,
-    dedup: stats.value.matching?.same_as_pending,
-    sanctions: g.SanctionedEntity,
-    firds: null,
-    cdp: null,
-    nuts: g.NUTSRegion,
-    'eu-knowledge-graph': g.CohesionProject,
-  }
-  const v = m[id]
-  if (v == null) return ''
-  return fmt(v)
-}
 </script>
 
 <template>
   <div class="dqh">
     <header class="dqh-header">
       <div>
-        <router-link to="/admin" class="dqh-back">{{ $t('nav.back_admin') }}</router-link>
-        <h1>{{ $t('data_quality_hub.data_quality') }}</h1>
-        <p class="dqh-sub">{{ $t('data_quality_hub.per_pipeline_dashboards_drill_into_each_etl') }}</p>
+        <h1>{{ $t('data_quality_hub.dashboards') }}</h1>
+        <p class="dqh-sub">{{ $t('data_quality_hub.dashboards_sub') }}</p>
       </div>
       <ThemeToggle />
     </header>
 
-    <div v-if="loading" class="dqh-loading">{{ $t('data_quality_hub.loading_overview') }}</div>
-    <div v-else-if="error" class="dqh-error">{{ error }}</div>
-
-    <template v-else>
-      <!-- Overview stats bar -->
-      <div v-if="stats?.graph" class="dqh-overview">
-        <div v-for="[label, count] in Object.entries(stats.graph.nodes)" :key="label" class="dqh-stat">
-          <span class="dqh-stat-num">{{ fmt(count) }}</span>
-          <span class="dqh-stat-label">{{ label }}</span>
-        </div>
+    <!-- Themes: the investigative entry, composed across sources. The
+         per-source dashboards below remain the operational / health layer. -->
+    <section class="dqh-themes" data-testid="dqh-themes">
+      <h2 class="dqh-theme-title">{{ $t('data_quality_hub.themes') }}</h2>
+      <div class="dqh-grid">
+        <router-link
+          v-for="t in themes"
+          :key="t.id"
+          :to="`/data-quality/theme/${t.id}`"
+          class="dqh-card dqh-card--theme"
+        >
+          <div class="dqh-card-header">
+            <span class="dqh-card-icon">{{ t.icon }}</span>
+            <h3>{{ $t(t.title) }}</h3>
+          </div>
+          <p>{{ $t(t.blurb) }}</p>
+        </router-link>
       </div>
+    </section>
 
-      <!-- Themes: the investigative entry, composed across sources. The
-           per-source dashboards below remain the operational / health layer. -->
-      <section class="dqh-themes" data-testid="dqh-themes">
-        <h2 class="dqh-theme-title">{{ $t('data_quality_hub.themes') }}</h2>
-        <div class="dqh-grid">
-          <router-link
-            v-for="t in themes"
-            :key="t.id"
-            :to="`/data-quality/theme/${t.id}`"
-            class="dqh-card dqh-card--theme"
-          >
-            <div class="dqh-card-header">
-              <span class="dqh-card-icon">{{ t.icon }}</span>
-              <h3>{{ $t(t.title) }}</h3>
-            </div>
-            <p>{{ $t(t.blurb) }}</p>
-          </router-link>
-        </div>
-      </section>
-
-      <!-- Per-source dashboards, grouped by theme, each with live
-           pipeline-health KPIs (freshness / volume / dead-letter). -->
-      <section
-        v-for="group in groupedPipelines"
-        :key="group.theme"
-        class="dqh-theme"
-        :data-testid="`dqh-theme-${group.theme}`"
-      >
-        <h2 class="dqh-theme-title">{{ $t(group.label) }}</h2>
-        <div class="dqh-grid">
-          <router-link
-            v-for="p in group.tiles"
-            :key="p.id"
-            :to="`/data-quality/${p.id}`"
-            class="dqh-card"
-            :class="{ 'dqh-card--featured': p.featured }"
-          >
-            <div class="dqh-card-header">
-              <span class="dqh-card-icon">{{ p.icon }}</span>
-              <h3>{{ $t(p.title) }}</h3>
-              <span v-if="pipelineStat(p.id)" class="dqh-card-badge">{{ pipelineStat(p.id) }}</span>
-            </div>
-            <p>{{ $t(p.desc) }}</p>
-            <SourceHealthBadge :health="tileHealth(p.id)" />
-          </router-link>
-        </div>
-      </section>
-    </template>
+    <!-- Per-source dashboards, grouped by theme, each with live
+         pipeline-health KPIs (freshness / volume / dead-letter). -->
+    <section
+      v-for="group in groupedPipelines"
+      :key="group.theme"
+      class="dqh-theme"
+      :data-testid="`dqh-theme-${group.theme}`"
+    >
+      <h2 class="dqh-theme-title">{{ $t(group.label) }}</h2>
+      <div class="dqh-grid">
+        <router-link
+          v-for="p in group.tiles"
+          :key="p.id"
+          :to="`/data-quality/${p.id}`"
+          class="dqh-card"
+          :class="{ 'dqh-card--featured': p.featured }"
+        >
+          <div class="dqh-card-header">
+            <span class="dqh-card-icon">{{ p.icon }}</span>
+            <h3>{{ $t(p.title) }}</h3>
+          </div>
+          <p>{{ $t(p.desc) }}</p>
+          <SourceHealthBadge :health="tileHealth(p.id)" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -211,15 +156,7 @@ function pipelineStat(id) {
 .dqh { max-width: 960px; margin: 0 auto; padding: 0 1rem 4rem; }
 .dqh-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
 .dqh-header h1 { font-size: 1.4rem; font-weight: 700; margin: 0.3rem 0 0; }
-.dqh-back { font-size: 0.85rem; color: var(--accent); text-decoration: none; }
 .dqh-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
-.dqh-loading, .dqh-error { text-align: center; padding: 3rem; color: var(--muted); }
-.dqh-error { color: #dc2626; }
-
-.dqh-overview { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 0.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
-.dqh-stat { text-align: center; flex: 1; min-width: 80px; }
-.dqh-stat-num { display: block; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-.dqh-stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
 .dqh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
 .dqh-card { display: block; padding: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: inherit; transition: border-color 0.15s; }
@@ -227,10 +164,8 @@ function pipelineStat(id) {
 .dqh-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
 .dqh-card-icon { font-size: 1.2rem; }
 .dqh-card h2 { font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0; flex: 1; }
-.dqh-card-badge { font-size: 0.7rem; font-weight: 600; background: var(--accent); color: #fff; padding: 0.15rem 0.4rem; border-radius: 4px; }
 .dqh-card p { font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.4; }
 .dqh-card--featured { grid-column: 1 / -1; border-color: var(--accent); border-width: 2px; }
-
 
 .dqh-theme { margin-bottom: 1.75rem; }
 .dqh-theme-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }

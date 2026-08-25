@@ -119,7 +119,11 @@
     "testing": "Testing",
     "e2e_coverage_matrix_and_production_smoke_test": "E2E coverage matrix and production smoke test plan.",
     "developer_guide": "Developer Guide",
-    "service_directory_repositories_and_quick_commands": "Service directory, repositories, and quick commands."
+    "service_directory_repositories_and_quick_commands": "Service directory, repositories, and quick commands.",
+    "value_review": "Value Review",
+    "value_review_desc": "Review contract values quarantined as implausible.",
+    "issues": "Data Issues",
+    "issues_desc": "Triage community-reported data problems."
   },
   "app": {
     "activity": "Activity",
@@ -457,7 +461,10 @@
     "eu_legislation": "EU Legislation",
     "legislative_desc": "CELLAR CDM mirror — acts since 1949, language versions, published formats, ELI identifier coverage.",
     "assertion_monitor": "Assertion Monitor",
-    "assertions_desc": "Live status of every data-quality assertion — only failures shown, with descriptions and failing-since. Refreshed every 4 hours."
+    "assertions_desc": "Live status of every data-quality assertion — only failures shown, with descriptions and failing-since. Refreshed every 4 hours.",
+    "dashboards": "Dashboards",
+    "dashboards_sub": "Pick a dashboard — one per data pipeline, plus a cross-source overview.",
+    "overview": "Overview"
   },
   "data_view_selector": {
     "data_view": "Data view",
@@ -824,13 +831,14 @@
     "account": "Account",
     "atlas": "Atlas",
     "back_admin": "← Admin",
-    "back_data_quality": "← Data Quality",
+    "back_data_quality": "← Dashboards",
     "back_home": "← Home",
     "back_my_stories": "← My Stories",
     "back_stories": "← Stories",
     "back_to_issues": "← Back to Issues",
     "briefings": "Briefings",
     "collapse": "Collapse",
+    "dashboards": "Dashboards",
     "data_stats": "Data Stats",
     "explore": "Explore",
     "log_in": "Log in",
@@ -872,7 +880,8 @@
     "cohesion_projects": "Cohesion Projects",
     "projects": "projects",
     "companies": "Companies",
-    "companies_2": "companies"
+    "companies_2": "companies",
+    "graph_totals": "Graph totals"
   },
   "pocket_button": {
     "add_to_investigation": "Add to investigation",

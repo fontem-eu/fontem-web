@@ -8,18 +8,21 @@ onMounted(() => { document.title = 'Data Quality Overview — Fontem' })
 const overlap = ref(null)
 const countryCodes = ref(null)
 const completeness = ref(null)
+const graph = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const [r1, r2, r3] = await Promise.all([
+    const [r1, r2, r3, r4] = await Promise.all([
       fetch('/api/data-quality/cross-source-overlap'),
       fetch('/api/data-quality/country-codes'),
       fetch('/api/data-quality/field-completeness'),
+      fetch('/api/data-quality'),
     ])
     if (r1.ok) overlap.value = await r1.json()
     if (r2.ok) countryCodes.value = await r2.json()
     if (r3.ok) completeness.value = await r3.json()
+    if (r4.ok) graph.value = (await r4.json()).graph
   } catch { /* */ }
   loading.value = false
 })
@@ -78,6 +81,19 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
     <div v-if="loading" class="dq-loading">{{ $t('app.loading_2') }}</div>
 
     <template v-else>
+      <!-- Graph totals — node counts across the whole graph. Moved here off
+           the dashboards hub landing, which used to block on this same
+           /api/data-quality call. -->
+      <section v-if="graph?.nodes" class="dq-section">
+        <h2>{{ $t('overview_d_q.graph_totals') }}</h2>
+        <div class="dq-totals">
+          <div v-for="[label, count] in Object.entries(graph.nodes)" :key="label" class="dq-total">
+            <span class="dq-total-num">{{ fmt(count) }}</span>
+            <span class="dq-total-label">{{ label }}</span>
+          </div>
+        </div>
+      </section>
+
       <!-- Cross-source overlap -->
       <section v-if="overlap" class="dq-section">
         <h2>{{ $t('overview_d_q.cross_source_overlap') }}</h2>
@@ -178,6 +194,10 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString() }
 .dq-back { font-size: 0.85rem; color: var(--accent); text-decoration: none; }
 .dq-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
 .dq-loading { text-align: center; padding: 3rem; color: var(--muted); }
+.dq-totals { display: flex; gap: 1rem; flex-wrap: wrap; padding: 0.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.dq-total { text-align: center; flex: 1; min-width: 80px; }
+.dq-total-num { display: block; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.dq-total-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .dq-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .dq-gauges { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; }
 .dq-section { margin-bottom: 2.5rem; }
