@@ -20,7 +20,7 @@ const TITLES = {
   '/map': 'Map — European statistics on Fontem',
   '/spending': 'Spending — EU procurement on Fontem',
   '/login': 'Sign in — Fontem',
-  '/donate': 'Support Fontem',
+  '/development': 'Development — Fontem',
 }
 
 const DESCRIPTIONS = {
@@ -32,7 +32,7 @@ const DESCRIPTIONS = {
   '/map': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
   '/spending': 'Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country.',
   '/login': 'Sign in to Fontem to publish data stories, raise issues, and save your research.',
-  '/donate': 'Fontem is free to use and always will be. Donations flow through a fiscal-host nonprofit on Open Collective and keep the data pipelines running, the graph growing, and the team on quality work.',
+  '/development': 'Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way.',
 }
 
 const DEFAULT_TITLE = 'Fontem — Argue it. With data. Together.'

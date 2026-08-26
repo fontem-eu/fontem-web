@@ -15,7 +15,7 @@ const NAVIGABLE_ROUTES = [
   '/data-quality',
   '/sparql',
   '/privacy',
-  '/donate',
+  '/development',
   '/login',
 ]
 

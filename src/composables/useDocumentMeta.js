@@ -8,7 +8,7 @@ const ROUTE_TO_KEY = {
   '/privacy': 'privacy',
   '/data-quality': 'data_quality',
   '/sparql': 'sparql',
-  '/donate': 'donate',
+  '/development': 'development',
   '/map': 'map',
   '/spending': 'spending',
   '/login': 'login',

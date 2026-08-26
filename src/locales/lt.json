@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Duomenys iš SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (ES viešieji pirkimai)",
     "footer": "Poraštė",
     "sparql": "SPARQL",
-    "support": "Paremk",
-    "help": "Pagalba"
+    "help": "Pagalba",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Priimti viską",
@@ -477,24 +477,6 @@
     "reviewed": "Peržiūrėta",
     "pending": "Laukiama",
     "tool_to_review_pending_duplicates": "įrankis laukiantiems dublikatams peržiūrėti."
-  },
-  "donate": {
-    "backers": "Rėmėjai",
-    "contribute_rarr": "Prisidėk &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Aukos teka per pelno nesiekiantį fiskalinį šeimininką platformoje",
-    "open_collective": "Open Collective",
-    "support_fontem": "Paremk Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Ačiū visiems, kurie palaiko Fontem gyvą.",
-    "tier_backer_desc": "Finansuoja nuolatinį darbą su duomenų kanalais: nauji šaltiniai, geresnė aprėptis.",
-    "tier_backer_name": "Globėjas",
-    "tier_oneoff_amount": "Bet kokia suma",
-    "tier_oneoff_desc": "Vienkartinis įnašas, kiek tinkama. Be įsipareigojimo.",
-    "tier_oneoff_name": "Vienkartinis",
-    "tier_partner_desc": "Palaiko vietą pagrindinėje komandoje ir ilgalaikę duomenų priežiūrą.",
-    "tier_partner_name": "Partneris",
-    "tier_supporter_desc": "Laiko šviesas degančias — talpinimas, domenas, duomenų šaltinių licencijos.",
-    "tier_supporter_name": "Rėmėjas",
-    "where_the_money_goes": "Kur pinigai keliauja"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "SEC finansinės ataskaitos — XBRL laukų aprėptis ir paraiškų tendencijos",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
       "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Fontem žinių grafe. Skaidrumas apie skaidrumą.",
-      "donate": "Fontem yra nemokamas ir visada bus. Aukos teka per pelno nesiekiantį fiskalinį šeimininką Open Collective ir palaiko duomenų kanalus veikiančius, augantį grafą ir komandą kokybiškame darbe.",
       "home": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį. Viešos duomenų istorijos iš Fontem bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
       "login": "Prisijunk prie Fontem, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
       "map": "Interaktyvus pasirinktų Eurostat duomenų rinkinių koroplėtas NUTS lygyje — gyventojai, BVP, nedarbas, MTEP ir kt., sužemėlapinta visoje Europoje.",
       "privacy": "Kaip Fontem tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
       "sparql": "Užklausk Fontem žinių grafą tiesiogiai per SPARQL. Įmonės, sutartys, institucijos, lobistai, sankcijos — visi susieti.",
-      "spending": "Ieškok ES įmonių, perkančiųjų institucijų, lobistų ir ES finansuojamų projektų. Plius kas didžiu tavo šalyje."
+      "spending": "Ieškok ES įmonių, perkančiųjų institucijų, lobistų ir ES finansuojamų projektų. Plius kas didžiu tavo šalyje.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Apie — Fontem",
       "data_quality": "Duomenų kokybė — Fontem",
-      "donate": "Paremk Fontem",
       "home": "Fontem — Kertame ES skaitmenines sienas, po vieną duomenų rinkinį",
       "login": "Prisijungti — Fontem",
       "map": "Žemėlapis — Europos statistika Fontem'e",
       "privacy": "Privatumo politika — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Išlaidos — ES viešieji pirkimai Fontem'e"
+      "spending": "Išlaidos — ES viešieji pirkimai Fontem'e",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Visi regionai",
     "clear": "Išvalyti regioną",
     "no_match": "Nė vienas regionas neatitinka „{term}“"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

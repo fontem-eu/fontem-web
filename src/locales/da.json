@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Data fra SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU offentligt udbud)",
     "footer": "Sidefod",
     "sparql": "SPARQL",
-    "support": "Support",
-    "help": "Hjælp"
+    "help": "Hjælp",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Accepter alle",
@@ -477,24 +477,6 @@
     "reviewed": "Gennemgået",
     "pending": "Afventer",
     "tool_to_review_pending_duplicates": "værktøj til at gennemgå afventende dubletter."
-  },
-  "donate": {
-    "backers": "Støtter",
-    "contribute_rarr": "Bidrag &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Donationer går gennem en fiscal host-nonprofit på",
-    "open_collective": "Open Collective",
-    "support_fontem": "Støt Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Tak til alle der holder Fontem i live.",
-    "tier_backer_desc": "Finansierer løbende datapipeline-arbejde: nye kilder, bedre dækning.",
-    "tier_backer_name": "Bagmand",
-    "tier_oneoff_amount": "Ethvert beløb",
-    "tier_oneoff_desc": "Et enkelt bidrag, hvad der passer. Ingen forpligtelse.",
-    "tier_oneoff_name": "Engangs",
-    "tier_partner_desc": "Støtter en plads på kerneteamet og langsigtet dataforvaltning.",
-    "tier_partner_name": "Partner",
-    "tier_supporter_desc": "Holder lyset tændt — hosting, domæne, datakilde-licenser.",
-    "tier_supporter_name": "Støtte",
-    "where_the_money_goes": "Hvor pengene går hen"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "SEC-årsregnskaber — XBRL-feltdækning og indberetningstendenser",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
       "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Fontem-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
-      "donate": "Fontem er gratis at bruge og vil altid være det. Donationer flyder gennem en nonprofit fiskal vært på Open Collective og holder datapipelines kørende, grafen voksende og teamet på kvalitetsarbejde.",
       "home": "Vi krydser EU's digitale grænser, ét datasæt ad gangen. Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
       "login": "Log ind på Fontem for at udgive datahistorier, rejse problemer og gemme din forskning.",
       "map": "Interaktiv chloroplet af kuraterede Eurostat-datasæt på NUTS-niveau — befolkning, BNP, arbejdsløshed, R&D og mere, kortlagt på tværs af Europa.",
       "privacy": "Hvordan Fontem håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
       "sparql": "Forespørg Fontem-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
-      "spending": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Plus hvad er stort i dit land."
+      "spending": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Plus hvad er stort i dit land.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Om — Fontem",
       "data_quality": "Datakvalitet — Fontem",
-      "donate": "Støt Fontem",
       "home": "Fontem — Vi krydser EU's digitale grænser, ét datasæt ad gangen",
       "login": "Log ind — Fontem",
       "map": "Kort — Europæiske statistikker på Fontem",
       "privacy": "Privatlivspolitik — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Udgifter — EU offentlige indkøb på Fontem"
+      "spending": "Udgifter — EU offentlige indkøb på Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Alle regioner",
     "clear": "Ryd region",
     "no_match": "Ingen region matcher “{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

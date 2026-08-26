@@ -7,10 +7,10 @@ import { isPrivileged as privilegedUser } from '../utils/privilege.js'
  * Global footer, rendered on every non-login page.
  *
  * Link set:
- *   - Data sources attribution (static)
  *   - Privacy policy           (always)
- *   - Data quality             (always — public surface)
- *   - Support                  (always — links to /donate)
+ *   - SPARQL                   (always — public query surface)
+ *   - About                    (always)
+ *   - Development              (always — open-source shop window)
  *   - Admin                    (moderators and admins)
  *
  * The privilege check is a UX hint only; the backend still enforces
@@ -38,6 +38,8 @@ const isPrivileged = computed(() => privilegedUser(user.value))
       <router-link to="/sparql" data-testid="footer-sparql">{{ $t('app_footer.sparql') }}</router-link>
       <span aria-hidden="true">&middot;</span>
       <router-link to="/about" data-testid="footer-about">{{ $t('app_footer.about') }}</router-link>
+      <span aria-hidden="true">&middot;</span>
+      <router-link to="/development" data-testid="footer-development">{{ $t('app_footer.development') }}</router-link>
       <template v-if="isPrivileged">
         <span aria-hidden="true">&middot;</span>
         <router-link to="/admin" data-testid="footer-admin">{{ $t('app.admin') }}</router-link>

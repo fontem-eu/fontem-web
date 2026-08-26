@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Foinsí sonraí ó SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Soláthar poiblí AE)",
     "footer": "Buntásc",
     "sparql": "SPARQL",
-    "support": "Tacaigh",
-    "help": "Cabhair"
+    "help": "Cabhair",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Glac le gach",
@@ -477,24 +477,6 @@
     "reviewed": "Athbhreithnithe",
     "pending": "Ar feitheamh",
     "tool_to_review_pending_duplicates": "uirlis chun dúblaigh atá ar feitheamh a athbhreithniú."
-  },
-  "donate": {
-    "backers": "Tacadóirí",
-    "contribute_rarr": "Cuir leis &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Sreabhann síntiúis trí óstach fioscach neamhbhrabúis ar",
-    "open_collective": "Open Collective",
-    "support_fontem": "Tacaigh le Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Buíochas le gach duine atá ag coinneáil Fontem beo.",
-    "tier_backer_desc": "Maoiníonn obair leanúnach ar phíblínte sonraí: foinsí nua, clúdach níos fearr.",
-    "tier_backer_name": "Tacaí",
-    "tier_oneoff_amount": "Aon mhéid",
-    "tier_oneoff_desc": "Aon ranníocaíocht amháin, cibé rud a oireann. Gan tiomantas.",
-    "tier_oneoff_name": "Aon uair",
-    "tier_partner_desc": "Tacaíonn le suíochán ar an gcroífhoireann agus stiúrthóireacht sonraí fadtéarmach.",
-    "tier_partner_name": "Comhpháirtí",
-    "tier_supporter_desc": "Coinníonn na soilse ar siúl — óstáil, fearann, ceadúnais foinsí sonraí.",
-    "tier_supporter_name": "Tacadóir",
-    "where_the_money_goes": "Cá dtéann an t-airgead"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Ráitis airgeadais SEC — clúdach réimsí XBRL agus treochtaí comhdúcháin",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Is é Fontem an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
       "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Fontem. Trédhearcacht maidir le trédhearcacht.",
-      "donate": "Tá Fontem saor in aisce le húsáid agus beidh i gcónaí. Sruthaíonn síntiúis trí óstach fioscach neamhbhrabúis ar Open Collective agus coinníonn siad píblínte sonraí ag rith, an graf ag fás agus an fhoireann ar obair cháilíochta.",
       "home": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am. Scéalta sonraí poiblí ó phobal Fontem — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
       "login": "Sínigh isteach Fontem chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
       "map": "Choropleth idirghníomhach de thacair sonraí Eurostat curtha ar leibhéal NUTS — daonra, OTI, dífhostaíocht, T&F agus níos mó, mapáilte ar fud na hEorpa.",
       "privacy": "Conas a láimhseálann Fontem sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
       "sparql": "Cuir ceist ar an ngraf eolais Fontem go díreach trí SPARQL. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
-      "spending": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail mhaoinithe AE. Móide cad atá mór i do thír."
+      "spending": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail mhaoinithe AE. Móide cad atá mór i do thír.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Maidir le — Fontem",
       "data_quality": "Cáilíocht sonraí — Fontem",
-      "donate": "Tacaigh le Fontem",
       "home": "Fontem — Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am",
       "login": "Sínigh isteach — Fontem",
       "map": "Léarscáil — Staitisticí Eorpacha ar Fontem",
       "privacy": "Beartas príobháideachta — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Caiteachas — soláthar poiblí AE ar Fontem"
+      "spending": "Caiteachas — soláthar poiblí AE ar Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Gach réigiún",
     "clear": "Glan an réigiún",
     "no_match": "Níl aon réigiún ag teacht le “{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

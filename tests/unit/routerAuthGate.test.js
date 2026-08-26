@@ -17,7 +17,7 @@ describe('requiresAuth — router gate predicate', () => {
       '/',
       '/login',
       '/privacy',
-      '/donate',
+      '/development',
       '/sparql',
       '/geo',
       '/data-quality',

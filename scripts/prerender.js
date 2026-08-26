@@ -35,7 +35,7 @@ const CANONICAL = (process.env.CANONICAL_URL || 'https://www.fontem.eu').replace
 // Routes to prerender. Must match the set we want crawlers to index
 // with real content — the transparency surface, basically. Anything
 // dynamic (`/reports/:id`, `/c/:ticker`) stays SPA.
-const ROUTES = ['/', '/about', '/privacy', '/data-quality', '/sparql', '/donate']
+const ROUTES = ['/', '/about', '/privacy', '/data-quality', '/sparql', '/development']
 
 function escapeHtml(s) {
   return String(s)

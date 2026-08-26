@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Date din SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (achiziții publice UE)",
     "footer": "Subsol",
     "sparql": "SPARQL",
-    "support": "Susține",
-    "help": "Ajutor"
+    "help": "Ajutor",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Acceptă tot",
@@ -477,24 +477,6 @@
     "reviewed": "Evaluate",
     "pending": "În așteptare",
     "tool_to_review_pending_duplicates": "instrument pentru evaluarea duplicatelor în așteptare."
-  },
-  "donate": {
-    "backers": "Susținători",
-    "contribute_rarr": "Contribuie &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Donațiile trec printr-o organizație non-profit fiscal host pe",
-    "open_collective": "Open Collective",
-    "support_fontem": "Sprijină Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Mulțumim tuturor celor care mențin Fontem în viață.",
-    "tier_backer_desc": "Finanțează munca continuă pe pipeline-urile de date: surse noi, acoperire mai bună.",
-    "tier_backer_name": "Sprijinitor",
-    "tier_oneoff_amount": "Orice sumă",
-    "tier_oneoff_desc": "O singură contribuție, cât ți se potrivește. Fără angajament.",
-    "tier_oneoff_name": "Unic",
-    "tier_partner_desc": "Susține un loc în echipa de bază și administrarea datelor pe termen lung.",
-    "tier_partner_name": "Partener",
-    "tier_supporter_desc": "Ține luminile aprinse — găzduire, domeniu, licențe pentru sursele de date.",
-    "tier_supporter_name": "Susținător",
-    "where_the_money_goes": "Unde merg banii"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Situații financiare SEC — acoperirea câmpurilor XBRL și tendințele depunerilor",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
       "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Fontem. Transparență despre transparență.",
-      "donate": "Fontem este gratuit de utilizat și va fi întotdeauna. Donațiile trec printr-o gazdă fiscală non-profit pe Open Collective și mențin conductele de date în funcțiune, graful în creștere și echipa la muncă de calitate.",
       "home": "Trecem granițele digitale ale UE, un set de date pe rând. Povești publice de date din comunitatea Fontem — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
       "login": "Autentifică-te în Fontem pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
       "map": "Coroplet interactiv al seturilor de date Eurostat curate la nivel NUTS — populație, PIB, șomaj, C&D și altele, mapate în întreaga Europă.",
       "privacy": "Cum gestionează Fontem datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
       "sparql": "Interoghează graful de cunoștințe Fontem direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
-      "spending": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Plus ce e mare în țara ta."
+      "spending": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Plus ce e mare în țara ta.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Despre — Fontem",
       "data_quality": "Calitatea datelor — Fontem",
-      "donate": "Sprijină Fontem",
       "home": "Fontem — Trecem granițele digitale ale UE, un set de date pe rând",
       "login": "Autentificare — Fontem",
       "map": "Hartă — Statistici europene pe Fontem",
       "privacy": "Politica de confidențialitate — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Cheltuieli — achiziții publice UE pe Fontem"
+      "spending": "Cheltuieli — achiziții publice UE pe Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Toate regiunile",
     "clear": "Șterge regiunea",
     "no_match": "Nicio regiune nu corespunde cu „{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

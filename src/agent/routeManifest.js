@@ -41,7 +41,7 @@ export const ROUTE_DESCRIPTIONS = {
   '/login': 'Sign in or create an account.',
   '/account': 'Account settings: display preferences, profile, and LLM provider keys.',
   '/privacy': 'Privacy policy and data handling.',
-  '/donate': 'Support the project.',
+  '/development': 'Fontem is open source: the GitHub organisation and a walkthrough video of how the platform is built.',
 
   '/briefings': 'Browse briefings — curated subjects you can watch to get new findings as they appear.',
   '/my-briefings': 'The briefings you watch, newest findings first, with their feed URLs.',

@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Data minn SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Akkwist pubbliku tal-UE)",
     "footer": "Qiegħ tal-paġna",
     "sparql": "SPARQL",
-    "support": "Appoġġja",
-    "help": "Għajnuna"
+    "help": "Għajnuna",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Aċċetta kollox",
@@ -477,24 +477,6 @@
     "reviewed": "Riveduti",
     "pending": "Pendenti",
     "tool_to_review_pending_duplicates": "għodda biex tirrevedi duplikati pendenti."
-  },
-  "donate": {
-    "backers": "Sostenituri",
-    "contribute_rarr": "Ikkontribwixxi &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Id-donazzjonijiet jgħaddu minn host fiskali bla skop ta' qligħ fuq",
-    "open_collective": "Open Collective",
-    "support_fontem": "Appoġġja Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Grazzi lil kulħadd li qed iżommu Fontem ħaj.",
-    "tier_backer_desc": "Tiffinanzja x-xogħol kontinwu fuq il-pipelines tad-data: sorsi ġodda, kopertura aħjar.",
-    "tier_backer_name": "Patron",
-    "tier_oneoff_amount": "Kwalunkwe ammont",
-    "tier_oneoff_desc": "Kontribuzzjoni waħda, kif jaqbel. L-ebda impenn.",
-    "tier_oneoff_name": "Darba",
-    "tier_partner_desc": "Issostni post fit-tim ewlieni u amministrazzjoni tad-data fit-tul.",
-    "tier_partner_name": "Sieħeb",
-    "tier_supporter_desc": "Iżomm id-dwal mixgħulin — hosting, dominju, liċenzji ta' sorsi tad-data.",
-    "tier_supporter_name": "Sostenitur",
-    "where_the_money_goes": "Fejn jmorr il-flus"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Rapporti finanzjarji SEC — kopertura tal-kampi XBRL u tendenzi tas-sottomissjonijiet",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem hija l-pjattaforma ta' trasparenza minn sorsi primarji. Kumpaniji tal-UE, akkwist pubbliku, lobbyists u finanzjament ta' koeżjoni — marbutin f'graf wieħed u kontroverifikati mar-reġistri uffiċjali.",
       "data_quality": "Kopertura, friskezza u tqassim tas-sorsi għal kull sett tad-data fil-graf tal-għarfien Fontem. Trasparenza dwar it-trasparenza.",
-      "donate": "Fontem hija b'xejn għall-użu u dejjem se tibqa'. Id-donazzjonijiet jgħaddu minn host fiskali bla skop ta' qligħ fuq Open Collective u jżommu l-pipelines tad-data jaħdmu, il-graf qed jikber u t-tim fuq xogħol ta' kwalità.",
       "home": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba. Stejjer tad-data pubbliċi mill-komunità Fontem — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
       "login": "Idħol f'Fontem biex tippubblika stejjer tad-data, tirrapporta problemi u tissejvja r-riċerka tiegħek.",
       "map": "Choropleth interattiva ta' settijiet tad-data Eurostat magħżula fuq livell NUTS — popolazzjoni, PDG, qgħad, R&Ż u aktar, immappjati madwar l-Ewropa.",
       "privacy": "Kif Fontem timmaniġġja d-data personali. Naħżnu biss l-essenzjali tal-kont, ebda cookies ta' traċċar, ebda analitika ta' partijiet terzi.",
       "sparql": "Staqsi l-graf tal-għarfien Fontem direttament permezz ta' SPARQL. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
-      "spending": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Plus dak li hu kbir f'pajjiżek."
+      "spending": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Plus dak li hu kbir f'pajjiżek.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Dwar — Fontem",
       "data_quality": "Kwalità tad-data — Fontem",
-      "donate": "Appoġġja Fontem",
       "home": "Fontem — Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba",
       "login": "Idħol — Fontem",
       "map": "Mappa — Statistika Ewropea fuq Fontem",
       "privacy": "Politika tal-privatezza — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Nefqa — akkwist pubbliku tal-UE fuq Fontem"
+      "spending": "Nefqa — akkwist pubbliku tal-UE fuq Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Ir-reġjuni kollha",
     "clear": "Neħħi r-reġjun",
     "no_match": "L-ebda reġjun ma jaqbel ma' “{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

@@ -22,7 +22,7 @@ function makeHarness(initialPath = '/') {
     routes: [
       { path: '/', component: { render: () => null } },
       { path: '/about', component: { render: () => null } },
-      { path: '/donate', component: { render: () => null } },
+      { path: '/development', component: { render: () => null } },
       { path: '/no-such', component: { render: () => null } },
     ],
   })
@@ -60,11 +60,11 @@ describe('useDocumentMeta', () => {
 
   it('sets meta name="description" from meta.description.<key>', async () => {
     const { router, i18n, Host } = makeHarness()
-    router.push('/donate')
+    router.push('/development')
     await router.isReady()
     mount(Host, { global: { plugins: [router, i18n] } })
     await nextTick()
-    expect(descriptionMeta()).toBe(en.meta.description.donate)
+    expect(descriptionMeta()).toBe(en.meta.description.development)
   })
 
   it('updates both title and description when locale changes', async () => {
@@ -89,10 +89,10 @@ describe('useDocumentMeta', () => {
     await nextTick()
     expect(document.title).toBe(en.meta.title.about)
 
-    router.push('/donate')
+    router.push('/development')
     await flushPromises()
     await nextTick()
-    expect(document.title).toBe(en.meta.title.donate)
+    expect(document.title).toBe(en.meta.title.development)
   })
 
   it('leaves the title alone on unknown routes', async () => {

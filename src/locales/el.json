@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Πηγές δεδομένων: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (δημόσιες συμβάσεις ΕΕ)",
     "footer": "Υποσέλιδο",
     "sparql": "SPARQL",
-    "support": "Υποστήριξη",
-    "help": "Βοήθεια"
+    "help": "Βοήθεια",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Αποδοχή όλων",
@@ -477,24 +477,6 @@
     "reviewed": "Αξιολογήθηκε",
     "pending": "Σε εκκρεμότητα",
     "tool_to_review_pending_duplicates": "εργαλείο για την αξιολόγηση εκκρεμών διπλότυπων."
-  },
-  "donate": {
-    "backers": "Υποστηρικτές",
-    "contribute_rarr": "Συνεισφορά &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Οι δωρεές διέρχονται από fiscal-host μη κερδοσκοπικό φορέα στο",
-    "open_collective": "Open Collective",
-    "support_fontem": "Υποστηρίξτε το Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Ευχαριστούμε όλους όσοι κρατούν ζωντανό το Fontem.",
-    "tier_backer_desc": "Χρηματοδοτεί τη συνεχή εργασία στους αγωγούς δεδομένων: νέες πηγές, καλύτερη κάλυψη.",
-    "tier_backer_name": "Χορηγός",
-    "tier_oneoff_amount": "Όποιο ποσό",
-    "tier_oneoff_desc": "Μία συνεισφορά, ό,τι ταιριάζει. Καμία δέσμευση.",
-    "tier_oneoff_name": "Μία φορά",
-    "tier_partner_desc": "Υποστηρίζει μια θέση στην κύρια ομάδα και τη μακροπρόθεσμη διαχείριση δεδομένων.",
-    "tier_partner_name": "Συνεργάτης",
-    "tier_supporter_desc": "Κρατά τα φώτα αναμμένα — φιλοξενία, domain, άδειες πηγών δεδομένων.",
-    "tier_supporter_name": "Υποστηρικτής",
-    "where_the_money_goes": "Πού πηγαίνουν τα χρήματα"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Οικονομικές καταστάσεις SEC — κάλυψη πεδίων XBRL και τάσεις υποβολών",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Το Fontem είναι η πλατφόρμα διαφάνειας πρωτογενών πηγών. Εταιρείες ΕΕ, δημόσιες προμήθειες, εκπρόσωποι ομάδων πίεσης και χρηματοδότηση συνοχής — συνδεδεμένα σε έναν γράφο και διασταυρωμένα με τα επίσημα μητρώα.",
       "data_quality": "Κάλυψη, φρεσκάδα και ανάλυση πηγών για κάθε σύνολο δεδομένων στον γράφο γνώσης Fontem. Διαφάνεια για τη διαφάνεια.",
-      "donate": "Το Fontem είναι δωρεάν και θα παραμείνει πάντα. Οι δωρεές γίνονται μέσω μη κερδοσκοπικού δημοσιονομικού φιλοξενούμενου στο Open Collective και κρατούν τους αγωγούς δεδομένων σε λειτουργία, τον γράφο να μεγαλώνει και την ομάδα σε ποιοτική εργασία.",
       "home": "Διασχίζουμε τα ψηφιακά σύνορα της ΕΕ, ένα σύνολο δεδομένων τη φορά. Δημόσιες ιστορίες δεδομένων από την κοινότητα του Fontem — έρευνες, διασταυρώσεις και ευρήματα βασισμένα σε πρωτογενείς πηγές.",
       "login": "Συνδεθείτε στο Fontem για να δημοσιεύσετε ιστορίες δεδομένων, να αναφέρετε προβλήματα και να αποθηκεύσετε την έρευνά σας.",
       "map": "Διαδραστικός χρωματικός χάρτης επιλεγμένων συνόλων δεδομένων Eurostat σε επίπεδο NUTS — πληθυσμός, ΑΕΠ, ανεργία, R&D και άλλα, χαρτογραφημένα σε όλη την Ευρώπη.",
       "privacy": "Πώς διαχειρίζεται το Fontem τα προσωπικά δεδομένα. Αποθηκεύουμε μόνο βασικά στοιχεία λογαριασμού, χωρίς cookies παρακολούθησης, χωρίς αναλυτικά τρίτων.",
       "sparql": "Ερωτήστε τον γράφο γνώσης Fontem απευθείας μέσω SPARQL. Εταιρείες, συμβάσεις, αρχές, εκπρόσωποι, κυρώσεις — όλα συνδεδεμένα.",
-      "spending": "Αναζητήστε εταιρείες ΕΕ, αναθέτουσες αρχές, εκπροσώπους και έργα χρηματοδοτούμενα από την ΕΕ. Συν τι είναι μεγάλο στη χώρα σας."
+      "spending": "Αναζητήστε εταιρείες ΕΕ, αναθέτουσες αρχές, εκπροσώπους και έργα χρηματοδοτούμενα από την ΕΕ. Συν τι είναι μεγάλο στη χώρα σας.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Σχετικά — Fontem",
       "data_quality": "Ποιότητα δεδομένων — Fontem",
-      "donate": "Υποστήριξε το Fontem",
       "home": "Fontem — Διασχίζουμε τα ψηφιακά σύνορα της ΕΕ, ένα σύνολο δεδομένων τη φορά",
       "login": "Σύνδεση — Fontem",
       "map": "Χάρτης — Ευρωπαϊκά στατιστικά στο Fontem",
       "privacy": "Πολιτική απορρήτου — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Δαπάνες — δημόσιες προμήθειες της ΕΕ στο Fontem"
+      "spending": "Δαπάνες — δημόσιες προμήθειες της ΕΕ στο Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Όλες οι περιοχές",
     "clear": "Καθαρισμός περιοχής",
     "no_match": "Καμία περιοχή δεν ταιριάζει με «{term}»"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

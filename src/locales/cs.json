@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Zdroj dat: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (veřejné zakázky EU)",
     "footer": "Patička",
     "sparql": "SPARQL",
-    "support": "Podpora",
-    "help": "Nápověda"
+    "help": "Nápověda",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Přijmout vše",
@@ -477,24 +477,6 @@
     "reviewed": "Zkontrolováno",
     "pending": "Čeká na vyřízení",
     "tool_to_review_pending_duplicates": "nástroj pro kontrolu nevyřízených duplicit."
-  },
-  "donate": {
-    "backers": "Podporovatelé",
-    "contribute_rarr": "Přispět &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Příspěvky procházejí přes neziskovou fiscal-host na",
-    "open_collective": "Open Collective",
-    "support_fontem": "Podpořte Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Díky všem, kdo udržují Fontem naživu.",
-    "tier_backer_desc": "Financuje průběžnou práci na datových potrubích: nové zdroje, lepší pokrytí.",
-    "tier_backer_name": "Spolufinancující",
-    "tier_oneoff_amount": "Libovolná částka",
-    "tier_oneoff_desc": "Jediný příspěvek, jakkoli vám sedí. Bez závazku.",
-    "tier_oneoff_name": "Jednorázově",
-    "tier_partner_desc": "Podporuje místo v jádrovém týmu a dlouhodobou správu dat.",
-    "tier_partner_name": "Partner",
-    "tier_supporter_desc": "Drží světla rozsvícená — hosting, doména, licence ke zdrojům dat.",
-    "tier_supporter_name": "Podporovatel",
-    "where_the_money_goes": "Kam peníze putují"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Účetní závěrky SEC — pokrytí polí XBRL a trendy podání",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem je platforma pro transparentnost z primárních zdrojů. Společnosti EU, veřejné zakázky, lobbisté a soudržná politika — propojeno do jednoho grafu a křížově ověřeno proti oficiálním rejstříkům.",
       "data_quality": "Pokrytí, aktuálnost a rozdělení zdrojů pro každý datový soubor v grafu znalostí Fontem. Transparentnost o transparentnosti.",
-      "donate": "Fontem je zdarma a vždy bude. Dary plynou skrz neziskového fiskálního hostitele na Open Collective a udržují datové toky v provozu, graf roste a tým u kvalitní práce.",
       "home": "Překračujeme digitální hranice EU, jeden datový soubor po druhém. Veřejné datové příběhy z komunity Fontem — vyšetřování, křížové kontroly a zjištění zakotvená v primárních zdrojích.",
       "login": "Přihlaste se do Fontemu pro publikování datových příběhů, hlášení problémů a ukládání výzkumu.",
       "map": "Interaktivní choropletová mapa kurátorovaných Eurostat datasetů na úrovni NUTS — populace, HDP, nezaměstnanost, R&D a další, mapováno napříč Evropou.",
       "privacy": "Jak Fontem zachází s osobními údaji. Ukládáme pouze základní údaje účtu, žádné sledovací soubory cookie ani analytiku třetích stran.",
       "sparql": "Dotazujte se grafu znalostí Fontem přímo přes SPARQL. Společnosti, smlouvy, orgány, lobbisté, sankce — vše propojeno.",
-      "spending": "Hledejte EU společnosti, zadávající orgány, lobbisty a projekty financované EU. Plus co je velké ve vaší zemi."
+      "spending": "Hledejte EU společnosti, zadávající orgány, lobbisty a projekty financované EU. Plus co je velké ve vaší zemi.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "O projektu — Fontem",
       "data_quality": "Kvalita dat — Fontem",
-      "donate": "Podpořte Fontem",
       "home": "Fontem — Překračujeme digitální hranice EU, jeden datový soubor po druhém",
       "login": "Přihlásit se — Fontem",
       "map": "Mapa — Evropské statistiky na Fontemu",
       "privacy": "Zásady ochrany soukromí — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Výdaje — EU zadávání veřejných zakázek na Fontemu"
+      "spending": "Výdaje — EU zadávání veřejných zakázek na Fontemu",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Všechny regiony",
     "clear": "Vymazat region",
     "no_match": "Žádný region neodpovídá „{term}“"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

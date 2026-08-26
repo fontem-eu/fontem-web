@@ -19,6 +19,7 @@ import { createFontemI18n } from './i18n.js'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
+import DevelopmentView from './views/DevelopmentView.vue'
 import HelpView from './views/HelpView.vue'
 import PetitionsView from './views/PetitionsView.vue'
 import PetitionDetailView from './views/PetitionDetailView.vue'
@@ -81,7 +82,6 @@ import NotFoundView from './views/NotFoundView.vue'
 import GeoView from './views/GeoView.vue'
 import SearchView from './views/SearchView.vue'
 import SparqlView from './views/SparqlView.vue'
-import DonateView from './views/DonateView.vue'
 import AtlasView from './views/AtlasView.vue'
 import PublicSpendingView from './views/PublicSpendingView.vue'
 import ExploreView from './views/ExploreView.vue'
@@ -96,6 +96,9 @@ const ROUTES = [
 
   // About — the marketing/onboarding page that used to live at `/`.
   { path: '/about', component: AboutView },
+
+  // Development — open-source org + the how-we-build walkthrough video.
+  { path: '/development', component: DevelopmentView },
 
   // Help / FAQ, including how to connect your own AI client.
   { path: '/help', component: HelpView },
@@ -158,8 +161,6 @@ const ROUTES = [
   { path: '/privacy', component: PrivacyView },
 
   // Donations — public
-  { path: '/donate', component: DonateView },
-  { path: '/support', redirect: '/donate' },
 
   // SPARQL — public graph query surface
   { path: '/sparql', component: SparqlView },

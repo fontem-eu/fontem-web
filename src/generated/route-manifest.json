@@ -193,8 +193,8 @@
       "description": "Raw triple counts in the graph store."
     },
     {
-      "path": "/donate",
-      "description": "Support the project."
+      "path": "/development",
+      "description": "Fontem is open source: the GitHub organisation and a walkthrough video of how the platform is built."
     },
     {
       "path": "/dossiers/:id",
@@ -379,10 +379,6 @@
       ],
       "requires_auth": true,
       "description": "A saved query in a studio project."
-    },
-    {
-      "path": "/support",
-      "redirects_to": "/donate"
     },
     {
       "path": "/users/:id",

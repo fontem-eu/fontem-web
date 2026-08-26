@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Datos de SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (contratación pública de la UE)",
     "footer": "Pie de página",
     "sparql": "SPARQL",
-    "support": "Apoyar",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Aceptar todo",
@@ -477,24 +477,6 @@
     "reviewed": "Revisado",
     "pending": "Pendiente",
     "tool_to_review_pending_duplicates": "herramienta para revisar los duplicados pendientes."
-  },
-  "donate": {
-    "backers": "Patrocinadores",
-    "contribute_rarr": "Contribuir &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Las donaciones pasan por un fiscal host sin ánimo de lucro en",
-    "open_collective": "Open Collective",
-    "support_fontem": "Apoya a Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Gracias a todos los que mantienen Fontem con vida.",
-    "tier_backer_desc": "Financia el trabajo continuo en las tuberías de datos: nuevas fuentes, mejor cobertura.",
-    "tier_backer_name": "Mecenas",
-    "tier_oneoff_amount": "Cualquier importe",
-    "tier_oneoff_desc": "Una sola aportación, lo que te encaje. Sin compromiso.",
-    "tier_oneoff_name": "Una vez",
-    "tier_partner_desc": "Apoya un puesto en el equipo principal y la gestión de datos a largo plazo.",
-    "tier_partner_name": "Socio",
-    "tier_supporter_desc": "Mantiene las luces encendidas — hosting, dominio, licencias de fuentes de datos.",
-    "tier_supporter_name": "Patrocinador",
-    "where_the_money_goes": "Adónde va el dinero"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "Estados financieros de SEC — cobertura de campos XBRL y tendencias de presentación",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem es la plataforma de transparencia de fuentes primarias. Empresas de la UE, contratación pública, lobistas y financiación de cohesión — enlazados en un grafo y contrastados con los registros oficiales.",
       "data_quality": "Cobertura, frescura y desglose de fuentes para cada dataset del grafo de conocimiento de Fontem. Transparencia sobre transparencia.",
-      "donate": "Fontem es gratuito y siempre lo será. Las donaciones pasan por un anfitrión fiscal sin ánimo de lucro en Open Collective y mantienen las tuberías de datos operativas, el grafo creciendo y el equipo en trabajo de calidad.",
       "home": "Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez. Historias de datos públicas de la comunidad Fontem — investigaciones, comprobaciones cruzadas y hallazgos basados en fuentes primarias.",
       "login": "Inicia sesión en Fontem para publicar historias de datos, plantear problemas y guardar tu investigación.",
       "map": "Mapa coroplético interactivo de datasets seleccionados de Eurostat a nivel NUTS — población, PIB, desempleo, I+D y más, cartografiados por toda Europa.",
       "privacy": "Cómo gestiona Fontem los datos personales. Solo almacenamos lo básico de la cuenta, sin cookies de seguimiento ni analítica de terceros.",
       "sparql": "Consulta el grafo de conocimiento de Fontem directamente vía SPARQL. Empresas, contratos, autoridades, lobistas, sanciones — todo enlazado.",
-      "spending": "Busca empresas de la UE, órganos de contratación, lobistas y proyectos financiados por la UE. Además de lo que es grande en tu país."
+      "spending": "Busca empresas de la UE, órganos de contratación, lobistas y proyectos financiados por la UE. Además de lo que es grande en tu país.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Acerca de — Fontem",
       "data_quality": "Calidad de los datos — Fontem",
-      "donate": "Apoya a Fontem",
       "home": "Fontem — Cruzamos las fronteras digitales de la UE, un conjunto de datos a la vez",
       "login": "Iniciar sesión — Fontem",
       "map": "Mapa — Estadísticas europeas en Fontem",
       "privacy": "Política de privacidad — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Gasto — contratación pública de la UE en Fontem"
+      "spending": "Gasto — contratación pública de la UE en Fontem",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Todas las regiones",
     "clear": "Borrar región",
     "no_match": "Ninguna región coincide con «{term}»"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

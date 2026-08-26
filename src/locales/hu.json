@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Adatok forrása: SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (EU közbeszerzések)",
     "footer": "Lábléc",
     "sparql": "SPARQL",
-    "support": "Támogasd",
-    "help": "Súgó"
+    "help": "Súgó",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Mindet elfogadom",
@@ -477,24 +477,6 @@
     "reviewed": "Ellenőrizve",
     "pending": "Függőben",
     "tool_to_review_pending_duplicates": "eszköz a függőben lévő duplikátumok áttekintéséhez."
-  },
-  "donate": {
-    "backers": "Támogatók",
-    "contribute_rarr": "Hozzájárulok &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Az adományok nonprofit fiskális gazdán keresztül érkeznek",
-    "open_collective": "Open Collective",
-    "support_fontem": "Támogasd a Fontemet",
-    "thanks_to_everyone_keeping_fontem_alive": "Köszönet mindenkinek, aki életben tartja a Fontemet.",
-    "tier_backer_desc": "Finanszírozza a folyamatos adatcsatorna-munkát: új források, jobb lefedettség.",
-    "tier_backer_name": "Pártfogó",
-    "tier_oneoff_amount": "Tetszőleges összeg",
-    "tier_oneoff_desc": "Egyszeri hozzájárulás, amennyi belefér. Nincs elköteleződés.",
-    "tier_oneoff_name": "Egyszeri",
-    "tier_partner_desc": "Támogat egy helyet a fő csapatban és a hosszú távú adatkezelést.",
-    "tier_partner_name": "Partner",
-    "tier_supporter_desc": "Életben tartja a rendszert — tárhely, domain, adatforrás-licencek.",
-    "tier_supporter_name": "Támogató",
-    "where_the_money_goes": "Hová megy a pénz"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "SEC pénzügyi kimutatások — XBRL-mezők lefedettsége és beadvány-trendek",
@@ -787,24 +769,24 @@
     "description": {
       "about": "A Fontem az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
       "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Fontem tudásgráfjában. Átláthatóság az átláthatóságról.",
-      "donate": "A Fontem ingyenes és mindig az is lesz. Az adományok egy nonprofit fiskális gazdán keresztül az Open Collective-en folynak, és életben tartják az adatfolyamokat, a növekvő gráfot és a csapat minőségi munkáját.",
       "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Fontem közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
       "login": "Jelentkezz be a Fontembe adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
       "map": "Interaktív choropleth kurált Eurostat adatkészletekből NUTS szinten — népesség, GDP, munkanélküliség, K+F és több, Európa-szerte feltérképezve.",
       "privacy": "Hogyan kezeli a Fontem a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
       "sparql": "Kérdezd le a Fontem tudásgráfot közvetlenül SPARQL-en keresztül. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — minden összekötve.",
-      "spending": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Plusz ami nagy a te országodban."
+      "spending": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Plusz ami nagy a te országodban.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "Rólunk — Fontem",
       "data_quality": "Adatminőség — Fontem",
-      "donate": "Támogasd a Fontemet",
       "home": "Fontem — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
       "login": "Bejelentkezés — Fontem",
       "map": "Térkép — Európai statisztikák a Fontemen",
       "privacy": "Adatvédelmi szabályzat — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Kiadások — EU közbeszerzések a Fontemen"
+      "spending": "Kiadások — EU közbeszerzések a Fontemen",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Minden régió",
     "clear": "Régió törlése",
     "no_match": "Egyetlen régió sem felel meg ennek: „{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }

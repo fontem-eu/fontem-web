@@ -95,7 +95,7 @@ jobs:
           probe /privacy       "Privacy"
           probe /data-quality  "Data quality"
           probe /sparql        "SPARQL"
-          probe /donate        "Support"
+          probe /development   "Development"
 
           # /about is the new home of the carousel + chips + how-it-
           # works strip. If `data-testid="example-chips"` disappears

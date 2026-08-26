@@ -6,7 +6,7 @@ import { _internal } from '../../src/api/session.js'
 import AppFooter from '../../src/components/AppFooter.vue'
 
 function makeRouter() {
-  const paths = ['/', '/privacy', '/data-quality', '/sparql', '/about', '/help', '/donate', '/admin']
+  const paths = ['/', '/privacy', '/data-quality', '/sparql', '/about', '/help', '/development', '/admin']
   return createRouter({
     history: createMemoryHistory(),
     routes: paths.map((p) => ({ path: p, component: { template: '<div/>' } })),

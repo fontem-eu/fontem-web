@@ -195,8 +195,8 @@
     "data_sourced_from_sec_edgar_esma_esef_gl": "Izvori podataka SEC EDGAR, ESMA ESEF, GLEIF &amp; TED (Javna nabava EU)",
     "footer": "Podnožje",
     "sparql": "SPARQL",
-    "support": "Podrška",
-    "help": "Pomoć"
+    "help": "Pomoć",
+    "development": "Development"
   },
   "assist": {
     "accept_all": "Prihvati sve",
@@ -477,24 +477,6 @@
     "reviewed": "Pregledano",
     "pending": "Na čekanju",
     "tool_to_review_pending_duplicates": "alat za pregled duplikata na čekanju."
-  },
-  "donate": {
-    "backers": "Donatori",
-    "contribute_rarr": "Doniraj &rarr;",
-    "donations_flow_through_a_fiscal_host_non": "Donacije teku kroz neprofitnog fiskalnog hosta na",
-    "open_collective": "Open Collective",
-    "support_fontem": "Podrži Fontem",
-    "thanks_to_everyone_keeping_fontem_alive": "Hvala svima koji održavaju Fontem na životu.",
-    "tier_backer_desc": "Financira tekući rad na podatkovnim cjevovodima: novi izvori, bolja pokrivenost.",
-    "tier_backer_name": "Sponzor",
-    "tier_oneoff_amount": "Bilo koji iznos",
-    "tier_oneoff_desc": "Jedan doprinos, što god ti odgovara. Bez obveze.",
-    "tier_oneoff_name": "Jednokratno",
-    "tier_partner_desc": "Podržava mjesto u glavnom timu i dugoročno upravljanje podacima.",
-    "tier_partner_name": "Partner",
-    "tier_supporter_desc": "Drži svjetla upaljena — hosting, domena, licence izvora podataka.",
-    "tier_supporter_name": "Podržavatelj",
-    "where_the_money_goes": "Gdje novac odlazi"
   },
   "edgar_d_q": {
     "sec_financial_statements_xbrl_field_cove": "SEC financijska izvješća — pokrivenost XBRL polja i trendovi podnesaka",
@@ -787,24 +769,24 @@
     "description": {
       "about": "Fontem je platforma transparentnosti iz primarnih izvora. Tvrtke EU, javna nabava, lobisti i kohezijsko financiranje — povezani u jedan graf i križno provjereni s službenim registrima.",
       "data_quality": "Pokrivenost, svježina i raspodjela izvora za svaki skup podataka u Fontem grafu znanja. Transparentnost o transparentnosti.",
-      "donate": "Fontem je besplatan za korištenje i uvijek će biti. Donacije teku kroz neprofitnog fiskalnog hosta na Open Collectiveu i održavaju podatkovne cjevovode u radu, graf rastućim i tim na kvalitetnom radu.",
       "home": "Prelazimo digitalne granice EU-a, jedan skup podataka odjednom. Javne podatkovne priče iz Fontem zajednice — istraživanja, križne provjere i zaključci utemeljeni na primarnim izvorima.",
       "login": "Prijavi se na Fontem za objavljivanje podatkovnih priča, prijavu problema i spremanje istraživanja.",
       "map": "Interaktivni horoplet kuriranih Eurostat skupova podataka na NUTS razini — stanovništvo, BDP, nezaposlenost, R&D i više, mapirani diljem Europe.",
       "privacy": "Kako Fontem postupa s osobnim podacima. Pohranjujemo samo osnovne podatke računa, bez kolačića za praćenje i bez analitike trećih strana.",
       "sparql": "Pretraži Fontem graf znanja izravno putem SPARQL-a. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
-      "spending": "Pretraži tvrtke EU, ugovorne ustanove, lobiste i projekte koje financira EU. Plus što je veliko u tvojoj zemlji."
+      "spending": "Pretraži tvrtke EU, ugovorne ustanove, lobiste i projekte koje financira EU. Plus što je veliko u tvojoj zemlji.",
+      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
       "about": "O — Fontem",
       "data_quality": "Kvaliteta podataka — Fontem",
-      "donate": "Podrži Fontem",
       "home": "Fontem — Prelazimo digitalne granice EU-a, jedan skup podataka odjednom",
       "login": "Prijava — Fontem",
       "map": "Karta — Europske statistike na Fontemu",
       "privacy": "Pravila privatnosti — Fontem",
       "sparql": "SPARQL — Fontem",
-      "spending": "Potrošnja — javna nabava EU na Fontemu"
+      "spending": "Potrošnja — javna nabava EU na Fontemu",
+      "development": "Development — Fontem"
     }
   },
   "moderation": {
@@ -1991,5 +1973,13 @@
     "everywhere_hint": "Sve regije",
     "clear": "Očisti regiju",
     "no_match": "Nijedna regija ne odgovara pojmu „{term}”"
+  },
+  "development": {
+    "title": "Development",
+    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "open_source": "Open source",
+    "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
+    "how_we_build": "How we build Fontem",
+    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
   }
 }
