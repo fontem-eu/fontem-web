@@ -199,6 +199,7 @@
     "help": "Aide"
   },
   "assist": {
+    "loading_older": "Chargement des messages précédents…",
     "jump_to_latest": "Aller au plus récent",
     "accept_all": "Tout accepter",
     "ai_assist": "Assistant IA",

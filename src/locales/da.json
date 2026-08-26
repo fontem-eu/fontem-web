@@ -199,6 +199,7 @@
     "help": "Hjælp"
   },
   "assist": {
+    "loading_older": "Indlæser tidligere beskeder…",
     "jump_to_latest": "Gå til nyeste",
     "accept_all": "Accepter alle",
     "ai_assist": "AI-assistent",

@@ -199,6 +199,7 @@
     "help": "Hilfe"
   },
   "assist": {
+    "loading_older": "Frühere Nachrichten werden geladen…",
     "jump_to_latest": "Zum Neuesten",
     "accept_all": "Alle akzeptieren",
     "ai_assist": "KI-Assistent",

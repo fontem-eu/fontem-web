@@ -199,6 +199,7 @@
     "help": "Abi"
   },
   "assist": {
+    "loading_older": "Varasemate sõnumite laadimine…",
     "jump_to_latest": "Mine uusima juurde",
     "accept_all": "Aktsepteeri kõik",
     "ai_assist": "AI abi",

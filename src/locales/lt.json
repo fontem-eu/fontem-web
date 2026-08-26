@@ -199,6 +199,7 @@
     "help": "Pagalba"
   },
   "assist": {
+    "loading_older": "Įkeliami ankstesni pranešimai…",
     "jump_to_latest": "Pereiti prie naujausio",
     "accept_all": "Priimti viską",
     "ai_assist": "DI pagalba",

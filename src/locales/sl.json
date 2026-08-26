@@ -199,6 +199,7 @@
     "help": "Pomoč"
   },
   "assist": {
+    "loading_older": "Nalaganje starejših sporočil…",
     "jump_to_latest": "Skoči na najnovejše",
     "accept_all": "Sprejmi vse",
     "ai_assist": "UI pomoč",

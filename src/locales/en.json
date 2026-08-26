@@ -199,6 +199,7 @@
     "help": "Help"
   },
   "assist": {
+    "loading_older": "Loading earlier messages…",
     "jump_to_latest": "Jump to latest",
     "accept_all": "Accept all",
     "ai_assist": "AI Assist",

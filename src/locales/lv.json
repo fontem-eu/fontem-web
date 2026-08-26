@@ -199,6 +199,7 @@
     "help": "Palīdzība"
   },
   "assist": {
+    "loading_older": "Ielādē agrākos ziņojumus…",
     "jump_to_latest": "Pāriet uz jaunāko",
     "accept_all": "Pieņemt visus",
     "ai_assist": "MI palīgs",
