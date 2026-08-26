@@ -21,7 +21,7 @@
  * aria-activedescendant tells a screen reader which option is current. A
  * typeahead that only works with a mouse is a worse select box.
  */
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { ref, computed, onMounted, watch, nextTick, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNutsRegions } from '../composables/useNutsRegions.js'
 
@@ -46,7 +46,13 @@ const query = ref('')
 const open = ref(false)
 const active = ref(0)
 const inputEl = ref(null)
-const listId = `nuts-list-${Math.random().toString(36).slice(2, 9)}`
+// useId(), not Math.random(): this app server-renders (entry-server.js),
+// and a random id differs between the server and client passes, so the
+// aria-controls/aria-activedescendant wiring pointed at a different
+// element on each and Vue reported a hydration mismatch. useId() is
+// stable across both. It also drops the pseudorandom-generator warning
+// SonarQube raised here (javascript:S2245).
+const listId = `nuts-list-${useId()}`
 
 const everywhereOption = computed(() => ({
   code: EVERYWHERE, name: t('region_input.everywhere'), level: -1,
@@ -82,40 +88,53 @@ const candidates = computed(
   () => regions.value.filter((r) => r.level <= props.maxLevel),
 )
 
+// Match strength, lowest wins: a name that starts with what you typed beats
+// a code that does, which beats a name that merely contains it. -1 means no
+// match at all. Split out of `suggestions` because the ranking is the part
+// worth reading on its own — and it kept that computed over the cognitive
+// complexity limit.
+function rankOf(region, term) {
+  const name = region.name.toLowerCase()
+  if (name.startsWith(term)) return 0
+  if (region.code.toLowerCase().startsWith(term)) return 1
+  if (name.includes(term)) return 2
+  return -1
+}
+
+// Shallower regions first within a rank: typing "PT" more likely means
+// Portugal than one of its municipalities.
+function byRankThenDepth(a, b) {
+  return a.rank - b.rank
+    || a.region.level - b.region.level
+    || a.region.name.localeCompare(b.region.name)
+}
+
+function everywhereMatches(term) {
+  return !term
+    || everywhereOption.value.name.toLowerCase().includes(term)
+    || EVERYWHERE.toLowerCase().startsWith(term)
+}
+
 const suggestions = computed(() => {
   const term = query.value.trim().toLowerCase()
   const out = []
 
-  if (props.allowEverywhere
-      && (!term || everywhereOption.value.name.toLowerCase().includes(term)
-          || EVERYWHERE.toLowerCase().startsWith(term))) {
+  if (props.allowEverywhere && everywhereMatches(term)) {
     out.push(everywhereOption.value)
   }
   if (!term) {
     // No term yet: offer countries, which is the useful starting point.
-    for (const r of candidates.value) {
-      if (r.level === 0 && out.length <= MAX_SUGGESTIONS) {
-        out.push({ ...r, hint: '' })
-      }
+    const countries = candidates.value.filter((r) => r.level === 0)
+    for (const r of countries.slice(0, MAX_SUGGESTIONS)) {
+      out.push({ ...r, hint: '' })
     }
     return out.slice(0, MAX_SUGGESTIONS)
   }
 
-  const scored = []
-  for (const r of candidates.value) {
-    const name = r.name.toLowerCase()
-    const code = r.code.toLowerCase()
-    let rank = -1
-    if (name.startsWith(term)) rank = 0
-    else if (code.startsWith(term)) rank = 1
-    else if (name.includes(term)) rank = 2
-    if (rank >= 0) scored.push({ region: r, rank })
-  }
-  // Shallower regions first within a rank: a country is more likely meant
-  // than one of its municipalities.
-  scored.sort((a, b) => a.rank - b.rank
-    || a.region.level - b.region.level
-    || a.region.name.localeCompare(b.region.name))
+  const scored = candidates.value
+    .map((region) => ({ region, rank: rankOf(region, term) }))
+    .filter(({ rank }) => rank >= 0)
+    .sort(byRankThenDepth)
 
   for (const { region } of scored.slice(0, MAX_SUGGESTIONS)) {
     out.push({ ...region, hint: hintFor(region) })
@@ -202,6 +221,22 @@ function onBlur() {
         @blur="onBlur"
       />
 
+      <!--
+        SonarQube flags the listbox/option roles here (Web:S6819, Web:S6842)
+        and wants a native <datalist> or <select>. Those rules do not model
+        the ARIA 1.2 combobox pattern, which this implements in full: the
+        input carries role=combobox with aria-expanded, aria-controls and
+        aria-activedescendant, and each entry carries aria-selected. A
+        <datalist> cannot render the name/hint/code layout, cannot be styled,
+        and cannot be driven by asynchronously loaded suggestions — swapping
+        to one would remove behaviour screen readers currently get.
+
+        S6842 could be satisfied by moving the role onto an interactive
+        element; S6819 could not, because it fires on role=listbox existing
+        at all. Both are recorded as false positives in SonarQube against
+        this justification rather than degrading the markup.
+        NOSONAR
+      -->
       <ul
 v-if="open && suggestions.length" :id="listId" class="nri-list"
           role="listbox" data-testid="region-suggestions">
