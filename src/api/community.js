@@ -660,7 +660,8 @@ export function getBriefing(slug, { nuts, volume } = {}) {
   for (const region of nuts || []) params.append('nuts', region)
   if (volume) params.set('volume', String(volume))
   const qs = params.toString()
-  return request('GET', `/briefings/${encodeURIComponent(slug)}${qs ? `?${qs}` : ''}`)
+  const search = qs ? `?${qs}` : ''
+  return request('GET', `/briefings/${encodeURIComponent(slug)}${search}`)
 }
 
 // POST, not PUT: a reader can hold several watches on one briefing at

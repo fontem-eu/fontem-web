@@ -82,40 +82,53 @@ const candidates = computed(
   () => regions.value.filter((r) => r.level <= props.maxLevel),
 )
 
+// Match strength, lowest wins: a name that starts with what you typed beats
+// a code that does, which beats a name that merely contains it. -1 means no
+// match at all. Split out of `suggestions` because the ranking is the part
+// worth reading on its own — and it kept that computed over the cognitive
+// complexity limit.
+function rankOf(region, term) {
+  const name = region.name.toLowerCase()
+  if (name.startsWith(term)) return 0
+  if (region.code.toLowerCase().startsWith(term)) return 1
+  if (name.includes(term)) return 2
+  return -1
+}
+
+// Shallower regions first within a rank: typing "PT" more likely means
+// Portugal than one of its municipalities.
+function byRankThenDepth(a, b) {
+  return a.rank - b.rank
+    || a.region.level - b.region.level
+    || a.region.name.localeCompare(b.region.name)
+}
+
+function everywhereMatches(term) {
+  return !term
+    || everywhereOption.value.name.toLowerCase().includes(term)
+    || EVERYWHERE.toLowerCase().startsWith(term)
+}
+
 const suggestions = computed(() => {
   const term = query.value.trim().toLowerCase()
   const out = []
 
-  if (props.allowEverywhere
-      && (!term || everywhereOption.value.name.toLowerCase().includes(term)
-          || EVERYWHERE.toLowerCase().startsWith(term))) {
+  if (props.allowEverywhere && everywhereMatches(term)) {
     out.push(everywhereOption.value)
   }
   if (!term) {
     // No term yet: offer countries, which is the useful starting point.
-    for (const r of candidates.value) {
-      if (r.level === 0 && out.length <= MAX_SUGGESTIONS) {
-        out.push({ ...r, hint: '' })
-      }
+    const countries = candidates.value.filter((r) => r.level === 0)
+    for (const r of countries.slice(0, MAX_SUGGESTIONS)) {
+      out.push({ ...r, hint: '' })
     }
     return out.slice(0, MAX_SUGGESTIONS)
   }
 
-  const scored = []
-  for (const r of candidates.value) {
-    const name = r.name.toLowerCase()
-    const code = r.code.toLowerCase()
-    let rank = -1
-    if (name.startsWith(term)) rank = 0
-    else if (code.startsWith(term)) rank = 1
-    else if (name.includes(term)) rank = 2
-    if (rank >= 0) scored.push({ region: r, rank })
-  }
-  // Shallower regions first within a rank: a country is more likely meant
-  // than one of its municipalities.
-  scored.sort((a, b) => a.rank - b.rank
-    || a.region.level - b.region.level
-    || a.region.name.localeCompare(b.region.name))
+  const scored = candidates.value
+    .map((region) => ({ region, rank: rankOf(region, term) }))
+    .filter(({ rank }) => rank >= 0)
+    .sort(byRankThenDepth)
 
   for (const { region } of scored.slice(0, MAX_SUGGESTIONS)) {
     out.push({ ...region, hint: hintFor(region) })
