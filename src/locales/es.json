@@ -199,6 +199,7 @@
     "help": "Ayuda"
   },
   "assist": {
+    "jump_to_latest": "Ir a lo más reciente",
     "accept_all": "Aceptar todo",
     "ai_assist": "Asistente de IA",
     "ai_assistant": "Asistente de IA",

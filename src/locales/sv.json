@@ -199,6 +199,7 @@
     "help": "Hjälp"
   },
   "assist": {
+    "jump_to_latest": "Gå till senaste",
     "accept_all": "Acceptera alla",
     "ai_assist": "AI-hjälp",
     "ai_assistant": "AI-assistent",

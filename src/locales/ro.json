@@ -199,6 +199,7 @@
     "help": "Ajutor"
   },
   "assist": {
+    "jump_to_latest": "Salt la cel mai recent",
     "accept_all": "Acceptă tot",
     "ai_assist": "Asistent IA",
     "ai_assistant": "Asistent IA",

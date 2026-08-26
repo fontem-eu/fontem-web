@@ -199,6 +199,7 @@
     "help": "Ohje"
   },
   "assist": {
+    "jump_to_latest": "Siirry uusimpaan",
     "accept_all": "Hyväksy kaikki",
     "ai_assist": "Tekoälyapu",
     "ai_assistant": "Tekoälyavustaja",

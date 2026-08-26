@@ -568,6 +568,48 @@ function scrollToBottom() {
   }
 }
 
+// How close to the end still counts as "at the latest". A few pixels of
+// slack because smooth scrolling and sub-pixel layout rarely land exactly
+// on scrollHeight, and a jump-to-latest button that shows itself when the
+// user is already at the bottom looks broken.
+const AT_LATEST_SLACK_PX = 48
+
+const atLatest = ref(true)
+
+function jumpToLatest() {
+  scrollToBottom()
+  atLatest.value = true
+}
+
+function onMessagesScroll() {
+  const el = messagesEl.value
+  if (!el) return
+  atLatest.value =
+    el.scrollHeight - el.scrollTop - el.clientHeight <= AT_LATEST_SLACK_PX
+}
+
+/*
+ * Scroll to the newest message once the panel is actually on screen.
+ *
+ * loadConversation() already called scrollToBottom() — but it runs from
+ * onMounted() while the panel is still closed. A closed panel has no laid
+ * out message list: scrollHeight is 0, so `scrollTop = scrollHeight` is a
+ * no-op and the conversation opens at the top, which is the oldest thing
+ * the user said.
+ *
+ * nextTick alone is not enough either. The panel animates in, so its final
+ * height is not known until the frame after Vue has patched the DOM; the
+ * rAF is what waits for that.
+ */
+watch(open, async (isOpen) => {
+  if (!isOpen) return
+  await nextTick()
+  requestAnimationFrame(() => {
+    scrollToBottom()
+    atLatest.value = true
+  })
+})
+
 function insertText(text) {
   emit('insert', text)
 }
@@ -768,7 +810,18 @@ defineExpose({ applyProposal, messages })
       </div>
 
       <!-- Messages -->
-      <div ref="messagesEl" class="assist-messages" data-testid="assist-messages">
+      <!-- Keyed, and so is the jump control below it. Without keys Vue
+           patches these siblings by index, so the conditional button
+           appearing shifts the list into a different vnode slot and the
+           scroll container is recreated — which throws away the scroll
+           position at the exact moment the user asked to keep it. -->
+      <div
+        key="assist-messages"
+        ref="messagesEl"
+        class="assist-messages"
+        data-testid="assist-messages"
+        @scroll.passive="onMessagesScroll"
+      >
         <div v-if="!messages.length && !loading" class="assist-empty">
           {{ $t('assistant.empty_hint') }}
         </div>
@@ -916,6 +969,17 @@ defineExpose({ applyProposal, messages })
       </p>
 
       <!-- Input -->
+      <button
+        v-if="!atLatest"
+        key="assist-jump-latest"
+        class="assist-jump-latest"
+        type="button"
+        data-testid="assist-jump-latest"
+        @click="jumpToLatest"
+      >
+        {{ $t('assist.jump_to_latest') }}
+      </button>
+
       <form class="assist-input" @submit.prevent="send">
         <textarea
           ref="inputEl"
@@ -1149,6 +1213,23 @@ defineExpose({ applyProposal, messages })
   color: var(--text);
   border-color: var(--text);
 }
+
+.assist-jump-latest {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 5.5rem;
+  z-index: 2;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border, #d0d7de);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--text, #24292f);
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+.assist-jump-latest:hover { border-color: var(--accent, #0969da); }
 
 .assist-messages {
   flex: 1;

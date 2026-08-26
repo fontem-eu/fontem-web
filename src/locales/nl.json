@@ -199,6 +199,7 @@
     "help": "Help"
   },
   "assist": {
+    "jump_to_latest": "Naar het nieuwste",
     "accept_all": "Alles accepteren",
     "ai_assist": "AI-assistent",
     "ai_assistant": "AI-assistent",

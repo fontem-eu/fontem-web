@@ -199,6 +199,7 @@
     "help": "Помощ"
   },
   "assist": {
+    "jump_to_latest": "Към последното",
     "accept_all": "Приеми всички",
     "ai_assist": "ИИ помощник",
     "ai_assistant": "ИИ асистент",

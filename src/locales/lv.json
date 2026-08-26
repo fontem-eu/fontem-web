@@ -199,6 +199,7 @@
     "help": "Palīdzība"
   },
   "assist": {
+    "jump_to_latest": "Pāriet uz jaunāko",
     "accept_all": "Pieņemt visus",
     "ai_assist": "MI palīgs",
     "ai_assistant": "MI asistents",

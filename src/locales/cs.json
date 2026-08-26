@@ -199,6 +199,7 @@
     "help": "Nápověda"
   },
   "assist": {
+    "jump_to_latest": "Přejít na nejnovější",
     "accept_all": "Přijmout vše",
     "ai_assist": "AI asistent",
     "ai_assistant": "AI asistent",

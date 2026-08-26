@@ -199,6 +199,7 @@
     "help": "Pomoć"
   },
   "assist": {
+    "jump_to_latest": "Idi na najnovije",
     "accept_all": "Prihvati sve",
     "ai_assist": "UI pomoć",
     "ai_assistant": "UI asistent",
