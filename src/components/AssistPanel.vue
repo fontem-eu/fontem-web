@@ -116,13 +116,17 @@ async function loadConversationList() {
   }
 }
 
-async function switchConversation(key) {
+async function switchConversation(key, { fromList = false } = {}) {
+  // Closing the switcher belongs to picking FROM it. Starting a new chat
+  // also switches, and closing there fights the user: they click New, open
+  // the switcher to rename what they just made, and the still-running create
+  // closes it under them a moment later.
   if (key === activeKey.value) {
-    switcherOpen.value = false
+    if (fromList) switcherOpen.value = false
     return
   }
   activeKey.value = key
-  switcherOpen.value = false
+  if (fromList) switcherOpen.value = false
   // Each chat is its own topic: nothing carries over, so drop what is on
   // screen before the new history lands rather than letting the two mix.
   messages.value = []
@@ -1023,7 +1027,7 @@ defineExpose({ applyProposal, messages })
                 class="assist-conv-pick"
                 type="button"
                 data-testid="assist-conversation-pick"
-                @click="switchConversation(c.conversation_key)"
+                @click="switchConversation(c.conversation_key, { fromList: true })"
               >
                 <span class="assist-conv-title">{{ c.title || $t('assist.untitled_chat') }}</span>
                 <span class="assist-conv-snippet">{{ c.last_snippet }}</span>
