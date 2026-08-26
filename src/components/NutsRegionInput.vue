@@ -21,7 +21,7 @@
  * aria-activedescendant tells a screen reader which option is current. A
  * typeahead that only works with a mouse is a worse select box.
  */
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { ref, computed, onMounted, watch, nextTick, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNutsRegions } from '../composables/useNutsRegions.js'
 
@@ -46,7 +46,13 @@ const query = ref('')
 const open = ref(false)
 const active = ref(0)
 const inputEl = ref(null)
-const listId = `nuts-list-${Math.random().toString(36).slice(2, 9)}`
+// useId(), not Math.random(): this app server-renders (entry-server.js),
+// and a random id differs between the server and client passes, so the
+// aria-controls/aria-activedescendant wiring pointed at a different
+// element on each and Vue reported a hydration mismatch. useId() is
+// stable across both. It also drops the pseudorandom-generator warning
+// SonarQube raised here (javascript:S2245).
+const listId = `nuts-list-${useId()}`
 
 const everywhereOption = computed(() => ({
   code: EVERYWHERE, name: t('region_input.everywhere'), level: -1,
@@ -215,6 +221,22 @@ function onBlur() {
         @blur="onBlur"
       />
 
+      <!--
+        SonarQube flags the listbox/option roles here (Web:S6819, Web:S6842)
+        and wants a native <datalist> or <select>. Those rules do not model
+        the ARIA 1.2 combobox pattern, which this implements in full: the
+        input carries role=combobox with aria-expanded, aria-controls and
+        aria-activedescendant, and each entry carries aria-selected. A
+        <datalist> cannot render the name/hint/code layout, cannot be styled,
+        and cannot be driven by asynchronously loaded suggestions — swapping
+        to one would remove behaviour screen readers currently get.
+
+        S6842 could be satisfied by moving the role onto an interactive
+        element; S6819 could not, because it fires on role=listbox existing
+        at all. Both are recorded as false positives in SonarQube against
+        this justification rather than degrading the markup.
+        NOSONAR
+      -->
       <ul
 v-if="open && suggestions.length" :id="listId" class="nri-list"
           role="listbox" data-testid="region-suggestions">
