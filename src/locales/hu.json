@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Korábbi üzenetek betöltése…",
     "jump_to_latest": "Ugrás a legújabbra",
     "accept_all": "Mindet elfogadom",
     "ai_assist": "MI-segéd",

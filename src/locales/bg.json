@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Зареждане на по-ранни съобщения…",
     "jump_to_latest": "Към последното",
     "accept_all": "Приеми всички",
     "ai_assist": "ИИ помощник",

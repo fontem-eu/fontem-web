@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Ladataan aiempia viestejä…",
     "jump_to_latest": "Siirry uusimpaan",
     "accept_all": "Hyväksy kaikki",
     "ai_assist": "Tekoälyapu",

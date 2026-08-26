@@ -4,7 +4,7 @@ import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import {
-  getAssistConversation,
+  getAssistConversationPage,
   listAssistantModels,
   chooseAssistantModel,
 } from '../api/community.js'
@@ -167,6 +167,11 @@ function mapToolProposal(p) {
 const error = ref(null)
 const messagesEl = ref(null)
 
+// Matches the server's default page. Enough to fill a tall panel with
+// room to scroll, which is what makes the first scroll-up feel like
+// history rather than a loading state.
+const PAGE_SIZE = 30
+
 // "Bypass permissions" / accept-all mode. When on, every propose_edit
 // proposal that comes back from a tool call is applied as soon as it
 // lands — no Apply/Dismiss prompt. Stored in localStorage so power
@@ -271,37 +276,96 @@ onUnmounted(stopElapsedTimer)
 // History is owned and persisted server-side by the assistant module.
 // We just hydrate the UI with whatever it returns for this report.
 
+// Cursor for the next older page, and whether there is one. Empty cursor
+// with hasOlder true means "not asked yet".
+const olderCursor = ref('')
+const hasOlder = ref(false)
+const loadingOlder = ref(false)
+
+/*
+ * Tool rows rehydrate into the same bubbles the live stream draws.
+ * They used to exist only as SSE events, so reloading the page lost every
+ * trace of what the agent had actually done — which is the evidence, not
+ * the decoration. The result was never stored, so the bubble shows the call
+ * and its arguments and says so.
+ */
+function toBubble(m) {
+  return m.role === 'tool'
+    ? {
+        role: 'tool',
+        name: m.content,
+        running: false,
+        args: m.extras?.args || {},
+        bytes: m.extras?.bytes || 0,
+        truncated: Boolean(m.extras?.truncated),
+        elapsed: m.extras?.elapsed,
+        result: '',
+        historical: true,
+      }
+    : { role: m.role, text: m.content }
+}
+
 async function loadConversation() {
   const key = conversationKey()
   if (!key) return
   try {
-    const conv = await getAssistConversation(key)
-    if (conv && Array.isArray(conv.messages) && conv.messages.length > 0) {
-      // Tool rows rehydrate into the same bubbles the live stream draws.
-      // They used to exist only as SSE events, so reloading the page lost
-      // every trace of what the agent had actually done — which is the
-      // evidence, not the decoration. The result was never stored, so the
-      // bubble shows the call and its arguments and says so.
-      messages.value = conv.messages.map(m => (
-        m.role === 'tool'
-          ? {
-              role: 'tool',
-              name: m.content,
-              running: false,
-              args: m.extras?.args || {},
-              bytes: m.extras?.bytes || 0,
-              truncated: Boolean(m.extras?.truncated),
-              elapsed: m.extras?.elapsed,
-              result: '',
-              historical: true,
-            }
-          : { role: m.role, text: m.content }
-      ))
+    // A page, not the transcript. Opening a conversation used to cost more
+    // every time it was used; now it costs the same on day one and day two
+    // hundred.
+    const page = await getAssistConversationPage(key, { limit: PAGE_SIZE })
+    if (page && Array.isArray(page.messages) && page.messages.length > 0) {
+      messages.value = page.messages.map(toBubble)
+      olderCursor.value = page.next_before || ''
+      hasOlder.value = Boolean(page.has_more)
       await nextTick()
       scrollToBottom()
+    } else {
+      hasOlder.value = false
     }
   } catch {
     // Silent fail — conversation just won't be restored
+  }
+}
+
+/*
+ * Pull the previous page and put it above what is already there, without
+ * moving what the reader is looking at.
+ *
+ * Prepending changes scrollHeight, and the browser keeps scrollTop, so the
+ * view jumps by exactly the height of the inserted block. Measuring
+ * scrollHeight before and after and adding the difference back is what makes
+ * the older messages appear above rather than under the cursor.
+ */
+async function loadOlder() {
+  if (loadingOlder.value || !hasOlder.value) return
+  const key = conversationKey()
+  if (!key) return
+  const el = messagesEl.value
+  const before = el ? el.scrollHeight : 0
+  loadingOlder.value = true
+  try {
+    const page = await getAssistConversationPage(key, {
+      before: olderCursor.value, limit: PAGE_SIZE,
+    })
+    const older = (page?.messages || []).map(toBubble)
+    if (older.length) {
+      messages.value = [...older, ...messages.value]
+      olderCursor.value = page.next_before || ''
+      hasOlder.value = Boolean(page.has_more)
+      await nextTick()
+      // Re-read the ref rather than reusing `el`: if Vue re-created the
+      // scroll container while the page was in flight, the captured node is
+      // detached and the correction lands on an element nobody can see.
+      const after = messagesEl.value
+      if (after) after.scrollTop += after.scrollHeight - before
+    } else {
+      hasOlder.value = false
+    }
+  } catch {
+    // Leave hasOlder alone: a failed fetch is worth retrying on the next
+    // scroll, unlike an empty page, which means there is genuinely no more.
+  } finally {
+    loadingOlder.value = false
   }
 }
 
@@ -581,11 +645,17 @@ function jumpToLatest() {
   atLatest.value = true
 }
 
+//: How close to the top counts as "asking for older messages". Not zero:
+//: momentum scrolling rarely stops exactly at 0, and a reader who has to
+//: land on the pixel to load history will conclude there is none.
+const NEAR_TOP_PX = 64
+
 function onMessagesScroll() {
   const el = messagesEl.value
   if (!el) return
   atLatest.value =
     el.scrollHeight - el.scrollTop - el.clientHeight <= AT_LATEST_SLACK_PX
+  if (el.scrollTop <= NEAR_TOP_PX) loadOlder()
 }
 
 /*
@@ -822,6 +892,9 @@ defineExpose({ applyProposal, messages })
         data-testid="assist-messages"
         @scroll.passive="onMessagesScroll"
       >
+        <div v-if="loadingOlder" class="assist-older-loading" data-testid="assist-loading-older">
+          {{ $t('assist.loading_older') }}
+        </div>
         <div v-if="!messages.length && !loading" class="assist-empty">
           {{ $t('assistant.empty_hint') }}
         </div>

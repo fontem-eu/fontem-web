@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Caricamento dei messaggi precedenti…",
     "jump_to_latest": "Vai al più recente",
     "accept_all": "Accetta tutto",
     "ai_assist": "Assistente IA",

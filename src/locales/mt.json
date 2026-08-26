@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Qed jitgħabbew messaġġi preċedenti…",
     "jump_to_latest": "Aqbeż għall-aktar reċenti",
     "accept_all": "Aċċetta kollox",
     "ai_assist": "Assistenza IA",

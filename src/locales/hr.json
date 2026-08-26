@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Učitavanje ranijih poruka…",
     "jump_to_latest": "Idi na najnovije",
     "accept_all": "Prihvati sve",
     "ai_assist": "UI pomoć",

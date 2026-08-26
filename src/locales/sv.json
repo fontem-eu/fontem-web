@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Läser in tidigare meddelanden…",
     "jump_to_latest": "Gå till senaste",
     "accept_all": "Acceptera alla",
     "ai_assist": "AI-hjälp",

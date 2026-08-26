@@ -3,9 +3,10 @@ import { mount, flushPromises } from '@vue/test-utils'
 import AssistPanel from '../../src/components/AssistPanel.vue'
 
 // Mock the community API — the assistant module owns history server-side,
-// so the frontend only reads it via getAssistConversation.
+// so the frontend only reads it via getAssistConversationPage.
 vi.mock('../../src/api/community.js', () => ({
   getAssistConversation: vi.fn().mockResolvedValue(null),
+  getAssistConversationPage: vi.fn().mockResolvedValue(null),
   getAssistUsage: vi.fn().mockResolvedValue({
     tokens_1h: 0, tokens_24h: 0, tokens_7d: 0,
   }),
@@ -71,13 +72,15 @@ describe('AssistPanel', () => {
   })
 
   it('loads conversation on mount using a report-scoped conversation key', async () => {
-    const { getAssistConversation } = await import('../../src/api/community.js')
-    expect(getAssistConversation).toHaveBeenCalledWith('report:report-1')
+    const { getAssistConversationPage } = await import('../../src/api/community.js')
+    expect(getAssistConversationPage).toHaveBeenCalledWith(
+      'report:report-1', { limit: 30 },
+    )
   })
 
   it('restores persisted messages from the assistant module', async () => {
-    const { getAssistConversation } = await import('../../src/api/community.js')
-    getAssistConversation.mockResolvedValueOnce({
+    const { getAssistConversationPage } = await import('../../src/api/community.js')
+    getAssistConversationPage.mockResolvedValueOnce({
       conversation_key: 'report:report-2',
       messages: [
         { role: 'user', content: 'Hello', created_at: '2026-01-01T00:00:00Z' },

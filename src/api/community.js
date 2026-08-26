@@ -322,6 +322,29 @@ export function getAssistConversation(conversationKey) {
 }
 
 /**
+ * One page of a conversation, newest first, oldest-first within the page.
+ *
+ * `before` is the `next_before` cursor from a previous response; omit it for
+ * the newest page. The cursor is opaque — it encodes (created_at, id), which
+ * is what keeps paging exact while a turn is appending tool rows underneath
+ * the reader.
+ *
+ * The unpaged sibling above is still what provenance tooling uses; this is
+ * what the panel opens with, so that opening a long conversation costs the
+ * same as opening a short one.
+ */
+export function getAssistConversationPage(conversationKey, { before = '', limit = 30 } = {}) {
+  const qs = new URLSearchParams()
+  if (before) qs.set('before', before)
+  if (limit) qs.set('limit', String(limit))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return request(
+    'GET',
+    `/assist/conversations/${encodeURIComponent(conversationKey)}/messages${suffix}`,
+  )
+}
+
+/**
  * What led the agent to take an action: the prompt, the tool calls it made,
  * and the answer it gave. Keyed by the tool call an activity entry names.
  *

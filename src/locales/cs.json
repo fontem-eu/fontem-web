@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Načítání starších zpráv…",
     "jump_to_latest": "Přejít na nejnovější",
     "accept_all": "Přijmout vše",
     "ai_assist": "AI asistent",

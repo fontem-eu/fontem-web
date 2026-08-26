@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "loading_older": "Wczytywanie wcześniejszych wiadomości…",
     "jump_to_latest": "Przejdź do najnowszego",
     "accept_all": "Akceptuj wszystko",
     "ai_assist": "Asystent SI",
