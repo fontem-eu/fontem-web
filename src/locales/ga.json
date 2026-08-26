@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Comhrá nua",
+    "new_chat": "Nua",
+    "rename_chat": "Athainmnigh",
+    "delete_chat": "Scrios",
+    "conversation_create_failed": "Níorbh fhéidir comhrá nua a thosú. Bain triail eile as.",
+    "conversation_rename_failed": "Níorbh fhéidir an comhrá a athainmniú.",
+    "conversation_delete_failed": "Níorbh fhéidir an comhrá a scriosadh.",
+    "loading_older": "Ag lódáil teachtaireachtaí níos luaithe…",
+    "jump_to_latest": "Léim go dtí an ceann is déanaí",
     "accept_all": "Glac le gach",
     "ai_assist": "Cúnamh IS",
     "ai_assistant": "Cúntóir IS",

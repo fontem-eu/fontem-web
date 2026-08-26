@@ -1,10 +1,15 @@
 <script setup>
 import { getAccessToken } from '../api/session.js'
 import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import {
-  getAssistConversation,
+  getAssistConversationPage,
+  listAssistConversations,
+  createAssistConversation,
+  renameAssistConversation,
+  deleteAssistConversation,
   listAssistantModels,
   chooseAssistantModel,
 } from '../api/community.js'
@@ -60,12 +65,112 @@ function isNavigable(path) {
   return isNavigablePath(path, routeManifest)
 }
 
+// Script-scope translator. The template uses $t; the failure messages
+// below are set from script, so they need the composable form.
+const { t } = useI18n()
+
 const reportContext = computed(() => props.reportContext ?? ctx.reportContext.value)
 const reportId = computed(() => props.reportId ?? ctx.reportId.value)
 const editorState = computed(() => props.editorState ?? ctx.editorState.value)
 
+/*
+ * Which conversation the panel is showing.
+ *
+ * A report's chat is bound to its report and is not switchable — you are
+ * discussing that report. Everywhere else the user picks, and `activeKey`
+ * holds their choice; 'global' is the one everybody starts with and is what
+ * a signed-out visitor gets, since they have no account to hang a list off.
+ */
+const activeKey = ref('global')
+const conversations = ref([])
+const switcherOpen = ref(false)
+const renamingKey = ref('')
+const renameDraft = ref('')
+
 function conversationKey() {
-  return reportId.value ? `report:${reportId.value}` : 'global'
+  return reportId.value ? `report:${reportId.value}` : activeKey.value
+}
+
+const isReportChat = computed(() => Boolean(reportId.value))
+
+const activeTitle = computed(() => {
+  if (isReportChat.value) return ''
+  const found = conversations.value.find(c => c.conversation_key === activeKey.value)
+  return found?.title || ''
+})
+
+async function toggleSwitcher() {
+  switcherOpen.value = !switcherOpen.value
+  if (switcherOpen.value) await loadConversationList()
+}
+
+async function loadConversationList() {
+  // Signed-out visitors have no account, so no list and no switcher. The
+  // panel still works — it just has the one ephemeral thread.
+  if (!signedIn.value || isReportChat.value) return
+  try {
+    const data = await listAssistConversations()
+    conversations.value = data?.conversations || []
+  } catch {
+    conversations.value = []
+  }
+}
+
+async function switchConversation(key) {
+  if (key === activeKey.value) {
+    switcherOpen.value = false
+    return
+  }
+  activeKey.value = key
+  switcherOpen.value = false
+  // Each chat is its own topic: nothing carries over, so drop what is on
+  // screen before the new history lands rather than letting the two mix.
+  messages.value = []
+  olderCursor.value = ''
+  hasOlder.value = false
+  await loadConversation()
+}
+
+async function startNewConversation() {
+  try {
+    const created = await createAssistConversation('')
+    conversations.value = [created, ...conversations.value]
+    await switchConversation(created.conversation_key)
+  } catch {
+    error.value = t('assist.conversation_create_failed')
+  }
+}
+
+function beginRename(key, current) {
+  renamingKey.value = key
+  renameDraft.value = current || ''
+}
+
+async function commitRename() {
+  const key = renamingKey.value
+  const title = renameDraft.value.trim()
+  renamingKey.value = ''
+  if (!key || !title) return
+  try {
+    await renameAssistConversation(key, title)
+    const row = conversations.value.find(c => c.conversation_key === key)
+    if (row) row.title = title
+  } catch {
+    error.value = t('assist.conversation_rename_failed')
+  }
+}
+
+async function removeConversation(key) {
+  try {
+    await deleteAssistConversation(key)
+    conversations.value = conversations.value.filter(c => c.conversation_key !== key)
+    // Deleting the one you are reading leaves nothing on screen, so fall
+    // back to the conversation everybody has rather than an empty panel
+    // with no way out.
+    if (key === activeKey.value) await switchConversation('global')
+  } catch {
+    error.value = t('assist.conversation_delete_failed')
+  }
 }
 
 // `applied` carries the executed proposal so the parent can decide
@@ -166,6 +271,11 @@ function mapToolProposal(p) {
 }
 const error = ref(null)
 const messagesEl = ref(null)
+
+// Matches the server's default page. Enough to fill a tall panel with
+// room to scroll, which is what makes the first scroll-up feel like
+// history rather than a loading state.
+const PAGE_SIZE = 30
 
 // "Bypass permissions" / accept-all mode. When on, every propose_edit
 // proposal that comes back from a tool call is applied as soon as it
@@ -271,37 +381,96 @@ onUnmounted(stopElapsedTimer)
 // History is owned and persisted server-side by the assistant module.
 // We just hydrate the UI with whatever it returns for this report.
 
+// Cursor for the next older page, and whether there is one. Empty cursor
+// with hasOlder true means "not asked yet".
+const olderCursor = ref('')
+const hasOlder = ref(false)
+const loadingOlder = ref(false)
+
+/*
+ * Tool rows rehydrate into the same bubbles the live stream draws.
+ * They used to exist only as SSE events, so reloading the page lost every
+ * trace of what the agent had actually done — which is the evidence, not
+ * the decoration. The result was never stored, so the bubble shows the call
+ * and its arguments and says so.
+ */
+function toBubble(m) {
+  return m.role === 'tool'
+    ? {
+        role: 'tool',
+        name: m.content,
+        running: false,
+        args: m.extras?.args || {},
+        bytes: m.extras?.bytes || 0,
+        truncated: Boolean(m.extras?.truncated),
+        elapsed: m.extras?.elapsed,
+        result: '',
+        historical: true,
+      }
+    : { role: m.role, text: m.content }
+}
+
 async function loadConversation() {
   const key = conversationKey()
   if (!key) return
   try {
-    const conv = await getAssistConversation(key)
-    if (conv && Array.isArray(conv.messages) && conv.messages.length > 0) {
-      // Tool rows rehydrate into the same bubbles the live stream draws.
-      // They used to exist only as SSE events, so reloading the page lost
-      // every trace of what the agent had actually done — which is the
-      // evidence, not the decoration. The result was never stored, so the
-      // bubble shows the call and its arguments and says so.
-      messages.value = conv.messages.map(m => (
-        m.role === 'tool'
-          ? {
-              role: 'tool',
-              name: m.content,
-              running: false,
-              args: m.extras?.args || {},
-              bytes: m.extras?.bytes || 0,
-              truncated: Boolean(m.extras?.truncated),
-              elapsed: m.extras?.elapsed,
-              result: '',
-              historical: true,
-            }
-          : { role: m.role, text: m.content }
-      ))
+    // A page, not the transcript. Opening a conversation used to cost more
+    // every time it was used; now it costs the same on day one and day two
+    // hundred.
+    const page = await getAssistConversationPage(key, { limit: PAGE_SIZE })
+    if (page && Array.isArray(page.messages) && page.messages.length > 0) {
+      messages.value = page.messages.map(toBubble)
+      olderCursor.value = page.next_before || ''
+      hasOlder.value = Boolean(page.has_more)
       await nextTick()
       scrollToBottom()
+    } else {
+      hasOlder.value = false
     }
   } catch {
     // Silent fail — conversation just won't be restored
+  }
+}
+
+/*
+ * Pull the previous page and put it above what is already there, without
+ * moving what the reader is looking at.
+ *
+ * Prepending changes scrollHeight, and the browser keeps scrollTop, so the
+ * view jumps by exactly the height of the inserted block. Measuring
+ * scrollHeight before and after and adding the difference back is what makes
+ * the older messages appear above rather than under the cursor.
+ */
+async function loadOlder() {
+  if (loadingOlder.value || !hasOlder.value) return
+  const key = conversationKey()
+  if (!key) return
+  const el = messagesEl.value
+  const before = el ? el.scrollHeight : 0
+  loadingOlder.value = true
+  try {
+    const page = await getAssistConversationPage(key, {
+      before: olderCursor.value, limit: PAGE_SIZE,
+    })
+    const older = (page?.messages || []).map(toBubble)
+    if (older.length) {
+      messages.value = [...older, ...messages.value]
+      olderCursor.value = page.next_before || ''
+      hasOlder.value = Boolean(page.has_more)
+      await nextTick()
+      // Re-read the ref rather than reusing `el`: if Vue re-created the
+      // scroll container while the page was in flight, the captured node is
+      // detached and the correction lands on an element nobody can see.
+      const after = messagesEl.value
+      if (after) after.scrollTop += after.scrollHeight - before
+    } else {
+      hasOlder.value = false
+    }
+  } catch {
+    // Leave hasOlder alone: a failed fetch is worth retrying on the next
+    // scroll, unlike an empty page, which means there is genuinely no more.
+  } finally {
+    loadingOlder.value = false
   }
 }
 
@@ -568,6 +737,54 @@ function scrollToBottom() {
   }
 }
 
+// How close to the end still counts as "at the latest". A few pixels of
+// slack because smooth scrolling and sub-pixel layout rarely land exactly
+// on scrollHeight, and a jump-to-latest button that shows itself when the
+// user is already at the bottom looks broken.
+const AT_LATEST_SLACK_PX = 48
+
+const atLatest = ref(true)
+
+function jumpToLatest() {
+  scrollToBottom()
+  atLatest.value = true
+}
+
+//: How close to the top counts as "asking for older messages". Not zero:
+//: momentum scrolling rarely stops exactly at 0, and a reader who has to
+//: land on the pixel to load history will conclude there is none.
+const NEAR_TOP_PX = 64
+
+function onMessagesScroll() {
+  const el = messagesEl.value
+  if (!el) return
+  atLatest.value =
+    el.scrollHeight - el.scrollTop - el.clientHeight <= AT_LATEST_SLACK_PX
+  if (el.scrollTop <= NEAR_TOP_PX) loadOlder()
+}
+
+/*
+ * Scroll to the newest message once the panel is actually on screen.
+ *
+ * loadConversation() already called scrollToBottom() — but it runs from
+ * onMounted() while the panel is still closed. A closed panel has no laid
+ * out message list: scrollHeight is 0, so `scrollTop = scrollHeight` is a
+ * no-op and the conversation opens at the top, which is the oldest thing
+ * the user said.
+ *
+ * nextTick alone is not enough either. The panel animates in, so its final
+ * height is not known until the frame after Vue has patched the DOM; the
+ * rAF is what waits for that.
+ */
+watch(open, async (isOpen) => {
+  if (!isOpen) return
+  await nextTick()
+  requestAnimationFrame(() => {
+    scrollToBottom()
+    atLatest.value = true
+  })
+})
+
 function insertText(text) {
   emit('insert', text)
 }
@@ -759,6 +976,79 @@ defineExpose({ applyProposal, messages })
         </div>
       </div>
 
+      <!-- Conversation switcher. Absent for a report's chat, which is bound
+           to its report, and for signed-out visitors, who have no account to
+           hang a list off. -->
+      <div
+        v-if="!isReportChat && signedIn"
+        class="assist-conversations"
+        data-testid="assist-conversation-bar"
+      >
+        <button
+          class="assist-conv-current"
+          type="button"
+          data-testid="assist-conversation-switcher"
+          :aria-expanded="switcherOpen ? 'true' : 'false'"
+          @click="toggleSwitcher"
+        >
+          {{ activeTitle || $t('assist.untitled_chat') }}
+        </button>
+        <button
+          class="assist-conv-new"
+          type="button"
+          data-testid="assist-new-conversation"
+          @click="startNewConversation"
+        >
+          {{ $t('assist.new_chat') }}
+        </button>
+
+        <ul v-if="switcherOpen" class="assist-conv-list" data-testid="assist-conversation-list">
+          <li
+            v-for="c in conversations"
+            :key="c.conversation_key"
+            class="assist-conv-row"
+            :class="{ 'assist-conv-row--active': c.conversation_key === activeKey }"
+            data-testid="assist-conversation-row"
+          >
+            <input
+              v-if="renamingKey === c.conversation_key"
+              v-model="renameDraft"
+              class="assist-conv-rename"
+              data-testid="assist-conversation-rename-input"
+              @keyup.enter="commitRename"
+              @blur="commitRename"
+            >
+            <template v-else>
+              <button
+                class="assist-conv-pick"
+                type="button"
+                data-testid="assist-conversation-pick"
+                @click="switchConversation(c.conversation_key)"
+              >
+                <span class="assist-conv-title">{{ c.title || $t('assist.untitled_chat') }}</span>
+                <span class="assist-conv-snippet">{{ c.last_snippet }}</span>
+              </button>
+              <button
+                class="assist-conv-action"
+                type="button"
+                data-testid="assist-conversation-rename"
+                @click="beginRename(c.conversation_key, c.title)"
+              >
+                {{ $t('assist.rename_chat') }}
+              </button>
+              <button
+                class="assist-conv-action"
+                type="button"
+                data-testid="assist-conversation-delete"
+                @click="removeConversation(c.conversation_key)"
+              >
+                {{ $t('assist.delete_chat') }}
+              </button>
+            </template>
+          </li>
+        </ul>
+      </div>
+
       <!-- Inline error banner (apply failures, stream errors). Without
            this the panel used to set `error.value` and render nothing,
            so users saw "Apply did nothing" with zero feedback. -->
@@ -768,7 +1058,21 @@ defineExpose({ applyProposal, messages })
       </div>
 
       <!-- Messages -->
-      <div ref="messagesEl" class="assist-messages" data-testid="assist-messages">
+      <!-- Keyed, and so is the jump control below it. Without keys Vue
+           patches these siblings by index, so the conditional button
+           appearing shifts the list into a different vnode slot and the
+           scroll container is recreated — which throws away the scroll
+           position at the exact moment the user asked to keep it. -->
+      <div
+        key="assist-messages"
+        ref="messagesEl"
+        class="assist-messages"
+        data-testid="assist-messages"
+        @scroll.passive="onMessagesScroll"
+      >
+        <div v-if="loadingOlder" class="assist-older-loading" data-testid="assist-loading-older">
+          {{ $t('assist.loading_older') }}
+        </div>
         <div v-if="!messages.length && !loading" class="assist-empty">
           {{ $t('assistant.empty_hint') }}
         </div>
@@ -916,6 +1220,17 @@ defineExpose({ applyProposal, messages })
       </p>
 
       <!-- Input -->
+      <button
+        v-if="!atLatest"
+        key="assist-jump-latest"
+        class="assist-jump-latest"
+        type="button"
+        data-testid="assist-jump-latest"
+        @click="jumpToLatest"
+      >
+        {{ $t('assist.jump_to_latest') }}
+      </button>
+
       <form class="assist-input" @submit.prevent="send">
         <textarea
           ref="inputEl"
@@ -1149,6 +1464,23 @@ defineExpose({ applyProposal, messages })
   color: var(--text);
   border-color: var(--text);
 }
+
+.assist-jump-latest {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 5.5rem;
+  z-index: 2;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border, #d0d7de);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--text, #24292f);
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+.assist-jump-latest:hover { border-color: var(--accent, #0969da); }
 
 .assist-messages {
   flex: 1;

@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Uus vestlus",
+    "new_chat": "Uus",
+    "rename_chat": "Nimeta ümber",
+    "delete_chat": "Kustuta",
+    "conversation_create_failed": "Uue vestluse alustamine ebaõnnestus. Proovi uuesti.",
+    "conversation_rename_failed": "Vestluse ümbernimetamine ebaõnnestus.",
+    "conversation_delete_failed": "Vestluse kustutamine ebaõnnestus.",
+    "loading_older": "Varasemate sõnumite laadimine…",
+    "jump_to_latest": "Mine uusima juurde",
     "accept_all": "Aktsepteeri kõik",
     "ai_assist": "AI abi",
     "ai_assistant": "AI-assistent",

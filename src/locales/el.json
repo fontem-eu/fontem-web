@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Νέα συνομιλία",
+    "new_chat": "Νέα",
+    "rename_chat": "Μετονομασία",
+    "delete_chat": "Διαγραφή",
+    "conversation_create_failed": "Δεν ήταν δυνατή η έναρξη νέας συνομιλίας. Δοκιμάστε ξανά.",
+    "conversation_rename_failed": "Δεν ήταν δυνατή η μετονομασία.",
+    "conversation_delete_failed": "Δεν ήταν δυνατή η διαγραφή.",
+    "loading_older": "Φόρτωση παλαιότερων μηνυμάτων…",
+    "jump_to_latest": "Μετάβαση στο πιο πρόσφατο",
     "accept_all": "Αποδοχή όλων",
     "ai_assist": "Βοηθός AI",
     "ai_assistant": "Βοηθός AI",

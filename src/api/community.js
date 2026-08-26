@@ -322,6 +322,61 @@ export function getAssistConversation(conversationKey) {
 }
 
 /**
+ * One page of a conversation, newest first, oldest-first within the page.
+ *
+ * `before` is the `next_before` cursor from a previous response; omit it for
+ * the newest page. The cursor is opaque — it encodes (created_at, id), which
+ * is what keeps paging exact while a turn is appending tool rows underneath
+ * the reader.
+ *
+ * The unpaged sibling above is still what provenance tooling uses; this is
+ * what the panel opens with, so that opening a long conversation costs the
+ * same as opening a short one.
+ */
+/**
+ * The signed-in user's standalone conversations, newest activity first.
+ *
+ * Report-scoped chats are deliberately absent: they belong to their report and
+ * open with it, so listing them fills the switcher with entries nobody chose
+ * to start.
+ */
+export function listAssistConversations() {
+  return request('GET', '/assist/conversations')
+}
+
+/** Start a new conversation. The key is minted server-side. */
+export function createAssistConversation(title = '') {
+  return request('POST', '/assist/conversations', { title })
+}
+
+export function renameAssistConversation(conversationKey, title) {
+  return request(
+    'PATCH', `/assist/conversations/${encodeURIComponent(conversationKey)}`, { title },
+  )
+}
+
+/**
+ * Delete ONE conversation.
+ *
+ * Not to be confused with DELETE /assist/conversations, which deletes every
+ * conversation the user has. That one is not what a delete button calls.
+ */
+export function deleteAssistConversation(conversationKey) {
+  return request('DELETE', `/assist/conversations/${encodeURIComponent(conversationKey)}`)
+}
+
+export function getAssistConversationPage(conversationKey, { before = '', limit = 30 } = {}) {
+  const qs = new URLSearchParams()
+  if (before) qs.set('before', before)
+  if (limit) qs.set('limit', String(limit))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return request(
+    'GET',
+    `/assist/conversations/${encodeURIComponent(conversationKey)}/messages${suffix}`,
+  )
+}
+
+/**
  * What led the agent to take an action: the prompt, the tool calls it made,
  * and the answer it gave. Keyed by the tool call an activity entry names.
  *

@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nouvelle conversation",
+    "new_chat": "Nouveau",
+    "rename_chat": "Renommer",
+    "delete_chat": "Supprimer",
+    "conversation_create_failed": "Impossible de démarrer une nouvelle conversation. Réessayez.",
+    "conversation_rename_failed": "Impossible de renommer cette conversation.",
+    "conversation_delete_failed": "Impossible de supprimer cette conversation.",
+    "loading_older": "Chargement des messages précédents…",
+    "jump_to_latest": "Aller au plus récent",
     "accept_all": "Tout accepter",
     "ai_assist": "Assistant IA",
     "ai_assistant": "Assistant IA",

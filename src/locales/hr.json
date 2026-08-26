@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Novi razgovor",
+    "new_chat": "Novo",
+    "rename_chat": "Preimenuj",
+    "delete_chat": "Izbriši",
+    "conversation_create_failed": "Novi razgovor nije pokrenut. Pokušajte ponovno.",
+    "conversation_rename_failed": "Razgovor nije preimenovan.",
+    "conversation_delete_failed": "Razgovor nije izbrisan.",
+    "loading_older": "Učitavanje ranijih poruka…",
+    "jump_to_latest": "Idi na najnovije",
     "accept_all": "Prihvati sve",
     "ai_assist": "UI pomoć",
     "ai_assistant": "UI asistent",

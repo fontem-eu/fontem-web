@@ -17,7 +17,8 @@ import AssistPanel from '../../src/components/AssistPanel.vue'
  */
 const conversation = vi.fn()
 vi.mock('../../src/api/community.js', () => ({
-  getAssistConversation: (...a) => conversation(...a),
+  getAssistConversation: vi.fn().mockResolvedValue(null),
+  getAssistConversationPage: (...a) => conversation(...a),
   getAssistUsage: vi.fn().mockResolvedValue({ tokens_1h: 0, tokens_24h: 0, tokens_7d: 0 }),
 }))
 vi.mock('../../src/composables/useEditProposals.js', () => ({

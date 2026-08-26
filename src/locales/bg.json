@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Нов чат",
+    "new_chat": "Нов",
+    "rename_chat": "Преименуване",
+    "delete_chat": "Изтриване",
+    "conversation_create_failed": "Неуспешно създаване на нов чат. Опитайте отново.",
+    "conversation_rename_failed": "Чатът не може да бъде преименуван.",
+    "conversation_delete_failed": "Чатът не може да бъде изтрит.",
+    "loading_older": "Зареждане на по-ранни съобщения…",
+    "jump_to_latest": "Към последното",
     "accept_all": "Приеми всички",
     "ai_assist": "ИИ помощник",
     "ai_assistant": "ИИ асистент",

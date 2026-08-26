@@ -199,6 +199,15 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nový chat",
+    "new_chat": "Nový",
+    "rename_chat": "Přejmenovat",
+    "delete_chat": "Smazat",
+    "conversation_create_failed": "Nový chat se nepodařilo založit. Zkuste to znovu.",
+    "conversation_rename_failed": "Chat se nepodařilo přejmenovat.",
+    "conversation_delete_failed": "Chat se nepodařilo smazat.",
+    "loading_older": "Načítání starších zpráv…",
+    "jump_to_latest": "Přejít na nejnovější",
     "accept_all": "Přijmout vše",
     "ai_assist": "AI asistent",
     "ai_assistant": "AI asistent",
