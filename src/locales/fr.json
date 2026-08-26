@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "jump_to_latest": "Aller au plus récent",
     "accept_all": "Tout accepter",
     "ai_assist": "Assistant IA",
     "ai_assistant": "Assistant IA",

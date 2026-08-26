@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "jump_to_latest": "Gå til nyeste",
     "accept_all": "Accepter alle",
     "ai_assist": "AI-assistent",
     "ai_assistant": "AI-assistent",

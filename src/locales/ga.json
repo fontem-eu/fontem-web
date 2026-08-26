@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "jump_to_latest": "Léim go dtí an ceann is déanaí",
     "accept_all": "Glac le gach",
     "ai_assist": "Cúnamh IS",
     "ai_assistant": "Cúntóir IS",

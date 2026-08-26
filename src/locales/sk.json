@@ -199,6 +199,7 @@
     "development": "Development"
   },
   "assist": {
+    "jump_to_latest": "Prejsť na najnovšie",
     "accept_all": "Prijať všetko",
     "ai_assist": "AI pomocník",
     "ai_assistant": "AI asistent",
