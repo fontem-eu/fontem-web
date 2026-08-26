@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Chat nuevo",
+    "new_chat": "Nuevo",
+    "rename_chat": "Renombrar",
+    "delete_chat": "Eliminar",
+    "conversation_create_failed": "No se pudo iniciar un chat nuevo. Inténtalo de nuevo.",
+    "conversation_rename_failed": "No se pudo renombrar este chat.",
+    "conversation_delete_failed": "No se pudo eliminar este chat.",
     "loading_older": "Cargando mensajes anteriores…",
     "jump_to_latest": "Ir a lo más reciente",
     "accept_all": "Aceptar todo",

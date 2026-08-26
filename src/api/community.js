@@ -333,6 +333,38 @@ export function getAssistConversation(conversationKey) {
  * what the panel opens with, so that opening a long conversation costs the
  * same as opening a short one.
  */
+/**
+ * The signed-in user's standalone conversations, newest activity first.
+ *
+ * Report-scoped chats are deliberately absent: they belong to their report and
+ * open with it, so listing them fills the switcher with entries nobody chose
+ * to start.
+ */
+export function listAssistConversations() {
+  return request('GET', '/assist/conversations')
+}
+
+/** Start a new conversation. The key is minted server-side. */
+export function createAssistConversation(title = '') {
+  return request('POST', '/assist/conversations', { title })
+}
+
+export function renameAssistConversation(conversationKey, title) {
+  return request(
+    'PATCH', `/assist/conversations/${encodeURIComponent(conversationKey)}`, { title },
+  )
+}
+
+/**
+ * Delete ONE conversation.
+ *
+ * Not to be confused with DELETE /assist/conversations, which deletes every
+ * conversation the user has. That one is not what a delete button calls.
+ */
+export function deleteAssistConversation(conversationKey) {
+  return request('DELETE', `/assist/conversations/${encodeURIComponent(conversationKey)}`)
+}
+
 export function getAssistConversationPage(conversationKey, { before = '', limit = 30 } = {}) {
   const qs = new URLSearchParams()
   if (before) qs.set('before', before)

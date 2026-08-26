@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Conversație nouă",
+    "new_chat": "Nouă",
+    "rename_chat": "Redenumește",
+    "delete_chat": "Șterge",
+    "conversation_create_failed": "Nu s-a putut începe o conversație nouă. Încercați din nou.",
+    "conversation_rename_failed": "Conversația nu a putut fi redenumită.",
+    "conversation_delete_failed": "Conversația nu a putut fi ștearsă.",
     "loading_older": "Se încarcă mesajele anterioare…",
     "jump_to_latest": "Salt la cel mai recent",
     "accept_all": "Acceptă tot",

@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Ny chat",
+    "new_chat": "Ny",
+    "rename_chat": "Omdøb",
+    "delete_chat": "Slet",
+    "conversation_create_failed": "Kunne ikke starte en ny chat. Prøv igen.",
+    "conversation_rename_failed": "Kunne ikke omdøbe denne chat.",
+    "conversation_delete_failed": "Kunne ikke slette denne chat.",
     "loading_older": "Indlæser tidligere beskeder…",
     "jump_to_latest": "Gå til nyeste",
     "accept_all": "Accepter alle",

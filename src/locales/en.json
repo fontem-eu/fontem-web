@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "New chat",
+    "new_chat": "New",
+    "rename_chat": "Rename",
+    "delete_chat": "Delete",
+    "conversation_create_failed": "Could not start a new chat. Try again.",
+    "conversation_rename_failed": "Could not rename this chat.",
+    "conversation_delete_failed": "Could not delete this chat.",
     "loading_older": "Loading earlier messages…",
     "jump_to_latest": "Jump to latest",
     "accept_all": "Accept all",

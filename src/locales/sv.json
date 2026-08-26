@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Ny chatt",
+    "new_chat": "Ny",
+    "rename_chat": "Byt namn",
+    "delete_chat": "Ta bort",
+    "conversation_create_failed": "Det gick inte att starta en ny chatt. Försök igen.",
+    "conversation_rename_failed": "Det gick inte att byta namn på chatten.",
+    "conversation_delete_failed": "Det gick inte att ta bort chatten.",
     "loading_older": "Läser in tidigare meddelanden…",
     "jump_to_latest": "Gå till senaste",
     "accept_all": "Acceptera alla",

@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nova conversa",
+    "new_chat": "Nova",
+    "rename_chat": "Mudar o nome",
+    "delete_chat": "Eliminar",
+    "conversation_create_failed": "Não foi possível iniciar uma nova conversa. Tente novamente.",
+    "conversation_rename_failed": "Não foi possível mudar o nome desta conversa.",
+    "conversation_delete_failed": "Não foi possível eliminar esta conversa.",
     "loading_older": "A carregar mensagens anteriores…",
     "jump_to_latest": "Ir para o mais recente",
     "accept_all": "Aceitar tudo",

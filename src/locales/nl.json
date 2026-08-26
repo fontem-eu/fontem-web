@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nieuwe chat",
+    "new_chat": "Nieuw",
+    "rename_chat": "Hernoemen",
+    "delete_chat": "Verwijderen",
+    "conversation_create_failed": "Kon geen nieuwe chat starten. Probeer het opnieuw.",
+    "conversation_rename_failed": "Kon deze chat niet hernoemen.",
+    "conversation_delete_failed": "Kon deze chat niet verwijderen.",
     "loading_older": "Eerdere berichten laden…",
     "jump_to_latest": "Naar het nieuwste",
     "accept_all": "Alles accepteren",

@@ -1,10 +1,15 @@
 <script setup>
 import { getAccessToken } from '../api/session.js'
 import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
 import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
 import {
   getAssistConversationPage,
+  listAssistConversations,
+  createAssistConversation,
+  renameAssistConversation,
+  deleteAssistConversation,
   listAssistantModels,
   chooseAssistantModel,
 } from '../api/community.js'
@@ -60,12 +65,112 @@ function isNavigable(path) {
   return isNavigablePath(path, routeManifest)
 }
 
+// Script-scope translator. The template uses $t; the failure messages
+// below are set from script, so they need the composable form.
+const { t } = useI18n()
+
 const reportContext = computed(() => props.reportContext ?? ctx.reportContext.value)
 const reportId = computed(() => props.reportId ?? ctx.reportId.value)
 const editorState = computed(() => props.editorState ?? ctx.editorState.value)
 
+/*
+ * Which conversation the panel is showing.
+ *
+ * A report's chat is bound to its report and is not switchable — you are
+ * discussing that report. Everywhere else the user picks, and `activeKey`
+ * holds their choice; 'global' is the one everybody starts with and is what
+ * a signed-out visitor gets, since they have no account to hang a list off.
+ */
+const activeKey = ref('global')
+const conversations = ref([])
+const switcherOpen = ref(false)
+const renamingKey = ref('')
+const renameDraft = ref('')
+
 function conversationKey() {
-  return reportId.value ? `report:${reportId.value}` : 'global'
+  return reportId.value ? `report:${reportId.value}` : activeKey.value
+}
+
+const isReportChat = computed(() => Boolean(reportId.value))
+
+const activeTitle = computed(() => {
+  if (isReportChat.value) return ''
+  const found = conversations.value.find(c => c.conversation_key === activeKey.value)
+  return found?.title || ''
+})
+
+async function toggleSwitcher() {
+  switcherOpen.value = !switcherOpen.value
+  if (switcherOpen.value) await loadConversationList()
+}
+
+async function loadConversationList() {
+  // Signed-out visitors have no account, so no list and no switcher. The
+  // panel still works — it just has the one ephemeral thread.
+  if (!signedIn.value || isReportChat.value) return
+  try {
+    const data = await listAssistConversations()
+    conversations.value = data?.conversations || []
+  } catch {
+    conversations.value = []
+  }
+}
+
+async function switchConversation(key) {
+  if (key === activeKey.value) {
+    switcherOpen.value = false
+    return
+  }
+  activeKey.value = key
+  switcherOpen.value = false
+  // Each chat is its own topic: nothing carries over, so drop what is on
+  // screen before the new history lands rather than letting the two mix.
+  messages.value = []
+  olderCursor.value = ''
+  hasOlder.value = false
+  await loadConversation()
+}
+
+async function startNewConversation() {
+  try {
+    const created = await createAssistConversation('')
+    conversations.value = [created, ...conversations.value]
+    await switchConversation(created.conversation_key)
+  } catch {
+    error.value = t('assist.conversation_create_failed')
+  }
+}
+
+function beginRename(key, current) {
+  renamingKey.value = key
+  renameDraft.value = current || ''
+}
+
+async function commitRename() {
+  const key = renamingKey.value
+  const title = renameDraft.value.trim()
+  renamingKey.value = ''
+  if (!key || !title) return
+  try {
+    await renameAssistConversation(key, title)
+    const row = conversations.value.find(c => c.conversation_key === key)
+    if (row) row.title = title
+  } catch {
+    error.value = t('assist.conversation_rename_failed')
+  }
+}
+
+async function removeConversation(key) {
+  try {
+    await deleteAssistConversation(key)
+    conversations.value = conversations.value.filter(c => c.conversation_key !== key)
+    // Deleting the one you are reading leaves nothing on screen, so fall
+    // back to the conversation everybody has rather than an empty panel
+    // with no way out.
+    if (key === activeKey.value) await switchConversation('global')
+  } catch {
+    error.value = t('assist.conversation_delete_failed')
+  }
 }
 
 // `applied` carries the executed proposal so the parent can decide
@@ -869,6 +974,79 @@ defineExpose({ applyProposal, messages })
           <button class="assist-clear" :title="$t('assist.clear_chat')" @click="clearChat">{{ $t('app.clear') }}</button>
           <button class="assist-close" data-testid="assist-close" :title="$t('app.close')" @click="close">&times;</button>
         </div>
+      </div>
+
+      <!-- Conversation switcher. Absent for a report's chat, which is bound
+           to its report, and for signed-out visitors, who have no account to
+           hang a list off. -->
+      <div
+        v-if="!isReportChat && signedIn"
+        class="assist-conversations"
+        data-testid="assist-conversation-bar"
+      >
+        <button
+          class="assist-conv-current"
+          type="button"
+          data-testid="assist-conversation-switcher"
+          :aria-expanded="switcherOpen ? 'true' : 'false'"
+          @click="toggleSwitcher"
+        >
+          {{ activeTitle || $t('assist.untitled_chat') }}
+        </button>
+        <button
+          class="assist-conv-new"
+          type="button"
+          data-testid="assist-new-conversation"
+          @click="startNewConversation"
+        >
+          {{ $t('assist.new_chat') }}
+        </button>
+
+        <ul v-if="switcherOpen" class="assist-conv-list" data-testid="assist-conversation-list">
+          <li
+            v-for="c in conversations"
+            :key="c.conversation_key"
+            class="assist-conv-row"
+            :class="{ 'assist-conv-row--active': c.conversation_key === activeKey }"
+            data-testid="assist-conversation-row"
+          >
+            <input
+              v-if="renamingKey === c.conversation_key"
+              v-model="renameDraft"
+              class="assist-conv-rename"
+              data-testid="assist-conversation-rename-input"
+              @keyup.enter="commitRename"
+              @blur="commitRename"
+            >
+            <template v-else>
+              <button
+                class="assist-conv-pick"
+                type="button"
+                data-testid="assist-conversation-pick"
+                @click="switchConversation(c.conversation_key)"
+              >
+                <span class="assist-conv-title">{{ c.title || $t('assist.untitled_chat') }}</span>
+                <span class="assist-conv-snippet">{{ c.last_snippet }}</span>
+              </button>
+              <button
+                class="assist-conv-action"
+                type="button"
+                data-testid="assist-conversation-rename"
+                @click="beginRename(c.conversation_key, c.title)"
+              >
+                {{ $t('assist.rename_chat') }}
+              </button>
+              <button
+                class="assist-conv-action"
+                type="button"
+                data-testid="assist-conversation-delete"
+                @click="removeConversation(c.conversation_key)"
+              >
+                {{ $t('assist.delete_chat') }}
+              </button>
+            </template>
+          </li>
+        </ul>
       </div>
 
       <!-- Inline error banner (apply failures, stream errors). Without

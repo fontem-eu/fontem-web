@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Uusi keskustelu",
+    "new_chat": "Uusi",
+    "rename_chat": "Nimeä uudelleen",
+    "delete_chat": "Poista",
+    "conversation_create_failed": "Uuden keskustelun aloitus epäonnistui. Yritä uudelleen.",
+    "conversation_rename_failed": "Keskustelun nimeäminen epäonnistui.",
+    "conversation_delete_failed": "Keskustelun poisto epäonnistui.",
     "loading_older": "Ladataan aiempia viestejä…",
     "jump_to_latest": "Siirry uusimpaan",
     "accept_all": "Hyväksy kaikki",

@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nowy czat",
+    "new_chat": "Nowy",
+    "rename_chat": "Zmień nazwę",
+    "delete_chat": "Usuń",
+    "conversation_create_failed": "Nie udało się rozpocząć nowego czatu. Spróbuj ponownie.",
+    "conversation_rename_failed": "Nie udało się zmienić nazwy czatu.",
+    "conversation_delete_failed": "Nie udało się usunąć czatu.",
     "loading_older": "Wczytywanie wcześniejszych wiadomości…",
     "jump_to_latest": "Przejdź do najnowszego",
     "accept_all": "Akceptuj wszystko",

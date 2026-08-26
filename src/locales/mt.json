@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Chat ġdid",
+    "new_chat": "Ġdid",
+    "rename_chat": "Ibdel l-isem",
+    "delete_chat": "Ħassar",
+    "conversation_create_failed": "Ma setax jinbeda chat ġdid. Erġa' ipprova.",
+    "conversation_rename_failed": "Ma setax jinbidel l-isem ta' dan iċ-chat.",
+    "conversation_delete_failed": "Ma setax jitħassar dan iċ-chat.",
     "loading_older": "Qed jitgħabbew messaġġi preċedenti…",
     "jump_to_latest": "Aqbeż għall-aktar reċenti",
     "accept_all": "Aċċetta kollox",

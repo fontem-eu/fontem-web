@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nov klepet",
+    "new_chat": "Nov",
+    "rename_chat": "Preimenuj",
+    "delete_chat": "Izbriši",
+    "conversation_create_failed": "Novega klepeta ni bilo mogoče začeti. Poskusite znova.",
+    "conversation_rename_failed": "Klepeta ni bilo mogoče preimenovati.",
+    "conversation_delete_failed": "Klepeta ni bilo mogoče izbrisati.",
     "loading_older": "Nalaganje starejših sporočil…",
     "jump_to_latest": "Skoči na najnovejše",
     "accept_all": "Sprejmi vse",

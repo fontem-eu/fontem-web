@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Naujas pokalbis",
+    "new_chat": "Naujas",
+    "rename_chat": "Pervadinti",
+    "delete_chat": "Ištrinti",
+    "conversation_create_failed": "Nepavyko pradėti naujo pokalbio. Bandykite dar kartą.",
+    "conversation_rename_failed": "Nepavyko pervadinti pokalbio.",
+    "conversation_delete_failed": "Nepavyko ištrinti pokalbio.",
     "loading_older": "Įkeliami ankstesni pranešimai…",
     "jump_to_latest": "Pereiti prie naujausio",
     "accept_all": "Priimti viską",

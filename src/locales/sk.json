@@ -199,6 +199,13 @@
     "development": "Development"
   },
   "assist": {
+    "untitled_chat": "Nový chat",
+    "new_chat": "Nový",
+    "rename_chat": "Premenovať",
+    "delete_chat": "Odstrániť",
+    "conversation_create_failed": "Nový chat sa nepodarilo začať. Skúste to znova.",
+    "conversation_rename_failed": "Chat sa nepodarilo premenovať.",
+    "conversation_delete_failed": "Chat sa nepodarilo odstrániť.",
     "loading_older": "Načítavajú sa staršie správy…",
     "jump_to_latest": "Prejsť na najnovšie",
     "accept_all": "Prijať všetko",
