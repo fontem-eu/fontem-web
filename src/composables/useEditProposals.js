@@ -84,89 +84,121 @@ function parseClassFromIri(iri) {
  * @param {object} editorState - { editor, title, abstract }
  * @returns {{ok: true, action, category, params} | {ok: false, error, action?}}
  */
+/* Per-action appliers. One small function per behaviour, dispatched from
+ * the same table that validates — the switch this replaces had grown past
+ * what a reader (or the complexity gate) could hold at once. */
+
+function _requireEditor(editor, action) {
+  return editor ? null : { ok: false, action, error: 'No editor available' }
+}
+
+function _cleanHtml(params, action) {
+  const clean = sanitizeHtml(params.content)
+  if (!clean?.trim()) {
+    // Sanitize stripped everything (e.g. content was raw markdown or a
+    // script-only payload). Fail loudly so the user sees *why* nothing
+    // happened, instead of an Apply that silently applies an empty string.
+    return { error: { ok: false, action, error: 'Proposed content was empty after sanitisation' } }
+  }
+  return { clean }
+}
+
+function _applyInsertContent(action, params, editor) {
+  const bad = _requireEditor(editor, action)
+  if (bad) return bad
+  const { clean, error } = _cleanHtml(params, action)
+  if (error) return error
+  editor.chain().focus().insertContent(clean).run()
+  return { ok: true, action, category: 'content', params }
+}
+
+function _applyReplaceBody(action, params, editor) {
+  const bad = _requireEditor(editor, action)
+  if (bad) return bad
+  const { clean, error } = _cleanHtml(params, action)
+  if (error) return error
+  // The whole body, replaced as one unit — setContent, not insert.
+  // One card, one review; rejecting it leaves the document untouched.
+  editor.chain().focus().setContent(clean).run()
+  return { ok: true, action, category: 'content', params }
+}
+
+function _applyInsertWidget(action, params, editor) {
+  const bad = _requireEditor(editor, action)
+  if (bad) return bad
+  editor.chain().focus().insertContent({
+    type: 'widget',
+    attrs: {
+      widget_type: params.widget_type,
+      schema_version: 1,
+      entityId: params.entityId,
+      ...(params.depth ? { depth: params.depth } : {}),
+    },
+  }).run()
+  return { ok: true, action, category: 'content', params }
+}
+
+function _applyEntityMention(action, params, editor) {
+  const bad = _requireEditor(editor, action)
+  if (bad) return bad
+  const cls = parseClassFromIri(params.iri)
+  if (!cls) {
+    return { ok: false, action, error: `Invalid IRI: ${params.iri}` }
+  }
+  editor
+    .chain()
+    .focus()
+    .insertContent({
+      type: 'entityMention',
+      attrs: { iri: params.iri, label: params.label, class: cls },
+    })
+    .insertContent(' ')
+    .run()
+  return { ok: true, action, category: 'content', params }
+}
+
+async function _applyMetadata(reportId, action, field, params) {
+  await updateReport(reportId, { [field]: params[field] })
+  return { ok: true, action, category: 'metadata', params }
+}
+
+const _APPLIERS = {
+  insert_content: _applyInsertContent,
+  add_section: _applyInsertContent,
+  update_section: _applyInsertContent,
+  replace_body: _applyReplaceBody,
+  insert_widget: _applyInsertWidget,
+  insert_entity_mention: _applyEntityMention,
+}
+
+const _METADATA_FIELDS = {
+  set_title: 'title',
+  update_title: 'title',
+  set_abstract: 'abstract',
+  update_abstract: 'abstract',
+}
+
+/**
+ * Apply a proposal against the local editor / metadata refs.
+ *
+ * @param {string} reportId
+ * @param {object} proposal - { action, params: {...} }
+ * @param {object} editorState - { editor, title, abstract }
+ * @returns {{ok: true, action, category, params} | {ok: false, error, action?}}
+ */
 export async function executeProposal(reportId, proposal, editorState) {
   const action = proposal.action
-  const spec = EDIT_ACTIONS[action]
-  if (!spec) return { ok: false, action, error: `Unknown action: ${action}` }
+  if (!EDIT_ACTIONS[action]) return { ok: false, action, error: `Unknown action: ${action}` }
 
   const params = proposal.params || proposal
   const editor = editorState?.editor || editorState?.sections?.[0]?.editor
 
   try {
-    switch (action) {
-      case 'insert_content':
-      case 'add_section':
-      case 'update_section': {
-        if (!editor) return { ok: false, action, error: 'No editor available' }
-        const clean = sanitizeHtml(params.content)
-        if (!clean?.trim()) {
-          // Sanitize stripped everything (e.g. content was raw markdown
-          // or a script-only payload). Fail loudly so the user sees
-          // *why* nothing happened, instead of an Apply that silently
-          // appends an empty string.
-          return { ok: false, action, error: 'Proposed content was empty after sanitisation' }
-        }
-        editor.chain().focus().insertContent(clean).run()
-        return { ok: true, action, category: 'content', params }
-      }
-      case 'insert_widget': {
-        if (!editor) return { ok: false, action, error: 'No editor available' }
-        editor.chain().focus().insertContent({
-          type: 'widget',
-          attrs: {
-            widget_type: params.widget_type,
-            schema_version: 1,
-            entityId: params.entityId,
-            ...(params.depth ? { depth: params.depth } : {}),
-          },
-        }).run()
-        return { ok: true, action, category: 'content', params }
-      }
-      case 'insert_entity_mention': {
-        if (!editor) return { ok: false, action, error: 'No editor available' }
-        const cls = parseClassFromIri(params.iri)
-        if (!cls) {
-          return { ok: false, action, error: `Invalid IRI: ${params.iri}` }
-        }
-        editor
-          .chain()
-          .focus()
-          .insertContent({
-            type: 'entityMention',
-            attrs: {
-              iri: params.iri,
-              label: params.label,
-              class: cls,
-            },
-          })
-          .insertContent(' ')
-          .run()
-        return { ok: true, action, category: 'content', params }
-      }
-      case 'replace_body': {
-        if (!editor) return { ok: false, action, error: 'No editor available' }
-        const clean = sanitizeHtml(params.content)
-        if (!clean?.trim()) {
-          return { ok: false, action, error: 'Proposed content was empty after sanitisation' }
-        }
-        // The whole body, replaced as one unit — setContent, not insert.
-        // One card, one review; rejecting it leaves the document untouched.
-        editor.chain().focus().setContent(clean).run()
-        return { ok: true, action, category: 'content', params }
-      }
-      case 'set_title':
-      case 'update_title': {
-        await updateReport(reportId, { title: params.title })
-        return { ok: true, action, category: 'metadata', params }
-      }
-      case 'set_abstract':
-      case 'update_abstract': {
-        await updateReport(reportId, { abstract: params.abstract })
-        return { ok: true, action, category: 'metadata', params }
-      }
-      default:
-        return { ok: false, action, error: `Unhandled action: ${action}` }
-    }
+    const field = _METADATA_FIELDS[action]
+    if (field) return await _applyMetadata(reportId, action, field, params)
+    const applier = _APPLIERS[action]
+    if (!applier) return { ok: false, action, error: `Unhandled action: ${action}` }
+    return applier(action, params, editor)
   } catch (err) {
     return { ok: false, action, error: err.message }
   }
