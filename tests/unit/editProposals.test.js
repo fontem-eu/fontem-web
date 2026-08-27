@@ -107,12 +107,14 @@ describe('action metadata', () => {
     // cross-check it against the Python tool definition. If the
     // assistant gains a new advertised action and this list isn't
     // updated, the parity test fails — which is the point.
+    // The split tools (2026-08): each verb has required params only, and
+    // replace_body swaps the whole body in one card. The old propose_edit
+    // actions stay APPLICABLE (history replays) but are not advertised.
     expect(ASSISTANT_ADVERTISED_ACTIONS).toEqual([
-      'insert_content',
+      'set_title',
+      'set_abstract',
+      'replace_body',
       'insert_widget',
-      'insert_entity_mention',
-      'update_title',
-      'update_abstract',
     ])
   })
 
@@ -305,5 +307,56 @@ describe('executeProposal — failure paths', () => {
 
     expect(result.ok).toBe(false)
     expect(result.error).toBe('500 from API')
+  })
+})
+
+describe('the split proposal actions', () => {
+  const makeEditor = () => {
+    const calls = []
+    const chain = {
+      focus: () => chain,
+      insertContent: (c) => { calls.push(['insert', c]); return chain },
+      setContent: (c) => { calls.push(['set', c]); return chain },
+      run: () => {},
+    }
+    return { chain: () => chain, calls }
+  }
+
+  it('replace_body swaps the whole document, not an append', async () => {
+    const editor = makeEditor()
+    const res = await executeProposal('r1',
+      { action: 'replace_body', params: { content: '<p>rewritten</p>' } },
+      { editor })
+    expect(res.ok).toBe(true)
+    expect(res.category).toBe('content')
+    expect(editor.calls).toEqual([['set', '<p>rewritten</p>']])
+  })
+
+  it('replace_body refuses content that sanitises to nothing', async () => {
+    // The sanitizer is mocked pass-through in this file; force the
+    // stripped-everything case the guard exists for.
+    sanitizeHtml.mockReturnValueOnce('')
+    const editor = makeEditor()
+    const res = await executeProposal('r1',
+      { action: 'replace_body', params: { content: '<script>x()</script>' } },
+      { editor })
+    expect(res.ok).toBe(false)
+    expect(editor.calls).toEqual([])
+  })
+
+  it('set_title and set_abstract round-trip through updateReport', async () => {
+    // Same path as the update_* actions they supersede.
+    const title = await executeProposal('r1',
+      { action: 'set_title', params: { title: 'New title' } }, {})
+    expect(title.ok).toBe(true)
+    expect(title.category).toBe('metadata')
+    const abstract = await executeProposal('r1',
+      { action: 'set_abstract', params: { abstract: 'New abstract' } }, {})
+    expect(abstract.ok).toBe(true)
+  })
+
+  it('the legacy actions still validate, for stored conversations', () => {
+    expect(validateProposal({ action: 'insert_content', params: { content: 'x' } }).valid).toBe(true)
+    expect(validateProposal({ action: 'update_title', params: { title: 'x' } }).valid).toBe(true)
   })
 })
