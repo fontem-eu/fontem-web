@@ -29,6 +29,11 @@ const EDIT_ACTIONS = {
   insert_entity_mention: { category: 'content', requiredParams: ['iri', 'label'] },
   update_title:    { category: 'metadata', requiredParams: ['title'] },
   update_abstract: { category: 'metadata', requiredParams: ['abstract'] },
+  // The split proposal tools (2026-08). Each verb carries required params
+  // only; `replace_body` swaps the WHOLE body in one reviewable card.
+  set_title:       { category: 'metadata', requiredParams: ['title'] },
+  set_abstract:    { category: 'metadata', requiredParams: ['abstract'] },
+  replace_body:    { category: 'content',  requiredParams: ['content'] },
 }
 
 export function validateProposal(proposal) {
@@ -58,11 +63,10 @@ export function actionSpec(action) {
  * Python tool definition.
  */
 export const ASSISTANT_ADVERTISED_ACTIONS = [
-  'insert_content',
+  'set_title',
+  'set_abstract',
+  'replace_body',
   'insert_widget',
-  'insert_entity_mention',
-  'update_title',
-  'update_abstract',
 ]
 
 const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
@@ -139,10 +143,23 @@ export async function executeProposal(reportId, proposal, editorState) {
           .run()
         return { ok: true, action, category: 'content', params }
       }
+      case 'replace_body': {
+        if (!editor) return { ok: false, action, error: 'No editor available' }
+        const clean = sanitizeHtml(params.content)
+        if (!clean?.trim()) {
+          return { ok: false, action, error: 'Proposed content was empty after sanitisation' }
+        }
+        // The whole body, replaced as one unit — setContent, not insert.
+        // One card, one review; rejecting it leaves the document untouched.
+        editor.chain().focus().setContent(clean).run()
+        return { ok: true, action, category: 'content', params }
+      }
+      case 'set_title':
       case 'update_title': {
         await updateReport(reportId, { title: params.title })
         return { ok: true, action, category: 'metadata', params }
       }
+      case 'set_abstract':
       case 'update_abstract': {
         await updateReport(reportId, { abstract: params.abstract })
         return { ok: true, action, category: 'metadata', params }
