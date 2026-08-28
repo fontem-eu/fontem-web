@@ -94,3 +94,76 @@ describe('sanitizeMarkdown (security review #10)', () => {
     expect(out).not.toMatch(/style=/i)
   })
 })
+
+// ── Mutation-hardening: pin the allow/forbid lists ──────────────────
+// Each entry below is load-bearing config. Dropping any allowed tag or
+// attribute (or re-enabling data attributes) must fail a test, not ship.
+describe('sanitizeHtml allow-list is exact', () => {
+  const WRAPPED_TAGS = [
+    'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'code',
+    'strong', 'b', 'em', 'i', 'u', 's', 'del', 'span', 'sub', 'sup', 'mark',
+  ]
+  it.each(WRAPPED_TAGS)('preserves <%s>', (tag) => {
+    expect(sanitizeHtml(`<${tag}>x</${tag}>`)).toContain(`<${tag}>`)
+  })
+
+  it('preserves void and structural tags', () => {
+    expect(sanitizeHtml('a<br>b')).toContain('<br')
+    expect(sanitizeHtml('a<hr>b')).toContain('<hr')
+    expect(sanitizeHtml('<ul><li>x</li></ul>')).toContain('<ul>')
+    expect(sanitizeHtml('<ol><li>x</li></ol>')).toContain('<ol>')
+    expect(sanitizeHtml('<ul><li>x</li></ul>')).toContain('<li>')
+    expect(sanitizeHtml('<a href="https://e.com">x</a>')).toContain('<a ')
+    expect(sanitizeHtml('<img src="https://e.com/i.png">')).toContain('<img')
+  })
+
+  it('preserves the full table structure', () => {
+    const out = sanitizeHtml(
+      '<table><thead><tr><th>h</th></tr></thead><tbody><tr><td>c</td></tr></tbody></table>')
+    for (const t of ['<table>', '<thead>', '<tbody>', '<tr>', '<th>', '<td>']) {
+      expect(out).toContain(t)
+    }
+  })
+
+  it('preserves each allowed attribute', () => {
+    const a = sanitizeHtml('<a href="https://e.com" title="t" target="_blank" rel="noopener">x</a>')
+    for (const attr of ['href=', 'title=', 'target=', 'rel=']) expect(a).toContain(attr)
+    const img = sanitizeHtml('<img src="https://e.com/i.png" alt="a" width="10" height="20">')
+    for (const attr of ['src=', 'alt=', 'width=', 'height=']) expect(img).toContain(attr)
+    expect(sanitizeHtml('<span class="c">x</span>')).toContain('class=')
+    const td = sanitizeHtml('<table><tr><td colspan="2" rowspan="3">x</td></tr></table>')
+    expect(td).toContain('colspan=')
+    expect(td).toContain('rowspan=')
+  })
+
+  it('strips tags outside the allow-list even when harmless', () => {
+    expect(sanitizeHtml('<details><summary>x</summary></details>')).not.toContain('<details')
+    expect(sanitizeHtml('<video src="v.mp4"></video>')).not.toContain('<video')
+  })
+
+  it('strips data attributes (ALLOW_DATA_ATTR is off)', () => {
+    expect(sanitizeHtml('<p data-x="1">x</p>')).not.toContain('data-x')
+  })
+
+  it('coerces non-string falsy-ish input to empty, not stringified', () => {
+    // DOMPurify.sanitize(0) would return '0'; our guard must win.
+    expect(sanitizeHtml(0)).toBe('')
+  })
+})
+
+describe('sanitizeMarkdown forbid-list is exact', () => {
+  it.each(['style', 'form', 'input', 'textarea', 'script', 'iframe', 'object', 'embed'])(
+    'strips <%s>', (tag) => {
+      const out = sanitizeMarkdown(`<p>ok</p><${tag}>x</${tag}>`)
+      expect(out).not.toContain(`<${tag}`)
+      expect(out).toContain('ok')
+    })
+
+  it('strips data attributes too', () => {
+    expect(sanitizeMarkdown('<p data-x="1">x</p>')).not.toContain('data-x')
+  })
+
+  it('coerces non-string falsy-ish input to empty, not stringified', () => {
+    expect(sanitizeMarkdown(0)).toBe('')
+  })
+})
