@@ -18,8 +18,20 @@ export default defineConfig({
     globals: true,
     include: ['tests/unit/**/*.test.js'],
     exclude: [
-      'tests/unit/GraphExplorer.test.js',
+      // Instrumentation-hostile: WebGL/canvas/map components throw at import
+      // under Stryker's instrumented sandbox (sigma.js, leaflet/maplibre),
+      // which fails the dry run and aborts the whole mutation run. These
+      // components are visual and covered by e2e, not unit mutation.
       'tests/unit/architecture.test.js',
+      'tests/unit/GraphExplorer.test.js',
+      'tests/unit/GraphExplorer.fullscreen.test.js',
+      'tests/unit/GraphExplorer.tooltip-offset.test.js',
+      'tests/unit/GraphExplorer.controls.test.js',
+      'tests/unit/EntityNutsMap.test.js',
+      'tests/unit/EntityNutsMapEmbed.test.js',
+      'tests/unit/AtlasMapEmbed.test.js',
+      'tests/unit/StudioMap.test.js',
+      'tests/unit/GeoChoropleth.test.js',
     ],
     setupFiles: ['tests/setup.js'],
     testTimeout: 15000,
