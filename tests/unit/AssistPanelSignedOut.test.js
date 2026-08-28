@@ -10,8 +10,17 @@ import { getAccessToken } from '../../src/api/session.js'
 // invent a session to get it.
 vi.mock('../../src/api/session.js', () => ({
   getAccessToken: vi.fn(() => null),
+  // The real streamRequest (spread in below) consumes these too. No
+  // session means: nothing to wait for, nothing to refresh.
+  whenSessionReady: vi.fn(() => Promise.resolve()),
+  refresh: vi.fn(async () => false),
 }))
-vi.mock('../../src/api/community.js', () => ({
+// Spread the real module first: the panel now streams through the
+// session-aware streamRequest (real code, over the stubbed global
+// fetch), so auth-header behaviour in these tests is the shipped
+// behaviour rather than a re-implementation.
+vi.mock('../../src/api/community.js', async (importOriginal) => ({
+  ...(await importOriginal()),
   getAssistConversation: vi.fn().mockResolvedValue(null),
   getAssistUsage: vi.fn().mockRejectedValue(new Error('401')),
   listAssistantModels: vi.fn().mockRejectedValue(new Error('401')),
@@ -80,6 +89,29 @@ describe('AssistPanel without a session', () => {
   it('renders the reply', async () => {
     const { wrapper } = await send()
     expect(wrapper.text()).toContain('Try the companies page.')
+  })
+
+  it('renders the reduced-tier notice when the server announces one', async () => {
+    // The silent version of this state cost a morning: an expired session
+    // was answered by the signed-out assistant (smallest model, navigate
+    // only, no memory) while the panel looked like the full one.
+    fetchMock.mockImplementation(async () => {
+      const enc = new TextEncoder().encode(
+        'event: meta\ndata: {"anonymous": true, "detail": "Signed-out assistant: limited."}\n\n'
+        + 'event: chunk\ndata: {"text": "hello"}\n\n'
+        + 'event: done\ndata: {}\n\n')
+      let sent = false
+      return {
+        ok: true,
+        body: { getReader: () => ({ read: async () => (sent
+          ? { done: true, value: undefined }
+          : ((sent = true), { done: false, value: enc })) }) },
+      }
+    })
+    const { wrapper } = await send()
+    const notice = wrapper.find('[data-testid="assist-signedout"]')
+    expect(notice.exists()).toBe(true)
+    expect(notice.text()).toContain('Signed-out assistant')
   })
 
   it('does not offer a model picker', async () => {
@@ -157,4 +189,5 @@ describe('AssistPanel limits shown to a signed-out visitor', () => {
     await wrapper.find('[data-testid="assist-input"]').setValue('x'.repeat(SERVER_LIMIT * 2))
     expect(wrapper.find('[data-testid="assist-charcount"]').exists()).toBe(false)
   })
+
 })

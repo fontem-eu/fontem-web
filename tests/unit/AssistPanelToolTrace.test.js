@@ -14,7 +14,12 @@ import AssistPanel from '../../src/components/AssistPanel.vue'
  * a line, expanding to the arguments and exactly what the model got back.
  */
 
-vi.mock('../../src/api/community.js', () => ({
+// Spread the real module first: the panel now streams through the
+// session-aware streamRequest (real code, over the stubbed global
+// fetch), so auth-header behaviour in these tests is the shipped
+// behaviour rather than a re-implementation.
+vi.mock('../../src/api/community.js', async (importOriginal) => ({
+  ...(await importOriginal()),
   getAssistConversation: vi.fn().mockResolvedValue(null),
   getAssistUsage: vi.fn().mockResolvedValue({ tokens_1h: 0, tokens_24h: 0, tokens_7d: 0 }),
 }))
