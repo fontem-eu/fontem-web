@@ -12,6 +12,7 @@ import {
   deleteAssistConversation,
   listAssistantModels,
   chooseAssistantModel,
+  streamRequest,
 } from '../api/community.js'
 import { useAssistantContext } from '../composables/useAssistantContext.js'
 import { useSidebar } from '../composables/useSidebar.js'
@@ -274,6 +275,9 @@ function mapToolProposal(p) {
   }
 }
 const error = ref(null)
+// Set from the server's `meta` stream event on reduced (signed-out)
+// turns; shown as a persistent banner above the conversation.
+const signedOutNotice = ref(null)
 const messagesEl = ref(null)
 
 // Matches the server's default page. Enough to fill a tall panel with
@@ -506,14 +510,15 @@ async function send() {
   let toolMsg = null
 
   try {
-    const token = getAccessToken()
-    const res = await fetch('/capi/assist/chat/stream', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({
+    // Through the session-aware client, not a bare fetch: an expired
+    // access token must hit the silent-refresh path here exactly as it
+    // does on every other API call. Before this, the panel's token went
+    // stale independently and the server (which used to treat a bad
+    // token as "no token") answered with the signed-out assistant —
+    // smallest model, navigate-only, no memory — while the panel looked
+    // like the full one. That session "investigated" nothing and could
+    // not understand "continue".
+    const res = await streamRequest('/assist/chat/stream', {
         message: text,
         conversation_key: conversationKey(),
         // Whether there is an editor to propose into. The server scopes
@@ -539,7 +544,6 @@ async function send() {
             title: typeof document !== 'undefined' ? document.title : undefined,
             routes: navigableRoutes(routeManifest),
           },
-      }),
     })
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -638,6 +642,17 @@ async function send() {
             streamDetail.value = 'Writing response...'
             await nextTick()
             scrollToBottom()
+          } catch { /* skip malformed */ }
+        } else if (eventType === 'meta' && eventData) {
+          // The server announcing a reduced turn — today that means the
+          // signed-out assistant. Rendered as a persistent notice so a
+          // degraded tier can never impersonate the full one again.
+          try {
+            const meta = JSON.parse(eventData)
+            if (meta.anonymous) {
+              signedOutNotice.value = meta.detail ||
+                'Signed-out assistant: limited model and tools, no memory.'
+            }
           } catch { /* skip malformed */ }
         } else if (eventType === 'navigate' && eventData) {
           // The one tool that cannot run on the server. The backend already
@@ -1051,6 +1066,20 @@ defineExpose({ applyProposal, messages })
             </template>
           </li>
         </ul>
+      </div>
+
+      <!-- Reduced-tier notice: the server's `meta` event says this turn
+           ran as the signed-out assistant (limited model and tools, no
+           memory). Persistent, not dismissable into silence — the silent
+           version of this state cost a morning of "the bot does nothing"
+           (2026-08-28). -->
+      <div
+        v-if="signedOutNotice"
+        class="assist-signedout-banner"
+        data-testid="assist-signedout"
+      >
+        {{ signedOutNotice }}
+        <a href="/login">{{ $t('login.sign_in') }}</a>
       </div>
 
       <!-- Inline error banner (apply failures, stream errors). Without
@@ -1782,6 +1811,20 @@ defineExpose({ applyProposal, messages })
   color: #dc2626;
   font-size: 0.75rem;
   padding: 0.3rem 0;
+}
+
+.assist-signedout-banner {
+  margin: 0.5rem 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: var(--color-surface-warning, #fff6e5);
+  border: 1px solid var(--color-border-warning, #e0b95e);
+  color: var(--color-text, #3a2f16);
+  font-size: 0.85rem;
+}
+.assist-signedout-banner a {
+  margin-left: 0.4rem;
+  font-weight: 600;
 }
 
 .assist-error-banner {

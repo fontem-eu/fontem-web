@@ -688,3 +688,30 @@ export function listMyWatches() {
 export function unwatch(watchId) {
   return request('DELETE', `/me/watches/${encodeURIComponent(watchId)}`)
 }
+
+
+/**
+ * POST that returns the raw streaming Response instead of parsed JSON —
+ * for SSE endpoints (the assistant). Carries the SAME session semantics
+ * as request(): wait for cold-boot restore, attach the access token, and
+ * on a 401 with a token attached, silently refresh once and replay. The
+ * assistant panel used a bare fetch() before this, so an expired access
+ * token never hit the refresh path — and until the server started
+ * 401-ing bad tokens it was silently answered by the signed-out
+ * assistant (smallest model, navigate-only, no memory) with nothing in
+ * the UI saying so.
+ */
+export async function streamRequest(path, body, { refreshed = false } = {}) {
+  await whenSessionReady()
+  const { opts, sentAuth } = buildRequestInit('POST', body)
+  const res = await fetch(`/capi${withLang(path)}`, opts)
+  if (res.status === 401 && sentAuth && !refreshed) {
+    const ok = await refresh()
+    if (ok) return streamRequest(path, body, { refreshed: true })
+    if (typeof globalThis !== 'undefined' && globalThis.location) {
+      globalThis.location.href = '/login'
+    }
+    throw new Error('Session expired')
+  }
+  return res
+}
