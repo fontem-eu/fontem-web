@@ -204,6 +204,7 @@
     "new_chat": "Novo",
     "rename_chat": "Preimenuj",
     "delete_chat": "Izbriši",
+    "delete_confirm_tap": "Dodirnite ponovno za brisanje",
     "conversation_create_failed": "Novi razgovor nije pokrenut. Pokušajte ponovno.",
     "conversation_rename_failed": "Razgovor nije preimenovan.",
     "conversation_delete_failed": "Razgovor nije izbrisan.",

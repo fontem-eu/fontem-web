@@ -204,6 +204,7 @@
     "new_chat": "Uus",
     "rename_chat": "Nimeta ümber",
     "delete_chat": "Kustuta",
+    "delete_confirm_tap": "Kustutamiseks puuduta uuesti",
     "conversation_create_failed": "Uue vestluse alustamine ebaõnnestus. Proovi uuesti.",
     "conversation_rename_failed": "Vestluse ümbernimetamine ebaõnnestus.",
     "conversation_delete_failed": "Vestluse kustutamine ebaõnnestus.",

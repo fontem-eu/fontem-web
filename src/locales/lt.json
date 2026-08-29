@@ -204,6 +204,7 @@
     "new_chat": "Naujas",
     "rename_chat": "Pervadinti",
     "delete_chat": "Ištrinti",
+    "delete_confirm_tap": "Bakstelėkite dar kartą, kad ištrintumėte",
     "conversation_create_failed": "Nepavyko pradėti naujo pokalbio. Bandykite dar kartą.",
     "conversation_rename_failed": "Nepavyko pervadinti pokalbio.",
     "conversation_delete_failed": "Nepavyko ištrinti pokalbio.",

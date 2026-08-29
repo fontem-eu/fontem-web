@@ -159,13 +159,38 @@ describe('AssistPanel conversations', () => {
     expect(rename).toHaveBeenCalledWith('chat:aaa', 'Renamed')
   })
 
-  it('deletes one chat, not all of them', async () => {
+  it('one tap arms delete; only the second tap deletes', async () => {
+    // Delete is irreversible and sits a thumb-width from Rename on a
+    // phone. A single tap must never destroy a conversation.
     await open()
     await openSwitcher()
     all('[data-testid="assist-conversation-delete"]')[0].click()
     await flushPromises()
+    expect(remove).not.toHaveBeenCalled()
+    expect(all('[data-testid="assist-conversation-row"]').length).toBe(2)
+    all('[data-testid="assist-conversation-delete"]')[0].click()
+    await flushPromises()
     expect(remove).toHaveBeenCalledWith('chat:aaa')
     expect(all('[data-testid="assist-conversation-row"]').length).toBe(1)
+  })
+
+  it('arming one row does not arm the others', async () => {
+    await open()
+    await openSwitcher()
+    all('[data-testid="assist-conversation-delete"]')[0].click()
+    await flushPromises()
+    // Second tap lands on the OTHER row: it arms that one, deletes nothing.
+    all('[data-testid="assist-conversation-delete"]')[1].click()
+    await flushPromises()
+    expect(remove).not.toHaveBeenCalled()
+  })
+
+  it('tapping outside the sheet closes it', async () => {
+    await open()
+    await openSwitcher()
+    q('.assist-conv-backdrop').click()
+    await flushPromises()
+    expect(q('[data-testid="assist-conversation-list"]')).toBeFalsy()
   })
 
   it('falls back to the shared chat after deleting the one on screen', async () => {
@@ -174,7 +199,8 @@ describe('AssistPanel conversations', () => {
     all('[data-testid="assist-conversation-pick"]')[0].click()
     await flushPromises()
     await openSwitcher()
-    all('[data-testid="assist-conversation-delete"]')[0].click()
+    const del = () => all('[data-testid="assist-conversation-delete"]')[0].click()
+    del(); await flushPromises(); del()
     await flushPromises()
     // Not an empty panel with no way out.
     expect(page).toHaveBeenLastCalledWith('global', { limit: 30 })

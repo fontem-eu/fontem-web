@@ -204,6 +204,7 @@
     "new_chat": "Nuevo",
     "rename_chat": "Renombrar",
     "delete_chat": "Eliminar",
+    "delete_confirm_tap": "Toca de nuevo para eliminar",
     "conversation_create_failed": "No se pudo iniciar un chat nuevo. Inténtalo de nuevo.",
     "conversation_rename_failed": "No se pudo renombrar este chat.",
     "conversation_delete_failed": "No se pudo eliminar este chat.",

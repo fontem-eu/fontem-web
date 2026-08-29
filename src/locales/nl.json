@@ -204,6 +204,7 @@
     "new_chat": "Nieuw",
     "rename_chat": "Hernoemen",
     "delete_chat": "Verwijderen",
+    "delete_confirm_tap": "Tik nogmaals om te verwijderen",
     "conversation_create_failed": "Kon geen nieuwe chat starten. Probeer het opnieuw.",
     "conversation_rename_failed": "Kon deze chat niet hernoemen.",
     "conversation_delete_failed": "Kon deze chat niet verwijderen.",

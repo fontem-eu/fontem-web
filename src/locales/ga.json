@@ -204,6 +204,7 @@
     "new_chat": "Nua",
     "rename_chat": "Athainmnigh",
     "delete_chat": "Scrios",
+    "delete_confirm_tap": "Tapáil arís le scriosadh",
     "conversation_create_failed": "Níorbh fhéidir comhrá nua a thosú. Bain triail eile as.",
     "conversation_rename_failed": "Níorbh fhéidir an comhrá a athainmniú.",
     "conversation_delete_failed": "Níorbh fhéidir an comhrá a scriosadh.",

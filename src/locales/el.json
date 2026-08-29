@@ -204,6 +204,7 @@
     "new_chat": "Νέα",
     "rename_chat": "Μετονομασία",
     "delete_chat": "Διαγραφή",
+    "delete_confirm_tap": "Πατήστε ξανά για διαγραφή",
     "conversation_create_failed": "Δεν ήταν δυνατή η έναρξη νέας συνομιλίας. Δοκιμάστε ξανά.",
     "conversation_rename_failed": "Δεν ήταν δυνατή η μετονομασία.",
     "conversation_delete_failed": "Δεν ήταν δυνατή η διαγραφή.",
