@@ -44,3 +44,89 @@ describe('nutsDetect', () => {
     expect(detectNuts(['g', 'v'], rows).level).toBe(1)
   })
 })
+
+// ── Mutation-hardening: the alpha-3 set, filters and fallbacks ─────
+describe('alpha-3 country set is exact', () => {
+  const CODES = ['AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU',
+    'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX', 'MLT', 'NLD', 'POL', 'PRT',
+    'ROU', 'SVK', 'SVN', 'ESP', 'SWE', 'GBR', 'CHE', 'NOR', 'ISL', 'LIE', 'ALB',
+    'BIH', 'MKD', 'MNE', 'SRB', 'TUR', 'XKX', 'MDA', 'UKR', 'RUS', 'BLR']
+  // If a code drops out of the set it stops reading as a country column and
+  // the 3-letter shape falls through to NUTS level 1 — a visibly wrong map.
+  it.each(CODES)('%s detects as a country-level geo axis', (code) => {
+    expect(detectNuts(['c', 'v'], [[code, 1], [code, 2]]))
+      .toEqual({ geoCol: 'c', valueCol: 'v', level: 0 })
+  })
+
+  it('non-country all-letter L1 codes stay NUTS level 1', () => {
+    expect(detectNuts(['c', 'v'], [['DEA', 1], ['DEB', 2]]).level).toBe(1)
+  })
+})
+
+describe('detectNuts edge behaviour', () => {
+  it('returns null for missing/empty inputs', () => {
+    expect(detectNuts(null, [['DE', 1]])).toBeNull()
+    expect(detectNuts([], [['DE', 1]])).toBeNull()
+    expect(detectNuts(['c'], null)).toBeNull()
+    expect(detectNuts(['c'], [])).toBeNull()
+  })
+
+  it('ignores null/undefined/empty cells when scoring', () => {
+    const rows = [['DEU', 1], [null, 2], [undefined, 3], ['', 4], ['DEU', 5]]
+    expect(detectNuts(['c', 'v'], rows)).toEqual({ geoCol: 'c', valueCol: 'v', level: 0 })
+  })
+
+  it('returns null when a column is entirely empty cells', () => {
+    expect(detectNuts(['c'], [[null], [''], [undefined]])).toBeNull()
+  })
+
+  it('accepts numeric strings as the value axis, but not blanks', () => {
+    expect(detectNuts(['c', 'v'], [['DEU', '5'], ['FRA', '7']]).valueCol).toBe('v')
+    // ' ' and 'abc' are not numeric → still picks v as first non-geo column
+    expect(detectNuts(['c', 'v'], [['DEU', ' '], ['FRA', 'abc']]).valueCol).toBe('v')
+  })
+
+  it('falls back to the geo column itself when it is the only column', () => {
+    expect(detectNuts(['c'], [['DEU'], ['FRA']]))
+      .toEqual({ geoCol: 'c', valueCol: 'c', level: 0 })
+    expect(detectNuts(['c'], [['ITH3'], ['ITI1']]))
+      .toEqual({ geoCol: 'c', valueCol: 'c', level: 2 })
+  })
+
+  it('prefers the higher-scoring geo column', () => {
+    // col a: half NUTS; col b: all NUTS → b wins
+    const rows = [['xx', 'ITH3', 1], ['DE11', 'ITI1', 2]]
+    expect(detectNuts(['a', 'b', 'v'], rows).geoCol).toBe('b')
+  })
+
+  it('skips columns below the min score', () => {
+    // 1 of 3 values NUTS-shaped → below 0.8 → no detection
+    expect(detectNuts(['c', 'v'], [['DE11', 1], ['xx', 2], ['yy', 3]])).toBeNull()
+  })
+
+  it('honours a custom minScore', () => {
+    const rows = [['DE11', 1], ['xx', 2]]
+    expect(detectNuts(['c', 'v'], rows, { minScore: 0.5 })).not.toBeNull()
+  })
+})
+
+// The value axis must be CHOSEN by numeric detection, not fall out of
+// column order — a three-column table where only the last column is
+// numeric pins isNumeric() and both find() fallbacks.
+describe('value-axis selection is numeric-driven', () => {
+  it('skips non-numeric columns to find the value axis', () => {
+    const rows = [['DEU', 'abc', '5'], ['FRA', 'xyz', '7']]
+    expect(detectNuts(['c', 'notes', 'v'], rows).valueCol).toBe('v')
+    const nutsRows = [['ITH3', 'abc', 42], ['ITI1', 'xyz', 13]]
+    expect(detectNuts(['c', 'notes', 'v'], nutsRows).valueCol).toBe('v')
+  })
+
+  it('whitespace-only and empty strings are not numeric', () => {
+    const rows = [['DEU', ' ', 9], ['FRA', '', 3]]
+    expect(detectNuts(['c', 'blank', 'v'], rows).valueCol).toBe('v')
+  })
+
+  it('a numbers-only column is never mistaken for a geo axis', () => {
+    expect(detectNuts(['n', 'v'], [[1, 2], [3, 4]])).toBeNull()
+  })
+})

@@ -41,3 +41,27 @@ describe('withLang', () => {
     expect(withLang('/api/authorities/x')).toBe('/api/authorities/x?lang=en')
   })
 })
+
+// ── Mutation-hardening: explicit-override and separator edges ──────
+describe('withLang override edges', () => {
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear(); vi.resetModules() })
+
+  async function fresh(lang) {
+    localStorage.setItem('gmr-lang', lang)
+    const { useLang } = await import('../../src/composables/useLang.js')
+    useLang().init()
+    const { withLang } = await import('../../src/api/_lang.js')
+    return withLang
+  }
+
+  it('leaves a path alone when lang is already present', async () => {
+    const withLang = await fresh('de')
+    expect(withLang('/api/x?lang=fr')).toBe('/api/x?lang=fr')
+    expect(withLang('/api/x?a=1&lang=fr')).toBe('/api/x?a=1&lang=fr')
+  })
+
+  it('does not mistake a suffixed param for lang', async () => {
+    const withLang = await fresh('de')
+    expect(withLang('/api/x?apilang=fr')).toBe('/api/x?apilang=fr&lang=de')
+  })
+})

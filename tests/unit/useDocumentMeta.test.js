@@ -105,3 +105,52 @@ describe('useDocumentMeta', () => {
     expect(document.title).toBe('pre-existing')
   })
 })
+
+// ── Mutation-hardening: every mapped route resolves its own keys ───
+describe('route-to-key map is exact', () => {
+  const ROUTES = [
+    ['/', 'home'], ['/about', 'about'], ['/privacy', 'privacy'],
+    ['/data-quality', 'data_quality'], ['/sparql', 'sparql'],
+    ['/development', 'development'], ['/map', 'map'],
+    ['/spending', 'spending'], ['/login', 'login'],
+  ]
+
+  function makeFullHarness() {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: ROUTES.map(([path]) => ({ path, component: { render: () => null } })),
+    })
+    const i18n = createI18n({
+      legacy: false, locale: 'en', fallbackLocale: 'en',
+      messages: { en }, missingWarn: false, fallbackWarn: false,
+    })
+    const Host = defineComponent({
+      setup() { useDocumentMeta(); return () => h('div') },
+    })
+    return { router, i18n, Host }
+  }
+
+  it.each(ROUTES)('%s uses meta.*.%s', async (path, key) => {
+    const { router, i18n, Host } = makeFullHarness()
+    router.push(path)
+    await router.isReady()
+    mount(Host, { global: { plugins: [router, i18n] } })
+    await nextTick()
+    expect(document.title).toBe(en.meta.title[key])
+    expect(descriptionMeta()).toBe(en.meta.description[key])
+  })
+
+  it('reuses an existing description meta element instead of duplicating', async () => {
+    const el = document.createElement('meta')
+    el.setAttribute('name', 'description')
+    el.setAttribute('content', 'old')
+    document.head.appendChild(el)
+    const { router, i18n, Host } = makeFullHarness()
+    router.push('/about')
+    await router.isReady()
+    mount(Host, { global: { plugins: [router, i18n] } })
+    await nextTick()
+    expect(document.querySelectorAll('meta[name="description"]').length).toBe(1)
+    expect(descriptionMeta()).toBe(en.meta.description.about)
+  })
+})

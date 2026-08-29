@@ -21,3 +21,31 @@ describe('useSidebar', () => {
     s.closeMobile()
   })
 })
+
+// ── Mutation-hardening: persistence key + toggle semantics ─────────
+describe('useSidebar persistence', () => {
+  it('persists collapse state under fontem-sidebar-collapsed as 1/0', () => {
+    const { collapsed, toggleCollapsed } = useSidebar()
+    const before = collapsed.value
+    toggleCollapsed()
+    expect(collapsed.value).toBe(!before)
+    expect(localStorage.getItem('fontem-sidebar-collapsed')).toBe(collapsed.value ? '1' : '0')
+    toggleCollapsed()
+    expect(collapsed.value).toBe(before)
+    expect(localStorage.getItem('fontem-sidebar-collapsed')).toBe(collapsed.value ? '1' : '0')
+  })
+
+  it('mobile drawer opens, closes and toggles', () => {
+    const s = useSidebar()
+    s.closeMobile()
+    expect(s.mobileOpen.value).toBe(false)
+    s.openMobile()
+    expect(s.mobileOpen.value).toBe(true)
+    s.toggleMobile()
+    expect(s.mobileOpen.value).toBe(false)
+    s.toggleMobile()
+    expect(s.mobileOpen.value).toBe(true)
+    s.closeMobile()
+    expect(s.mobileOpen.value).toBe(false)
+  })
+})
