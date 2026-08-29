@@ -171,6 +171,7 @@
     "private": "prywatne",
     "public": "publiczne",
     "raise_an_issue": "Zgłoś problem",
+    "rate_limited_retrying": "Zbyt wiele żądań — serwer poprosił o zwolnienie; ponowna próba za kilka sekund…",
     "remove": "Usuń",
     "retry": "Spróbuj ponownie",
     "run_query": "Uruchom zapytanie",

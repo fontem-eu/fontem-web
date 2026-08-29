@@ -171,6 +171,7 @@
     "private": "yksityinen",
     "public": "julkinen",
     "raise_an_issue": "Ilmoita ongelmasta",
+    "rate_limited_retrying": "Liikaa pyyntöjä — palvelin pyysi hidastamaan; yritetään uudelleen muutaman sekunnin kuluttua…",
     "remove": "Poista",
     "retry": "Yritä uudelleen",
     "run_query": "Suorita kysely",

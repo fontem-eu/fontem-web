@@ -5,9 +5,10 @@
  */
 
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 
 async function _json(url) {
-  const res = await fetch(withLang(url))
+  const res = await fetchRetrying(withLang(url))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)

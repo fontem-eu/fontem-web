@@ -8,6 +8,7 @@
  */
 
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 
 // One place to change if Atlas moves to its own host. Today the API
 // lives in the gmr-api image, fronted by the same nginx; flipping
@@ -16,7 +17,7 @@ import { withLang } from './_lang.js'
 const BASE = '/api/atlas'
 
 async function _json(url) {
-  const res = await fetch(withLang(url))
+  const res = await fetchRetrying(withLang(url))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)

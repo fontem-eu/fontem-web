@@ -1,4 +1,5 @@
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 
 const BASE = '/api/tickers'
 
@@ -13,7 +14,7 @@ export async function searchTickers(query, limit = 10) {
     return { query: query ?? '', results: [], count: 0, total_available: 0 }
   }
   const url = `${BASE}/search?query=${encodeURIComponent(query.trim())}&limit=${limit}`
-  const res = await fetch(withLang(url))
+  const res = await fetchRetrying(withLang(url))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
@@ -32,7 +33,7 @@ export async function searchAll(query, limit = 10) {
     return { query: query ?? '', companies: [], authorities: [] }
   }
   const url = `/api/search?q=${encodeURIComponent(query.trim())}&limit=${limit}`
-  const res = await fetch(withLang(url))
+  const res = await fetchRetrying(withLang(url))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)

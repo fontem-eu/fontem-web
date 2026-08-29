@@ -171,6 +171,7 @@
     "private": "private",
     "public": "public",
     "raise_an_issue": "Raise an Issue",
+    "rate_limited_retrying": "Too many requests — the server asked us to slow down; retrying in a few seconds…",
     "remove": "Remove",
     "retry": "Retry",
     "run_query": "Run query",

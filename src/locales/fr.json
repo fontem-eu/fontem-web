@@ -171,6 +171,7 @@
     "private": "privé",
     "public": "public",
     "raise_an_issue": "Signaler un problème",
+    "rate_limited_retrying": "Trop de requêtes — le serveur a demandé de ralentir ; nouvelle tentative dans quelques secondes…",
     "remove": "Supprimer",
     "retry": "Réessayer",
     "run_query": "Exécuter la requête",

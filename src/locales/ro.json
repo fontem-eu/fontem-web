@@ -171,6 +171,7 @@
     "private": "privată",
     "public": "publică",
     "raise_an_issue": "Raportează o problemă",
+    "rate_limited_retrying": "Prea multe cereri — serverul a cerut încetinirea; reîncercăm în câteva secunde…",
     "remove": "Elimină",
     "retry": "Reîncearcă",
     "run_query": "Execută interogarea",
