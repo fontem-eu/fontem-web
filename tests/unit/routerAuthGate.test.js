@@ -70,3 +70,31 @@ describe('requiresAuth — router gate predicate', () => {
     expect(requiresAuth('/reports')).toBe(false)
   })
 })
+
+// ── Mutation-hardening: subpaths + exact-path boundaries ───────────
+describe('requiresAuth subpath boundaries', () => {
+  it('gates subpaths of the personal areas, not lookalike prefixes', () => {
+    expect(requiresAuth('/my-stories/drafts')).toBe(true)
+    expect(requiresAuth('/my-reports/2024')).toBe(true)
+    expect(requiresAuth('/issues/42')).toBe(true)
+    expect(requiresAuth('/studio/p1/queries')).toBe(true)
+    expect(requiresAuth('/admin/dedup')).toBe(true)
+    // a hyphenated sibling route must NOT be swallowed by the prefix
+    expect(requiresAuth('/my-storiesque')).toBe(false)
+    expect(requiresAuth('/studious')).toBe(false)
+  })
+
+  it('exact-only paths do not gate their subpaths', () => {
+    expect(requiresAuth('/activity')).toBe(true)
+    expect(requiresAuth('/activity/feed')).toBe(false)
+    expect(requiresAuth('/my-briefings')).toBe(true)
+    expect(requiresAuth('/ai-usage')).toBe(true)
+  })
+
+  it('the editor is gated while the public read view stays open', () => {
+    expect(requiresAuth('/stories/abc/edit')).toBe(true)
+    expect(requiresAuth('/reports/abc/edit')).toBe(true)
+    expect(requiresAuth('/stories/abc')).toBe(false)
+    expect(requiresAuth('/briefings')).toBe(false)
+  })
+})

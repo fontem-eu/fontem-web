@@ -50,7 +50,10 @@ export default defineConfig({
       'tests/unit/withLang.test.js', 'tests/unit/nutsDetect.test.js',
       'tests/unit/schemaCompletions.test.js', 'tests/unit/studioPlot.test.js',
       'tests/unit/studioPlotEvents.test.js', 'tests/unit/editProposals.test.js',
-      'tests/unit/parseProposals.test.js',
+      'tests/unit/parseProposals.test.js', 'tests/unit/silentRefresh.test.js',
+      'tests/unit/useAtlasPalette.test.js', 'tests/unit/useNutsRegions.test.js',
+      'tests/unit/useAssistantContext.test.js', 'tests/unit/studioEngines.test.js',
+      'tests/unit/useSwipeNav.test.js',
       // core (agent / ssr / router / app / i18n)
       'tests/unit/routeManifest.test.js', 'tests/unit/routerAuthGate.test.js',
       'tests/unit/ssrMeta.test.js', 'tests/unit/coreSsrI18n.test.js',

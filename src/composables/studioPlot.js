@@ -30,7 +30,10 @@ function buildLineProps(result, x, xi, y, seriesSpec) {
     return {
       name: c,
       points: result.rows
-        .map((r) => ({ x: r[xi], y: Number(r[ci]) }))
+        // toFiniteOrNaN, not Number(): Number(null) is 0, so a missing
+        // cell would chart as a real zero — buildCorrProps below already
+        // guards against exactly this; line series must too.
+        .map((r) => ({ x: r[xi], y: toFiniteOrNaN(r[ci]) }))
         .filter((pt) => Number.isFinite(pt.y)),
     }
   })

@@ -13,7 +13,7 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createFontemRouter } from '../../src/app.js'
-import { buildRouteManifest, navigableRoutes, isNavigable, ROUTE_DESCRIPTIONS, NOT_NAVIGABLE } from '../../src/agent/routeManifest.js'
+import { buildRouteManifest, navigableRoutes, isNavigable, matchRoute, ROUTE_DESCRIPTIONS, NOT_NAVIGABLE } from '../../src/agent/routeManifest.js'
 
 const ARTIFACT = path.resolve(__dirname, '../../src/generated/route-manifest.json')
 
@@ -106,5 +106,17 @@ describe('isNavigable — the guard before we move the user', () => {
   it('refuses routes explicitly excluded from navigation', () => {
     expect(isNavigable('/admin', manifest)).toBe(false)
     expect(isNavigable('/reset-password', manifest)).toBe(false)
+  })
+})
+
+// ── Mutation-hardening: matchRoute rejects non-app paths ───────────
+describe('matchRoute input guard', () => {
+  it('rejects protocol-relative and absolute URLs', () => {
+    const manifest = fresh()
+    expect(matchRoute('//evil.example/phish', manifest)).toBeNull()
+    expect(matchRoute('https://evil.example/x', manifest)).toBeNull()
+    expect(matchRoute('relative/path', manifest)).toBeNull()
+    expect(matchRoute(42, manifest)).toBeNull()
+    expect(matchRoute(null, manifest)).toBeNull()
   })
 })

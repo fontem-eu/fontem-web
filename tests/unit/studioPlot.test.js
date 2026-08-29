@@ -68,10 +68,11 @@ describe('buildChartProps details', () => {
 
   it('line series drop non-numeric points and label by the single column', () => {
     const props = buildChartProps(table, { chart: 'line', x: 'month', y: 'contracts' })
-    // Number(null) is 0 — a null cell charts as 0, only NaN-ish drop out
+    // Missing cells (null/'') must DROP OUT, not chart as zero — the
+    // same rule buildCorrProps applies via toFiniteOrNaN.
     expect(props.series).toEqual([{
       name: 'contracts',
-      points: [{ x: '2024-01', y: 5 }, { x: '2024-02', y: 7 }, { x: '2024-03', y: 0 }],
+      points: [{ x: '2024-01', y: 5 }, { x: '2024-02', y: 7 }],
     }])
     expect(props.xLabel).toBe('month')
     expect(props.yLabel).toBe('contracts')
