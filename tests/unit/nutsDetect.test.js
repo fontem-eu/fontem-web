@@ -109,3 +109,24 @@ describe('detectNuts edge behaviour', () => {
     expect(detectNuts(['c', 'v'], rows, { minScore: 0.5 })).not.toBeNull()
   })
 })
+
+// The value axis must be CHOSEN by numeric detection, not fall out of
+// column order — a three-column table where only the last column is
+// numeric pins isNumeric() and both find() fallbacks.
+describe('value-axis selection is numeric-driven', () => {
+  it('skips non-numeric columns to find the value axis', () => {
+    const rows = [['DEU', 'abc', '5'], ['FRA', 'xyz', '7']]
+    expect(detectNuts(['c', 'notes', 'v'], rows).valueCol).toBe('v')
+    const nutsRows = [['ITH3', 'abc', 42], ['ITI1', 'xyz', 13]]
+    expect(detectNuts(['c', 'notes', 'v'], nutsRows).valueCol).toBe('v')
+  })
+
+  it('whitespace-only and empty strings are not numeric', () => {
+    const rows = [['DEU', ' ', 9], ['FRA', '', 3]]
+    expect(detectNuts(['c', 'blank', 'v'], rows).valueCol).toBe('v')
+  })
+
+  it('a numbers-only column is never mistaken for a geo axis', () => {
+    expect(detectNuts(['n', 'v'], [[1, 2], [3, 4]])).toBeNull()
+  })
+})

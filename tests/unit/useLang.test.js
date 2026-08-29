@@ -234,7 +234,12 @@ describe('useLang persistence + document semantics', () => {
     document.documentElement.lang = ''
     vi.resetModules()
   })
-  afterEach(() => { vi.restoreAllMocks(); vi.resetModules() })
+  afterEach(() => {
+    // The fork is reused across files — leaked storage (the geo hint
+    // especially) breaks withLang.test's default-lang expectations.
+    localStorage.clear(); sessionStorage.clear()
+    vi.restoreAllMocks(); vi.resetModules()
+  })
 
   async function boot({ stored, navLang, geo } = {}) {
     if (stored != null) localStorage.setItem('gmr-lang', stored)
