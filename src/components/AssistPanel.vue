@@ -108,9 +108,6 @@ watch(reportId, (id) => {
   }
 })
 
-const isReportChat = computed(() =>
-  activeKey.value.startsWith('report:'))
-
 const activeTitle = computed(() => {
   const found = conversations.value.find(c => c.conversation_key === activeKey.value)
   return found?.title || ''
