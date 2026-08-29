@@ -135,3 +135,84 @@ describe('useFollowedTags — authenticated', () => {
     expect([...u.tags.value]).toEqual(['procurement', 'lobbying'])
   })
 })
+
+// ── Mutation-hardening: slug normalisation + storage details ───────
+describe('tag slug normalisation (via the public API)', () => {
+  it('lowercases, hyphenates and trims edge hyphens', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('  Water Quality!  ')
+    expect([...u.tags.value]).toEqual(['water-quality'])
+    expect(u.isFollowing('WATER   quality')).toBe(true)
+  })
+
+  it('collapses runs of separators into one hyphen', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('a__b -- c')
+    expect([...u.tags.value]).toEqual(['a-b-c'])
+  })
+
+  it('drops tags that normalise to nothing', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('!!!')
+    await u.follow('')
+    expect([...u.tags.value]).toEqual([])
+  })
+
+  it('caps slugs at 40 chars without a trailing hyphen', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    const long = 'aaaaaaaaaa bbbbbbbbbb cccccccccc ddddddddddddd'
+    await u.follow(long)
+    const slug = u.tags.value[0]
+    expect(slug.length).toBeLessThanOrEqual(40)
+    expect(slug.endsWith('-')).toBe(false)
+    expect(slug.startsWith('aaaaaaaaaa-bbbbbbbbbb')).toBe(true)
+  })
+
+  it('never double-follows the same slug', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('water')
+    await u.follow('Water!')
+    expect([...u.tags.value]).toEqual(['water'])
+  })
+})
+
+describe('local persistence details', () => {
+  it('stores under gmr-followed-tags as a JSON array', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('water')
+    expect(JSON.parse(localStorage.getItem('gmr-followed-tags'))).toEqual(['water'])
+  })
+
+  it('ignores corrupted or non-array stored values', async () => {
+    localStorage.setItem('gmr-followed-tags', 'not json {')
+    let u = useFollowedTags()
+    await u.init()
+    expect([...u.tags.value]).toEqual([])
+    _resetFollowedTagsForTests()
+    localStorage.setItem('gmr-followed-tags', JSON.stringify({ nope: 1 }))
+    u = useFollowedTags()
+    await u.init()
+    expect([...u.tags.value]).toEqual([])
+    _resetFollowedTagsForTests()
+    localStorage.setItem('gmr-followed-tags', JSON.stringify(['ok', 42, null, 'fine']))
+    u = useFollowedTags()
+    await u.init()
+    expect([...u.tags.value]).toEqual(['ok', 'fine'])
+  })
+
+  it('unfollow removes from storage too', async () => {
+    const u = useFollowedTags()
+    await u.init()
+    await u.follow('water')
+    await u.follow('energy')
+    await u.unfollow('Water')
+    expect([...u.tags.value]).toEqual(['energy'])
+    expect(JSON.parse(localStorage.getItem('gmr-followed-tags'))).toEqual(['energy'])
+  })
+})
