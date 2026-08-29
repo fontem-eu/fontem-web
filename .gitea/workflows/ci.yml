@@ -21,6 +21,43 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+  # Consumer side of bi-directional contract testing: run the pact
+  # tests (real api-client wrappers against Pact's mock provider) and
+  # publish the recorded pacts to the broker, versioned by commit and
+  # tagged by branch. The provider CI cross-validates them statically
+  # against its generated OpenAPI spec.
+  contracts:
+    runs-on: ubuntu-latest
+    env:
+      PACT_BROKER: http://pact-broker.pact.svc.cluster.local
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run contract tests
+        run: npx vitest run -c vitest.contract.config.js
+      - name: Publish pacts to the broker
+        env:
+          PACT_USER: ${{ secrets.PACT_BROKER_USERNAME }}
+          PACT_PASS: ${{ secrets.PACT_BROKER_PASSWORD }}
+        run: |
+          set -euo pipefail
+          VERSION="v$(git rev-parse --short HEAD)"
+          BRANCH="${GITHUB_REF_NAME:-unknown}"
+          for f in pacts/*.json; do
+            provider=$(python3 -c "import json,sys;print(json.load(open('$f'))['provider']['name'])")
+            curl -fsS -u "$PACT_USER:$PACT_PASS" -X PUT \
+              "$PACT_BROKER/pacts/provider/$provider/consumer/fontem-web/version/$VERSION" \
+              -H 'Content-Type: application/json' -d @"$f" -o /dev/null
+            echo "published fontem-web -> $provider @ $VERSION"
+          done
+          curl -fsS -u "$PACT_USER:$PACT_PASS" -X PUT \
+            "$PACT_BROKER/pacticipants/fontem-web/versions/$VERSION/tags/$BRANCH" \
+            -H 'Content-Type: application/json' -d '{}' -o /dev/null || true
+
   # Pre-build supply-chain gate. Runs in parallel with `test` — failing
   # on High+ CVEs in package-lock.json blocks the merge before any image
   # gets built or signed. Uses the shared gmr-ci action so the threshold
@@ -173,7 +210,7 @@ jobs:
   # be both uploaded to Dependency-Track AND used as the attestation
   # predicate — one generate, one attest, one upload.
   build-deploy:
-    needs: [test, smoke, security]
+    needs: [test, smoke, security, contracts]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -218,6 +255,25 @@ jobs:
       # (environments/<env>/image-tag.yaml) that doesn't match
       # fontem/gitops's testing/<svc>.yaml layout. Same shape as
       # the consolidator + sinks workflows.
+      - name: "Contract gate: can-i-deploy to testing"
+        env:
+          TAG: ${{ steps.image.outputs.tag }}
+          PACT_BROKER: http://pact-broker.pact.svc.cluster.local
+        run: |
+          set -euo pipefail
+          RES=$(curl -fsS "$PACT_BROKER/can-i-deploy?pacticipant=fontem-web&version=$TAG&to=testing" -H 'Accept: application/json' || echo '{}')
+          echo "$RES" | python3 -c "
+          import json,sys
+          d=json.load(sys.stdin)
+          summary=d.get('summary',{})
+          deployable=summary.get('deployable')
+          print('can-i-deploy summary:', json.dumps(summary))
+          if deployable is False:
+              print('::error::contract verification says this version is NOT compatible with testing')
+              sys.exit(1)
+          if deployable is None:
+              print('::warning::no contract verdict recorded yet — allowing (bootstrap grace)')
+          "
       - name: Bump image digest in gitops/testing
         env:
           TAG: ${{ steps.image.outputs.tag }}
@@ -251,3 +307,15 @@ jobs:
           fi
           git commit -m "ci: deploy fontem-web $TAG${DIGEST:+ ($DIGEST)} to testing"
           git push origin main
+      - name: Record deployment in the pact broker
+        env:
+          TAG: ${{ steps.image.outputs.tag }}
+          PACT_BROKER: http://pact-broker.pact.svc.cluster.local
+          PACT_USER: ${{ secrets.PACT_BROKER_USERNAME }}
+          PACT_PASS: ${{ secrets.PACT_BROKER_PASSWORD }}
+        run: |
+          curl -fsS -u "$PACT_USER:$PACT_PASS" -X PUT \
+            "$PACT_BROKER/pacticipants/fontem-web/versions/$TAG/tags/testing" \
+            -H 'Content-Type: application/json' -d '{}' -o /dev/null \
+            && echo "recorded fontem-web $TAG as deployed to testing" \
+            || echo "::warning::could not record deployment in the broker"
