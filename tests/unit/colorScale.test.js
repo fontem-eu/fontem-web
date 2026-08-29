@@ -265,3 +265,118 @@ describe('buildColorExpression — palette routing', () => {
     expect(expr[2]).toMatch(/^#440154$/i)  // viridis[0]
   })
 })
+
+// ── Mutation-hardening: pin the palettes (they are accessibility
+// decisions — CVD-safe ramps + the distinct null colour) and the
+// breakpoint math the map/legend pair depends on. ─────────────────
+describe('palette catalogue is exact', () => {
+  const EXPECTED = {
+    auto: { label: 'Auto (CVD-safe)', family: 'auto', cvd: true },
+    viridis: { label: 'Viridis', family: 'sequential', cvd: true,
+      stops: ['#440154', '#3b528b', '#21918c', '#5ec962', '#fde725'] },
+    cividis: { label: 'Cividis', family: 'sequential', cvd: true,
+      stops: ['#00224e', '#3b496c', '#707173', '#a1a06a', '#fde737'] },
+    magma: { label: 'Magma', family: 'sequential', cvd: true,
+      stops: ['#000004', '#51127c', '#b73779', '#fc8961', '#fcfdbf'] },
+    plasma: { label: 'Plasma', family: 'sequential', cvd: true,
+      stops: ['#0d0887', '#7e03a8', '#cc4778', '#f89540', '#f0f921'] },
+    blues: { label: 'Blues', family: 'sequential', cvd: true,
+      stops: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'] },
+    greens: { label: 'Greens', family: 'sequential', cvd: true,
+      stops: ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'] },
+    ylgnbu: { label: 'Yellow-Green-Blue', family: 'sequential', cvd: true,
+      stops: ['#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'] },
+    ylorrd: { label: 'Yellow-Orange-Red', family: 'sequential', cvd: false,
+      stops: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'] },
+    puor: { label: 'Purple-Orange', family: 'diverging', cvd: true,
+      stops: ['#7f3b08', '#e08214', '#f7f7f7', '#8073ac', '#2d004b'] },
+    brbg: { label: 'Brown-Blue-Green', family: 'diverging', cvd: true,
+      stops: ['#8c510a', '#dfc27d', '#f5f5f5', '#80cdc1', '#01665e'] },
+    prgn: { label: 'Purple-Green', family: 'diverging', cvd: true,
+      stops: ['#762a83', '#c2a5cf', '#f7f7f7', '#a6dba0', '#1b7837'] },
+    rdbu: { label: 'Red-Blue', family: 'diverging', cvd: false,
+      stops: ['#b2182b', '#ef8a62', '#f7f7f7', '#67a9cf', '#2166ac'] },
+  }
+  it('matches the pinned catalogue exactly', () => {
+    expect(PALETTE_CATALOG).toEqual(EXPECTED)
+  })
+  it('null colour stays the distinct light gray', () => {
+    expect(NULL_COLOR).toBe('#cccccc')
+  })
+})
+
+describe('palette resolution fallbacks', () => {
+  const stops = (expr) => [expr[2], ...expr.slice(3).filter((_, i) => i % 2 === 1)]
+  it('auto picks viridis for sequential and PuOr for diverging', () => {
+    expect(stops(buildColorExpression({ bounds: [0, 10], kind: 'sequential' })))
+      .toEqual(PALETTE_CATALOG.viridis.stops)
+    expect(stops(buildColorExpression({ bounds: [-5, 5], kind: 'diverging' })))
+      .toEqual(PALETTE_CATALOG.puor.stops)
+  })
+  it('a family mismatch quietly falls back to the kind default', () => {
+    expect(stops(buildColorExpression({ bounds: [-5, 5], kind: 'diverging', palette: 'blues' })))
+      .toEqual(PALETTE_CATALOG.puor.stops)
+    expect(stops(buildColorExpression({ bounds: [0, 10], kind: 'sequential', palette: 'puor' })))
+      .toEqual(PALETTE_CATALOG.viridis.stops)
+  })
+  it('an explicit matching palette is honoured', () => {
+    expect(stops(buildColorExpression({ bounds: [0, 10], kind: 'sequential', palette: 'greens' })))
+      .toEqual(PALETTE_CATALOG.greens.stops)
+  })
+})
+
+describe('breakpoint math', () => {
+  it('linear breaks sit at 1/5..4/5 of the range', () => {
+    const expr = buildColorExpression({ bounds: [0, 100], kind: 'sequential' })
+    const values = expr.slice(3).filter((_, i) => i % 2 === 0)
+    expect(values).toEqual([20, 40, 60, 80])
+  })
+  it('log breaks are log-spaced for positive sequential bounds', () => {
+    const expr = buildColorExpression({ bounds: [1, 10000], kind: 'sequential', log: true })
+    const values = expr.slice(3).filter((_, i) => i % 2 === 0)
+    const expected = [10 ** 0.8, 10 ** 1.6, 10 ** 2.4, 10 ** 3.2]
+    values.forEach((v, i) => expect(v).toBeCloseTo(expected[i], 6))
+  })
+  it('log falls back to linear when bounds touch zero or negative', () => {
+    const expr = buildColorExpression({ bounds: [0, 100], kind: 'sequential', log: true })
+    const values = expr.slice(3).filter((_, i) => i % 2 === 0)
+    expect(values).toEqual([20, 40, 60, 80])
+  })
+  it('legend and map share the same interior breakpoints', () => {
+    const opts = { bounds: [10, 60], kind: 'sequential', palette: 'blues' }
+    const expr = buildColorExpression(opts)
+    const exprValues = expr.slice(3).filter((_, i) => i % 2 === 0)
+    const legend = legendStops(opts)
+    expect(legend[0]).toEqual({ value: 10, color: PALETTE_CATALOG.blues.stops[0] })
+    expect(legend.at(-1)).toEqual({ value: 60, color: PALETTE_CATALOG.blues.stops.at(-1) })
+    expect(legend.slice(1, -1).map((s) => s.value)).toEqual(exprValues)
+  })
+})
+
+describe('deriveBounds + findSliceStats', () => {
+  it('uses the robust p02..p98 window by default, full range on demand', () => {
+    const stats = { value_min: 0, value_max: 100, value_p02: 5, value_p98: 95 }
+    expect(deriveBounds(stats)).toEqual([5, 95])
+    expect(deriveBounds(stats, { useFullRange: true })).toEqual([0, 100])
+  })
+  it('rejects missing or non-finite stats', () => {
+    expect(deriveBounds(null)).toBeNull()
+    expect(deriveBounds({})).toBeNull()
+    expect(deriveBounds({ value_p02: 1, value_p98: Infinity })).toBeNull()
+  })
+  it('returns a degenerate ascending window for flat distributions', () => {
+    const [lo, hi] = deriveBounds({ value_p02: 7, value_p98: 7 })
+    expect(lo).toBe(7)
+    expect(hi).toBeGreaterThan(7)
+  })
+  it('finds the stats row whose dimensions match the slice key', () => {
+    const rows = [
+      { dimensions: { unit: 'NR' }, value_p02: 1 },
+      { dimensions: { unit: 'P_HTHAB' }, value_p02: 2 },
+    ]
+    expect(findSliceStats(rows, JSON.stringify({ unit: 'P_HTHAB' })).value_p02).toBe(2)
+    expect(findSliceStats(rows, JSON.stringify({ unit: 'XX' }))).toBeNull()
+    expect(findSliceStats(null, 'k')).toBeNull()
+    expect(findSliceStats(rows, '')).toBeNull()
+  })
+})
