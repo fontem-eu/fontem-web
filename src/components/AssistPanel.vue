@@ -82,20 +82,36 @@ const editorState = computed(() => props.editorState ?? ctx.editorState.value)
  * holds their choice; 'global' is the one everybody starts with and is what
  * a signed-out visitor gets, since they have no account to hang a list off.
  */
-const activeKey = ref('global')
+const activeKey = ref(reportId.value ? `report:${reportId.value}` : 'global')
 const conversations = ref([])
 const switcherOpen = ref(false)
 const renamingKey = ref('')
 const renameDraft = ref('')
 
 function conversationKey() {
-  return reportId.value ? `report:${reportId.value}` : activeKey.value
+  return activeKey.value
 }
 
-const isReportChat = computed(() => Boolean(reportId.value))
+// The page's report chat is the DEFAULT on a report page, not a cage: the
+// user can switch to any of their chats from the switcher. Before this the
+// switcher was hidden on report pages entirely, so a prompt sent while
+// editing landed in a chat that was invisible from everywhere else — the
+// "my prompt disappeared into a hidden chat" report (2026-08-28).
+watch(reportId, (id) => {
+  const wanted = id ? `report:${id}` : 'global'
+  if (activeKey.value !== wanted) {
+    activeKey.value = wanted
+    messages.value = []
+    olderCursor.value = ''
+    hasOlder.value = false
+    if (open.value) loadConversation()
+  }
+})
+
+const isReportChat = computed(() =>
+  activeKey.value.startsWith('report:'))
 
 const activeTitle = computed(() => {
-  if (isReportChat.value) return ''
   const found = conversations.value.find(c => c.conversation_key === activeKey.value)
   return found?.title || ''
 })
@@ -107,8 +123,10 @@ async function toggleSwitcher() {
 
 async function loadConversationList() {
   // Signed-out visitors have no account, so no list and no switcher. The
-  // panel still works — it just has the one ephemeral thread.
-  if (!signedIn.value || isReportChat.value) return
+  // panel still works — it just has the one ephemeral thread. (This used
+  // to also bail on report chats, which is what kept the switcher empty
+  // — and prompts stranded — on report pages.)
+  if (!signedIn.value) return
   try {
     const data = await listAssistConversations()
     conversations.value = data?.conversations || []
@@ -322,6 +340,30 @@ function formatBytes(n) {
 function renderMarkdown(text) {
   if (!text) return ''
   return sanitizeMarkdown(marked.parse(text))
+}
+
+// Cached per message: the template re-evaluates its bindings on EVERY
+// reactive tick — each streamed chunk, each tool event, each second of the
+// elapsed timer — and an uncached call here re-parsed and re-sanitized
+// every assistant message in the transcript each time. On a long
+// investigation turn that is O(chunks x history) markdown work on the
+// main thread; the tab froze and died (2026-08-28). With the cache, a
+// message pays for rendering only when ITS text actually changed.
+function renderedHtml(msg) {
+  if (!msg.text) return ''
+  // While a message is still streaming, re-render every ~400 grown chars
+  // rather than every chunk: rendering the whole growing text per chunk
+  // is quadratic in the answer length. The final render (msg.final) is
+  // exact; a stream that never finalises still converges within 400
+  // chars of the truth.
+  const grownEnough = msg.text.length - (msg._htmlLen || 0) >= 400
+  const changed = msg._htmlFor !== msg.text
+  if (changed && (msg.final || grownEnough || !msg._html)) {
+    msg._html = renderMarkdown(msg.text)
+    msg._htmlFor = msg.text
+    msg._htmlLen = msg.text.length
+  }
+  return msg._html
 }
 
 function toggle() {
@@ -745,6 +787,9 @@ async function send() {
   } finally {
     loading.value = false
     stopElapsedTimer()
+    // The throttled renderer skips intermediate states; the turn's last
+    // state must always be exact.
+    if (assistMsg) assistMsg.final = true
     await nextTick()
     scrollToBottom()
   }
@@ -995,11 +1040,13 @@ defineExpose({ applyProposal, messages })
         </div>
       </div>
 
-      <!-- Conversation switcher. Absent for a report's chat, which is bound
-           to its report, and for signed-out visitors, who have no account to
-           hang a list off. -->
+      <!-- Conversation switcher. Present whenever there is an account to
+           hang a list off — including on report pages, where the report's
+           own chat is simply the active entry. It used to be absent there,
+           which made prompts sent while editing land in a chat invisible
+           from everywhere else. -->
       <div
-        v-if="!isReportChat && signedIn"
+        v-if="signedIn"
         class="assist-conversations"
         data-testid="assist-conversation-bar"
       >
@@ -1126,7 +1173,7 @@ defineExpose({ applyProposal, messages })
               <summary>{{ $t('assist.thinking') }}</summary>
               <div class="msg-thinking-body">{{ msg.thinking }}</div>
             </details>
-            <div class="msg-text msg-markdown" v-html="renderMarkdown(msg.text)"></div>
+            <div class="msg-text msg-markdown" v-html="renderedHtml(msg)"></div>
             <div class="msg-actions">
               <button class="msg-action" @click="insertText(msg.text)">{{ $t('assist.insert_into_story') }}</button>
             </div>

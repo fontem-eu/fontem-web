@@ -96,10 +96,13 @@ describe('AssistPanel conversations', () => {
     expect(q('[data-testid="assist-conversation-bar"]')).toBeNull()
   })
 
-  it("hides the switcher on a report's chat", async () => {
-    // That chat is bound to its report; you are discussing that report.
+  it("shows the switcher on a report's chat too", async () => {
+    // The contract flipped deliberately (2026-08-28): the switcher used
+    // to be absent on report pages, so a prompt sent while editing landed
+    // in a chat invisible from everywhere else — "my prompt disappeared".
+    // The report's chat is now the ACTIVE entry, not a cage.
     await open({ reportId: 'report-1' })
-    expect(q('[data-testid="assist-conversation-bar"]')).toBeNull()
+    expect(q('[data-testid="assist-conversation-bar"]')).not.toBeNull()
   })
 
   it('lists the conversations when opened', async () => {
@@ -175,5 +178,44 @@ describe('AssistPanel conversations', () => {
     await flushPromises()
     // Not an empty panel with no way out.
     expect(page).toHaveBeenLastCalledWith('global', { limit: 30 })
+  })
+})
+
+describe('AssistPanel conversations on a report page', () => {
+  beforeEach(() => {
+    token.mockReturnValue('a-token')
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, body: null })))
+    list.mockReset(); page.mockReset()
+    list.mockResolvedValue({ conversations: CONVERSATIONS })
+    page.mockResolvedValue({ messages: [], has_more: false, next_before: '' })
+  })
+
+  afterEach(() => {
+    wrapper?.unmount()
+    document.body.innerHTML = ''
+  })
+
+  it("defaults to the report's own chat", async () => {
+    await open({ reportId: 'report-1' })
+    q('[data-testid="assist-input"]') // panel is open
+    // The active key drives the request the next prompt would use; the
+    // page fetch for history names the report's chat.
+    const keys = page.mock.calls.map((c) => c[0])
+    expect(keys).toContain('report:report-1')
+  })
+
+  it('can switch away to another chat and load ITS history', async () => {
+    // The other half of the "my prompt disappeared" fix: from a report
+    // page the user can reach every chat, so nothing they wrote is ever
+    // stranded somewhere invisible.
+    await open({ reportId: 'report-1' })
+    await openSwitcher()
+    const rows = all('[data-testid="assist-conversation-pick"]')
+    expect(rows.length).toBeGreaterThan(0)
+    page.mockClear()
+    rows[0].click()
+    await flushPromises()
+    const keys = page.mock.calls.map((c) => c[0])
+    expect(keys).toContain('chat:aaa')
   })
 })
