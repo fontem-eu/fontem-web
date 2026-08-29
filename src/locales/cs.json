@@ -204,6 +204,7 @@
     "new_chat": "Nový",
     "rename_chat": "Přejmenovat",
     "delete_chat": "Smazat",
+    "delete_confirm_tap": "Klepněte znovu pro smazání",
     "conversation_create_failed": "Nový chat se nepodařilo založit. Zkuste to znovu.",
     "conversation_rename_failed": "Chat se nepodařilo přejmenovat.",
     "conversation_delete_failed": "Chat se nepodařilo smazat.",

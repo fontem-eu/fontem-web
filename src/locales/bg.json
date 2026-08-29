@@ -204,6 +204,7 @@
     "new_chat": "Нов",
     "rename_chat": "Преименуване",
     "delete_chat": "Изтриване",
+    "delete_confirm_tap": "Докоснете отново за изтриване",
     "conversation_create_failed": "Неуспешно създаване на нов чат. Опитайте отново.",
     "conversation_rename_failed": "Чатът не може да бъде преименуван.",
     "conversation_delete_failed": "Чатът не може да бъде изтрит.",

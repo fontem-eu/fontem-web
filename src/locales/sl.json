@@ -204,6 +204,7 @@
     "new_chat": "Nov",
     "rename_chat": "Preimenuj",
     "delete_chat": "Izbriši",
+    "delete_confirm_tap": "Znova tapnite za izbris",
     "conversation_create_failed": "Novega klepeta ni bilo mogoče začeti. Poskusite znova.",
     "conversation_rename_failed": "Klepeta ni bilo mogoče preimenovati.",
     "conversation_delete_failed": "Klepeta ni bilo mogoče izbrisati.",

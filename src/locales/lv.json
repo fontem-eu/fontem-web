@@ -204,6 +204,7 @@
     "new_chat": "Jauns",
     "rename_chat": "Pārdēvēt",
     "delete_chat": "Dzēst",
+    "delete_confirm_tap": "Pieskarieties vēlreiz, lai dzēstu",
     "conversation_create_failed": "Neizdevās sākt jaunu sarunu. Mēģiniet vēlreiz.",
     "conversation_rename_failed": "Neizdevās pārdēvēt sarunu.",
     "conversation_delete_failed": "Neizdevās dzēst sarunu.",

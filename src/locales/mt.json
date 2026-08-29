@@ -204,6 +204,7 @@
     "new_chat": "Ġdid",
     "rename_chat": "Ibdel l-isem",
     "delete_chat": "Ħassar",
+    "delete_confirm_tap": "Erġa' għafas biex tħassar",
     "conversation_create_failed": "Ma setax jinbeda chat ġdid. Erġa' ipprova.",
     "conversation_rename_failed": "Ma setax jinbidel l-isem ta' dan iċ-chat.",
     "conversation_delete_failed": "Ma setax jitħassar dan iċ-chat.",

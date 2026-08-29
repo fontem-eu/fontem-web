@@ -204,6 +204,7 @@
     "new_chat": "Ny",
     "rename_chat": "Omdøb",
     "delete_chat": "Slet",
+    "delete_confirm_tap": "Tryk igen for at slette",
     "conversation_create_failed": "Kunne ikke starte en ny chat. Prøv igen.",
     "conversation_rename_failed": "Kunne ikke omdøbe denne chat.",
     "conversation_delete_failed": "Kunne ikke slette denne chat.",

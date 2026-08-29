@@ -180,7 +180,22 @@ async function commitRename() {
   }
 }
 
+// Delete is irreversible and, on a phone, one thumb-width from Rename.
+// First tap arms the button (it turns red and says so); a second tap
+// within 3s deletes; doing nothing disarms. No window.confirm — it is
+// jarring, unstylable, and swallowed by some embedded webviews.
+const confirmingDelete = ref('')
+let confirmDisarm = null
+
 async function removeConversation(key) {
+  if (confirmingDelete.value !== key) {
+    confirmingDelete.value = key
+    clearTimeout(confirmDisarm)
+    confirmDisarm = setTimeout(() => { confirmingDelete.value = '' }, 3000)
+    return
+  }
+  clearTimeout(confirmDisarm)
+  confirmingDelete.value = ''
   try {
     await deleteAssistConversation(key)
     conversations.value = conversations.value.filter(c => c.conversation_key !== key)
@@ -1054,7 +1069,8 @@ defineExpose({ applyProposal, messages })
           :aria-expanded="switcherOpen ? 'true' : 'false'"
           @click="toggleSwitcher"
         >
-          {{ activeTitle || $t('assist.untitled_chat') }}
+          <span class="assist-conv-current-title">{{ activeTitle || $t('assist.untitled_chat') }}</span>
+          <svg class="assist-conv-caret" :class="{ 'assist-conv-caret--open': switcherOpen }" aria-hidden="true" viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="M4.2 5.8 8 9.6l3.8-3.8 1.2 1.2-5 5-5-5z"/></svg>
         </button>
         <button
           class="assist-conv-new"
@@ -1065,6 +1081,11 @@ defineExpose({ applyProposal, messages })
           {{ $t('assist.new_chat') }}
         </button>
 
+        <div
+          v-if="switcherOpen"
+          class="assist-conv-backdrop"
+          @click="switcherOpen = false"
+        ></div>
         <ul v-if="switcherOpen" class="assist-conv-list" data-testid="assist-conversation-list">
           <li
             v-for="c in conversations"
@@ -1095,17 +1116,24 @@ defineExpose({ applyProposal, messages })
                 class="assist-conv-action"
                 type="button"
                 data-testid="assist-conversation-rename"
+                :aria-label="$t('assist.rename_chat')"
+                :title="$t('assist.rename_chat')"
                 @click="beginRename(c.conversation_key, c.title)"
               >
-                {{ $t('assist.rename_chat') }}
+                <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path fill="currentColor" d="M11.1 1.6a1.9 1.9 0 0 1 2.7 0l.6.6a1.9 1.9 0 0 1 0 2.7l-8 8a1 1 0 0 1-.45.26l-3.1.86a.5.5 0 0 1-.62-.62l.86-3.1a1 1 0 0 1 .26-.45zm1.3 1.4a.4.4 0 0 0-.57 0l-.72.72 1.17 1.17.72-.72a.4.4 0 0 0 0-.57zM10 4.8 3.9 10.9l-.5 1.7 1.7-.5L11.17 6z"/></svg>
               </button>
               <button
-                class="assist-conv-action"
+                class="assist-conv-action assist-conv-action--danger"
+                :class="{ 'assist-conv-action--confirming': confirmingDelete === c.conversation_key }"
                 type="button"
                 data-testid="assist-conversation-delete"
+                :aria-label="confirmingDelete === c.conversation_key
+                  ? $t('assist.delete_confirm_tap') : $t('assist.delete_chat')"
+                :title="confirmingDelete === c.conversation_key
+                  ? $t('assist.delete_confirm_tap') : $t('assist.delete_chat')"
                 @click="removeConversation(c.conversation_key)"
               >
-                {{ $t('assist.delete_chat') }}
+                <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path fill="currentColor" d="M6.5 1.5h3a1 1 0 0 1 1 1V3h3v1.3h-1.1l-.55 9.2a1.5 1.5 0 0 1-1.5 1.4H5.65a1.5 1.5 0 0 1-1.5-1.4L3.6 4.3H2.5V3h3v-.5a1 1 0 0 1 1-1zm-1.6 2.8.53 9.1a.2.2 0 0 0 .2.19h4.74a.2.2 0 0 0 .2-.19l.53-9.1zM6.4 6h1.2v5.5H6.4zm2 0h1.2v5.5H8.4z"/></svg>
               </button>
             </template>
           </li>
@@ -1540,6 +1568,194 @@ defineExpose({ applyProposal, messages })
 .assist-close:hover {
   color: var(--text);
   border-color: var(--text);
+}
+
+/* ── Conversation switcher ─────────────────────────────────────
+   These shipped with no styles at all: with the app's CSS reset the
+   whole bar rendered as fused raw text ("New chatRenameDelete") —
+   unusable everywhere, catastrophic on a phone. The bar is a slim row
+   under the header; the list is a dropdown sheet OVER the messages
+   (pushing them down made the panel jump), scrollable past ~8 rows,
+   with finger-sized rows and icon actions. */
+.assist-conversations {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.assist-conv-current {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--bezel-border, var(--border));
+  border-radius: 8px;
+  background: var(--bezel, transparent);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+.assist-conv-current:hover { border-color: var(--accent); }
+
+.assist-conv-current-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-conv-caret {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+.assist-conv-caret--open { transform: rotate(180deg); }
+
+.assist-conv-new {
+  flex-shrink: 0;
+  min-height: 2.25rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.assist-conv-new:hover { border-color: var(--accent); }
+
+.assist-conv-list {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0.5rem;
+  right: 0.5rem;
+  z-index: 5;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  max-height: min(50vh, 22rem);
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 18%);
+}
+
+.assist-conv-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 8px;
+}
+.assist-conv-row + .assist-conv-row { margin-top: 1px; }
+.assist-conv-row--active { background: var(--bezel, rgb(0 0 0 / 5%)); }
+.assist-conv-row--active .assist-conv-title { color: var(--accent); }
+
+.assist-conv-pick {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.1rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.assist-conv-pick:hover { background: var(--bezel, rgb(0 0 0 / 4%)); }
+
+.assist-conv-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-conv-snippet {
+  font-size: 0.72rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.assist-conv-snippet:empty { display: none; }
+
+.assist-conv-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.assist-conv-action:hover { color: var(--text); background: var(--bezel, rgb(0 0 0 / 5%)); }
+.assist-conv-action--danger:hover { color: #b91c1c; }
+.assist-conv-action--confirming,
+.assist-conv-action--confirming:hover {
+  color: #fff;
+  background: #b91c1c;
+}
+
+/* Invisible click-catcher under the sheet: tapping anywhere else closes
+ * it, which is what every phone user tries first. */
+.assist-conv-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  background: transparent;
+}
+
+.assist-conv-rename {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.5rem;
+  margin: 0.15rem 0.3rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  /* One row of header on a phone: the title yields, the controls keep
+     their tap size, nothing wraps into a second line. */
+  .assist-header { gap: 0.5rem; padding: 0.6rem 0.75rem; }
+  .assist-title { white-space: nowrap; }
+  .assist-header-actions { min-width: 0; flex: 1 1 auto; justify-content: flex-end; }
+  .assist-model { max-width: 7rem; min-height: 2rem; }
+  .assist-bypass span { white-space: nowrap; }
+  .assist-clear { min-height: 2rem; padding: 0 0.3rem; }
+  .assist-close { width: 2rem; height: 2rem; }
+  /* Finger-sized list rows, full-bleed sheet */
+  .assist-conv-list { left: 0; right: 0; border-radius: 0 0 12px 12px; max-height: 55vh; }
+  .assist-conv-pick { min-height: 3rem; }
+  .assist-conv-action { width: 2.75rem; height: 2.75rem; }
 }
 
 .assist-jump-latest {

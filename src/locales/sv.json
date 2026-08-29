@@ -204,6 +204,7 @@
     "new_chat": "Ny",
     "rename_chat": "Byt namn",
     "delete_chat": "Ta bort",
+    "delete_confirm_tap": "Tryck igen för att radera",
     "conversation_create_failed": "Det gick inte att starta en ny chatt. Försök igen.",
     "conversation_rename_failed": "Det gick inte att byta namn på chatten.",
     "conversation_delete_failed": "Det gick inte att ta bort chatten.",
