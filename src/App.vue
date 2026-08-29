@@ -14,6 +14,7 @@ import VerifyEmailBanner from './components/VerifyEmailBanner.vue'
 import CookieConsentBanner from './components/CookieConsentBanner.vue'
 import AssistPanel from './components/AssistPanel.vue'
 import ToastStack from './components/ToastStack.vue'
+import { rateLimited } from './api/_retry.js'
 import I18nPluralProbe from './components/I18nPluralProbe.vue'
 
 const { init: initTheme } = useTheme()
@@ -74,6 +75,17 @@ useVisibleViewportHeight()
     </div>
     <CookieConsentBanner />
     <ToastStack />
+    <!-- The platform rate-limits its own API per client IP. When a burst
+         trips it, the retry wrapper absorbs the 429 — this note is the
+         only sign it happened, instead of a silently empty widget. -->
+    <div
+      v-if="rateLimited"
+      class="rate-limited-note"
+      role="status"
+      data-testid="rate-limited-note"
+    >
+      {{ $t('app.rate_limited_retrying') }}
+    </div>
     <!-- The assistant is part of the shell, not of any one page. It was
          mounted inside ReportEditorView, so it existed only while you were
          editing an article — the one moment you least need help finding
@@ -85,6 +97,25 @@ useVisibleViewportHeight()
 </template>
 
 <style>
+.rate-limited-note {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #7f1d1d;
+  background: #fee2e2;
+  border-top: 1px solid #fca5a5;
+}
+.dark .rate-limited-note {
+  color: #fecaca;
+  background: #450a0a;
+  border-top-color: #7f1d1d;
+}
+
 .app-shell {
   display: flex;
   flex-direction: column;

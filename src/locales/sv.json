@@ -171,6 +171,7 @@
     "private": "privat",
     "public": "offentlig",
     "raise_an_issue": "Rapportera ett problem",
+    "rate_limited_retrying": "För många förfrågningar — servern bad oss sakta ner; försöker igen om några sekunder…",
     "remove": "Ta bort",
     "retry": "Försök igen",
     "run_query": "Kör fråga",

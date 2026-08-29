@@ -171,6 +171,7 @@
     "private": "magán",
     "public": "nyilvános",
     "raise_an_issue": "Probléma bejelentése",
+    "rate_limited_retrying": "Túl sok kérés — a szerver lassítást kért; néhány másodperc múlva újrapróbáljuk…",
     "remove": "Eltávolítás",
     "retry": "Újrapróbálkozás",
     "run_query": "Lekérdezés futtatása",

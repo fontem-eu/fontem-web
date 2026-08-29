@@ -171,6 +171,7 @@
     "private": "privado",
     "public": "público",
     "raise_an_issue": "Reportar incidencia",
+    "rate_limited_retrying": "Demasiadas solicitudes — el servidor pidió reducir el ritmo; se reintentará en unos segundos…",
     "remove": "Eliminar",
     "retry": "Reintentar",
     "run_query": "Ejecutar consulta",

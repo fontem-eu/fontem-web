@@ -176,7 +176,12 @@ describe('community.js 5xx retry policy', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('does not retry 4xx (including 429 — deliberately)', async () => {
+  it('retries a 429 GET with backoff, then surfaces it', async () => {
+    // Flipped from "does not retry 4xx including 429": the 429 comes from
+    // our own per-client-IP nginx limiter, which a legitimate burst of
+    // parallel requests can trip (STORY-FLOWERS-3, promote run 28166).
+    // fetchRetrying absorbs it for GETs; a persistent 429 still surfaces
+    // with its status intact.
     const fetchMock = failing(429)
     vi.stubGlobal('fetch', fetchMock)
     const p = getReport('r1').catch((e) => e)
@@ -185,6 +190,16 @@ describe('community.js 5xx retry policy', () => {
     expect(err.status).toBe(429)
     expect(err.method).toBe('GET')
     expect(err.path).toBe('/data-stories/r1')
+    expect(fetchMock).toHaveBeenCalledTimes(3) // original + 2 backoff retries
+  })
+
+  it('does not retry other 4xx', async () => {
+    const fetchMock = failing(404)
+    vi.stubGlobal('fetch', fetchMock)
+    const p = getReport('r1').catch((e) => e)
+    await vi.runAllTimersAsync()
+    const err = await p
+    expect(err.status).toBe(404)
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 

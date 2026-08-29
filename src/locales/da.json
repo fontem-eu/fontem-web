@@ -171,6 +171,7 @@
     "private": "privat",
     "public": "offentlig",
     "raise_an_issue": "Opret en sag",
+    "rate_limited_retrying": "For mange forespørgsler — serveren bad os sætte tempoet ned; prøver igen om få sekunder…",
     "remove": "Fjern",
     "retry": "Prøv igen",
     "run_query": "Kør forespørgsel",

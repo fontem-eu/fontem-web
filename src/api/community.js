@@ -12,6 +12,7 @@
  */
 
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 import { getAccessToken, refresh, whenSessionReady } from './session.js'
 
 
@@ -39,7 +40,8 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
   // private resource. No-op once settled (and on SSR).
   await whenSessionReady()
   const { opts, sentAuth } = buildRequestInit(method, body)
-  const res = await fetch(`/capi${withLang(path)}`, opts)
+  // GETs ride the 429-retry wrapper; it passes writes through untouched.
+  const res = await fetchRetrying(`/capi${withLang(path)}`, opts)
 
   // 401 on a token-bearing request: try a silent refresh exactly once.
   // The session store dedupes concurrent refreshes so N parallel API
@@ -59,11 +61,16 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
 
   // Retry on transient server errors (GET only).
   //
-  // Deliberately NOT extended to 429 or gateway timeouts. A retry turns a
+  // Deliberately NOT extended to gateway timeouts. A retry turns a
   // server error into a slow success and takes the evidence with it: the
   // three flaky e2e failures this was briefly used to paper over were all
   // worth diagnosing, and one of them (a 60s SPARQL scan ending in 504)
-  // got materially worse when retried.
+  // got materially worse when retried. 429 is different since 2026-08:
+  // it is our OWN nginx limiter, keyed on client IP, and a legitimate
+  // burst of parallel requests can trip it. fetchRetrying above absorbs
+  // it with backoff for GETs — and unlike the papered-over retries, it
+  // announces itself (the shell's footnote, the nginx marker header),
+  // so the evidence survives.
   if (res.status >= 500 && method === 'GET' && retries < 2) {
     await new Promise((r) => setTimeout(r, 1000 * (retries + 1)))
     return request(method, path, body, { retries: retries + 1, refreshed })

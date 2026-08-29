@@ -10,6 +10,7 @@
  * Callers (SearchView) run both in parallel and merge the typed results.
  */
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 import { request } from './community.js'
 
 // Build a query string, dropping empty/absent values and joining arrays with
@@ -39,7 +40,7 @@ export async function searchGraph({
     q: q.trim(), types, country, nuts,
     date_from: dateFrom, date_to: dateTo, limit, offset,
   })
-  const res = await fetch(withLang(`/api/search/results?${query}`))
+  const res = await fetchRetrying(withLang(`/api/search/results?${query}`))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)

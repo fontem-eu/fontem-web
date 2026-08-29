@@ -171,6 +171,7 @@
     "private": "privaatne",
     "public": "avalik",
     "raise_an_issue": "Esita probleem",
+    "rate_limited_retrying": "Liiga palju päringuid — server palus aeglustada; proovime mõne sekundi pärast uuesti…",
     "remove": "Eemalda",
     "retry": "Proovi uuesti",
     "run_query": "Käivita päring",

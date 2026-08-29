@@ -3,9 +3,10 @@
  * Petition ids contain parentheses, so detail uses query params.
  */
 import { withLang } from './_lang.js'
+import { fetchRetrying } from './_retry.js'
 
 async function get(path) {
-  const res = await fetch(withLang(path))
+  const res = await fetchRetrying(withLang(path))
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
