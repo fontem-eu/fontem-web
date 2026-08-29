@@ -181,3 +181,48 @@ describe('useLang — IP-geo detection', () => {
     expect(f).not.toHaveBeenCalled()
   })
 })
+
+// ── Mutation-hardening: the EU-24 catalogue is exact ───────────────
+describe('EU_LANGUAGES catalogue', () => {
+  it('pins every native-name label', async () => {
+    const { EU_LANGUAGES } = await import('../../src/composables/eu-languages.js')
+    expect(EU_LANGUAGES).toEqual([
+      { code: 'bg', label: 'Български' },
+      { code: 'cs', label: 'Čeština' },
+      { code: 'da', label: 'Dansk' },
+      { code: 'de', label: 'Deutsch' },
+      { code: 'el', label: 'Ελληνικά' },
+      { code: 'en', label: 'English' },
+      { code: 'es', label: 'Español' },
+      { code: 'et', label: 'Eesti' },
+      { code: 'fi', label: 'Suomi' },
+      { code: 'fr', label: 'Français' },
+      { code: 'ga', label: 'Gaeilge' },
+      { code: 'hr', label: 'Hrvatski' },
+      { code: 'hu', label: 'Magyar' },
+      { code: 'it', label: 'Italiano' },
+      { code: 'lt', label: 'Lietuvių' },
+      { code: 'lv', label: 'Latviešu' },
+      { code: 'mt', label: 'Malti' },
+      { code: 'nl', label: 'Nederlands' },
+      { code: 'pl', label: 'Polski' },
+      { code: 'pt', label: 'Português' },
+      { code: 'ro', label: 'Română' },
+      { code: 'sk', label: 'Slovenčina' },
+      { code: 'sl', label: 'Slovenščina' },
+      { code: 'sv', label: 'Svenska' },
+    ])
+  })
+
+  it('normalises regioned and cased inputs, rejecting junk', async () => {
+    const { normaliseLang } = await import('../../src/composables/eu-languages.js')
+    expect(normaliseLang('EN')).toBe('en')
+    expect(normaliseLang('fr-FR')).toBe('fr')
+    expect(normaliseLang('pt_BR')).toBe('pt')
+    expect(normaliseLang(' de ')).toBe('de')
+    expect(normaliseLang('xx')).toBeNull()
+    expect(normaliseLang('')).toBeNull()
+    expect(normaliseLang(null)).toBeNull()
+    expect(normaliseLang(42)).toBeNull()
+  })
+})
