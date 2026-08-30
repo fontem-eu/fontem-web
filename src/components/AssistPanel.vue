@@ -164,6 +164,14 @@ async function startNewConversation() {
 function beginRename(key, current) {
   renamingKey.value = key
   renameDraft.value = current || ''
+  // The input replaces the row via v-if, so it does not exist yet —
+  // focus it (and select the old name for overwrite) once it does. An
+  // `autofocus` attribute is unreliable on dynamically inserted nodes.
+  nextTick(() => {
+    const el = document.querySelector(
+      '[data-testid="assist-conversation-rename-input"]')
+    if (el) { el.focus(); el.select() }
+  })
 }
 
 async function commitRename() {
@@ -191,7 +199,7 @@ async function removeConversation(key) {
   if (confirmingDelete.value !== key) {
     confirmingDelete.value = key
     clearTimeout(confirmDisarm)
-    confirmDisarm = setTimeout(() => { confirmingDelete.value = '' }, 3000)
+    confirmDisarm = setTimeout(() => { confirmingDelete.value = '' }, 5000)
     return
   }
   clearTimeout(confirmDisarm)
@@ -1133,7 +1141,13 @@ defineExpose({ applyProposal, messages })
                   ? $t('assist.delete_confirm_tap') : $t('assist.delete_chat')"
                 @click="removeConversation(c.conversation_key)"
               >
-                <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path fill="currentColor" d="M6.5 1.5h3a1 1 0 0 1 1 1V3h3v1.3h-1.1l-.55 9.2a1.5 1.5 0 0 1-1.5 1.4H5.65a1.5 1.5 0 0 1-1.5-1.4L3.6 4.3H2.5V3h3v-.5a1 1 0 0 1 1-1zm-1.6 2.8.53 9.1a.2.2 0 0 0 .2.19h4.74a.2.2 0 0 0 .2-.19l.53-9.1zM6.4 6h1.2v5.5H6.4zm2 0h1.2v5.5H8.4z"/></svg>
+                <!-- The armed state must SAY so: :title never shows on a
+                     touch screen, and a silently red icon reads as broken. -->
+                <span
+                  v-if="confirmingDelete === c.conversation_key"
+                  class="assist-conv-confirm-label"
+                >{{ $t('assist.delete_confirm_tap') }}</span>
+                <svg v-else aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path fill="currentColor" d="M6.5 1.5h3a1 1 0 0 1 1 1V3h3v1.3h-1.1l-.55 9.2a1.5 1.5 0 0 1-1.5 1.4H5.65a1.5 1.5 0 0 1-1.5-1.4L3.6 4.3H2.5V3h3v-.5a1 1 0 0 1 1-1zm-1.6 2.8.53 9.1a.2.2 0 0 0 .2.19h4.74a.2.2 0 0 0 .2-.19l.53-9.1zM6.4 6h1.2v5.5H6.4zm2 0h1.2v5.5H8.4z"/></svg>
               </button>
             </template>
           </li>
@@ -1588,6 +1602,7 @@ defineExpose({ applyProposal, messages })
 }
 
 .assist-conv-current {
+  touch-action: manipulation;
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
@@ -1622,6 +1637,7 @@ defineExpose({ applyProposal, messages })
 .assist-conv-caret--open { transform: rotate(180deg); }
 
 .assist-conv-new {
+  touch-action: manipulation;
   flex-shrink: 0;
   min-height: 2.25rem;
   padding: 0.3rem 0.7rem;
@@ -1664,6 +1680,7 @@ defineExpose({ applyProposal, messages })
 .assist-conv-row--active .assist-conv-title { color: var(--accent); }
 
 .assist-conv-pick {
+  touch-action: manipulation;
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
@@ -1704,13 +1721,24 @@ defineExpose({ applyProposal, messages })
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
+  min-width: 2.25rem;
   height: 2.25rem;
+  padding: 0 0.3rem;
   border: none;
   border-radius: 8px;
   background: none;
   color: var(--muted);
   cursor: pointer;
+  /* Without this, a quick second tap on a phone is held back (or eaten)
+   * by the browser's double-tap-to-zoom gesture — which made the two-tap
+   * delete read as "doesn't work" on real devices while every synthetic
+   * test passed. */
+  touch-action: manipulation;
+}
+.assist-conv-confirm-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 .assist-conv-action:hover { color: var(--text); background: var(--bezel, rgb(0 0 0 / 5%)); }
 .assist-conv-action--danger:hover { color: #b91c1c; }

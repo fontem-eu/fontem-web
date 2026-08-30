@@ -174,6 +174,29 @@ describe('AssistPanel conversations', () => {
     expect(all('[data-testid="assist-conversation-row"]').length).toBe(1)
   })
 
+  it('rename focuses the input and selects the old name', async () => {
+    // On a phone there is no second gesture to place the caret; the tap
+    // on the pencil must land the user typing.
+    await open()
+    await openSwitcher()
+    all('[data-testid="assist-conversation-rename"]')[0].click()
+    await flushPromises()
+    const input = q('[data-testid="assist-conversation-rename-input"]')
+    expect(document.activeElement).toBe(input)
+    expect(input.selectionEnd - input.selectionStart).toBe(input.value.length)
+  })
+
+  it('the armed delete says so in words, not just a colour', async () => {
+    // :title tooltips do not exist on a touch screen — a silently red
+    // icon reads as "the button is broken".
+    await open()
+    await openSwitcher()
+    all('[data-testid="assist-conversation-delete"]')[0].click()
+    await flushPromises()
+    expect(all('[data-testid="assist-conversation-delete"]')[0].textContent)
+      .toContain('Tap again to delete')
+  })
+
   it('arming one row does not arm the others', async () => {
     await open()
     await openSwitcher()
