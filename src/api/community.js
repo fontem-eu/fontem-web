@@ -423,9 +423,10 @@ export function diffRevisions(reportId, from = null, to = null) {
   if (from) q.set('from', from)
   if (to) q.set('to', to)
   const query = q.toString()
+  const suffix = query ? `?${query}` : ''
   return request(
     'GET',
-    `/data-stories/${encodeURIComponent(reportId)}/diff${query ? `?${query}` : ''}`,
+    `/data-stories/${encodeURIComponent(reportId)}/diff${suffix}`,
   )
 }
 
