@@ -85,6 +85,10 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
     err.status = res.status
     err.method = method
     err.path = path
+    // The parsed body, for errors that carry the means to recover: a 409
+    // on a document save returns the revision and content it protected,
+    // so the caller can show the difference rather than just failing.
+    try { err.body = JSON.parse(text) } catch { err.body = null }
     throw err
   }
   if (res.status === 204) return null
@@ -402,10 +406,20 @@ export function getAssistUsageHistory(days = 30) {
 
 // ── v2 Document API ────────────────────────────────────────
 
-export function saveDocument(reportId, tiptapJson) {
+/**
+ * Save the document, naming the revision it was written against.
+ *
+ * `baseRevision` is what lets the server tell a fresh save from one
+ * built on a stale buffer. A save that does not name its baseline is
+ * refused with 409 rather than allowed to overwrite — which is what a
+ * published story lost its widgets to. `version` is the document
+ * FORMAT, a different thing that has been mistaken for this before.
+ */
+export function saveDocument(reportId, tiptapJson, baseRevision = null) {
   return request('PUT', `/data-stories/${encodeURIComponent(reportId)}/content`, {
     tiptap: tiptapJson,
     version: 2,
+    base_revision: baseRevision,
   })
 }
 

@@ -1039,6 +1039,7 @@
     "saving": "Saving...",
     "save": "Save",
     "insert_widget": "Insert Widget",
+    "load_current_version": "Load the current version",
     "your_pocket_is_empty": "Your pocket is empty. Save visualizations using the Pocket button first.",
     "close": "Close",
     "start_writing": "Start writing your analysis...",

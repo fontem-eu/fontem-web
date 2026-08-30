@@ -37,6 +37,8 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1',
     abstract: 'Test abstract',
     visibility: 'private',
     content_doc,
+    // The revision the buffer is built from; every save names it back.
+    head_revision: 'rev-loaded',
     sections,
     ...reportExtra,
   })
@@ -136,7 +138,13 @@ describe('ReportEditorView — unified editor', () => {
       language: 'en',
       nuts_region: '',
     })
-    expect(communityApi.saveDocument).toHaveBeenCalledWith('r1', expect.any(Object))
+    // Third argument: the revision this buffer was loaded from. Saving
+    // without it is what let a stale buffer overwrite newer work.
+    // Third argument: the revision this buffer was loaded from. Saving
+    // without it is what let a stale buffer overwrite newer work.
+    expect(communityApi.saveDocument).toHaveBeenCalledWith(
+      'r1', expect.any(Object), 'rev-loaded',
+    )
   })
 
   it('saves the selected country region', async () => {
@@ -236,5 +244,51 @@ describe('ReportEditorView — unified editor', () => {
     const col = wrapper.find('.editor-body-col')
     expect(col.exists()).toBe(true)
     expect(col.find('.tiptap-editor').exists()).toBe(true)
+  })
+})
+
+describe('ReportEditorView — a document that moved on', () => {
+  /**
+   * The lost-widgets bug (prod, 2026-08-30): an assistant's edits were
+   * saved from one buffer, and a save from an older buffer an hour later
+   * silently replaced them. The server now refuses that save; this is the
+   * editor holding up its end.
+   */
+  it('warns instead of overwriting, and keeps the unsaved buffer', async () => {
+    const { wrapper } = await mountEditor()
+    const stale = new Error('HTTP 409: conflict')
+    stale.status = 409
+    stale.body = {
+      detail: 'the document changed since you loaded it',
+      current_revision: 'rev-newer',
+      current_doc: { type: 'doc', content: [] },
+    }
+    communityApi.saveDocument.mockRejectedValueOnce(stale)
+
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    const bar = wrapper.find('[data-testid="editor-stale"]')
+    expect(bar.exists()).toBe(true)
+    expect(bar.text()).toContain('changed')
+    // Nothing was overwritten, and the reload is offered rather than taken.
+    expect(wrapper.find('[data-testid="editor-stale-reload"]').exists()).toBe(true)
+    expect(communityApi.getReport).toHaveBeenCalledTimes(1)
+  })
+
+  it('reloads the current document only when asked', async () => {
+    const { wrapper } = await mountEditor()
+    const stale = new Error('HTTP 409: conflict')
+    stale.status = 409
+    stale.body = { detail: 'moved on', current_revision: 'rev-newer' }
+    communityApi.saveDocument.mockRejectedValueOnce(stale)
+
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+    await wrapper.find('[data-testid="editor-stale-reload"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.getReport).toHaveBeenCalledTimes(2)
+    expect(wrapper.find('[data-testid="editor-stale"]').exists()).toBe(false)
   })
 })

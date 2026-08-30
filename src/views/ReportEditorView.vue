@@ -139,7 +139,9 @@ function onHeaderKeydown(event) {
 // round-trip doesn't destroy unsaved work. A missing translation
 // prefills from the original so the translator starts from the text.
 const storyLanguage = ref('en')
-const translations = ref([])          // [{lang, outdated}]
+const translations = ref([])
+const headRevision = ref(null)
+const staleWarning = ref(null)          // [{lang, outdated}]
 const transLang = ref('')
 const draftCache = new Map()          // lang ('' = original) -> {title, abstract, doc}
 
@@ -332,6 +334,27 @@ function onAssistInsert(text) {
  *                  just mirror the params into local refs so the
  *                  header reflects the new title/abstract immediately.
  */
+/**
+ * The document moved on under us.
+ *
+ * Never overwrite: the whole point of the baseline is that this save was
+ * written against text that is no longer current. Keep the user's buffer
+ * intact — it is their unsaved work — and tell them plainly, with the
+ * option to reload the current text. A published story lost an
+ * assistant's widgets to the silent version of this.
+ */
+function onStaleSave(err) {
+  staleWarning.value = {
+    revision: err.body?.current_revision || null,
+    message: err.body?.detail || 'This story changed somewhere else.',
+  }
+}
+
+async function reloadCurrentDocument() {
+  staleWarning.value = null
+  await loadReport()
+}
+
 async function onProposalApplied({ action, category, params }) {
   if (category === 'metadata') {
     if (action === 'update_title' && params?.title !== undefined) {
@@ -344,8 +367,11 @@ async function onProposalApplied({ action, category, params }) {
   if (category === 'content' && editor) {
     saving.value = true
     try {
-      await saveDocument(reportId, editor.getJSON())
+      const saved = await saveDocument(reportId, editor.getJSON(),
+                                       headRevision.value)
+      headRevision.value = saved?.revision || headRevision.value
     } catch (err) {
+      if (err.status === 409) { onStaleSave(err); return }
       // Don't unwind the editor change — the user can hit Save manually
       // to retry. Surface the error so they see why the persistence
       // didn't happen.
@@ -378,6 +404,11 @@ async function loadReport() {
     articleInvestigationId.value = report.investigation_id || null
     storyLanguage.value = report.language || 'en'
     translations.value = Array.isArray(report.translations) ? report.translations : []
+    // The revision this buffer was built from. Every save names it, so a
+    // buffer that has gone stale is refused instead of overwriting newer
+    // work — an assistant edit applied in another tab, a co-editor, or
+    // this tab left open for an hour.
+    headRevision.value = report.head_revision || null
     draftCache.set('', {
       title: report.title || '',
       abstract: report.abstract || '',
@@ -500,13 +531,21 @@ async function save() {
     // canonical slug list — keep our `tags` ref in sync.
     const tagResp = await setStoryTags(reportId, tags.value)
     if (Array.isArray(tagResp?.tags)) tags.value = tagResp.tags
-    await saveDocument(reportId, editor.getJSON())
+    const saved = await saveDocument(reportId, editor.getJSON(),
+                                     headRevision.value)
+    headRevision.value = saved?.revision || headRevision.value
     // The document save bumped content_version — every translation is
     // now potentially outdated until reviewed. Keep the local list honest.
     translations.value = translations.value.map((t) => ({ ...t, outdated: true }))
     draftCache.set('', { title: title.value, abstract: abstract.value, doc: editor.getJSON() })
     toast.success('Story saved')
   } catch (err) {
+    // A stale baseline is not a failure to report as an error — it is a
+    // state to resolve, and the buffer must survive it untouched.
+    if (err.status === 409) {
+      onStaleSave(err)
+      return
+    }
     error.value = err.message
     // Sticky error toast: the inline `.error-bar` still renders the
     // same message, but the toast is hard to miss even when the user
@@ -582,6 +621,19 @@ async function save() {
     </div>
 
     <div v-if="error" class="error-bar" data-testid="editor-error">{{ error }}</div>
+    <!-- The document moved on somewhere else. The buffer is left alone —
+         it holds unsaved work — and nothing is overwritten until the
+         author decides what to do. -->
+    <div v-if="staleWarning" class="stale-bar" data-testid="editor-stale">
+      <span>{{ staleWarning.message }} Your text has not been saved, and
+        nothing was overwritten.</span>
+      <button
+        type="button"
+        class="stale-reload"
+        data-testid="editor-stale-reload"
+        @click="reloadCurrentDocument"
+      >{{ $t('report_editor.load_current_version') }}</button>
+    </div>
     <div v-if="loading" class="loading-msg">{{ $t('app.loading_story') }}</div>
 
     <template v-else>
@@ -781,6 +833,28 @@ async function save() {
 .save-btn { padding: 0.4rem 1rem; background: var(--accent); color: #fff; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
 .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .error-bar { padding: 0.5rem 0.75rem; margin-bottom: 1rem; background: #fee2e2; color: #991b1b; border-radius: 4px; font-size: 0.8rem; }
+.stale-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1rem;
+  background: #fef3c7;
+  color: #78350f;
+  border: 1px solid #fcd34d;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+.stale-reload {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #b45309;
+  border-radius: 4px;
+  background: none;
+  color: #78350f;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
 .loading-msg { color: var(--muted); font-size: 0.85rem; text-align: center; padding: 2rem 0; }
 .title-input { display: block; width: 100%; padding: 0.5rem 0; border: none; border-bottom: 2px solid var(--border); background: transparent; color: var(--text); font-size: 1.5rem; font-weight: 700; outline: none; margin-bottom: 0.75rem; }
 .title-input:focus { border-color: var(--accent); }
