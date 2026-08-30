@@ -52,6 +52,7 @@ import {
 import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
 import CountryRegionPicker from '../components/CountryRegionPicker.vue'
+import RevisionHistory from '../components/RevisionHistory.vue'
 import { fetchNutsRegions } from '../api/geo.js'
 import TranslationControls from '../components/TranslationControls.vue'
 
@@ -141,6 +142,7 @@ function onHeaderKeydown(event) {
 const storyLanguage = ref('en')
 const translations = ref([])
 const headRevision = ref(null)
+const historyOpen = ref(false)
 const staleWarning = ref(null)          // [{lang, outdated}]
 const transLang = ref('')
 const draftCache = new Map()          // lang ('' = original) -> {title, abstract, doc}
@@ -348,6 +350,13 @@ function onStaleSave(err) {
     revision: err.body?.current_revision || null,
     message: err.body?.detail || 'This story changed somewhere else.',
   }
+}
+
+/** A restore writes a new revision; the buffer must catch up to it. */
+async function onRestored() {
+  staleWarning.value = null
+  await loadReport()
+  toast.success(t('history.restored'))
 }
 
 async function reloadCurrentDocument() {
@@ -590,6 +599,13 @@ async function save() {
               <CountryRegionPicker v-model="nutsRegion" />
             </div>
           </details>
+          <button
+            class="save-btn"
+            data-testid="show-history"
+            @click="historyOpen = !historyOpen"
+          >
+            {{ $t('history.show_history') }}
+          </button>
           <button class="save-btn" data-testid="add-to-dossier-btn" @click="openDossierPicker">
             {{ $t('investigations.add_to_dossier') }}
           </button>
@@ -620,6 +636,13 @@ async function save() {
       </div>
     </div>
 
+    <RevisionHistory
+      v-if="reportId"
+      :report-id="reportId"
+      :open="historyOpen"
+      @close="historyOpen = false"
+      @restored="onRestored"
+    />
     <div v-if="error" class="error-bar" data-testid="editor-error">{{ error }}</div>
     <!-- The document moved on somewhere else. The buffer is left alone —
          it holds unsaved work — and nothing is overwritten until the
