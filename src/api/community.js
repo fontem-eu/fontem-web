@@ -406,6 +406,38 @@ export function getAssistUsageHistory(days = 30) {
 
 // ── v2 Document API ────────────────────────────────────────
 
+/** The article's revisions, newest first, each with what it changed. */
+export function listRevisions(reportId, limit = 50) {
+  return request(
+    'GET',
+    `/data-stories/${encodeURIComponent(reportId)}/revisions?limit=${limit}`,
+  )
+}
+
+/**
+ * Block-level changes between two revisions. With no arguments: what the
+ * most recent save changed.
+ */
+export function diffRevisions(reportId, from = null, to = null) {
+  const q = new URLSearchParams()
+  if (from) q.set('from', from)
+  if (to) q.set('to', to)
+  const query = q.toString()
+  const suffix = query ? `?${query}` : ''
+  return request(
+    'GET',
+    `/data-stories/${encodeURIComponent(reportId)}/diff${suffix}`,
+  )
+}
+
+/** Bring an older revision back as a new one on top of the history. */
+export function restoreRevision(reportId, revisionId) {
+  return request(
+    'POST',
+    `/data-stories/${encodeURIComponent(reportId)}/revisions/${encodeURIComponent(revisionId)}/restore`,
+  )
+}
+
 /**
  * Save the document, naming the revision it was written against.
  *
