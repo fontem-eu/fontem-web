@@ -219,47 +219,11 @@ export function giveFlower(id) {
 }
 
 // ── Sections ────────────────────────────────────────────────────
-export function addSection(reportId, content) {
-  return request('POST', `/data-stories/${encodeURIComponent(reportId)}/sections`, { content })
-}
+// Sections are gone: an article is title + abstract + body, written
+// through saveDocument and structured by the headings inside it. The
+// per-section CRUD, lock and version wrappers went with the endpoints
+// they called — nothing in the app used them.
 
-export function editSection(reportId, sectionId, content) {
-  return request(
-    'PUT',
-    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
-    { content },
-  )
-}
-
-export function deleteSection(reportId, sectionId) {
-  return request(
-    'DELETE',
-    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}`,
-  )
-}
-
-export function lockSection(reportId, sectionId) {
-  return request(
-    'POST',
-    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
-  )
-}
-
-export function unlockSection(reportId, sectionId) {
-  return request(
-    'DELETE',
-    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/lock`,
-  )
-}
-
-export function getVersions(reportId, sectionId) {
-  return request(
-    'GET',
-    `/data-stories/${encodeURIComponent(reportId)}/sections/${encodeURIComponent(sectionId)}/versions`,
-  )
-}
-
-// ── Sharing ─────────────────────────────────────────────────────
 export function getAccess(reportId) {
   return request('GET', `/data-stories/${encodeURIComponent(reportId)}/access`)
 }

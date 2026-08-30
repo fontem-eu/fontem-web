@@ -2,7 +2,6 @@ import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import {
   createReport, getReport, listReports, updateReport, deleteReport,
-  addSection, editSection, deleteSection, lockSection, unlockSection, getVersions,
   getAccess, grantAccess, revokeAccess,
   createIssue, listIssues, getIssue, addComment, voteIssue,
   flagContent, getModerationLog, getCurrentUser,
@@ -123,56 +122,10 @@ describe('community API client', () => {
 
   // ── Sections ─────────────────────────────────────────────────
 
-  it('addSection sends POST to /capi/data-stories/:id/sections', async () => {
-    vi.stubGlobal('fetch', mockFetch(201, { id: 's1' }))
 
-    await addSection('r1', 'Hello world')
 
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections', expect.objectContaining({
-      method: 'POST',
-      body: JSON.stringify({ content: 'Hello world' }),
-    }))
-  })
 
-  it('editSection sends PUT to correct nested path', async () => {
-    vi.stubGlobal('fetch', mockFetch(200, {}))
 
-    await editSection('r1', 's1', 'Updated')
-
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1', expect.objectContaining({
-      method: 'PUT',
-    }))
-  })
-
-  it('lockSection sends POST to .../lock', async () => {
-    vi.stubGlobal('fetch', mockFetch(200, {}))
-
-    await lockSection('r1', 's1')
-
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/lock', expect.objectContaining({
-      method: 'POST',
-    }))
-  })
-
-  it('unlockSection sends DELETE to .../lock', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 204, text: () => Promise.resolve('') }))
-
-    await unlockSection('r1', 's1')
-
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/lock', expect.objectContaining({
-      method: 'DELETE',
-    }))
-  })
-
-  it('getVersions sends GET to .../versions', async () => {
-    vi.stubGlobal('fetch', mockFetch(200, []))
-
-    await getVersions('r1', 's1')
-
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1/versions', expect.objectContaining({
-      method: 'GET',
-    }))
-  })
 
   // ── Issues ───────────────────────────────────────────────────
 
@@ -217,15 +170,6 @@ describe('community API client', () => {
     expect(result.name).toBe('Test')
   })
 
-  it('deleteSection sends DELETE to nested section path', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 204, text: () => Promise.resolve('') }))
-
-    await deleteSection('r1', 's1')
-
-    expect(fetch).toHaveBeenCalledWith('/capi/data-stories/r1/sections/s1', expect.objectContaining({
-      method: 'DELETE',
-    }))
-  })
 
   // ── Sharing ──────────────────────────────────────────────────
 
