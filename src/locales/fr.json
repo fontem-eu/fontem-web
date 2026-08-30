@@ -1039,6 +1039,7 @@
     "saving": "Enregistrement...",
     "save": "Enregistrer",
     "insert_widget": "Insérer un widget",
+    "load_current_version": "Charger la version actuelle",
     "your_pocket_is_empty": "Votre poche est vide. Enregistrez d'abord des visualisations à l'aide du bouton Poche.",
     "close": "Fermer",
     "start_writing": "Commencez à rédiger votre analyse...",

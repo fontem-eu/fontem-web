@@ -1039,6 +1039,7 @@
     "saving": "Tallennetaan...",
     "save": "Tallenna",
     "insert_widget": "Lisää pienoisohjelma",
+    "load_current_version": "Lataa nykyinen versio",
     "your_pocket_is_empty": "Taskusi on tyhjä. Tallenna visualisointeja ensin Tasku-painikkeella.",
     "close": "Sulje",
     "start_writing": "Aloita analyysisi kirjoittaminen...",
