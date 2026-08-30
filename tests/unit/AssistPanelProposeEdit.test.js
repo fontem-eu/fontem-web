@@ -36,7 +36,11 @@ vi.mock('../../src/api/community.js', async (importOriginal) => ({
   }),
 }))
 
-vi.mock('../../src/composables/useEditProposals.js', () => ({
+// importOriginal spread: a bare factory replaces the module wholesale, so
+// any export the panel adds later (PROPOSAL_TOOL_ACTIONS) reads undefined
+// inside a swallowed try/catch — the failure is invisible.
+vi.mock('../../src/composables/useEditProposals.js', async (importOriginal) => ({
+  ...(await importOriginal()),
   validateProposal: vi.fn(() => ({ valid: true })),
   executeProposal: vi.fn().mockResolvedValue({ ok: true }),
 }))
@@ -459,5 +463,96 @@ describe('AssistPanel propose_edit apply flow', () => {
     const w = await sendAndStream([proposalEvent(), sse('done', {})])
     expect(executeProposal).not.toHaveBeenCalled()
     expect(w.find('[data-testid="proposal-apply"]').exists()).toBe(true)
+  })
+})
+
+/**
+ * The widget batch from the Israeli-companies story (prod, 2026-08-30).
+ *
+ * Three insert_widget calls went out in one parallel batch. The server
+ * validated them: two entities were real (RAFAEL, Elbit), the third id
+ * was invented by the model and refused with "no entity with id …".
+ * The user got three Apply buttons anyway, and the refused one inserted
+ * a widget that could never render into a published story.
+ */
+function widgetEvent(entityId, widget_type = 'graph_explorer') {
+  return sse('status', {
+    phase: 'tool_use',
+    tool: 'mcp__gmr__insert_widget',
+    detail: 'Proposing a widget',
+    elapsed: 0.4,
+    proposal: { action: 'insert_widget', widget_type, entityId },
+  })
+}
+
+function widgetResult(entityId, widget_type, result) {
+  return sse('tool_result', {
+    tool: 'mcp__gmr__insert_widget',
+    args: { widget_type, entityId },
+    result: JSON.stringify(result),
+    elapsed: 0.4,
+    bytes: 60,
+  })
+}
+
+describe('AssistPanel widget proposals', () => {
+  beforeEach(() => {
+    executeProposal.mockClear()
+    executeProposal.mockResolvedValue({ ok: true })
+  })
+
+  it('offers no Apply for a widget the server refused, and says why', async () => {
+    const w = await sendAndStream([
+      widgetEvent('fe8d173b-e2cc-46e5-a587-d67e61214197', 'contracts_table'),
+      widgetResult('fe8d173b-e2cc-46e5-a587-d67e61214197', 'contracts_table', {
+        error: "no entity with id 'fe8d173b-e2cc-46e5-a587-d67e61214197'",
+        hint: 'resolve the id with search_entities first',
+      }),
+      sse('done', {}),
+    ])
+    expect(w.find('[data-testid="proposal-refused"]').exists()).toBe(true)
+    expect(w.find('[data-testid="proposal-refused"]').text())
+      .toContain('no entity with id')
+    // The card must not be applicable: this is what put a dead widget
+    // into a published story.
+    expect(w.find('[data-testid="proposal-apply"]').exists()).toBe(false)
+  })
+
+  it('refuses only the failed widget of a parallel batch', async () => {
+    const w = await sendAndStream([
+      widgetEvent('00d87075-c7b8-5b5f-931b-d6a9bad26b76', 'graph_explorer'),
+      widgetEvent('fe8d173b-e2cc-46e5-a587-d67e61214197', 'contracts_table'),
+      widgetResult('00d87075-c7b8-5b5f-931b-d6a9bad26b76', 'graph_explorer', {
+        proposed: true, action: 'insert_widget', entity_name: 'RAFAEL',
+      }),
+      widgetResult('fe8d173b-e2cc-46e5-a587-d67e61214197', 'contracts_table', {
+        error: "no entity with id 'fe8d173b-e2cc-46e5-a587-d67e61214197'",
+      }),
+      sse('done', {}),
+    ])
+    expect(w.findAll('[data-testid="proposal-refused"]')).toHaveLength(1)
+    // The good one keeps its Apply button.
+    expect(w.findAll('[data-testid="proposal-apply"]')).toHaveLength(1)
+  })
+
+  it('an applied card stays applied when the next tool call lands', async () => {
+    // The duplicate-insert bug: the mid-stream handler rebuilt the whole
+    // proposal array from scratch on every new tool_use, so applying a
+    // widget and then letting the model call another tool resurrected the
+    // first card's Apply button — and every widget went in twice.
+    const stream = openStream()
+    const wrapper = await mountWithOpenStream(stream)
+    const { push, close } = stream
+    await push(widgetEvent('00d87075-c7b8-5b5f-931b-d6a9bad26b76', 'graph_explorer'))
+    await wrapper.find('[data-testid="proposal-apply"]').trigger('click')
+    await flushPromises()
+    expect(executeProposal).toHaveBeenCalledTimes(1)
+
+    await push(widgetEvent('3746155c-0c1a-5fdd-abba-4554524dcd92', 'entity_profile'))
+    // Still applied — one "Applied" badge, and only the NEW card offers Apply.
+    expect(wrapper.findAll('[data-testid="proposal-applied"]')).toHaveLength(1)
+    expect(wrapper.findAll('[data-testid="proposal-apply"]')).toHaveLength(1)
+    await close()
+    expect(executeProposal).toHaveBeenCalledTimes(1)
   })
 })

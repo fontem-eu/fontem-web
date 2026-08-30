@@ -69,6 +69,21 @@ export const ASSISTANT_ADVERTISED_ACTIONS = [
   'insert_widget',
 ]
 
+/**
+ * Tool name → proposal action, mirroring PROPOSAL_TOOL_ACTIONS in
+ * fontem-community-api/src/assistant/doc_tools.py.
+ *
+ * The panel needs it to match a `tool_result` back to the card its
+ * `tool_use` created: the card is drawn before the server has validated
+ * the call, so a refusal that arrives later has to find its card.
+ */
+export const PROPOSAL_TOOL_ACTIONS = {
+  mcp__gmr__set_title: 'set_title',
+  mcp__gmr__set_abstract: 'set_abstract',
+  mcp__gmr__replace_body: 'replace_body',
+  mcp__gmr__insert_widget: 'insert_widget',
+}
+
 const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
 function parseClassFromIri(iri) {

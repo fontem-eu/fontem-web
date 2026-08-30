@@ -23,7 +23,11 @@ vi.mock('../../src/api/community.js', async (importOriginal) => ({
   getAssistConversation: vi.fn().mockResolvedValue(null),
   getAssistUsage: vi.fn().mockResolvedValue({ tokens_1h: 0, tokens_24h: 0, tokens_7d: 0 }),
 }))
-vi.mock('../../src/composables/useEditProposals.js', () => ({
+// importOriginal spread: a bare factory replaces the module wholesale, so
+// any export the panel adds later (PROPOSAL_TOOL_ACTIONS) reads undefined
+// inside a swallowed try/catch — the failure is invisible.
+vi.mock('../../src/composables/useEditProposals.js', async (importOriginal) => ({
+  ...(await importOriginal()),
   validateProposal: vi.fn(() => ({ valid: true })),
   executeProposal: vi.fn().mockResolvedValue({ ok: true }),
 }))

@@ -3,7 +3,8 @@ import { getAccessToken } from '../api/session.js'
 import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
-import { validateProposal, executeProposal } from '../composables/useEditProposals.js'
+import { validateProposal, executeProposal, PROPOSAL_TOOL_ACTIONS }
+  from '../composables/useEditProposals.js'
 import {
   getAssistConversationPage,
   listAssistConversations,
@@ -312,6 +313,50 @@ function mapToolProposal(p) {
     description: p.description || `${p.action}: ${(p.content || '').slice(0, 80)}`,
   }
 }
+/**
+ * A proposal card is drawn from the `tool_use` event — before the server
+ * has run the call. When the result turns out to be a refusal, the card
+ * must stop being applicable: the server validates a widget precisely so
+ * that "a card that reaches the user is one that will render", and an
+ * Apply button over a refused call defeats that. It happened for real —
+ * a widget for an entity id the model invented was refused server-side,
+ * kept its Apply button, and went into a published story as a dead
+ * embed.
+ */
+function markRefusedProposal(r) {
+  const action = PROPOSAL_TOOL_ACTIONS[r?.tool]
+  if (!action) return
+  let reason = ''
+  try {
+    const parsed = JSON.parse(r.result || '{}')
+    if (!parsed || !parsed.error) return
+    reason = String(parsed.error)
+  } catch { return }
+  const argsKey = JSON.stringify(r.args || {})
+  for (const msg of messages.value) {
+    for (const p of msg.proposals || []) {
+      if (p.action !== action || p.applied || p.refused) continue
+      // Match on the arguments when the server echoed them; a turn can
+      // propose two widgets and only one of them be refused.
+      if (r.args && Object.keys(r.args).length &&
+          JSON.stringify(proposalArgs(p)) !== argsKey) continue
+      p.refused = true
+      p.refusedReason = reason
+      return
+    }
+  }
+}
+
+/** The args as the server saw them — the card carries them flattened. */
+function proposalArgs(p) {
+  const out = {}
+  for (const [k, v] of Object.entries(p.params || {})) {
+    if (k === 'action' || k === 'content' || v === undefined) continue
+    out[k] = v
+  }
+  return out
+}
+
 const error = ref(null)
 // Set from the server's `meta` stream event on reduced (signed-out)
 // turns; shown as a persistent banner above the conversation.
@@ -669,7 +714,17 @@ async function send() {
               }
               if (!assistMsg._toolProposals) assistMsg._toolProposals = []
               assistMsg._toolProposals.push(status.proposal)
-              assistMsg.proposals = assistMsg._toolProposals.map(mapToolProposal)
+              // APPEND. Rebuilding the array from _toolProposals threw away
+              // the state the user had already put on the earlier cards:
+              // apply one widget, let the next tool call land, and its
+              // "Applied" badge reverted to a live Apply button — which is
+              // how one story ended up with every widget inserted twice.
+              // (The same bug was fixed at stream end; this is the
+              // mid-stream half of it.)
+              assistMsg.proposals = [
+                ...(assistMsg.proposals || []),
+                mapToolProposal(status.proposal),
+              ]
             }
             await nextTick()
             scrollToBottom()
@@ -760,6 +815,7 @@ async function send() {
               if (r.args && Object.keys(r.args).length) target.args = r.args
               if (typeof r.elapsed === 'number') target.elapsed = r.elapsed
             }
+            markRefusedProposal(r)
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
@@ -909,6 +965,9 @@ function parseProposals(text) {
 }
 
 async function applyProposal(proposal, msgIndex, auto = false) {
+  // Belt and braces: the button is hidden for both states, but accept-all
+  // walks the array directly.
+  if (proposal.applied || proposal.refused) return
   const result = await executeProposal(reportId.value, proposal, editorState.value)
   if (result.ok) {
     const msg = messages.value[msgIndex]
@@ -1222,7 +1281,7 @@ defineExpose({ applyProposal, messages })
                 v-for="(p, pi) in msg.proposals"
                 :key="pi"
                 class="msg-proposal"
-                :class="{ 'proposal-applied': p.applied }"
+                :class="{ 'proposal-applied': p.applied, 'proposal-refused-card': p.refused }"
                 :data-testid="`assist-proposal-${pi}`"
               >
                 <div class="proposal-header">
@@ -1237,7 +1296,15 @@ defineExpose({ applyProposal, messages })
                   </span>
                 </div>
                 <div class="proposal-desc" data-testid="proposal-desc">{{ p.description }}</div>
-                <div v-if="!p.applied" class="proposal-buttons">
+                <!-- The server refused this call: say why, and offer no
+                     Apply — the card would insert something that cannot
+                     render. -->
+                <div
+                  v-if="p.refused"
+                  class="proposal-refused"
+                  data-testid="proposal-refused"
+                >{{ p.refusedReason }}</div>
+                <div v-if="!p.applied && !p.refused" class="proposal-buttons">
                   <button class="proposal-apply" data-testid="proposal-apply" @click="applyProposal(p, i)">{{ $t('assist.apply') }}</button>
                   <button class="proposal-dismiss" data-testid="proposal-dismiss" @click="dismissProposal(p, i)">{{ $t('app.dismiss') }}</button>
                 </div>
@@ -1785,6 +1852,13 @@ defineExpose({ applyProposal, messages })
   .assist-conv-pick { min-height: 3rem; }
   .assist-conv-action { width: 2.75rem; height: 2.75rem; }
 }
+
+.proposal-refused {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: #b91c1c;
+}
+.proposal-refused-card { opacity: 0.75; }
 
 .assist-jump-latest {
   position: absolute;
