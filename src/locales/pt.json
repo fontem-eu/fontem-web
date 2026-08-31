@@ -196,7 +196,15 @@
     "failing_now": "Asserções a falhar",
     "all_green": "Todas as asserções passam.",
     "since": "a falhar desde",
-    "no_runs": "Ainda não há execuções de asserções registadas — o cron de monitorização de 4 horas ainda não disparou."
+    "no_runs": "Ainda não há execuções de asserções registadas — o cron de monitorização de 4 horas ainda não disparou.",
+    "consumers": "Atraso dos consumidores",
+    "consumers_sub": "Quanto cada consumidor está atrasado em relação ao registo de eventos",
+    "behind": "em atraso",
+    "caught_up": "Atualizado",
+    "etl_runs": "Execuções ETL recentes",
+    "etl_runs_sub": "As últimas quatro execuções de cada tarefa agendada",
+    "no_consumers": "Ainda não há consumidores registados.",
+    "no_etl_runs": "Ainda não há execuções ETL registadas."
   },
   "assist": {
     "untitled_chat": "Nova conversa",

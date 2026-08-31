@@ -196,7 +196,15 @@
     "failing_now": "Aserțiuni care eșuează",
     "all_green": "Toate aserțiunile trec.",
     "since": "eșuează din",
-    "no_runs": "Nicio rulare de aserțiuni înregistrată încă — cronul de monitorizare la 4 ore nu s-a declanșat."
+    "no_runs": "Nicio rulare de aserțiuni înregistrată încă — cronul de monitorizare la 4 ore nu s-a declanșat.",
+    "consumers": "Întârzierea consumatorilor",
+    "consumers_sub": "Cât de mult rămâne fiecare consumator în urma jurnalului de evenimente",
+    "behind": "în urmă",
+    "caught_up": "La zi",
+    "etl_runs": "Execuții ETL recente",
+    "etl_runs_sub": "Ultimele patru execuții ale fiecărei sarcini programate",
+    "no_consumers": "Niciun consumator înregistrat încă.",
+    "no_etl_runs": "Nicio execuție ETL înregistrată încă."
   },
   "assist": {
     "untitled_chat": "Conversație nouă",

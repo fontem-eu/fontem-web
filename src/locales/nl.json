@@ -196,7 +196,15 @@
     "failing_now": "Mislukkende asserties",
     "all_green": "Alle asserties slagen.",
     "since": "mislukt sinds",
-    "no_runs": "Nog geen assertieruns vastgelegd — de 4-uurs monitorcron is nog niet afgegaan."
+    "no_runs": "Nog geen assertieruns vastgelegd — de 4-uurs monitorcron is nog niet afgegaan.",
+    "consumers": "Achterstand consumers",
+    "consumers_sub": "Hoe ver elke consumer achterloopt op het gebeurtenislogboek",
+    "behind": "achter",
+    "caught_up": "Bijgewerkt",
+    "etl_runs": "Recente ETL-runs",
+    "etl_runs_sub": "De laatste vier runs van elke geplande taak",
+    "no_consumers": "Nog geen consumers geregistreerd.",
+    "no_etl_runs": "Nog geen ETL-runs vastgelegd."
   },
   "assist": {
     "untitled_chat": "Nieuwe chat",

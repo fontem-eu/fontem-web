@@ -196,7 +196,15 @@
     "failing_now": "Dearbhuithe atá ag teip",
     "all_green": "Éiríonn le gach dearbhú.",
     "since": "ag teip ó",
-    "no_runs": "Níl aon rith dearbhuithe taifeadta fós — níor thosaigh an cron monatóireachta 4 uair an chloig."
+    "no_runs": "Níl aon rith dearbhuithe taifeadta fós — níor thosaigh an cron monatóireachta 4 uair an chloig.",
+    "consumers": "Moill tomhaltóirí",
+    "consumers_sub": "Cé chomh fada siar is atá gach tomhaltóir ar an loga imeachtaí",
+    "behind": "chun deiridh",
+    "caught_up": "Cothrom le dáta",
+    "etl_runs": "Rití ETL le déanaí",
+    "etl_runs_sub": "An ceithre rith dheireanacha de gach post sceidealta",
+    "no_consumers": "Níl aon tomhaltóir cláraithe go fóill.",
+    "no_etl_runs": "Níl aon rith ETL taifeadta go fóill."
   },
   "assist": {
     "untitled_chat": "Comhrá nua",

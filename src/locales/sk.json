@@ -196,7 +196,15 @@
     "failing_now": "Zlyhávajúce tvrdenia",
     "all_green": "Všetky tvrdenia prechádzajú.",
     "since": "zlyháva od",
-    "no_runs": "Zatiaľ nebol zaznamenaný žiadny beh tvrdení — štvorhodinový monitorovací cron sa nespustil."
+    "no_runs": "Zatiaľ nebol zaznamenaný žiadny beh tvrdení — štvorhodinový monitorovací cron sa nespustil.",
+    "consumers": "Oneskorenie konzumentov",
+    "consumers_sub": "Ako ďaleko je každý konzument za protokolom udalostí",
+    "behind": "pozadu",
+    "caught_up": "Aktuálne",
+    "etl_runs": "Nedávne behy ETL",
+    "etl_runs_sub": "Posledné štyri behy každej naplánovanej úlohy",
+    "no_consumers": "Zatiaľ nie sú registrovaní žiadni konzumenti.",
+    "no_etl_runs": "Zatiaľ neboli zaznamenané žiadne behy ETL."
   },
   "assist": {
     "untitled_chat": "Nový chat",

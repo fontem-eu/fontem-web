@@ -196,7 +196,15 @@
     "failing_now": "Hibázó állítások",
     "all_green": "Minden állítás teljesül.",
     "since": "hibázik ez óta:",
-    "no_runs": "Még nincs rögzített állításfuttatás — a négyórás figyelő cron nem indult el."
+    "no_runs": "Még nincs rögzített állításfuttatás — a négyórás figyelő cron nem indult el.",
+    "consumers": "Fogyasztói lemaradás",
+    "consumers_sub": "Mennyivel marad el az egyes fogyasztók az eseménynaplótól",
+    "behind": "lemaradás",
+    "caught_up": "Naprakész",
+    "etl_runs": "Legutóbbi ETL-futtatások",
+    "etl_runs_sub": "Minden ütemezett feladat utolsó négy futtatása",
+    "no_consumers": "Még nincs regisztrált fogyasztó.",
+    "no_etl_runs": "Még nincs rögzített ETL-futtatás."
   },
   "assist": {
     "untitled_chat": "Új csevegés",

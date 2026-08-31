@@ -196,7 +196,15 @@
     "failing_now": "Asercje zakończone niepowodzeniem",
     "all_green": "Wszystkie asercje przechodzą.",
     "since": "niepowodzenie od",
-    "no_runs": "Nie zarejestrowano jeszcze żadnego uruchomienia asercji — 4-godzinny cron monitorujący nie zadziałał."
+    "no_runs": "Nie zarejestrowano jeszcze żadnego uruchomienia asercji — 4-godzinny cron monitorujący nie zadziałał.",
+    "consumers": "Opóźnienie konsumentów",
+    "consumers_sub": "Jak daleko każdy konsument pozostaje za dziennikiem zdarzeń",
+    "behind": "w tyle",
+    "caught_up": "Aktualne",
+    "etl_runs": "Ostatnie uruchomienia ETL",
+    "etl_runs_sub": "Cztery ostatnie uruchomienia każdego zaplanowanego zadania",
+    "no_consumers": "Nie zarejestrowano jeszcze żadnych konsumentów.",
+    "no_etl_runs": "Nie zarejestrowano jeszcze żadnych uruchomień ETL."
   },
   "assist": {
     "untitled_chat": "Nowy czat",

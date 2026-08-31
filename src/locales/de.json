@@ -196,7 +196,15 @@
     "failing_now": "Fehlschlagende Assertions",
     "all_green": "Alle Assertions bestehen.",
     "since": "fehlerhaft seit",
-    "no_runs": "Bisher keine Assertions-Läufe erfasst — der 4-Stunden-Monitor-Cron wurde noch nicht ausgelöst."
+    "no_runs": "Bisher keine Assertions-Läufe erfasst — der 4-Stunden-Monitor-Cron wurde noch nicht ausgelöst.",
+    "consumers": "Consumer-Rückstand",
+    "consumers_sub": "Wie weit jeder Consumer hinter dem Ereignisprotokoll liegt",
+    "behind": "zurück",
+    "caught_up": "Aktuell",
+    "etl_runs": "Letzte ETL-Läufe",
+    "etl_runs_sub": "Die letzten vier Läufe jedes geplanten Jobs",
+    "no_consumers": "Noch keine Consumer registriert.",
+    "no_etl_runs": "Noch keine ETL-Läufe aufgezeichnet."
   },
   "assist": {
     "untitled_chat": "Neuer Chat",

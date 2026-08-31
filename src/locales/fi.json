@@ -196,7 +196,15 @@
     "failing_now": "Epäonnistuvat väittämät",
     "all_green": "Kaikki väittämät läpäisevät.",
     "since": "epäonnistunut alkaen",
-    "no_runs": "Väittämäajoja ei ole vielä kirjattu — 4 tunnin valvonta-ajastin ei ole lauennut."
+    "no_runs": "Väittämäajoja ei ole vielä kirjattu — 4 tunnin valvonta-ajastin ei ole lauennut.",
+    "consumers": "Kuluttajien viive",
+    "consumers_sub": "Kuinka paljon kukin kuluttaja on tapahtumalokia jäljessä",
+    "behind": "jäljessä",
+    "caught_up": "Ajan tasalla",
+    "etl_runs": "Viimeisimmät ETL-ajot",
+    "etl_runs_sub": "Kunkin ajastetun työn neljä viimeisintä ajoa",
+    "no_consumers": "Kuluttajia ei ole vielä rekisteröity.",
+    "no_etl_runs": "ETL-ajoja ei ole vielä tallennettu."
   },
   "assist": {
     "untitled_chat": "Uusi keskustelu",

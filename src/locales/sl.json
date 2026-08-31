@@ -196,7 +196,15 @@
     "failing_now": "Neuspešne trditve",
     "all_green": "Vse trditve so uspešne.",
     "since": "neuspešno od",
-    "no_runs": "Zaenkrat ni zabeleženega nobenega zagona trditev — štiriurni nadzorni cron se ni sprožil."
+    "no_runs": "Zaenkrat ni zabeleženega nobenega zagona trditev — štiriurni nadzorni cron se ni sprožil.",
+    "consumers": "Zaostanek porabnikov",
+    "consumers_sub": "Kako daleč vsak porabnik zaostaja za dnevnikom dogodkov",
+    "behind": "zadaj",
+    "caught_up": "Posodobljeno",
+    "etl_runs": "Nedavni zagoni ETL",
+    "etl_runs_sub": "Zadnji štirje zagoni vsakega načrtovanega opravila",
+    "no_consumers": "Porabniki še niso registrirani.",
+    "no_etl_runs": "Zagoni ETL še niso zabeleženi."
   },
   "assist": {
     "untitled_chat": "Nov klepet",
