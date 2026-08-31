@@ -17,6 +17,7 @@ vi.mock('../../src/api/geo.js', () => ({
 }))
 import ReportEditorView from '../../src/views/ReportEditorView.vue'
 import * as communityApi from '../../src/api/community.js'
+import { useAssistantContext } from '../../src/composables/useAssistantContext.js'
 
 function makeRouter(reportId = 'r1') {
   const router = createRouter({
@@ -329,5 +330,39 @@ describe('ReportEditorView — Review is the primary action', () => {
     await flushPromises()
     // Said quietly, not as a red error bar.
     expect(wrapper.find('[data-testid="editor-error"]').exists()).toBe(false)
+  })
+})
+
+describe('ReportEditorView — the assistant is a visible committer', () => {
+  /**
+   * Where this whole design started: an assistant edit landed somewhere
+   * the author was not looking, and a later save wiped it. An edit
+   * committed under its own name is one you can find in the history,
+   * read as a diff, and undo.
+   */
+  it('commits an applied assistant edit as the assistant', async () => {
+    await mountEditor()
+    // The panel lives in the app shell; the editor registers the handler
+    // it calls when a proposal is applied.
+    const { handlers } = useAssistantContext()
+    await handlers.value.applied({
+      action: 'replace_body',
+      category: 'content',
+      params: { content: '<p>rewritten by the assistant</p>' },
+    })
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalledWith(
+      'r1', expect.any(Object), 'rev-loaded', 'assistant',
+    )
+  })
+
+  it("does not label the author's own save as the assistant's", async () => {
+    const { wrapper } = await mountEditor()
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    const call = communityApi.saveDocument.mock.calls.at(-1)
+    expect(call[3] ?? 'human').toBe('human')
   })
 })
