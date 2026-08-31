@@ -102,11 +102,17 @@ describe('useLang', () => {
 })
 
 describe('useLang — IP-geo detection', () => {
+  // Same reason as the persistence block below: these redefine
+  // navigator.language and defineProperty survives restoreAllMocks().
+  const originalLang = typeof navigator !== 'undefined' ? navigator.language : ''
+
   beforeEach(() => {
     _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
     document.documentElement.lang = ''
   })
   afterEach(() => {
+    Object.defineProperty(navigator, 'language',
+      { value: originalLang, configurable: true })
     _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
     vi.restoreAllMocks(); vi.resetModules()
   })
@@ -220,14 +226,22 @@ describe('EU_LANGUAGES catalogue', () => {
 // A stored value that is not a valid code: the only persistence case the
 // section above does not already cover.
 describe('useLang persistence + document semantics', () => {
+  // Captured once, restored after every test. `boot()` redefines
+  // navigator.language with defineProperty, which vi.restoreAllMocks()
+  // does NOT undo — the property stays redefined for the rest of the
+  // run. The fork is shared across files, so a leaked 'pt-PT' here
+  // surfaces as withLang.test.js expecting lang=en and getting lang=pt.
+  const originalLang = typeof navigator !== 'undefined' ? navigator.language : ''
+
   beforeEach(() => {
     _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
     document.documentElement.lang = ''
     vi.resetModules()
   })
   afterEach(() => {
-    // The fork is reused across files — leaked storage (the geo hint
-    // especially) breaks withLang.test's default-lang expectations.
+    Object.defineProperty(navigator, 'language',
+      { value: originalLang, configurable: true })
+    // Leaked storage (the geo hint especially) breaks the same expectations.
     localStorage.clear(); sessionStorage.clear()
     vi.restoreAllMocks(); vi.resetModules()
   })
