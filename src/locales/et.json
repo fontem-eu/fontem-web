@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "assistent",
+    "in_review": "in “{title}” ({state})",
     "loading": "Ajaloo laadimine…",
     "n_added": "{n} lisatud",
     "n_changed": "{n} muudetud",
     "n_removed": "{n} eemaldatud",
     "no_change": "Nähtavaid muudatusi pole",
     "no_revisions": "Salvestatud versioone veel pole.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Taasta",
     "restored": "Taastatud",
     "show_history": "Ajalugu",
-    "title": "Ajalugu"
+    "title": "Ajalugu",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Ülevaade",

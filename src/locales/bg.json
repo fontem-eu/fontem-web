@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "асистент",
+    "in_review": "in “{title}” ({state})",
     "loading": "Зареждане на историята…",
     "n_added": "{n} добавени",
     "n_changed": "{n} променени",
     "n_removed": "{n} премахнати",
     "no_change": "Няма видима промяна",
     "no_revisions": "Все още няма запазени версии.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Възстанови",
     "restored": "Възстановено",
     "show_history": "История",
-    "title": "История"
+    "title": "История",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Преглед",

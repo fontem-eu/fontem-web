@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "avustaja",
+    "in_review": "in “{title}” ({state})",
     "loading": "Ladataan historiaa…",
     "n_added": "{n} lisätty",
     "n_changed": "{n} muutettu",
     "n_removed": "{n} poistettu",
     "no_change": "Ei näkyvää muutosta",
     "no_revisions": "Ei tallennettuja versioita.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Palauta",
     "restored": "Palautettu",
     "show_history": "Historia",
-    "title": "Historia"
+    "title": "Historia",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Yleiskatsaus",

@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "Assistent",
+    "in_review": "in „{title}“ ({state})",
     "loading": "Verlauf wird geladen…",
     "n_added": "{n} hinzugefügt",
     "n_changed": "{n} geändert",
     "n_removed": "{n} entfernt",
     "no_change": "Keine sichtbare Änderung",
     "no_revisions": "Noch keine gespeicherten Versionen.",
+    "open_review": "Review öffnen",
+    "published_via": "veröffentlicht über „{title}“",
     "restore": "Wiederherstellen",
     "restored": "Wiederhergestellt",
     "show_history": "Verlauf",
-    "title": "Verlauf"
+    "title": "Verlauf",
+    "unreviewed": "kein zweiter Leser"
   },
   "home": {
     "overview": "Übersicht",

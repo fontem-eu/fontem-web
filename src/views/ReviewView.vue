@@ -18,6 +18,7 @@ import {
   closeReview, inviteReviewer,
 } from '../api/community.js'
 import { useToast } from '../composables/useToast.js'
+import WidgetRenderer from '../widgets/WidgetRenderer.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -59,6 +60,27 @@ const rows = computed(() => {
 function anchorOf(block, index) {
   if (!block) return `#${index}`
   return `${block.label || block.type} ${(block.text || '').slice(0, 120)}`
+}
+
+/**
+ * The config a widget block renders from.
+ *
+ * Reviewing "widget:graph_explorer:00d87075" is not reviewing the thing
+ * that will be published, so the block's attributes come through the
+ * diff and the real component is mounted here.
+ */
+function widgetConfig(block) {
+  const a = block?.attrs || {}
+  const out = { widget_type: a.widget_type, schema_version: a.schema_version || 1 }
+  for (const key of ['entityId', 'depth', 'dataset', 'nuts_level', 'year',
+                     'dimensions', 'data_params', 'ui_params']) {
+    if (a[key] !== undefined && a[key] !== null) out[key] = a[key]
+  }
+  return out
+}
+
+function isWidget(block) {
+  return block?.type === 'widget' && block?.attrs?.widget_type
 }
 
 function commentsFor(key) {
@@ -245,17 +267,38 @@ watch(reviewId, load)
         >
           <div class="review-block">
             <template v-if="row.op === 'replace'">
-              <p class="review-line review-line--del">{{ row.before.text || row.before.label }}</p>
-              <p class="review-line review-line--add">{{ row.after.text || row.after.label }}</p>
+              <div class="review-line review-line--del">
+                <WidgetRenderer
+                  v-if="isWidget(row.before)"
+                  :config="widgetConfig(row.before)"
+                  data-testid="review-widget"
+                />
+                <template v-else>{{ row.before.text || row.before.label }}</template>
+              </div>
+              <div class="review-line review-line--add">
+                <WidgetRenderer
+                  v-if="isWidget(row.after)"
+                  :config="widgetConfig(row.after)"
+                  data-testid="review-widget"
+                />
+                <template v-else>{{ row.after.text || row.after.label }}</template>
+              </div>
             </template>
-            <p
+            <div
               v-else
               class="review-line"
               :class="{
                 'review-line--add': row.op === 'insert',
                 'review-line--del': row.op === 'delete',
               }"
-            >{{ (row.after || row.before).text || (row.after || row.before).label }}</p>
+            >
+              <WidgetRenderer
+                v-if="isWidget(row.after || row.before)"
+                :config="widgetConfig(row.after || row.before)"
+                data-testid="review-widget"
+              />
+              <template v-else>{{ (row.after || row.before).text || (row.after || row.before).label }}</template>
+            </div>
           </div>
 
           <ul v-if="commentsFor(row.key).length" class="review-comments">
@@ -382,7 +425,12 @@ watch(reviewId, load)
   font-size: 0.9rem;
 }
 .review-line--add { background: #e6f3ea; color: #1c6640; }
-.review-line--del { background: #fae9e9; color: #94292a; text-decoration: line-through; }
+.review-line--del { background: #fae9e9; color: #94292a; }
+/* Strike the text, not a rendered widget: a struck-through chart is
+   just an unreadable chart. */
+.review-line--del:not(:has(.widget-renderer, [data-testid="review-widget"])) {
+  text-decoration: line-through;
+}
 
 .review-comments { list-style: none; margin: 0.35rem 0 0; padding: 0 0 0 0.75rem; }
 .review-comment {

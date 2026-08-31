@@ -177,3 +177,63 @@ describe('ReviewView', () => {
     expect(communityApi.closeReview).toHaveBeenCalledWith('r1', 'rev-2', 'completed')
   })
 })
+
+describe('ReviewView — widgets are reviewed, not described', () => {
+  /**
+   * A widget block carries no text. Rendering its label
+   * ("widget:graph_explorer:00d87075") shows a reviewer a description of
+   * the thing rather than the thing, which is not reviewing it.
+   */
+  const WIDGET_REVIEW = {
+    ...ARTICLE_REVIEW,
+    blocks: [
+      { type: 'paragraph', label: 'paragraph', text: 'Prose above.' },
+      {
+        type: 'widget',
+        label: 'widget:graph_explorer:e-1',
+        text: '',
+        attrs: { widget_type: 'graph_explorer', entityId: 'e-1', depth: 2 },
+      },
+    ],
+  }
+
+  beforeEach(() => {
+    vi.spyOn(communityApi, 'commentOnReview').mockResolvedValue({ id: 'c1' })
+  })
+  afterEach(() => vi.restoreAllMocks())
+
+  it('mounts the real widget instead of printing its label', async () => {
+    const { wrapper } = await mountReview(WIDGET_REVIEW)
+    const rows = wrapper.findAll('[data-testid="review-row"]')
+    expect(rows[1].find('[data-testid="review-widget"]').exists()).toBe(true)
+    expect(rows[1].text()).not.toContain('widget:graph_explorer')
+  })
+
+  it('renders both sides of a widget that changed', async () => {
+    const changed = {
+      ...CHANGE_REVIEW,
+      operations: [{
+        op: 'replace',
+        before: {
+          type: 'widget', label: 'widget:contracts_table:old', text: '',
+          attrs: { widget_type: 'contracts_table', entityId: 'old' },
+        },
+        after: {
+          type: 'widget', label: 'widget:contracts_table:new', text: '',
+          attrs: { widget_type: 'contracts_table', entityId: 'new' },
+        },
+      }],
+    }
+    const { wrapper } = await mountReview(changed)
+    // Both the removed and the added widget render: a reviewer compares
+    // the things, not two identifiers.
+    expect(wrapper.findAll('[data-testid="review-widget"]')).toHaveLength(2)
+  })
+
+  it('still renders prose as prose', async () => {
+    const { wrapper } = await mountReview(WIDGET_REVIEW)
+    const rows = wrapper.findAll('[data-testid="review-row"]')
+    expect(rows[0].text()).toContain('Prose above.')
+    expect(rows[0].find('[data-testid="review-widget"]').exists()).toBe(false)
+  })
+})

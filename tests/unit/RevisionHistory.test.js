@@ -5,6 +5,7 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'
 import * as communityApi from '../../src/api/community.js'
 import RevisionHistory from '../../src/components/RevisionHistory.vue'
@@ -16,6 +17,8 @@ const REVISIONS = [
     author_kind: 'assistant',
     created_at: '2026-08-30T09:00:00Z',
     changes: { added: 2, changed: 1, removed: 0 },
+    published_by: null,
+    reviews: [{ id: 'review-open', kind: 'change', title: 'Tighten the lead', state: 'open' }],
   },
   {
     id: 'rev-2',
@@ -23,6 +26,11 @@ const REVISIONS = [
     author_kind: 'human',
     created_at: '2026-08-30T08:00:00Z',
     changes: { added: 0, changed: 1, removed: 0 },
+    published_by: {
+      id: 'review-merged', kind: 'change', title: 'First pass',
+      state: 'merged', self_merged: true,
+    },
+    reviews: [],
   },
 ]
 
@@ -38,9 +46,18 @@ const DIFF = {
 }
 
 function mountHistory(open = true) {
+  // A router, because a history row links straight to the conversation
+  // about that change.
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/', component: { template: '<div/>' } },
+      { path: '/stories/:id/reviews/:reviewId', component: { template: '<div/>' } },
+    ],
+  })
   return mount(RevisionHistory, {
     props: { reportId: 'r1', open },
-    global: { plugins: [makeTestI18n()] },
+    global: { plugins: [router, makeTestI18n()] },
   })
 }
 
@@ -121,5 +138,41 @@ describe('RevisionHistory', () => {
     mountHistory(false)
     await flushPromises()
     expect(communityApi.listRevisions).not.toHaveBeenCalled()
+  })
+})
+
+describe('RevisionHistory — the reviews behind each change', () => {
+  beforeEach(() => {
+    vi.spyOn(communityApi, 'listRevisions').mockResolvedValue(REVISIONS)
+    vi.spyOn(communityApi, 'diffRevisions').mockResolvedValue(DIFF)
+  })
+  afterEach(() => vi.restoreAllMocks())
+
+  it('names the review that published a change', async () => {
+    const w = mountHistory()
+    await flushPromises()
+    const rows = w.findAll('[data-testid="history-row"]')
+    expect(rows[1].find('[data-testid="history-published-by"]').text())
+      .toContain('First pass')
+    // Self-merged: the record says nobody else read it.
+    expect(rows[1].text()).toContain('no second reader')
+  })
+
+  it('shows a change that is still under review as such', async () => {
+    const w = mountHistory()
+    await flushPromises()
+    const rows = w.findAll('[data-testid="history-row"]')
+    const open = rows[0].find('[data-testid="history-open-review"]')
+    expect(open.text()).toContain('Tighten the lead')
+    expect(open.text()).toContain('open')
+  })
+
+  it('links straight to the conversation', async () => {
+    const w = mountHistory()
+    await flushPromises()
+    const links = w.findAll('[data-testid="history-review-link"]')
+    expect(links).toHaveLength(2)
+    expect(links[0].attributes('href')).toContain('/reviews/review-open')
+    expect(links[1].attributes('href')).toContain('/reviews/review-merged')
   })
 })

@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "assistant",
+    "in_review": "dans « {title} » ({state})",
     "loading": "Chargement de l'historique…",
     "n_added": "{n} ajoutés",
     "n_changed": "{n} modifiés",
     "n_removed": "{n} supprimés",
     "no_change": "Aucun changement visible",
     "no_revisions": "Aucune version enregistrée.",
+    "open_review": "Ouvrir la relecture",
+    "published_via": "publié via « {title} »",
     "restore": "Restaurer",
     "restored": "Restauré",
     "show_history": "Historique",
-    "title": "Historique"
+    "title": "Historique",
+    "unreviewed": "sans second lecteur"
   },
   "home": {
     "overview": "Aperçu",
