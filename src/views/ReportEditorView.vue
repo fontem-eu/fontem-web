@@ -403,8 +403,11 @@ async function onProposalApplied({ action, category, params }) {
   if (category === 'content' && editor) {
     saving.value = true
     try {
+      // The assistant's work is committed as the assistant's: it lands
+      // in the history under its own name, where it can be seen, diffed
+      // and dropped rather than discovered later.
       const saved = await saveDocument(reportId, editor.getJSON(),
-                                       headRevision.value)
+                                       headRevision.value, 'assistant')
       headRevision.value = saved?.revision || headRevision.value
     } catch (err) {
       if (err.status === 409) { onStaleSave(err); return }

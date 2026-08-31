@@ -513,11 +513,17 @@ export function restoreRevision(reportId, revisionId) {
  * published story lost its widgets to. `version` is the document
  * FORMAT, a different thing that has been mistaken for this before.
  */
-export function saveDocument(reportId, tiptapJson, baseRevision = null) {
+export function saveDocument(reportId, tiptapJson, baseRevision = null,
+                             authorKind = 'human') {
   return request('PUT', `/data-stories/${encodeURIComponent(reportId)}/content`, {
     tiptap: tiptapJson,
     version: 2,
     base_revision: baseRevision,
+    // Who wrote what is being saved. An assistant edit recorded as one
+    // shows up in the history under its own name, which is what makes it
+    // findable and droppable — the invisible version is how a published
+    // story lost its widgets.
+    author_kind: authorKind,
   })
 }
 
