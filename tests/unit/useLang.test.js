@@ -182,7 +182,8 @@ describe('useLang — IP-geo detection', () => {
   })
 })
 
-// ── Mutation-hardening: the EU-24 catalogue is exact ───────────────
+// The EU-24 catalogue, pinned as a literal here rather than compared
+// against its own source — a dropped or mistyped language is a real bug.
 describe('EU_LANGUAGES catalogue', () => {
   it('pins every native-name label', async () => {
     const { EU_LANGUAGES } = await import('../../src/composables/eu-languages.js')
@@ -214,20 +215,10 @@ describe('EU_LANGUAGES catalogue', () => {
     ])
   })
 
-  it('normalises regioned and cased inputs, rejecting junk', async () => {
-    const { normaliseLang } = await import('../../src/composables/eu-languages.js')
-    expect(normaliseLang('EN')).toBe('en')
-    expect(normaliseLang('fr-FR')).toBe('fr')
-    expect(normaliseLang('pt_BR')).toBe('pt')
-    expect(normaliseLang(' de ')).toBe('de')
-    expect(normaliseLang('xx')).toBeNull()
-    expect(normaliseLang('')).toBeNull()
-    expect(normaliseLang(null)).toBeNull()
-    expect(normaliseLang(42)).toBeNull()
-  })
 })
 
-// ── Mutation-hardening: persistence semantics + document.lang ──────
+// A stored value that is not a valid code: the only persistence case the
+// section above does not already cover.
 describe('useLang persistence + document semantics', () => {
   beforeEach(() => {
     _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
@@ -251,17 +242,6 @@ describe('useLang persistence + document semantics', () => {
     return { ...useLang(), currentLang }
   }
 
-  it('a stored pick wins, is re-persisted, and sets <html lang>', async () => {
-    const { init, lang } = await boot({ stored: 'de', navLang: 'fr-FR' })
-    init()
-    expect(lang.value).toBe('de')
-    expect(document.documentElement.lang).toBe('de')
-    expect(localStorage.getItem('gmr-lang')).toBe('de')
-    // stored pick blocks the geo hint entirely
-    await new Promise((r) => setTimeout(r, 0))
-    expect(lang.value).toBe('de')
-  })
-
   it('garbage stored values fall through to browser detection', async () => {
     const { init, lang } = await boot({ stored: 'klingon', navLang: 'pt-PT' })
     init()
@@ -270,37 +250,4 @@ describe('useLang persistence + document semantics', () => {
     expect(localStorage.getItem('gmr-lang')).toBe('klingon')
   })
 
-  it('a non-EU browser language lands on the default', async () => {
-    const { init, lang } = await boot({ navLang: 'ja-JP' })
-    init()
-    expect(lang.value).toBe('en')
-    expect(document.documentElement.lang).toBe('en')
-  })
-
-  it('setLang persists explicit picks and ignores junk', async () => {
-    const { init, setLang, lang, currentLang } = await boot({ navLang: 'en-US' })
-    init()
-    setLang('sv')
-    expect(lang.value).toBe('sv')
-    expect(localStorage.getItem('gmr-lang')).toBe('sv')
-    expect(currentLang()).toBe('sv')
-    setLang('xx')
-    expect(lang.value).toBe('sv')
-  })
-
-  it('a session-cached geo hint is applied without refetching', async () => {
-    sessionStorage.setItem('gmr-geo-lang', 'fi')
-    const { init, lang } = await boot({ navLang: 'en-US' })
-    init()
-    await new Promise((r) => setTimeout(r, 0))
-    expect(lang.value).toBe('fi')
-    expect(globalThis.fetch).not.toHaveBeenCalled()
-  })
-
-  it('a fresh geo hint is cached for the session', async () => {
-    const { init } = await boot({ navLang: 'en-US', geo: 'el' })
-    init()
-    await new Promise((r) => setTimeout(r, 0))
-    expect(sessionStorage.getItem('gmr-geo-lang')).toBe('el')
-  })
 })

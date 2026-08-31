@@ -353,22 +353,10 @@ describe('breakpoint math', () => {
   })
 })
 
-describe('deriveBounds + findSliceStats', () => {
-  it('uses the robust p02..p98 window by default, full range on demand', () => {
-    const stats = { value_min: 0, value_max: 100, value_p02: 5, value_p98: 95 }
-    expect(deriveBounds(stats)).toEqual([5, 95])
-    expect(deriveBounds(stats, { useFullRange: true })).toEqual([0, 100])
-  })
-  it('rejects missing or non-finite stats', () => {
-    expect(deriveBounds(null)).toBeNull()
-    expect(deriveBounds({})).toBeNull()
-    expect(deriveBounds({ value_p02: 1, value_p98: Infinity })).toBeNull()
-  })
-  it('returns a degenerate ascending window for flat distributions', () => {
-    const [lo, hi] = deriveBounds({ value_p02: 7, value_p98: 7 })
-    expect(lo).toBe(7)
-    expect(hi).toBeGreaterThan(7)
-  })
+// deriveBounds already has coverage at the top of this file (robust window,
+// full range, null/non-finite rejection, flat distributions); the versions
+// that were here restated it in one assertion each and are gone.
+describe('findSliceStats', () => {
   it('finds the stats row whose dimensions match the slice key', () => {
     const rows = [
       { dimensions: { unit: 'NR' }, value_p02: 1 },
