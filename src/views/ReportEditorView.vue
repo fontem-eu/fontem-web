@@ -443,22 +443,28 @@ async function loadReport() {
     articleInvestigationId.value = report.investigation_id || null
     storyLanguage.value = report.language || 'en'
     translations.value = Array.isArray(report.translations) ? report.translations : []
-    // The revision this buffer was built from. Every save names it, so a
-    // buffer that has gone stale is refused instead of overwriting newer
-    // work — an assistant edit applied in another tab, a co-editor, or
-    // this tab left open for an hour.
-    headRevision.value = report.head_revision || null
+    // The revision this buffer was built from — and saves go to the
+    // DRAFT branch, so it is the draft's head whenever there is one.
+    // Naming main's head instead made every save after the first 409
+    // against a draft that had moved past it: refused, silently, with
+    // the button re-enabling as if it had worked.
+    headRevision.value = report.draft_revision || report.head_revision || null
     draftCache.set('', {
       title: report.title || '',
       abstract: report.abstract || '',
-      doc: report.content_doc?.version === 2 ? report.content_doc.tiptap : null,
+      doc: (report.draft_doc || report.content_doc)?.version === 2
+        ? (report.draft_doc || report.content_doc).tiptap
+        : null,
     })
 
     if (editor) editor.destroy()
 
     // v2: TipTap JSON document
-    if (report.content_doc?.version === 2) {
-      editor = createEditor(report.content_doc.tiptap)
+    // Edit the draft when there is one: it is the author's work in
+    // progress, and the published text is what everyone else sees.
+    const editable = report.draft_doc || report.content_doc
+    if (editable?.version === 2) {
+      editor = createEditor(editable.tiptap)
       editorReady.value++
     } else {
       // v1: concatenate section HTML into a single document

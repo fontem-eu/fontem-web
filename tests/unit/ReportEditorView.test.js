@@ -366,3 +366,40 @@ describe('ReportEditorView — the assistant is a visible committer', () => {
     expect(call[3] ?? 'human').toBe('human')
   })
 })
+
+describe('ReportEditorView — the draft is what you edit', () => {
+  /**
+   * Saves go to the draft branch, so the baseline a save names has to be
+   * the DRAFT's head. Naming main's head made every save after the first
+   * 409 against a draft that had already moved past it — refused
+   * silently, with the button re-enabling as though it had worked. The
+   * e2e suite caught it as 17 rejected saves in half an hour.
+   */
+  it('names the draft head, not the published one, when a draft exists', async () => {
+    const { wrapper } = await mountEditor({
+      reportExtra: {
+        head_revision: 'rev-published',
+        draft_revision: 'rev-draft',
+        draft_doc: { version: 2, tiptap: { type: 'doc', content: [] } },
+      },
+    })
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalledWith(
+      'r1', expect.any(Object), 'rev-draft',
+    )
+  })
+
+  it('falls back to the published head before a draft exists', async () => {
+    const { wrapper } = await mountEditor({
+      reportExtra: { head_revision: 'rev-published', draft_revision: null },
+    })
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalledWith(
+      'r1', expect.any(Object), 'rev-published',
+    )
+  })
+})
