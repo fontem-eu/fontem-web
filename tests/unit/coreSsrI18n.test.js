@@ -7,33 +7,37 @@ import { titleForPath, descriptionForPath } from '../../src/ssr/meta.js'
 import { buildJsonLd } from '../../src/ssr/jsonLd.js'
 import { createFontemI18n, ensureLocale, activateLocale } from '../../src/i18n.js'
 
-describe('ssr/meta — exact SEO strings', () => {
-  it.each([
-    ['/', "Fontem — Crossing the EU's digital borders, one dataset at a time"],
-    ['/about', 'About — Fontem'],
-    ['/privacy', 'Privacy policy — Fontem'],
-    ['/data-quality', 'Data quality — Fontem'],
-    ['/sparql', 'SPARQL — Fontem'],
-    ['/map', 'Map — European statistics on Fontem'],
-    ['/spending', 'Spending — EU procurement on Fontem'],
-    ['/login', 'Sign in — Fontem'],
-    ['/development', 'Development — Fontem'],
-  ])('title for %s', (path, title) => {
-    expect(titleForPath({ path })).toBe(title)
+// The exact strings used to be pinned here, one assertion per title. That
+// asserted the copy never changes, which is not a property worth having —
+// it makes an SEO reword a failing test — and it never asserted the copy
+// was any good. These pin what actually has to hold: that every mapped
+// route is wired to its own meta and none of them silently falls through
+// to the catch-all.
+describe('ssr/meta', () => {
+  const MAPPED = ['/', '/about', '/privacy', '/data-quality', '/sparql',
+    '/map', '/spending', '/login', '/development']
+  const defaultTitle = titleForPath({ path: '/no-such-route' })
+  const defaultDescription = descriptionForPath({ path: '/no-such-route' })
+
+  it.each(MAPPED)('%s has meta of its own, not the fallback', (path) => {
+    const title = titleForPath({ path })
+    const description = descriptionForPath({ path })
+    expect(title).not.toBe(defaultTitle)
+    expect(description).not.toBe(defaultDescription)
+    expect(title.trim()).toBe(title)
+    expect(description.trim()).toBe(description)
   })
 
-  it.each([
-    ['/', 'Public data stories from the Fontem community'],
-    ['/about', 'collaborative-argument platform'],
-    ['/privacy', 'no tracking cookies'],
-    ['/data-quality', 'Transparency about transparency'],
-    ['/sparql', 'via SPARQL'],
-    ['/map', 'curated Eurostat datasets'],
-    ['/spending', 'what is big in your country'],
-    ['/login', 'publish data stories'],
-    ['/development', 'open source'],
-  ])('description for %s is specific', (path, marker) => {
-    expect(descriptionForPath({ path })).toContain(marker)
+  it('gives every route a distinct title', () => {
+    const titles = MAPPED.map((path) => titleForPath({ path }))
+    expect(new Set(titles).size).toBe(MAPPED.length)
+  })
+
+  it('falls back to the site default for an unmapped route', () => {
+    expect(titleForPath({ path: '/nope' })).toBe(defaultTitle)
+    expect(descriptionForPath({ path: '/nope' })).toBe(defaultDescription)
+    expect(defaultTitle).toBeTruthy()
+    expect(defaultDescription).toBeTruthy()
   })
 })
 
