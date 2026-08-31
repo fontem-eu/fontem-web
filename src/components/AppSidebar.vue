@@ -45,6 +45,7 @@ const navGroups = computed(() => {
     groups.push({ key: 'contribute', items: [
       { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
       { key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' },
+      { key: 'my-reviews', label: t('nav.my_reviews'), path: '/my-reviews', icon: 'mystories' },
       { key: 'my-briefings', label: t('nav.my_briefings'), path: '/my-briefings', icon: 'stories' },
     ] })
   }

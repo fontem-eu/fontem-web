@@ -63,6 +63,8 @@ import InvestigationDetailView from './views/InvestigationDetailView.vue'
 import DossierView from './views/DossierView.vue'
 import ReportView from './views/ReportView.vue'
 import ReportEditorView from './views/ReportEditorView.vue'
+import ReviewView from './views/ReviewView.vue'
+import MyReviewsView from './views/MyReviewsView.vue'
 import IssuesView from './views/IssuesView.vue'
 import IssueDetailView from './views/IssueDetailView.vue'
 import ModerationView from './views/ModerationView.vue'
@@ -205,6 +207,8 @@ const ROUTES = [
   { path: '/stories', redirect: '/my-stories' },
   { path: '/stories/:id', component: ReportView },
   { path: '/stories/:id/edit', component: ReportEditorView },
+  { path: '/stories/:id/reviews/:reviewId', component: ReviewView },
+  { path: '/my-reviews', component: MyReviewsView },
   { path: '/my-reports', redirect: '/my-stories' },
   { path: '/reports', redirect: '/my-stories' },
   { path: '/reports/:id', redirect: (to) => `/stories/${to.params.id}` },

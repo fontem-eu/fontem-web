@@ -45,6 +45,9 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1',
   vi.spyOn(communityApi, 'updateReport').mockResolvedValue({})
   vi.spyOn(communityApi, 'saveDocument').mockResolvedValue({ ok: true })
   vi.spyOn(communityApi, 'setStoryTags').mockResolvedValue({ tags: [] })
+  // The primary action saves the draft and then opens the change review:
+  // saving no longer publishes, so the thing you press leads to the diff.
+  vi.spyOn(communityApi, 'openReview').mockResolvedValue({ id: 'review-1' })
   vi.spyOn(communityApi, 'listAllTags').mockResolvedValue({ tags: [] })
   vi.spyOn(communityApi, 'uploadImage').mockResolvedValue({ url: '/uploads/test.png' })
 
@@ -128,7 +131,7 @@ describe('ReportEditorView — unified editor', () => {
 
   it('save calls saveDocument with TipTap JSON', async () => {
     const { wrapper } = await mountEditor()
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
 
     expect(communityApi.updateReport).toHaveBeenCalledWith('r1', {
@@ -140,8 +143,10 @@ describe('ReportEditorView — unified editor', () => {
     })
     // Third argument: the revision this buffer was loaded from. Saving
     // without it is what let a stale buffer overwrite newer work.
+    // (Reached through Review, which saves before showing the diff.)
     // Third argument: the revision this buffer was loaded from. Saving
     // without it is what let a stale buffer overwrite newer work.
+    // (Reached through Review, which saves before showing the diff.)
     expect(communityApi.saveDocument).toHaveBeenCalledWith(
       'r1', expect.any(Object), 'rev-loaded',
     )
@@ -156,7 +161,7 @@ describe('ReportEditorView — unified editor', () => {
     expect(sel.text()).toContain('Portugal')   // level-0 countries from the mock
     await sel.setValue('PT')
     await flushPromises()
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     expect(communityApi.updateReport).toHaveBeenCalledWith(
       'r1', expect.objectContaining({ nuts_region: 'PT' }),
@@ -172,7 +177,7 @@ describe('ReportEditorView — unified editor', () => {
     expect(sel.text()).toContain('Portugal')
     expect(sel.element.value).toBe('PT')
     // and the collapsed country is what gets persisted on next save
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     expect(communityApi.updateReport).toHaveBeenCalledWith(
       'r1', expect.objectContaining({ nuts_region: 'PT' }),
@@ -265,7 +270,7 @@ describe('ReportEditorView — a document that moved on', () => {
     }
     communityApi.saveDocument.mockRejectedValueOnce(stale)
 
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
 
     const bar = wrapper.find('[data-testid="editor-stale"]')
@@ -283,12 +288,46 @@ describe('ReportEditorView — a document that moved on', () => {
     stale.body = { detail: 'moved on', current_revision: 'rev-newer' }
     communityApi.saveDocument.mockRejectedValueOnce(stale)
 
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     await wrapper.find('[data-testid="editor-stale-reload"]').trigger('click')
     await flushPromises()
 
     expect(communityApi.getReport).toHaveBeenCalledTimes(2)
     expect(wrapper.find('[data-testid="editor-stale"]').exists()).toBe(false)
+  })
+})
+
+describe('ReportEditorView — Review is the primary action', () => {
+  it('saves the draft and opens the change review', async () => {
+    const { wrapper } = await mountEditor()
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalled()
+    expect(communityApi.openReview).toHaveBeenCalledWith('r1', 'change')
+  })
+
+  it('keeps a Save that persists the draft without leaving the editor', async () => {
+    // There is no autosave: removing Save would leave no way to put work
+    // down mid-paragraph without a trip through the diff.
+    const { wrapper } = await mountEditor()
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalled()
+    expect(communityApi.openReview).not.toHaveBeenCalled()
+  })
+
+  it('does not open an empty review when the draft matches what is published', async () => {
+    const { wrapper } = await mountEditor()
+    const nothing = new Error('HTTP 400: Your draft matches the published text.')
+    nothing.status = 400
+    communityApi.openReview.mockRejectedValueOnce(nothing)
+
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
+    await flushPromises()
+    // Said quietly, not as a red error bar.
+    expect(wrapper.find('[data-testid="editor-error"]').exists()).toBe(false)
   })
 })

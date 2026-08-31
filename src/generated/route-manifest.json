@@ -265,6 +265,11 @@
       "requires_auth": true
     },
     {
+      "path": "/my-reviews",
+      "requires_auth": true,
+      "description": "Reviews you started and reviews you were asked to read."
+    },
+    {
       "path": "/my-stories",
       "requires_auth": true,
       "description": "Data stories you have written."
@@ -340,6 +345,14 @@
       ],
       "requires_auth": true,
       "description": "Edit one of your data stories."
+    },
+    {
+      "path": "/stories/:id/reviews/:reviewId",
+      "params": [
+        "id",
+        "reviewId"
+      ],
+      "requires_auth": true
     },
     {
       "path": "/studio",

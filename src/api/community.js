@@ -407,6 +407,71 @@ export function getAssistUsageHistory(days = 30) {
 
 // ── v2 Document API ────────────────────────────────────────
 
+// ── Reviews ─────────────────────────────────────────────────────
+//
+// Two kinds. A change review proposes a draft as the published text and
+// is read as a diff; an article review is one version read end to end,
+// with comments and nothing to merge.
+
+/** Start a review. `kind` is 'change' or 'article'. */
+export function openReview(reportId, kind = 'change', title = '', body = '') {
+  return request('POST', `/data-stories/${encodeURIComponent(reportId)}/reviews`,
+                 { kind, title, body })
+}
+
+export function listReviews(reportId, state = 'open') {
+  return request(
+    'GET',
+    `/data-stories/${encodeURIComponent(reportId)}/reviews?state=${encodeURIComponent(state)}`,
+  )
+}
+
+/** One review: its diff or its blocks, plus the conversation. */
+export function getReview(reportId, reviewId) {
+  return request('GET', `${_reviewPath(reportId, reviewId)}`)
+}
+
+/** Ask somebody to read it. They can then open it and comment. */
+export function inviteReviewer(reportId, reviewId, userId) {
+  return request('POST', `${_reviewPath(reportId, reviewId)}/reviewers`,
+                 { user_id: userId })
+}
+
+/** An inline comment, anchored to a block of the document. */
+export function commentOnReview(reportId, reviewId, body, anchor = null) {
+  return request('POST', `${_reviewPath(reportId, reviewId)}/comments`,
+                 { body, anchor })
+}
+
+export function resolveReviewComment(reportId, reviewId, commentId) {
+  return request(
+    'POST',
+    `${_reviewPath(reportId, reviewId)}/comments/${encodeURIComponent(commentId)}/resolve`,
+  )
+}
+
+/** Publish a change review — fast-forward only. */
+export function publishReview(reportId, reviewId) {
+  return request('POST', `${_reviewPath(reportId, reviewId)}/publish`)
+}
+
+/** Withdraw a proposal, or mark a read as done. */
+export function closeReview(reportId, reviewId, state = 'closed') {
+  return request(
+    'POST',
+    `${_reviewPath(reportId, reviewId)}/close?state=${encodeURIComponent(state)}`,
+  )
+}
+
+/** Everything I started or was asked to read. */
+export function myReviews() {
+  return request('GET', '/data-stories/my-reviews')
+}
+
+function _reviewPath(reportId, reviewId) {
+  return `/data-stories/${encodeURIComponent(reportId)}/reviews/${encodeURIComponent(reviewId)}`
+}
+
 /** The article's revisions, newest first, each with what it changed. */
 export function listRevisions(reportId, limit = 50) {
   return request(

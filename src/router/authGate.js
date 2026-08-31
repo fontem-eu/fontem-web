@@ -26,6 +26,10 @@ export function requiresAuth(path) {
   // /stories/:id/edit (and /reports/:id/edit) are the editor. Match
   // the editor explicitly so the read view stays open.
   if (/^\/stories\/[^/]+\/edit/.test(path)) return true
+  // A review is never public: reading one needs an account, and the
+  // server then decides whether it is yours to see.
+  if (/^\/stories\/[^/]+\/reviews\//.test(path)) return true
+  if (path === '/my-reviews') return true
   if (/^\/reports\/[^/]+\/edit/.test(path)) return true
   if (path === '/issues' || path.startsWith('/issues/')) return true
   if (path === '/studio' || path.startsWith('/studio/')) return true

@@ -20,6 +20,9 @@ import { requiresAuth } from '../router/authGate.js'
  * unclassified by accident.
  */
 export const NOT_NAVIGABLE = new Set([
+  // Reached from /my-reviews or the editor; the id is not something
+  // the agent can know, so steering a user here blind is a dead end.
+  '/stories/:id/reviews/:reviewId',
   '/:pathMatch(.*)*',   // 404 catch-all
   '/forgot-password',   // auth utility: reached from /login, not navigated to
   '/reset-password',    // reached from an emailed token
@@ -61,6 +64,7 @@ export const ROUTE_DESCRIPTIONS = {
   '/contract/:noticeId': 'A single public procurement contract, with its award details.',
   '/users/:id': 'A contributor profile.',
 
+  '/my-reviews': 'Reviews you started and reviews you were asked to read.',
   '/my-stories': 'Data stories you have written.',
   '/stories/:id': 'Read a published data story.',
   '/stories/:id/edit': 'Edit one of your data stories.',
