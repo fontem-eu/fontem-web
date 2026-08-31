@@ -45,6 +45,9 @@ async function mountEditor({ content_doc = null, sections = [], reportId = 'r1',
   vi.spyOn(communityApi, 'updateReport').mockResolvedValue({})
   vi.spyOn(communityApi, 'saveDocument').mockResolvedValue({ ok: true })
   vi.spyOn(communityApi, 'setStoryTags').mockResolvedValue({ tags: [] })
+  // The primary action saves the draft and then opens the change review:
+  // saving no longer publishes, so the thing you press leads to the diff.
+  vi.spyOn(communityApi, 'openReview').mockResolvedValue({ id: 'review-1' })
   vi.spyOn(communityApi, 'listAllTags').mockResolvedValue({ tags: [] })
   vi.spyOn(communityApi, 'uploadImage').mockResolvedValue({ url: '/uploads/test.png' })
 
@@ -128,7 +131,7 @@ describe('ReportEditorView — unified editor', () => {
 
   it('save calls saveDocument with TipTap JSON', async () => {
     const { wrapper } = await mountEditor()
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
 
     expect(communityApi.updateReport).toHaveBeenCalledWith('r1', {
@@ -156,7 +159,7 @@ describe('ReportEditorView — unified editor', () => {
     expect(sel.text()).toContain('Portugal')   // level-0 countries from the mock
     await sel.setValue('PT')
     await flushPromises()
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     expect(communityApi.updateReport).toHaveBeenCalledWith(
       'r1', expect.objectContaining({ nuts_region: 'PT' }),
@@ -172,7 +175,7 @@ describe('ReportEditorView — unified editor', () => {
     expect(sel.text()).toContain('Portugal')
     expect(sel.element.value).toBe('PT')
     // and the collapsed country is what gets persisted on next save
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     expect(communityApi.updateReport).toHaveBeenCalledWith(
       'r1', expect.objectContaining({ nuts_region: 'PT' }),
@@ -265,7 +268,7 @@ describe('ReportEditorView — a document that moved on', () => {
     }
     communityApi.saveDocument.mockRejectedValueOnce(stale)
 
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
 
     const bar = wrapper.find('[data-testid="editor-stale"]')
@@ -283,7 +286,7 @@ describe('ReportEditorView — a document that moved on', () => {
     stale.body = { detail: 'moved on', current_revision: 'rev-newer' }
     communityApi.saveDocument.mockRejectedValueOnce(stale)
 
-    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
     await flushPromises()
     await wrapper.find('[data-testid="editor-stale-reload"]').trigger('click')
     await flushPromises()

@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useLang } from '../composables/useLang.js'
 import { useRouter } from 'vue-router'
-import { listReports, createReport, listDossiers, createDossier } from '../api/community.js'
+import { listReports, createReport, listDossiers, createDossier, openReview } from '../api/community.js'
 
 const router = useRouter()
 
@@ -10,6 +10,7 @@ const { lang: uiLang } = useLang()
 const stories = ref([])
 const loading = ref(true)
 const error = ref(null)
+const startingReview = ref('')
 const creating = ref(false)
 const dossiers = ref([])
 const showCreateMenu = ref(false)
@@ -70,6 +71,26 @@ function formatDate(dateStr) {
     })
   } catch {
     return dateStr
+  }
+}
+
+/**
+ * Start a read-through of this article.
+ *
+ * The same object as a change review, minus the diff: a version, and a
+ * conversation about it. Inviting somebody is a step you take inside it,
+ * so "self review" and "request a review" are the same button followed
+ * by a different second action.
+ */
+async function startArticleReview(story) {
+  startingReview.value = story.id
+  try {
+    const review = await openReview(story.id, 'article')
+    router.push(`/stories/${story.id}/reviews/${review.id}`)
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    startingReview.value = ''
   }
 }
 
@@ -156,6 +177,18 @@ function truncate(text, maxLen = 140) {
         <div class="card-meta">
           <span v-if="s.author">{{ s.author.name || s.author }}</span>
           <span v-if="s.updated_at">&middot; {{ formatDate(s.updated_at) }}</span>
+        </div>
+        <!-- A full article review: one version read end to end, with
+             inline comments and nothing to merge. Either a read-through
+             of your own, or somebody else's — the difference is only who
+             gets invited once it exists. -->
+        <div class="card-reviews" @click.stop>
+          <button
+            class="card-review-btn"
+            :disabled="startingReview === s.id"
+            :data-testid="`self-review-${s.id}`"
+            @click="startArticleReview(s)"
+          >{{ $t('review.start_self_review') }}</button>
         </div>
       </div>
     </div>

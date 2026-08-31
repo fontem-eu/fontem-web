@@ -9,7 +9,7 @@
  * - Widget nodes (interactive Vue components inline)
  */
 import { ref, computed, onMounted, onBeforeUnmount, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
@@ -53,10 +53,12 @@ import { canContribute } from '../utils/investigationRole.js'
 import TagEditor from '../components/TagEditor.vue'
 import CountryRegionPicker from '../components/CountryRegionPicker.vue'
 import RevisionHistory from '../components/RevisionHistory.vue'
+import { openReview } from '../api/community.js'
 import { fetchNutsRegions } from '../api/geo.js'
 import TranslationControls from '../components/TranslationControls.vue'
 
 const route = useRoute()
+const router = useRouter()
 const { t } = useI18n()
 const reportId = route.params.id
 
@@ -352,6 +354,31 @@ function onStaleSave(err) {
   }
 }
 
+/**
+ * Save the draft and go read what it changes.
+ *
+ * The editor no longer publishes: saving commits to your draft branch,
+ * and the article's public text moves when a change review is published.
+ * So the primary action saves and then shows you the diff you would be
+ * publishing.
+ */
+async function reviewChanges() {
+  await save()
+  if (error.value || staleWarning.value) return
+  try {
+    const review = await openReview(reportId, 'change')
+    router.push(`/stories/${reportId}/reviews/${review.id}`)
+  } catch (err) {
+    // Nothing to propose is not an error worth a red bar: it means the
+    // draft matches what is already published.
+    if (err.status === 400) {
+      toast.success(t('review.nothing_to_review'))
+      return
+    }
+    error.value = err.message
+  }
+}
+
 /** A restore writes a new revision; the buffer must catch up to it. */
 async function onRestored() {
   staleWarning.value = null
@@ -613,9 +640,17 @@ async function save() {
             {{ $t('investigations.add_to_investigation') }}
           </button>
         </div>
-        <!-- Primary Save — always visible, inline, never in the kebab. -->
-        <button class="save-btn save-btn-primary" :disabled="saving" data-testid="save-story" @click="save">
-          {{ saving ? $t('report_editor.saving') : $t('report_editor.save') }}
+        <!-- Primary action — always visible, inline, never in the kebab.
+             It is Review rather than Save because saving is no longer the
+             thing that publishes: this saves the draft and takes you to
+             the diff, which is what you decide from. -->
+        <button
+          class="save-btn save-btn-primary"
+          :disabled="saving"
+          data-testid="review-story"
+          @click="reviewChanges"
+        >
+          {{ saving ? $t('report_editor.saving') : $t('review.review') }}
         </button>
         <!-- Kebab — mobile only (hidden >640px via CSS). -->
         <button
