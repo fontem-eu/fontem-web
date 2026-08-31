@@ -143,8 +143,10 @@ describe('ReportEditorView — unified editor', () => {
     })
     // Third argument: the revision this buffer was loaded from. Saving
     // without it is what let a stale buffer overwrite newer work.
+    // (Reached through Review, which saves before showing the diff.)
     // Third argument: the revision this buffer was loaded from. Saving
     // without it is what let a stale buffer overwrite newer work.
+    // (Reached through Review, which saves before showing the diff.)
     expect(communityApi.saveDocument).toHaveBeenCalledWith(
       'r1', expect.any(Object), 'rev-loaded',
     )
@@ -293,5 +295,39 @@ describe('ReportEditorView — a document that moved on', () => {
 
     expect(communityApi.getReport).toHaveBeenCalledTimes(2)
     expect(wrapper.find('[data-testid="editor-stale"]').exists()).toBe(false)
+  })
+})
+
+describe('ReportEditorView — Review is the primary action', () => {
+  it('saves the draft and opens the change review', async () => {
+    const { wrapper } = await mountEditor()
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalled()
+    expect(communityApi.openReview).toHaveBeenCalledWith('r1', 'change')
+  })
+
+  it('keeps a Save that persists the draft without leaving the editor', async () => {
+    // There is no autosave: removing Save would leave no way to put work
+    // down mid-paragraph without a trip through the diff.
+    const { wrapper } = await mountEditor()
+    await wrapper.find('[data-testid="save-story"]').trigger('click')
+    await flushPromises()
+
+    expect(communityApi.saveDocument).toHaveBeenCalled()
+    expect(communityApi.openReview).not.toHaveBeenCalled()
+  })
+
+  it('does not open an empty review when the draft matches what is published', async () => {
+    const { wrapper } = await mountEditor()
+    const nothing = new Error('HTTP 400: Your draft matches the published text.')
+    nothing.status = 400
+    communityApi.openReview.mockRejectedValueOnce(nothing)
+
+    await wrapper.find('[data-testid="review-story"]').trigger('click')
+    await flushPromises()
+    // Said quietly, not as a red error bar.
+    expect(wrapper.find('[data-testid="editor-error"]').exists()).toBe(false)
   })
 })

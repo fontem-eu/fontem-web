@@ -640,10 +640,22 @@ async function save() {
             {{ $t('investigations.add_to_investigation') }}
           </button>
         </div>
+        <!-- Save keeps the draft and keeps you writing. It is secondary
+             now: it no longer publishes anything, so it is no longer the
+             end of the job. There is no autosave, so removing it outright
+             would leave no way to put work down mid-paragraph. -->
+        <button
+          class="save-btn"
+          :disabled="saving"
+          data-testid="save-story"
+          @click="save"
+        >
+          {{ saving ? $t('report_editor.saving') : $t('report_editor.save') }}
+        </button>
         <!-- Primary action — always visible, inline, never in the kebab.
-             It is Review rather than Save because saving is no longer the
-             thing that publishes: this saves the draft and takes you to
-             the diff, which is what you decide from. -->
+             Review rather than Save because saving is no longer what
+             publishes: this saves the draft and takes you to the diff,
+             which is what you decide from. -->
         <button
           class="save-btn save-btn-primary"
           :disabled="saving"
