@@ -196,7 +196,15 @@
     "failing_now": "Tvrdnje koje ne prolaze",
     "all_green": "Sve tvrdnje prolaze.",
     "since": "ne prolazi od",
-    "no_runs": "Još nije zabilježeno nijedno izvođenje tvrdnji — četverosatni nadzorni cron nije se pokrenuo."
+    "no_runs": "Još nije zabilježeno nijedno izvođenje tvrdnji — četverosatni nadzorni cron nije se pokrenuo.",
+    "consumers": "Zaostajanje potrošača",
+    "consumers_sub": "Koliko svaki potrošač zaostaje za zapisom događaja",
+    "behind": "iza",
+    "caught_up": "Ažurno",
+    "etl_runs": "Nedavna ETL izvođenja",
+    "etl_runs_sub": "Posljednja četiri izvođenja svakog zakazanog posla",
+    "no_consumers": "Još nema registriranih potrošača.",
+    "no_etl_runs": "Još nema zabilježenih ETL izvođenja."
   },
   "assist": {
     "untitled_chat": "Novi razgovor",

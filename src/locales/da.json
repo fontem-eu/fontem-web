@@ -196,7 +196,15 @@
     "failing_now": "Fejlende assertioner",
     "all_green": "Alle assertioner består.",
     "since": "har fejlet siden",
-    "no_runs": "Der er endnu ikke registreret nogen assertionskørsler — 4-timers overvågningscron er ikke udløst."
+    "no_runs": "Der er endnu ikke registreret nogen assertionskørsler — 4-timers overvågningscron er ikke udløst.",
+    "consumers": "Forbrugerforsinkelse",
+    "consumers_sub": "Hvor langt hver forbruger er bagud i hændelsesloggen",
+    "behind": "bagud",
+    "caught_up": "Ajourført",
+    "etl_runs": "Seneste ETL-kørsler",
+    "etl_runs_sub": "De sidste fire kørsler af hvert planlagt job",
+    "no_consumers": "Ingen forbrugere er registreret endnu.",
+    "no_etl_runs": "Ingen ETL-kørsler er registreret endnu."
   },
   "assist": {
     "untitled_chat": "Ny chat",

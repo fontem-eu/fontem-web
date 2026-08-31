@@ -196,7 +196,15 @@
     "failing_now": "Aserciones fallidas",
     "all_green": "Todas las aserciones pasan.",
     "since": "fallando desde",
-    "no_runs": "Aún no se ha registrado ninguna ejecución de aserciones: el cron de monitorización de 4 horas no se ha disparado."
+    "no_runs": "Aún no se ha registrado ninguna ejecución de aserciones: el cron de monitorización de 4 horas no se ha disparado.",
+    "consumers": "Retraso de consumidores",
+    "consumers_sub": "Cuánto se retrasa cada consumidor respecto al registro de eventos",
+    "behind": "por detrás",
+    "caught_up": "Al día",
+    "etl_runs": "Ejecuciones ETL recientes",
+    "etl_runs_sub": "Las últimas cuatro ejecuciones de cada tarea programada",
+    "no_consumers": "Aún no hay consumidores registrados.",
+    "no_etl_runs": "Aún no se han registrado ejecuciones ETL."
   },
   "assist": {
     "untitled_chat": "Chat nuevo",

@@ -196,7 +196,15 @@
     "failing_now": "Assertions en échec",
     "all_green": "Toutes les assertions passent.",
     "since": "en échec depuis",
-    "no_runs": "Aucune exécution d'assertion enregistrée pour l'instant — le cron de surveillance de 4 heures ne s'est pas encore déclenché."
+    "no_runs": "Aucune exécution d'assertion enregistrée pour l'instant — le cron de surveillance de 4 heures ne s'est pas encore déclenché.",
+    "consumers": "Retard des consommateurs",
+    "consumers_sub": "Retard de chaque consommateur par rapport au journal d'événements",
+    "behind": "de retard",
+    "caught_up": "À jour",
+    "etl_runs": "Exécutions ETL récentes",
+    "etl_runs_sub": "Les quatre dernières exécutions de chaque tâche planifiée",
+    "no_consumers": "Aucun consommateur enregistré pour le moment.",
+    "no_etl_runs": "Aucune exécution ETL enregistrée pour le moment."
   },
   "assist": {
     "untitled_chat": "Nouvelle conversation",

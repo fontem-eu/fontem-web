@@ -196,7 +196,15 @@
     "failing_now": "Asserzjonijiet li qed ifallu",
     "all_green": "L-asserzjonijiet kollha jgħaddu.",
     "since": "ifalli minn",
-    "no_runs": "Għadha ma ġiet irreġistrata l-ebda eżekuzzjoni ta' asserzjonijiet — il-cron ta' monitoraġġ ta' 4 sigħat ma ħadimx."
+    "no_runs": "Għadha ma ġiet irreġistrata l-ebda eżekuzzjoni ta' asserzjonijiet — il-cron ta' monitoraġġ ta' 4 sigħat ma ħadimx.",
+    "consumers": "Dewmien tal-konsumaturi",
+    "consumers_sub": "Kemm kull konsumatur huwa lura mir-reġistru tal-avvenimenti",
+    "behind": "lura",
+    "caught_up": "Aġġornat",
+    "etl_runs": "Eżekuzzjonijiet ETL reċenti",
+    "etl_runs_sub": "L-aħħar erba' eżekuzzjonijiet ta' kull xogħol skedat",
+    "no_consumers": "Għad m'hemm ebda konsumatur irreġistrat.",
+    "no_etl_runs": "Għad ma ġiet irreġistrata ebda eżekuzzjoni ETL."
   },
   "assist": {
     "untitled_chat": "Chat ġdid",

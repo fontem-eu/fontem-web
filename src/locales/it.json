@@ -196,7 +196,15 @@
     "failing_now": "Asserzioni fallite",
     "all_green": "Tutte le asserzioni superate.",
     "since": "in errore da",
-    "no_runs": "Nessuna esecuzione di asserzioni registrata finora: il cron di monitoraggio ogni 4 ore non è ancora scattato."
+    "no_runs": "Nessuna esecuzione di asserzioni registrata finora: il cron di monitoraggio ogni 4 ore non è ancora scattato.",
+    "consumers": "Ritardo dei consumatori",
+    "consumers_sub": "Quanto ogni consumatore è indietro rispetto al registro eventi",
+    "behind": "indietro",
+    "caught_up": "Aggiornato",
+    "etl_runs": "Esecuzioni ETL recenti",
+    "etl_runs_sub": "Le ultime quattro esecuzioni di ogni processo pianificato",
+    "no_consumers": "Nessun consumatore ancora registrato.",
+    "no_etl_runs": "Nessuna esecuzione ETL ancora registrata."
   },
   "assist": {
     "untitled_chat": "Nuova chat",

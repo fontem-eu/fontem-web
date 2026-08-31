@@ -196,7 +196,15 @@
     "failing_now": "Tõrkuvad väited",
     "all_green": "Kõik väited on korras.",
     "since": "tõrkub alates",
-    "no_runs": "Ühtegi väidete käivitust pole veel salvestatud — 4-tunnine jälgimiscron pole käivitunud."
+    "no_runs": "Ühtegi väidete käivitust pole veel salvestatud — 4-tunnine jälgimiscron pole käivitunud.",
+    "consumers": "Tarbijate mahajäämus",
+    "consumers_sub": "Kui kaugel on iga tarbija sündmuste logist maas",
+    "behind": "maas",
+    "caught_up": "Ajakohane",
+    "etl_runs": "Hiljutised ETL-käivitused",
+    "etl_runs_sub": "Iga ajastatud töö neli viimast käivitust",
+    "no_consumers": "Ühtegi tarbijat pole veel registreeritud.",
+    "no_etl_runs": "Ühtegi ETL-käivitust pole veel salvestatud."
   },
   "assist": {
     "untitled_chat": "Uus vestlus",

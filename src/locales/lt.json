@@ -196,7 +196,15 @@
     "failing_now": "Nepavykę teiginiai",
     "all_green": "Visi teiginiai sėkmingi.",
     "since": "nepavyksta nuo",
-    "no_runs": "Kol kas neužfiksuotas nė vienas teiginių paleidimas — 4 valandų stebėsenos cron nesuveikė."
+    "no_runs": "Kol kas neužfiksuotas nė vienas teiginių paleidimas — 4 valandų stebėsenos cron nesuveikė.",
+    "consumers": "Vartotojų atsilikimas",
+    "consumers_sub": "Kiek kiekvienas vartotojas atsilieka nuo įvykių žurnalo",
+    "behind": "atsilieka",
+    "caught_up": "Atnaujinta",
+    "etl_runs": "Naujausi ETL vykdymai",
+    "etl_runs_sub": "Paskutiniai keturi kiekvienos suplanuotos užduoties vykdymai",
+    "no_consumers": "Vartotojų dar neužregistruota.",
+    "no_etl_runs": "ETL vykdymų dar neužfiksuota."
   },
   "assist": {
     "untitled_chat": "Naujas pokalbis",

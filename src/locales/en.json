@@ -196,7 +196,15 @@
     "failing_now": "Failing Assertions",
     "all_green": "All assertions passing.",
     "since": "failing since",
-    "no_runs": "No assertion runs recorded yet — the 4-hour monitor cron has not fired."
+    "no_runs": "No assertion runs recorded yet — the 4-hour monitor cron has not fired.",
+    "consumers": "Consumer Lag",
+    "consumers_sub": "How far each consumer trails the event log",
+    "behind": "behind",
+    "caught_up": "Up to date",
+    "etl_runs": "Recent ETL Runs",
+    "etl_runs_sub": "Last four runs of each scheduled job",
+    "no_consumers": "No consumers registered yet.",
+    "no_etl_runs": "No ETL runs recorded yet."
   },
   "assist": {
     "untitled_chat": "New chat",

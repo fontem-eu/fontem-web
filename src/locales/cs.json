@@ -196,7 +196,15 @@
     "failing_now": "Selhávající asercie",
     "all_green": "Všechny asercie procházejí.",
     "since": "selhává od",
-    "no_runs": "Zatím nebyl zaznamenán žádný běh asercí — čtyřhodinový monitorovací cron se nespustil."
+    "no_runs": "Zatím nebyl zaznamenán žádný běh asercí — čtyřhodinový monitorovací cron se nespustil.",
+    "consumers": "Zpoždění konzumentů",
+    "consumers_sub": "Jak daleko je každý konzument za protokolem událostí",
+    "behind": "pozadu",
+    "caught_up": "Aktuální",
+    "etl_runs": "Poslední běhy ETL",
+    "etl_runs_sub": "Poslední čtyři běhy každé naplánované úlohy",
+    "no_consumers": "Zatím nejsou registrováni žádní konzumenti.",
+    "no_etl_runs": "Zatím nebyly zaznamenány žádné běhy ETL."
   },
   "assist": {
     "untitled_chat": "Nový chat",

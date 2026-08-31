@@ -196,7 +196,15 @@
     "failing_now": "Misslyckade assertioner",
     "all_green": "Alla assertioner går igenom.",
     "since": "misslyckas sedan",
-    "no_runs": "Inga assertionskörningar registrerade ännu — fyratimmarscronen har inte utlösts."
+    "no_runs": "Inga assertionskörningar registrerade ännu — fyratimmarscronen har inte utlösts.",
+    "consumers": "Konsumentfördröjning",
+    "consumers_sub": "Hur långt varje konsument ligger efter händelseloggen",
+    "behind": "efter",
+    "caught_up": "Aktuell",
+    "etl_runs": "Senaste ETL-körningar",
+    "etl_runs_sub": "De fyra senaste körningarna av varje schemalagt jobb",
+    "no_consumers": "Inga konsumenter är registrerade ännu.",
+    "no_etl_runs": "Inga ETL-körningar har registrerats ännu."
   },
   "assist": {
     "untitled_chat": "Ny chatt",

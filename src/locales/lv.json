@@ -196,7 +196,15 @@
     "failing_now": "Neizdevušies apgalvojumi",
     "all_green": "Visi apgalvojumi izpildās.",
     "since": "neizdodas kopš",
-    "no_runs": "Vēl nav reģistrēta neviena apgalvojumu izpilde — 4 stundu uzraudzības cron nav nostrādājis."
+    "no_runs": "Vēl nav reģistrēta neviena apgalvojumu izpilde — 4 stundu uzraudzības cron nav nostrādājis.",
+    "consumers": "Patērētāju atpalicība",
+    "consumers_sub": "Cik tālu katrs patērētājs atpaliek no notikumu žurnāla",
+    "behind": "atpaliek",
+    "caught_up": "Aktuāls",
+    "etl_runs": "Nesenie ETL izpildījumi",
+    "etl_runs_sub": "Pēdējie četri katra plānotā darba izpildījumi",
+    "no_consumers": "Patērētāji vēl nav reģistrēti.",
+    "no_etl_runs": "ETL izpildījumi vēl nav reģistrēti."
   },
   "assist": {
     "untitled_chat": "Jauna saruna",
