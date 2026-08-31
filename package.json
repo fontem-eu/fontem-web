@@ -16,7 +16,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:mutation": "stryker run"
+    "test:mutation": "stryker run",
+    "test:contract": "vitest run -c vitest.contract.config.js",
+    "contracts:pin": "node scripts/fetch-api-spec.mjs"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.3",

@@ -1,45 +1,24 @@
 /**
- * Consumer pact: fontem-web ↔ fontem-community-api.
+ * Consumer pact: fontem-web ↔ fontem-community-api — core story flows.
  *
- * Each interaction runs the REAL api-client wrapper against Pact's mock
- * provider, so the pact records exactly what the frontend sends — method,
- * path, query (withLang), headers and body — and what it relies on in the
- * response. The provider side never runs: its CI cross-validates these
- * pacts statically against its generated OpenAPI spec.
+ * Each interaction drives the REAL api-client wrapper against Pact's mock
+ * provider, so the pact records exactly what the frontend sends. The
+ * provider never runs: its CI cross-validates these pacts statically
+ * against the OpenAPI spec it generates from code.
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import path from 'node:path'
-import { PactV4, MatchersV3 } from '@pact-foundation/pact'
+import { MatchersV3 } from '@pact-foundation/pact'
 import { _internal } from '../../src/api/session.js'
 import { getReport, createReport, listFollowedTags } from '../../src/api/community.js'
 import { searchStories } from '../../src/api/search.js'
-import { useLang } from '../../src/composables/useLang.js'
-
-// The app always boots the lang composable, so every request carries
-// ?lang=<code>; mirror that here or the recorded pacts would misstate
-// what the frontend sends.
-useLang().init()
+import { makePact, routeCapiTo, restoreFetch } from './support/pactHarness.js'
 
 const { like, eachLike, regex } = MatchersV3
 
-const pact = new PactV4({
-  consumer: 'fontem-web',
-  provider: 'fontem-community-api',
-  dir: path.resolve(process.cwd(), 'pacts'),
-})
-
-// The wrappers call fetch('/capi/<path>'); point that at the mock provider.
-const realFetch = globalThis.fetch
-function routeCapiTo(mockUrl) {
-  globalThis.fetch = (url, init) => {
-    const s = String(url)
-    if (s.startsWith('/capi/')) return realFetch(mockUrl + s.slice('/capi'.length), init)
-    return realFetch(url, init)
-  }
-}
+const pact = makePact()
 
 beforeEach(() => { _internal.clearForTests() })
-afterEach(() => { globalThis.fetch = realFetch; _internal.clearForTests() })
+afterEach(() => { restoreFetch(); _internal.clearForTests() })
 
 describe('data stories', () => {
   it('fetches a public story by id', () =>

@@ -37,7 +37,15 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm ci
-      - name: Run contract tests
+      - name: "Pin the API contract (default main)"
+        # The spec is a committed artefact of the API repo, so this
+        # resolves any ref with no deployment. Non-fatal: the checked-in
+        # contracts/ copy is used if the fetch fails.
+        continue-on-error: true
+        env:
+          GITEA_TOKEN: ${{ secrets.CI_READ_TOKEN }}
+        run: node scripts/fetch-api-spec.mjs --ref=${{ vars.API_CONTRACT_REF || 'main' }}
+      - name: Run contract tests (pacts + conformance sweep)
         run: npx vitest run -c vitest.contract.config.js
       - name: Publish pacts to the broker
         # Broker availability must never block a build — the pacts are

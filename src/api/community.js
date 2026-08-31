@@ -228,6 +228,7 @@ export function giveFlower(id) {
 // per-section CRUD, lock and version wrappers went with the endpoints
 // they called — nothing in the app used them.
 
+// ── Sharing ─────────────────────────────────────────────────────
 export function getAccess(reportId) {
   return request('GET', `/data-stories/${encodeURIComponent(reportId)}/access`)
 }

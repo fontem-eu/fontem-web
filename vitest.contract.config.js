@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    include: ['tests/contract/**/*.pact.test.js'],
+    include: ['tests/contract/**/*.pact.test.js', 'tests/contract/**/*.conformance.test.js'],
     testTimeout: 30000,
     pool: 'forks',
     poolOptions: { forks: { singleFork: true } },
