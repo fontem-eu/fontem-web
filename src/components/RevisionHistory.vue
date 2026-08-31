@@ -126,7 +126,27 @@ watch(() => props.open, (isOpen) => { if (isOpen) loadHistory() }, { immediate: 
               class="history-badge"
               data-testid="history-assistant"
             >{{ $t('history.by_assistant') }}</span>
+            <!-- A change is only half the story: the other half is
+                 whether anybody reviewed it, and where that conversation
+                 is. -->
+            <span
+              v-if="r.published_by"
+              class="history-review"
+              data-testid="history-published-by"
+            >{{ $t('history.published_via', { title: r.published_by.title }) }}<template v-if="r.published_by.self_merged"> · {{ $t('history.unreviewed') }}</template></span>
+            <span
+              v-for="rv in r.reviews || []"
+              :key="rv.id"
+              class="history-review"
+              data-testid="history-open-review"
+            >{{ $t('history.in_review', { title: rv.title, state: $t('review.state_' + rv.state) }) }}</span>
           </button>
+          <RouterLink
+            v-if="r.published_by || (r.reviews || []).length"
+            class="history-review-link"
+            data-testid="history-review-link"
+            :to="`/stories/${reportId}/reviews/${(r.published_by || r.reviews[0]).id}`"
+          >{{ $t('history.open_review') }}</RouterLink>
           <button
             type="button"
             class="history-restore"
@@ -225,6 +245,19 @@ watch(() => props.open, (isOpen) => { if (isOpen) loadHistory() }, { immediate: 
 }
 .history-when { font-size: 0.78rem; }
 .history-changes { font-size: 0.72rem; color: var(--muted, #666); }
+.history-review {
+  font-size: 0.68rem;
+  color: var(--muted, #666);
+}
+.history-review-link {
+  flex-shrink: 0;
+  align-self: center;
+  font-size: 0.7rem;
+  color: var(--accent, #1d3f8f);
+  text-decoration: none;
+  padding: 0.2rem 0.35rem;
+  touch-action: manipulation;
+}
 .history-badge {
   align-self: flex-start;
   font-size: 0.66rem;

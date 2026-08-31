@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "assistent",
+    "in_review": "in “{title}” ({state})",
     "loading": "Geschiedenis laden…",
     "n_added": "{n} toegevoegd",
     "n_changed": "{n} gewijzigd",
     "n_removed": "{n} verwijderd",
     "no_change": "Geen zichtbare wijziging",
     "no_revisions": "Nog geen opgeslagen versies.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Herstellen",
     "restored": "Hersteld",
     "show_history": "Geschiedenis",
-    "title": "Geschiedenis"
+    "title": "Geschiedenis",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Overzicht",

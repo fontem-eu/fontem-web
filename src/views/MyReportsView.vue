@@ -292,6 +292,29 @@ function truncate(text, maxLen = 140) {
 .badge-private { background: #f3f4f6; color: #6b7280; }
 .card-abstract { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.5rem; }
 .card-meta { display: flex; gap: 0.3rem; font-size: 0.7rem; color: var(--muted); }
+/* The review action sits below the card's metadata, separated by a
+   hairline: it is an action on the article, not part of its summary.
+   Quiet by default — the card's own job is to get you into the article. */
+.card-reviews {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.card-review-btn {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: none;
+  color: var(--muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  touch-action: manipulation;
+}
+.card-review-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.card-review-btn:disabled { opacity: 0.55; cursor: progress; }
 .create-wrap { position: relative; display: inline-block; }
 .create-menu { position: absolute; right: 0; margin-top: 4px; display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 4px; z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
 .create-menu button { text-align: left; border: none; background: none; color: var(--text); padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; white-space: nowrap; }

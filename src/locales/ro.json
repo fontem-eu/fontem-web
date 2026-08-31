@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "asistent",
+    "in_review": "in “{title}” ({state})",
     "loading": "Se încarcă istoricul…",
     "n_added": "{n} adăugate",
     "n_changed": "{n} modificate",
     "n_removed": "{n} eliminate",
     "no_change": "Nicio modificare vizibilă",
     "no_revisions": "Încă nu există versiuni salvate.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Restaurează",
     "restored": "Restaurat",
     "show_history": "Istoric",
-    "title": "Istoric"
+    "title": "Istoric",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Prezentare generală",

@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "asistents",
+    "in_review": "in “{title}” ({state})",
     "loading": "Ielādē vēsturi…",
     "n_added": "{n} pievienoti",
     "n_changed": "{n} mainīti",
     "n_removed": "{n} noņemti",
     "no_change": "Nav redzamu izmaiņu",
     "no_revisions": "Vēl nav saglabātu versiju.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Atjaunot",
     "restored": "Atjaunots",
     "show_history": "Vēsture",
-    "title": "Vēsture"
+    "title": "Vēsture",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Pārskats",

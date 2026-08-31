@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "asszisztens",
+    "in_review": "in “{title}” ({state})",
     "loading": "Előzmények betöltése…",
     "n_added": "{n} hozzáadva",
     "n_changed": "{n} módosítva",
     "n_removed": "{n} eltávolítva",
     "no_change": "Nincs látható változás",
     "no_revisions": "Még nincsenek mentett változatok.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Visszaállítás",
     "restored": "Visszaállítva",
     "show_history": "Előzmények",
-    "title": "Előzmények"
+    "title": "Előzmények",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Áttekintés",

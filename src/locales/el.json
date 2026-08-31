@@ -924,16 +924,20 @@
   },
   "history": {
     "by_assistant": "βοηθός",
+    "in_review": "in “{title}” ({state})",
     "loading": "Φόρτωση ιστορικού…",
     "n_added": "{n} προστέθηκαν",
     "n_changed": "{n} άλλαξαν",
     "n_removed": "{n} αφαιρέθηκαν",
     "no_change": "Καμία ορατή αλλαγή",
     "no_revisions": "Δεν υπάρχουν αποθηκευμένες εκδόσεις.",
+    "open_review": "Open review",
+    "published_via": "published via “{title}”",
     "restore": "Επαναφορά",
     "restored": "Επαναφέρθηκε",
     "show_history": "Ιστορικό",
-    "title": "Ιστορικό"
+    "title": "Ιστορικό",
+    "unreviewed": "no second reader"
   },
   "home": {
     "overview": "Επισκόπηση",
