@@ -119,6 +119,7 @@ test.describe('crawler discovery', () => {
     const children = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
     expect(children.length, 'the index must list child sitemaps').toBeGreaterThan(0)
 
+    let total = 0
     for (const child of children) {
       // Fetch by path so this works against whichever env BASE_URL names,
       // rather than following the baked production origin.
@@ -126,9 +127,26 @@ test.describe('crawler discovery', () => {
       expect(res.status(), `${child} must be fetchable`).toBe(200)
       const body = await res.text()
       expect(body, `${child} must be a urlset`).toContain('<urlset')
-      expect((body.match(/<url>/g) || []).length,
-        `${child} must not be empty`).toBeGreaterThan(0)
+      total += (body.match(/<url>/g) || []).length
     }
+    // In aggregate, not per shard. Company shards are per country, and a
+    // country with no listed companies yet is legitimately empty — that
+    // is data, not a broken sitemap.
+    expect(total, 'the sitemap as a whole must advertise URLs').toBeGreaterThan(0)
+  })
+
+  test('company shards are sharded per country, small states included', async ({ request }) => {
+    const index = await (await request.get('/sitemap.xml')).text()
+    // A global "top N" would bury these entirely; each gets its own file.
+    for (const code of ['MLT', 'CYP', 'LUX', 'EST', 'LIE']) {
+      expect(index, `${code} needs its own shard`).toContain(`/sitemap-companies-${code}.xml`)
+    }
+  })
+
+  test('authority shards are not advertised while the page does not exist', async ({ request }) => {
+    // The SPA has no /authority/:id route, so these would be soft-404s
+    // at scale. Add the route before adding the shards.
+    expect(await (await request.get('/sitemap.xml')).text()).not.toContain('sitemap-authorities')
   })
 
   test('every URL the core sitemap advertises is actually served', async ({ request }) => {
