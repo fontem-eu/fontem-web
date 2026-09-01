@@ -22,6 +22,7 @@ const create = vi.fn()
 const rename = vi.fn()
 const remove = vi.fn()
 const page = vi.fn()
+const stream = vi.fn()
 
 vi.mock('../../src/api/community.js', () => ({
   getAssistConversation: vi.fn().mockResolvedValue({ messages: [] }),
@@ -32,6 +33,8 @@ vi.mock('../../src/api/community.js', () => ({
   deleteAssistConversation: (...a) => remove(...a),
   getAssistUsage: vi.fn().mockResolvedValue({ tokens_1h: 0, tokens_24h: 0, tokens_7d: 0 }),
   listAssistantModels: vi.fn().mockResolvedValue({ models: [], selected: '', active: true }),
+  chooseAssistantModel: vi.fn().mockResolvedValue({}),
+  streamRequest: (...a) => stream(...a),
 }))
 vi.mock('../../src/composables/useEditProposals.js', () => ({
   validateProposal: vi.fn(() => ({ valid: false })),
@@ -69,6 +72,14 @@ describe('AssistPanel conversations', () => {
     token.mockReturnValue('a-token')
     vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, body: null })))
     list.mockReset(); create.mockReset(); rename.mockReset(); remove.mockReset(); page.mockReset()
+    stream.mockReset()
+    stream.mockImplementation(async () => {
+      const enc = new TextEncoder().encode('event: done\ndata: {}\n\n')
+      let sent = false
+      return { ok: true, body: { getReader: () => ({ read: async () => (sent
+        ? { done: true, value: undefined }
+        : ((sent = true), { done: false, value: enc })) }) } }
+    })
     list.mockResolvedValue({ conversations: CONVERSATIONS })
     page.mockResolvedValue({ messages: [], has_more: false, next_before: '' })
     create.mockResolvedValue({
@@ -267,4 +278,37 @@ describe('AssistPanel conversations on a report page', () => {
     const keys = page.mock.calls.map((c) => c[0])
     expect(keys).toContain('chat:aaa')
   })
+
+  it('tells the server which article is on screen, not which chat is selected',
+    async () => {
+      // Production, 2026-08-31. The author was editing one story with an
+      // older chat picked in the switcher. The server derived the document
+      // id from the CONVERSATION KEY, so read_document went looking for the
+      // story that chat was once about — deleted since — and answered "not
+      // found" about an article the author was looking at.
+      //
+      // The chat you are in and the article you are editing are two
+      // different things the moment the switcher exists. The request has to
+      // carry both.
+      await open({ reportId: 'report-1', reportContext: 'A story',
+                   editorState: { doc: {} } })
+      await openSwitcher()
+      all('[data-testid="assist-conversation-pick"]')[0].click()
+      await flushPromises()
+
+      const box = q('[data-testid="assist-input"]')
+      box.value = 'rewrite the intro'
+      box.dispatchEvent(new Event('input', { bubbles: true }))
+      await flushPromises()
+      q('form.assist-input').dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true }))
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 30))
+      await flushPromises()
+
+      const [path, body] = stream.mock.calls.at(-1)
+      expect(path).toBe('/assist/chat/stream')
+      expect(body.conversation_key).toBe('chat:aaa')
+      expect(body.report_id).toBe('report-1')
+    })
 })
