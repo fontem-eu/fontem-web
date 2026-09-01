@@ -8,9 +8,14 @@
  */
 
 export function escapeHtml(s) {
+  // Ampersand first — any later replacement introduces one, and
+  // re-escaping it would double-encode.
   return String(s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 }
 
 /**
@@ -27,25 +32,36 @@ export function escapeHtml(s) {
 export function renderHead(head, { canonical = true } = {}) {
   const parts = []
   if (head.title) {
-    parts.push(`<title>${escapeHtml(head.title)}</title>`)
-    parts.push(`<meta property="og:title" content="${escapeHtml(head.title)}"/>`)
-    parts.push(`<meta name="twitter:title" content="${escapeHtml(head.title)}"/>`)
+    const t = escapeHtml(head.title)
+    parts.push(
+      `<title>${t}</title>`,
+      `<meta property="og:title" content="${t}"/>`,
+      `<meta name="twitter:title" content="${t}"/>`,
+    )
   }
   if (head.description) {
-    parts.push(`<meta name="description" content="${escapeHtml(head.description)}"/>`)
-    parts.push(`<meta property="og:description" content="${escapeHtml(head.description)}"/>`)
-    parts.push(`<meta name="twitter:description" content="${escapeHtml(head.description)}"/>`)
+    const d = escapeHtml(head.description)
+    parts.push(
+      `<meta name="description" content="${d}"/>`,
+      `<meta property="og:description" content="${d}"/>`,
+      `<meta name="twitter:description" content="${d}"/>`,
+    )
   }
   if (head.canonical && canonical) {
-    parts.push(`<link rel="canonical" href="${escapeHtml(head.canonical)}"/>`)
-    parts.push(`<meta property="og:url" content="${escapeHtml(head.canonical)}"/>`)
+    const c = escapeHtml(head.canonical)
+    parts.push(
+      `<link rel="canonical" href="${c}"/>`,
+      `<meta property="og:url" content="${c}"/>`,
+    )
   }
   if (head.ogImage) {
-    parts.push(`<meta property="og:image" content="${escapeHtml(head.ogImage)}"/>`)
-    parts.push(`<meta name="twitter:image" content="${escapeHtml(head.ogImage)}"/>`)
+    const img = escapeHtml(head.ogImage)
+    parts.push(
+      `<meta property="og:image" content="${img}"/>`,
+      `<meta name="twitter:image" content="${img}"/>`,
+    )
   }
-  for (const doc of (head.jsonLd || [])) {
-    parts.push(`<script type="application/ld+json">${JSON.stringify(doc)}</script>`)
-  }
+  parts.push(...(head.jsonLd || []).map(
+    (doc) => `<script type="application/ld+json">${JSON.stringify(doc)}</script>`))
   return parts.join('\n    ')
 }
