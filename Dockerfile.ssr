@@ -1,0 +1,50 @@
+# Runtime SSR for the content routes.
+#
+# Separate from the main image on purpose: that one is hardened
+# distroless nginx with no Node in it, and adding a Node runtime to get
+# server rendering would give back the hardening for every static asset
+# the site serves. Static stays static and hardened; only the routes
+# that must render per request go through this.
+FROM node:24-slim AS build
+WORKDIR /app
+
+COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
+    update-ca-certificates && rm -rf /var/lib/apt/lists/*
+ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/void42-ca.crt
+
+COPY package*.json .npmrc ./
+RUN npm ci
+
+COPY . .
+# Produces dist/client (assets + prerendered pages + spa.html) and
+# dist/server/entry-server.js, which this service imports to render.
+RUN npm run build
+
+# ── runtime ──────────────────────────────────────────────────────────
+FROM node:24-slim
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
+    update-ca-certificates && rm -rf /var/lib/apt/lists/*
+ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/void42-ca.crt
+
+# The render path needs vue/server-renderer and whatever the app bundle
+# pulls in at runtime, so production deps ship with it.
+COPY package*.json .npmrc ./
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY --from=build /app/dist ./dist
+COPY server ./server
+COPY src/ssr ./src/ssr
+
+# Non-root. The service reads its own files and talks to the API; it
+# never writes anything.
+USER node
+EXPOSE 8081
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+  CMD node -e "fetch('http://127.0.0.1:8081/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
+CMD ["node", "server/ssr.js"]

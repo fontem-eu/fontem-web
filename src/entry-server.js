@@ -34,8 +34,11 @@ export async function render(url, context = {}) {
   // preview runs where no request context is supplied.
   const origin = absoluteOrigin(context.requestHost, context.requestProto)
   const head = {
-    title: titleForPath(currentRoute),
-    description: descriptionForPath(currentRoute),
+    // `context` carries whatever the SSR server prefetched (currently
+    // `story` for /stories/:id). Both fall back to the static per-route
+    // map when it is absent, so a prerendered page is unaffected.
+    title: titleForPath(currentRoute, context),
+    description: descriptionForPath(currentRoute, context),
     jsonLd,
     canonical: `${origin}${url}`,
     origin,

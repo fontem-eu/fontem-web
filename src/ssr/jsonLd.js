@@ -79,6 +79,42 @@ const DATA_QUALITY_HUB = {
   ],
 }
 
+/**
+ * A data story as an Article.
+ *
+ * This is the schema that makes a story quotable: `citation` carries the
+ * primary sources the piece is built on, which is the whole claim of the
+ * platform, and `isAccessibleForFree` tells an aggregator it may quote
+ * rather than paywall-skip. Emitted only when the SSR prefetch supplied
+ * the story — never invented from the URL.
+ */
+function articleJsonLd(ctx) {
+  const s = ctx?.story
+  if (!s?.id) return null
+  const doc = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: s.title,
+    url: `${CANONICAL}/stories/${s.id}`,
+    mainEntityOfPage: `${CANONICAL}/stories/${s.id}`,
+    isAccessibleForFree: true,
+    publisher: { '@type': 'Organization', name: 'Fontem', url: CANONICAL },
+  }
+  if (s.abstract) doc.description = s.abstract
+  if (s.created_at) doc.datePublished = s.created_at
+  if (s.updated_at) doc.dateModified = s.updated_at
+  if (s.author_name) doc.author = { '@type': 'Person', name: s.author_name }
+  const sources = (s.sources || s.citations || [])
+    .map((c) => (typeof c === 'string' ? c : c?.url))
+    .filter(Boolean)
+  if (sources.length) doc.citation = sources
+  return doc
+}
+
+const PATTERN_BUILDERS = {
+  '/stories/:id': (ctx) => [articleJsonLd(ctx)].filter(Boolean),
+}
+
 const BUILDERS = {
   // `/` is now the Stories landing — emit both the org/website
   // schema (so search engines anchor the site identity to the home
@@ -124,6 +160,10 @@ function feedItemList(ctx) {
  */
 export function buildJsonLd(route, context = {}) {
   const builder = BUILDERS[route.path]
-  if (!builder) return []
-  return builder(context)
+  if (builder) return builder(context)
+  // Dynamic routes match on the pattern Vue Router resolved, not the
+  // concrete path — `/stories/<uuid>` never equals a literal key.
+  const pattern = route?.matched?.[0]?.path
+  const dynamic = pattern && PATTERN_BUILDERS[pattern]
+  return dynamic ? dynamic(context) : []
 }
