@@ -24,6 +24,7 @@ import HelpView from './views/HelpView.vue'
 import PetitionsView from './views/PetitionsView.vue'
 import PetitionDetailView from './views/PetitionDetailView.vue'
 import CompanyProfileView from './views/CompanyProfileView.vue'
+import AuthorityProfileView from './views/AuthorityProfileView.vue'
 import UserProfileView from './views/UserProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
@@ -216,6 +217,11 @@ const ROUTES = [
 
   // Company views
   { path: '/company/:gmr_id', component: CompanyProfileView },
+  // Contracting authorities. Needed before the authority sitemap shards
+  // in fontem-api can be advertised: without this route the SPA
+  // catch-all answered 200 with a not-found view, so every one of the
+  // ~16,000 shard URLs would have been a soft-404.
+  { path: '/authority/:authority_id', component: AuthorityProfileView },
   { path: '/contract/:noticeId', component: ContractDetailView },
   { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   { path: '/c/:ticker/:view', component: HomeView },
