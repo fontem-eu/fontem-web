@@ -628,6 +628,12 @@ async function send() {
     const res = await streamRequest('/assist/chat/stream', {
         message: text,
         conversation_key: conversationKey(),
+        // The article on screen. The server used to read this out of the
+        // conversation key, which is a different thing the moment you
+        // pick another thread from the switcher — in production that
+        // pointed the assistant's document tools at a deleted story
+        // while the author sat in a perfectly readable article.
+        report_id: reportId.value || null,
         // Whether there is an editor to propose into. The server scopes
         // propose_edit out of the tool array unless this is true, so
         // omitting it did not merely lose a hint — it removed the tool.
