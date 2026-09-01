@@ -33,6 +33,16 @@ describe('ssr/meta', () => {
     expect(new Set(titles).size).toBe(MAPPED.length)
   })
 
+  // Bounds, not exact text. Google truncates past roughly these lengths,
+  // so an over-long entry means the end never reaches a reader. Three
+  // entries had drifted over — the "/" title to 65 and the "/" and
+  // "/about" descriptions to 177 and 186 — while the tests that used to
+  // live here pinned their exact strings and so could never notice.
+  it.each(MAPPED)('%s keeps its meta within what search results show', (path) => {
+    expect(titleForPath({ path }).length).toBeLessThanOrEqual(60)
+    expect(descriptionForPath({ path }).length).toBeLessThanOrEqual(160)
+  })
+
   it('falls back to the site default for an unmapped route', () => {
     expect(titleForPath({ path: '/nope' })).toBe(defaultTitle)
     expect(descriptionForPath({ path: '/nope' })).toBe(defaultDescription)
