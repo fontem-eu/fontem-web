@@ -12,6 +12,9 @@
  * later.
  */
 export function apiOrigin() {
-  if (typeof window !== 'undefined') return ''
+  // globalThis.window, not bare window: this module is imported by
+  // Node during SSR, where a bare identifier reference is the sort
+  // of thing that throws rather than reads as undefined.
+  if (typeof globalThis.window !== 'undefined') return ''
   return globalThis.process?.env?.SSR_API_ORIGIN || ''
 }
