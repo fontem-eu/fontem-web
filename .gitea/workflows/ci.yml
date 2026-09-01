@@ -261,6 +261,24 @@ jobs:
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           sbom-path: ${{ steps.sbom.outputs.sbom-path }}
 
+      # The SSR image, built and signed the same way. It is a separate
+      # image because the web image is hardened distroless nginx with no
+      # Node in it, and adding a runtime there would give back the
+      # hardening for every static asset the site serves. Same
+      # docker-build-sign action, so it gets the same cosign signature
+      # and SBOM attestation Kyverno looks for — a second image must not
+      # become a second, weaker supply chain.
+      - id: ssr-image
+        name: Build, push, sign, attest (SSR)
+        uses: ./.ci-actions/actions/docker-build-sign
+        with:
+          image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/fontem-web-ssr
+          dockerfile: Dockerfile.ssr
+          cosign-key: ${{ secrets.COSIGN_KEY }}
+          registry-user: ${{ secrets.REGISTRY_USER }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          sbom-path: ${{ steps.sbom.outputs.sbom-path }}
+
       # Inline gitops-bump. The shared action in void42/ci-actions
       # was rewritten for the void42-templates layout
       # (environments/<env>/image-tag.yaml) that doesn't match
@@ -288,6 +306,8 @@ jobs:
         env:
           TAG: ${{ steps.image.outputs.tag }}
           DIGEST: ${{ steps.image.outputs.digest }}
+          SSR_TAG: ${{ steps.ssr-image.outputs.tag }}
+          SSR_DIGEST: ${{ steps.ssr-image.outputs.digest }}
         run: |
           set -euo pipefail
           rm -rf /tmp/gitops
@@ -310,6 +330,25 @@ jobs:
           fi
           git config user.name "GMR CI"
           git config user.email "ci@void42.internal"
+          # SSR rides the same values file and the same commit, so the
+          # pair never drifts: the shell nginx falls back to and the
+          # renderer it proxies to are built from one source tree.
+          # Written under the `ssr:` block whether or not the env has
+          # enabled it — an env that flips ssr.enabled later then already
+          # has a current, signed digest to start from.
+          if [ -n "${SSR_DIGEST:-}" ] && grep -q '^ssr:' testing/fontem-web.yaml; then
+            python3 - "$SSR_TAG" "$SSR_DIGEST" <<'PY'
+          import re, sys
+          tag, digest = sys.argv[1], sys.argv[2]
+          p = 'testing/fontem-web.yaml'
+          s = open(p).read()
+          block = re.search(r'^ssr:\n(?:[ \t]+.*\n|\n)*', s, re.M)
+          b = block.group(0)
+          nb = re.sub(r'^(\s+)version:.*$', lambda m: f'{m.group(1)}version: "{tag}"', b, count=1, flags=re.M)
+          nb = re.sub(r'^(\s+)digest:.*$', lambda m: f'{m.group(1)}digest: "{digest}"', nb, count=1, flags=re.M)
+          open(p, 'w').write(s[:block.start()] + nb + s[block.end():])
+          PY
+          fi
           git add testing/fontem-web.yaml
           if git diff --cached --quiet; then
             echo "No image change; skipping commit"

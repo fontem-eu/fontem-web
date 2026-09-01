@@ -8,6 +8,25 @@ containerPort: 80   # 80 for the old nginx base; 8080 for the hardened nonroot C
 serviceType: ClusterIP
 replicas: 1
 
+# Runtime SSR for /stories/:id. Off by default: the routes fall back to
+# the prerendered SPA shell, which is exactly what they served before SSR
+# existed, so an environment that has not enabled this loses nothing it
+# had. Enable per env in gitops, and set ssrUpstream on the web
+# deployment in the same values file — one without the other is a no-op.
+ssr:
+  enabled: false
+  replicas: 1
+  version: ""            # falls back to the web image's `version`
+  digest: ""             # CI writes this; digest is what cosign signed
+  canonicalUrl: "https://fontem.eu"
+  resources:
+    requests: { cpu: "100m", memory: "256Mi" }
+    limits: { cpu: "1", memory: "768Mi" }
+
+# Where nginx proxies the story routes. Empty means "no SSR here" and the
+# location serves the shell instead — see nginx.conf.
+ssrUpstream: ""
+
 # Default empty — environments without a value send no analytics
 # (useAnalytics() no-ops on falsy ID). Only prod overrides this.
 umamiWebsiteId: ""
