@@ -1,6 +1,6 @@
 <script setup>
 import { isAuthed } from '../api/session.js'
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onServerPrefetch, onBeforeUnmount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -121,9 +121,33 @@ async function switchLanguage(lang) {
   }
 }
 
-onMounted(async () => {
+// The article, fetched during render rather than after mount.
+//
+// onMounted does not run under renderToString, so without this the
+// server emits an empty shell: correct meta but no prose. Crawlers that
+// execute JavaScript eventually see the text; GPTBot, ClaudeBot,
+// PerplexityBot and CCBot do not run any, so for them the page would be
+// blank. renderToString awaits onServerPrefetch, so the HTML that
+// leaves the server already carries the story.
+//
+// Only the article is prefetched. The byline, region names and
+// translations stay client-side: they are enrichments, and blocking the
+// server render on three more round trips to gain nothing a crawler
+// reads is a bad trade.
+onServerPrefetch(async () => {
   try {
     report.value = await getReport(reportId)
+  } catch {
+    // A missing or unreadable story renders as the client's not-found
+    // state rather than failing the whole response.
+  }
+})
+
+onMounted(async () => {
+  try {
+    // Already populated by the SSR prefetch on a server-rendered load;
+    // refetched on a client-side navigation into this route.
+    report.value = report.value || await getReport(reportId)
     if (report.value.nuts_region) {
       fetchNutsRegions()
         .then((d) => {

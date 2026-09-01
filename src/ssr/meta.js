@@ -43,10 +43,33 @@ const DEFAULT_TITLE = 'Fontem — Argue it. With data. Together.'
 const DEFAULT_DESCRIPTION =
   'The primary-source transparency platform for EU public procurement and corporate data.'
 
-export function titleForPath(route) {
+/** Trim to a whole word inside `max`, so a description never ends mid-word. */
+function clamp(text, max) {
+  const clean = String(text || '').replace(/\s+/g, ' ').trim()
+  if (clean.length <= max) return clean
+  const cut = clean.slice(0, max - 1)
+  const lastSpace = cut.lastIndexOf(' ')
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`
+}
+
+/**
+ * `context.story` is populated by the SSR server for /stories/:id.
+ * Without it — a client-side navigation, or the shell — the static map
+ * answers, which is why every caller can still pass a route alone.
+ */
+export function titleForPath(route, context = {}) {
+  if (context.story?.title) return clamp(`${context.story.title} — Fontem`, 60)
   return TITLES[route.path] || DEFAULT_TITLE
 }
 
-export function descriptionForPath(route) {
+export function descriptionForPath(route, context = {}) {
+  const story = context.story
+  if (story) {
+    // Abstract first; it is written as a summary. A story with none
+    // falls back to its opening prose rather than to site boilerplate,
+    // which would read identically across every story.
+    const source = story.abstract || story.summary || ''
+    if (source.trim()) return clamp(source, 160)
+  }
   return DESCRIPTIONS[route.path] || DEFAULT_DESCRIPTION
 }

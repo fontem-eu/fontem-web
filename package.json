@@ -18,7 +18,8 @@
     "format:check": "prettier --check .",
     "test:mutation": "stryker run",
     "test:contract": "vitest run -c vitest.contract.config.js",
-    "contracts:pin": "node scripts/fetch-api-spec.mjs"
+    "contracts:pin": "node scripts/fetch-api-spec.mjs",
+    "ssr": "node server/ssr.js"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.3",

@@ -31,9 +31,10 @@ export default [
   },
   {
     // Build-time prerender + SSR render code runs under Node — needs
-    // process, fileURLToPath, etc. The SSR entry is only imported by
-    // scripts/prerender.js at build time; no runtime server uses it.
-    files: ['scripts/**', 'src/entry-server.js', 'src/ssr/**'],
+    // process, fileURLToPath, etc. src/entry-server.js is imported both
+    // by scripts/prerender.js at build time and by server/ssr.js, which
+    // renders the content routes per request.
+    files: ['scripts/**', 'server/**', 'src/entry-server.js', 'src/ssr/**'],
     languageOptions: {
       globals: {
         ...globals.node,
