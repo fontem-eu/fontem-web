@@ -1,0 +1,94 @@
+{{- if .Values.ssr.enabled }}
+# Runtime SSR for the content routes.
+#
+# A separate Deployment rather than a second container in the web pod:
+# the web image is hardened distroless nginx with no Node in it, and
+# putting a Node runtime beside it would give back the hardening for
+# every static asset the site serves. Static stays static; only the
+# routes that must render per request go through here.
+#
+# nginx reaches it via SSR_UPSTREAM. When that is unset — or when this
+# is disabled, or the pod is unhealthy — the story routes fall back to
+# the prerendered SPA shell, which is what they served before SSR
+# existed. A rendering optimisation being down must never 502 a page.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: fontem-web-ssr
+  labels:
+    app: fontem-web-ssr
+spec:
+  replicas: {{ .Values.ssr.replicas | default 1 }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: fontem-web-ssr
+  template:
+    metadata:
+      labels:
+        app: fontem-web-ssr
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: ssr
+          # Digest pin first, same as the web image: it is what cosign
+          # signed, and Kyverno checks the signature on that digest.
+          image: "contribute.void42.internal/fontem/fontem-web-ssr{{ if .Values.ssr.digest }}@{{ .Values.ssr.digest }}{{ else }}:{{ .Values.ssr.version | default .Values.version }}{{ end }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SSR_PORT
+              value: "8081"
+            # In-cluster community API. The render prefetches the story
+            # through this; /capi/... is relative and resolves against
+            # nothing under Node.
+            - name: SSR_API_ORIGIN
+              value: "http://fontem-community-api.{{ .Release.Namespace }}.svc.cluster.local:8001"
+            # Absolute URLs in the rendered head. Apex, matching robots,
+            # the sitemap and the baked canonical.
+            - name: CANONICAL_URL
+              value: {{ .Values.ssr.canonicalUrl | default "https://fontem.eu" | quote }}
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8081 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8081 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: {{ .Values.ssr.resources.requests.cpu | default "100m" | quote }}
+              memory: {{ .Values.ssr.resources.requests.memory | default "256Mi" | quote }}
+            limits:
+              cpu: {{ .Values.ssr.resources.limits.cpu | default "1" | quote }}
+              memory: {{ .Values.ssr.resources.limits.memory | default "768Mi" | quote }}
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: fontem-web-ssr
+  labels:
+    app: fontem-web-ssr
+spec:
+  type: ClusterIP
+  selector:
+    app: fontem-web-ssr
+  ports:
+    - port: 8081
+      targetPort: 8081
+{{- end }}
