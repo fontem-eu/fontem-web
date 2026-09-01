@@ -299,6 +299,12 @@
     "loading_map_data": "Φόρτωση δεδομένων χάρτη…",
     "no_data": "δεν υπάρχουν δεδομένα"
   },
+  "authority_profile": {
+    "authority_profile": "Contracting authority",
+    "authority_not_found": "Authority not found",
+    "loading_authority_profile": "Loading authority…",
+    "no_contracts": "No contracts recorded for this authority yet."
+  },
   "balance": {
     "capital_structure": "Κεφαλαιακή διάρθρωση"
   },
