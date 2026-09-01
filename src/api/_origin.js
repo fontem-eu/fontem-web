@@ -12,9 +12,10 @@
  * later.
  */
 export function apiOrigin() {
-  // globalThis.window, not bare window: this module is imported by
-  // Node during SSR, where a bare identifier reference is the sort
-  // of thing that throws rather than reads as undefined.
-  if (typeof globalThis.window !== 'undefined') return ''
+  // globalThis.window rather than bare `window`, because this module is
+  // imported by Node during SSR and a bare identifier throws there. As a
+  // property access it is also safe to compare directly — the typeof
+  // dance only earns its keep for identifiers that may not exist at all.
+  if (globalThis.window !== undefined) return ''
   return globalThis.process?.env?.SSR_API_ORIGIN || ''
 }
