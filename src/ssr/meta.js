@@ -7,12 +7,16 @@
  * strings injected into the HTML template before hydration.
  *
  * Keep the entries short — titles under ~60 characters, descriptions
- * under ~160 — per the universal SEO rules of thumb.
+ * under ~160 — per the universal SEO rules of thumb. Google truncates
+ * past roughly those lengths, so an over-long entry is not just untidy:
+ * the end of it never reaches a reader. tests/unit/coreSsrI18n.test.js
+ * enforces both bounds, because three entries had quietly drifted over
+ * while the tests pinned their exact text and never measured it.
  */
 
 const TITLES = {
   // Stories — public feed — is the new landing.
-  '/': "Fontem — Crossing the EU's digital borders, one dataset at a time",
+  '/': "Fontem — Crossing the EU's digital borders with data",
   '/about': 'About — Fontem',
   '/privacy': 'Privacy policy — Fontem',
   '/data-quality': 'Data quality — Fontem',
@@ -24,8 +28,8 @@ const TITLES = {
 }
 
 const DESCRIPTIONS = {
-  '/': "Crossing the EU's digital borders, one dataset at a time. Public data stories from the Fontem community — investigations, cross-checks, and findings grounded in primary sources.",
-  '/about': 'Fontem is the collaborative-argument platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.',
+  '/': "Public data stories from the Fontem community — investigations and cross-checks on EU companies, procurement and lobbying, grounded in primary sources.",
+  '/about': 'The collaborative-argument platform. EU companies, procurement, lobbyists and cohesion funding in one graph, cross-checked against official registers.',
   '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
   '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
   '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
