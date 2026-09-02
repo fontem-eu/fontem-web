@@ -144,13 +144,23 @@ test.describe('crawler discovery', () => {
     }
   })
 
-  test('authority shards are not advertised yet', async ({ request }) => {
-    // The blocker is gone: /authority/:authority_id now renders the full
-    // entity page, so these URLs would no longer be soft-404s. What is
-    // left is turning the shards on in fontem-community-api's index —
-    // and this assertion is the reminder that the two go together.
-    // Delete it in the same change that advertises them.
-    expect(await (await request.get('/sitemap.xml')).text()).not.toContain('sitemap-authorities')
+  test('authority shards are advertised per country too', async ({ request }) => {
+    // Held out until /authority/:authority_id rendered the full entity
+    // page — the SPA catch-all used to answer 200 with a not-found view,
+    // so these would have been ~16,000 soft-404s.
+    const index = await (await request.get('/sitemap.xml')).text()
+    for (const code of ['MLT', 'CYP', 'LUX', 'EST', 'LIE']) {
+      expect(index, `${code} needs an authority shard`)
+        .toContain(`/sitemap-authorities-${code}.xml`)
+    }
+  })
+
+  test('an advertised entity URL is actually served', async ({ request }) => {
+    // The soft-404 guard, from the crawler's side: whatever the shards
+    // point at has to be a page, not the catch-all.
+    for (const p of ['/company/does-not-exist', '/authority/does-not-exist']) {
+      expect((await request.get(p)).status(), p).toBe(200)
+    }
   })
 
   test('every URL the core sitemap advertises is actually served', async ({ request }) => {
