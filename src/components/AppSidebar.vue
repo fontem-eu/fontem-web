@@ -24,16 +24,33 @@ const authed = computed(() => typeof localStorage !== 'undefined' && isAuthed.va
 const user = computed(() => currentUser.value)
 const onStudio = computed(() => route.path.startsWith('/studio'))
 
-// Three sections: view-only (Stories, Petitions), data-exploration
-// (Data Stats, Atlas), and a contribution section (Studio, My Stories)
-// that only appears when signed in. Spending was dropped — the always-
-// visible header search covers it.
+// Three sections: view-only (Stories, Briefings, Petitions),
+// data-exploration (Data Stats, Atlas), and a contribution section
+// (Studio, My Stories) that only appears when signed in. Spending was
+// dropped — the always-visible header search covers it.
+//
+// The two briefings paths read backwards from their names, which is why
+// they sit where they do rather than where the names suggest:
+//   /my-briefings is the READING surface — "everything across the
+//     briefings you watch, newest first". It belongs beside Stories,
+//     because it is a feed and that is the other feed.
+//   /briefings is the SUBSCRIPTION editor — "your subscriptions, and
+//     what else there is to subscribe to". It belongs with the other
+//     things you configure about your own account.
+// The labels stay as they are: "Briefings" is what you read, "My
+// briefings" is the set you manage.
 const navGroups = computed(() => {
   const groups = [
     { key: 'view', items: [
       { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
+      // Signed in only, for now: /my-briefings is gated (it is the
+      // briefings YOU watch), so showing it signed-out would offer a
+      // link that bounces to /login. It becomes unconditional once the
+      // signed-out feed lands with its public defaults.
+      ...(authed.value
+        ? [{ key: 'briefings', label: t('nav.briefings'), path: '/my-briefings', icon: 'stories' }]
+        : []),
       { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
-      { key: 'briefings', label: t('nav.briefings'), path: '/briefings', icon: 'stories' },
     ] },
     { key: 'data', items: [
       { key: 'data-stats', label: t('nav.data_stats'), path: '/explore', icon: 'explore' },
@@ -46,7 +63,7 @@ const navGroups = computed(() => {
       { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
       { key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' },
       { key: 'my-reviews', label: t('nav.my_reviews'), path: '/my-reviews', icon: 'mystories' },
-      { key: 'my-briefings', label: t('nav.my_briefings'), path: '/my-briefings', icon: 'stories' },
+      { key: 'my-briefings', label: t('nav.my_briefings'), path: '/briefings', icon: 'stories' },
     ] })
   }
   return groups
