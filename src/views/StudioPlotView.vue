@@ -15,7 +15,7 @@ import StudioMap from '../components/StudioMap.vue'
 import { useStudio } from '../composables/useStudio.js'
 import { runSource } from '../composables/studioEngines.js'
 import { useDuckDB } from '../composables/useDuckDB.js'
-import { buildChartProps } from '../composables/studioPlot.js'
+import { buildChartProps, specToPipelineConfig } from '../composables/studioPlot.js'
 import { detectNuts } from '../composables/nutsDetect.js'
 import QueryEditor from '../components/QueryEditor.vue'
 import { usePocket } from '../composables/usePocket.js'
@@ -242,14 +242,12 @@ async function savePlot() {
 }
 
 function pocket() {
-  pocketSave('pipeline', {
-    data_params: { sources: currentSpec().sources, transform: transformSql.value },
-    ui_params: {
-      chart: plot.chart, x: plot.x, y: plot.y, y2: plot.y2, level: plot.level,
-      bivariate: plot.bivariate, series: [...plot.series], corrCols: [...plot.corrCols],
-      ...(eventSpec() ? { events: eventSpec() } : {}),
-    },
-  }, `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
+  // Through the shared converter: the assistant's insert_studio_plot
+  // proposal builds its widget from the same function, and a chart
+  // embedded by the bot has to be the same object as one embedded by
+  // this button.
+  pocketSave('pipeline', specToPipelineConfig(currentSpec()),
+    `${plotName.value || 'Studio'} · ${plot.y || 'plot'}`)
   pocketed.value = true
   setTimeout(() => { pocketed.value = false }, 2000)
 }

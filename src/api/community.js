@@ -12,7 +12,7 @@
  */
 
 import { withLang } from './_lang.js'
-import { apiOrigin } from './_origin.js'
+import { capiBase } from './_origin.js'
 import { fetchRetrying } from './_retry.js'
 import { getAccessToken, refresh, whenSessionReady } from './session.js'
 
@@ -42,7 +42,7 @@ export async function request(method, path, body, { retries = 0, refreshed = fal
   await whenSessionReady()
   const { opts, sentAuth } = buildRequestInit(method, body)
   // GETs ride the 429-retry wrapper; it passes writes through untouched.
-  const res = await fetchRetrying(`${apiOrigin()}/capi${withLang(path)}`, opts)
+  const res = await fetchRetrying(`${capiBase()}${withLang(path)}`, opts)
 
   // 401 on a token-bearing request: try a silent refresh exactly once.
   // The session store dedupes concurrent refreshes so N parallel API

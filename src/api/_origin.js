@@ -1,21 +1,24 @@
 /**
- * Where API calls go from.
+ * Where community-API calls go, and under what path.
  *
- * In the browser this is empty, so every request stays same-origin and
- * the session cookie rides along — which is the only thing that works
- * for a logged-in user.
+ * The `/capi` prefix is an nginx routing prefix, not part of the API.
+ * nginx strips it before proxying (`rewrite ^/capi/(.*)$ /$1 break`),
+ * so the service itself serves `/data-stories/...`, not
+ * `/capi/data-stories/...`.
  *
- * Under SSR there is no origin to be relative to: Node resolves
- * `/capi/...` against nothing and throws. The SSR server passes the
- * in-cluster address of the community API instead, so a prefetch during
- * render reaches the same data the browser would have fetched a moment
- * later.
+ * That distinction only matters under SSR. In the browser we go
+ * same-origin through nginx, so the prefix must be there — and staying
+ * same-origin is also what lets the session cookie ride along. Under
+ * Node there is no nginx in the path: we talk to the service directly,
+ * so the prefix must NOT be there, or every call 404s.
  */
-export function apiOrigin() {
-  // globalThis.window rather than bare `window`, because this module is
-  // imported by Node during SSR and a bare identifier throws there. As a
-  // property access it is also safe to compare directly — the typeof
-  // dance only earns its keep for identifiers that may not exist at all.
-  if (globalThis.window !== undefined) return ''
-  return globalThis.process?.env?.SSR_API_ORIGIN || ''
+export function capiBase() {
+  // globalThis.window rather than bare `window`: this module is imported
+  // by Node during SSR, where a bare identifier throws.
+  if (globalThis.window !== undefined) return '/capi'
+  const origin = globalThis.process?.env?.SSR_API_ORIGIN || ''
+  // No origin configured means nothing sensible to talk to; keep the
+  // browser shape so the failure is a normal fetch error rather than an
+  // invalid-URL throw.
+  return origin ? origin.replace(/\/$/, '') : '/capi'
 }

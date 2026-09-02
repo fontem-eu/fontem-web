@@ -72,10 +72,24 @@ spec:
               memory: {{ .Values.ssr.resources.limits.memory | default "768Mi" | quote }}
           securityContext:
             runAsNonRoot: true
+            # Explicit uid so the kubelet can verify non-root without
+            # resolving a username out of the image. 1000 is `node` in
+            # the node images, which is what the Dockerfile sets.
+            runAsUser: 1000
+            runAsGroup: 1000
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
+          volumeMounts:
+            # readOnlyRootFilesystem is on, so give Node somewhere to
+            # write. It does not persist anything — the render cache is
+            # in memory — but a read-only / is the kind of thing that
+            # surfaces as an obscure crash under load rather than at
+            # startup.
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - { name: tmp, emptyDir: {} }
 ---
 apiVersion: v1
 kind: Service

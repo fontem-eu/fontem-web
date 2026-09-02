@@ -96,3 +96,40 @@ export async function fetchSource(s) {
   }
   return { name: s.name, columns: body.columns || [], rows: body.rows || [] }
 }
+
+/**
+ * A saved Studio plot spec -> the `pipeline` widget an article embeds.
+ *
+ * The article does not store a picture or a copy of the rows: it stores
+ * the recipe — the sources and the DuckDB transform in `data_params`,
+ * the chart choice in `ui_params` — and re-runs it when a reader opens
+ * the page. That is what makes an embedded chart follow the data.
+ *
+ * This exists as one function because there are now two callers that
+ * must agree exactly: the Pocket button in StudioPlotView, and the
+ * assistant's insert_studio_plot proposal. Two hand-rolled copies of
+ * this mapping would drift, and the drift would show up as a chart that
+ * renders from one road and not the other. The server builds the same
+ * shape in studio_ops.plot_recipe for validation; this is the one that
+ * reaches the document.
+ */
+export function specToPipelineConfig(spec = {}) {
+  const ui = {
+    chart: spec.chart || 'bar_h',
+    x: spec.x || '',
+    y: spec.y || '',
+    y2: spec.y2 || '',
+    level: spec.level || 0,
+    bivariate: spec.bivariate || 'none',
+    series: Array.isArray(spec.series) ? [...spec.series] : [],
+    corrCols: Array.isArray(spec.corrCols) ? [...spec.corrCols] : [],
+  }
+  if (spec.events && Object.keys(spec.events).length) ui.events = { ...spec.events }
+  return {
+    data_params: {
+      sources: Array.isArray(spec.sources) ? spec.sources.map((x) => ({ ...x })) : [],
+      transform: spec.transform || '',
+    },
+    ui_params: ui,
+  }
+}
