@@ -3,6 +3,8 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useLang } from '../composables/useLang.js'
 import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
+import { loadBriefingStream } from '../composables/useBriefingStream.js'
+import { isAuthed } from '../api/session.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
 import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
 
@@ -34,6 +36,40 @@ const { toggle, isFollowing } = useFollowedTags()
 // story and coming back keeps the filter. `setTag` / `clearTag`
 // below mirror the URL write into the storage on every change.
 const { getStoredTag, saveTag, clearStoredTag } = useStoriesTagFilter()
+
+// Briefings alongside the articles, tagged with where each came from.
+//
+// The two are different things — articles are written by people,
+// briefing items are produced by queries — and an earlier note on
+// /my-briefings argued they should not merge because "a stream that
+// silently mixes the two teaches nobody which is which". The objection
+// is to SILENTLY: every briefing card carries its source, so the reader
+// can always tell. What they should not have to do is visit two pages to
+// find out what is new.
+//
+// Never fatal to the feed. If briefings fail, the articles still render
+// and the error is surfaced separately rather than blanking the page.
+const briefingItems = ref([])
+const briefingError = ref(null)
+
+async function loadBriefings() {
+  briefingError.value = null
+  try {
+    briefingItems.value = await loadBriefingStream(isAuthed.value)
+  } catch (err) {
+    briefingItems.value = []
+    briefingError.value = err.message
+  }
+}
+
+// Hidden while a tag filter is active: briefing items carry no story
+// tags, so they can neither match nor fail the filter, and showing them
+// anyway would imply they had.
+const visibleBriefings = computed(() => (activeTag.value ? [] : briefingItems.value))
+
+function fmtBriefingDate(iso) {
+  return iso ? new Date(iso).toLocaleDateString() : ''
+}
 
 async function loadStories() {
   loading.value = true
@@ -73,11 +109,15 @@ onMounted(async () => {
       router.replace({ path: route.path, query: { ...route.query, tag: saved } })
     }
   }
-  await Promise.all([loadStories(), loadTags()])
+  await Promise.all([loadStories(), loadTags(), loadBriefings()])
 })
 
 // Re-fetch the story list whenever the URL's `?tag=` flips.
 watch(activeTag, () => { loadStories() })
+// Briefing items carry no story tags, so a tag filter is a question
+// about articles. Showing an unfiltered briefing strip beside a filtered
+// article list would read as "these match your filter too", which is
+// false — see `visibleBriefings`.
 // Language switch re-requests the feed so cards arrive with
 // translated titles/abstracts (the API call carries ?lang=).
 watch(uiLang, () => { loadStories() })
@@ -167,6 +207,30 @@ function truncate(text, maxLen = 180) {
 
     <div v-if="error" class="error-bar" data-testid="feed-error">{{ error }}</div>
 
+    <!-- Briefings, alongside the articles and always labelled with where
+         each came from. Signed in these are the briefings you watch;
+         signed out they are the public default — ten a week of public
+         investment from your country, three a week from the EU. -->
+    <section
+      v-if="visibleBriefings.length"
+      class="feed-briefings"
+      data-testid="feed-briefings"
+    >
+      <h2 class="feed-briefings-head">{{ $t('nav.briefings') }}</h2>
+      <ul class="feed-briefings-list">
+        <li
+          v-for="b in visibleBriefings"
+          :key="`${b._from}::${b.item_id}`"
+          class="feed-briefing"
+          :data-testid="`feed-briefing-${b.item_id}`"
+        >
+          <span class="feed-briefing-src" data-testid="feed-briefing-source">{{ b._from }}</span>
+          <span class="feed-briefing-title">{{ b.title || b.name || b.item_id }}</span>
+          <time v-if="b.item_time" class="feed-briefing-time">{{ fmtBriefingDate(b.item_time) }}</time>
+        </li>
+      </ul>
+    </section>
+
     <div v-if="loading" class="loading-msg">{{ $t('feed.loading_feed') }}</div>
 
     <div
@@ -200,6 +264,24 @@ function truncate(text, maxLen = 180) {
 </template>
 
 <style scoped>
+.feed-briefings { margin: 1rem 0 1.5rem; }
+.feed-briefings-head {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--muted); margin: 0 0 0.5rem;
+}
+.feed-briefings-list { list-style: none; margin: 0; padding: 0; }
+.feed-briefing {
+  display: flex; gap: 0.6rem; align-items: baseline;
+  padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+}
+.feed-briefing-src {
+  font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px;
+  background: var(--surface, #f6f8fa); border: 1px solid var(--border);
+  color: var(--muted); white-space: nowrap;
+}
+.feed-briefing-title { flex: 1; min-width: 0; }
+.feed-briefing-time { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
 .feed {
   max-width: 800px;
   margin: 0 auto;
