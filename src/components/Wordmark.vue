@@ -19,9 +19,12 @@
  *     before this one put its first segment through i18n, because
  *     "Font" is a common noun — and 23 locales duly rendered the brand
  *     as Шрифт, Písmo, Schriftart. A proper noun has no translation.
- *   * The motto stays English everywhere for the same reason the split
- *     exists. "Entdecken. Streiten. Lernen. Genießen." is a fine German
- *     sentence and spells E-S-L-G, which is not the name on the door.
+ *   * The motto IS translated, and the initials therefore stop lining up
+ *     outside English — "Entdecken. Argumentieren. Lernen. Genießen."
+ *     spells E-A-L-G. That was a deliberate call: the mapping is a nice
+ *     touch in English, not a constraint worth making 23 locales read
+ *     like a foreign slogan for. The split stays as drawn everywhere,
+ *     because the mark is the mark whatever language surrounds it.
  *
  * Colours come from theme tokens (--brand-primary / --brand-secondary),
  * so the mark adapts to light and dark without per-theme markup.
