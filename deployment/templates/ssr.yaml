@@ -90,6 +90,23 @@ spec:
             - { name: tmp, mountPath: /tmp }
       volumes:
         - { name: tmp, emptyDir: {} }
+      {{- /*
+        Same scheduling as the web pod it renders for. Prod nodes carry a
+        void42.internal/role taint and prod values pin
+        node-role.kubernetes.io/production; without these the renderer is
+        the one prod workload that lands on a non-prod node. It fails
+        quietly, too: nginx falls back to the static shell when the
+        upstream has no endpoints, so stories would still serve 200 --
+        just never server-rendered.
+      */}}
+      {{- with .Values.ssr.nodeSelector | default .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ssr.tolerations | default .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 ---
 apiVersion: v1
 kind: Service
