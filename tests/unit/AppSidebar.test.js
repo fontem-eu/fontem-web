@@ -8,7 +8,7 @@ import AppSidebar from '../../src/components/AppSidebar.vue'
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
-    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/data-quality', '/my-stories', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
+    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/data-quality', '/my-stories', '/my-reviews', '/briefings', '/my-briefings', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
   })
 }
 async function mountAt(path = '/') {
@@ -86,4 +86,47 @@ describe('AppSidebar (nav rail)', () => {
     expect(wrapper.find('[data-testid="app-sidebar"]').classes()).toContain('rail--collapsed')
   })
 
+})
+// ── briefings: the feed reads, the editor configures ─────────────────
+//
+// The two paths read backwards from their names, and the rail had them
+// placed by name rather than by what they do:
+//   /my-briefings is the READING surface — everything across the
+//     briefings you watch, newest first.
+//   /briefings is the SUBSCRIPTION EDITOR — what you get and what else
+//     you could get.
+// So the feed belongs beside Stories (the other feed) and the editor
+// belongs with the things you configure about your own account. These
+// pin the destinations, not the labels, because the labels are the part
+// that was misleading.
+describe('AppSidebar — briefings placement', () => {
+  beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
+  afterEach(() => { _internal.clearForTests(); localStorage.clear() })
+
+  it('puts the briefings FEED beside Stories, not the editor', async () => {
+    _internal.setAccessToken('test-token')
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="nav-briefings"]').attributes('href')).toBe('/my-briefings')
+  })
+
+  it('puts the subscription EDITOR with the account-level entries', async () => {
+    _internal.setAccessToken('test-token')
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="nav-my-briefings"]').attributes('href')).toBe('/briefings')
+  })
+
+  it('orders the feed immediately after Stories', async () => {
+    _internal.setAccessToken('test-token')
+    const { wrapper } = await mountAt('/')
+    const ids = wrapper.findAll('[data-testid^="nav-"]').map((t) => t.attributes('data-testid'))
+    expect(ids.indexOf('nav-briefings')).toBe(ids.indexOf('nav-stories') + 1)
+  })
+
+  it('hides the gated feed from signed-out visitors rather than offering a bounce', async () => {
+    // /my-briefings requires auth; a visible link would land on /login.
+    // Remove this when the signed-out feed ships with public defaults.
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="nav-briefings"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="nav-my-briefings"]').exists()).toBe(false)
+  })
 })
