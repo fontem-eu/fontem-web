@@ -92,9 +92,14 @@ function withScheme(u) {
 // sources (a lobbyist's site, a legal act on EUR-Lex) return { href, external }.
 // Types with no destination (person, sanction) return null → non-clickable.
 function cardLink(r) {
+  // Both land on the full entity page — profile, graph, financials,
+  // procurement, business map. Companies used to go to a thinner
+  // one-off view with only contracts and cohesion grants on it, and
+  // authorities to the ticker-shaped URL; the semantic URLs now render
+  // the same page, so a search result reaches everything known about
+  // the entity.
   if (r.type === 'company') return { to: `/company/${encodeURIComponent(r.id)}` }
-  // authorities render on the shared entity profile (same as PublicSpending)
-  if (r.type === 'authority') return { to: `/c/${encodeURIComponent(r.id)}/profile` }
+  if (r.type === 'authority') return { to: `/authority/${encodeURIComponent(r.id)}` }
   if (r.type === 'contract') return { to: `/contract/${encodeURIComponent(r.id)}` }
   if (r.type === 'story') return { to: `/stories/${encodeURIComponent(r.id)}` }
   // a cohesion project links to the company that received the money

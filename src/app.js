@@ -23,8 +23,6 @@ import DevelopmentView from './views/DevelopmentView.vue'
 import HelpView from './views/HelpView.vue'
 import PetitionsView from './views/PetitionsView.vue'
 import PetitionDetailView from './views/PetitionDetailView.vue'
-import CompanyProfileView from './views/CompanyProfileView.vue'
-import AuthorityProfileView from './views/AuthorityProfileView.vue'
 import UserProfileView from './views/UserProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
@@ -216,12 +214,17 @@ const ROUTES = [
   { path: '/reports/:id/edit', redirect: (to) => `/stories/${to.params.id}/edit` },
 
   // Company views
-  { path: '/company/:gmr_id', component: CompanyProfileView },
-  // Contracting authorities. Needed before the authority sitemap shards
-  // in fontem-api can be advertised: without this route the SPA
-  // catch-all answered 200 with a not-found view, so every one of the
-  // ~16,000 shard URLs would have been a soft-404.
-  { path: '/authority/:authority_id', component: AuthorityProfileView },
+  // Semantic entity URLs — what search results link to and what the
+  // sitemap shards advertise. Both render the full entity page
+  // (HomeView), the same one /c/:ticker serves: profile, graph,
+  // financials, procurement and the business map. They used to point at
+  // two thinner one-off views, which is how the full page became
+  // unreachable from search.
+  //
+  // `:view?` so /company/<id> opens on the profile and deep links like
+  // /company/<id>/contracts still work.
+  { path: '/company/:gmr_id/:view?', component: HomeView },
+  { path: '/authority/:authority_id/:view?', component: HomeView },
   { path: '/contract/:noticeId', component: ContractDetailView },
   { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   { path: '/c/:ticker/:view', component: HomeView },
