@@ -115,6 +115,9 @@ describe('action metadata', () => {
       'set_abstract',
       'replace_body',
       'insert_widget',
+      // The Studio bridge (2026-09): ids only, and the widget it applies
+      // is the `pipeline` recipe the Pocket button also produces.
+      'insert_studio_plot',
     ])
   })
 

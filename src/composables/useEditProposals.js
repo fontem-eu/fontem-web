@@ -26,6 +26,10 @@ const EDIT_ACTIONS = {
   add_section:     { category: 'content',  requiredParams: ['content'], legacy: true },
   update_section:  { category: 'content',  requiredParams: ['content'], legacy: true },
   insert_widget:   { category: 'content',  requiredParams: ['widget_type', 'entityId'] },
+  // A chart built in Data Studio, embedded as a live recipe. Ids only:
+  // the plot is fetched and converted at apply time, so what lands in the
+  // document is the plot as it stands when the user accepts the card.
+  insert_studio_plot: { category: 'content', requiredParams: ['project_id', 'plot_id'] },
   insert_entity_mention: { category: 'content', requiredParams: ['iri', 'label'] },
   update_title:    { category: 'metadata', requiredParams: ['title'] },
   update_abstract: { category: 'metadata', requiredParams: ['abstract'] },
@@ -67,6 +71,7 @@ export const ASSISTANT_ADVERTISED_ACTIONS = [
   'set_abstract',
   'replace_body',
   'insert_widget',
+  'insert_studio_plot',
 ]
 
 /**
@@ -82,6 +87,7 @@ export const PROPOSAL_TOOL_ACTIONS = {
   mcp__gmr__set_abstract: 'set_abstract',
   mcp__gmr__replace_body: 'replace_body',
   mcp__gmr__insert_widget: 'insert_widget',
+  mcp__gmr__insert_studio_plot: 'insert_studio_plot',
 }
 
 const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
@@ -153,6 +159,44 @@ function _applyInsertWidget(action, params, editor) {
   return { ok: true, action, category: 'content', params }
 }
 
+async function _applyInsertStudioPlot(action, params, editor) {
+  const bad = _requireEditor(editor, action)
+  if (bad) return bad
+  // Fetched here rather than carried on the card. The apply runs with the
+  // user's own auth, so this is the request that is entitled to the plot;
+  // it also means the embed reflects the plot as it stands now, not as it
+  // stood when the model proposed it.
+  let config
+  try {
+    const { useStudio } = await import('./useStudio.js')
+    const studio = useStudio()
+    await studio.ensureProject(params.project_id)
+    const plot = studio.getPlot(params.project_id, params.plot_id)
+    if (!plot) {
+      return { ok: false, action, error: `Plot ${params.plot_id} not found` }
+    }
+    const { specToPipelineConfig } = await import('./studioPlot.js')
+    config = specToPipelineConfig(plot.spec || {})
+  } catch (e) {
+    return { ok: false, action, error: `Could not load the plot: ${e.message}` }
+  }
+  if (!config.data_params.sources.length) {
+    return { ok: false, action, error: 'That plot has no data sources to re-run' }
+  }
+  // `pipeline` — the same widget the Studio's Pocket button produces, so
+  // the article has one renderer for an embedded chart, not two.
+  editor.chain().focus().insertContent({
+    type: 'widget',
+    attrs: {
+      widget_type: 'pipeline',
+      schema_version: 1,
+      data_params: config.data_params,
+      ui_params: config.ui_params,
+    },
+  }).run()
+  return { ok: true, action, category: 'content', params }
+}
+
 function _applyEntityMention(action, params, editor) {
   const bad = _requireEditor(editor, action)
   if (bad) return bad
@@ -183,6 +227,7 @@ const _APPLIERS = {
   update_section: _applyInsertContent,
   replace_body: _applyReplaceBody,
   insert_widget: _applyInsertWidget,
+  insert_studio_plot: _applyInsertStudioPlot,
   insert_entity_mention: _applyEntityMention,
 }
 
