@@ -15,10 +15,10 @@
     "chip_story": "Pročitaj podatkovnu priču zajednice",
     "hero_lead": "Otvoreni graf znanja koji povezuje tvrtke EU, javnu nabavu, lobiste i kohezijsko financiranje.",
     "how_it_works": "Kako radi",
-    "mission_body_1": "Javna rasprava počiva na brojkama — proračunima i ugovorima, migracijama i emisijama, tome tko što posjeduje, pa i na samom tekstu zakona — a njih neprestano izvrću oni koji znaju da ih nitko neće provjeriti. Fontem objedinjuje te registre u jedan pretraživi graf, u kojem svaka brojka ostaje povezana sa službenim izvorom iz kojeg potječe.",
+    "mission_body_1": "Javna rasprava počiva na brojkama — proračunima i ugovorima, migracijama i emisijama, tome tko što posjeduje, pa i na samom tekstu zakona — a njih neprestano izvrću oni koji znaju da ih nitko neće provjeriti. Dargle objedinjuje te registre u jedan pretraživi graf, u kojem svaka brojka ostaje povezana sa službenim izvorom iz kojeg potječe.",
     "mission_body_2": "To je temelj, a ne cilj. Obmanjujuće tvrdnje bujaju ondje gdje je njihova provjera mukotrpna; mi je svodimo na jedan klik. A javnost koja može provjeriti ono što joj se govori jest javnost koja može sudjelovati.",
     "mission_lead": "Gradimo građanski sloj europske demokracije — u kojem se svaka javna tvrdnja može pratiti sve do brojki koje stoje iza nje.",
-    "mission_title": "Zašto Fontem postoji",
+    "mission_title": "Zašto Dargle postoji",
     "recently_published": "Nedavno objavljeno",
     "see_all_public_data_stories": "Pogledaj sve javne podatkovne priče →",
     "step_crosscheck_desc": "Usporedi rame uz rame što o istom entitetu kažu TED, GLEIF, Registar transparentnosti, Kohezija i drugi izvori.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Objavljivanje podatkovne priče iz uređivača",
     "step_publish_name": "Objavi",
     "step_search_desc": "Potraži bilo koju tvrtku, ugovaratelja, lobista ili projekt koji financira EU prema nazivu ili identifikatoru.",
-    "step_search_gif_alt": "Pretraga entiteta u Fontemu",
+    "step_search_gif_alt": "Pretraga entiteta u Dargle",
     "step_search_name": "Pretraži",
     "try": "Pokušaj:",
     "value_open_desc": "Graf, metode i kod koji stoji iza njih javni su.",
@@ -235,13 +235,13 @@
     "tool_result": "Rezultat",
     "tool_truncated": "skraćeno prije nego što ga je model vidio",
     "tool_no_result": "(nema izlaza)",
-    "navigate_ask": "Fontem vas može odvesti na {page}. Želite li otići?",
+    "navigate_ask": "Dargle vas može odvesti na {page}. Želite li otići?",
     "navigate_go": "Idi",
     "navigate_stay": "Ostani ovdje",
     "navigate_went": "Otvoreno",
     "navigate_stayed": "Ostalo ovdje",
     "tool_result_not_kept": "Rezultat nije pohranjen — bilježe se samo poziv i njegovi argumenti.",
-    "signed_out_notice": "Niste prijavljeni pa asistent može samo odgovarati na pitanja o Fontemu i odvesti vas na stranicu. Pretraživanje podataka, pisanje i spremanje zahtijevaju račun.",
+    "signed_out_notice": "Niste prijavljeni pa asistent može samo odgovarati na pitanja o Dargle i odvesti vas na stranicu. Pretraživanje podataka, pisanje i spremanje zahtijevaju račun.",
     "characters_used": "Upotrijebljeni znakovi"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Javna nabava",
@@ -901,12 +901,12 @@
     "title": "Pomoć",
     "toc": "Sadržaj",
     "connect_title": "Povežite svog AI asistenta",
-    "connect_intro": "Fontem izlaže svoje podatke kao alate koje može pozvati vaš vlastiti AI klijent — podaci o tvrtkama, javna nabava, graf subjekata, SPARQL. Koristite asistenta koji već plaćate, a Fontem nikada ne vidi vaš račun kod pružatelja.",
+    "connect_intro": "Dargle izlaže svoje podatke kao alate koje može pozvati vaš vlastiti AI klijent — podaci o tvrtkama, javna nabava, graf subjekata, SPARQL. Koristite asistenta koji već plaćate, a Dargle nikada ne vidi vaš račun kod pružatelja.",
     "step_token": "1. Izradite token",
     "step_token_body_pre": "Idite na",
     "step_token_account": "Postavke računa",
     "step_token_body_post": "→ {section} → {action}. Kopirajte ga odmah: prikazuje se samo jednom i poslije ga nije moguće dohvatiti. Ako ga izgubite, opozovite ga i izradite novi.",
-    "step_endpoint": "2. Usmjerite klijenta na Fontem",
+    "step_endpoint": "2. Usmjerite klijenta na Dargle",
     "step_endpoint_body": "Krajnja točka je:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Postavke → Konektori → Dodaj prilagođeni konektor. Zalijepite gornji URL, a token kao bearer token.",
@@ -916,15 +916,15 @@
     "anything_else": "Bilo što drugo",
     "anything_else_body": "Radi svaki klijent koji govori MCP preko Streamable HTTP-a. Token šaljite kao {header}.",
     "step_ask": "3. Pitajte ga nešto",
-    "step_ask_body": "Pokušajte {example}. Vaš klijent sam odlučuje kada će pozvati Fontemove alate.",
-    "step_ask_example": "„Upotrijebi Fontem da pronađeš ugovore dodijeljene tvrtkama povezanima s X“",
+    "step_ask_body": "Pokušajte {example}. Vaš klijent sam odlučuje kada će pozvati Dargle alate.",
+    "step_ask_example": "„Upotrijebi Dargle da pronađeš ugovore dodijeljene tvrtkama povezanima s X“",
     "revoking": "Opoziv",
     "revoking_body": "Postavke računa navode svakog povezanog klijenta zajedno s vremenom posljednje uporabe. Opoziv stupa na snagu pri sljedećem zahtjevu. Ako više ne prepoznajete klijenta, opozovite ga.",
     "why_key_title": "Zašto trebam vlastiti AI račun?",
     "why_key_short": "Zašto vlastiti račun?",
-    "why_key_body_1": "Zato što nijedan pružatelj AI usluga ne prodaje ono što bi inače bilo očito rješenje. Anthropic je u veljači 2026. zabranio korištenje Claude pretplate unutar alata trećih strana i blokirao ga u travnju iste godine; OpenAI-jevi ChatGPT planovi nikada nisu uključivali pristup API-ju; a Mistral zasebno naplaćuje Le Chat i svoj API. Stranica poput Fontema doista ne može trošiti vašu pretplatu u vaše ime.",
+    "why_key_body_1": "Zato što nijedan pružatelj AI usluga ne prodaje ono što bi inače bilo očito rješenje. Anthropic je u veljači 2026. zabranio korištenje Claude pretplate unutar alata trećih strana i blokirao ga u travnju iste godine; OpenAI-jevi ChatGPT planovi nikada nisu uključivali pristup API-ju; a Mistral zasebno naplaćuje Le Chat i svoj API. Stranica poput Dargle doista ne može trošiti vašu pretplatu u vaše ime.",
     "why_key_body_2": "Ono što može učiniti jest predati podatke vašem vlastitom asistentu. To je bolje od alternative, a ne tek jeftinije za nas: zadržavate svog pružatelja, svoju povijest i svoje postavke privatnosti, ne ograničava vas proračun koji mi određujemo, i ovdje se ništa ne lomi kada dobavljač promijeni uvjete.",
-    "in_app_title": "Asistent unutar Fontema",
+    "in_app_title": "Asistent unutar Dargle",
     "in_app_body_1": "U stranicu je ugrađen i asistent, dostupan na svakoj stranici. Može pretraživati podatke, objasniti što gledate, premještati vas po platformi i — dok uređujete članak — predlagati izmjene u njemu.",
     "in_app_body_2_pre": "Treba mu API ključ od Anthropica, Mistrala ili OpenAI-ja, dodan u",
     "in_app_body_2_post": ". Plaća se po korištenju i obično stoji vrlo malo; pretplata nije potrebna i ionako ovdje ne bi radila, iz gore navedenih razloga.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Idi na početnu",
     "you_already_have_an_active_session": "Već imaš aktivnu sesiju.",
     "youre_signed_in": "Prijavljen/a si",
-    "sign_in_to_fontem": "Prijava u Fontem",
+    "sign_in_to_dargle": "Prijava u Dargle",
     "sign_in_to_start_creating_data_stories": "Prijavite se kako biste počeli izrađivati podatkovne priče, prijavljivati probleme i surađivati sa zajednicom.",
     "signing_in": "Prijava...",
     "sign_in": "Prijava",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Povežite svog AI asistenta",
-    "intro_pre": "Koristite Fontemove podatke iz Claudea, ChatGPT-a ili bilo kojeg klijenta koji podržava MCP — uz vlastitu pretplatu. Izradite token ovdje, a zatim slijedite",
+    "intro_pre": "Koristite Dargle podatke iz Claudea, ChatGPT-a ili bilo kojeg klijenta koji podržava MCP — uz vlastitu pretplatu. Izradite token ovdje, a zatim slijedite",
     "intro_link": "vodič za postavljanje",
     "fresh_warn": "Kopirajte ga sada — prikazuje se jednom i nije ga moguće ponovno dohvatiti.",
     "copy": "Kopiraj",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem je platforma transparentnosti iz primarnih izvora. Tvrtke EU, javna nabava, lobisti i kohezijsko financiranje — povezani u jedan graf i križno provjereni s službenim registrima.",
-      "data_quality": "Pokrivenost, svježina i raspodjela izvora za svaki skup podataka u Fontem grafu znanja. Transparentnost o transparentnosti.",
-      "home": "Prelazimo digitalne granice EU-a, jedan skup podataka odjednom. Javne podatkovne priče iz Fontem zajednice — istraživanja, križne provjere i zaključci utemeljeni na primarnim izvorima.",
-      "login": "Prijavi se na Fontem za objavljivanje podatkovnih priča, prijavu problema i spremanje istraživanja.",
+      "about": "Dargle je platforma transparentnosti iz primarnih izvora. Tvrtke EU, javna nabava, lobisti i kohezijsko financiranje — povezani u jedan graf i križno provjereni s službenim registrima.",
+      "data_quality": "Pokrivenost, svježina i raspodjela izvora za svaki skup podataka u Dargle grafu znanja. Transparentnost o transparentnosti.",
+      "home": "Prelazimo digitalne granice EU-a, jedan skup podataka odjednom. Javne podatkovne priče iz Dargle zajednice — istraživanja, križne provjere i zaključci utemeljeni na primarnim izvorima.",
+      "login": "Prijavi se na Dargle za objavljivanje podatkovnih priča, prijavu problema i spremanje istraživanja.",
       "map": "Interaktivni horoplet kuriranih Eurostat skupova podataka na NUTS razini — stanovništvo, BDP, nezaposlenost, R&D i više, mapirani diljem Europe.",
-      "privacy": "Kako Fontem postupa s osobnim podacima. Pohranjujemo samo osnovne podatke računa, bez kolačića za praćenje i bez analitike trećih strana.",
-      "sparql": "Pretraži Fontem graf znanja izravno putem SPARQL-a. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
+      "privacy": "Kako Dargle postupa s osobnim podacima. Pohranjujemo samo osnovne podatke računa, bez kolačića za praćenje i bez analitike trećih strana.",
+      "sparql": "Pretraži Dargle graf znanja izravno putem SPARQL-a. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
       "spending": "Pretraži tvrtke EU, ugovorne ustanove, lobiste i projekte koje financira EU. Plus što je veliko u tvojoj zemlji.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "O — Fontem",
-      "data_quality": "Kvaliteta podataka — Fontem",
-      "home": "Fontem — Prelazimo digitalne granice EU-a, jedan skup podataka odjednom",
-      "login": "Prijava — Fontem",
-      "map": "Karta — Europske statistike na Fontemu",
-      "privacy": "Pravila privatnosti — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Potrošnja — javna nabava EU na Fontemu",
-      "development": "Development — Fontem"
+      "about": "O — Dargle",
+      "data_quality": "Kvaliteta podataka — Dargle",
+      "home": "Dargle — Prelazimo digitalne granice EU-a, jedan skup podataka odjednom",
+      "login": "Prijava — Dargle",
+      "map": "Karta — Europske statistike na Dargle",
+      "privacy": "Pravila privatnosti — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Potrošnja — javna nabava EU na Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Pristup",
-    "all_data_in_the_fontem_knowledge_graph_r": "Svi podaci u grafu znanja Fontem odnose se na",
+    "all_data_in_the_dargle_knowledge_graph_r": "Svi podaci u grafu znanja Dargle odnose se na",
     "conversation_processing_is_performed_by_": "Obradu razgovora obavljaju UI pružatelji usluga sa sjedištem u EU.",
     "conversations_are_automatically_deleted_": "Razgovori se automatski brišu nakon 90 dana.",
     "erase": "Brisanje",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Prema GDPR-u imaš pravo:",
     "when_you_sign_in_we_collect_and_store": "Kada se prijaviš, prikupljamo i pohranjujemo:",
     "your": "Tvoje",
-    "what_fontem_is": "1. Što je Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem je platforma za građansku transparentnost koja povezuje podatke o javnoj nabavi EU-a, registre vlasništva nad trgovačkim društvima i sredstva kohezijske politike u jedinstveni graf znanja. Cilj joj je učiniti javnu potrošnju i korporativne strukture lakšima za istraživanje i razumijevanje.",
+    "what_dargle_is": "1. Što je Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle je platforma za građansku transparentnost koja povezuje podatke o javnoj nabavi EU-a, registre vlasništva nad trgovačkim društvima i sredstva kohezijske politike u jedinstveni graf znanja. Cilj joj je učiniti javnu potrošnju i korporativne strukture lakšima za istraživanje i razumijevanje.",
     "data_in_the_knowledge_graph": "2. Podaci u grafu znanja",
     "legal_entities": "pravne osobe",
     "companies_public_authorities_and_organis": "(trgovačka društva, javna tijela i organizacije) — ne fizičke osobe. Prikupljamo javno dostupne podatke iz sljedećih izvora:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Kolačići",
     "we_only_use_strictly_necessary_cookies": "Koristimo samo strogo nužne kolačiće sesije za autentifikaciju. Ne koristimo kolačiće za praćenje, oglašivačke kolačiće niti analitičke kolačiće trećih strana.",
     "changes_to_this_policy": "7. Izmjene ovih pravila",
-    "we_may_update_this_policy": "Ova pravila možemo povremeno ažurirati. Kada to učinimo, izmijenit ćemo datum „posljednjeg ažuriranja” na vrhu ove stranice. Nastavak korištenja platforme Fontem nakon izmjena predstavlja prihvaćanje ažuriranih pravila."
+    "we_may_update_this_policy": "Ova pravila možemo povremeno ažurirati. Kada to učinimo, izmijenit ćemo datum „posljednjeg ažuriranja” na vrhu ove stranice. Nastavak korištenja platforme Dargle nakon izmjena predstavlja prihvaćanje ažuriranih pravila."
   },
   "procurement_theme": {
     "public_procurement": "Javna nabava",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Pružatelj asistenta",
-    "intro": "Asistent prema zadanim postavkama radi na Fontemovu ugrađenom modelu — nema se što postavljati. Umjesto toga možete ga usmjeriti na vlastiti LLM račun ako želite veći model; ključevi se pohranjuju šifrirano i nakon spremanja se više nikada ne prikazuju.",
+    "intro": "Asistent prema zadanim postavkama radi na Dargle ugrađenom modelu — nema se što postavljati. Umjesto toga možete ga usmjeriti na vlastiti LLM račun ako želite veći model; ključevi se pohranjuju šifrirano i nakon spremanja se više nikada ne prikazuju.",
     "fingerprint": "ključ br. {fp}",
     "last_used": "posljednja uporaba {date}",
     "not_used": "još nije korišten",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Ključ uklonjen.",
     "builtin_title": "Ugrađeni model",
     "builtin_active": "U uporabi",
-    "builtin_note": "Radi na Fontemovu vlastitom hardveru. Bez računa, bez ključa, bez ičega što bi vam se naplatilo. Riječ je o malom modelu pa je sporiji i slabiji od plaćenoga — ali za rad od vas ne traži ništa.",
+    "builtin_note": "Radi na Dargle vlastitom hardveru. Bez računa, bez ključa, bez ičega što bi vam se naplatilo. Riječ je o malom modelu pa je sporiji i slabiji od plaćenoga — ali za rad od vas ne traži ništa.",
     "builtin_superseded": "Umjesto njega koristi se vaš ključ. Uklonite ga za povratak na ugrađeni model.",
     "byo_title": "Umjesto toga upotrijebite vlastiti model",
     "byo_intro": "Neobavezno. Ključ od Anthropica, Mistrala ili OpenAI-ja daje vam veći i brži model koji vam oni naplaćuju.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Krajnja točka",
     "endpoint_url": "URL krajnje točke",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Pretraži graf znanja Fontem izravno iz preglednika ili spoji krajnju točku u OpenRefine / bilježnicu / vlastite alate. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
+    "intro": "Pretraži graf znanja Dargle izravno iz preglednika ili spoji krajnju točku u OpenRefine / bilježnicu / vlastite alate. Tvrtke, ugovori, ustanove, lobisti, sankcije — sve povezano.",
     "limits": "Ograničenja",
     "method": "Metoda",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Trenutak.",
     "email_confirmed": "E-pošta potvrđena",
     "your_account_is_verified": "Vaš je račun potvrđen. Sada možete objavljivati priče, komentirati i pratiti teme.",
-    "continue_to_fontem": "Nastavi na Fontem",
+    "continue_to_dargle": "Nastavi na Dargle",
     "the_link_may_have_expired": "Poveznica je možda istekla ili je već iskorištena. Prijavite se i zatražite novu poruku za potvrdu putem obavijesti na vrhu.",
-    "go_to_fontem": "Idi na Fontem",
+    "go_to_dargle": "Idi na Dargle",
     "couldnt_confirm_your_email": "Nije moguće potvrditi vašu e-poštu"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Nepoznata vrsta widgeta:"
   },
   "wordmark": {
-    "font": "Font",
-    "fontem": "Fontem",
-    "tagline": "Prelazimo digitalne granice EU-a, jedan skup podataka odjednom"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Sve",

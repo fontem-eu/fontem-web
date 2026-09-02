@@ -14,7 +14,7 @@ import {
 } from 'vue-router'
 
 import { requiresAuth } from './router/authGate.js'
-import { createFontemI18n } from './i18n.js'
+import { createDargleI18n } from './i18n.js'
 
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
@@ -241,7 +241,7 @@ const ROUTES = [
  * `router.push(url)` without touching the DOM; on the client we use
  * web history for proper back/forward behaviour.
  */
-export function createFontemRouter(ssr = false) {
+export function createDargleRouter(ssr = false) {
   const router = createRouter({
     history: ssr ? createMemoryHistory() : createWebHistory(),
     routes: ROUTES,
@@ -261,16 +261,16 @@ export function createFontemRouter(ssr = false) {
  * Build a Vue app.  Used on the client with ``ssr=false`` for standalone
  * mount, and with ``ssr=true`` for hydration after SSR.
  */
-export function createFontemApp(ssr = false) {
+export function createDargleApp(ssr = false) {
   const app = ssr ? createSSRApp(App) : createCSRApp(App)
-  const router = createFontemRouter(ssr)
-  const i18n = createFontemI18n()
+  const router = createDargleRouter(ssr)
+  const i18n = createDargleI18n()
   app.use(router)
   app.use(i18n)
   // Expose the full i18n instance via provide so App.vue can hand it
   // to useLang's init() — `globalProperties.$i18n` is a wrapper that
   // only exposes the read-only display props (locale, t, n, d), not
   // setLocaleMessage / global, which are what activateLocale needs.
-  app.provide('fontem-i18n', i18n)
+  app.provide('dargle-i18n', i18n)
   return { app, router, i18n }
 }

@@ -15,10 +15,10 @@
     "chip_story": "Lis une histoire de données de la communauté",
     "hero_lead": "Un graphe de connaissances ouvert reliant les entreprises de l'UE, les marchés publics, les lobbyistes et le financement de cohésion.",
     "how_it_works": "Comment ça marche",
-    "mission_body_1": "Le débat public repose sur des chiffres — budgets et marchés publics, migrations et émissions, qui possède quoi, jusqu'au texte même d'une loi — et ils sont constamment tordus par ceux qui savent qu'on ne les vérifiera pas. Fontem rassemble ces registres en un seul graphe interrogeable, où chaque chiffre reste rattaché à la source officielle dont il provient.",
+    "mission_body_1": "Le débat public repose sur des chiffres — budgets et marchés publics, migrations et émissions, qui possède quoi, jusqu'au texte même d'une loi — et ils sont constamment tordus par ceux qui savent qu'on ne les vérifiera pas. Dargle rassemble ces registres en un seul graphe interrogeable, où chaque chiffre reste rattaché à la source officielle dont il provient.",
     "mission_body_2": "C'est le socle, pas l'objectif. Les affirmations trompeuses prospèrent quand les vérifier demande du travail ; nous n'en faisons qu'un clic. Et un public capable de vérifier ce qu'on lui dit est un public capable de peser dans le débat.",
     "mission_lead": "Nous construisons la couche civique de la démocratie européenne — où toute affirmation publique peut être retracée jusqu'aux chiffres qui la fondent.",
-    "mission_title": "Pourquoi Fontem existe",
+    "mission_title": "Pourquoi Dargle existe",
     "recently_published": "Récemment publié",
     "see_all_public_data_stories": "Voir toutes les histoires de données publiques →",
     "step_crosscheck_desc": "Compare côte à côte ce que TED, GLEIF, le Registre de transparence, la Cohésion et d'autres sources disent de la même entité.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Publication d'une histoire de données depuis l'éditeur",
     "step_publish_name": "Publier",
     "step_search_desc": "Recherche n'importe quelle entreprise, pouvoir adjudicateur, lobbyiste ou projet financé par l'UE par nom ou identifiant.",
-    "step_search_gif_alt": "Recherche d'une entité dans Fontem",
+    "step_search_gif_alt": "Recherche d'une entité dans Dargle",
     "step_search_name": "Rechercher",
     "try": "Essayez :",
     "value_open_desc": "Le graphe, les méthodes et le code qui les sous-tendent sont publics.",
@@ -235,13 +235,13 @@
     "tool_result": "Résultat",
     "tool_truncated": "tronqué avant que le modèle ne le voie",
     "tool_no_result": "(aucune sortie)",
-    "navigate_ask": "Fontem peut vous emmener vers {page}. Souhaitez-vous y aller ?",
+    "navigate_ask": "Dargle peut vous emmener vers {page}. Souhaitez-vous y aller ?",
     "navigate_go": "Y aller",
     "navigate_stay": "Rester ici",
     "navigate_went": "Ouvert",
     "navigate_stayed": "Resté ici",
     "tool_result_not_kept": "Résultat non conservé — seuls l'appel et ses arguments sont enregistrés.",
-    "signed_out_notice": "Vous n'êtes pas connecté : l'assistant peut seulement répondre à des questions sur Fontem et vous amener à une page. La recherche dans les données, la rédaction et l'enregistrement nécessitent un compte.",
+    "signed_out_notice": "Vous n'êtes pas connecté : l'assistant peut seulement répondre à des questions sur Dargle et vous amener à une page. La recherche dans les données, la rédaction et l'enregistrement nécessitent un compte.",
     "characters_used": "Caractères utilisés"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Marchés publics",
@@ -901,12 +901,12 @@
     "title": "Aide",
     "toc": "Sommaire",
     "connect_title": "Connectez votre assistant IA",
-    "connect_intro": "Fontem expose ses données sous forme d'outils que votre propre client IA peut appeler — fiches d'entreprises, marchés publics, graphe d'entités, SPARQL. Vous utilisez l'assistant que vous payez déjà, et Fontem ne voit jamais votre compte fournisseur.",
+    "connect_intro": "Dargle expose ses données sous forme d'outils que votre propre client IA peut appeler — fiches d'entreprises, marchés publics, graphe d'entités, SPARQL. Vous utilisez l'assistant que vous payez déjà, et Dargle ne voit jamais votre compte fournisseur.",
     "step_token": "1. Créez un jeton",
     "step_token_body_pre": "Rendez-vous dans",
     "step_token_account": "Paramètres du compte",
     "step_token_body_post": "→ {section} → {action}. Copiez-le immédiatement : il n'est affiché qu'une seule fois et ne peut pas être récupéré ensuite. Si vous le perdez, révoquez-le et créez-en un autre.",
-    "step_endpoint": "2. Pointez votre client vers Fontem",
+    "step_endpoint": "2. Pointez votre client vers Dargle",
     "step_endpoint_body": "L'adresse est :",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Paramètres → Connecteurs → Ajouter un connecteur personnalisé. Collez l'URL ci-dessus, et votre jeton comme jeton porteur (bearer).",
@@ -916,15 +916,15 @@
     "anything_else": "Tout autre client",
     "anything_else_body": "Tout client parlant MCP sur Streamable HTTP fonctionne. Envoyez le jeton sous la forme {header}.",
     "step_ask": "3. Posez-lui une question",
-    "step_ask_body": "Essayez {example}. C'est votre client qui décide quand appeler les outils de Fontem.",
-    "step_ask_example": "« Utilise Fontem pour trouver les marchés attribués à des entreprises liées à X »",
+    "step_ask_body": "Essayez {example}. C'est votre client qui décide quand appeler les outils de Dargle.",
+    "step_ask_example": "« Utilise Dargle pour trouver les marchés attribués à des entreprises liées à X »",
     "revoking": "Révocation",
     "revoking_body": "Les paramètres du compte listent chaque client connecté ainsi que sa dernière utilisation. La révocation prend effet à la requête suivante. Si vous ne reconnaissez plus un client, révoquez-le.",
     "why_key_title": "Pourquoi ai-je besoin de mon propre compte IA ?",
     "why_key_short": "Pourquoi mon propre compte ?",
-    "why_key_body_1": "Parce qu'aucun fournisseur d'IA ne vend ce qui serait autrement la solution évidente. Anthropic a interdit l'usage d'un abonnement Claude dans des outils tiers en février 2026 et l'a bloqué en avril de la même année ; les formules ChatGPT d'OpenAI n'ont jamais inclus l'accès à l'API ; et Mistral facture Le Chat et son API séparément. Un site comme Fontem ne peut réellement pas dépenser votre abonnement à votre place.",
+    "why_key_body_1": "Parce qu'aucun fournisseur d'IA ne vend ce qui serait autrement la solution évidente. Anthropic a interdit l'usage d'un abonnement Claude dans des outils tiers en février 2026 et l'a bloqué en avril de la même année ; les formules ChatGPT d'OpenAI n'ont jamais inclus l'accès à l'API ; et Mistral facture Le Chat et son API séparément. Un site comme Dargle ne peut réellement pas dépenser votre abonnement à votre place.",
     "why_key_body_2": "Ce qu'il peut faire, c'est fournir les données à votre propre assistant. C'est mieux que l'alternative, et pas seulement moins cher pour nous : vous gardez votre fournisseur, votre historique et vos réglages de confidentialité, vous n'êtes pas rationné par un budget que nous fixons, et rien ne casse ici quand un éditeur change ses conditions.",
-    "in_app_title": "L'assistant intégré à Fontem",
+    "in_app_title": "L'assistant intégré à Dargle",
     "in_app_body_1": "Il existe aussi un assistant intégré au site, présent sur chaque page. Il peut chercher dans les données, expliquer ce que vous consultez, vous déplacer dans la plateforme et — pendant que vous éditez un article — vous proposer des modifications.",
     "in_app_body_2_pre": "Il nécessite une clé d'API d'Anthropic, Mistral ou OpenAI, ajoutée dans",
     "in_app_body_2_post": ". Le paiement se fait à l'usage et coûte généralement très peu ; un abonnement n'est pas requis et ne fonctionnerait de toute façon pas ici, pour les raisons ci-dessus.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Aller à l'accueil",
     "you_already_have_an_active_session": "Vous avez déjà une session active.",
     "youre_signed_in": "Vous êtes connecté(e)",
-    "sign_in_to_fontem": "Connectez-vous à Fontem",
+    "sign_in_to_dargle": "Connectez-vous à Dargle",
     "sign_in_to_start_creating_data_stories": "Connectez-vous pour commencer à créer des récits de données, signaler des problèmes et collaborer avec la communauté.",
     "signing_in": "Connexion...",
     "sign_in": "Se connecter",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Connectez votre assistant IA",
-    "intro_pre": "Utilisez les données de Fontem depuis Claude, ChatGPT ou tout client compatible MCP — sur votre propre abonnement. Créez un jeton ici, puis suivez",
+    "intro_pre": "Utilisez les données de Dargle depuis Claude, ChatGPT ou tout client compatible MCP — sur votre propre abonnement. Créez un jeton ici, puis suivez",
     "intro_link": "le guide de configuration",
     "fresh_warn": "Copiez-le maintenant — il n'est affiché qu'une fois et ne pourra pas être récupéré.",
     "copy": "Copier",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem est la plateforme de transparence en sources primaires. Entreprises de l'UE, marchés publics, lobbyistes et financement de cohésion — liés dans un seul graphe et recoupés avec les registres officiels.",
-      "data_quality": "Couverture, fraîcheur et répartition par source pour chaque jeu de données du graphe de connaissances Fontem. La transparence sur la transparence.",
-      "home": "Franchir les frontières numériques de l'UE, un jeu de données à la fois. Histoires de données publiques de la communauté Fontem — enquêtes, recoupements et conclusions ancrées dans des sources primaires.",
-      "login": "Connectez-vous à Fontem pour publier des histoires de données, signaler des problèmes et sauvegarder vos recherches.",
+      "about": "Dargle est la plateforme de transparence en sources primaires. Entreprises de l'UE, marchés publics, lobbyistes et financement de cohésion — liés dans un seul graphe et recoupés avec les registres officiels.",
+      "data_quality": "Couverture, fraîcheur et répartition par source pour chaque jeu de données du graphe de connaissances Dargle. La transparence sur la transparence.",
+      "home": "Franchir les frontières numériques de l'UE, un jeu de données à la fois. Histoires de données publiques de la communauté Dargle — enquêtes, recoupements et conclusions ancrées dans des sources primaires.",
+      "login": "Connectez-vous à Dargle pour publier des histoires de données, signaler des problèmes et sauvegarder vos recherches.",
       "map": "Choroplèthe interactif de jeux de données Eurostat sélectionnés au niveau NUTS — population, PIB, chômage, R&D et plus, cartographiés à travers l'Europe.",
-      "privacy": "Comment Fontem gère les données personnelles. Nous ne stockons que les bases de votre compte, aucun cookie de pistage, aucun outil d'analyse tiers.",
-      "sparql": "Interrogez directement le graphe de connaissances Fontem via SPARQL. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est lié.",
+      "privacy": "Comment Dargle gère les données personnelles. Nous ne stockons que les bases de votre compte, aucun cookie de pistage, aucun outil d'analyse tiers.",
+      "sparql": "Interrogez directement le graphe de connaissances Dargle via SPARQL. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est lié.",
       "spending": "Cherchez des entreprises de l'UE, des pouvoirs adjudicateurs, des lobbyistes et des projets financés par l'UE. Plus ce qui est gros dans votre pays.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "À propos — Fontem",
-      "data_quality": "Qualité des données — Fontem",
-      "home": "Fontem — Franchir les frontières numériques de l'UE, un jeu de données à la fois",
-      "login": "Connexion — Fontem",
-      "map": "Carte — Statistiques européennes sur Fontem",
-      "privacy": "Politique de confidentialité — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Dépenses — marchés publics européens sur Fontem",
-      "development": "Development — Fontem"
+      "about": "À propos — Dargle",
+      "data_quality": "Qualité des données — Dargle",
+      "home": "Dargle — Franchir les frontières numériques de l'UE, un jeu de données à la fois",
+      "login": "Connexion — Dargle",
+      "map": "Carte — Statistiques européennes sur Dargle",
+      "privacy": "Politique de confidentialité — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Dépenses — marchés publics européens sur Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Accès",
-    "all_data_in_the_fontem_knowledge_graph_r": "Toutes les données du graphe de connaissances Fontem concernent",
+    "all_data_in_the_dargle_knowledge_graph_r": "Toutes les données du graphe de connaissances Dargle concernent",
     "conversation_processing_is_performed_by_": "Le traitement des conversations est effectué par des fournisseurs d'IA basés dans l'UE.",
     "conversations_are_automatically_deleted_": "Les conversations sont automatiquement supprimées après 90 jours.",
     "erase": "Effacer",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Selon le RGPD, vous avez le droit de :",
     "when_you_sign_in_we_collect_and_store": "Lorsque vous vous connectez, nous collectons et stockons :",
     "your": "Vos",
-    "what_fontem_is": "1. Ce qu'est Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem est une plateforme de transparence civique qui relie les données de la commande publique de l'UE, les registres de propriété des entreprises et les financements de la politique de cohésion au sein d'un graphe de connaissances unique. Son objectif est de rendre les dépenses publiques et les structures d'entreprise plus faciles à explorer et à comprendre.",
+    "what_dargle_is": "1. Ce qu'est Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle est une plateforme de transparence civique qui relie les données de la commande publique de l'UE, les registres de propriété des entreprises et les financements de la politique de cohésion au sein d'un graphe de connaissances unique. Son objectif est de rendre les dépenses publiques et les structures d'entreprise plus faciles à explorer et à comprendre.",
     "data_in_the_knowledge_graph": "2. Données du graphe de connaissances",
     "legal_entities": "personnes morales",
     "companies_public_authorities_and_organis": "(entreprises, pouvoirs publics et organisations) — et non des personnes physiques. Nous agrégeons des données accessibles au public issues des sources suivantes :",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Nous utilisons uniquement des cookies de session strictement nécessaires à l'authentification. Nous n'utilisons pas de cookies de suivi, de cookies publicitaires ni de cookies d'analyse tiers.",
     "changes_to_this_policy": "7. Modifications de la présente politique",
-    "we_may_update_this_policy": "Nous pouvons mettre à jour la présente politique de temps à autre. Le cas échéant, nous modifierons la date de « dernière mise à jour » en haut de cette page. La poursuite de l'utilisation de Fontem après ces modifications vaut acceptation de la politique mise à jour."
+    "we_may_update_this_policy": "Nous pouvons mettre à jour la présente politique de temps à autre. Le cas échéant, nous modifierons la date de « dernière mise à jour » en haut de cette page. La poursuite de l'utilisation de Dargle après ces modifications vaut acceptation de la politique mise à jour."
   },
   "procurement_theme": {
     "public_procurement": "Marchés publics",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Fournisseur de l'assistant",
-    "intro": "L'assistant fonctionne par défaut avec le modèle intégré de Fontem — rien à configurer. Vous pouvez à la place le connecter à votre propre compte LLM si vous souhaitez un modèle plus grand ; les clés sont stockées chiffrées et ne sont jamais réaffichées après enregistrement.",
+    "intro": "L'assistant fonctionne par défaut avec le modèle intégré de Dargle — rien à configurer. Vous pouvez à la place le connecter à votre propre compte LLM si vous souhaitez un modèle plus grand ; les clés sont stockées chiffrées et ne sont jamais réaffichées après enregistrement.",
     "fingerprint": "clé n° {fp}",
     "last_used": "dernière utilisation le {date}",
     "not_used": "pas encore utilisée",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Clé supprimée.",
     "builtin_title": "Modèle intégré",
     "builtin_active": "Utilisé",
-    "builtin_note": "Fonctionne sur le matériel de Fontem. Pas de compte, pas de clé, rien qui vous soit facturé. C'est un petit modèle : il est donc plus lent et moins performant qu'un modèle payant — mais il ne demande rien de votre part pour fonctionner.",
+    "builtin_note": "Fonctionne sur le matériel de Dargle. Pas de compte, pas de clé, rien qui vous soit facturé. C'est un petit modèle : il est donc plus lent et moins performant qu'un modèle payant — mais il ne demande rien de votre part pour fonctionner.",
     "builtin_superseded": "Votre propre clé est utilisée à la place. Supprimez-la pour revenir au modèle intégré.",
     "byo_title": "Utiliser plutôt votre propre modèle",
     "byo_intro": "Facultatif. Une clé d'Anthropic, Mistral ou OpenAI vous donne un modèle plus grand et plus rapide, qu'ils vous facturent directement.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Point de terminaison",
     "endpoint_url": "URL de l'endpoint",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Interroge le graphe de connaissances Fontem directement depuis le navigateur, ou branche le point de terminaison sur OpenRefine / un notebook / tes propres outils. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est relié.",
+    "intro": "Interroge le graphe de connaissances Dargle directement depuis le navigateur, ou branche le point de terminaison sur OpenRefine / un notebook / tes propres outils. Entreprises, contrats, autorités, lobbyistes, sanctions — tout est relié.",
     "limits": "Limites",
     "method": "Méthode",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Un instant.",
     "email_confirmed": "Adresse e-mail confirmée",
     "your_account_is_verified": "Votre compte est vérifié. Vous pouvez désormais publier des récits, commenter et suivre des sujets.",
-    "continue_to_fontem": "Continuer vers Fontem",
+    "continue_to_dargle": "Continuer vers Dargle",
     "the_link_may_have_expired": "Le lien a peut-être expiré ou a déjà été utilisé. Connectez-vous et demandez un nouvel e-mail de vérification depuis la bannière en haut.",
-    "go_to_fontem": "Accéder à Fontem",
+    "go_to_dargle": "Accéder à Dargle",
     "couldnt_confirm_your_email": "Impossible de confirmer votre adresse e-mail"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Type de widget inconnu :"
   },
   "wordmark": {
-    "font": "Police",
-    "fontem": "Fontem",
-    "tagline": "Franchir les frontières numériques de l'UE, un jeu de données à la fois"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Tout",

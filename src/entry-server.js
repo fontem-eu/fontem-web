@@ -7,7 +7,7 @@
  * build time and served by nginx.
  */
 import { renderToString } from 'vue/server-renderer'
-import { createFontemApp } from './app.js'
+import { createDargleApp } from './app.js'
 import { buildJsonLd } from './ssr/jsonLd.js'
 import { titleForPath, descriptionForPath } from './ssr/meta.js'
 
@@ -17,7 +17,7 @@ import { titleForPath, descriptionForPath } from './ssr/meta.js'
  * the server injects into the HTML template.
  */
 export async function render(url, context = {}) {
-  const { app, router } = createFontemApp(true)
+  const { app, router } = createDargleApp(true)
 
   // Drive Vue Router to the target URL — this resolves which view
   // component gets rendered by <router-view>.

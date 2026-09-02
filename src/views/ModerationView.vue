@@ -10,7 +10,7 @@ const loading = ref(true)
 const error = ref(null)
 
 onMounted(async () => {
-  document.title = 'Moderation — Fontem'
+  document.title = 'Moderation — Dargle'
   await fetchData()
 })
 

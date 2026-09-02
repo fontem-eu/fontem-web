@@ -23,7 +23,7 @@ const passwordMismatch = computed(
         && regPassword.value !== regPasswordConfirm.value,
 )
 
-// Fontem Google OAuth client (fontem.eu brand-holder account, ID-token
+// Dargle Google OAuth client (fontem.eu brand-holder account, ID-token
 // flow only — no client secret touches the browser or the backend).
 // Rotate by issuing a new OAuth client in Google Cloud and updating
 // both this constant AND the default in gmr-community-api's auth.py.
@@ -167,7 +167,7 @@ async function handleSignOut() {
 
       <!-- Sign in -->
       <template v-else>
-        <h1 class="login-title">{{ $t('login.sign_in_to_fontem') }}</h1>
+        <h1 class="login-title">{{ $t('login.sign_in_to_dargle') }}</h1>
         <p class="login-desc">
           {{ $t('login.sign_in_to_start_creating_data_stories') }}
         </p>

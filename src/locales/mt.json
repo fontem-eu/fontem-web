@@ -15,10 +15,10 @@
     "chip_story": "Aqra storja tad-data tal-komunità",
     "hero_lead": "Graf tal-għarfien miftuħ li jgħaqqad il-kumpaniji tal-UE, l-akkwist pubbliku, il-lobbyists u l-finanzjament ta' koeżjoni.",
     "how_it_works": "Kif jaħdem",
-    "mission_body_1": "Id-dibattitu pubbliku jimxi fuq in-numri — baġits u kuntratti, migrazzjoni u emissjonijiet, min hu proprjetarju ta' xiex, saħansitra t-test ta' liġi — u dawn jitgħawġu kontinwament minn dawk li jafu li ħadd mhu se jivverifikahom. Fontem jgħaqqad dawn ir-reġistri fi graf wieħed li jista' jiġi interrogat, fejn kull ċifra tibqa' marbuta mas-sors uffiċjali li minnu ġiet.",
+    "mission_body_1": "Id-dibattitu pubbliku jimxi fuq in-numri — baġits u kuntratti, migrazzjoni u emissjonijiet, min hu proprjetarju ta' xiex, saħansitra t-test ta' liġi — u dawn jitgħawġu kontinwament minn dawk li jafu li ħadd mhu se jivverifikahom. Dargle jgħaqqad dawn ir-reġistri fi graf wieħed li jista' jiġi interrogat, fejn kull ċifra tibqa' marbuta mas-sors uffiċjali li minnu ġiet.",
     "mission_body_2": "Dan hu s-sisien, mhux l-għan. Id-dikjarazzjonijiet qarrieqa jirnexxu fejn il-verifika tagħhom hi xogħol iebes; aħna nagħmluha klikk waħda. U pubbliku li jista' jivverifika dak li jingħadlu hu pubbliku li jista' jipparteċipa.",
     "mission_lead": "Qed nibnu s-saff ċiviku tad-demokrazija Ewropea — fejn kull dikjarazzjoni pubblika tista' tiġi ntraċċata lura san-numri li fuqhom tistrieħ.",
-    "mission_title": "Għaliex jeżisti Fontem",
+    "mission_title": "Għaliex jeżisti Dargle",
     "recently_published": "Ippubblikat reċentement",
     "see_all_public_data_stories": "Ara l-istejjer tad-data pubbliċi kollha →",
     "step_crosscheck_desc": "Qabbel ġenb b'ġenb dak li jgħidu TED, GLEIF, ir-Reġistru tat-Trasparenza, il-Koeżjoni u sorsi oħra dwar l-istess entità.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Pubblikazzjoni ta' storja tad-data mill-editur",
     "step_publish_name": "Ippubblika",
     "step_search_desc": "Fittex kwalunkwe kumpanija, awtorità kontraenti, lobbyist jew proġett iffinanzjat mill-UE bl-isem jew identifikatur.",
-    "step_search_gif_alt": "Tfittxija għal entità f'Fontem",
+    "step_search_gif_alt": "Tfittxija għal entità f'Dargle",
     "step_search_name": "Fittex",
     "try": "Ipprova:",
     "value_open_desc": "Il-graf, il-metodi u l-kodiċi warajhom huma pubbliċi.",
@@ -235,13 +235,13 @@
     "tool_result": "Riżultat",
     "tool_truncated": "imqassar qabel ma rah il-mudell",
     "tool_no_result": "(l-ebda output)",
-    "navigate_ask": "Fontem jista' jeħodok għal {page}. Trid tmur?",
+    "navigate_ask": "Dargle jista' jeħodok għal {page}. Trid tmur?",
     "navigate_go": "Mur",
     "navigate_stay": "Ibqa' hawn",
     "navigate_went": "Miftuħ",
     "navigate_stayed": "Baqa' hawn",
     "tool_result_not_kept": "Ir-riżultat ma jinżammx — jiġu rreġistrati biss is-sejħa u l-argumenti tagħha.",
-    "signed_out_notice": "M'intix illoggjat, għalhekk l-assistent jista' biss iwieġeb mistoqsijiet dwar Fontem u jeħodok f'paġna. It-tfittxija fid-data, il-kitba u l-issejvjar jeħtieġu kont.",
+    "signed_out_notice": "M'intix illoggjat, għalhekk l-assistent jista' biss iwieġeb mistoqsijiet dwar Dargle u jeħodok f'paġna. It-tfittxija fid-data, il-kitba u l-issejvjar jeħtieġu kont.",
     "characters_used": "Karattri użati"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Akkwist Pubbliku",
@@ -901,12 +901,12 @@
     "title": "Għajnuna",
     "toc": "Werrej",
     "connect_title": "Qabbad l-assistent tal-IA tiegħek",
-    "connect_intro": "Fontem jesponi d-data tiegħu bħala għodod li l-klijent tal-IA tiegħek stess jista' jsejjaħ — rekords ta' kumpaniji, kuntratti, il-graf tal-entitajiet, SPARQL. Tuża l-assistent li diġà tħallas għalih, u Fontem qatt ma jara l-kont tiegħek mal-fornitur.",
+    "connect_intro": "Dargle jesponi d-data tiegħu bħala għodod li l-klijent tal-IA tiegħek stess jista' jsejjaħ — rekords ta' kumpaniji, kuntratti, il-graf tal-entitajiet, SPARQL. Tuża l-assistent li diġà tħallas għalih, u Dargle qatt ma jara l-kont tiegħek mal-fornitur.",
     "step_token": "1. Oħloq token",
     "step_token_body_pre": "Mur fi",
     "step_token_account": "Settings tal-kont",
     "step_token_body_post": "→ {section} → {action}. Ikkopjah minnufih: jintwera darba biss u ma jistax jinkiseb wara. Jekk titilfu, irrevokah u oħloq ieħor.",
-    "step_endpoint": "2. Immira l-klijent tiegħek lejn Fontem",
+    "step_endpoint": "2. Immira l-klijent tiegħek lejn Dargle",
     "step_endpoint_body": "L-endpoint hu:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Settings → Konnetturi → Żid konnettur personalizzat. Waħħal l-URL ta' hawn fuq, u t-token tiegħek bħala bearer token.",
@@ -916,15 +916,15 @@
     "anything_else": "Kull ħaġa oħra",
     "anything_else_body": "Jaħdem kull klijent li jitkellem MCP fuq Streamable HTTP. Ibgħat it-token bħala {header}.",
     "step_ask": "3. Staqsih xi ħaġa",
-    "step_ask_body": "Ipprova {example}. Il-klijent tiegħek jiddeċiedi hu meta jsejjaħ l-għodod ta' Fontem.",
-    "step_ask_example": "„Uża Fontem biex issib kuntratti mogħtija lil kumpaniji marbuta ma' X“",
+    "step_ask_body": "Ipprova {example}. Il-klijent tiegħek jiddeċiedi hu meta jsejjaħ l-għodod ta' Dargle.",
+    "step_ask_example": "„Uża Dargle biex issib kuntratti mogħtija lil kumpaniji marbuta ma' X“",
     "revoking": "Revoka",
     "revoking_body": "Is-settings tal-kont jelenkaw kull klijent konness flimkien ma' meta ntuża l-aħħar. Ir-revoka tidħol fis-seħħ mat-talba li jmiss. Jekk ma tibqax tagħraf klijent, irrevokah.",
     "why_key_title": "Għaliex għandi bżonn kont tal-IA tiegħi stess?",
     "why_key_short": "Għaliex kont tiegħi stess?",
-    "why_key_body_1": "Għaliex l-ebda fornitur tal-IA ma jbigħ dak li kieku kien ikun is-soluzzjoni ovvja. Anthropic ipprojbixxa l-użu ta' abbonament Claude ġewwa għodod ta' partijiet terzi fi Frar 2026 u mblokkah f'April ta' dik is-sena; il-pjanijiet ChatGPT ta' OpenAI qatt ma nkludew aċċess għall-API; u Mistral jiffattura Le Chat u l-API tiegħu separatament. Sit bħal Fontem tabilħaqq ma jistax jonfoq l-abbonament tiegħek f'ismek.",
+    "why_key_body_1": "Għaliex l-ebda fornitur tal-IA ma jbigħ dak li kieku kien ikun is-soluzzjoni ovvja. Anthropic ipprojbixxa l-użu ta' abbonament Claude ġewwa għodod ta' partijiet terzi fi Frar 2026 u mblokkah f'April ta' dik is-sena; il-pjanijiet ChatGPT ta' OpenAI qatt ma nkludew aċċess għall-API; u Mistral jiffattura Le Chat u l-API tiegħu separatament. Sit bħal Dargle tabilħaqq ma jistax jonfoq l-abbonament tiegħek f'ismek.",
     "why_key_body_2": "Dak li jista' jagħmel hu li jgħaddi d-data lill-assistent tiegħek stess. Dan hu aħjar mill-alternattiva, u mhux biss irħas għalina: iżżomm il-fornitur tiegħek, l-istorja tiegħek u s-settings tal-privatezza tiegħek, ma tiġix razzjonat minn baġit li nistabbilixxu aħna, u hawn ma jinkiser xejn meta fornitur ibiddel it-termini tiegħu.",
-    "in_app_title": "L-assistent ġewwa Fontem",
+    "in_app_title": "L-assistent ġewwa Dargle",
     "in_app_body_1": "Hemm ukoll assistent mibni fis-sit, f'kull paġna. Jista' jfittex fid-data, jispjega dak li qed tħares lejh, iċaqilqek mal-pjattaforma u — waqt li tkun qed teditja artiklu — jissuġġerilek tibdiliet fih.",
     "in_app_body_2_pre": "Jeħtieġ ċavetta API mingħand Anthropic, Mistral jew OpenAI, miżjuda fi",
     "in_app_body_2_post": ". Titħallas skont l-użu u ġeneralment tiswa ftit li xejn; abbonament mhux meħtieġ u xorta ma jaħdimx hawn, għar-raġunijiet ta' hawn fuq.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Mur lejn id-dar",
     "you_already_have_an_active_session": "Diġà għandek sessjoni attiva.",
     "youre_signed_in": "Inti dħolt",
-    "sign_in_to_fontem": "Idħol f'Fontem",
+    "sign_in_to_dargle": "Idħol f'Dargle",
     "sign_in_to_start_creating_data_stories": "Idħol biex tibda toħloq stejjer tad-data, tqajjem kwistjonijiet, u tikkollabora mal-komunità.",
     "signing_in": "Qed tidħol...",
     "sign_in": "Idħol",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Qabbad l-assistent tal-IA tiegħek",
-    "intro_pre": "Uża d-data ta' Fontem minn Claude, ChatGPT jew kull klijent b'kapaċità MCP — bl-abbonament tiegħek stess. Oħloq token hawn, imbagħad segwi",
+    "intro_pre": "Uża d-data ta' Dargle minn Claude, ChatGPT jew kull klijent b'kapaċità MCP — bl-abbonament tiegħek stess. Oħloq token hawn, imbagħad segwi",
     "intro_link": "il-gwida tal-issettjar",
     "fresh_warn": "Ikkopjah issa — jintwera darba u ma jistax jinkiseb mill-ġdid.",
     "copy": "Ikkopja",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem hija l-pjattaforma ta' trasparenza minn sorsi primarji. Kumpaniji tal-UE, akkwist pubbliku, lobbyists u finanzjament ta' koeżjoni — marbutin f'graf wieħed u kontroverifikati mar-reġistri uffiċjali.",
-      "data_quality": "Kopertura, friskezza u tqassim tas-sorsi għal kull sett tad-data fil-graf tal-għarfien Fontem. Trasparenza dwar it-trasparenza.",
-      "home": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba. Stejjer tad-data pubbliċi mill-komunità Fontem — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
-      "login": "Idħol f'Fontem biex tippubblika stejjer tad-data, tirrapporta problemi u tissejvja r-riċerka tiegħek.",
+      "about": "Dargle hija l-pjattaforma ta' trasparenza minn sorsi primarji. Kumpaniji tal-UE, akkwist pubbliku, lobbyists u finanzjament ta' koeżjoni — marbutin f'graf wieħed u kontroverifikati mar-reġistri uffiċjali.",
+      "data_quality": "Kopertura, friskezza u tqassim tas-sorsi għal kull sett tad-data fil-graf tal-għarfien Dargle. Trasparenza dwar it-trasparenza.",
+      "home": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba. Stejjer tad-data pubbliċi mill-komunità Dargle — investigazzjonijiet, kontroverifiki u sejbiet ibbażati fuq sorsi primarji.",
+      "login": "Idħol f'Dargle biex tippubblika stejjer tad-data, tirrapporta problemi u tissejvja r-riċerka tiegħek.",
       "map": "Choropleth interattiva ta' settijiet tad-data Eurostat magħżula fuq livell NUTS — popolazzjoni, PDG, qgħad, R&Ż u aktar, immappjati madwar l-Ewropa.",
-      "privacy": "Kif Fontem timmaniġġja d-data personali. Naħżnu biss l-essenzjali tal-kont, ebda cookies ta' traċċar, ebda analitika ta' partijiet terzi.",
-      "sparql": "Staqsi l-graf tal-għarfien Fontem direttament permezz ta' SPARQL. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
+      "privacy": "Kif Dargle timmaniġġja d-data personali. Naħżnu biss l-essenzjali tal-kont, ebda cookies ta' traċċar, ebda analitika ta' partijiet terzi.",
+      "sparql": "Staqsi l-graf tal-għarfien Dargle direttament permezz ta' SPARQL. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
       "spending": "Fittex kumpaniji tal-UE, awtoritajiet kontraenti, lobbyists u proġetti ffinanzjati mill-UE. Plus dak li hu kbir f'pajjiżek.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Dwar — Fontem",
-      "data_quality": "Kwalità tad-data — Fontem",
-      "home": "Fontem — Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba",
-      "login": "Idħol — Fontem",
-      "map": "Mappa — Statistika Ewropea fuq Fontem",
-      "privacy": "Politika tal-privatezza — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Nefqa — akkwist pubbliku tal-UE fuq Fontem",
-      "development": "Development — Fontem"
+      "about": "Dwar — Dargle",
+      "data_quality": "Kwalità tad-data — Dargle",
+      "home": "Dargle — Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba",
+      "login": "Idħol — Dargle",
+      "map": "Mappa — Statistika Ewropea fuq Dargle",
+      "privacy": "Politika tal-privatezza — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Nefqa — akkwist pubbliku tal-UE fuq Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Aċċess",
-    "all_data_in_the_fontem_knowledge_graph_r": "Id-data kollha fil-graf tal-għarfien Fontem tirreferi għal",
+    "all_data_in_the_dargle_knowledge_graph_r": "Id-data kollha fil-graf tal-għarfien Dargle tirreferi għal",
     "conversation_processing_is_performed_by_": "L-ipproċessar tal-konversazzjonijiet isir minn fornituri IA bbażati fl-UE.",
     "conversations_are_automatically_deleted_": "Il-konversazzjonijiet jiġu mħassra awtomatikament wara 90 jum.",
     "erase": "Tħassir",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Skont il-GDPR għandek id-dritt:",
     "when_you_sign_in_we_collect_and_store": "Meta tidħol, niġbru u naħżnu:",
     "your": "Tiegħek",
-    "what_fontem_is": "1. X'inhu Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem hija pjattaforma ta' trasparenza ċivika li tgħaqqad flimkien id-data tal-akkwist pubbliku tal-UE, ir-reġistri tas-sjieda korporattiva, u l-finanzjament tal-politika ta' koeżjoni f'graff tal-għarfien wieħed. L-għan tagħha huwa li tagħmel l-infiq pubbliku u l-istrutturi korporattivi eħfef biex jiġu esplorati u mifhuma.",
+    "what_dargle_is": "1. X'inhu Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle hija pjattaforma ta' trasparenza ċivika li tgħaqqad flimkien id-data tal-akkwist pubbliku tal-UE, ir-reġistri tas-sjieda korporattiva, u l-finanzjament tal-politika ta' koeżjoni f'graff tal-għarfien wieħed. L-għan tagħha huwa li tagħmel l-infiq pubbliku u l-istrutturi korporattivi eħfef biex jiġu esplorati u mifhuma.",
     "data_in_the_knowledge_graph": "2. Data fil-graff tal-għarfien",
     "legal_entities": "entitajiet legali",
     "companies_public_authorities_and_organis": "(kumpaniji, awtoritajiet pubbliċi, u organizzazzjonijiet) — mhux persuni fiżiċi. Aħna naggregaw data disponibbli pubblikament mis-sorsi li ġejjin:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Aħna nużaw biss cookies tas-sessjoni strettament neċessarji għall-awtentikazzjoni. Ma nużawx cookies ta' traċċar, cookies ta' reklamar, jew cookies ta' analitika ta' partijiet terzi.",
     "changes_to_this_policy": "7. Bidliet f'din il-politika",
-    "we_may_update_this_policy": "Nistgħu naġġornaw din il-politika minn żmien għal żmien. Meta nagħmlu dan, nirrevedu d-data tal-\"aħħar aġġornament\" fil-quċċata ta' din il-paġna. L-użu kontinwu ta' Fontem wara l-bidliet jikkostitwixxi aċċettazzjoni tal-politika aġġornata."
+    "we_may_update_this_policy": "Nistgħu naġġornaw din il-politika minn żmien għal żmien. Meta nagħmlu dan, nirrevedu d-data tal-\"aħħar aġġornament\" fil-quċċata ta' din il-paġna. L-użu kontinwu ta' Dargle wara l-bidliet jikkostitwixxi aċċettazzjoni tal-politika aġġornata."
   },
   "procurement_theme": {
     "public_procurement": "Akkwist Pubbliku",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Il-fornitur tal-assistent",
-    "intro": "L-assistent jaħdem b'mod awtomatiku fuq il-mudell inkorporat ta' Fontem — m'hemm xejn x'tissettja. Minflok tista' tindirizzah lejn il-kont LLM tiegħek jekk trid mudell akbar; iċ-ċwievet jinħażnu kriptati u qatt ma jerġgħu jintwerew wara li jiġu ssejvjati.",
+    "intro": "L-assistent jaħdem b'mod awtomatiku fuq il-mudell inkorporat ta' Dargle — m'hemm xejn x'tissettja. Minflok tista' tindirizzah lejn il-kont LLM tiegħek jekk trid mudell akbar; iċ-ċwievet jinħażnu kriptati u qatt ma jerġgħu jintwerew wara li jiġu ssejvjati.",
     "fingerprint": "ċavetta nru {fp}",
     "last_used": "l-aħħar użu fi {date}",
     "not_used": "għadha ma ntużatx",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Ċavetta mneħħija.",
     "builtin_title": "Mudell inkorporat",
     "builtin_active": "Qed jintuża",
-    "builtin_note": "Jaħdem fuq il-hardware ta' Fontem stess. L-ebda kont, l-ebda ċavetta, xejn li jiġi ffatturat lilek. Huwa mudell żgħir, għalhekk aktar bil-mod u inqas kapaċi minn wieħed imħallas — imma biex jaħdem ma jitlob xejn mingħandek.",
+    "builtin_note": "Jaħdem fuq il-hardware ta' Dargle stess. L-ebda kont, l-ebda ċavetta, xejn li jiġi ffatturat lilek. Huwa mudell żgħir, għalhekk aktar bil-mod u inqas kapaċi minn wieħed imħallas — imma biex jaħdem ma jitlob xejn mingħandek.",
     "builtin_superseded": "Minflok qed tintuża ċ-ċavetta tiegħek. Neħħiha biex terġa' lura għall-mudell inkorporat.",
     "byo_title": "Uża l-mudell tiegħek minflok",
     "byo_intro": "Fakultattiv. Ċavetta mingħand Anthropic, Mistral jew OpenAI tagħtik mudell akbar u aktar mgħaġġel, iffatturat lilek minnhom.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL tal-endpoint",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Staqsi l-graf tal-għarfien Fontem direttament mill-browser, jew waħħal il-punt finali f'OpenRefine / notebook / l-għodod tiegħek. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
+    "intro": "Staqsi l-graf tal-għarfien Dargle direttament mill-browser, jew waħħal il-punt finali f'OpenRefine / notebook / l-għodod tiegħek. Kumpaniji, kuntratti, awtoritajiet, lobbyists, sanzjonijiet — kollox marbut.",
     "limits": "Limiti",
     "method": "Metodu",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Mument wieħed.",
     "email_confirmed": "Email ikkonfermata",
     "your_account_is_verified": "Il-kont tiegħek huwa verifikat. Issa tista' tippubblika stejjer, tikkummenta, u ssegwi suġġetti.",
-    "continue_to_fontem": "Kompli għal Fontem",
+    "continue_to_dargle": "Kompli għal Dargle",
     "the_link_may_have_expired": "Il-link jista' jkun skada jew diġà ntuża. Idħol u itlob email ta' verifika ġdida mill-banner fin-naħa ta' fuq.",
-    "go_to_fontem": "Mur għal Fontem",
+    "go_to_dargle": "Mur għal Dargle",
     "couldnt_confirm_your_email": "Ma stajniex nikkonfermaw l-email tiegħek"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Tip ta' widget mhux magħruf:"
   },
   "wordmark": {
-    "font": "Font",
-    "fontem": "Fontem",
-    "tagline": "Naqsmu l-fruntieri diġitali tal-UE, sett ta' dejta wieħed kull darba"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Kollha",

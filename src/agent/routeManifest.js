@@ -39,12 +39,12 @@ export const NOT_NAVIGABLE = new Set([
 /** path -> what a user would go there to do. Keep them short and concrete. */
 export const ROUTE_DESCRIPTIONS = {
   '/': 'Home feed of published data stories.',
-  '/about': 'What Fontem is, how it works, and how to get started.',
-  '/help': 'Help and FAQ, including how to connect your own AI assistant to Fontem.',
+  '/about': 'What Dargle is, how it works, and how to get started.',
+  '/help': 'Help and FAQ, including how to connect your own AI assistant to Dargle.',
   '/login': 'Sign in or create an account.',
   '/account': 'Account settings: display preferences, profile, and LLM provider keys.',
   '/privacy': 'Privacy policy and data handling.',
-  '/development': 'Fontem is open source: the GitHub organisation and a walkthrough video of how the platform is built.',
+  '/development': 'Dargle is open source: the GitHub organisation and a walkthrough video of how the platform is built.',
 
   '/briefings': 'Browse briefings — curated subjects you can watch to get new findings as they appear.',
   '/my-briefings': 'The briefings you watch, newest findings first, with their feed URLs.',
@@ -137,7 +137,7 @@ export function buildRouteManifest(router) {
     })
     .sort((a, b) => a.path.localeCompare(b.path))
 
-  return { generated_from: 'createFontemRouter()', routes }
+  return { generated_from: 'createDargleRouter()', routes }
 }
 
 /** Routes an agent may navigate to: real destinations, not redirect stubs
@@ -181,7 +181,7 @@ export function matchRoute(path, manifest) {
 /**
  * A human label for a destination, for the confirmation prompt.
  *
- * Falls back to the path itself: "Fontem wants to open /studio/x" is worse
+ * Falls back to the path itself: "Dargle wants to open /studio/x" is worse
  * than "the Data Studio" but far better than an empty sentence, and the
  * manifest does not describe every route.
  */

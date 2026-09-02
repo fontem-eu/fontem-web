@@ -1,6 +1,6 @@
 /**
  * Client-side DuckDB-WASM for the Data Studio's combine step. Source query
- * results (from Fontem's read-only proxies) are loaded as tables and combined
+ * results (from Dargle's read-only proxies) are loaded as tables and combined
  * with a SQL transform — all in the browser sandbox, zero server compute.
  * Lazy-loaded: the ~few-MB wasm bundle only loads when a transform first runs.
  *

@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'Data Quality Overview — Fontem' })
+onMounted(() => { document.title = 'Data Quality Overview — Dargle' })
 
 const overlap = ref(null)
 const countryCodes = ref(null)

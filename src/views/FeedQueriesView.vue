@@ -55,7 +55,7 @@ const canPublish = computed(
 )
 
 onMounted(async () => {
-  document.title = 'Named queries — Fontem'
+  document.title = 'Named queries — Dargle'
   await load()
 })
 

@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'Trade Edges Data Quality — Fontem' })
+onMounted(() => { document.title = 'Trade Edges Data Quality — Dargle' })
 const data = ref(null)
 const loading = ref(true)
 const fmtEur = (v) => v != null ? new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v) : '-'

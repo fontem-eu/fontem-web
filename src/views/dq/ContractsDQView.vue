@@ -5,7 +5,7 @@ import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 import { fmtEur } from '../../utils/format.js'
 
-onMounted(() => { document.title = 'TED Contracts Data Quality — Fontem' })
+onMounted(() => { document.title = 'TED Contracts Data Quality — Dargle' })
 
 const loading = ref(true)
 const timeline = ref([])

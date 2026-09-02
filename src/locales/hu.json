@@ -15,10 +15,10 @@
     "chip_story": "Olvass egy közösségi adat-történetet",
     "hero_lead": "Nyitott tudásgráf, amely összeköti az EU vállalatait, a közbeszerzést, a lobbistákat és a kohéziós finanszírozást.",
     "how_it_works": "Hogyan működik",
-    "mission_body_1": "A közéleti vita számokon nyugszik — költségvetéseken és szerződéseken, migráción és kibocsátáson, azon, hogy ki mit birtokol, sőt magán a törvény szövegén — és ezeket folyamatosan elhajlítják azok, akik tudják, hogy senki nem fogja ellenőrizni. A Fontem egyetlen lekérdezhető gráffá fűzi össze ezeket a nyilvántartásokat, amelyben minden szám kapcsolatban marad azzal a hivatalos forrással, ahonnan származik.",
+    "mission_body_1": "A közéleti vita számokon nyugszik — költségvetéseken és szerződéseken, migráción és kibocsátáson, azon, hogy ki mit birtokol, sőt magán a törvény szövegén — és ezeket folyamatosan elhajlítják azok, akik tudják, hogy senki nem fogja ellenőrizni. A Dargle egyetlen lekérdezhető gráffá fűzi össze ezeket a nyilvántartásokat, amelyben minden szám kapcsolatban marad azzal a hivatalos forrással, ahonnan származik.",
     "mission_body_2": "Ez az alapozás, nem a cél. A félrevezető állítások ott virágzanak, ahol az ellenőrzésük fáradságos; mi egyetlen kattintássá tesszük. Egy olyan közönség pedig, amely ellenőrizni tudja, amit mondanak neki, részt is tud venni a vitában.",
     "mission_lead": "Az európai demokrácia állampolgári rétegét építjük — ahol minden nyilvános állítás visszavezethető a mögötte álló számokra.",
-    "mission_title": "Miért létezik a Fontem",
+    "mission_title": "Miért létezik a Dargle",
     "recently_published": "Nemrég közzétéve",
     "see_all_public_data_stories": "Az összes nyilvános adat-történet megtekintése →",
     "step_crosscheck_desc": "Hasonlítsd össze egymás mellett, mit mond ugyanarról az entitásról a TED, GLEIF, az Átláthatósági Nyilvántartás, a Kohézió és más források.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Adat-történet közzététele a szerkesztőből",
     "step_publish_name": "Közzététel",
     "step_search_desc": "Keress bármilyen vállalatot, ajánlatkérőt, lobbistát vagy EU-finanszírozású projektet név vagy azonosító alapján.",
-    "step_search_gif_alt": "Entitás keresése a Fontemben",
+    "step_search_gif_alt": "Entitás keresése a Dargle",
     "step_search_name": "Keresés",
     "try": "Próbáld ki:",
     "value_open_desc": "A gráf, a módszerek és a mögöttük álló kód nyilvános.",
@@ -235,13 +235,13 @@
     "tool_result": "Eredmény",
     "tool_truncated": "csonkítva, mielőtt a modell látta volna",
     "tool_no_result": "(nincs kimenet)",
-    "navigate_ask": "A Fontem elviheti a következő oldalra: {page}. Odamegy?",
+    "navigate_ask": "A Dargle elviheti a következő oldalra: {page}. Odamegy?",
     "navigate_go": "Megnyitás",
     "navigate_stay": "Maradok itt",
     "navigate_went": "Megnyitva",
     "navigate_stayed": "Itt maradt",
     "tool_result_not_kept": "Az eredmény nincs eltárolva – csak a hívás és annak argumentumai kerülnek naplózásra.",
-    "signed_out_notice": "Nincs bejelentkezve, ezért az asszisztens csak a Fontemmel kapcsolatos kérdésekre tud válaszolni, és egy oldalra tudja vinni. Az adatokban való kereséshez, az íráshoz és a mentéshez fiók szükséges.",
+    "signed_out_notice": "Nincs bejelentkezve, ezért az asszisztens csak a Dargle kapcsolatos kérdésekre tud válaszolni, és egy oldalra tudja vinni. Az adatokban való kereséshez, az íráshoz és a mentéshez fiók szükséges.",
     "characters_used": "Felhasznált karakterek"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Közbeszerzés",
@@ -901,12 +901,12 @@
     "title": "Súgó",
     "toc": "Tartalom",
     "connect_title": "Csatlakoztassa AI-asszisztensét",
-    "connect_intro": "A Fontem eszközökként teszi elérhetővé az adatait, amelyeket a saját AI-kliense hívhat meg — cégadatok, közbeszerzések, az entitásgráf, SPARQL. Azt az asszisztenst használja, amelyért már fizet, és a Fontem soha nem látja a szolgáltatói fiókját.",
+    "connect_intro": "A Dargle eszközökként teszi elérhetővé az adatait, amelyeket a saját AI-kliense hívhat meg — cégadatok, közbeszerzések, az entitásgráf, SPARQL. Azt az asszisztenst használja, amelyért már fizet, és a Dargle soha nem látja a szolgáltatói fiókját.",
     "step_token": "1. Hozzon létre egy tokent",
     "step_token_body_pre": "Lépjen ide:",
     "step_token_account": "Fiókbeállítások",
     "step_token_body_post": "→ {section} → {action}. Másolja ki azonnal: csak egyszer jelenik meg, és utólag nem kérhető le. Ha elveszíti, vonja vissza, és hozzon létre újat.",
-    "step_endpoint": "2. Irányítsa a klienst a Fontemre",
+    "step_endpoint": "2. Irányítsa a klienst a Dargle",
     "step_endpoint_body": "A végpont:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Beállítások → Összekötők → Egyéni összekötő hozzáadása. Illessze be a fenti URL-t, a tokent pedig bearer tokenként.",
@@ -916,15 +916,15 @@
     "anything_else": "Bármi más",
     "anything_else_body": "Bármely kliens működik, amely MCP-t beszél Streamable HTTP fölött. A tokent {header} formában küldje.",
     "step_ask": "3. Kérdezzen tőle valamit",
-    "step_ask_body": "Próbálja ki: {example}. A kliense dönti el, mikor hívja meg a Fontem eszközeit.",
-    "step_ask_example": "„Keresd meg a Fontemmel az X-hez köthető cégeknek ítélt szerződéseket”",
+    "step_ask_body": "Próbálja ki: {example}. A kliense dönti el, mikor hívja meg a Dargle eszközeit.",
+    "step_ask_example": "„Keresd meg a Dargle az X-hez köthető cégeknek ítélt szerződéseket”",
     "revoking": "Visszavonás",
     "revoking_body": "A fiókbeállítások felsorolják az összes csatlakoztatott klienst az utolsó használat idejével együtt. A visszavonás a következő kéréstől lép életbe. Ha már nem ismer fel egy klienst, vonja vissza.",
     "why_key_title": "Miért van szükségem saját AI-fiókra?",
     "why_key_short": "Miért saját fiók?",
-    "why_key_body_1": "Mert egyetlen AI-szolgáltató sem árulja azt, ami egyébként a kézenfekvő megoldás lenne. Az Anthropic 2026 februárjában megtiltotta a Claude-előfizetés harmadik féltől származó eszközökben való használatát, és ugyanazon év áprilisában le is tiltotta; az OpenAI ChatGPT-előfizetései sosem tartalmaztak API-hozzáférést; a Mistral pedig külön számlázza a Le Chatot és az API-ját. Egy olyan oldal, mint a Fontem, valóban nem költheti el az Ön előfizetését az Ön nevében.",
+    "why_key_body_1": "Mert egyetlen AI-szolgáltató sem árulja azt, ami egyébként a kézenfekvő megoldás lenne. Az Anthropic 2026 februárjában megtiltotta a Claude-előfizetés harmadik féltől származó eszközökben való használatát, és ugyanazon év áprilisában le is tiltotta; az OpenAI ChatGPT-előfizetései sosem tartalmaztak API-hozzáférést; a Mistral pedig külön számlázza a Le Chatot és az API-ját. Egy olyan oldal, mint a Dargle, valóban nem költheti el az Ön előfizetését az Ön nevében.",
     "why_key_body_2": "Amit viszont megtehet: átadja az adatokat a saját asszisztensének. Ez jobb az alternatívánál, és nem csupán olcsóbb nekünk: megmarad a szolgáltatója, az előzményei és az adatvédelmi beállításai, nem korlátozza az általunk szabott keret, és itt semmi nem törik el, ha egy szolgáltató módosítja a feltételeit.",
-    "in_app_title": "A Fontembe épített asszisztens",
+    "in_app_title": "A Dargle épített asszisztens",
     "in_app_body_1": "Az oldalba is be van építve egy asszisztens, minden lapon elérhető. Kereshet az adatokban, elmagyarázhatja, mit lát éppen, mozgathatja Önt a platformon, és — miközben cikket szerkeszt — módosításokat javasolhat hozzá.",
     "in_app_body_2_pre": "Ehhez API-kulcs kell az Anthropictól, a Mistraltól vagy az OpenAI-tól, amelyet itt adhat meg:",
     "in_app_body_2_post": ". Használatalapú a díjszabás, és általában nagyon keveset kóstál; előfizetés nem szükséges, és a fenti okokból amúgy sem működne itt.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Ugrás a kezdőlapra",
     "you_already_have_an_active_session": "Már van aktív munkameneted.",
     "youre_signed_in": "Be vagy jelentkezve",
-    "sign_in_to_fontem": "Bejelentkezés a Fontembe",
+    "sign_in_to_dargle": "Bejelentkezés a Dargle",
     "sign_in_to_start_creating_data_stories": "Jelentkezzen be, hogy adattörténeteket hozzon létre, problémákat jelezzen és együttműködjön a közösséggel.",
     "signing_in": "Bejelentkezés...",
     "sign_in": "Bejelentkezés",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Csatlakoztassa AI-asszisztensét",
-    "intro_pre": "Használja a Fontem adatait a Claude-ból, a ChatGPT-ből vagy bármely MCP-képes kliensből — a saját előfizetésével. Hozzon létre itt egy tokent, majd kövesse",
+    "intro_pre": "Használja a Dargle adatait a Claude-ból, a ChatGPT-ből vagy bármely MCP-képes kliensből — a saját előfizetésével. Hozzon létre itt egy tokent, majd kövesse",
     "intro_link": "a beállítási útmutatót",
     "fresh_warn": "Másolja ki most — csak egyszer jelenik meg, és nem kérhető le újra.",
     "copy": "Másolás",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "A Fontem az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
-      "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Fontem tudásgráfjában. Átláthatóság az átláthatóságról.",
-      "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Fontem közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
-      "login": "Jelentkezz be a Fontembe adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
+      "about": "A Dargle az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
+      "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Dargle tudásgráfjában. Átláthatóság az átláthatóságról.",
+      "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Dargle közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
+      "login": "Jelentkezz be a Dargle adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
       "map": "Interaktív choropleth kurált Eurostat adatkészletekből NUTS szinten — népesség, GDP, munkanélküliség, K+F és több, Európa-szerte feltérképezve.",
-      "privacy": "Hogyan kezeli a Fontem a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
-      "sparql": "Kérdezd le a Fontem tudásgráfot közvetlenül SPARQL-en keresztül. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — minden összekötve.",
+      "privacy": "Hogyan kezeli a Dargle a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
+      "sparql": "Kérdezd le a Dargle tudásgráfot közvetlenül SPARQL-en keresztül. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — minden összekötve.",
       "spending": "Keress EU vállalatokat, ajánlatkérőket, lobbistákat és EU-finanszírozású projekteket. Plusz ami nagy a te országodban.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Rólunk — Fontem",
-      "data_quality": "Adatminőség — Fontem",
-      "home": "Fontem — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
-      "login": "Bejelentkezés — Fontem",
-      "map": "Térkép — Európai statisztikák a Fontemen",
-      "privacy": "Adatvédelmi szabályzat — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Kiadások — EU közbeszerzések a Fontemen",
-      "development": "Development — Fontem"
+      "about": "Rólunk — Dargle",
+      "data_quality": "Adatminőség — Dargle",
+      "home": "Dargle — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
+      "login": "Bejelentkezés — Dargle",
+      "map": "Térkép — Európai statisztikák a Dargle",
+      "privacy": "Adatvédelmi szabályzat — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Kiadások — EU közbeszerzések a Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Hozzáférés",
-    "all_data_in_the_fontem_knowledge_graph_r": "A Fontem tudásgráfjának minden adata erre vonatkozik:",
+    "all_data_in_the_dargle_knowledge_graph_r": "A Dargle tudásgráfjának minden adata erre vonatkozik:",
     "conversation_processing_is_performed_by_": "A beszélgetések feldolgozását EU-ban székelő MI-szolgáltatók végzik.",
     "conversations_are_automatically_deleted_": "A beszélgetések 90 nap után automatikusan törlődnek.",
     "erase": "Törlés",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "A GDPR alapján jogod van:",
     "when_you_sign_in_we_collect_and_store": "Amikor bejelentkezel, az alábbiakat gyűjtjük és tároljuk:",
     "your": "Saját",
-    "what_fontem_is": "1. Mi a Fontem",
-    "fontem_is_a_civic_transparency_platform": "A Fontem egy civil átláthatósági platform, amely egyetlen tudásgráfba köti össze az EU közbeszerzési adatait, a vállalati tulajdonosi nyilvántartásokat és a kohéziós politika finanszírozását. Célja, hogy a közkiadások és a vállalati struktúrák könnyebben feltárhatók és érthetők legyenek.",
+    "what_dargle_is": "1. Mi a Dargle",
+    "dargle_is_a_civic_transparency_platform": "A Dargle egy civil átláthatósági platform, amely egyetlen tudásgráfba köti össze az EU közbeszerzési adatait, a vállalati tulajdonosi nyilvántartásokat és a kohéziós politika finanszírozását. Célja, hogy a közkiadások és a vállalati struktúrák könnyebben feltárhatók és érthetők legyenek.",
     "data_in_the_knowledge_graph": "2. Adatok a tudásgráfban",
     "legal_entities": "jogi személyek",
     "companies_public_authorities_and_organis": "(vállalatok, hatóságok és szervezetek) — nem természetes személyek. A következő forrásokból származó, nyilvánosan elérhető adatokat aggregáljuk:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Sütik",
     "we_only_use_strictly_necessary_cookies": "Kizárólag a hitelesítéshez feltétlenül szükséges munkamenet-sütiket használunk. Nem használunk nyomkövető sütiket, hirdetési sütiket vagy harmadik féltől származó analitikai sütiket.",
     "changes_to_this_policy": "7. A jelen szabályzat módosításai",
-    "we_may_update_this_policy": "Időről időre módosíthatjuk a jelen szabályzatot. Ha ezt megtesszük, frissítjük az oldal tetején szereplő „utolsó frissítés” dátumát. A Fontem módosítások utáni további használata az aktualizált szabályzat elfogadásának minősül."
+    "we_may_update_this_policy": "Időről időre módosíthatjuk a jelen szabályzatot. Ha ezt megtesszük, frissítjük az oldal tetején szereplő „utolsó frissítés” dátumát. A Dargle módosítások utáni további használata az aktualizált szabályzat elfogadásának minősül."
   },
   "procurement_theme": {
     "public_procurement": "Közbeszerzés",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Az asszisztens szolgáltatója",
-    "intro": "Az asszisztens alapértelmezetten a Fontem saját beépített modelljén fut — nincs mit beállítani. Ehelyett a saját LLM-fiókjára is irányíthatja, ha nagyobb modellt szeretne; a kulcsokat titkosítva tároljuk, és mentés után soha többé nem jelenítjük meg.",
+    "intro": "Az asszisztens alapértelmezetten a Dargle saját beépített modelljén fut — nincs mit beállítani. Ehelyett a saját LLM-fiókjára is irányíthatja, ha nagyobb modellt szeretne; a kulcsokat titkosítva tároljuk, és mentés után soha többé nem jelenítjük meg.",
     "fingerprint": "{fp}. kulcs",
     "last_used": "utoljára használva: {date}",
     "not_used": "még nem használt",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Kulcs eltávolítva.",
     "builtin_title": "Beépített modell",
     "builtin_active": "Használatban",
-    "builtin_note": "A Fontem saját hardverén fut. Nincs fiók, nincs kulcs, semmit nem számlázunk Önnek. Kis modell, ezért lassabb és kevesebbet tud egy fizetősnél — de a működéséhez semmit nem kér Öntől.",
+    "builtin_note": "A Dargle saját hardverén fut. Nincs fiók, nincs kulcs, semmit nem számlázunk Önnek. Kis modell, ezért lassabb és kevesebbet tud egy fizetősnél — de a működéséhez semmit nem kér Öntől.",
     "builtin_superseded": "Helyette a saját kulcsát használjuk. Távolítsa el, ha vissza szeretne térni a beépített modellhez.",
     "byo_title": "Használja inkább a saját modelljét",
     "byo_intro": "Nem kötelező. Egy Anthropic-, Mistral- vagy OpenAI-kulcs nagyobb és gyorsabb modellt ad, amelyet ők számláznak Önnek.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Végpont",
     "endpoint_url": "Végpont URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Kérdezd le a Fontem tudásgráfot közvetlenül a böngészőből, vagy kösd be a végpontot az OpenRefine-ba / notebookba / saját eszközeidbe. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — mind összekapcsolva.",
+    "intro": "Kérdezd le a Dargle tudásgráfot közvetlenül a böngészőből, vagy kösd be a végpontot az OpenRefine-ba / notebookba / saját eszközeidbe. Vállalatok, szerződések, hatóságok, lobbisták, szankciók — mind összekapcsolva.",
     "limits": "Korlátok",
     "method": "Módszer",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Egy pillanat.",
     "email_confirmed": "E-mail megerősítve",
     "your_account_is_verified": "Fiókja megerősítést nyert. Mostantól publikálhat cikkeket, hozzászólhat és követhet témákat.",
-    "continue_to_fontem": "Tovább a Fontemhez",
+    "continue_to_dargle": "Tovább a Dargle",
     "the_link_may_have_expired": "Előfordulhat, hogy a hivatkozás lejárt, vagy már felhasználták. Jelentkezzen be, és kérjen új megerősítő e-mailt az oldal tetején lévő sávból.",
-    "go_to_fontem": "Ugrás a Fontemhez",
+    "go_to_dargle": "Ugrás a Dargle",
     "couldnt_confirm_your_email": "Nem sikerült megerősíteni az e-mail-címét"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Ismeretlen widget-típus:"
   },
   "wordmark": {
-    "font": "Betűtípus",
-    "fontem": "Fontem",
-    "tagline": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Összes",

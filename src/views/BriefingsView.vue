@@ -62,7 +62,7 @@ function draftOf(watch) {
 }
 
 onMounted(async () => {
-  document.title = 'Briefings — Fontem'
+  document.title = 'Briefings — Dargle'
   await load()
 })
 

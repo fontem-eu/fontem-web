@@ -7,7 +7,7 @@
  *   build  — pure transform (payload) -> chart-props (data + display)
  *
  * A pocketed DQ chart stores only { data_params: { chart_key } } — no data.
- * DqChartEmbed refetches `source` from Fontem and runs `build`, so injected
+ * DqChartEmbed refetches `source` from Dargle and runs `build`, so injected
  * data is impossible: the numbers can only come from the named endpoint.
  */
 import { fmtEur } from '../utils/format.js'

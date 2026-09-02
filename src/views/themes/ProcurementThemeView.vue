@@ -12,7 +12,7 @@ import StatCard from '../../components/charts/StatCard.vue'
 import HorizontalBarChart from '../../components/charts/HorizontalBarChart.vue'
 import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 
-onMounted(() => { document.title = 'Public Procurement — Fontem' })
+onMounted(() => { document.title = 'Public Procurement — Dargle' })
 
 const loading = ref(true)
 const valueQuality = ref(null)

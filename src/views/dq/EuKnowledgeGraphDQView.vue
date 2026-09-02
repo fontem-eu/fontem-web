@@ -4,7 +4,7 @@ import SourcePipelinePanel from '../../components/SourcePipelinePanel.vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'EU Knowledge Graph Data Quality — Fontem' })
+onMounted(() => { document.title = 'EU Knowledge Graph Data Quality — Dargle' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

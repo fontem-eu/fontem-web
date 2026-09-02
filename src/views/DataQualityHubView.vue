@@ -4,7 +4,7 @@ import ThemeToggle from '../components/ThemeToggle.vue'
 import SourceHealthBadge from '../components/SourceHealthBadge.vue'
 import { THEMES } from './themes/themeConfig.js'
 
-onMounted(() => { document.title = 'Dashboards — Fontem' })
+onMounted(() => { document.title = 'Dashboards — Dargle' })
 
 // The hub is a fast SELECTOR, not a dashboard. It used to block its whole
 // render on GET /api/data-quality (a heavy cross-graph aggregate) just to

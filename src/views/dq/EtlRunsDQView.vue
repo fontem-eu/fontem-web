@@ -5,7 +5,7 @@ import PocketableChart from '../../components/charts/PocketableChart.vue'
 import { fetchEtlRuns } from '../../api/atlas.js'
 
 onMounted(() => {
-  document.title = 'ETL Runs — Fontem Data Quality'
+  document.title = 'ETL Runs — Dargle Data Quality'
 })
 
 const loading = ref(true)

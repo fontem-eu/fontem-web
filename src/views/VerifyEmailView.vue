@@ -44,7 +44,7 @@ function goHome() { router.push('/') }
         <h1 class="login-title">{{ $t('verify_email.email_confirmed') }} ✓</h1>
         <p class="login-desc">{{ $t('verify_email.your_account_is_verified') }}</p>
         <div class="login-actions">
-          <button class="login-btn" data-testid="verify-email-continue" @click="goHome">{{ $t('verify_email.continue_to_fontem') }}</button>
+          <button class="login-btn" data-testid="verify-email-continue" @click="goHome">{{ $t('verify_email.continue_to_dargle') }}</button>
         </div>
       </template>
       <template v-else>
@@ -52,7 +52,7 @@ function goHome() { router.push('/') }
         <p class="login-error" data-testid="verify-email-error">{{ message }}</p>
         <p class="login-desc">{{ $t('verify_email.the_link_may_have_expired') }}</p>
         <div class="login-actions">
-          <button class="login-btn" @click="goHome">{{ $t('verify_email.go_to_fontem') }}</button>
+          <button class="login-btn" @click="goHome">{{ $t('verify_email.go_to_dargle') }}</button>
         </div>
       </template>
     </div>

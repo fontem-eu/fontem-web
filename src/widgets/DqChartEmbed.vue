@@ -1,7 +1,7 @@
 <script setup>
 /**
  * DqChartEmbed — renders a data-quality chart from a recipe { data_params:{chart_key} }.
- * Looks the key up in DQ_CHARTS, refetches its `source` from the Fontem
+ * Looks the key up in DQ_CHARTS, refetches its `source` from the Dargle
  * data-quality API, runs the registered `build`, and renders via ChartSpec.
  * It never reads inline data, so a forged blob in the document is inert.
  */

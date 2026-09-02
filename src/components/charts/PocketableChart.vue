@@ -27,7 +27,7 @@ const bodyRef = ref(null)
 const captureTarget = () => bodyRef.value
 
 // The pocket only ever stores a recipe (params) — the data is refetched from
-// Fontem on render, so nothing inline can be injected. A chart must declare a
+// Dargle on render, so nothing inline can be injected. A chart must declare a
 // chart-key to be savable.
 const pocketConfig = computed(() => ({
   data_params: { chart_key: props.chartKey, ...props.dataParams },

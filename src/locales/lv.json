@@ -15,10 +15,10 @@
     "chip_story": "Izlasi kopienas datu stāstu",
     "hero_lead": "Atvērts zināšanu grafs, kas savieno ES uzņēmumus, publisko iepirkumu, lobistus un kohēzijas finansējumu.",
     "how_it_works": "Kā tas strādā",
-    "mission_body_1": "Publiskās debates balstās uz skaitļiem — budžetiem un līgumiem, migrāciju un emisijām, to, kam kas pieder, pat uz paša likuma teksta — un tos nemitīgi liec tie, kuri zina, ka neviens tos nepārbaudīs. Fontem apvieno šos reģistrus vienā vaicājamā grafā, kurā katrs skaitlis paliek saistīts ar oficiālo avotu, no kura tas nācis.",
+    "mission_body_1": "Publiskās debates balstās uz skaitļiem — budžetiem un līgumiem, migrāciju un emisijām, to, kam kas pieder, pat uz paša likuma teksta — un tos nemitīgi liec tie, kuri zina, ka neviens tos nepārbaudīs. Dargle apvieno šos reģistrus vienā vaicājamā grafā, kurā katrs skaitlis paliek saistīts ar oficiālo avotu, no kura tas nācis.",
     "mission_body_2": "Tas ir pamats, nevis mērķis. Maldinoši apgalvojumi plaukst tur, kur to pārbaude prasa pūles; mēs to padarām par vienu klikšķi. Un sabiedrība, kas spēj pārbaudīt, ko tai stāsta, ir sabiedrība, kas spēj līdzdarboties.",
     "mission_lead": "Mēs veidojam Eiropas demokrātijas pilsonisko slāni — kurā jebkuru publisku apgalvojumu var izsekot līdz skaitļiem, kas aiz tā stāv.",
-    "mission_title": "Kāpēc Fontem pastāv",
+    "mission_title": "Kāpēc Dargle pastāv",
     "recently_published": "Nesen publicēts",
     "see_all_public_data_stories": "Skatīt visus publiskos datu stāstus →",
     "step_crosscheck_desc": "Salīdzini blakus, ko par to pašu entītu saka TED, GLEIF, Caurspīdīguma reģistrs, Kohēzija un citi avoti.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Datu stāsta publicēšana no redaktora",
     "step_publish_name": "Publicēt",
     "step_search_desc": "Meklē jebkuru uzņēmumu, līgumslēdzēju, lobistu vai ES finansētu projektu pēc vārda vai identifikatora.",
-    "step_search_gif_alt": "Entitātes meklēšana Fontem",
+    "step_search_gif_alt": "Entitātes meklēšana Dargle",
     "step_search_name": "Meklēt",
     "try": "Izmēģini:",
     "value_open_desc": "Grafs, metodes un aiz tām esošais kods ir publiski.",
@@ -235,13 +235,13 @@
     "tool_result": "Rezultāts",
     "tool_truncated": "saīsināts, pirms modelis to redzēja",
     "tool_no_result": "(nav izvades)",
-    "navigate_ask": "Fontem var jūs aizvest uz {page}. Vai vēlaties doties?",
+    "navigate_ask": "Dargle var jūs aizvest uz {page}. Vai vēlaties doties?",
     "navigate_go": "Doties",
     "navigate_stay": "Palikt šeit",
     "navigate_went": "Atvērts",
     "navigate_stayed": "Palika šeit",
     "tool_result_not_kept": "Rezultāts netiek saglabāts — tiek reģistrēts tikai izsaukums un tā argumenti.",
-    "signed_out_notice": "Jūs neesat pieteicies, tāpēc asistents var tikai atbildēt uz jautājumiem par Fontem un aizvest jūs uz lapu. Datu meklēšanai, rakstīšanai un saglabāšanai ir nepieciešams konts.",
+    "signed_out_notice": "Jūs neesat pieteicies, tāpēc asistents var tikai atbildēt uz jautājumiem par Dargle un aizvest jūs uz lapu. Datu meklēšanai, rakstīšanai un saglabāšanai ir nepieciešams konts.",
     "characters_used": "Izmantotās rakstzīmes"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Publiskais iepirkums",
@@ -901,12 +901,12 @@
     "title": "Palīdzība",
     "toc": "Saturs",
     "connect_title": "Pievienojiet savu MI asistentu",
-    "connect_intro": "Fontem piedāvā savus datus kā rīkus, kurus var izsaukt jūsu paša MI klients — uzņēmumu dati, iepirkumi, entītiju grafs, SPARQL. Jūs izmantojat asistentu, par kuru jau maksājat, un Fontem nekad neredz jūsu pakalpojumu sniedzēja kontu.",
+    "connect_intro": "Dargle piedāvā savus datus kā rīkus, kurus var izsaukt jūsu paša MI klients — uzņēmumu dati, iepirkumi, entītiju grafs, SPARQL. Jūs izmantojat asistentu, par kuru jau maksājat, un Dargle nekad neredz jūsu pakalpojumu sniedzēja kontu.",
     "step_token": "1. Izveidojiet pilnvaru",
     "step_token_body_pre": "Dodieties uz",
     "step_token_account": "Konta iestatījumi",
     "step_token_body_post": "→ {section} → {action}. Nokopējiet to nekavējoties: tā tiek parādīta tikai vienu reizi, un vēlāk to nevar iegūt. Ja to pazaudējat, atsauciet to un izveidojiet jaunu.",
-    "step_endpoint": "2. Norādiet klientam uz Fontem",
+    "step_endpoint": "2. Norādiet klientam uz Dargle",
     "step_endpoint_body": "Galapunkts ir:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Iestatījumi → Savienotāji → Pievienot pielāgotu savienotāju. Ielīmējiet iepriekš norādīto URL un savu pilnvaru kā bearer pilnvaru.",
@@ -916,15 +916,15 @@
     "anything_else": "Jebkas cits",
     "anything_else_body": "Darbojas jebkurš klients, kas runā MCP caur Streamable HTTP. Sūtiet pilnvaru kā {header}.",
     "step_ask": "3. Pajautājiet tam kaut ko",
-    "step_ask_body": "Izmēģiniet {example}. Jūsu klients pats izlemj, kad izsaukt Fontem rīkus.",
-    "step_ask_example": "„Izmanto Fontem, lai atrastu līgumus, kas piešķirti ar X saistītiem uzņēmumiem“",
+    "step_ask_body": "Izmēģiniet {example}. Jūsu klients pats izlemj, kad izsaukt Dargle rīkus.",
+    "step_ask_example": "„Izmanto Dargle, lai atrastu līgumus, kas piešķirti ar X saistītiem uzņēmumiem“",
     "revoking": "Atsaukšana",
     "revoking_body": "Konta iestatījumos ir uzskaitīts katrs pievienotais klients kopā ar pēdējās lietošanas laiku. Atsaukšana stājas spēkā ar nākamo pieprasījumu. Ja klientu vairs neatpazīstat, atsauciet to.",
     "why_key_title": "Kāpēc man vajadzīgs savs MI konts?",
     "why_key_short": "Kāpēc savs konts?",
-    "why_key_body_1": "Tāpēc, ka neviens MI pakalpojumu sniedzējs nepārdod to, kas citādi būtu acīmredzamais risinājums. Anthropic 2026. gada februārī aizliedza Claude abonementa izmantošanu trešo pušu rīkos un tā paša gada aprīlī to bloķēja; OpenAI ChatGPT plāni nekad nav ietvēruši piekļuvi API; savukārt Mistral atsevišķi rēķina Le Chat un savu API. Tāda vietne kā Fontem tiešām nevar iztērēt jūsu abonementu jūsu vārdā.",
+    "why_key_body_1": "Tāpēc, ka neviens MI pakalpojumu sniedzējs nepārdod to, kas citādi būtu acīmredzamais risinājums. Anthropic 2026. gada februārī aizliedza Claude abonementa izmantošanu trešo pušu rīkos un tā paša gada aprīlī to bloķēja; OpenAI ChatGPT plāni nekad nav ietvēruši piekļuvi API; savukārt Mistral atsevišķi rēķina Le Chat un savu API. Tāda vietne kā Dargle tiešām nevar iztērēt jūsu abonementu jūsu vārdā.",
     "why_key_body_2": "Toties tā var nodot datus jūsu paša asistentam. Tas ir labāk nekā alternatīva, un ne tikai lētāk mums: jūs paturat savu pakalpojumu sniedzēju, savu vēsturi un savus privātuma iestatījumus, jūs neierobežo mūsu noteikts budžets, un šeit nekas nesalūzt, kad piegādātājs maina savus noteikumus.",
-    "in_app_title": "Asistents Fontem iekšienē",
+    "in_app_title": "Asistents Dargle iekšienē",
     "in_app_body_1": "Vietnē ir iebūvēts arī asistents, kas pieejams katrā lapā. Tas var meklēt datos, izskaidrot, ko jūs skatāties, pārvietot jūs pa platformu un — kamēr rediģējat rakstu — ieteikt tajā izmaiņas.",
     "in_app_body_2_pre": "Tam nepieciešama API atslēga no Anthropic, Mistral vai OpenAI, kas pievienota sadaļā",
     "in_app_body_2_post": ". Maksa tiek aprēķināta pēc lietojuma un parasti izmaksā ļoti maz; abonements nav nepieciešams un iepriekš minēto iemeslu dēļ šeit tik un tā nedarbotos.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Iet uz sākumu",
     "you_already_have_an_active_session": "Tev jau ir aktīva sesija.",
     "youre_signed_in": "Tu esi ielogojies",
-    "sign_in_to_fontem": "Pierakstīties Fontem",
+    "sign_in_to_dargle": "Pierakstīties Dargle",
     "sign_in_to_start_creating_data_stories": "Pierakstieties, lai sāktu veidot datu stāstus, ziņot par problēmām un sadarboties ar kopienu.",
     "signing_in": "Pierakstās...",
     "sign_in": "Pierakstīties",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Pievienojiet savu MI asistentu",
-    "intro_pre": "Izmantojiet Fontem datus no Claude, ChatGPT vai jebkura MCP atbalstoša klienta — ar savu abonementu. Izveidojiet pilnvaru šeit un pēc tam sekojiet",
+    "intro_pre": "Izmantojiet Dargle datus no Claude, ChatGPT vai jebkura MCP atbalstoša klienta — ar savu abonementu. Izveidojiet pilnvaru šeit un pēc tam sekojiet",
     "intro_link": "iestatīšanas ceļvedim",
     "fresh_warn": "Nokopējiet to tagad — tā tiek parādīta vienu reizi, un to nevar iegūt atkārtoti.",
     "copy": "Kopēt",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem ir primāro avotu caurspīdīguma platforma. ES uzņēmumi, publiskais iepirkums, lobisti un kohēzijas finansējums — savienoti vienā grafā un savstarpēji pārbaudīti pret oficiālajiem reģistriem.",
-      "data_quality": "Pārklājums, svaigums un avotu sadalījums katrai datu kopai Fontem zināšanu grafā. Caurspīdīgums par caurspīdīgumu.",
-      "home": "Šķērsojam ES digitālās robežas, pa vienai datu kopai. Publiski datu stāsti no Fontem kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
-      "login": "Piesakies Fontem, lai publicētu datu stāstus, ziņotu par problēmām un saglabātu pētījumus.",
+      "about": "Dargle ir primāro avotu caurspīdīguma platforma. ES uzņēmumi, publiskais iepirkums, lobisti un kohēzijas finansējums — savienoti vienā grafā un savstarpēji pārbaudīti pret oficiālajiem reģistriem.",
+      "data_quality": "Pārklājums, svaigums un avotu sadalījums katrai datu kopai Dargle zināšanu grafā. Caurspīdīgums par caurspīdīgumu.",
+      "home": "Šķērsojam ES digitālās robežas, pa vienai datu kopai. Publiski datu stāsti no Dargle kopienas — izmeklējumi, savstarpējās pārbaudes un atklājumi, kas balstīti uz primārajiem avotiem.",
+      "login": "Piesakies Dargle, lai publicētu datu stāstus, ziņotu par problēmām un saglabātu pētījumus.",
       "map": "Interaktīvs horopletisks atlasītu Eurostat datu kopu attēlojums NUTS līmenī — iedzīvotāji, IKP, bezdarbs, P&A un vairāk, kartēti visā Eiropā.",
-      "privacy": "Kā Fontem apstrādā personas datus. Mēs glabājam tikai konta pamatdatus, bez izsekošanas sīkdatnēm un bez trešo pušu analītikas.",
-      "sparql": "Vaicā Fontem zināšanu grafu tieši caur SPARQL. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — visi savienoti.",
+      "privacy": "Kā Dargle apstrādā personas datus. Mēs glabājam tikai konta pamatdatus, bez izsekošanas sīkdatnēm un bez trešo pušu analītikas.",
+      "sparql": "Vaicā Dargle zināšanu grafu tieši caur SPARQL. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — visi savienoti.",
       "spending": "Meklē ES uzņēmumus, līgumslēdzējus, lobistus un ES finansētus projektus. Plus tas, kas ir liels tavā valstī.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Par — Fontem",
-      "data_quality": "Datu kvalitāte — Fontem",
-      "home": "Fontem — Šķērsojam ES digitālās robežas, pa vienai datu kopai",
-      "login": "Pieteikties — Fontem",
-      "map": "Karte — Eiropas statistika Fontem",
-      "privacy": "Privātuma politika — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Tēriņi — ES publiskais iepirkums Fontem",
-      "development": "Development — Fontem"
+      "about": "Par — Dargle",
+      "data_quality": "Datu kvalitāte — Dargle",
+      "home": "Dargle — Šķērsojam ES digitālās robežas, pa vienai datu kopai",
+      "login": "Pieteikties — Dargle",
+      "map": "Karte — Eiropas statistika Dargle",
+      "privacy": "Privātuma politika — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Tēriņi — ES publiskais iepirkums Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Piekļuve",
-    "all_data_in_the_fontem_knowledge_graph_r": "Visi dati Fontem zināšanu grafā attiecas uz",
+    "all_data_in_the_dargle_knowledge_graph_r": "Visi dati Dargle zināšanu grafā attiecas uz",
     "conversation_processing_is_performed_by_": "Sarunu apstrādi veic ES bāzēti MI pakalpojumu sniedzēji.",
     "conversations_are_automatically_deleted_": "Sarunas tiek automātiski dzēstas pēc 90 dienām.",
     "erase": "Dzēšana",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Saskaņā ar GDPR tev ir tiesības:",
     "when_you_sign_in_we_collect_and_store": "Kad ielogojies, mēs apkopojam un glabājam:",
     "your": "Tavs",
-    "what_fontem_is": "1. Kas ir Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem ir pilsoniskās pārredzamības platforma, kas apvieno ES publisko iepirkumu datus, uzņēmumu īpašumtiesību reģistrus un kohēzijas politikas finansējumu vienotā zināšanu grafā. Tās mērķis ir padarīt publiskos izdevumus un uzņēmumu struktūras vieglāk izpētāmus un saprotamus.",
+    "what_dargle_is": "1. Kas ir Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle ir pilsoniskās pārredzamības platforma, kas apvieno ES publisko iepirkumu datus, uzņēmumu īpašumtiesību reģistrus un kohēzijas politikas finansējumu vienotā zināšanu grafā. Tās mērķis ir padarīt publiskos izdevumus un uzņēmumu struktūras vieglāk izpētāmus un saprotamus.",
     "data_in_the_knowledge_graph": "2. Dati zināšanu grafā",
     "legal_entities": "juridiskas personas",
     "companies_public_authorities_and_organis": "(uzņēmumi, publiskās iestādes un organizācijas) — nevis fiziskas personas. Mēs apkopojam publiski pieejamos datus no šādiem avotiem:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Sīkdatnes",
     "we_only_use_strictly_necessary_cookies": "Mēs izmantojam tikai stingri nepieciešamās sesijas sīkdatnes autentifikācijai. Mēs neizmantojam izsekošanas sīkdatnes, reklāmas sīkdatnes vai trešo pušu analītikas sīkdatnes.",
     "changes_to_this_policy": "7. Izmaiņas šajā politikā",
-    "we_may_update_this_policy": "Mēs laiku pa laikam varam atjaunināt šo politiku. Kad to darīsim, mēs pārskatīsim \"pēdējo reizi atjaunināts\" datumu šīs lapas augšpusē. Fontem turpmāka lietošana pēc izmaiņām nozīmē atjauninātās politikas pieņemšanu."
+    "we_may_update_this_policy": "Mēs laiku pa laikam varam atjaunināt šo politiku. Kad to darīsim, mēs pārskatīsim \"pēdējo reizi atjaunināts\" datumu šīs lapas augšpusē. Dargle turpmāka lietošana pēc izmaiņām nozīmē atjauninātās politikas pieņemšanu."
   },
   "procurement_theme": {
     "public_procurement": "Publiskais iepirkums",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Asistenta pakalpojumu sniedzējs",
-    "intro": "Asistents pēc noklusējuma darbojas ar Fontem iebūvēto modeli — nekas nav jāiestata. Ja vēlaties lielāku modeli, varat to novirzīt uz savu LLM kontu; atslēgas tiek glabātas šifrētas un pēc saglabāšanas vairs nekad netiek parādītas.",
+    "intro": "Asistents pēc noklusējuma darbojas ar Dargle iebūvēto modeli — nekas nav jāiestata. Ja vēlaties lielāku modeli, varat to novirzīt uz savu LLM kontu; atslēgas tiek glabātas šifrētas un pēc saglabāšanas vairs nekad netiek parādītas.",
     "fingerprint": "atslēga Nr. {fp}",
     "last_used": "pēdējoreiz lietota {date}",
     "not_used": "vēl nav lietota",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Atslēga noņemta.",
     "builtin_title": "Iebūvētais modelis",
     "builtin_active": "Tiek izmantots",
-    "builtin_note": "Darbojas uz paša Fontem aparatūras. Bez konta, bez atslēgas un bez maksas jums. Tas ir neliels modelis, tāpēc lēnāks un mazāk spējīgs nekā maksas modelis — taču, lai darbotos, tam no jums nekas nav vajadzīgs.",
+    "builtin_note": "Darbojas uz paša Dargle aparatūras. Bez konta, bez atslēgas un bez maksas jums. Tas ir neliels modelis, tāpēc lēnāks un mazāk spējīgs nekā maksas modelis — taču, lai darbotos, tam no jums nekas nav vajadzīgs.",
     "builtin_superseded": "Tā vietā tiek izmantota jūsu pašu atslēga. Noņemiet to, lai atgrieztos pie iebūvētā modeļa.",
     "byo_title": "Tā vietā izmantojiet savu modeli",
     "byo_intro": "Neobligāti. Anthropic, Mistral vai OpenAI atslēga sniedz lielāku un ātrāku modeli, par ko rēķinu izraksta viņi.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Galapunkts",
     "endpoint_url": "Galapunkta URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Pieprasi Fontem zināšanu grafu tieši no pārlūka vai pieslēdz galapunktu OpenRefine / piezīmju grāmatai / saviem rīkiem. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — viss savienots.",
+    "intro": "Pieprasi Dargle zināšanu grafu tieši no pārlūka vai pieslēdz galapunktu OpenRefine / piezīmju grāmatai / saviem rīkiem. Uzņēmumi, līgumi, iestādes, lobisti, sankcijas — viss savienots.",
     "limits": "Robežas",
     "method": "Metode",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Vienu mirkli.",
     "email_confirmed": "E-pasts apstiprināts",
     "your_account_is_verified": "Jūsu konts ir verificēts. Tagad varat publicēt stāstus, komentēt un sekot tēmām.",
-    "continue_to_fontem": "Turpināt uz Fontem",
+    "continue_to_dargle": "Turpināt uz Dargle",
     "the_link_may_have_expired": "Saite, iespējams, ir beigusies vai jau izmantota. Pierakstieties un pieprasiet jaunu verifikācijas e-pastu no baneriem lapas augšpusē.",
-    "go_to_fontem": "Doties uz Fontem",
+    "go_to_dargle": "Doties uz Dargle",
     "couldnt_confirm_your_email": "Neizdevās apstiprināt jūsu e-pastu"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Nezināms logrīka tips:"
   },
   "wordmark": {
-    "font": "Fonts",
-    "fontem": "Fontem",
-    "tagline": "Šķērsojam ES digitālās robežas, pa vienai datu kopai"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Visi",

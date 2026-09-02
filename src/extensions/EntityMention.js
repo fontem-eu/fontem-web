@@ -1,7 +1,7 @@
 /**
  * TipTap node extension for inline entity mentions.
  *
- * A mention is an atomic inline node carrying a Fontem IRI:
+ * A mention is an atomic inline node carrying a Dargle IRI:
  *
  *   { type: 'entityMention',
  *     attrs: { iri, label, class } }

@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
-onMounted(() => { document.title = 'Admin — Fontem' })
+onMounted(() => { document.title = 'Admin — Dargle' })
 
 const tools = [
   { path: '/admin/entity-resolution', title: 'admin.entity_resolution', desc: 'admin.review_and_merge_duplicate_company_nodes' },

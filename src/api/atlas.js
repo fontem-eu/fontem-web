@@ -1,5 +1,5 @@
 /**
- * Atlas API client — datasets + series + snapshot from the Fontem
+ * Atlas API client — datasets + series + snapshot from the Dargle
  * Atlas API (edgar-gmr-etl/src/atlas_api/).
  *
  * Mounted at /api/atlas/* in the consolidated build; if the API ever

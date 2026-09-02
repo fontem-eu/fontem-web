@@ -15,10 +15,10 @@
     "chip_story": "Léigh scéal sonraí pobail",
     "hero_lead": "Graf eolais oscailte a nascann comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe.",
     "how_it_works": "Conas a oibríonn sé",
-    "mission_body_1": "Ritheann an díospóireacht phoiblí ar uimhreacha — buiséid agus conarthaí, imirce agus astaíochtaí, cé leis cad é, fiú téacs dlí — agus bíonn siad á lúbadh de shíor acu siúd a bhfuil a fhios acu nach seiceálfaidh aon duine iad. Tugann Fontem na cláir sin le chéile in aon ghraf incheistithe amháin, áit a bhfanann gach figiúr nasctha leis an bhfoinse oifigiúil as ar tháinig sé.",
+    "mission_body_1": "Ritheann an díospóireacht phoiblí ar uimhreacha — buiséid agus conarthaí, imirce agus astaíochtaí, cé leis cad é, fiú téacs dlí — agus bíonn siad á lúbadh de shíor acu siúd a bhfuil a fhios acu nach seiceálfaidh aon duine iad. Tugann Dargle na cláir sin le chéile in aon ghraf incheistithe amháin, áit a bhfanann gach figiúr nasctha leis an bhfoinse oifigiúil as ar tháinig sé.",
     "mission_body_2": "Sin an bunobair, ní an sprioc. Bíonn rath ar mhaímh mhíthreoracha nuair is obair chrua iad a sheiceáil; déanaimidne cliceáil amháin de. Agus is pobal atá in ann páirt a ghlacadh é pobal atá in ann a fhíorú a ndeirtear leis.",
     "mission_lead": "Táimid ag tógáil an chiseal shibhialta don daonlathas Eorpach — áit ar féidir aon mhaíomh poiblí a rianú siar go dtí na huimhreacha atá taobh thiar de.",
-    "mission_title": "Cén fáth a bhfuil Fontem ann",
+    "mission_title": "Cén fáth a bhfuil Dargle ann",
     "recently_published": "Foilsithe le déanaí",
     "see_all_public_data_stories": "Féach gach scéal sonraí poiblí →",
     "step_crosscheck_desc": "Cuir i gcomparáid taobh le taobh cad a deir TED, GLEIF, an Clár Trédhearcachta, Comhtháthú agus foinsí eile faoin aonán céanna.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Scéal sonraí á fhoilsiú ón eagarthóir",
     "step_publish_name": "Foilsigh",
     "step_search_desc": "Cuardaigh comhlacht, údarás conarthach, brústocaire nó tionscadal maoinithe ag an AE ar bith de réir ainm nó aitheantóra.",
-    "step_search_gif_alt": "Cuardach aonáin i Fontem",
+    "step_search_gif_alt": "Cuardach aonáin i Dargle",
     "step_search_name": "Cuardaigh",
     "try": "Bain triail as:",
     "value_open_desc": "Tá an graf, na modhanna agus an cód taobh thiar díobh poiblí.",
@@ -235,13 +235,13 @@
     "tool_result": "Toradh",
     "tool_truncated": "gearrtha sula bhfaca an tsamhail é",
     "tool_no_result": "(gan aschur)",
-    "navigate_ask": "Is féidir le Fontem tú a thabhairt go {page}. Ar mhaith leat dul ann?",
+    "navigate_ask": "Is féidir le Dargle tú a thabhairt go {page}. Ar mhaith leat dul ann?",
     "navigate_go": "Téigh ann",
     "navigate_stay": "Fan anseo",
     "navigate_went": "Oscailte",
     "navigate_stayed": "D'fhan anseo",
     "tool_result_not_kept": "Ní choinnítear an toradh — ní thaifeadtar ach an glao agus a argóintí.",
-    "signed_out_notice": "Níl tú sínithe isteach, mar sin ní féidir leis an gcúntóir ach ceisteanna faoi Fontem a fhreagairt agus tú a thabhairt chuig leathanach. Teastaíonn cuntas chun na sonraí a chuardach, chun scríobh agus chun obair a shábháil.",
+    "signed_out_notice": "Níl tú sínithe isteach, mar sin ní féidir leis an gcúntóir ach ceisteanna faoi Dargle a fhreagairt agus tú a thabhairt chuig leathanach. Teastaíonn cuntas chun na sonraí a chuardach, chun scríobh agus chun obair a shábháil.",
     "characters_used": "Carachtair a úsáideadh"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Soláthar Poiblí",
@@ -901,12 +901,12 @@
     "title": "Cabhair",
     "toc": "Clár",
     "connect_title": "Ceangail do chúntóir IS",
-    "connect_intro": "Nochtann Fontem a chuid sonraí mar uirlisí is féidir le do chliant IS féin a ghlaoch — taifid chuideachtaí, conarthaí, an graf aonán, SPARQL. Úsáideann tú an cúntóir a n-íocann tú as cheana féin, agus ní fheiceann Fontem do chuntas soláthraí riamh.",
+    "connect_intro": "Nochtann Dargle a chuid sonraí mar uirlisí is féidir le do chliant IS féin a ghlaoch — taifid chuideachtaí, conarthaí, an graf aonán, SPARQL. Úsáideann tú an cúntóir a n-íocann tú as cheana féin, agus ní fheiceann Dargle do chuntas soláthraí riamh.",
     "step_token": "1. Cruthaigh comhartha",
     "step_token_body_pre": "Téigh chuig",
     "step_token_account": "Socruithe an chuntais",
     "step_token_body_post": "→ {section} → {action}. Cóipeáil láithreach é: taispeántar uair amháin é agus ní féidir é a fháil ar ais ina dhiaidh sin. Má chailleann tú é, cúlghair é agus cruthaigh ceann eile.",
-    "step_endpoint": "2. Dírigh do chliant ar Fontem",
+    "step_endpoint": "2. Dírigh do chliant ar Dargle",
     "step_endpoint_body": "Is é an críochphointe:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Socruithe → Nascóirí → Cuir nascóir saincheaptha leis. Greamaigh an URL thuas, agus do chomhartha mar an comhartha iompróra.",
@@ -916,15 +916,15 @@
     "anything_else": "Aon rud eile",
     "anything_else_body": "Oibríonn aon chliant a labhraíonn MCP thar Streamable HTTP. Seol an comhartha mar {header}.",
     "step_ask": "3. Cuir ceist air",
-    "step_ask_body": "Bain triail as {example}. Is é do chliant a shocraíonn cathain a ghlaofaidh sé ar uirlisí Fontem.",
-    "step_ask_example": "„Úsáid Fontem chun conarthaí a bronnadh ar chuideachtaí a bhfuil baint acu le X a aimsiú“",
+    "step_ask_body": "Bain triail as {example}. Is é do chliant a shocraíonn cathain a ghlaofaidh sé ar uirlisí Dargle.",
+    "step_ask_example": "„Úsáid Dargle chun conarthaí a bronnadh ar chuideachtaí a bhfuil baint acu le X a aimsiú“",
     "revoking": "Cúlghairm",
     "revoking_body": "Liostaíonn socruithe an chuntais gach cliant ceangailte mar aon leis an uair dheireanach a úsáideadh é. Tagann an chúlghairm i bhfeidhm ag an gcéad iarratas eile. Mura n-aithníonn tú cliant a thuilleadh, cúlghair é.",
     "why_key_title": "Cén fáth a bhfuil mo chuntas IS féin de dhíth orm?",
     "why_key_short": "Cén fáth mo chuntas féin?",
-    "why_key_body_1": "Toisc nach ndíolann aon soláthraí IS an rud a bheadh ina réiteach follasach murach sin. Chuir Anthropic cosc ar shíntiús Claude a úsáid laistigh d'uirlisí tríú páirtí i mí Feabhra 2026 agus bhac sé é i mí Aibreáin na bliana sin; níor chuimsigh pleananna ChatGPT OpenAI rochtain API riamh; agus gearrann Mistral táillí ar Le Chat agus ar a API ar leithligh. Ní féidir le suíomh ar nós Fontem do shíntiús a chaitheamh thar do cheann, go fírinneach.",
+    "why_key_body_1": "Toisc nach ndíolann aon soláthraí IS an rud a bheadh ina réiteach follasach murach sin. Chuir Anthropic cosc ar shíntiús Claude a úsáid laistigh d'uirlisí tríú páirtí i mí Feabhra 2026 agus bhac sé é i mí Aibreáin na bliana sin; níor chuimsigh pleananna ChatGPT OpenAI rochtain API riamh; agus gearrann Mistral táillí ar Le Chat agus ar a API ar leithligh. Ní féidir le suíomh ar nós Dargle do shíntiús a chaitheamh thar do cheann, go fírinneach.",
     "why_key_body_2": "Is é an rud is féidir leis a dhéanamh ná na sonraí a thabhairt do do chúntóir féin. Tá sé sin níos fearr ná an rogha eile, agus ní hamháin níos saoire dúinne: coinníonn tú do sholáthraí, do stair agus do shocruithe príobháideachais, ní chuirtear ciondáil ort le buiséad a shocraímidne, agus ní bhriseann aon rud anseo nuair a athraíonn díoltóir a théarmaí.",
-    "in_app_title": "An cúntóir laistigh de Fontem",
+    "in_app_title": "An cúntóir laistigh de Dargle",
     "in_app_body_1": "Tá cúntóir tógtha isteach sa suíomh freisin, ar gach leathanach. Is féidir leis na sonraí a chuardach, míniú a thabhairt ar a bhfuil á fheiceáil agat, tú a bhogadh timpeall an ardáin agus — agus tú ag cur eagair ar alt — athruithe a mholadh dó.",
     "in_app_body_2_pre": "Teastaíonn eochair API uaidh ó Anthropic, Mistral nó OpenAI, curtha leis i",
     "in_app_body_2_post": ". Íoctar de réir úsáide agus is beag a chosnaíonn sé de ghnáth; níl síntiús riachtanach agus ní oibreodh sé anseo ar aon nós, ar na cúiseanna thuas.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Téigh abhaile",
     "you_already_have_an_active_session": "Tá seisiún gníomhach agat cheana féin.",
     "youre_signed_in": "Tá tú sínithe isteach",
-    "sign_in_to_fontem": "Sínigh isteach i Fontem",
+    "sign_in_to_dargle": "Sínigh isteach i Dargle",
     "sign_in_to_start_creating_data_stories": "Sínigh isteach chun tosú ar scéalta sonraí a chruthú, saincheisteanna a ardú, agus comhoibriú leis an bpobal.",
     "signing_in": "Ag síniú isteach...",
     "sign_in": "Sínigh isteach",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Ceangail do chúntóir IS",
-    "intro_pre": "Bain úsáid as sonraí Fontem ó Claude, ChatGPT nó aon chliant a thacaíonn le MCP — ar do shíntiús féin. Cruthaigh comhartha anseo, ansin lean",
+    "intro_pre": "Bain úsáid as sonraí Dargle ó Claude, ChatGPT nó aon chliant a thacaíonn le MCP — ar do shíntiús féin. Cruthaigh comhartha anseo, ansin lean",
     "intro_link": "an treoir socraithe",
     "fresh_warn": "Cóipeáil anois é — taispeántar uair amháin é agus ní féidir é a fháil arís.",
     "copy": "Cóipeáil",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Is é Fontem an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
-      "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Fontem. Trédhearcacht maidir le trédhearcacht.",
-      "home": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am. Scéalta sonraí poiblí ó phobal Fontem — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
-      "login": "Sínigh isteach Fontem chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
+      "about": "Is é Dargle an t-ardán trédhearcachta príomhfhoinsí. Comhlachtaí AE, soláthar poiblí, brústocairí agus maoiniú comhtháthaithe — nasctha i ngraf amháin agus traschontráilte le clárlanna oifigiúla.",
+      "data_quality": "Clúdach, úire agus briseadh foinsí do gach tacar sonraí sa ghraf eolais Dargle. Trédhearcacht maidir le trédhearcacht.",
+      "home": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am. Scéalta sonraí poiblí ó phobal Dargle — imscrúduithe, traschontrálacha agus torthaí bunaithe ar phríomhfhoinsí.",
+      "login": "Sínigh isteach Dargle chun scéalta sonraí a fhoilsiú, fadhbanna a thuairisciú agus do thaighde a shábháil.",
       "map": "Choropleth idirghníomhach de thacair sonraí Eurostat curtha ar leibhéal NUTS — daonra, OTI, dífhostaíocht, T&F agus níos mó, mapáilte ar fud na hEorpa.",
-      "privacy": "Conas a láimhseálann Fontem sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
-      "sparql": "Cuir ceist ar an ngraf eolais Fontem go díreach trí SPARQL. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
+      "privacy": "Conas a láimhseálann Dargle sonraí pearsanta. Stóráimid bunsonraí cuntais amháin, gan fianáin rianaithe, gan anailís tríú páirtí.",
+      "sparql": "Cuir ceist ar an ngraf eolais Dargle go díreach trí SPARQL. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
       "spending": "Cuardaigh comhlachtaí AE, údaráis chonarthacha, brústocairí agus tionscadail mhaoinithe AE. Móide cad atá mór i do thír.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Maidir le — Fontem",
-      "data_quality": "Cáilíocht sonraí — Fontem",
-      "home": "Fontem — Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am",
-      "login": "Sínigh isteach — Fontem",
-      "map": "Léarscáil — Staitisticí Eorpacha ar Fontem",
-      "privacy": "Beartas príobháideachta — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Caiteachas — soláthar poiblí AE ar Fontem",
-      "development": "Development — Fontem"
+      "about": "Maidir le — Dargle",
+      "data_quality": "Cáilíocht sonraí — Dargle",
+      "home": "Dargle — Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am",
+      "login": "Sínigh isteach — Dargle",
+      "map": "Léarscáil — Staitisticí Eorpacha ar Dargle",
+      "privacy": "Beartas príobháideachta — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Caiteachas — soláthar poiblí AE ar Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Rochtain",
-    "all_data_in_the_fontem_knowledge_graph_r": "Baineann gach sonra i ngraf eolais Fontem le",
+    "all_data_in_the_dargle_knowledge_graph_r": "Baineann gach sonra i ngraf eolais Dargle le",
     "conversation_processing_is_performed_by_": "Déanann soláthraithe IS lonnaithe san AE próiseáil na gcomhráite.",
     "conversations_are_automatically_deleted_": "Scriostar comhráite go huathoibríoch tar éis 90 lá.",
     "erase": "Scrios",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Faoin GDPR tá an ceart agat:",
     "when_you_sign_in_we_collect_and_store": "Nuair a shíníonn tú isteach, bailímid agus stórálaimid:",
     "your": "Do",
-    "what_fontem_is": "1. Cad é Fontem",
-    "fontem_is_a_civic_transparency_platform": "Is ardán trédhearcachta sibhialta é Fontem a nascann sonraí soláthair phoiblí an AE, cláir úinéireachta corparáidí, agus maoiniú beartais comhtháthaithe le chéile i ngraf eolais aonair. Is é an sprioc atá aige ná caiteachas poiblí agus struchtúir chorparáideacha a dhéanamh níos éasca le fiosrú agus le tuiscint.",
+    "what_dargle_is": "1. Cad é Dargle",
+    "dargle_is_a_civic_transparency_platform": "Is ardán trédhearcachta sibhialta é Dargle a nascann sonraí soláthair phoiblí an AE, cláir úinéireachta corparáidí, agus maoiniú beartais comhtháthaithe le chéile i ngraf eolais aonair. Is é an sprioc atá aige ná caiteachas poiblí agus struchtúir chorparáideacha a dhéanamh níos éasca le fiosrú agus le tuiscint.",
     "data_in_the_knowledge_graph": "2. Sonraí sa ghraf eolais",
     "legal_entities": "eintitis dhlíthiúla",
     "companies_public_authorities_and_organis": "(cuideachtaí, údaráis phoiblí, agus eagraíochtaí) — ní daoine nádúrtha iad. Comhbhailímid sonraí atá ar fáil go poiblí ó na foinsí seo a leanas:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Fianáin",
     "we_only_use_strictly_necessary_cookies": "Ní úsáidimid ach fianáin seisiúin atá fíor-riachtanach chun fíordheimhnithe. Ní úsáidimid fianáin rianaithe, fianáin fógraíochta, ná fianáin anailísíochta tríú páirtí.",
     "changes_to_this_policy": "7. Athruithe ar an mbeartas seo",
-    "we_may_update_this_policy": "Féadfaimid an beartas seo a nuashonrú ó am go ham. Nuair a dhéanaimid, athróimid an dáta \"nuashonraithe go deireanach\" ag barr an leathanaigh seo. Is ionann leanúint d'úsáid Fontem tar éis athruithe agus glacadh leis an mbeartas nuashonraithe."
+    "we_may_update_this_policy": "Féadfaimid an beartas seo a nuashonrú ó am go ham. Nuair a dhéanaimid, athróimid an dáta \"nuashonraithe go deireanach\" ag barr an leathanaigh seo. Is ionann leanúint d'úsáid Dargle tar éis athruithe agus glacadh leis an mbeartas nuashonraithe."
   },
   "procurement_theme": {
     "public_procurement": "Soláthar Poiblí",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Soláthraí an chúntóra",
-    "intro": "Ritheann an cúntóir ar mhúnla ionsuite Fontem féin de réir réamhshocraithe — níl aon rud le socrú. Is féidir leat é a dhíriú ar do chuntas LLM féin ina ionad sin más mian leat múnla níos mó; stóráiltear eochracha criptithe agus ní thaispeántar arís iad tar éis a sábhála.",
+    "intro": "Ritheann an cúntóir ar mhúnla ionsuite Dargle féin de réir réamhshocraithe — níl aon rud le socrú. Is féidir leat é a dhíriú ar do chuntas LLM féin ina ionad sin más mian leat múnla níos mó; stóráiltear eochracha criptithe agus ní thaispeántar arís iad tar éis a sábhála.",
     "fingerprint": "eochair uimh. {fp}",
     "last_used": "úsáidte go deireanach {date}",
     "not_used": "gan úsáid fós",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Eochair bainte.",
     "builtin_title": "Múnla ionsuite",
     "builtin_active": "In úsáid",
-    "builtin_note": "Ritheann sé ar chrua-earraí Fontem féin. Gan chuntas, gan eochair, gan aon rud a ghearrfar ort. Is múnla beag é, mar sin tá sé níos moille agus níos lú cumais ná ceann íoctha — ach ní theastaíonn aon rud uait chun é a chur ag obair.",
+    "builtin_note": "Ritheann sé ar chrua-earraí Dargle féin. Gan chuntas, gan eochair, gan aon rud a ghearrfar ort. Is múnla beag é, mar sin tá sé níos moille agus níos lú cumais ná ceann íoctha — ach ní theastaíonn aon rud uait chun é a chur ag obair.",
     "builtin_superseded": "Tá d'eochair féin á húsáid ina ionad. Bain í chun filleadh ar an múnla ionsuite.",
     "byo_title": "Úsáid do mhúnla féin ina ionad",
     "byo_intro": "Roghnach. Tugann eochair ó Anthropic, Mistral nó OpenAI múnla níos mó agus níos tapúla duit, a ghearrfaidh siadsan ort.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Críochphointe",
     "endpoint_url": "URL críochphointe",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Cuir ceist ar ghraf eolais Fontem go díreach ón mbrabhsálaí, nó plugáil an pointe deiridh isteach in OpenRefine / nóta / d'uirlisí féin. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
+    "intro": "Cuir ceist ar ghraf eolais Dargle go díreach ón mbrabhsálaí, nó plugáil an pointe deiridh isteach in OpenRefine / nóta / d'uirlisí féin. Comhlachtaí, conarthaí, údaráis, brústocairí, smachtbhannaí — gach rud nasctha.",
     "limits": "Teorainneacha",
     "method": "Modh",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Nóiméad amháin.",
     "email_confirmed": "Ríomhphost dearbhaithe",
     "your_account_is_verified": "Tá do chuntas fíoraithe. Is féidir leat scéalta a fhoilsiú, tráchtanna a dhéanamh, agus topaicí a leanúint anois.",
-    "continue_to_fontem": "Lean ar aghaidh chuig Fontem",
+    "continue_to_dargle": "Lean ar aghaidh chuig Dargle",
     "the_link_may_have_expired": "Seans go bhfuil an nasc imithe as feidhm nó gur baineadh úsáid as cheana. Sínigh isteach agus iarr ríomhphost fíoraithe nua ón mbratach ag an mbarr.",
-    "go_to_fontem": "Téigh chuig Fontem",
+    "go_to_dargle": "Téigh chuig Dargle",
     "couldnt_confirm_your_email": "Níorbh fhéidir do ríomhphost a dhearbhú"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Cineál giuirléide anaithnid:"
   },
   "wordmark": {
-    "font": "Cló",
-    "fontem": "Fontem",
-    "tagline": "Ag trasnú theorainneacha digiteacha an AE, tacar sonraí amháin ag an am"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Uile",

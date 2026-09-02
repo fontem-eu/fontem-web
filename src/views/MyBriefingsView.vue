@@ -41,7 +41,7 @@ function isNew(item) {
 }
 
 onMounted(async () => {
-  document.title = 'My briefings — Fontem'
+  document.title = 'My briefings — Dargle'
   try {
     const raw = localStorage.getItem(SEEN_KEY)
     if (raw) lastVisit.value = new Date(raw)

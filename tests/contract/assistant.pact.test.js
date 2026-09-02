@@ -70,7 +70,7 @@ describe('assistant turn', () => {
             context_block: like('# Water quality\n\nDraft body.'),
             nav: {
               current: like('/stories/6f9a2b1c-3d4e-5f60-8a9b-0c1d2e3f4a5b/edit'),
-              title: like('Water quality — Fontem'),
+              title: like('Water quality — Dargle'),
               routes: eachLike({ path: like('/spending'), description: like('EU procurement') }),
             },
           }))
@@ -88,7 +88,7 @@ describe('assistant turn', () => {
           context_block: '# Water quality\n\nDraft body.',
           nav: {
             current: '/stories/6f9a2b1c-3d4e-5f60-8a9b-0c1d2e3f4a5b/edit',
-            title: 'Water quality — Fontem',
+            title: 'Water quality — Dargle',
             routes: [{ path: '/spending', description: 'EU procurement' }],
           },
         })

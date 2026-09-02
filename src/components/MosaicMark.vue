@@ -1,6 +1,6 @@
 <script setup>
 /**
- * The Fontem mark - Ariadne's Labyrinth (three circuits). Lapis walls
+ * The Dargle mark - Ariadne's Labyrinth (three circuits). Lapis walls
  * form a unicursal maze (one path, no dead ends): the tangle of shell
  * companies and intermediaries you have to get through. A single gold
  * thread - Ariadne's, the method a woman gave for escaping the

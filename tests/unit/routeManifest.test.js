@@ -12,14 +12,14 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
-import { createFontemRouter } from '../../src/app.js'
+import { createDargleRouter } from '../../src/app.js'
 import { buildRouteManifest, navigableRoutes, isNavigable, matchRoute, ROUTE_DESCRIPTIONS, NOT_NAVIGABLE } from '../../src/agent/routeManifest.js'
 
 const ARTIFACT = path.resolve(__dirname, '../../src/generated/route-manifest.json')
 
 function fresh() {
   // ssr=true -> memory history, so no DOM/history dependency here.
-  return buildRouteManifest(createFontemRouter(true))
+  return buildRouteManifest(createDargleRouter(true))
 }
 
 describe('route manifest', () => {

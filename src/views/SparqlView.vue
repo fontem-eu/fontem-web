@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 
-onMounted(() => { document.title = 'SPARQL — Fontem' })
+onMounted(() => { document.title = 'SPARQL — Dargle' })
 
 // ── Examples ────────────────────────────────────────────────────
 // These run against /api/sparql today. The first one is the default

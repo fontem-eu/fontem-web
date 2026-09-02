@@ -15,10 +15,10 @@
     "chip_story": "Lue yhteisön datatarina",
     "hero_lead": "Avoin tietämysgraafi, joka yhdistää EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoituksen.",
     "how_it_works": "Miten se toimii",
-    "mission_body_1": "Julkinen keskustelu pyörii numeroilla — budjetit ja hankinnat, muuttoliike ja päästöt, kuka omistaa mitäkin, jopa lain teksti — ja niitä vääntelevät jatkuvasti ne, jotka tietävät ettei kukaan tarkista. Fontem kokoaa nämä rekisterit yhdeksi kyseltäväksi graafiksi, jossa jokainen luku pysyy kytkettynä siihen viralliseen lähteeseen, josta se on peräisin.",
+    "mission_body_1": "Julkinen keskustelu pyörii numeroilla — budjetit ja hankinnat, muuttoliike ja päästöt, kuka omistaa mitäkin, jopa lain teksti — ja niitä vääntelevät jatkuvasti ne, jotka tietävät ettei kukaan tarkista. Dargle kokoaa nämä rekisterit yhdeksi kyseltäväksi graafiksi, jossa jokainen luku pysyy kytkettynä siihen viralliseen lähteeseen, josta se on peräisin.",
     "mission_body_2": "Se on perustyö, ei päämäärä. Harhaanjohtavat väitteet kukoistavat, kun niiden tarkistaminen on työlästä; me teemme siitä yhden klikkauksen. Ja yleisö, joka pystyy tarkistamaan mitä sille kerrotaan, pystyy myös osallistumaan.",
     "mission_lead": "Rakennamme eurooppalaisen demokratian kansalaiskerrosta — jossa mikä tahansa julkinen väite voidaan jäljittää sen taustalla oleviin lukuihin.",
-    "mission_title": "Miksi Fontem on olemassa",
+    "mission_title": "Miksi Dargle on olemassa",
     "recently_published": "Hiljattain julkaistut",
     "see_all_public_data_stories": "Näytä kaikki julkiset datatarinat →",
     "step_crosscheck_desc": "Vertaa rinnakkain, mitä TED, GLEIF, Avoimuusrekisteri, Koheesio ja muut lähteet sanovat samasta entiteetistä.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Datatarinan julkaiseminen editorista",
     "step_publish_name": "Julkaise",
     "step_search_desc": "Hae mikä tahansa yritys, hankintayksikkö, lobbari tai EU-rahoitteinen hanke nimen tai tunnisteen perusteella.",
-    "step_search_gif_alt": "Entiteetin etsiminen Fontemissa",
+    "step_search_gif_alt": "Entiteetin etsiminen Dargle",
     "step_search_name": "Etsi",
     "try": "Kokeile:",
     "value_open_desc": "Graafi, menetelmät ja niiden taustalla oleva koodi ovat julkisia.",
@@ -235,13 +235,13 @@
     "tool_result": "Tulos",
     "tool_truncated": "katkaistu ennen kuin malli näki sen",
     "tool_no_result": "(ei tulostetta)",
-    "navigate_ask": "Fontem voi viedä sinut sivulle {page}. Haluatko siirtyä?",
+    "navigate_ask": "Dargle voi viedä sinut sivulle {page}. Haluatko siirtyä?",
     "navigate_go": "Siirry",
     "navigate_stay": "Pysy tässä",
     "navigate_went": "Avattu",
     "navigate_stayed": "Pysyi tässä",
     "tool_result_not_kept": "Tulosta ei säilytetä — vain kutsu ja sen argumentit tallennetaan.",
-    "signed_out_notice": "Et ole kirjautunut sisään, joten avustaja voi vain vastata Fontemia koskeviin kysymyksiin ja viedä sinut sivulle. Tietojen haku, kirjoittaminen ja tallentaminen vaativat tilin.",
+    "signed_out_notice": "Et ole kirjautunut sisään, joten avustaja voi vain vastata Dargle koskeviin kysymyksiin ja viedä sinut sivulle. Tietojen haku, kirjoittaminen ja tallentaminen vaativat tilin.",
     "characters_used": "Käytetyt merkit"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Julkiset hankinnat",
@@ -901,12 +901,12 @@
     "title": "Ohje",
     "toc": "Sisältö",
     "connect_title": "Yhdistä tekoälyavustajasi",
-    "connect_intro": "Fontem tarjoaa tietonsa työkaluina, joita oma tekoälyasiakasohjelmasi voi kutsua — yritystiedot, hankinnat, entiteettigraafi, SPARQL. Käytät avustajaa, josta jo maksat, eikä Fontem näe koskaan palveluntarjoajatiliäsi.",
+    "connect_intro": "Dargle tarjoaa tietonsa työkaluina, joita oma tekoälyasiakasohjelmasi voi kutsua — yritystiedot, hankinnat, entiteettigraafi, SPARQL. Käytät avustajaa, josta jo maksat, eikä Dargle näe koskaan palveluntarjoajatiliäsi.",
     "step_token": "1. Luo tunniste",
     "step_token_body_pre": "Siirry kohtaan",
     "step_token_account": "Tilin asetukset",
     "step_token_body_post": "→ {section} → {action}. Kopioi se heti: se näytetään kerran eikä sitä voi hakea jälkikäteen. Jos hukkaat sen, kumoa se ja luo uusi.",
-    "step_endpoint": "2. Osoita asiakasohjelmasi Fontemiin",
+    "step_endpoint": "2. Osoita asiakasohjelmasi Dargle",
     "step_endpoint_body": "Päätepiste on:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Asetukset → Liittimet → Lisää mukautettu liitin. Liitä yllä oleva URL ja tunnisteesi bearer-tunnisteeksi.",
@@ -916,15 +916,15 @@
     "anything_else": "Mikä tahansa muu",
     "anything_else_body": "Mikä tahansa MCP:tä Streamable HTTP:n yli puhuva asiakasohjelma toimii. Lähetä tunniste muodossa {header}.",
     "step_ask": "3. Kysy siltä jotain",
-    "step_ask_body": "Kokeile {example}. Asiakasohjelmasi päättää, milloin se kutsuu Fontemin työkaluja.",
-    "step_ask_example": "”Etsi Fontemin avulla hankintasopimukset, jotka on myönnetty X:ään kytköksissä oleville yrityksille”",
+    "step_ask_body": "Kokeile {example}. Asiakasohjelmasi päättää, milloin se kutsuu Dargle työkaluja.",
+    "step_ask_example": "”Etsi Dargle avulla hankintasopimukset, jotka on myönnetty X:ään kytköksissä oleville yrityksille”",
     "revoking": "Kumoaminen",
     "revoking_body": "Tilin asetukset luettelevat jokaisen yhdistetyn asiakasohjelman ja sen viimeisimmän käyttöajan. Kumoaminen astuu voimaan seuraavassa pyynnössä. Jos et enää tunnista jotakin asiakasohjelmaa, kumoa se.",
     "why_key_title": "Miksi tarvitsen oman tekoälytilin?",
     "why_key_short": "Miksi oma tili?",
-    "why_key_body_1": "Koska yksikään tekoälypalvelun tarjoaja ei myy sitä, mikä muuten olisi ilmeinen ratkaisu. Anthropic kielsi Claude-tilauksen käytön kolmansien osapuolten työkaluissa helmikuussa 2026 ja esti sen saman vuoden huhtikuussa; OpenAI:n ChatGPT-tilaukset eivät ole koskaan sisältäneet API-käyttöä; ja Mistral laskuttaa Le Chatin ja API:nsa erikseen. Fontemin kaltainen sivusto ei todella voi käyttää tilaustasi puolestasi.",
+    "why_key_body_1": "Koska yksikään tekoälypalvelun tarjoaja ei myy sitä, mikä muuten olisi ilmeinen ratkaisu. Anthropic kielsi Claude-tilauksen käytön kolmansien osapuolten työkaluissa helmikuussa 2026 ja esti sen saman vuoden huhtikuussa; OpenAI:n ChatGPT-tilaukset eivät ole koskaan sisältäneet API-käyttöä; ja Mistral laskuttaa Le Chatin ja API:nsa erikseen. Dargle kaltainen sivusto ei todella voi käyttää tilaustasi puolestasi.",
     "why_key_body_2": "Se voi kuitenkin antaa tiedot omalle avustajallesi. Se on parempi kuin vaihtoehto, ei vain halvempi meille: säilytät palveluntarjoajasi, historiasi ja yksityisyysasetuksesi, sinua ei rajoita meidän asettamamme budjetti, eikä täällä hajoa mitään, kun toimittaja muuttaa ehtojaan.",
-    "in_app_title": "Fontemin sisäinen avustaja",
+    "in_app_title": "Dargle sisäinen avustaja",
     "in_app_body_1": "Sivustoon on rakennettu myös avustaja, joka on käytettävissä joka sivulla. Se voi hakea tiedoista, selittää mitä katselet, siirtää sinua alustalla ja — artikkelia muokatessasi — ehdottaa siihen muutoksia.",
     "in_app_body_2_pre": "Se tarvitsee API-avaimen Anthropicilta, Mistralilta tai OpenAI:lta, lisättynä kohtaan",
     "in_app_body_2_post": ". Veloitus on käyttöperusteinen ja maksaa yleensä hyvin vähän; tilausta ei tarvita, eikä se yllä olevista syistä toimisi täällä muutenkaan.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Siirry etusivulle",
     "you_already_have_an_active_session": "Sinulla on jo aktiivinen istunto.",
     "youre_signed_in": "Olet kirjautunut sisään",
-    "sign_in_to_fontem": "Kirjaudu Fontemiin",
+    "sign_in_to_dargle": "Kirjaudu Dargle",
     "sign_in_to_start_creating_data_stories": "Kirjaudu sisään aloittaaksesi datatarinoiden luomisen, ongelmien esiin nostamisen ja yhteisön kanssa työskentelyn.",
     "signing_in": "Kirjaudutaan sisään...",
     "sign_in": "Kirjaudu sisään",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Yhdistä tekoälyavustajasi",
-    "intro_pre": "Käytä Fontemin tietoja Claudesta, ChatGPT:stä tai mistä tahansa MCP-yhteensopivasta asiakasohjelmasta — omalla tilauksellasi. Luo tunniste tässä ja seuraa sitten",
+    "intro_pre": "Käytä Dargle tietoja Claudesta, ChatGPT:stä tai mistä tahansa MCP-yhteensopivasta asiakasohjelmasta — omalla tilauksellasi. Luo tunniste tässä ja seuraa sitten",
     "intro_link": "käyttöönotto-opasta",
     "fresh_warn": "Kopioi se nyt — se näytetään kerran eikä sitä voi hakea uudelleen.",
     "copy": "Kopioi",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
-      "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Fontemin tietämysgraafissa. Avoimuutta avoimuudesta.",
-      "home": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan. Julkiset datatarinat Fontem-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
-      "login": "Kirjaudu Fontemiin julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
+      "about": "Dargle on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
+      "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Dargle tietämysgraafissa. Avoimuutta avoimuudesta.",
+      "home": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan. Julkiset datatarinat Dargle-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
+      "login": "Kirjaudu Dargle julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
       "map": "Interaktiivinen koropleetti kuratoiduista Eurostat-datajoukoista NUTS-tasolla — väestö, BKT, työttömyys, T&K ja muut, kartoitettuina ympäri Eurooppaa.",
-      "privacy": "Miten Fontem käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
-      "sparql": "Kysele Fontemin tietämysgraafia suoraan SPARQL:n kautta. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki yhdistettyinä.",
+      "privacy": "Miten Dargle käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
+      "sparql": "Kysele Dargle tietämysgraafia suoraan SPARQL:n kautta. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki yhdistettyinä.",
       "spending": "Etsi EU-yrityksiä, hankintayksiköitä, lobbareita ja EU-rahoitteisia hankkeita. Plus mikä maassasi on suurta.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Tietoja — Fontem",
-      "data_quality": "Datan laatu — Fontem",
-      "home": "Fontem — Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan",
-      "login": "Kirjaudu sisään — Fontem",
-      "map": "Kartta — Euroopan tilastot Fontemissa",
-      "privacy": "Tietosuojakäytäntö — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Menot — EU:n julkiset hankinnat Fontemissa",
-      "development": "Development — Fontem"
+      "about": "Tietoja — Dargle",
+      "data_quality": "Datan laatu — Dargle",
+      "home": "Dargle — Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan",
+      "login": "Kirjaudu sisään — Dargle",
+      "map": "Kartta — Euroopan tilastot Dargle",
+      "privacy": "Tietosuojakäytäntö — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Menot — EU:n julkiset hankinnat Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Pääsy",
-    "all_data_in_the_fontem_knowledge_graph_r": "Kaikki Fontemin tietämysgraafin tiedot koskevat",
+    "all_data_in_the_dargle_knowledge_graph_r": "Kaikki Dargle tietämysgraafin tiedot koskevat",
     "conversation_processing_is_performed_by_": "Keskustelujen käsittelyn tekevät EU:ssa toimivat tekoälypalveluntarjoajat.",
     "conversations_are_automatically_deleted_": "Keskustelut poistetaan automaattisesti 90 päivän kuluttua.",
     "erase": "Poisto",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "GDPR:n nojalla sinulla on oikeus:",
     "when_you_sign_in_we_collect_and_store": "Kun kirjaudut sisään, keräämme ja tallennamme:",
     "your": "Sinun",
-    "what_fontem_is": "1. Mikä Fontem on",
-    "fontem_is_a_civic_transparency_platform": "Fontem on kansalaisyhteiskunnan avoimuusalusta, joka yhdistää EU:n julkisten hankintojen tiedot, yritysten omistusrekisterit ja koheesiopolitiikan rahoituksen yhdeksi tietämysgraafiksi. Sen tavoitteena on tehdä julkisten varojen käytöstä ja yritysrakenteista helpommin tarkasteltavia ja ymmärrettäviä.",
+    "what_dargle_is": "1. Mikä Dargle on",
+    "dargle_is_a_civic_transparency_platform": "Dargle on kansalaisyhteiskunnan avoimuusalusta, joka yhdistää EU:n julkisten hankintojen tiedot, yritysten omistusrekisterit ja koheesiopolitiikan rahoituksen yhdeksi tietämysgraafiksi. Sen tavoitteena on tehdä julkisten varojen käytöstä ja yritysrakenteista helpommin tarkasteltavia ja ymmärrettäviä.",
     "data_in_the_knowledge_graph": "2. Tietämysgraafin tiedot",
     "legal_entities": "oikeushenkilöt",
     "companies_public_authorities_and_organis": "(yritykset, julkiset viranomaiset ja organisaatiot) — ei luonnollisia henkilöitä. Kokoamme julkisesti saatavilla olevaa tietoa seuraavista lähteistä:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Evästeet",
     "we_only_use_strictly_necessary_cookies": "Käytämme vain ehdottoman välttämättömiä istuntoevästeitä todennukseen. Emme käytä seurantaevästeitä, mainosevästeitä emmekä kolmansien osapuolten analytiikkaevästeitä.",
     "changes_to_this_policy": "7. Muutokset tähän käytäntöön",
-    "we_may_update_this_policy": "Saatamme päivittää tätä käytäntöä ajoittain. Kun teemme niin, päivitämme tämän sivun yläreunassa olevan \"viimeksi päivitetty\" -päivämäärän. Fontemin jatkuva käyttö muutosten jälkeen merkitsee päivitetyn käytännön hyväksymistä."
+    "we_may_update_this_policy": "Saatamme päivittää tätä käytäntöä ajoittain. Kun teemme niin, päivitämme tämän sivun yläreunassa olevan \"viimeksi päivitetty\" -päivämäärän. Dargle jatkuva käyttö muutosten jälkeen merkitsee päivitetyn käytännön hyväksymistä."
   },
   "procurement_theme": {
     "public_procurement": "Julkiset hankinnat",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Avustajan palveluntarjoaja",
-    "intro": "Avustaja toimii oletuksena Fontemin omalla sisäänrakennetulla mallilla — mitään ei tarvitse määrittää. Voit sen sijaan osoittaa sen omaan LLM-tiliisi, jos haluat suuremman mallin; avaimet säilytetään salattuina eikä niitä näytetä enää tallennuksen jälkeen.",
+    "intro": "Avustaja toimii oletuksena Dargle omalla sisäänrakennetulla mallilla — mitään ei tarvitse määrittää. Voit sen sijaan osoittaa sen omaan LLM-tiliisi, jos haluat suuremman mallin; avaimet säilytetään salattuina eikä niitä näytetä enää tallennuksen jälkeen.",
     "fingerprint": "avain nro {fp}",
     "last_used": "viimeksi käytetty {date}",
     "not_used": "ei vielä käytetty",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Avain poistettu.",
     "builtin_title": "Sisäänrakennettu malli",
     "builtin_active": "Käytössä",
-    "builtin_note": "Toimii Fontemin omalla laitteistolla. Ei tiliä, ei avainta, ei mitään sinulta veloitettavaa. Se on pieni malli, joten se on hitaampi ja heikompi kuin maksullinen — mutta se ei vaadi sinulta mitään toimiakseen.",
+    "builtin_note": "Toimii Dargle omalla laitteistolla. Ei tiliä, ei avainta, ei mitään sinulta veloitettavaa. Se on pieni malli, joten se on hitaampi ja heikompi kuin maksullinen — mutta se ei vaadi sinulta mitään toimiakseen.",
     "builtin_superseded": "Sen sijaan käytetään omaa avaintasi. Poista se palataksesi sisäänrakennettuun malliin.",
     "byo_title": "Käytä sen sijaan omaa malliasi",
     "byo_intro": "Valinnainen. Anthropicin, Mistralin tai OpenAI:n avain antaa suuremman ja nopeamman mallin, jonka he laskuttavat sinulta.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Päätepiste",
     "endpoint_url": "Päätepisteen URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Kysele Fontemin tietämysgraafia suoraan selaimesta tai kytke päätepiste OpenRefineen / muistikirjaan / omiin työkaluihisi. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki linkitettyinä.",
+    "intro": "Kysele Dargle tietämysgraafia suoraan selaimesta tai kytke päätepiste OpenRefineen / muistikirjaan / omiin työkaluihisi. Yritykset, sopimukset, viranomaiset, lobbarit, pakotteet — kaikki linkitettyinä.",
     "limits": "Rajat",
     "method": "Menetelmä",
     "post": "POST",
@@ -2031,9 +2031,9 @@
     "one_moment": "Hetki.",
     "email_confirmed": "Sähköposti vahvistettu",
     "your_account_is_verified": "Tilisi on vahvistettu. Voit nyt julkaista tarinoita, kommentoida ja seurata aiheita.",
-    "continue_to_fontem": "Jatka Fontemiin",
+    "continue_to_dargle": "Jatka Dargle",
     "the_link_may_have_expired": "Linkki on saattanut vanhentua tai se on jo käytetty. Kirjaudu sisään ja pyydä uusi vahvistussähköposti yläreunan palkista.",
-    "go_to_fontem": "Siirry Fontemiin",
+    "go_to_dargle": "Siirry Dargle",
     "couldnt_confirm_your_email": "Sähköpostiosoitettasi ei voitu vahvistaa"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Tuntematon vimpaintyyppi:"
   },
   "wordmark": {
-    "font": "Fontti",
-    "fontem": "Fontem",
-    "tagline": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan"
+    "name": "Dargle",
+    "tagline": "Discover. Argue. Learn. Enjoy."
   },
   "zoomable_bar_chart": {
     "all": "Kaikki",

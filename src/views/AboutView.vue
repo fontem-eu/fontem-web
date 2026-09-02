@@ -119,7 +119,7 @@ onMounted(async () => {
              the workflow, 45-second tour rewards anyone scrolling. -->
         <section class="landing-extra" data-testid="landing-extra">
           <!-- Mission / vision. Leads the page (above the living
-               carousel) so a first-time visitor learns why Fontem
+               carousel) so a first-time visitor learns why Dargle
                exists before what's newest. Vision-forward voice;
                strictly the public, primary-source framing. -->
           <section class="mission" data-testid="mission">
