@@ -41,6 +41,7 @@ const metaOf = (html, name) => {
 const SPA_ROUTES = [
   '/stories/00000000-0000-0000-0000-000000000000',
   '/company/does-not-exist',
+  '/authority/does-not-exist',
   '/contract/does-not-exist',
 ]
 
@@ -143,9 +144,12 @@ test.describe('crawler discovery', () => {
     }
   })
 
-  test('authority shards are not advertised while the page does not exist', async ({ request }) => {
-    // The SPA has no /authority/:id route, so these would be soft-404s
-    // at scale. Add the route before adding the shards.
+  test('authority shards are not advertised yet', async ({ request }) => {
+    // The blocker is gone: /authority/:authority_id now renders the full
+    // entity page, so these URLs would no longer be soft-404s. What is
+    // left is turning the shards on in fontem-community-api's index —
+    // and this assertion is the reminder that the two go together.
+    // Delete it in the same change that advertises them.
     expect(await (await request.get('/sitemap.xml')).text()).not.toContain('sitemap-authorities')
   })
 

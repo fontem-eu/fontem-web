@@ -26,7 +26,8 @@ function makeRouter() {
     routes: [
       { path: '/', component: { template: '<div/>' } },
       { path: '/search', component: SearchView },
-      { path: '/company/:gmr_id', component: { template: '<div/>' } },
+      { path: '/company/:gmr_id/:view?', component: { template: '<div/>' } },
+      { path: '/authority/:authority_id/:view?', component: { template: '<div/>' } },
       { path: '/contract/:noticeId', component: { template: '<div/>' } },
       { path: '/c/:ticker/:view', component: { template: '<div/>' } },
       { path: '/stories/:id', component: { template: '<div/>' } },
@@ -97,7 +98,7 @@ describe('SearchView', () => {
     expect(w.findAll('.result-card--link').length).toBeGreaterThanOrEqual(3)
   })
 
-  it('links authorities to the shared entity profile and cohesion to the beneficiary company', async () => {
+  it('links authorities to their entity page and cohesion to the beneficiary company', async () => {
     searchGraph.mockResolvedValue({
       results: [
         { type: 'authority', id: 'auth-9', title: 'Ministério das Finanças', subtitle: '', context: '', country: 'PRT', date: null, score: 0, meta: {} },
@@ -109,7 +110,10 @@ describe('SearchView', () => {
     searchStories.mockResolvedValue([])
     const { w } = await mountAt({ q: 'x' })
     const links = w.findAll('a.result-card').map((a) => a.attributes('href'))
-    expect(links.some((h) => h.includes('/c/auth-9/profile'))).toBe(true)
+    // The semantic entity URL, which renders the same full page /c/:id
+    // does — profile, procurement, graph. It used to be the ticker-shaped
+    // URL; both work, this one is the canonical one the sitemap uses.
+    expect(links.some((h) => h.includes('/authority/auth-9'))).toBe(true)
     expect(links.some((h) => h.includes('/company/gmr-benef-1'))).toBe(true)
   })
 
@@ -209,5 +213,49 @@ describe('SearchView — legislation results', () => {
     const { w } = await mountAt({ q: 'violence' })
     await w.find('[data-testid="advanced-toggle"]').trigger('click')
     expect(w.find('[data-testid="facet-legislation"]').exists()).toBe(true)
+  })
+})
+
+// ── search results reach the full entity page ────────────────────────
+//
+// The regression this covers: company results linked to a thin
+// standalone view that showed contracts and cohesion grants and nothing
+// else, so the page with financials, the corporate group, directors and
+// the graph was unreachable from search. Authorities went to the
+// ticker-shaped URL for the same page. Both now use the semantic entity
+// URL, which renders that full page.
+describe('SearchView — entity results reach the full profile', () => {
+  it('sends a company to its entity page, not a thin one-off view', async () => {
+    searchGraph.mockResolvedValue({
+      results: [
+        { type: 'company', id: 'gmr-1', title: 'Acme SA', subtitle: '', context: '', country: 'PRT', date: null, score: 0, meta: {} },
+      ],
+      counts: { company: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'acme' })
+    const href = w.findAll('a.result-card').map((a) => a.attributes('href'))
+    expect(href.some((h) => h.includes('/company/gmr-1'))).toBe(true)
+  })
+
+  it('sends companies and authorities to the same kind of page', async () => {
+    // They are both entities; a reader clicking either is asking the
+    // same question, and the answer lives on one page.
+    searchGraph.mockResolvedValue({
+      results: [
+        { type: 'company', id: 'gmr-1', title: 'Acme SA', subtitle: '', context: '', country: 'PRT', date: null, score: 0, meta: {} },
+        { type: 'authority', id: 'auth-1', title: 'Câmara Municipal', subtitle: '', context: '', country: 'PRT', date: null, score: 0, meta: {} },
+      ],
+      counts: { company: 1, authority: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'x' })
+    const href = w.findAll('a.result-card').map((a) => a.attributes('href'))
+    expect(href.some((h) => h.includes('/company/gmr-1'))).toBe(true)
+    expect(href.some((h) => h.includes('/authority/auth-1'))).toBe(true)
+    // Neither falls back to a non-clickable card.
+    expect(w.findAll('a.result-card')).toHaveLength(2)
   })
 })

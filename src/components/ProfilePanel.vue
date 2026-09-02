@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import ContractsPanel from './ContractsPanel.vue'
+import CohesionGrantsPanel from './CohesionGrantsPanel.vue'
 import PocketButton from './PocketButton.vue'
 import { fmtMoney } from '../utils/format.js'
 
@@ -21,6 +22,12 @@ const profileState = ref('loading')
 const groupExpanded = ref(false)
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+// /api/companies/<id> answers 200 with a null name for an authority id —
+// the skeleton-200 trap — so a real company_name is what distinguishes
+// the two. Same test TickerFinancials uses to route UUIDs. Cohesion
+// grants are keyed on a company gmr_id, so they only render here.
+const isCompany = computed(() => Boolean(profile.value?.company_name))
 
 async function loadProfile(id) {
   if (!id) {
@@ -141,6 +148,15 @@ watch(() => props.symbol, (sym) => {
         <span class="pp-stat__num">{{ fmtMoney(profile.total_contract_value_eur) }} EUR</span>
       </div>
       <ContractsPanel :symbol="gmrId || symbol" />
+    </div>
+
+    <!-- EU-funded projects. Carried over from the old standalone company
+         page: it was the one thing that page showed and this one did
+         not, so folding search into here would otherwise have quietly
+         dropped cohesion money from every entity view. Companies only —
+         the grants are keyed on a company gmr_id. -->
+    <div v-if="(gmrId || symbol) && isCompany" class="pp-section">
+      <CohesionGrantsPanel :gmr-id="gmrId || symbol" />
     </div>
   </div>
 </template>
