@@ -40,9 +40,11 @@ COPY --from=build /app/dist ./dist
 COPY server ./server
 COPY src/ssr ./src/ssr
 
-# Non-root. The service reads its own files and talks to the API; it
-# never writes anything.
-USER node
+# Non-root, and NUMERIC. `USER node` is the same account (uid 1000 in
+# the node images) but Kubernetes cannot verify a non-numeric user
+# against runAsNonRoot: it refuses to start the container with
+# "image has non-numeric user (node), cannot verify user is non-root".
+USER 1000:1000
 EXPOSE 8081
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
   CMD node -e "fetch('http://127.0.0.1:8081/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
