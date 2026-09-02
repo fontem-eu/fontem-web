@@ -65,6 +65,13 @@
       "redirects_to": "/map"
     },
     {
+      "path": "/authority/:authority_id",
+      "params": [
+        "authority_id"
+      ],
+      "description": "A contracting authority: who they are, what they have awarded, and their recent contracts."
+    },
+    {
       "path": "/briefings",
       "description": "Browse briefings — curated subjects you can watch to get new findings as they appear."
     },

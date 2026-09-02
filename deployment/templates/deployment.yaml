@@ -40,6 +40,10 @@ spec:
             # - prod: own instance in fontem-prod, bucket fontem-uploads
             # Both default to fontem-prod (the prod posture) in the image;
             # non-prod values files override via gitops.
+            # Empty unless the env enables SSR; nginx serves the static
+            # shell for the story routes when it is.
+            - name: SSR_UPSTREAM
+              value: {{ .Values.ssrUpstream | default "" | quote }}
             - name: MINIO_NAMESPACE
               value: {{ .Values.minioNamespace | default "fontem-prod" | quote }}
             - name: MINIO_BUCKET
