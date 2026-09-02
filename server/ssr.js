@@ -80,12 +80,22 @@ async function withTimeout(promise, ms, label) {
 async function fetchStory(id) {
   if (!CAPI) return null
   try {
-    const res = await withTimeout(
-      fetch(`${CAPI}/capi/data-stories/${encodeURIComponent(id)}`),
-      FETCH_TIMEOUT_MS, 'story fetch')
-    if (!res.ok) return null
+    // No `/capi` here: that prefix is nginx's, and nginx strips it
+    // before proxying. We talk to the service directly, which serves
+    // /data-stories/... — with the prefix every call 404s and the page
+    // silently falls back to the shell.
+    const url = `${CAPI}/data-stories/${encodeURIComponent(id)}`
+    const res = await withTimeout(fetch(url), FETCH_TIMEOUT_MS, 'story fetch')
+    if (!res.ok) {
+      // Logged, not swallowed. A 404 here is indistinguishable from a
+      // draft or a bad id in the response — the page renders the shell
+      // either way — so the log is the only place the difference shows.
+      console.warn(`ssr: story ${id}: upstream ${res.status}`)
+      return null
+    }
     return await res.json()
-  } catch {
+  } catch (err) {
+    console.warn(`ssr: story ${id}: ${err?.message || err}`)
     return null
   }
 }
