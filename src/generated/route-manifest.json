@@ -65,11 +65,12 @@
       "redirects_to": "/map"
     },
     {
-      "path": "/authority/:authority_id",
+      "path": "/authority/:authority_id/:view?",
       "params": [
-        "authority_id"
+        "authority_id",
+        "view"
       ],
-      "description": "A contracting authority: who they are, what they have awarded, and their recent contracts."
+      "description": "A contracting authority — profile, procurement and the graph around it."
     },
     {
       "path": "/briefings",
@@ -91,11 +92,12 @@
       "description": "A specific view of a company (summary, balance, cashflow, profile)."
     },
     {
-      "path": "/company/:gmr_id",
+      "path": "/company/:gmr_id/:view?",
       "params": [
-        "gmr_id"
+        "gmr_id",
+        "view"
       ],
-      "description": "Company page by internal entity id."
+      "description": "A company — profile, financials, procurement, cohesion grants and the graph around it."
     },
     {
       "path": "/contract/:noticeId",

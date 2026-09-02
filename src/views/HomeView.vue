@@ -81,8 +81,29 @@ const VIEW_GROUPS = [
   // in tree because at least one external embed consumes them.
 ]
 
-const selectedTicker = computed(() => route.params.ticker || null)
-const selectedView   = computed(() => route.params.view   || 'summary')
+// One host, three URLs. `/c/:ticker` is the historical ticker route;
+// `/company/:gmr_id` and `/authority/:authority_id` are the semantic
+// entity URLs the search results and the sitemap use. They all resolve
+// the same entity — TickerFinancials already accepts a UUID and probes
+// companies then authorities — so they render the same shell rather
+// than each growing their own thinner copy, which is how this page
+// became unreachable from search in the first place.
+const selectedTicker = computed(() =>
+  route.params.ticker || route.params.gmr_id || route.params.authority_id || null)
+
+// Ticker URLs keep their historical 'summary' default. The semantic
+// entity URLs open on 'profile' — the overview of everything known
+// about the entity, which is what someone clicking a search result is
+// asking for.
+const selectedView = computed(
+  () => route.params.view || (route.params.ticker ? 'summary' : 'profile'))
+
+/** The URL family this page was entered through, so tabs stay on it. */
+function basePath() {
+  if (route.params.gmr_id) return `/company/${route.params.gmr_id}`
+  if (route.params.authority_id) return `/authority/${route.params.authority_id}`
+  return `/c/${selectedTicker.value}`
+}
 
 // Re-probe when the ticker changes (route param) — every new entity
 // might have different data coverage. Also wipe entityKind so we
@@ -141,7 +162,10 @@ const { track } = useAnalytics()
 
 function onViewChange(view) {
   track('view-changed', { symbol: selectedTicker.value, view })
-  router.push('/c/' + selectedTicker.value + '/' + view)
+  // Keep the URL family: switching tabs on /company/<id> must not
+  // bounce the reader onto /c/<id>, which is the same page under a
+  // less meaningful address.
+  router.push(`${basePath()}/${view}`)
 }
 
 function onClose() {

@@ -60,8 +60,8 @@ export const ROUTE_DESCRIPTIONS = {
 
   '/c/:ticker': 'Company page by ticker symbol.',
   '/c/:ticker/:view': 'A specific view of a company (summary, balance, cashflow, profile).',
-  '/authority/:authority_id': 'A contracting authority: who they are, what they have awarded, and their recent contracts.',
-  '/company/:gmr_id': 'Company page by internal entity id.',
+  '/authority/:authority_id/:view?': 'A contracting authority — profile, procurement and the graph around it.',
+  '/company/:gmr_id/:view?': 'A company — profile, financials, procurement, cohesion grants and the graph around it.',
   '/contract/:noticeId': 'A single public procurement contract, with its award details.',
   '/users/:id': 'A contributor profile.',
 
