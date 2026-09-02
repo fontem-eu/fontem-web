@@ -184,7 +184,14 @@ async function fetchGraph() {
     for (const rt of relTypes) {
       updated[rt] = rt in existing ? existing[rt] : true
     }
-    edgeTypeFilters.value = updated
+    // Only reassign when the set of edge types or their states actually
+    // changed. `edgeTypeFilters` has a deep watcher that re-renders the
+    // graph, and a ref reassignment fires it on identity, not on value —
+    // so assigning an equivalent object on every fetch re-rendered the
+    // graph for nothing, once per fetch, forever.
+    if (!sameFilters(existing, updated)) {
+      edgeTypeFilters.value = updated
+    }
   } catch (e) {
     error.value = e.message || 'Failed to load graph'
     graphData.value = null
@@ -610,6 +617,13 @@ function applyEdgeTypeFilter() {
     graph.setEdgeAttribute(edge, '_hidden', rt && edgeTypeFilters.value[rt] === false)
   })
   if (renderer) renderer.refresh()
+}
+
+/** Same keys, same values — nothing a filter re-render would change. */
+function sameFilters(a, b) {
+  const ak = Object.keys(a)
+  const bk = Object.keys(b)
+  return ak.length === bk.length && ak.every((k) => k in b && a[k] === b[k])
 }
 
 // ── Keyword filter ───────────────────────────────────────────
