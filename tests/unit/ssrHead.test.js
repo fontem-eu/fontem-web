@@ -68,3 +68,58 @@ describe('renderHead', () => {
     expect(escapeHtml(`&<>"'`)).toBe('&amp;&lt;&gt;&quot;&#39;')
   })
 })
+
+// ── the template has to still have its markers ──────────────────────
+//
+// prerender.js writes route '/' back over dist/client/index.html — the
+// file it read the template from — so after a build that copy has its
+// <!--ssr-head--> and <!--ssr-outlet--> already replaced by the
+// HOMEPAGE's head and body. A runtime server that reads it and calls
+// .replace() on those markers matches nothing and serves the homepage
+// for every URL: 200, right size, right headers, wrong page. SSR did
+// exactly that in testing, and it took reading the bytes to see it,
+// because every outward signal said healthy.
+//
+// So the build keeps a pristine copy at dist/server/template.html and
+// the server refuses to start without the markers. These pin the shape
+// that made the silent version possible.
+describe('SSR template substitution', () => {
+  const PRISTINE = [
+    '<html><head>',
+    '<!--ssr-head-->', '<title>Fallback</title>', '<!--/ssr-head-->',
+    '</head><body><!--ssr-outlet--></body></html>',
+  ].join('\n')
+
+  const substitute = (template, head, html) => template
+    .replace(/<!--ssr-head-->[\s\S]*?<!--\/ssr-head-->/, head)
+    .replace('<!--ssr-outlet-->', html)
+
+  it('replaces both markers in a pristine template', () => {
+    const out = substitute(PRISTINE, '<title>Story</title>', '<article>text</article>')
+    expect(out).toContain('<title>Story</title>')
+    expect(out).toContain('<article>text</article>')
+    expect(out).not.toContain('Fallback')
+    expect(out).not.toContain('ssr-outlet')
+  })
+
+  it('a consumed template silently keeps its baked-in head', () => {
+    // The regression, stated as the behaviour it produces: substitution
+    // is a no-op, so the page ships whatever the template already had.
+    const consumed = PRISTINE
+      .replace(/<!--ssr-head-->[\s\S]*?<!--\/ssr-head-->/, '<title>Homepage</title>')
+      .replace('<!--ssr-outlet-->', '<div>homepage body</div>')
+    const out = substitute(consumed, '<title>Story</title>', '<article>text</article>')
+    expect(out).toContain('<title>Homepage</title>')
+    expect(out).not.toContain('<title>Story</title>')
+    expect(out).not.toContain('<article>')
+  })
+
+  it('the marker test the server boots on catches a consumed template', () => {
+    const hasMarkers = (t) =>
+      ['<!--ssr-head-->', '<!--ssr-outlet-->'].every((m) => t.includes(m))
+    expect(hasMarkers(PRISTINE)).toBe(true)
+    expect(hasMarkers(PRISTINE.replace('<!--ssr-outlet-->', '<div/>'))).toBe(false)
+    expect(hasMarkers(PRISTINE.replace(
+      /<!--ssr-head-->[\s\S]*?<!--\/ssr-head-->/, '<title>x</title>'))).toBe(false)
+  })
+})

@@ -121,7 +121,19 @@ async function renderStory(render, template, shell, url, id) {
 
 async function main() {
   const { render } = await import(path.join(DIST, 'server/entry-server.js'))
-  const template = await fs.readFile(path.join(DIST, 'client/index.html'), 'utf-8')
+  // The PRISTINE template, not dist/client/index.html — that file is
+  // the prerendered homepage (prerender.js writes route '/' over it),
+  // so its markers are already consumed and every replace here would
+  // no-op into serving the homepage for every story.
+  const template = await fs.readFile(path.join(DIST, 'server/template.html'), 'utf-8')
+  for (const marker of ['<!--ssr-head-->', '<!--ssr-outlet-->']) {
+    if (!template.includes(marker)) {
+      // Refuse to start rather than serve wrong pages quietly. A
+      // template without its markers renders as "the homepage, for
+      // everything", which looks like a working server.
+      throw new Error(`template is missing ${marker} — dist/server/template.html is not pristine`)
+    }
+  }
   const shell = await fs.readFile(path.join(DIST, 'client/spa.html'), 'utf-8')
 
   const server = http.createServer(async (req, res) => {
