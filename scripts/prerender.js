@@ -81,6 +81,21 @@ async function main() {
   // the <!--ssr-head--> marker and the rendered tree into <!--ssr-outlet-->.
   const template = await fs.readFile(path.join(ROOT, 'dist/client/index.html'), 'utf-8')
 
+  // Keep a pristine copy for the runtime SSR server.
+  //
+  // The loop below writes route '/' back over dist/client/index.html —
+  // the very file this template was read from — so after a build the
+  // only copy on disk has its <!--ssr-head--> and <!--ssr-outlet-->
+  // markers already replaced by the HOMEPAGE's head and body. A server
+  // that reads it and calls .replace() on those markers matches nothing
+  // and silently serves the homepage for every URL, which is exactly
+  // what SSR did until this was found.
+  //
+  // dist/server/ rather than dist/client/: nginx serves dist/client, and
+  // this is not a page.
+  await fs.mkdir(path.join(ROOT, 'dist/server'), { recursive: true })
+  await fs.writeFile(path.join(ROOT, 'dist/server/template.html'), template, 'utf-8')
+
   for (const route of ROUTES) {
     // Construct an origin-matched render context.  CANONICAL env var
     // controls what hostname we bake in.
