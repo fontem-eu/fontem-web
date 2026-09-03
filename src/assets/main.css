@@ -48,8 +48,9 @@
                             links and buttons need no second colour. */
     --negative: #c04b2a; /* burnt sienna */
 
-    /* Brand tokens — the two-tone Fontem wordmark (Fon·tem, split on
-       the Latin syllable). Kept separate from --accent so a future
+    /* Brand tokens — the two-tone Dargle wordmark: ARG takes the
+       secondary, D and LE the primary (the groups spell the motto's
+       initials — see Wordmark.vue). Kept separate from --accent so a future
        accent tweak won't repaint the logo. Mosaic-Spring pair: lapis
        (the pigment) + umber (one of the mark's drawing stones — in
        the mosaic craft the dark tesserae draw the figure). */
