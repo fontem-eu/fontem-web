@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF inventar u Virtuoso pohrani — ukupni iznosi, brojevi po imenovanom grafu te oblik klasa/predikata svakog grafa. Izvor je SPARQL nad",
     "could_not_load_triple_store_stats": "Nije moguće učitati statistiku pohrane trojki:",
     "this_environment_has_no_rdf_store": "Ovo okruženje nema povezanu RDF pohranu — grafovi sankcija, prijava i drugi RDF grafovi Faze 2 postoje samo ondje gdje je",
-    "is_set_on_the_gmr_api_deployment": "postavljeno na implementaciji gmr-api. Provjerite nadzornu ploču staginga ili produkcije za brojeve uživo.",
+    "is_set_on_the_gmr_api_deployment": "postavljeno na implementaciji fontem-api. Provjerite nadzornu ploču staginga ili produkcije za brojeve uživo.",
     "assertions_in_this_graph": "tvrdnji u ovom grafu."
   },
   "user_profile": {

@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventario RDF en el almacén Virtuoso — totales, recuentos por grafo con nombre y la forma de clases/predicados de cada grafo. Obtenido mediante SPARQL contra",
     "could_not_load_triple_store_stats": "No se han podido cargar las estadísticas del almacén de tripletas:",
     "this_environment_has_no_rdf_store": "Este entorno no tiene ningún almacén RDF configurado — los grafos RDF de la fase 2 de sanciones, presentaciones y demás solo existen donde",
-    "is_set_on_the_gmr_api_deployment": "está definido en el despliegue de gmr-api. Consulte el panel de staging o de producción para ver cifras en vivo.",
+    "is_set_on_the_gmr_api_deployment": "está definido en el despliegue de fontem-api. Consulte el panel de staging o de producción para ver cifras en vivo.",
     "assertions_in_this_graph": "aserciones en este grafo."
   },
   "user_profile": {

@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF inventārs Virtuoso krātuvē — kopsummas, skaits katram nosauktajam grafam un katra grafa klašu/predikātu struktūra. Iegūts ar SPARQL vaicājumu pret",
     "could_not_load_triple_store_stats": "Neizdevās ielādēt tripletu krātuves statistiku:",
     "this_environment_has_no_rdf_store": "Šai videi nav pieslēgta RDF krātuve — sankciju, iesniegumu un citi 2. fāzes RDF grafi pastāv tikai tur, kur",
-    "is_set_on_the_gmr_api_deployment": "ir iestatīts gmr-api izvietojumā. Pārbaudiet iestudēšanas vai produkcijas informācijas paneli, lai iegūtu aktuālos skaitļus.",
+    "is_set_on_the_gmr_api_deployment": "ir iestatīts fontem-api izvietojumā. Pārbaudiet iestudēšanas vai produkcijas informācijas paneli, lai iegūtu aktuālos skaitļus.",
     "assertions_in_this_graph": "apgalvojumi šajā grafā."
   },
   "user_profile": {

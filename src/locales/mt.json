@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventarju RDF fil-maħżen Virtuoso — totali, għadd għal kull named-graph, u l-forma tal-klassi/predikat ta' kull graff. Sors permezz ta' SPARQL kontra",
     "could_not_load_triple_store_stats": "Ma stajniex ngħabbu l-istatistika tal-maħżen tat-triples:",
     "this_environment_has_no_rdf_store": "Dan l-ambjent m'għandu l-ebda maħżen RDF konness — is-sanzjonijiet, il-filings, u l-graffijiet RDF l-oħra tal-Fażi 2 jeżistu biss fejn",
-    "is_set_on_the_gmr_api_deployment": "huwa stabbilit fuq id-deployment tal-gmr-api. Iċċekkja d-dashboard tal-istaging jew tal-prod għal numri live.",
+    "is_set_on_the_gmr_api_deployment": "huwa stabbilit fuq id-deployment tal-fontem-api. Iċċekkja d-dashboard tal-istaging jew tal-prod għal numri live.",
     "assertions_in_this_graph": "asserzjonijiet f'dan il-graff."
   },
   "user_profile": {

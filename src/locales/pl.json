@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inwentaryzacja RDF w magazynie Virtuoso — sumy, liczby dla każdego nazwanego grafu oraz kształt klas/predykatów każdego grafu. Pozyskane przez SPARQL względem",
     "could_not_load_triple_store_stats": "Nie udało się załadować statystyk magazynu trójek:",
     "this_environment_has_no_rdf_store": "To środowisko nie ma podłączonego magazynu RDF — grafy RDF sankcji, sprawozdań i inne grafy fazy 2 istnieją tylko tam, gdzie",
-    "is_set_on_the_gmr_api_deployment": "jest ustawione we wdrożeniu gmr-api. Sprawdź aktualne liczby na pulpicie staging lub prod.",
+    "is_set_on_the_gmr_api_deployment": "jest ustawione we wdrożeniu fontem-api. Sprawdź aktualne liczby na pulpicie staging lub prod.",
     "assertions_in_this_graph": "asercji w tym grafie."
   },
   "user_profile": {

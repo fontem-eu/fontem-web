@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Απόθεμα RDF στον χώρο αποθήκευσης Virtuoso — σύνολα, πλήθη ανά ονομασμένο γράφο και το σχήμα κλάσης/κατηγορήματος κάθε γράφου. Προέρχεται μέσω SPARQL έναντι",
     "could_not_load_triple_store_stats": "Δεν ήταν δυνατή η φόρτωση στατιστικών του triple-store:",
     "this_environment_has_no_rdf_store": "Αυτό το περιβάλλον δεν έχει συνδεδεμένο χώρο αποθήκευσης RDF — οι γράφοι RDF Φάσης 2 για κυρώσεις, καταθέσεις και άλλα υπάρχουν μόνο όπου το",
-    "is_set_on_the_gmr_api_deployment": "έχει οριστεί στην ανάπτυξη gmr-api. Ελέγξτε τον πίνακα ελέγχου staging ή prod για ζωντανούς αριθμούς.",
+    "is_set_on_the_gmr_api_deployment": "έχει οριστεί στην ανάπτυξη fontem-api. Ελέγξτε τον πίνακα ελέγχου staging ή prod για ζωντανούς αριθμούς.",
     "assertions_in_this_graph": "ισχυρισμοί σε αυτόν τον γράφο."
   },
   "user_profile": {

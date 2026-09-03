@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventaario Virtuoso-varastossa — kokonaismäärät, nimettyjen graafien kohtaiset lukumäärät sekä kunkin graafin luokka-/predikaattirakenne. Lähteenä SPARQL kohteeseen",
     "could_not_load_triple_store_stats": "Kolmikkovaraston tilastoja ei voitu ladata:",
     "this_environment_has_no_rdf_store": "Tässä ympäristössä ei ole RDF-varastoa kytkettynä — pakotteiden, ilmoitusten ja muiden vaiheen 2 RDF-graafien osalta olemassa vain siellä, missä",
-    "is_set_on_the_gmr_api_deployment": "on asetettu gmr-api-käyttöönotossa. Tarkista live-luvut staging- tai prod-koontinäytöstä.",
+    "is_set_on_the_gmr_api_deployment": "on asetettu fontem-api-käyttöönotossa. Tarkista live-luvut staging- tai prod-koontinäytöstä.",
     "assertions_in_this_graph": "väitettä tässä graafissa."
   },
   "user_profile": {

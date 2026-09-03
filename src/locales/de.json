@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-Bestand im Virtuoso-Speicher — Gesamtzahlen, Anzahlen pro benanntem Graphen sowie die Klassen-/Prädikatstruktur jedes Graphen. Bezogen per SPARQL gegen",
     "could_not_load_triple_store_stats": "Statistiken des Triple-Stores konnten nicht geladen werden:",
     "this_environment_has_no_rdf_store": "In dieser Umgebung ist kein RDF-Speicher eingebunden — die Sanktions-, Meldungs- und anderen RDF-Graphen der Phase 2 existieren nur dort, wo",
-    "is_set_on_the_gmr_api_deployment": "im gmr-api-Deployment gesetzt ist. Prüfen Sie das Staging- oder Prod-Dashboard für aktuelle Zahlen.",
+    "is_set_on_the_gmr_api_deployment": "im fontem-api-Deployment gesetzt ist. Prüfen Sie das Staging- oder Prod-Dashboard für aktuelle Zahlen.",
     "assertions_in_this_graph": "Aussagen in diesem Graphen."
   },
   "user_profile": {

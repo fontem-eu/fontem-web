@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-leltár a Virtuoso tárban — összesítések, elnevezett gráfonkénti darabszámok, valamint az egyes gráfok osztály/predikátum szerkezete. SPARQL révén a következőből:",
     "could_not_load_triple_store_stats": "Nem sikerült betölteni a hármastár statisztikáit:",
     "this_environment_has_no_rdf_store": "Ebben a környezetben nincs RDF-tár bekötve — a szankciós, beadványi és egyéb 2. fázisú RDF-gráfok csak ott léteznek, ahol a",
-    "is_set_on_the_gmr_api_deployment": "be van állítva a gmr-api telepítésen. Az élő számokért nézze meg a staging vagy a prod irányítópultot.",
+    "is_set_on_the_gmr_api_deployment": "be van állítva a fontem-api telepítésen. Az élő számokért nézze meg a staging vagy a prod irányítópultot.",
     "assertions_in_this_graph": "állítás ebben a gráfban."
   },
   "user_profile": {

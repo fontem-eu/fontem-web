@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventuur Virtuoso hoidlas — kogusummad, nimeliste graafide kaupa arvud ning iga graafi klassi/predikaadi kuju. Allikaks SPARQL päring vastu",
     "could_not_load_triple_store_stats": "Kolmikhoidla statistikat ei õnnestunud laadida:",
     "this_environment_has_no_rdf_store": "Sellel keskkonnal pole RDF-hoidlat ühendatud — sanktsioonide, esitiste ja muud 2. faasi RDF-graafid eksisteerivad üksnes seal, kus",
-    "is_set_on_the_gmr_api_deployment": "on gmr-api juurutuses määratud. Reaalajas arvude jaoks vaadake lava- või tootmiskeskkonna töölauda.",
+    "is_set_on_the_gmr_api_deployment": "on fontem-api juurutuses määratud. Reaalajas arvude jaoks vaadake lava- või tootmiskeskkonna töölauda.",
     "assertions_in_this_graph": "väidet selles graafis."
   },
   "user_profile": {

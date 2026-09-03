@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF inventorius Virtuoso saugykloje – bendros sumos, kiekvieno įvardyto grafo skaičiai ir kiekvieno grafo klasės/predikato struktūra. Gaunama per SPARQL prieš",
     "could_not_load_triple_store_stats": "Nepavyko įkelti trijetų saugyklos statistikos:",
     "this_environment_has_no_rdf_store": "Ši aplinka neturi prijungtos RDF saugyklos – sankcijų, ataskaitų ir kitų 2 etapo RDF grafų yra tik ten, kur",
-    "is_set_on_the_gmr_api_deployment": "yra nustatytas gmr-api diegime. Gyvų skaičių ieškokite staging arba prod informacinėje lentoje.",
+    "is_set_on_the_gmr_api_deployment": "yra nustatytas fontem-api diegime. Gyvų skaičių ieškokite staging arba prod informacinėje lentoje.",
     "assertions_in_this_graph": "tvirtinimų šiame grafe."
   },
   "user_profile": {
