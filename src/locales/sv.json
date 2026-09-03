@@ -1139,7 +1139,7 @@
     "description": {
       "about": "Dargle är transparensplattformen baserad på primärkällor. EU-företag, offentlig upphandling, lobbyister och sammanhållningsfinansiering — länkade i en graf och korskontrollerade mot de officiella registren.",
       "data_quality": "Täckning, färskhet och källuppdelning för varje dataset i Dargle kunskapsgraf. Transparens om transparens.",
-      "home": "Vi korsar EU:s digitala gränser, ett dataset i taget. Offentliga datahistorier från Dargle-gemenskapen — undersökningar, korskontroller och fynd grundade på primärkällor.",
+      "home": "Upptäck. Argumentera. Lär dig. Njut. Offentliga datahistorier från Dargle-gemenskapen — undersökningar, korskontroller och fynd grundade på primärkällor.",
       "login": "Logga in på Dargle för att publicera datahistorier, rapportera problem och spara din forskning.",
       "map": "Interaktiv choroplet av kurerade Eurostat-dataset på NUTS-nivå — befolkning, BNP, arbetslöshet, FoU och mer, kartlagda över hela Europa.",
       "privacy": "Hur Dargle hanterar personuppgifter. Vi lagrar endast kontogrunder, inga spårningscookies, ingen tredjepartsanalys.",
@@ -1150,7 +1150,7 @@
     "title": {
       "about": "Om — Dargle",
       "data_quality": "Datakvalitet — Dargle",
-      "home": "Dargle — Vi korsar EU:s digitala gränser, ett dataset i taget",
+      "home": "Dargle — Upptäck. Argumentera. Lär dig. Njut.",
       "login": "Logga in — Dargle",
       "map": "Karta — Europeisk statistik på Dargle",
       "privacy": "Integritetspolicy — Dargle",

@@ -1139,7 +1139,7 @@
     "description": {
       "about": "A Dargle az elsődleges forrásokon alapuló átláthatósági platform. EU vállalatok, közbeszerzések, lobbisták és kohéziós finanszírozás — egy gráfba kötve és a hivatalos nyilvántartásokkal kereszthivatkozva.",
       "data_quality": "Lefedettség, frissesség és forrásbontás minden adatkészlethez a Dargle tudásgráfjában. Átláthatóság az átláthatóságról.",
-      "home": "Átlépjük az EU digitális határait, egyszerre egy adatkészlettel. Nyilvános adat-történetek a Dargle közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
+      "home": "Fedezd fel. Érvelj. Tanulj. Élvezd. Nyilvános adat-történetek a Dargle közösségéből — vizsgálatok, kereszthivatkozások és következtetések elsődleges forrásokból.",
       "login": "Jelentkezz be a Dargle adat-történetek közzétételéhez, problémák jelentéséhez és kutatásod mentéséhez.",
       "map": "Interaktív choropleth kurált Eurostat adatkészletekből NUTS szinten — népesség, GDP, munkanélküliség, K+F és több, Európa-szerte feltérképezve.",
       "privacy": "Hogyan kezeli a Dargle a személyes adatokat. Csak alapvető fiókadatokat tárolunk, nincs követő süti, nincs harmadik féltől származó analitika.",
@@ -1150,7 +1150,7 @@
     "title": {
       "about": "Rólunk — Dargle",
       "data_quality": "Adatminőség — Dargle",
-      "home": "Dargle — Átlépjük az EU digitális határait, egyszerre egy adatkészlettel",
+      "home": "Dargle — Fedezd fel. Érvelj. Tanulj. Élvezd.",
       "login": "Bejelentkezés — Dargle",
       "map": "Térkép — Európai statisztikák a Dargle",
       "privacy": "Adatvédelmi szabályzat — Dargle",

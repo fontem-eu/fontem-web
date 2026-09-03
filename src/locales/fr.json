@@ -1139,7 +1139,7 @@
     "description": {
       "about": "Dargle est la plateforme de transparence en sources primaires. Entreprises de l'UE, marchés publics, lobbyistes et financement de cohésion — liés dans un seul graphe et recoupés avec les registres officiels.",
       "data_quality": "Couverture, fraîcheur et répartition par source pour chaque jeu de données du graphe de connaissances Dargle. La transparence sur la transparence.",
-      "home": "Franchir les frontières numériques de l'UE, un jeu de données à la fois. Histoires de données publiques de la communauté Dargle — enquêtes, recoupements et conclusions ancrées dans des sources primaires.",
+      "home": "Découvrez. Argumentez. Apprenez. Profitez. Histoires de données publiques de la communauté Dargle — enquêtes, recoupements et conclusions ancrées dans des sources primaires.",
       "login": "Connectez-vous à Dargle pour publier des histoires de données, signaler des problèmes et sauvegarder vos recherches.",
       "map": "Choroplèthe interactif de jeux de données Eurostat sélectionnés au niveau NUTS — population, PIB, chômage, R&D et plus, cartographiés à travers l'Europe.",
       "privacy": "Comment Dargle gère les données personnelles. Nous ne stockons que les bases de votre compte, aucun cookie de pistage, aucun outil d'analyse tiers.",
@@ -1150,7 +1150,7 @@
     "title": {
       "about": "À propos — Dargle",
       "data_quality": "Qualité des données — Dargle",
-      "home": "Dargle — Franchir les frontières numériques de l'UE, un jeu de données à la fois",
+      "home": "Dargle — Découvrez. Argumentez. Apprenez. Profitez.",
       "login": "Connexion — Dargle",
       "map": "Carte — Statistiques européennes sur Dargle",
       "privacy": "Politique de confidentialité — Dargle",

@@ -1139,7 +1139,7 @@
     "description": {
       "about": "Dargle on ensisijaislähteiden avoimuusalusta. EU-yritykset, julkiset hankinnat, lobbarit ja koheesiorahoitus — yhdistettyinä yhdeksi graafiksi ja ristiintarkistettuina virallisten rekistereiden kanssa.",
       "data_quality": "Kattavuus, tuoreus ja lähdeerittelyt jokaiselle datajoukolle Dargle tietämysgraafissa. Avoimuutta avoimuudesta.",
-      "home": "Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan. Julkiset datatarinat Dargle-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
+      "home": "Löydä. Väittele. Opi. Nauti. Julkiset datatarinat Dargle-yhteisöltä — tutkimuksia, ristivertailuja ja löydöksiä, jotka perustuvat ensisijaislähteisiin.",
       "login": "Kirjaudu Dargle julkaistaksesi datatarinoita, raportoidaksesi ongelmia ja tallentaaksesi tutkimuksesi.",
       "map": "Interaktiivinen koropleetti kuratoiduista Eurostat-datajoukoista NUTS-tasolla — väestö, BKT, työttömyys, T&K ja muut, kartoitettuina ympäri Eurooppaa.",
       "privacy": "Miten Dargle käsittelee henkilötietoja. Tallennamme vain tilin perustiedot, ei seurantaeväs­teitä eikä kolmannen osapuolen analytiikkaa.",
@@ -1150,7 +1150,7 @@
     "title": {
       "about": "Tietoja — Dargle",
       "data_quality": "Datan laatu — Dargle",
-      "home": "Dargle — Ylitämme EU:n digitaaliset rajat, yksi tietoaineisto kerrallaan",
+      "home": "Dargle — Löydä. Väittele. Opi. Nauti.",
       "login": "Kirjaudu sisään — Dargle",
       "map": "Kartta — Euroopan tilastot Dargle",
       "privacy": "Tietosuojakäytäntö — Dargle",

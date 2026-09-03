@@ -1139,7 +1139,7 @@
     "description": {
       "about": "Dargle is the primary-source transparency platform. EU companies, public procurement, lobbyists, and cohesion funding — linked into one graph and cross-checked against the official registers.",
       "data_quality": "Coverage, freshness, and source breakdowns for every dataset in the Dargle knowledge graph. Transparency about transparency.",
-      "home": "Crossing the EU's digital borders, one dataset at a time. Public data stories from the Dargle community — investigations, cross-checks, and findings grounded in primary sources.",
+      "home": "Discover. Argue. Learn. Enjoy. Public data stories from the Dargle community — investigations, cross-checks, and findings grounded in primary sources.",
       "login": "Sign in to Dargle to publish data stories, raise issues, and save your research.",
       "map": "Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.",
       "privacy": "How Dargle handles personal data. We store only account basics, no tracking cookies, no third-party analytics.",
@@ -1150,7 +1150,7 @@
     "title": {
       "about": "About — Dargle",
       "data_quality": "Data quality — Dargle",
-      "home": "Dargle — Crossing the EU's digital borders, one dataset at a time",
+      "home": "Dargle — Discover. Argue. Learn. Enjoy.",
       "login": "Sign in — Dargle",
       "map": "Map — European statistics on Dargle",
       "privacy": "Privacy policy — Dargle",
