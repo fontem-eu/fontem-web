@@ -114,4 +114,11 @@ HTMLCanvasElement.prototype.getContext = function (type, ...args) {
 // `global: { plugins: [makeTestI18n('fr')] }`.
 import { config } from '@vue/test-utils'
 import { makeTestI18n } from './unit/helpers/i18n.js'
-config.global.plugins = [...(config.global.plugins || []), makeTestI18n()]
+
+// Assign, never append. This file is evaluated once per test *file*, but
+// `config` is a module singleton shared by every file in the process —
+// the pool is a single fork (see vitest.config.js). Appending therefore
+// accumulated one i18n plugin per file: 203 by the end of the suite, every
+// one of them installed on every mount(). Assignment keeps the intent (a
+// fresh i18n per file) without the pile-up.
+config.global.plugins = [makeTestI18n()]
