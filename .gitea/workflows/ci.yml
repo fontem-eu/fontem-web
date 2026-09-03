@@ -138,7 +138,7 @@ jobs:
             fi
             echo "OK   $path — $expect"
           }
-          probe /              "Fontem"
+          probe /              "Dargle"
           probe /about         "About"
           probe /privacy       "Privacy"
           probe /data-quality  "Data quality"

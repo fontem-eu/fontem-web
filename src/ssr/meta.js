@@ -16,7 +16,9 @@
 
 const TITLES = {
   // Stories — public feed — is the new landing.
-  '/': "Dargle — Crossing the EU's digital borders with data",
+  // The homepage title is the brand line, and the brand line is now the
+  // motto — matching index.html, which a crawler may reach first.
+  '/': 'Dargle — Discover. Argue. Learn. Enjoy.',
   '/about': 'About — Dargle',
   '/privacy': 'Privacy policy — Dargle',
   '/data-quality': 'Data quality — Dargle',

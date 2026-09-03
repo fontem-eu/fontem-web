@@ -1,6 +1,6 @@
 > ### 🪞 This GitHub repository is a mirror
 >
-> Development happens on Fontem's own infrastructure; this mirror is
+> Development happens on Dargle's own infrastructure; this mirror is
 > updated automatically. **Issues and pull requests opened here are not
 > monitored.**
 >
