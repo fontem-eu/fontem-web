@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-oversigt i Virtuoso-lageret — totaler, tællinger pr. navngiven graf og klasse-/prædikatstrukturen for hver graf. Hentet via SPARQL mod",
     "could_not_load_triple_store_stats": "Kunne ikke indlæse statistik for triple-lageret:",
     "this_environment_has_no_rdf_store": "Dette miljø har ikke noget RDF-lager konfigureret — RDF-graferne for sanktioner, indberetninger og andre Fase 2-grafer findes kun, hvor",
-    "is_set_on_the_gmr_api_deployment": "er sat på gmr-api-deploymentet. Tjek staging- eller prod-dashboardet for aktuelle tal.",
+    "is_set_on_the_gmr_api_deployment": "er sat på fontem-api-deploymentet. Tjek staging- eller prod-dashboardet for aktuelle tal.",
     "assertions_in_this_graph": "assertioner i denne graf."
   },
   "user_profile": {

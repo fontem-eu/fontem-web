@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventario RDF nell'archivio Virtuoso — totali, conteggi per named graph e la struttura classe/predicato di ciascun grafo. Ricavato tramite SPARQL su",
     "could_not_load_triple_store_stats": "Impossibile caricare le statistiche del triple store:",
     "this_environment_has_no_rdf_store": "Questo ambiente non ha un archivio RDF configurato — le sanzioni, i filing e gli altri grafi RDF della Fase 2 esistono solo dove",
-    "is_set_on_the_gmr_api_deployment": "è impostato sul deployment gmr-api. Consulti la dashboard di staging o di produzione per i numeri in tempo reale.",
+    "is_set_on_the_gmr_api_deployment": "è impostato sul deployment fontem-api. Consulti la dashboard di staging o di produzione per i numeri in tempo reale.",
     "assertions_in_this_graph": "asserzioni in questo grafo."
   },
   "user_profile": {

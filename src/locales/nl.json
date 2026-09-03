@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventaris in de Virtuoso-opslag — totalen, tellingen per named graph en de klasse/predicaat-structuur van elke graaf. Verkregen via SPARQL tegen",
     "could_not_load_triple_store_stats": "Kon statistieken van de triple-store niet laden:",
     "this_environment_has_no_rdf_store": "Deze omgeving heeft geen aangesloten RDF-opslag — de RDF-grafen voor sancties, deponeringen en andere fase 2-graafgegevens bestaan alleen waar",
-    "is_set_on_the_gmr_api_deployment": "is ingesteld op de gmr-api-deployment. Raadpleeg het staging- of productiedashboard voor actuele cijfers.",
+    "is_set_on_the_gmr_api_deployment": "is ingesteld op de fontem-api-deployment. Raadpleeg het staging- of productiedashboard voor actuele cijfers.",
     "assertions_in_this_graph": "assertions in deze graaf."
   },
   "user_profile": {

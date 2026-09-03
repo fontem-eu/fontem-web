@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventarul RDF din depozitul Virtuoso — totaluri, numărători per graf denumit și structura de clase/predicate a fiecărui graf. Provenit prin SPARQL din",
     "could_not_load_triple_store_stats": "Nu s-au putut încărca statisticile depozitului de triplete:",
     "this_environment_has_no_rdf_store": "Acest mediu nu are un depozit RDF conectat — grafurile RDF de sancțiuni, depuneri și alte grafuri din Faza 2 există doar acolo unde",
-    "is_set_on_the_gmr_api_deployment": "este setat pe implementarea gmr-api. Verificați tabloul de bord de staging sau de producție pentru cifre în timp real.",
+    "is_set_on_the_gmr_api_deployment": "este setat pe implementarea fontem-api. Verificați tabloul de bord de staging sau de producție pentru cifre în timp real.",
     "assertions_in_this_graph": "aserțiuni în acest graf."
   },
   "user_profile": {

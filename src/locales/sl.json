@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventar RDF v shrambi Virtuoso — skupne vrednosti, števila po imenovanih grafih ter oblika razredov/predikatov vsakega grafa. Pridobljeno s SPARQL nad",
     "could_not_load_triple_store_stats": "Statistike shrambe trojic ni bilo mogoče naložiti:",
     "this_environment_has_no_rdf_store": "To okolje nima povezane shrambe RDF — grafi RDF sankcij, prijav in drugi grafi faze 2 obstajajo samo tam, kjer je",
-    "is_set_on_the_gmr_api_deployment": "nastavljeno na uvedbi gmr-api. Za žive številke preverite nadzorno ploščo staging ali prod.",
+    "is_set_on_the_gmr_api_deployment": "nastavljeno na uvedbi fontem-api. Za žive številke preverite nadzorno ploščo staging ali prod.",
     "assertions_in_this_graph": "trditev v tem grafu."
   },
   "user_profile": {

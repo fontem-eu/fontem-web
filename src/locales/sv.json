@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventering i Virtuoso-lagret — totaler, antal per namngiven graf och klass-/predikatformen för varje graf. Hämtas via SPARQL mot",
     "could_not_load_triple_store_stats": "Det gick inte att läsa in statistik för trippellagret:",
     "this_environment_has_no_rdf_store": "Denna miljö har inget RDF-lager kopplat — sanktions-, ansöknings- och andra RDF-grafer från fas 2 finns endast där",
-    "is_set_on_the_gmr_api_deployment": "är satt i gmr-api-distributionen. Kontrollera instrumentpanelen för staging eller prod för aktuella siffror.",
+    "is_set_on_the_gmr_api_deployment": "är satt i fontem-api-distributionen. Kontrollera instrumentpanelen för staging eller prod för aktuella siffror.",
     "assertions_in_this_graph": "påståenden i denna graf."
   },
   "user_profile": {

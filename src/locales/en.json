@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF inventory in the Virtuoso store — totals, per-named-graph counts, and the class/predicate shape of each graph. Sourced by SPARQL against",
     "could_not_load_triple_store_stats": "Could not load triple-store stats:",
     "this_environment_has_no_rdf_store": "This environment has no RDF store wired up — the sanctions, filings, and other Phase 2 RDF graphs only exist where",
-    "is_set_on_the_gmr_api_deployment": "is set on the gmr-api deployment. Check the staging or prod dashboard for live numbers.",
+    "is_set_on_the_gmr_api_deployment": "is set on the fontem-api deployment. Check the staging or prod dashboard for live numbers.",
     "assertions_in_this_graph": "assertions in this graph."
   },
   "user_profile": {

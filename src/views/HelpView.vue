@@ -48,7 +48,7 @@ const mcpUrl = computed(() => {
       <p>{{ $t('help.claude_desktop_body') }}</p>
 
       <h4>{{ $t('help.claude_code') }}</h4>
-      <pre class="help-pre"><code>claude mcp add --transport http fontem {{ mcpUrl }} \
+      <pre class="help-pre"><code>claude mcp add --transport http dargle {{ mcpUrl }} \
   --header "Authorization: Bearer YOUR_TOKEN"</code></pre>
 
       <h4>{{ $t('help.chatgpt') }}</h4>

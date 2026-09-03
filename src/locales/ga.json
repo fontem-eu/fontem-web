@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Fardal RDF sa stór Virtuoso — iomláin, líonta in aghaidh an ghraif ainmnithe, agus cruth aicme/tuarthóra gach graif. Foinsithe ag SPARQL i gcoinne",
     "could_not_load_triple_store_stats": "Níorbh fhéidir staitisticí an stóir triarach a luchtú:",
     "this_environment_has_no_rdf_store": "Níl aon stór RDF sreangaithe suas ag an timpeallacht seo — níl na graif RDF Chéim 2 do smachtbhannaí, comhdúcháin, agus eile ann ach amháin sa áit ina bhfuil",
-    "is_set_on_the_gmr_api_deployment": "socraithe ar imscaradh gmr-api. Seiceáil an deais staging nó prod le haghaidh figiúirí beo.",
+    "is_set_on_the_gmr_api_deployment": "socraithe ar imscaradh fontem-api. Seiceáil an deais staging nó prod le haghaidh figiúirí beo.",
     "assertions_in_this_graph": "dearbhuithe sa ghraf seo."
   },
   "user_profile": {

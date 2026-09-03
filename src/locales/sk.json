@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventár RDF v úložisku Virtuoso — súčty, počty na pomenovaný graf a tvar tried/predikátov každého grafu. Zdrojom je SPARQL voči",
     "could_not_load_triple_store_stats": "Nepodarilo sa načítať štatistiky triple store:",
     "this_environment_has_no_rdf_store": "Toto prostredie nemá zapojené žiadne úložisko RDF — sankcie, výkazy a ostatné grafy RDF fázy 2 existujú iba tam, kde",
-    "is_set_on_the_gmr_api_deployment": "je nastavené v nasadení gmr-api. Aktuálne čísla nájdete v prehľade staging alebo prod.",
+    "is_set_on_the_gmr_api_deployment": "je nastavené v nasadení fontem-api. Aktuálne čísla nájdete v prehľade staging alebo prod.",
     "assertions_in_this_graph": "tvrdení v tomto grafe."
   },
   "user_profile": {

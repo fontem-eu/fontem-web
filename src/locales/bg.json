@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF инвентар в хранилището Virtuoso — общи стойности, брой по именуван граф и класовата/предикатната структура на всеки граф. Източник по SPARQL срещу",
     "could_not_load_triple_store_stats": "Статистиките за хранилището на тройки не можаха да бъдат заредени:",
     "this_environment_has_no_rdf_store": "Тази среда няма свързано RDF хранилище — графите на санкциите, декларациите и другите RDF графи от Фаза 2 съществуват само там, където",
-    "is_set_on_the_gmr_api_deployment": "е зададено при разгръщането на gmr-api. Проверете таблото за staging или prod за актуални стойности.",
+    "is_set_on_the_gmr_api_deployment": "е зададено при разгръщането на fontem-api. Проверете таблото за staging или prod за актуални стойности.",
     "assertions_in_this_graph": "твърдения в този граф."
   },
   "user_profile": {
