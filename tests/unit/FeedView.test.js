@@ -15,7 +15,12 @@ vi.mock('../../src/api/community.js', () => ({
   unfollowTag: vi.fn(() => Promise.resolve(null)),
 }))
 
+vi.mock('../../src/composables/useBriefingStream.js', () => ({
+  loadBriefingStream: vi.fn(),
+}))
+
 import * as api from '../../src/api/community.js'
+import * as briefings from '../../src/composables/useBriefingStream.js'
 import FeedView from '../../src/views/FeedView.vue'
 import { _resetFollowedTagsForTests } from '../../src/composables/useFollowedTags.js'
 
@@ -30,21 +35,26 @@ const TAGS = [
   { tag: 'lobbying', story_count: 1 },
 ]
 
+const BRIEFING_ITEMS = [
+  { item_id: 'i1', _from: 'Public investment', title: 'A tender', item_time: '2026-04-03' },
+]
+
 beforeEach(() => {
   _internal.clearForTests(); localStorage.clear()
   _resetFollowedTagsForTests()
   vi.clearAllMocks()
   api.listReports.mockResolvedValue(STORIES_ALL)
   api.listAllTags.mockResolvedValue({ tags: TAGS })
+  briefings.loadBriefingStream.mockResolvedValue(BRIEFING_ITEMS)
 })
 
 afterEach(() => vi.restoreAllMocks())
 
-async function mountFeed(initialPath = '/feed') {
+async function mountFeed(initialPath = '/feed', meta = undefined) {
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
-      { path: '/feed', component: FeedView },
+      { path: '/feed', component: FeedView, ...(meta ? { meta } : {}) },
       { path: '/stories/:id', component: { template: '<div />' } },
     ],
   })
@@ -57,6 +67,40 @@ async function mountFeed(initialPath = '/feed') {
   await flushPromises()
   return { wrapper, router }
 }
+
+describe('FeedView — what each route shows', () => {
+  // The Stories nav entry pointed at the mixed landing feed, so there
+  // was nowhere to read only the stories. One component backs both
+  // routes; `meta.mixed` is the whole difference.
+  it('the landing feed mixes briefings in with the articles', async () => {
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('A tender')
+  })
+
+  it('the stories page shows articles only', async () => {
+    const { wrapper } = await mountFeed('/feed', { mixed: false })
+    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+    expect(wrapper.text()).not.toContain('A tender')
+    // Articles are still there — this is a filter on the briefings, not
+    // a broken page.
+    expect(wrapper.text()).toContain('A')
+  })
+
+  it('the stories page does not even request the briefings', async () => {
+    // Hiding them client-side would still cost the reader the round
+    // trips, and on the signed-out path that is several.
+    await mountFeed('/feed', { mixed: false })
+    expect(briefings.loadBriefingStream).not.toHaveBeenCalled()
+  })
+
+  it('a tag filter hides briefings even on the mixed feed', async () => {
+    // Briefing items carry no story tags, so showing them beside a
+    // filtered article list would imply they matched the filter.
+    const { wrapper } = await mountFeed('/feed?tag=procurement', { mixed: true })
+    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+  })
+})
 
 describe('FeedView', () => {
   it('renders one chip per tag with story counts', async () => {

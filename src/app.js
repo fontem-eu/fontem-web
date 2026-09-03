@@ -90,10 +90,20 @@ import ExploreView from './views/ExploreView.vue'
 import './assets/main.css'
 
 const ROUTES = [
-  // Landing — Feed (public data stories list). The previous "Home"
-  // (carousel + chips + how-it-works + 45s tour) moved to /about
-  // and is reachable from the footer link.
-  { path: '/', component: FeedView },
+  // Landing — the mixed feed: articles AND briefings. The previous
+  // "Home" (carousel + chips + how-it-works + 45s tour) moved to
+  // /about and is reachable from the footer link.
+  //
+  // Same component as /stories-feed below; `meta.mixed` is what makes
+  // this one carry briefings. Signed out that is the public default —
+  // ten a week of public investment from your country, three from the
+  // EU — so a first-time visitor never lands on an empty page.
+  { path: '/', component: FeedView, meta: { mixed: true } },
+
+  // Stories — articles only. Split out because the Stories nav entry
+  // pointing at the mixed landing meant there was nowhere to read just
+  // the stories.
+  { path: '/stories-feed', component: FeedView, meta: { mixed: false } },
 
   // About — the marketing/onboarding page that used to live at `/`.
   { path: '/about', component: AboutView },

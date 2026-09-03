@@ -62,10 +62,19 @@ async function loadBriefings() {
   }
 }
 
+// This view backs two routes. `/` is the landing feed and mixes
+// articles with briefings; `/stories-feed` is the Stories page and
+// shows articles only. The distinction is the route's `mixed` meta
+// rather than a second component, because everything else on the page
+// -- tag strip, filter persistence, cards -- is identical.
+const mixed = computed(() => route.meta?.mixed === true)
+
 // Hidden while a tag filter is active: briefing items carry no story
 // tags, so they can neither match nor fail the filter, and showing them
 // anyway would imply they had.
-const visibleBriefings = computed(() => (activeTag.value ? [] : briefingItems.value))
+const visibleBriefings = computed(
+  () => (!mixed.value || activeTag.value ? [] : briefingItems.value),
+)
 
 function fmtBriefingDate(iso) {
   return iso ? new Date(iso).toLocaleDateString() : ''
@@ -109,7 +118,9 @@ onMounted(async () => {
       router.replace({ path: route.path, query: { ...route.query, tag: saved } })
     }
   }
-  await Promise.all([loadStories(), loadTags(), loadBriefings()])
+  // Stories-only route does not fetch briefings at all -- hiding them
+  // client-side would still cost the reader the requests.
+  await Promise.all([loadStories(), loadTags(), ...(mixed.value ? [loadBriefings()] : [])])
 })
 
 // Re-fetch the story list whenever the URL's `?tag=` flips.
@@ -155,8 +166,10 @@ function truncate(text, maxLen = 180) {
 
 <template>
   <div class="feed" data-testid="feed">
-    <h1 class="feed-title">{{ $t('feed.feed') }}</h1>
-    <p class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
+    <h1 class="feed-title">{{ mixed ? $t('feed.feed') : $t('nav.stories') }}</h1>
+    <!-- The subtitle says "public data stories", which is only true of
+         the stories-only page; the mixed feed also carries briefings. -->
+    <p v-if="!mixed" class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
 
     <!-- Browse-by-tag chip strip. Each chip toggles the URL `?tag=`
          filter; a star toggles follow/unfollow (localStorage when
@@ -230,6 +243,15 @@ function truncate(text, maxLen = 180) {
         </li>
       </ul>
     </section>
+
+    <!-- On the mixed feed the articles need their own heading, so the
+         two sections read as peers rather than the briefings looking
+         like a header for the cards below. The stories-only page has
+         the h1 for that already. -->
+    <h2
+      v-if="mixed && !loading && stories.length"
+      class="feed-briefings-head"
+    >{{ $t('nav.stories') }}</h2>
 
     <div v-if="loading" class="loading-msg">{{ $t('feed.loading_feed') }}</div>
 

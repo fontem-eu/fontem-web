@@ -42,7 +42,8 @@ const onStudio = computed(() => route.path.startsWith('/studio'))
 const navGroups = computed(() => {
   const groups = [
     { key: 'view', items: [
-      { key: 'stories', label: t('nav.stories'), path: '/', icon: 'stories' },
+      { key: 'feed', label: t('feed.feed'), path: '/', icon: 'stories' },
+      { key: 'stories', label: t('nav.stories'), path: '/stories-feed', icon: 'stories' },
       // Signed in only, for now: /my-briefings is gated (it is the
       // briefings YOU watch), so showing it signed-out would offer a
       // link that bounces to /login. It becomes unconditional once the
