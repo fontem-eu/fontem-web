@@ -175,10 +175,16 @@ async function fetchGraph() {
       + (sinceDate ? `&since=${sinceDate}` : '')
     const res = await fetch(url)
     if (!res.ok) throw new Error(`API ${res.status}`)
-    graphData.value = await res.json()
+    // Normalise at the boundary. The API answers 200 with nulls rather
+    // than 404 for an unknown or empty entity, so `nodes`/`edges` can be
+    // absent on an otherwise-valid payload; every consumer below (and the
+    // template) treats them as arrays. Guaranteeing it here is what lets
+    // the consumers below iterate them directly.
+    const payload = await res.json()
+    graphData.value = { ...payload, nodes: payload?.nodes ?? [], edges: payload?.edges ?? [] }
     // Populate edge type filters from response
     const relTypes = new Set()
-    for (const e of (graphData.value.edges || [])) relTypes.add(e.type)
+    for (const e of graphData.value.edges) relTypes.add(e.type)
     const existing = edgeTypeFilters.value
     const updated = {}
     for (const rt of relTypes) {
