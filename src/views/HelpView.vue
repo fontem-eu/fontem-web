@@ -12,7 +12,7 @@
 import { computed } from 'vue'
 
 const mcpUrl = computed(() => {
-  const host = typeof window !== 'undefined' ? window.location.host : 'fontem.eu'
+  const host = typeof window !== 'undefined' ? window.location.host : 'dargle.eu'
   return `https://${host}/mcp`
 })
 </script>

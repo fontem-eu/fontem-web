@@ -32,7 +32,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 const DIST = process.env.SSR_DIST || path.join(ROOT, 'dist')
 const PORT = Number(process.env.SSR_PORT || 8081)
-const CANONICAL = (process.env.CANONICAL_URL || 'https://fontem.eu').replace(/\/$/, '')
+const CANONICAL = (process.env.CANONICAL_URL || 'https://dargle.eu').replace(/\/$/, '')
 const CAPI = (process.env.SSR_API_ORIGIN || '').replace(/\/$/, '')
 
 // A render costs a Vue mount plus an upstream fetch. Crawlers arrive in
