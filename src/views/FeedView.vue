@@ -4,6 +4,7 @@ import { useLang } from '../composables/useLang.js'
 import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
 import { loadBriefingStream } from '../composables/useBriefingStream.js'
+import { briefingLink } from '../utils/briefingLink.js'
 import { isAuthed } from '../api/session.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
 import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
@@ -62,10 +63,22 @@ async function loadBriefings() {
   }
 }
 
+// This view backs two routes. `/` is the landing feed and mixes
+// articles with briefings; `/stories-feed` is the Stories page and
+// shows articles only. The distinction is the route's `mixed` meta
+// rather than a second component, because everything else on the page
+// -- tag strip, filter persistence, cards -- is identical.
+const mixed = computed(() => route.meta?.mixed === true)
+
 // Hidden while a tag filter is active: briefing items carry no story
 // tags, so they can neither match nor fail the filter, and showing them
 // anyway would imply they had.
-const visibleBriefings = computed(() => (activeTag.value ? [] : briefingItems.value))
+// Each item carries its resolved destination, computed once here
+// rather than per-branch in the template.
+const visibleBriefings = computed(() => {
+  if (!mixed.value || activeTag.value) return []
+  return briefingItems.value.map((b) => ({ ...b, _link: briefingLink(b) }))
+})
 
 function fmtBriefingDate(iso) {
   return iso ? new Date(iso).toLocaleDateString() : ''
@@ -109,7 +122,9 @@ onMounted(async () => {
       router.replace({ path: route.path, query: { ...route.query, tag: saved } })
     }
   }
-  await Promise.all([loadStories(), loadTags(), loadBriefings()])
+  // Stories-only route does not fetch briefings at all -- hiding them
+  // client-side would still cost the reader the requests.
+  await Promise.all([loadStories(), loadTags(), ...(mixed.value ? [loadBriefings()] : [])])
 })
 
 // Re-fetch the story list whenever the URL's `?tag=` flips.
@@ -155,8 +170,10 @@ function truncate(text, maxLen = 180) {
 
 <template>
   <div class="feed" data-testid="feed">
-    <h1 class="feed-title">{{ $t('feed.feed') }}</h1>
-    <p class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
+    <h1 class="feed-title">{{ mixed ? $t('feed.feed') : $t('nav.stories') }}</h1>
+    <!-- The subtitle says "public data stories", which is only true of
+         the stories-only page; the mixed feed also carries briefings. -->
+    <p v-if="!mixed" class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
 
     <!-- Browse-by-tag chip strip. Each chip toggles the URL `?tag=`
          filter; a star toggles follow/unfollow (localStorage when
@@ -225,11 +242,38 @@ function truncate(text, maxLen = 180) {
           :data-testid="`feed-briefing-${b.item_id}`"
         >
           <span class="feed-briefing-src" data-testid="feed-briefing-source">{{ b._from }}</span>
-          <span class="feed-briefing-title">{{ b.title || b.name || b.item_id }}</span>
+          <!-- The item's own link decides the destination: a contract
+               goes to /contract/:id, a resolved lobbyist to the
+               company. Items whose query could not resolve one stay
+               plain text rather than offering a dead click. -->
+          <router-link
+            v-if="b._link.kind === 'internal'"
+            :to="b._link.to"
+            class="feed-briefing-title feed-briefing-link"
+            :data-testid="`feed-briefing-link-${b.item_id}`"
+          >{{ b.title || b.name || b.item_id }}</router-link>
+          <a
+            v-else-if="b._link.kind === 'external'"
+            :href="b._link.to"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="feed-briefing-title feed-briefing-link"
+            :data-testid="`feed-briefing-link-${b.item_id}`"
+          >{{ b.title || b.name || b.item_id }}</a>
+          <span v-else class="feed-briefing-title">{{ b.title || b.name || b.item_id }}</span>
           <time v-if="b.item_time" class="feed-briefing-time">{{ fmtBriefingDate(b.item_time) }}</time>
         </li>
       </ul>
     </section>
+
+    <!-- On the mixed feed the articles need their own heading, so the
+         two sections read as peers rather than the briefings looking
+         like a header for the cards below. The stories-only page has
+         the h1 for that already. -->
+    <h2
+      v-if="mixed && !loading && stories.length"
+      class="feed-briefings-head"
+    >{{ $t('nav.stories') }}</h2>
 
     <div v-if="loading" class="loading-msg">{{ $t('feed.loading_feed') }}</div>
 
@@ -280,6 +324,11 @@ function truncate(text, maxLen = 180) {
   color: var(--muted); white-space: nowrap;
 }
 .feed-briefing-title { flex: 1; min-width: 0; }
+/* Only the linked variant looks clickable — an item whose query could
+   not resolve a destination must not read as a dead link. */
+.feed-briefing-link { color: inherit; text-decoration: none; }
+.feed-briefing-link:hover,
+.feed-briefing-link:focus-visible { color: var(--accent); text-decoration: underline; }
 .feed-briefing-time { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
 
 .feed {

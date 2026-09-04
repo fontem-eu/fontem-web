@@ -3,7 +3,7 @@
   "routes": [
     {
       "path": "/",
-      "description": "Home feed of published data stories."
+      "description": "Home feed: published data stories and briefing findings together."
     },
     {
       "path": "/:pathMatch(.*)*",
@@ -339,6 +339,10 @@
     {
       "path": "/stories",
       "redirects_to": "/my-stories"
+    },
+    {
+      "path": "/stories-feed",
+      "description": "Published data stories only, without the briefing findings."
     },
     {
       "path": "/stories/:id",

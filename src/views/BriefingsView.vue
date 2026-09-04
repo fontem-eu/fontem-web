@@ -18,9 +18,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { isAuthed } from '../api/session.js'
 import NutsRegionInput from '../components/NutsRegionInput.vue'
+import { briefingLink } from '../utils/briefingLink.js'
 import {
   listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
 } from '../api/community.js'
+
+/** Template alias — the destination for one item's card. */
+const linkOf = briefingLink
 
 const VOLUMES = [3, 10, 25, 50]
 /** A taste, not a feed. Enough to judge the settings by. */
@@ -310,7 +314,21 @@ v-if="!cardOf(b.slug).items.length" class="bf-muted"
           </p>
           <ol v-else class="bf-items" :data-testid="`items-${b.slug}`">
             <li v-for="item in cardOf(b.slug).items" :key="item.item_id" class="bf-entry">
-              <a :href="item.link" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+              <!-- Same-site destinations navigate in-app; items whose
+                   query resolved none stay plain text. -->
+              <router-link
+                v-if="linkOf(item).kind === 'internal'"
+                :to="linkOf(item).to"
+                data-testid="item-link"
+              >{{ item.title }}</router-link>
+              <a
+                v-else-if="linkOf(item).kind === 'external'"
+                :href="linkOf(item).to"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="item-link"
+              >{{ item.title }}</a>
+              <span v-else class="bf-entry-title">{{ item.title }}</span>
               <p class="bf-entry-meta">
                 <time>{{ fmtDate(item.item_time) }}</time>
                 <span v-for="r in item.nuts" :key="r" class="bf-chip">{{ r }}</span>

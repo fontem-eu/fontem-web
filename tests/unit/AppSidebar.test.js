@@ -8,7 +8,7 @@ import AppSidebar from '../../src/components/AppSidebar.vue'
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
-    routes: ['/', '/petitions', '/spending', '/map', '/explore', '/data-quality', '/my-stories', '/my-reviews', '/briefings', '/my-briefings', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
+    routes: ['/', '/stories-feed', '/petitions', '/spending', '/map', '/explore', '/data-quality', '/my-stories', '/my-reviews', '/briefings', '/my-briefings', '/account', '/studio', '/studio/p/:projectId'].map((p) => ({ path: p, component: { template: '<div />' } })),
   })
 }
 async function mountAt(path = '/') {
@@ -54,6 +54,14 @@ describe('AppSidebar (nav rail)', () => {
   it('marks Data Stats active on /explore', async () => {
     const { wrapper } = await mountAt('/explore')
     expect(wrapper.find('[data-testid="nav-data-stats"]').classes()).toContain('active')
+  })
+
+  it('Stories links to the stories-only feed, not the mixed landing', async () => {
+    // The Stories entry used to point at `/`, which is the mixed feed —
+    // so clicking Stories showed briefings too.
+    const { wrapper } = await mountAt('/')
+    const stories = wrapper.find('[data-testid="nav-stories"]')
+    expect(stories.attributes('href')).toBe('/stories-feed')
   })
 
   it('marks My Stories active on /my-stories', async () => {
