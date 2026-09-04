@@ -755,6 +755,7 @@
     "loading_feed": "Se încarcă fluxul...",
     "nothing_here": "Încă nimic aici. Când oamenii vor publica povești publice de date, vor apărea aici.",
     "public_data_stories_from_the_community_n": "Povești publice de date din comunitate, cele mai noi primele.",
+    "mixed_sub": "Povești cu date și constatări din informări, cele mai recente primele.",
     "unfollow": "Nu mai urmări"
   },
   "feeds": {

@@ -755,6 +755,7 @@
     "loading_feed": "Laddar flöde...",
     "nothing_here": "Inget här ännu. När folk publicerar offentliga datahistorier dyker de upp här.",
     "public_data_stories_from_the_community_n": "Offentliga datahistorier från gemenskapen, nyaste först.",
+    "mixed_sub": "Datberättelser och briefingfynd, senaste först.",
     "unfollow": "Sluta följa"
   },
   "feeds": {

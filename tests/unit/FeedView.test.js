@@ -90,6 +90,19 @@ describe('FeedView — what each route shows', () => {
     expect(wrapper.text()).toContain('A tender')
   })
 
+  it('each route describes itself accurately', async () => {
+    // One sentence cannot be true of both: the stories page carries only
+    // articles, the landing feed also carries briefing findings. An
+    // e2e also reads .feed-sub to prove locale switching re-renders
+    // template strings, so it has to exist on both.
+    const mix = await mountFeed('/feed', { mixed: true })
+    const stories = await mountFeed('/feed', { mixed: false })
+    expect(mix.wrapper.find('.feed-sub').exists()).toBe(true)
+    expect(stories.wrapper.find('.feed-sub').exists()).toBe(true)
+    expect(mix.wrapper.find('.feed-sub').text())
+      .not.toBe(stories.wrapper.find('.feed-sub').text())
+  })
+
   it('the stories page shows articles only', async () => {
     const { wrapper } = await mountFeed('/feed', { mixed: false })
     expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)

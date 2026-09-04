@@ -755,6 +755,7 @@
     "loading_feed": "Hírfolyam betöltése...",
     "nothing_here": "Itt még semmi nincs. Amikor emberek nyilvános adat-történeteket tesznek közzé, itt jelennek meg.",
     "public_data_stories_from_the_community_n": "Nyilvános közösségi adat-történetek, legújabbak elöl.",
+    "mixed_sub": "Adatsztorik és tájékoztatói megállapítások, a legújabbak elöl.",
     "unfollow": "Követés megszüntetése"
   },
   "feeds": {

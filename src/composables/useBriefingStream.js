@@ -83,13 +83,20 @@ export async function loadBriefingStream(authed) {
 
   if (authed) {
     const watches = await listMyWatches()
-    const lists = await Promise.all(watches.map(async (w) => {
-      const b = briefings.find((x) => x.id === w.group_id)
-      if (!b) return []
-      const [items] = await fetchFor(b.slug, b.name, [w])
-      return items
-    }))
-    return mergeBriefingItems(lists)
+    if (watches.length) {
+      const lists = await Promise.all(watches.map(async (w) => {
+        const b = briefings.find((x) => x.id === w.group_id)
+        if (!b) return []
+        const [items] = await fetchFor(b.slug, b.name, [w])
+        return items
+      }))
+      return mergeBriefingItems(lists)
+    }
+    // Signed in and watching nothing yet: fall through to the public
+    // seed below. Reading it as "wants no briefings" gave a signed-in
+    // reader a THINNER landing page than a stranger gets, which is
+    // backwards — subscribing to nothing is the state everyone starts
+    // in, not a preference.
   }
 
   const seed = briefings.find((b) => b.slug === DEFAULT_BRIEFING_SLUG)

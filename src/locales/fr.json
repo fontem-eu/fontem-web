@@ -755,6 +755,7 @@
     "loading_feed": "Chargement du flux...",
     "nothing_here": "Rien ici pour le moment. Quand les gens publieront des histoires de données publiques, elles apparaîtront ici.",
     "public_data_stories_from_the_community_n": "Histoires de données publiques de la communauté, les plus récentes en premier.",
+    "mixed_sub": "Histoires de données et conclusions de briefings, les plus récentes d'abord.",
     "unfollow": "Ne plus suivre"
   },
   "feeds": {

@@ -755,6 +755,7 @@
     "loading_feed": "Voogu laaditakse...",
     "nothing_here": "Siin pole veel midagi. Kui inimesed avaldavad avalikke andmelugusid, ilmuvad need siia.",
     "public_data_stories_from_the_community_n": "Avalikud andmelood kogukonnalt, uuemad eespool.",
+    "mixed_sub": "Andmelood ja ülevaadete leiud, uusimad enne.",
     "unfollow": "Lõpeta jälgimine"
   },
   "feeds": {

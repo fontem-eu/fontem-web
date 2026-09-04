@@ -755,6 +755,7 @@
     "loading_feed": "Caricamento feed...",
     "nothing_here": "Qui non c'è ancora nulla. Quando le persone pubblicheranno storie di dati pubbliche, appariranno qui.",
     "public_data_stories_from_the_community_n": "Storie di dati pubbliche dalla community, le più recenti prima.",
+    "mixed_sub": "Storie di dati e risultati dei briefing, prima i più recenti.",
     "unfollow": "Smetti di seguire"
   },
   "feeds": {

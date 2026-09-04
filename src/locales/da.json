@@ -755,6 +755,7 @@
     "loading_feed": "Indlæser feed...",
     "nothing_here": "Intet her endnu. Når folk udgiver offentlige datahistorier, dukker de op her.",
     "public_data_stories_from_the_community_n": "Offentlige datafortællinger fra fællesskabet, nyeste først.",
+    "mixed_sub": "Datahistorier og briefingfund, nyeste først.",
     "unfollow": "Stop med at følge"
   },
   "feeds": {
