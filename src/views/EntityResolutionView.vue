@@ -164,9 +164,11 @@ function decisionMessage(outcome, fromId, toId) {
   const t = (toId || '').slice(0, 8)
   switch (outcome) {
     case 'manual_merge':
-      return `Merged ${t}… into ${f}…`
+      // Both records are kept; what changed is that they are now
+      // asserted to be the same entity.
+      return `Confirmed — ${f}… and ${t}… are the same entity`
     case 'manual_reject':
-      return `Rejected — ${f}… and ${t}… are different entities`
+      return `Declined — ${f}… and ${t}… are different entities`
     case 'manual_keep_related':
       return `Kept as related — ${f}… and ${t}… are distinct but linked`
     case 'manual_accept_relationship':
@@ -339,16 +341,16 @@ function formatValue(v) {
              pairs go merge/keep-as-related/reject; relationship claims
              go accept/reject. -->
         <div v-if="selected._mode === 'same_as'" class="er-actions">
+          <!-- One approve button, not two. Approving asserts a
+               symmetric owl:sameAs and keeps BOTH records, so there is
+               no survivor to choose. It used to merge the nodes, which
+               is why the direction mattered — and why an approved pair
+               could never afterwards be corrected. -->
           <button
             class="er-btn er-btn--merge"
             :disabled="resolving"
-            @click="decide('merge', selected.from_id, selected.to_id)"
-          >{{ $t('entity_resolution.merge_keep_a_b_is_removed') }}</button>
-          <button
-            class="er-btn er-btn--merge"
-            :disabled="resolving"
-            @click="decide('merge', selected.to_id, selected.from_id)"
-          >{{ $t('entity_resolution.merge_keep_b_a_is_removed') }}</button>
+            @click="decide('approve', selected.from_id, selected.to_id)"
+          >{{ $t('entity_resolution.approve_same_entity') }}</button>
           <button
             class="er-btn er-btn--related"
             :disabled="resolving"
@@ -357,7 +359,7 @@ function formatValue(v) {
           <button
             class="er-btn er-btn--reject"
             :disabled="resolving"
-            @click="decide('reject', selected.from_id, selected.to_id)"
+            @click="decide('decline', selected.from_id, selected.to_id)"
           >{{ $t('entity_resolution.different_entities_reject') }}</button>
           <span v-if="message" class="er-message">{{ message }}</span>
         </div>
