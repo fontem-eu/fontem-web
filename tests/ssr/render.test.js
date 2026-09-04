@@ -82,12 +82,13 @@ describe('SSR render — unknown routes', () => {
 })
 
 describe('SSR head canonical + og:image', () => {
-  it('falls back to CANONICAL_URL / www.fontem.eu when host is absent', async () => {
+  it('falls back to CANONICAL_URL / www.dargle.eu when host is absent', async () => {
     const { head } = await render('/')
-    // No requestHost in context → fallback. www.fontem.eu is what's
-    // actually wired today; fontem.eu apex is planned.
-    expect(head.canonical).toBe('https://www.fontem.eu/')
-    expect(head.ogImage).toBe('https://www.fontem.eu/og-card.png')
+    // No requestHost in context → fallback. This is the entry-server
+    // fallback (www), not the chart's CANONICAL_URL, which is the
+    // dargle.eu apex — the two differ on purpose.
+    expect(head.canonical).toBe('https://www.dargle.eu/')
+    expect(head.ogImage).toBe('https://www.dargle.eu/og-card.png')
   })
 
   it('uses the request host when supplied (dynamic per request)', async () => {

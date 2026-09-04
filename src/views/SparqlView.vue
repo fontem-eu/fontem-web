@@ -152,7 +152,7 @@ function cellIsIri(row, varName) {
     <section class="sparql-meta" :aria-label="$t('sparql.endpoint')" data-testid="sparql-meta">
       <dl>
         <dt>{{ $t('sparql.endpoint_url') }}</dt>
-        <dd><code data-testid="sparql-endpoint-url">https://www.fontem.eu/api/sparql</code></dd>
+        <dd><code data-testid="sparql-endpoint-url">https://www.dargle.eu/api/sparql</code></dd>
         <dt>{{ $t('sparql.method') }}</dt>
         <dd><code>{{ $t('sparql.post') }}</code> with <code>application/json</code> body <code>{"query": "…"}</code>. <code>{{ $t('sparql.get_apisparql') }}</code> {{ $t('sparql.discoverable_json') }}</dd>
         <dt>{{ $t('sparql.response') }}</dt>

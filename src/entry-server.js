@@ -52,6 +52,6 @@ function absoluteOrigin(requestHost, requestProto) {
     const scheme = requestProto || 'https'
     return `${scheme}://${requestHost}`
   }
-  const fallback = globalThis.process?.env?.CANONICAL_URL || 'https://www.fontem.eu'
+  const fallback = globalThis.process?.env?.CANONICAL_URL || 'https://www.dargle.eu'
   return fallback.replace(/\/$/, '')
 }
