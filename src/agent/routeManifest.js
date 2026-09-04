@@ -38,7 +38,8 @@ export const NOT_NAVIGABLE = new Set([
 
 /** path -> what a user would go there to do. Keep them short and concrete. */
 export const ROUTE_DESCRIPTIONS = {
-  '/': 'Home feed of published data stories.',
+  '/': 'Home feed: published data stories and briefing findings together.',
+  '/stories-feed': 'Published data stories only, without the briefing findings.',
   '/about': 'What Fontem is, how it works, and how to get started.',
   '/help': 'Help and FAQ, including how to connect your own AI assistant to Fontem.',
   '/login': 'Sign in or create an account.',
