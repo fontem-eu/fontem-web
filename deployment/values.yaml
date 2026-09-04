@@ -18,7 +18,7 @@ ssr:
   replicas: 1
   version: ""            # falls back to the web image's `version`
   digest: ""             # CI writes this; digest is what cosign signed
-  canonicalUrl: "https://fontem.eu"
+  canonicalUrl: "https://dargle.eu"
   resources:
     requests: { cpu: "100m", memory: "256Mi" }
     limits: { cpu: "1", memory: "768Mi" }

@@ -34,7 +34,7 @@ const ROOT = path.resolve(__dirname, '..')
 // apex URLs, and nginx 301s www -> apex, so the canonical has to agree
 // with them or we hand Google three different answers to "which URL is
 // this page".
-const CANONICAL = (process.env.CANONICAL_URL || 'https://fontem.eu').replace(/\/$/, '')
+const CANONICAL = (process.env.CANONICAL_URL || 'https://dargle.eu').replace(/\/$/, '')
 
 // Routes to prerender. Must match the set we want crawlers to index
 // with real content — the transparency surface, basically. Anything

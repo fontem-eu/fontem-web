@@ -60,7 +60,7 @@ describe('ssr/jsonLd — builders', () => {
     const [privacy] = buildJsonLd({ path: '/privacy' })
     expect(privacy['@type']).toBe('WebPage')
     expect(privacy.name).toBe('Privacy Policy')
-    expect(privacy.url).toBe('https://fontem.eu/privacy')
+    expect(privacy.url).toBe('https://dargle.eu/privacy')
     const [dq] = buildJsonLd({ path: '/data-quality' })
     expect(dq['@type']).toBe('Dataset')
   })
@@ -69,13 +69,13 @@ describe('ssr/jsonLd — builders', () => {
     const [org, site, list] = buildJsonLd({ path: '/' })
     expect(org['@type']).toBe('Organization')
     expect(org.name).toBe('Dargle')
-    expect(org.url).toBe('https://fontem.eu')
-    expect(org.logo).toBe('https://fontem.eu/favicon.svg')
+    expect(org.url).toBe('https://dargle.eu')
+    expect(org.logo).toBe('https://dargle.eu/favicon.svg')
     expect(site['@type']).toBe('WebSite')
     expect(site.potentialAction['@type']).toBe('SearchAction')
     expect(list['@type']).toBe('ItemList')
     expect(list.name).toBe('Dargle public data stories')
-    expect(list.url).toBe('https://fontem.eu/')
+    expect(list.url).toBe('https://dargle.eu/')
   })
 
   it('the feed ItemList lists prefetched stories with 1-based positions', () => {
@@ -83,10 +83,10 @@ describe('ssr/jsonLd — builders', () => {
     const list = buildJsonLd({ path: '/' }, ctx)[2]
     expect(list.numberOfItems).toBe(2)
     expect(list.itemListElement[0]).toEqual({
-      '@type': 'ListItem', position: 1, url: 'https://fontem.eu/stories/s1', name: 'A',
+      '@type': 'ListItem', position: 1, url: 'https://dargle.eu/stories/s1', name: 'A',
     })
     expect(list.itemListElement[1].position).toBe(2)
-    expect(list.itemListElement[1].url).toBe('https://fontem.eu/stories/s2')
+    expect(list.itemListElement[1].url).toBe('https://dargle.eu/stories/s2')
   })
 
   it('caps the list at 25 and falls back to ctx.reports', () => {
@@ -94,7 +94,7 @@ describe('ssr/jsonLd — builders', () => {
     expect(buildJsonLd({ path: '/' }, { stories: many })[2].numberOfItems).toBe(25)
     const viaReports = buildJsonLd({ path: '/' }, { reports: [{ id: 'r1', title: 'R' }] })[2]
     expect(viaReports.numberOfItems).toBe(1)
-    expect(viaReports.itemListElement[0].url).toBe('https://fontem.eu/stories/r1')
+    expect(viaReports.itemListElement[0].url).toBe('https://dargle.eu/stories/r1')
     expect(buildJsonLd({ path: '/' }, {})[2].numberOfItems).toBe(0)
   })
 })

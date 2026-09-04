@@ -12,13 +12,13 @@
  * and use it here.
  */
 
-const CANONICAL = (globalThis.process?.env?.CANONICAL_URL || 'https://fontem.eu').replace(/\/$/, '')
+const CANONICAL = (globalThis.process?.env?.CANONICAL_URL || 'https://dargle.eu').replace(/\/$/, '')
 
 const ORGANIZATION = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Dargle',
-  alternateName: 'fontem.eu',
+  alternateName: 'dargle.eu',
   url: CANONICAL,
   logo: `${CANONICAL}/favicon.svg`,
   description:

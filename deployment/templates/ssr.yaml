@@ -54,7 +54,7 @@ spec:
             # Absolute URLs in the rendered head. Apex, matching robots,
             # the sitemap and the baked canonical.
             - name: CANONICAL_URL
-              value: {{ .Values.ssr.canonicalUrl | default "https://fontem.eu" | quote }}
+              value: {{ .Values.ssr.canonicalUrl | default "https://dargle.eu" | quote }}
           readinessProbe:
             httpGet: { path: /healthz, port: 8081 }
             initialDelaySeconds: 5
