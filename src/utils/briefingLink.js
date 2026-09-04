@@ -45,13 +45,27 @@ const SITE_HOSTS = new Set([
 ])
 
 /**
+ * Entity routes that mean nothing without an id after them. A query
+ * coalescing a missing id to '' yields '/company/', which matches no
+ * route -- that is the link-to-nowhere this guards against.
+ */
+const ENTITY_PREFIXES = new Set([
+  'company', 'contract', 'authority', 'lobbyist',
+  'person', 'nuts', 'cohesion', 'sanctioned',
+])
+
+/**
  * A path is only a destination if something can be at the other end.
- * '/company/' and '/contract/' (no id) come from a coalesce-to-empty
- * in the query and match no route.
+ *
+ * Specifically an ENTITY prefix with nothing after it, not "fewer than
+ * two segments": plenty of real pages are a single segment, and
+ * counting them as dead ends silently un-linked every card pointing at
+ * one -- '/briefings' among them.
  */
 function isDeadEnd(pathname) {
   if (!pathname || pathname === '/') return true
-  return pathname.split('/').filter(Boolean).length < 2
+  const segments = pathname.split('/').filter(Boolean)
+  return segments.length === 1 && ENTITY_PREFIXES.has(segments[0].toLowerCase())
 }
 
 /**
