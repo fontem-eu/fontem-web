@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'Stock Prices Data Quality — Fontem' })
+onMounted(() => { document.title = 'Stock Prices Data Quality — Dargle' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

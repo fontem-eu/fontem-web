@@ -636,7 +636,7 @@ function _createMap() {
 }
 
 onMounted(async () => {
-  document.title = 'Atlas — Map European statistics on Fontem'
+  document.title = 'Atlas — Map European statistics on Dargle'
   _readUrl()
 
   try {

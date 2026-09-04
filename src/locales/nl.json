@@ -15,10 +15,10 @@
     "chip_story": "Lees een dataverhaal uit de community",
     "hero_lead": "Een open kennisgraaf die EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering verbindt.",
     "how_it_works": "Hoe het werkt",
-    "mission_body_1": "Het publieke debat draait op cijfers — begrotingen en contracten, migratie en uitstoot, wie wat bezit, tot de tekst van een wet aan toe — en ze worden voortdurend verbogen door wie weet dat niemand ze narekent. Fontem brengt die registers samen in één doorzoekbare graaf, waarin elk cijfer verbonden blijft met de officiële bron waar het vandaan komt.",
+    "mission_body_1": "Het publieke debat draait op cijfers — begrotingen en contracten, migratie en uitstoot, wie wat bezit, tot de tekst van een wet aan toe — en ze worden voortdurend verbogen door wie weet dat niemand ze narekent. Dargle brengt die registers samen in één doorzoekbare graaf, waarin elk cijfer verbonden blijft met de officiële bron waar het vandaan komt.",
     "mission_body_2": "Dat is het fundament, niet het doel. Misleidende beweringen gedijen wanneer narekenen moeite kost; wij maken er één klik van. En een publiek dat kan verifiëren wat het te horen krijgt, is een publiek dat kan meepraten.",
     "mission_lead": "Wij bouwen de civiele laag voor de Europese democratie — waar elke publieke bewering te herleiden is tot de cijfers erachter.",
-    "mission_title": "Waarom Fontem bestaat",
+    "mission_title": "Waarom Dargle bestaat",
     "recently_published": "Onlangs gepubliceerd",
     "see_all_public_data_stories": "Bekijk alle openbare dataverhalen →",
     "step_crosscheck_desc": "Vergelijk naast elkaar wat TED, GLEIF, het Transparantieregister, Cohesie en andere bronnen over dezelfde entiteit zeggen.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Een dataverhaal publiceren vanuit de editor",
     "step_publish_name": "Publiceren",
     "step_search_desc": "Zoek elk bedrijf, aanbestedende dienst, lobbyist of door de EU gefinancierd project op naam of identifier.",
-    "step_search_gif_alt": "Zoeken naar een entiteit in Fontem",
+    "step_search_gif_alt": "Zoeken naar een entiteit in Dargle",
     "step_search_name": "Zoeken",
     "try": "Probeer:",
     "value_open_desc": "De graaf, de methoden en de code erachter zijn openbaar.",
@@ -235,13 +235,13 @@
     "tool_result": "Resultaat",
     "tool_truncated": "ingekort voordat het model het zag",
     "tool_no_result": "(geen uitvoer)",
-    "navigate_ask": "Fontem kan je naar {page} brengen. Wil je daarheen?",
+    "navigate_ask": "Dargle kan je naar {page} brengen. Wil je daarheen?",
     "navigate_go": "Ga erheen",
     "navigate_stay": "Hier blijven",
     "navigate_went": "Geopend",
     "navigate_stayed": "Hier gebleven",
     "tool_result_not_kept": "Resultaat niet bewaard — alleen de aanroep en de argumenten worden vastgelegd.",
-    "signed_out_notice": "Je bent niet ingelogd, dus de assistent kan alleen vragen over Fontem beantwoorden en je naar een pagina brengen. Zoeken in de data, schrijven en opslaan vereisen een account.",
+    "signed_out_notice": "Je bent niet ingelogd, dus de assistent kan alleen vragen over Dargle beantwoorden en je naar een pagina brengen. Zoeken in de data, schrijven en opslaan vereisen een account.",
     "characters_used": "Gebruikte tekens"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Overheidsopdrachten",
@@ -901,12 +901,12 @@
     "title": "Help",
     "toc": "Inhoud",
     "connect_title": "Verbind je AI-assistent",
-    "connect_intro": "Fontem stelt zijn gegevens beschikbaar als tools die je eigen AI-client kan aanroepen — bedrijfsgegevens, aanbestedingen, de entiteitengraaf, SPARQL. Je gebruikt de assistent waarvoor je al betaalt, en Fontem ziet je account bij de aanbieder nooit.",
+    "connect_intro": "Dargle stelt zijn gegevens beschikbaar als tools die je eigen AI-client kan aanroepen — bedrijfsgegevens, aanbestedingen, de entiteitengraaf, SPARQL. Je gebruikt de assistent waarvoor je al betaalt, en Dargle ziet je account bij de aanbieder nooit.",
     "step_token": "1. Maak een token aan",
     "step_token_body_pre": "Ga naar",
     "step_token_account": "Accountinstellingen",
     "step_token_body_post": "→ {section} → {action}. Kopieer hem meteen: hij wordt één keer getoond en kan daarna niet meer worden opgehaald. Ben je hem kwijt, trek hem dan in en maak een nieuwe aan.",
-    "step_endpoint": "2. Richt je client op Fontem",
+    "step_endpoint": "2. Richt je client op Dargle",
     "step_endpoint_body": "Het endpoint is:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Instellingen → Connectors → Aangepaste connector toevoegen. Plak de URL hierboven, en je token als bearer-token.",
@@ -916,15 +916,15 @@
     "anything_else": "Al het andere",
     "anything_else_body": "Elke client die MCP over Streamable HTTP spreekt werkt. Stuur het token mee als {header}.",
     "step_ask": "3. Stel een vraag",
-    "step_ask_body": "Probeer {example}. Je client bepaalt zelf wanneer hij Fontems tools aanroept.",
-    "step_ask_example": "“Gebruik Fontem om opdrachten te vinden die zijn gegund aan bedrijven met een band met X”",
+    "step_ask_body": "Probeer {example}. Je client bepaalt zelf wanneer hij Dargle tools aanroept.",
+    "step_ask_example": "“Gebruik Dargle om opdrachten te vinden die zijn gegund aan bedrijven met een band met X”",
     "revoking": "Intrekken",
     "revoking_body": "De accountinstellingen tonen elke verbonden client met het moment van laatste gebruik. Intrekken werkt vanaf het volgende verzoek. Herken je een client niet meer, trek hem dan in.",
     "why_key_title": "Waarom heb ik een eigen AI-account nodig?",
     "why_key_short": "Waarom een eigen account?",
-    "why_key_body_1": "Omdat geen enkele AI-aanbieder verkoopt wat anders de voor de hand liggende oplossing zou zijn. Anthropic verbood het gebruik van een Claude-abonnement binnen tools van derden in februari 2026 en blokkeerde het in april van dat jaar; de ChatGPT-abonnementen van OpenAI hebben nooit API-toegang omvat; en Mistral factureert Le Chat en zijn API apart. Een site als Fontem kan jouw abonnement echt niet namens jou uitgeven.",
+    "why_key_body_1": "Omdat geen enkele AI-aanbieder verkoopt wat anders de voor de hand liggende oplossing zou zijn. Anthropic verbood het gebruik van een Claude-abonnement binnen tools van derden in februari 2026 en blokkeerde het in april van dat jaar; de ChatGPT-abonnementen van OpenAI hebben nooit API-toegang omvat; en Mistral factureert Le Chat en zijn API apart. Een site als Dargle kan jouw abonnement echt niet namens jou uitgeven.",
     "why_key_body_2": "Wat het wél kan, is jouw eigen assistent de gegevens aanreiken. Dat is beter dan het alternatief, en niet alleen goedkoper voor ons: je houdt je aanbieder, je geschiedenis en je privacyinstellingen, je wordt niet gerantsoeneerd door een budget dat wij bepalen, en hier gaat niets stuk wanneer een leverancier zijn voorwaarden wijzigt.",
-    "in_app_title": "De assistent binnen Fontem",
+    "in_app_title": "De assistent binnen Dargle",
     "in_app_body_1": "Er is ook een assistent ingebouwd in de site, op elke pagina. Hij kan de gegevens doorzoeken, uitleggen waar je naar kijkt, je door het platform navigeren en — terwijl je een artikel bewerkt — wijzigingen voorstellen.",
     "in_app_body_2_pre": "Hij heeft een API-sleutel nodig van Anthropic, Mistral of OpenAI, toegevoegd in",
     "in_app_body_2_post": ". Dat is betalen per gebruik en kost doorgaans heel weinig; een abonnement is niet nodig en zou hier hoe dan ook niet werken, om bovenstaande redenen.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Naar startpagina",
     "you_already_have_an_active_session": "U hebt al een actieve sessie.",
     "youre_signed_in": "U bent ingelogd",
-    "sign_in_to_fontem": "Aanmelden bij Fontem",
+    "sign_in_to_dargle": "Aanmelden bij Dargle",
     "sign_in_to_start_creating_data_stories": "Meld u aan om te beginnen met het maken van dataverhalen, het aankaarten van kwesties en het samenwerken met de gemeenschap.",
     "signing_in": "Aanmelden...",
     "sign_in": "Aanmelden",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Verbind je AI-assistent",
-    "intro_pre": "Gebruik Fontems gegevens vanuit Claude, ChatGPT of elke MCP-compatibele client — op je eigen abonnement. Maak hier een token aan en volg daarna",
+    "intro_pre": "Gebruik Dargle gegevens vanuit Claude, ChatGPT of elke MCP-compatibele client — op je eigen abonnement. Maak hier een token aan en volg daarna",
     "intro_link": "de installatiehandleiding",
     "fresh_warn": "Kopieer hem nu — hij wordt één keer getoond en kan niet opnieuw worden opgehaald.",
     "copy": "Kopiëren",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem is het transparantieplatform op basis van primaire bronnen. EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering — gekoppeld in één graaf en gekruisverifieerd met de officiële registers.",
-      "data_quality": "Dekking, versheid en bron-uitsplitsingen voor elke dataset in de Fontem-kennisgraaf. Transparantie over transparantie.",
-      "home": "De digitale grenzen van de EU overschrijden, één dataset tegelijk. Openbare dataverhalen van de Fontem-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
-      "login": "Log in op Fontem om dataverhalen te publiceren, problemen te melden en je onderzoek op te slaan.",
+      "about": "Dargle is het transparantieplatform op basis van primaire bronnen. EU-bedrijven, openbare aanbestedingen, lobbyisten en cohesiefinanciering — gekoppeld in één graaf en gekruisverifieerd met de officiële registers.",
+      "data_quality": "Dekking, versheid en bron-uitsplitsingen voor elke dataset in de Dargle-kennisgraaf. Transparantie over transparantie.",
+      "home": "Ontdek. Argumenteer. Leer. Geniet. Openbare dataverhalen van de Dargle-community — onderzoeken, kruisverwijzingen en bevindingen gebaseerd op primaire bronnen.",
+      "login": "Log in op Dargle om dataverhalen te publiceren, problemen te melden en je onderzoek op te slaan.",
       "map": "Interactieve choropleet van gecureerde Eurostat-datasets op NUTS-niveau — bevolking, BBP, werkloosheid, O&O en meer, in kaart gebracht in heel Europa.",
-      "privacy": "Hoe Fontem omgaat met persoonsgegevens. We bewaren alleen accountbasisgegevens, geen trackingcookies, geen analytics van derden.",
-      "sparql": "Bevraag de Fontem-kennisgraaf direct via SPARQL. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — allemaal gekoppeld.",
+      "privacy": "Hoe Dargle omgaat met persoonsgegevens. We bewaren alleen accountbasisgegevens, geen trackingcookies, geen analytics van derden.",
+      "sparql": "Bevraag de Dargle-kennisgraaf direct via SPARQL. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — allemaal gekoppeld.",
       "spending": "Zoek EU-bedrijven, aanbestedende diensten, lobbyisten en door de EU gefinancierde projecten. Plus wat groot is in jouw land.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Over — Fontem",
-      "data_quality": "Datakwaliteit — Fontem",
-      "home": "Fontem — De digitale grenzen van de EU overschrijden, één dataset tegelijk",
-      "login": "Inloggen — Fontem",
-      "map": "Kaart — Europese statistieken op Fontem",
-      "privacy": "Privacybeleid — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Uitgaven — EU-aanbestedingen op Fontem",
-      "development": "Development — Fontem"
+      "about": "Over — Dargle",
+      "data_quality": "Datakwaliteit — Dargle",
+      "home": "Dargle — Ontdek. Argumenteer. Leer. Geniet.",
+      "login": "Inloggen — Dargle",
+      "map": "Kaart — Europese statistieken op Dargle",
+      "privacy": "Privacybeleid — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Uitgaven — EU-aanbestedingen op Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Toegang",
-    "all_data_in_the_fontem_knowledge_graph_r": "Alle gegevens in de Fontem-kennisgraf hebben betrekking op",
+    "all_data_in_the_dargle_knowledge_graph_r": "Alle gegevens in de Dargle-kennisgraf hebben betrekking op",
     "conversation_processing_is_performed_by_": "Gespreksverwerking wordt uitgevoerd door in de EU gevestigde AI-aanbieders.",
     "conversations_are_automatically_deleted_": "Gesprekken worden na 90 dagen automatisch verwijderd.",
     "erase": "Wissen",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Onder de AVG hebt u het recht om:",
     "when_you_sign_in_we_collect_and_store": "Wanneer u inlogt, verzamelen en bewaren wij:",
     "your": "Uw",
-    "what_fontem_is": "1. Wat Fontem is",
-    "fontem_is_a_civic_transparency_platform": "Fontem is een platform voor maatschappelijke transparantie dat gegevens over EU-overheidsopdrachten, registers van bedrijfseigendom en financiering vanuit het cohesiebeleid samenbrengt in één kennisgraaf. Het doel is om overheidsuitgaven en bedrijfsstructuren gemakkelijker te verkennen en te begrijpen.",
+    "what_dargle_is": "1. Wat Dargle is",
+    "dargle_is_a_civic_transparency_platform": "Dargle is een platform voor maatschappelijke transparantie dat gegevens over EU-overheidsopdrachten, registers van bedrijfseigendom en financiering vanuit het cohesiebeleid samenbrengt in één kennisgraaf. Het doel is om overheidsuitgaven en bedrijfsstructuren gemakkelijker te verkennen en te begrijpen.",
     "data_in_the_knowledge_graph": "2. Gegevens in de kennisgraaf",
     "legal_entities": "rechtspersonen",
     "companies_public_authorities_and_organis": "(bedrijven, overheidsinstanties en organisaties) — geen natuurlijke personen. Wij aggregeren openbaar beschikbare gegevens uit de volgende bronnen:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Wij gebruiken uitsluitend strikt noodzakelijke sessiecookies voor authenticatie. Wij gebruiken geen trackingcookies, advertentiecookies of analysecookies van derden.",
     "changes_to_this_policy": "7. Wijzigingen in dit beleid",
-    "we_may_update_this_policy": "Wij kunnen dit beleid van tijd tot tijd bijwerken. Wanneer wij dat doen, passen wij de datum \"laatst bijgewerkt\" boven aan deze pagina aan. Voortgezet gebruik van Fontem na wijzigingen geldt als aanvaarding van het bijgewerkte beleid."
+    "we_may_update_this_policy": "Wij kunnen dit beleid van tijd tot tijd bijwerken. Wanneer wij dat doen, passen wij de datum \"laatst bijgewerkt\" boven aan deze pagina aan. Voortgezet gebruik van Dargle na wijzigingen geldt als aanvaarding van het bijgewerkte beleid."
   },
   "procurement_theme": {
     "public_procurement": "Overheidsopdrachten",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Aanbieder van de assistent",
-    "intro": "De assistent draait standaard op Fontems eigen ingebouwde model — je hoeft niets in te stellen. Je kunt hem in plaats daarvan op je eigen LLM-account richten als je een groter model wilt; sleutels worden versleuteld bewaard en na opslaan nooit meer getoond.",
+    "intro": "De assistent draait standaard op Dargle eigen ingebouwde model — je hoeft niets in te stellen. Je kunt hem in plaats daarvan op je eigen LLM-account richten als je een groter model wilt; sleutels worden versleuteld bewaard en na opslaan nooit meer getoond.",
     "fingerprint": "sleutel nr. {fp}",
     "last_used": "laatst gebruikt op {date}",
     "not_used": "nog niet gebruikt",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Sleutel verwijderd.",
     "builtin_title": "Ingebouwd model",
     "builtin_active": "In gebruik",
-    "builtin_note": "Draait op Fontems eigen hardware. Geen account, geen sleutel, niets dat aan jou wordt gefactureerd. Het is een klein model, dus trager en minder capabel dan een betaald model — maar het heeft niets van jou nodig om te werken.",
+    "builtin_note": "Draait op Dargle eigen hardware. Geen account, geen sleutel, niets dat aan jou wordt gefactureerd. Het is een klein model, dus trager en minder capabel dan een betaald model — maar het heeft niets van jou nodig om te werken.",
     "builtin_superseded": "In plaats daarvan wordt je eigen sleutel gebruikt. Verwijder hem om terug te gaan naar het ingebouwde model.",
     "byo_title": "Gebruik in plaats daarvan je eigen model",
     "byo_intro": "Optioneel. Een sleutel van Anthropic, Mistral of OpenAI geeft je een groter, sneller model, door hen aan jou gefactureerd.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Bevraag de Fontem-kennisgraaf rechtstreeks vanuit de browser of koppel het eindpunt aan OpenRefine / een notebook / je eigen tools. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — alles gekoppeld.",
+    "intro": "Bevraag de Dargle-kennisgraaf rechtstreeks vanuit de browser of koppel het eindpunt aan OpenRefine / een notebook / je eigen tools. Bedrijven, contracten, autoriteiten, lobbyisten, sancties — alles gekoppeld.",
     "limits": "Limieten",
     "method": "Methode",
     "post": "POST",
@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventaris in de Virtuoso-opslag — totalen, tellingen per named graph en de klasse/predicaat-structuur van elke graaf. Verkregen via SPARQL tegen",
     "could_not_load_triple_store_stats": "Kon statistieken van de triple-store niet laden:",
     "this_environment_has_no_rdf_store": "Deze omgeving heeft geen aangesloten RDF-opslag — de RDF-grafen voor sancties, deponeringen en andere fase 2-graafgegevens bestaan alleen waar",
-    "is_set_on_the_gmr_api_deployment": "is ingesteld op de gmr-api-deployment. Raadpleeg het staging- of productiedashboard voor actuele cijfers.",
+    "is_set_on_the_gmr_api_deployment": "is ingesteld op de fontem-api-deployment. Raadpleeg het staging- of productiedashboard voor actuele cijfers.",
     "assertions_in_this_graph": "assertions in deze graaf."
   },
   "user_profile": {
@@ -2031,9 +2031,9 @@
     "one_moment": "Een moment.",
     "email_confirmed": "E-mailadres bevestigd",
     "your_account_is_verified": "Uw account is geverifieerd. U kunt nu verhalen publiceren, reageren en onderwerpen volgen.",
-    "continue_to_fontem": "Doorgaan naar Fontem",
+    "continue_to_dargle": "Doorgaan naar Dargle",
     "the_link_may_have_expired": "De link is mogelijk verlopen of al gebruikt. Meld u aan en vraag een nieuwe verificatie-e-mail aan via de banner bovenaan.",
-    "go_to_fontem": "Ga naar Fontem",
+    "go_to_dargle": "Ga naar Dargle",
     "couldnt_confirm_your_email": "Kon uw e-mailadres niet bevestigen"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Onbekend widget-type:"
   },
   "wordmark": {
-    "font": "Font",
-    "fontem": "Fontem",
-    "tagline": "De digitale grenzen van de EU overschrijden, één dataset tegelijk"
+    "name": "Dargle",
+    "tagline": "Ontdek. Argumenteer. Leer. Geniet."
   },
   "zoomable_bar_chart": {
     "all": "Alles",

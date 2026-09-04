@@ -1,6 +1,6 @@
 /**
  * Shared query-engine metadata + a single-source runner for the Data Studio.
- * Source queries run through Fontem's read-only, row/timeout-capped proxies
+ * Source queries run through Dargle's read-only, row/timeout-capped proxies
  * (Cypher -> Neo4j, SQL -> stats/Eurostat, SPARQL -> Virtuoso). Returns a tidy
  * { columns, rows } table (SPARQL bindings are normalized to the same shape).
  */

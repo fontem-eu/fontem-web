@@ -16,30 +16,32 @@
 
 const TITLES = {
   // Stories — public feed — is the new landing.
-  '/': "Fontem — Crossing the EU's digital borders with data",
-  '/about': 'About — Fontem',
-  '/privacy': 'Privacy policy — Fontem',
-  '/data-quality': 'Data quality — Fontem',
-  '/sparql': 'SPARQL — Fontem',
-  '/map': 'Map — European statistics on Fontem',
-  '/spending': 'Spending — EU procurement on Fontem',
-  '/login': 'Sign in — Fontem',
-  '/development': 'Development — Fontem',
+  // The homepage title is the brand line, and the brand line is now the
+  // motto — matching index.html, which a crawler may reach first.
+  '/': 'Dargle — Discover. Argue. Learn. Enjoy.',
+  '/about': 'About — Dargle',
+  '/privacy': 'Privacy policy — Dargle',
+  '/data-quality': 'Data quality — Dargle',
+  '/sparql': 'SPARQL — Dargle',
+  '/map': 'Map — European statistics on Dargle',
+  '/spending': 'Spending — EU procurement on Dargle',
+  '/login': 'Sign in — Dargle',
+  '/development': 'Development — Dargle',
 }
 
 const DESCRIPTIONS = {
-  '/': "Public data stories from the Fontem community — investigations and cross-checks on EU companies, procurement and lobbying, grounded in primary sources.",
+  '/': "Public data stories from the Dargle community — investigations and cross-checks on EU companies, procurement and lobbying, grounded in primary sources.",
   '/about': 'The collaborative-argument platform. EU companies, procurement, lobbyists and cohesion funding in one graph, cross-checked against official registers.',
-  '/privacy': 'How Fontem handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
-  '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Fontem knowledge graph. Transparency about transparency.',
-  '/sparql': 'Query the Fontem knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
+  '/privacy': 'How Dargle handles personal data. We store only account basics, no tracking cookies, no third-party analytics.',
+  '/data-quality': 'Coverage, freshness, and source breakdowns for every dataset in the Dargle knowledge graph. Transparency about transparency.',
+  '/sparql': 'Query the Dargle knowledge graph directly via SPARQL. Companies, contracts, authorities, lobbyists, sanctions — all linked.',
   '/map': 'Interactive choropleth of curated Eurostat datasets at NUTS level — population, GDP, unemployment, R&D and more, mapped across Europe.',
   '/spending': 'Search EU companies, contracting authorities, lobbyists and EU-funded projects. Plus what is big in your country.',
-  '/login': 'Sign in to Fontem to publish data stories, raise issues, and save your research.',
-  '/development': 'Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way.',
+  '/login': 'Sign in to Dargle to publish data stories, raise issues, and save your research.',
+  '/development': 'Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way.',
 }
 
-const DEFAULT_TITLE = 'Fontem — Argue it. With data. Together.'
+const DEFAULT_TITLE = 'Dargle — Argue it. With data. Together.'
 const DEFAULT_DESCRIPTION =
   'The primary-source transparency platform for EU public procurement and corporate data.'
 
@@ -58,7 +60,7 @@ function clamp(text, max) {
  * answers, which is why every caller can still pass a route alone.
  */
 export function titleForPath(route, context = {}) {
-  if (context.story?.title) return clamp(`${context.story.title} — Fontem`, 60)
+  if (context.story?.title) return clamp(`${context.story.title} — Dargle`, 60)
   return TITLES[route.path] || DEFAULT_TITLE
 }
 

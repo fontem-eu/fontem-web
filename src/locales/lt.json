@@ -15,10 +15,10 @@
     "chip_story": "Perskaityk bendruomenės duomenų istoriją",
     "hero_lead": "Atviras žinių grafas, jungiantis ES įmones, viešuosius pirkimus, lobistus ir sanglaudos finansavimą.",
     "how_it_works": "Kaip tai veikia",
-    "mission_body_1": "Viešosios diskusijos remiasi skaičiais — biudžetais ir sutartimis, migracija ir išmetamaisiais teršalais, tuo, kas kam priklauso, net pačiu įstatymo tekstu — o juos nuolat kraipo tie, kurie žino, kad niekas jų netikrins. Fontem sujungia šiuos registrus į vieną užklausiamą grafą, kuriame kiekvienas skaičius lieka susietas su oficialiu šaltiniu, iš kurio jis kilęs.",
+    "mission_body_1": "Viešosios diskusijos remiasi skaičiais — biudžetais ir sutartimis, migracija ir išmetamaisiais teršalais, tuo, kas kam priklauso, net pačiu įstatymo tekstu — o juos nuolat kraipo tie, kurie žino, kad niekas jų netikrins. Dargle sujungia šiuos registrus į vieną užklausiamą grafą, kuriame kiekvienas skaičius lieka susietas su oficialiu šaltiniu, iš kurio jis kilęs.",
     "mission_body_2": "Tai pamatas, o ne tikslas. Klaidinantys teiginiai klesti ten, kur juos patikrinti sunku; mes tai paverčiame vienu spustelėjimu. O visuomenė, gebanti patikrinti, kas jai sakoma, yra visuomenė, gebanti dalyvauti.",
     "mission_lead": "Kuriame Europos demokratijos pilietinį sluoksnį — kuriame bet kurį viešą teiginį galima atsekti iki už jo esančių skaičių.",
-    "mission_title": "Kodėl Fontem egzistuoja",
+    "mission_title": "Kodėl Dargle egzistuoja",
     "recently_published": "Neseniai paskelbta",
     "see_all_public_data_stories": "Žiūrėti visas viešas duomenų istorijas →",
     "step_crosscheck_desc": "Palygink šalia, ką apie tą pačią esybę sako TED, GLEIF, Skaidrumo registras, Sanglauda ir kiti šaltiniai.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Duomenų istorijos paskelbimas iš redaktoriaus",
     "step_publish_name": "Paskelbti",
     "step_search_desc": "Ieškok bet kurios įmonės, perkančiosios institucijos, lobisto ar ES finansuoto projekto pagal vardą ar identifikatorių.",
-    "step_search_gif_alt": "Esybės paieška Fontem'e",
+    "step_search_gif_alt": "Esybės paieška Dargle'e",
     "step_search_name": "Ieškoti",
     "try": "Išbandyk:",
     "value_open_desc": "Grafas, metodai ir už jų esantis kodas yra vieši.",
@@ -235,13 +235,13 @@
     "tool_result": "Rezultatas",
     "tool_truncated": "sutrumpinta prieš modeliui pamatant",
     "tool_no_result": "(nėra išvesties)",
-    "navigate_ask": "„Fontem“ gali nuvesti jus į {page}. Ar norite pereiti?",
+    "navigate_ask": "„Dargle“ gali nuvesti jus į {page}. Ar norite pereiti?",
     "navigate_go": "Pereiti",
     "navigate_stay": "Likti čia",
     "navigate_went": "Atidaryta",
     "navigate_stayed": "Liko čia",
     "tool_result_not_kept": "Rezultatas nesaugomas — įrašomas tik iškvietimas ir jo argumentai.",
-    "signed_out_notice": "Nesate prisijungę, todėl asistentas gali tik atsakyti į klausimus apie „Fontem“ ir nuvesti jus į puslapį. Duomenų paieškai, rašymui ir darbo išsaugojimui reikia paskyros.",
+    "signed_out_notice": "Nesate prisijungę, todėl asistentas gali tik atsakyti į klausimus apie „Dargle“ ir nuvesti jus į puslapį. Duomenų paieškai, rašymui ir darbo išsaugojimui reikia paskyros.",
     "characters_used": "Panaudoti simboliai"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Viešieji pirkimai",
@@ -901,12 +901,12 @@
     "title": "Pagalba",
     "toc": "Turinys",
     "connect_title": "Prijunkite savo DI asistentą",
-    "connect_intro": "Fontem pateikia savo duomenis kaip įrankius, kuriuos gali iškviesti jūsų paties DI klientas — įmonių duomenys, viešieji pirkimai, subjektų grafas, SPARQL. Naudojate asistentą, už kurį jau mokate, o Fontem niekada nemato jūsų paskyros pas tiekėją.",
+    "connect_intro": "Dargle pateikia savo duomenis kaip įrankius, kuriuos gali iškviesti jūsų paties DI klientas — įmonių duomenys, viešieji pirkimai, subjektų grafas, SPARQL. Naudojate asistentą, už kurį jau mokate, o Dargle niekada nemato jūsų paskyros pas tiekėją.",
     "step_token": "1. Sukurkite prieigos raktą",
     "step_token_body_pre": "Eikite į",
     "step_token_account": "Paskyros nustatymai",
     "step_token_body_post": "→ {section} → {action}. Nedelsdami jį nukopijuokite: jis parodomas tik vieną kartą ir vėliau jo gauti nebeįmanoma. Jei jį pamesite, atšaukite ir sukurkite naują.",
-    "step_endpoint": "2. Nukreipkite klientą į Fontem",
+    "step_endpoint": "2. Nukreipkite klientą į Dargle",
     "step_endpoint_body": "Galinis taškas yra:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Nustatymai → Jungtys → Pridėti pasirinktinę jungtį. Įklijuokite pirmiau nurodytą URL, o prieigos raktą — kaip bearer raktą.",
@@ -916,15 +916,15 @@
     "anything_else": "Bet kas kita",
     "anything_else_body": "Tinka bet kuris klientas, kalbantis MCP per Streamable HTTP. Prieigos raktą siųskite kaip {header}.",
     "step_ask": "3. Ko nors jo paklauskite",
-    "step_ask_body": "Pabandykite {example}. Jūsų klientas pats nusprendžia, kada iškviesti Fontem įrankius.",
-    "step_ask_example": "„Naudok Fontem ir surask sutartis, sudarytas su su X susijusiomis įmonėmis“",
+    "step_ask_body": "Pabandykite {example}. Jūsų klientas pats nusprendžia, kada iškviesti Dargle įrankius.",
+    "step_ask_example": "„Naudok Dargle ir surask sutartis, sudarytas su su X susijusiomis įmonėmis“",
     "revoking": "Atšaukimas",
     "revoking_body": "Paskyros nustatymuose išvardytas kiekvienas prijungtas klientas kartu su paskutinio naudojimo laiku. Atšaukimas įsigalioja nuo kitos užklausos. Jei kliento nebeatpažįstate, atšaukite jį.",
     "why_key_title": "Kodėl man reikia savo DI paskyros?",
     "why_key_short": "Kodėl sava paskyra?",
-    "why_key_body_1": "Todėl, kad nė vienas DI tiekėjas neparduoda to, kas kitu atveju būtų akivaizdus sprendimas. „Anthropic“ 2026 m. vasarį uždraudė naudoti „Claude“ prenumeratą trečiųjų šalių įrankiuose, o tų pačių metų balandį ją užblokavo; „OpenAI“ „ChatGPT“ planai niekada neapėmė prieigos prie API; o „Mistral“ atskirai apmokestina „Le Chat“ ir savo API. Tokia svetainė kaip Fontem iš tiesų negali išleisti jūsų prenumeratos jūsų vardu.",
+    "why_key_body_1": "Todėl, kad nė vienas DI tiekėjas neparduoda to, kas kitu atveju būtų akivaizdus sprendimas. „Anthropic“ 2026 m. vasarį uždraudė naudoti „Claude“ prenumeratą trečiųjų šalių įrankiuose, o tų pačių metų balandį ją užblokavo; „OpenAI“ „ChatGPT“ planai niekada neapėmė prieigos prie API; o „Mistral“ atskirai apmokestina „Le Chat“ ir savo API. Tokia svetainė kaip Dargle iš tiesų negali išleisti jūsų prenumeratos jūsų vardu.",
     "why_key_body_2": "Tačiau ji gali perduoti duomenis jūsų pačių asistentui. Tai geriau už alternatyvą, o ne tik pigiau mums: išsaugote savo tiekėją, savo istoriją ir savo privatumo nustatymus, jūsų neriboja mūsų nustatytas biudžetas, ir čia niekas nesugenda, kai tiekėjas pakeičia savo sąlygas.",
-    "in_app_title": "Asistentas Fontem viduje",
+    "in_app_title": "Asistentas Dargle viduje",
     "in_app_body_1": "Į svetainę taip pat įtaisytas asistentas, pasiekiamas kiekviename puslapyje. Jis gali ieškoti duomenyse, paaiškinti, ką matote, perkelti jus po platformą ir — kol redaguojate straipsnį — siūlyti jame pakeitimus.",
     "in_app_body_2_pre": "Jam reikia API rakto iš „Anthropic“, „Mistral“ arba „OpenAI“, pridėto skiltyje",
     "in_app_body_2_post": ". Mokama pagal naudojimą ir paprastai kainuoja labai nedaug; prenumerata nereikalinga ir dėl pirmiau nurodytų priežasčių čia vis tiek neveiktų.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Eiti į pradžią",
     "you_already_have_an_active_session": "Jau turi aktyvų seansą.",
     "youre_signed_in": "Esi prisijungęs",
-    "sign_in_to_fontem": "Prisijunkite prie Fontem",
+    "sign_in_to_dargle": "Prisijunkite prie Dargle",
     "sign_in_to_start_creating_data_stories": "Prisijunkite, kad pradėtumėte kurti duomenų istorijas, kelti klausimus ir bendradarbiauti su bendruomene.",
     "signing_in": "Prisijungiama...",
     "sign_in": "Prisijungti",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Prijunkite savo DI asistentą",
-    "intro_pre": "Naudokite Fontem duomenis iš „Claude“, „ChatGPT“ ar bet kurio MCP palaikančio kliento — su savo prenumerata. Sukurkite prieigos raktą čia, tada vadovaukitės",
+    "intro_pre": "Naudokite Dargle duomenis iš „Claude“, „ChatGPT“ ar bet kurio MCP palaikančio kliento — su savo prenumerata. Sukurkite prieigos raktą čia, tada vadovaukitės",
     "intro_link": "sąrankos vadovu",
     "fresh_warn": "Nukopijuokite jį dabar — jis parodomas vieną kartą ir jo gauti pakartotinai nebegalima.",
     "copy": "Kopijuoti",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
-      "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Fontem žinių grafe. Skaidrumas apie skaidrumą.",
-      "home": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį. Viešos duomenų istorijos iš Fontem bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
-      "login": "Prisijunk prie Fontem, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
+      "about": "Dargle yra pirminių šaltinių skaidrumo platforma. ES įmonės, viešieji pirkimai, lobistai ir sanglaudos finansavimas — susieti viename grafe ir sutikrinti su oficialiais registrais.",
+      "data_quality": "Aprėptis, šviežumas ir šaltinių pasiskirstymas kiekvienam duomenų rinkiniui Dargle žinių grafe. Skaidrumas apie skaidrumą.",
+      "home": "Atrask. Diskutuok. Mokykis. Mėgaukis. Viešos duomenų istorijos iš Dargle bendruomenės — tyrimai, sutikrinimai ir išvados, pagrįsti pirminiais šaltiniais.",
+      "login": "Prisijunk prie Dargle, kad galėtum skelbti duomenų istorijas, pranešti apie problemas ir išsaugoti tyrimus.",
       "map": "Interaktyvus pasirinktų Eurostat duomenų rinkinių koroplėtas NUTS lygyje — gyventojai, BVP, nedarbas, MTEP ir kt., sužemėlapinta visoje Europoje.",
-      "privacy": "Kaip Fontem tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
-      "sparql": "Užklausk Fontem žinių grafą tiesiogiai per SPARQL. Įmonės, sutartys, institucijos, lobistai, sankcijos — visi susieti.",
+      "privacy": "Kaip Dargle tvarko asmens duomenis. Saugome tik pagrindinius paskyros duomenis, jokių sekimo slapukų, jokios trečiųjų šalių analitikos.",
+      "sparql": "Užklausk Dargle žinių grafą tiesiogiai per SPARQL. Įmonės, sutartys, institucijos, lobistai, sankcijos — visi susieti.",
       "spending": "Ieškok ES įmonių, perkančiųjų institucijų, lobistų ir ES finansuojamų projektų. Plius kas didžiu tavo šalyje.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Apie — Fontem",
-      "data_quality": "Duomenų kokybė — Fontem",
-      "home": "Fontem — Kertame ES skaitmenines sienas, po vieną duomenų rinkinį",
-      "login": "Prisijungti — Fontem",
-      "map": "Žemėlapis — Europos statistika Fontem'e",
-      "privacy": "Privatumo politika — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Išlaidos — ES viešieji pirkimai Fontem'e",
-      "development": "Development — Fontem"
+      "about": "Apie — Dargle",
+      "data_quality": "Duomenų kokybė — Dargle",
+      "home": "Dargle — Atrask. Diskutuok. Mokykis. Mėgaukis.",
+      "login": "Prisijungti — Dargle",
+      "map": "Žemėlapis — Europos statistika Dargle'e",
+      "privacy": "Privatumo politika — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Išlaidos — ES viešieji pirkimai Dargle'e",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Prieiga",
-    "all_data_in_the_fontem_knowledge_graph_r": "Visi Fontem žinių grafo duomenys yra susiję su",
+    "all_data_in_the_dargle_knowledge_graph_r": "Visi Dargle žinių grafo duomenys yra susiję su",
     "conversation_processing_is_performed_by_": "Pokalbius apdoroja ES įsikūrę DI paslaugų teikėjai.",
     "conversations_are_automatically_deleted_": "Pokalbiai automatiškai ištrinami po 90 dienų.",
     "erase": "Ištrynimas",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Pagal BDAR turi teisę:",
     "when_you_sign_in_we_collect_and_store": "Kai prisijungi, mes renkame ir saugome:",
     "your": "Tavo",
-    "what_fontem_is": "1. Kas yra Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem yra pilietinio skaidrumo platforma, jungianti ES viešųjų pirkimų duomenis, įmonių nuosavybės registrus ir sanglaudos politikos finansavimą į vieną žinių grafą. Jos tikslas – padaryti viešąsias išlaidas ir įmonių struktūras lengviau nagrinėjamas ir suprantamas.",
+    "what_dargle_is": "1. Kas yra Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle yra pilietinio skaidrumo platforma, jungianti ES viešųjų pirkimų duomenis, įmonių nuosavybės registrus ir sanglaudos politikos finansavimą į vieną žinių grafą. Jos tikslas – padaryti viešąsias išlaidas ir įmonių struktūras lengviau nagrinėjamas ir suprantamas.",
     "data_in_the_knowledge_graph": "2. Duomenys žinių grafe",
     "legal_entities": "juridiniai asmenys",
     "companies_public_authorities_and_organis": "(įmonės, viešosios institucijos ir organizacijos) – ne fiziniai asmenys. Mes kaupiame viešai prieinamus duomenis iš šių šaltinių:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Slapukai",
     "we_only_use_strictly_necessary_cookies": "Mes naudojame tik būtinuosius seanso slapukus autentifikavimui. Nenaudojame stebėjimo slapukų, reklamos slapukų ar trečiųjų šalių analitikos slapukų.",
     "changes_to_this_policy": "7. Šios politikos pakeitimai",
-    "we_may_update_this_policy": "Kartais galime atnaujinti šią politiką. Tai padarę, atnaujinsime „paskutinį kartą atnaujinta“ datą šio puslapio viršuje. Toliau naudodamiesi Fontem po pakeitimų, sutinkate su atnaujinta politika."
+    "we_may_update_this_policy": "Kartais galime atnaujinti šią politiką. Tai padarę, atnaujinsime „paskutinį kartą atnaujinta“ datą šio puslapio viršuje. Toliau naudodamiesi Dargle po pakeitimų, sutinkate su atnaujinta politika."
   },
   "procurement_theme": {
     "public_procurement": "Viešieji pirkimai",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Asistento tiekėjas",
-    "intro": "Asistentas pagal numatytuosius nustatymus veikia su Fontem įtaisytuoju modeliu — nieko konfigūruoti nereikia. Jei norite didesnio modelio, galite jį nukreipti į savo LLM paskyrą; raktai saugomi užšifruoti ir po išsaugojimo daugiau niekada nerodomi.",
+    "intro": "Asistentas pagal numatytuosius nustatymus veikia su Dargle įtaisytuoju modeliu — nieko konfigūruoti nereikia. Jei norite didesnio modelio, galite jį nukreipti į savo LLM paskyrą; raktai saugomi užšifruoti ir po išsaugojimo daugiau niekada nerodomi.",
     "fingerprint": "raktas Nr. {fp}",
     "last_used": "paskutinį kartą naudotas {date}",
     "not_used": "dar nenaudotas",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Raktas pašalintas.",
     "builtin_title": "Įtaisytasis modelis",
     "builtin_active": "Naudojamas",
-    "builtin_note": "Veikia paties Fontem aparatinėje įrangoje. Jokios paskyros, jokio rakto, jokių jums tenkančių mokesčių. Tai nedidelis modelis, todėl lėtesnis ir mažiau pajėgus nei mokamas — bet kad veiktų, iš jūsų jam nieko nereikia.",
+    "builtin_note": "Veikia paties Dargle aparatinėje įrangoje. Jokios paskyros, jokio rakto, jokių jums tenkančių mokesčių. Tai nedidelis modelis, todėl lėtesnis ir mažiau pajėgus nei mokamas — bet kad veiktų, iš jūsų jam nieko nereikia.",
     "builtin_superseded": "Vietoj jo naudojamas jūsų raktas. Pašalinkite jį, kad grįžtumėte prie įtaisytojo modelio.",
     "byo_title": "Naudokite vietoj to savo modelį",
     "byo_intro": "Neprivaloma. „Anthropic“, „Mistral“ arba „OpenAI“ raktas suteiks didesnį ir greitesnį modelį, už kurį apmokestins jie.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Galinis taškas",
     "endpoint_url": "Galinio taško URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Užklausk Fontem žinių grafą tiesiogiai iš naršyklės arba prijunk galinį tašką prie OpenRefine / užrašų / savo įrankių. Įmonės, sutartys, institucijos, lobistai, sankcijos — viskas susieta.",
+    "intro": "Užklausk Dargle žinių grafą tiesiogiai iš naršyklės arba prijunk galinį tašką prie OpenRefine / užrašų / savo įrankių. Įmonės, sutartys, institucijos, lobistai, sankcijos — viskas susieta.",
     "limits": "Ribos",
     "method": "Metodas",
     "post": "POST",
@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF inventorius Virtuoso saugykloje – bendros sumos, kiekvieno įvardyto grafo skaičiai ir kiekvieno grafo klasės/predikato struktūra. Gaunama per SPARQL prieš",
     "could_not_load_triple_store_stats": "Nepavyko įkelti trijetų saugyklos statistikos:",
     "this_environment_has_no_rdf_store": "Ši aplinka neturi prijungtos RDF saugyklos – sankcijų, ataskaitų ir kitų 2 etapo RDF grafų yra tik ten, kur",
-    "is_set_on_the_gmr_api_deployment": "yra nustatytas gmr-api diegime. Gyvų skaičių ieškokite staging arba prod informacinėje lentoje.",
+    "is_set_on_the_gmr_api_deployment": "yra nustatytas fontem-api diegime. Gyvų skaičių ieškokite staging arba prod informacinėje lentoje.",
     "assertions_in_this_graph": "tvirtinimų šiame grafe."
   },
   "user_profile": {
@@ -2031,9 +2031,9 @@
     "one_moment": "Vieną akimirką.",
     "email_confirmed": "El. paštas patvirtintas",
     "your_account_is_verified": "Jūsų paskyra patvirtinta. Dabar galite skelbti istorijas, komentuoti ir sekti temas.",
-    "continue_to_fontem": "Tęsti į Fontem",
+    "continue_to_dargle": "Tęsti į Dargle",
     "the_link_may_have_expired": "Nuoroda galėjo baigti galioti arba jau buvo panaudota. Prisijunkite ir viršuje esančioje juostoje užsisakykite naują patvirtinimo el. laišką.",
-    "go_to_fontem": "Eiti į Fontem",
+    "go_to_dargle": "Eiti į Dargle",
     "couldnt_confirm_your_email": "Nepavyko patvirtinti jūsų el. pašto"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Nežinomas valdiklio tipas:"
   },
   "wordmark": {
-    "font": "Šriftas",
-    "fontem": "Fontem",
-    "tagline": "Kertame ES skaitmenines sienas, po vieną duomenų rinkinį"
+    "name": "Dargle",
+    "tagline": "Atrask. Diskutuok. Mokykis. Mėgaukis."
   },
   "zoomable_bar_chart": {
     "all": "Visi",

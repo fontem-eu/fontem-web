@@ -15,7 +15,7 @@ import { describe, it, expect } from 'vitest'
 import { renderHead, escapeHtml } from '../../src/ssr/head.js'
 
 const HEAD = {
-  title: 'Story — Fontem',
+  title: 'Story — Dargle',
   description: 'A description.',
   canonical: 'https://fontem.eu/stories/abc',
   ogImage: 'https://fontem.eu/og-card.png',
@@ -34,7 +34,7 @@ describe('renderHead', () => {
     expect(html).not.toContain('rel="canonical"')
     expect(html).not.toContain('og:url')
     // The shell still needs a title, a description and a card image.
-    expect(html).toContain('<title>Story — Fontem</title>')
+    expect(html).toContain('<title>Story — Dargle</title>')
     expect(html).toContain('name="description"')
     expect(html).toContain('og:image')
   })

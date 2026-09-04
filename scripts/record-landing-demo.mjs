@@ -1,6 +1,6 @@
 /* eslint-disable no-console -- CLI progress output is the legitimate channel here */
 /**
- * Fontem platform tour — standalone Playwright recording script.
+ * Dargle platform tour — standalone Playwright recording script.
  *
  * What it does: drives a real browser through a ~47-second narrative —
  * landing page → click a chip → company profile → contracts → graph

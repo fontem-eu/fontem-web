@@ -40,7 +40,7 @@ const effectiveReviewer = computed(
 )
 
 onMounted(async () => {
-  document.title = 'Entity Resolution — Fontem'
+  document.title = 'Entity Resolution — Dargle'
   await loadCandidates()
 })
 

@@ -8,7 +8,7 @@ Report privately to **team@fontem.eu**. Include enough detail to
 reproduce the issue; we will confirm receipt and keep you updated on the
 fix.
 
-Fontem is a public-interest transparency platform: reports about data
+Dargle is a public-interest transparency platform: reports about data
 integrity — a claim that cannot be traced to its source, provenance that
 is wrong, or a link between records that should not exist — are treated
 with the same seriousness as classic security issues, and are equally

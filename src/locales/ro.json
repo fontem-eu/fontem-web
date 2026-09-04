@@ -15,10 +15,10 @@
     "chip_story": "Citește o poveste de date a comunității",
     "hero_lead": "Un graf de cunoștințe deschis care leagă companiile UE, achizițiile publice, lobbyiștii și finanțarea de coeziune.",
     "how_it_works": "Cum funcționează",
-    "mission_body_1": "Dezbaterea publică funcționează pe cifre — bugete și contracte, migrație și emisii, cine ce deține, până la textul unei legi — iar acestea sunt răsucite constant de cei care știu că nimeni nu le verifică. Fontem adună aceste registre într-un singur graf interogabil, în care fiecare cifră rămâne legată de sursa oficială din care provine.",
+    "mission_body_1": "Dezbaterea publică funcționează pe cifre — bugete și contracte, migrație și emisii, cine ce deține, până la textul unei legi — iar acestea sunt răsucite constant de cei care știu că nimeni nu le verifică. Dargle adună aceste registre într-un singur graf interogabil, în care fiecare cifră rămâne legată de sursa oficială din care provine.",
     "mission_body_2": "Aceasta este temelia, nu scopul. Afirmațiile înșelătoare prosperă atunci când verificarea lor cere efort; noi o reducem la un clic. Iar un public care poate verifica ce i se spune este un public care poate participa.",
     "mission_lead": "Construim stratul civic al democrației europene — în care orice afirmație publică poate fi urmărită până la cifrele care o susțin.",
-    "mission_title": "De ce există Fontem",
+    "mission_title": "De ce există Dargle",
     "recently_published": "Publicate recent",
     "see_all_public_data_stories": "Vezi toate poveștile publice de date →",
     "step_crosscheck_desc": "Compară unul lângă altul ce spun TED, GLEIF, Registrul de Transparență, Coeziunea și alte surse despre aceeași entitate.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Publicarea unei povești de date din editor",
     "step_publish_name": "Publică",
     "step_search_desc": "Caută orice companie, autoritate contractantă, lobbyist sau proiect finanțat de UE după nume sau identificator.",
-    "step_search_gif_alt": "Căutare entitate în Fontem",
+    "step_search_gif_alt": "Căutare entitate în Dargle",
     "step_search_name": "Caută",
     "try": "Încearcă:",
     "value_open_desc": "Graful, metodele și codul din spatele lor sunt publice.",
@@ -235,13 +235,13 @@
     "tool_result": "Rezultat",
     "tool_truncated": "trunchiat înainte ca modelul să îl vadă",
     "tool_no_result": "(fără ieșire)",
-    "navigate_ask": "Fontem vă poate duce la {page}. Doriți să mergeți?",
+    "navigate_ask": "Dargle vă poate duce la {page}. Doriți să mergeți?",
     "navigate_go": "Mergi",
     "navigate_stay": "Rămâi aici",
     "navigate_went": "Deschis",
     "navigate_stayed": "A rămas aici",
     "tool_result_not_kept": "Rezultatul nu este păstrat — se înregistrează doar apelul și argumentele sale.",
-    "signed_out_notice": "Nu v-ați autentificat, așa că asistentul poate doar să răspundă la întrebări despre Fontem și să vă ducă la o pagină. Căutarea în date, scrierea și salvarea necesită un cont.",
+    "signed_out_notice": "Nu v-ați autentificat, așa că asistentul poate doar să răspundă la întrebări despre Dargle și să vă ducă la o pagină. Căutarea în date, scrierea și salvarea necesită un cont.",
     "characters_used": "Caractere utilizate"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Achiziții publice",
@@ -901,12 +901,12 @@
     "title": "Ajutor",
     "toc": "Cuprins",
     "connect_title": "Conectați-vă asistentul AI",
-    "connect_intro": "Fontem își expune datele ca instrumente pe care le poate apela propriul dvs. client AI — date despre firme, contracte, graful de entități, SPARQL. Folosiți asistentul pentru care plătiți deja, iar Fontem nu vă vede niciodată contul de la furnizor.",
+    "connect_intro": "Dargle își expune datele ca instrumente pe care le poate apela propriul dvs. client AI — date despre firme, contracte, graful de entități, SPARQL. Folosiți asistentul pentru care plătiți deja, iar Dargle nu vă vede niciodată contul de la furnizor.",
     "step_token": "1. Creați un token",
     "step_token_body_pre": "Mergeți la",
     "step_token_account": "Setările contului",
     "step_token_body_post": "→ {section} → {action}. Copiați-l imediat: este afișat o singură dată și nu mai poate fi recuperat ulterior. Dacă îl pierdeți, revocați-l și creați altul.",
-    "step_endpoint": "2. Îndreptați-vă clientul către Fontem",
+    "step_endpoint": "2. Îndreptați-vă clientul către Dargle",
     "step_endpoint_body": "Punctul final este:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Setări → Conectori → Adăugare conector personalizat. Lipiți adresa URL de mai sus, iar tokenul ca bearer token.",
@@ -916,15 +916,15 @@
     "anything_else": "Orice altceva",
     "anything_else_body": "Funcționează orice client care vorbește MCP peste Streamable HTTP. Trimiteți tokenul ca {header}.",
     "step_ask": "3. Întrebați-l ceva",
-    "step_ask_body": "Încercați {example}. Clientul dvs. decide când apelează instrumentele Fontem.",
-    "step_ask_example": "„Folosește Fontem pentru a găsi contracte atribuite unor firme legate de X”",
+    "step_ask_body": "Încercați {example}. Clientul dvs. decide când apelează instrumentele Dargle.",
+    "step_ask_example": "„Folosește Dargle pentru a găsi contracte atribuite unor firme legate de X”",
     "revoking": "Revocare",
     "revoking_body": "Setările contului listează fiecare client conectat, împreună cu ultima utilizare. Revocarea are efect de la următoarea cerere. Dacă nu mai recunoașteți un client, revocați-l.",
     "why_key_title": "De ce am nevoie de propriul cont AI?",
     "why_key_short": "De ce contul meu?",
-    "why_key_body_1": "Pentru că niciun furnizor de AI nu vinde ceea ce altfel ar fi soluția evidentă. Anthropic a interzis folosirea unui abonament Claude în instrumente terțe în februarie 2026 și a blocat-o în aprilie același an; planurile ChatGPT ale OpenAI nu au inclus niciodată acces la API; iar Mistral facturează Le Chat și API-ul său separat. Un site precum Fontem chiar nu poate cheltui abonamentul dvs. în numele dvs.",
+    "why_key_body_1": "Pentru că niciun furnizor de AI nu vinde ceea ce altfel ar fi soluția evidentă. Anthropic a interzis folosirea unui abonament Claude în instrumente terțe în februarie 2026 și a blocat-o în aprilie același an; planurile ChatGPT ale OpenAI nu au inclus niciodată acces la API; iar Mistral facturează Le Chat și API-ul său separat. Un site precum Dargle chiar nu poate cheltui abonamentul dvs. în numele dvs.",
     "why_key_body_2": "Ceea ce poate face este să pună datele la dispoziția propriului dvs. asistent. Este mai bine decât alternativa, nu doar mai ieftin pentru noi: vă păstrați furnizorul, istoricul și setările de confidențialitate, nu sunteți raționalizat de un buget stabilit de noi, iar aici nu se strică nimic atunci când un furnizor își schimbă condițiile.",
-    "in_app_title": "Asistentul din interiorul Fontem",
+    "in_app_title": "Asistentul din interiorul Dargle",
     "in_app_body_1": "Există și un asistent integrat în site, pe fiecare pagină. Poate căuta în date, explica ce vedeți, vă poate muta prin platformă și — cât timp editați un articol — vă poate propune modificări la el.",
     "in_app_body_2_pre": "Are nevoie de o cheie API de la Anthropic, Mistral sau OpenAI, adăugată în",
     "in_app_body_2_post": ". Se plătește la consum și costă de obicei foarte puțin; un abonament nu este necesar și oricum nu ar funcționa aici, din motivele de mai sus.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Mergi la pagina principală",
     "you_already_have_an_active_session": "Ai deja o sesiune activă.",
     "youre_signed_in": "Ești autentificat(ă)",
-    "sign_in_to_fontem": "Autentificați-vă în Fontem",
+    "sign_in_to_dargle": "Autentificați-vă în Dargle",
     "sign_in_to_start_creating_data_stories": "Autentificați-vă pentru a începe să creați articole bazate pe date, să semnalați probleme și să colaborați cu comunitatea.",
     "signing_in": "Se realizează autentificarea...",
     "sign_in": "Autentificare",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Conectați-vă asistentul AI",
-    "intro_pre": "Folosiți datele Fontem din Claude, ChatGPT sau orice client compatibil MCP — pe propriul abonament. Creați aici un token, apoi urmați",
+    "intro_pre": "Folosiți datele Dargle din Claude, ChatGPT sau orice client compatibil MCP — pe propriul abonament. Creați aici un token, apoi urmați",
     "intro_link": "ghidul de configurare",
     "fresh_warn": "Copiați-l acum — este afișat o singură dată și nu mai poate fi recuperat.",
     "copy": "Copiază",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
-      "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Fontem. Transparență despre transparență.",
-      "home": "Trecem granițele digitale ale UE, un set de date pe rând. Povești publice de date din comunitatea Fontem — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
-      "login": "Autentifică-te în Fontem pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
+      "about": "Dargle este platforma de transparență bazată pe surse primare. Companii UE, achiziții publice, lobbyiști și finanțare de coeziune — conectate într-un singur graf și verificate încrucișat cu registrele oficiale.",
+      "data_quality": "Acoperire, prospețime și defalcare pe surse pentru fiecare set de date din graful de cunoștințe Dargle. Transparență despre transparență.",
+      "home": "Descoperă. Argumentează. Învață. Bucură-te. Povești publice de date din comunitatea Dargle — investigații, verificări încrucișate și concluzii fundamentate pe surse primare.",
+      "login": "Autentifică-te în Dargle pentru a publica povești de date, a ridica probleme și a-ți salva cercetarea.",
       "map": "Coroplet interactiv al seturilor de date Eurostat curate la nivel NUTS — populație, PIB, șomaj, C&D și altele, mapate în întreaga Europă.",
-      "privacy": "Cum gestionează Fontem datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
-      "sparql": "Interoghează graful de cunoștințe Fontem direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
+      "privacy": "Cum gestionează Dargle datele personale. Stocăm doar elementele de bază ale contului, fără cookie-uri de urmărire și fără analize de la terți.",
+      "sparql": "Interoghează graful de cunoștințe Dargle direct prin SPARQL. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
       "spending": "Caută companii UE, autorități contractante, lobbyiști și proiecte finanțate de UE. Plus ce e mare în țara ta.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Despre — Fontem",
-      "data_quality": "Calitatea datelor — Fontem",
-      "home": "Fontem — Trecem granițele digitale ale UE, un set de date pe rând",
-      "login": "Autentificare — Fontem",
-      "map": "Hartă — Statistici europene pe Fontem",
-      "privacy": "Politica de confidențialitate — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Cheltuieli — achiziții publice UE pe Fontem",
-      "development": "Development — Fontem"
+      "about": "Despre — Dargle",
+      "data_quality": "Calitatea datelor — Dargle",
+      "home": "Dargle — Descoperă. Argumentează. Învață. Bucură-te.",
+      "login": "Autentificare — Dargle",
+      "map": "Hartă — Statistici europene pe Dargle",
+      "privacy": "Politica de confidențialitate — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Cheltuieli — achiziții publice UE pe Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Acces",
-    "all_data_in_the_fontem_knowledge_graph_r": "Toate datele din graful de cunoștințe Fontem se referă la",
+    "all_data_in_the_dargle_knowledge_graph_r": "Toate datele din graful de cunoștințe Dargle se referă la",
     "conversation_processing_is_performed_by_": "Procesarea conversațiilor este efectuată de furnizori de IA cu sediul în UE.",
     "conversations_are_automatically_deleted_": "Conversațiile sunt șterse automat după 90 de zile.",
     "erase": "Ștergere",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Conform GDPR ai dreptul:",
     "when_you_sign_in_we_collect_and_store": "Când te autentifici, colectăm și stocăm:",
     "your": "Ale tale",
-    "what_fontem_is": "1. Ce este Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem este o platformă de transparență civică ce conectează datele privind achizițiile publice din UE, registrele de proprietate corporativă și finanțările din politica de coeziune într-un singur graf de cunoștințe. Scopul său este de a facilita explorarea și înțelegerea cheltuielilor publice și a structurilor corporative.",
+    "what_dargle_is": "1. Ce este Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle este o platformă de transparență civică ce conectează datele privind achizițiile publice din UE, registrele de proprietate corporativă și finanțările din politica de coeziune într-un singur graf de cunoștințe. Scopul său este de a facilita explorarea și înțelegerea cheltuielilor publice și a structurilor corporative.",
     "data_in_the_knowledge_graph": "2. Datele din graful de cunoștințe",
     "legal_entities": "persoane juridice",
     "companies_public_authorities_and_organis": "(companii, autorități publice și organizații) — nu persoane fizice. Agregăm date disponibile public din următoarele surse:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Module cookie",
     "we_only_use_strictly_necessary_cookies": "Utilizăm doar module cookie de sesiune strict necesare pentru autentificare. Nu utilizăm module cookie de urmărire, module cookie publicitare sau module cookie de analiză ale terților.",
     "changes_to_this_policy": "7. Modificări ale acestei politici",
-    "we_may_update_this_policy": "Este posibil să actualizăm periodic această politică. Atunci când o facem, vom revizui data „ultimei actualizări” din partea de sus a acestei pagini. Utilizarea în continuare a Fontem după modificări constituie acceptarea politicii actualizate."
+    "we_may_update_this_policy": "Este posibil să actualizăm periodic această politică. Atunci când o facem, vom revizui data „ultimei actualizări” din partea de sus a acestei pagini. Utilizarea în continuare a Dargle după modificări constituie acceptarea politicii actualizate."
   },
   "procurement_theme": {
     "public_procurement": "Achiziții publice",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Furnizorul asistentului",
-    "intro": "Asistentul funcționează implicit pe modelul integrat al Fontem — nu aveți nimic de configurat. Îl puteți îndrepta în schimb către propriul cont LLM dacă doriți un model mai mare; cheile sunt stocate criptat și nu mai sunt afișate niciodată după salvare.",
+    "intro": "Asistentul funcționează implicit pe modelul integrat al Dargle — nu aveți nimic de configurat. Îl puteți îndrepta în schimb către propriul cont LLM dacă doriți un model mai mare; cheile sunt stocate criptat și nu mai sunt afișate niciodată după salvare.",
     "fingerprint": "cheia nr. {fp}",
     "last_used": "ultima utilizare la {date}",
     "not_used": "încă neutilizată",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Cheie eliminată.",
     "builtin_title": "Model integrat",
     "builtin_active": "În uz",
-    "builtin_note": "Rulează pe hardware-ul propriu al Fontem. Fără cont, fără cheie, fără nimic facturat dvs. Este un model mic, deci mai lent și mai puțin capabil decât unul plătit — dar nu are nevoie de nimic de la dvs. ca să funcționeze.",
+    "builtin_note": "Rulează pe hardware-ul propriu al Dargle. Fără cont, fără cheie, fără nimic facturat dvs. Este un model mic, deci mai lent și mai puțin capabil decât unul plătit — dar nu are nevoie de nimic de la dvs. ca să funcționeze.",
     "builtin_superseded": "În locul lui se folosește cheia dvs. Eliminați-o pentru a reveni la modelul integrat.",
     "byo_title": "Folosiți în schimb propriul model",
     "byo_intro": "Opțional. O cheie de la Anthropic, Mistral sau OpenAI vă oferă un model mai mare și mai rapid, facturat de ei.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "URL endpoint",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Interoghează graful de cunoștințe Fontem direct din browser sau cuplează endpointul la OpenRefine / un notebook / propriile unelte. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
+    "intro": "Interoghează graful de cunoștințe Dargle direct din browser sau cuplează endpointul la OpenRefine / un notebook / propriile unelte. Companii, contracte, autorități, lobbyiști, sancțiuni — toate conectate.",
     "limits": "Limite",
     "method": "Metodă",
     "post": "POST",
@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "Inventarul RDF din depozitul Virtuoso — totaluri, numărători per graf denumit și structura de clase/predicate a fiecărui graf. Provenit prin SPARQL din",
     "could_not_load_triple_store_stats": "Nu s-au putut încărca statisticile depozitului de triplete:",
     "this_environment_has_no_rdf_store": "Acest mediu nu are un depozit RDF conectat — grafurile RDF de sancțiuni, depuneri și alte grafuri din Faza 2 există doar acolo unde",
-    "is_set_on_the_gmr_api_deployment": "este setat pe implementarea gmr-api. Verificați tabloul de bord de staging sau de producție pentru cifre în timp real.",
+    "is_set_on_the_gmr_api_deployment": "este setat pe implementarea fontem-api. Verificați tabloul de bord de staging sau de producție pentru cifre în timp real.",
     "assertions_in_this_graph": "aserțiuni în acest graf."
   },
   "user_profile": {
@@ -2031,9 +2031,9 @@
     "one_moment": "Un moment.",
     "email_confirmed": "E-mail confirmat",
     "your_account_is_verified": "Contul dumneavoastră este verificat. Acum puteți publica articole, comenta și urmări subiecte.",
-    "continue_to_fontem": "Continuă către Fontem",
+    "continue_to_dargle": "Continuă către Dargle",
     "the_link_may_have_expired": "Este posibil ca linkul să fi expirat sau să fi fost deja utilizat. Autentificați-vă și solicitați un nou e-mail de verificare din bannerul din partea de sus.",
-    "go_to_fontem": "Mergi la Fontem",
+    "go_to_dargle": "Mergi la Dargle",
     "couldnt_confirm_your_email": "Nu s-a putut confirma adresa de e-mail"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Tip de widget necunoscut:"
   },
   "wordmark": {
-    "font": "Font",
-    "fontem": "Fontem",
-    "tagline": "Trecem granițele digitale ale UE, un set de date pe rând"
+    "name": "Dargle",
+    "tagline": "Descoperă. Argumentează. Învață. Bucură-te."
   },
   "zoomable_bar_chart": {
     "all": "Toate",

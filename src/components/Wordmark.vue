@@ -1,13 +1,36 @@
 <script setup>
 /**
- * The Fontem wordmark — two-tone, theme-aware.
+ * The Dargle wordmark — two-tone, theme-aware.
  *
- * Split on the Latin syllable break (argu-it) so the colour change
- * lands on a natural pause, not mid-glyph. The name is the Latin
- * third-person singular of `arguere` — "she argues it" — the platform
- * as a verb. Colours come from theme tokens (--brand-primary /
- * --brand-secondary), so the mark adapts to light / dark without
- * per-theme markup.
+ * The split is not decorative and not a syllable break: the three
+ * groups spell the motto's initials.
+ *
+ *     D        ARG        LE
+ *     Discover  ARGue     Learn · Enjoy
+ *
+ * So `ARG` carries the second colour — argument is the middle of the
+ * name and the middle of the idea — while `D` and `LE` share the first.
+ * Read the coloured groups and you have read the motto.
+ *
+ * Two consequences worth stating, because both are easy to undo by
+ * accident:
+ *
+ *   * The letters are literal, never translated. The wordmark that came
+ *     before this one put its first segment through i18n, because
+ *     "Font" is a common noun — and 23 locales duly rendered the brand
+ *     as Шрифт, Písmo, Schriftart. A proper noun has no translation.
+ *   * The motto IS translated, and the initials therefore stop lining up
+ *     outside English — "Entdecken. Argumentieren. Lernen. Genießen."
+ *     spells E-A-L-G. That was a deliberate call: the mapping is a nice
+ *     touch in English, not a constraint worth making 23 locales read
+ *     like a foreign slogan for. The split stays as drawn everywhere,
+ *     because the mark is the mark whatever language surrounds it.
+ *
+ * Colours come from theme tokens (--brand-primary / --brand-secondary),
+ * so the mark adapts to light and dark without per-theme markup.
+ *
+ * The wrapper carries the accessible name and the three spans are
+ * aria-hidden, or a screen reader reads out "D, ARG, LE".
  */
 defineProps({
   /** Rendered size. 'sm' = header; 'lg' = landing-card hero. */
@@ -16,11 +39,11 @@ defineProps({
 </script>
 
 <template>
-  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.fontem')">
-    <span class="wordmark-a" aria-hidden="true">{{ $t('wordmark.font') }}</span><span
+  <span class="wordmark" :class="`wordmark--${size}`" :aria-label="$t('wordmark.name')">
+    <span class="wordmark-a" aria-hidden="true">D</span><span
       class="wordmark-b"
       aria-hidden="true"
-    >em</span>
+    >ARG</span><span class="wordmark-a" aria-hidden="true">LE</span>
   </span>
 </template>
 

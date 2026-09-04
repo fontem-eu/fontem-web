@@ -41,7 +41,7 @@ const membershipDirty = computed(() => {
 })
 
 onMounted(async () => {
-  document.title = 'Query groups — Fontem'
+  document.title = 'Query groups — Dargle'
   await load()
 })
 

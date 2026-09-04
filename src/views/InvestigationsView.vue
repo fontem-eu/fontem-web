@@ -31,7 +31,7 @@ async function load() {
   }
 }
 onMounted(load)
-onMounted(() => { document.title = 'Investigations — Fontem' })
+onMounted(() => { document.title = 'Investigations — Dargle' })
 
 function openCreate() {
   newName.value = ''

@@ -3,7 +3,7 @@
  * Development — the open-source shop window.
  *
  * Reachable from the footer, not the top nav. Two things: a pointer to the
- * GitHub org, and the walkthrough video of how Fontem is built. The video
+ * GitHub org, and the walkthrough video of how Dargle is built. The video
  * is served same-origin at /media/… — nginx proxies that path to the env's
  * MinIO bucket (public-read "media/" prefix), so the 24 MB asset stays out
  * of the repo and image while remaining CSP-compliant. It preloads nothing
@@ -20,7 +20,7 @@ import { onMounted } from 'vue'
 const videoUrl = '/media/fontem-devenv.mp4'
 const posterUrl = '/media/fontem-devenv-poster.jpg'
 
-onMounted(() => { document.title = 'Development — Fontem' })
+onMounted(() => { document.title = 'Development — Dargle' })
 </script>
 
 <template>

@@ -10,7 +10,7 @@
 import { ref, onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
-onMounted(() => { document.title = 'Value Review — Fontem' })
+onMounted(() => { document.title = 'Value Review — Dargle' })
 
 const items = ref([])
 const counts = ref({})

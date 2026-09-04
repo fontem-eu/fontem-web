@@ -36,7 +36,19 @@ const TAGS = [
 ]
 
 const BRIEFING_ITEMS = [
-  { item_id: 'i1', _from: 'Public investment', title: 'A tender', item_time: '2026-04-03' },
+  {
+    item_id: 'i1', _from: 'Public investment', title: 'A tender',
+    item_time: '2026-04-03',
+    // The origin the stored query bakes in, pre-rename — what prod
+    // actually serves today.
+    link: 'https://fontem.eu/contract/c818c705-1752-4cb9-854c-c8d5b00f5f81',
+  },
+  {
+    item_id: 'i2', _from: 'Corporate influence', title: 'A lobby update',
+    item_time: '2026-04-02',
+    // The coalesce-to-empty case: a lobbyist with no resolved company.
+    link: 'https://fontem.eu/company/',
+  },
 ]
 
 beforeEach(() => {
@@ -99,6 +111,26 @@ describe('FeedView — what each route shows', () => {
     // filtered article list would imply they matched the filter.
     const { wrapper } = await mountFeed('/feed?tag=procurement', { mixed: true })
     expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+  })
+})
+
+describe('FeedView — briefing cards lead somewhere', () => {
+  it('links a card to the destination its query gave it', async () => {
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    const a = wrapper.find('[data-testid="feed-briefing-link-i1"]')
+    expect(a.exists()).toBe(true)
+    // A router path, not the absolute origin baked into the row —
+    // otherwise a click on staging lands the reader on production.
+    expect(a.attributes('href')).toBe('/contract/c818c705-1752-4cb9-854c-c8d5b00f5f81')
+  })
+
+  it('leaves an item with no resolvable destination unlinked', async () => {
+    // '/company/' with no id matches no route. A dead click is worse
+    // than plain text.
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    expect(wrapper.find('[data-testid="feed-briefing-link-i2"]').exists()).toBe(false)
+    // The item itself is still shown — it is news either way.
+    expect(wrapper.text()).toContain('A lobby update')
   })
 })
 

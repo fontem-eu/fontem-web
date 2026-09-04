@@ -45,7 +45,7 @@ const messageImporters = {
   sv: () => import('./locales/sv.json'),
 }
 
-export function createFontemI18n() {
+export function createDargleI18n() {
   return createI18n({
     legacy: false,           // use Composition API; matches the codebase
     locale: 'en',

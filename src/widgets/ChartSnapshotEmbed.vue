@@ -2,7 +2,7 @@
 /**
  * Legacy `chart_snapshot` widget. The old format embedded chart DATA in the
  * document, which is no longer allowed — visualization data must be refetched
- * from Fontem. These widgets are inert: they render a notice and read no data,
+ * from Dargle. These widgets are inert: they render a notice and read no data,
  * so any forged inline data in a document is never displayed.
  */
 defineProps({ config: { type: Object, default: () => ({}) } })

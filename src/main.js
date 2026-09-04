@@ -3,11 +3,11 @@
  * build-time prerender script can import the same router + component
  * graph via ./entry-server.js.
  */
-import { createFontemApp } from './app.js'
+import { createDargleApp } from './app.js'
 import { restoreSession } from './api/session.js'
 import { useAnalytics } from './composables/useAnalytics.js'
 
-const { app, router } = createFontemApp(false)
+const { app, router } = createDargleApp(false)
 
 // Silently refresh the session on every cold page load. If the user
 // has a live refresh cookie (legitimate browser session), this

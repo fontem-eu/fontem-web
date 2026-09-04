@@ -1,5 +1,5 @@
 {
-  "generated_from": "createFontemRouter()",
+  "generated_from": "createDargleRouter()",
   "routes": [
     {
       "path": "/",
@@ -13,7 +13,7 @@
     },
     {
       "path": "/about",
-      "description": "What Fontem is, how it works, and how to get started."
+      "description": "What Dargle is, how it works, and how to get started."
     },
     {
       "path": "/account",
@@ -203,7 +203,7 @@
     },
     {
       "path": "/development",
-      "description": "Fontem is open source: the GitHub organisation and a walkthrough video of how the platform is built."
+      "description": "Dargle is open source: the GitHub organisation and a walkthrough video of how the platform is built."
     },
     {
       "path": "/dossiers/:id",
@@ -229,7 +229,7 @@
     },
     {
       "path": "/help",
-      "description": "Help and FAQ, including how to connect your own AI assistant to Fontem."
+      "description": "Help and FAQ, including how to connect your own AI assistant to Dargle."
     },
     {
       "path": "/investigations",

@@ -1,9 +1,9 @@
 <script setup>
 /**
- * Connect your own AI client to Fontem.
+ * Connect your own AI client to Dargle.
  *
- * The inversion: rather than Fontem hosting a model and paying for it,
- * you point the client you already pay for at Fontem's tools. Your
+ * The inversion: rather than Dargle hosting a model and paying for it,
+ * you point the client you already pay for at Dargle's tools. Your
  * subscription, your quota.
  *
  * The token is shown exactly once. That is deliberate and worth the

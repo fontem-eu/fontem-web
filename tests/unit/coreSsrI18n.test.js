@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest'
 import { titleForPath, descriptionForPath } from '../../src/ssr/meta.js'
 import { buildJsonLd } from '../../src/ssr/jsonLd.js'
-import { createFontemI18n, ensureLocale, activateLocale } from '../../src/i18n.js'
+import { createDargleI18n, ensureLocale, activateLocale } from '../../src/i18n.js'
 
 // The exact strings used to be pinned here, one assertion per title. That
 // asserted the copy never changes, which is not a property worth having —
@@ -68,13 +68,13 @@ describe('ssr/jsonLd — builders', () => {
   it('the landing emits organization, website and the feed ItemList', () => {
     const [org, site, list] = buildJsonLd({ path: '/' })
     expect(org['@type']).toBe('Organization')
-    expect(org.name).toBe('Fontem')
+    expect(org.name).toBe('Dargle')
     expect(org.url).toBe('https://fontem.eu')
     expect(org.logo).toBe('https://fontem.eu/favicon.svg')
     expect(site['@type']).toBe('WebSite')
     expect(site.potentialAction['@type']).toBe('SearchAction')
     expect(list['@type']).toBe('ItemList')
-    expect(list.name).toBe('Fontem public data stories')
+    expect(list.name).toBe('Dargle public data stories')
     expect(list.url).toBe('https://fontem.eu/')
   })
 
@@ -101,7 +101,7 @@ describe('ssr/jsonLd — builders', () => {
 
 describe('i18n factory + locale loader', () => {
   it('boots composition-mode English with en fallback', () => {
-    const i18n = createFontemI18n()
+    const i18n = createDargleI18n()
     expect(i18n.mode).toBe('composition')
     expect(i18n.global.locale.value).toBe('en')
     expect(i18n.global.fallbackLocale.value).toBe('en')
@@ -109,7 +109,7 @@ describe('i18n factory + locale loader', () => {
   })
 
   it('lazily loads every supported locale exactly once', async () => {
-    const i18n = createFontemI18n()
+    const i18n = createDargleI18n()
     const codes = ['bg', 'cs', 'da', 'de', 'el', 'es', 'et', 'fi', 'fr', 'ga', 'hr', 'hu',
       'it', 'lt', 'lv', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sv']
     for (const code of codes) {
@@ -120,12 +120,12 @@ describe('i18n factory + locale loader', () => {
   })
 
   it('unknown locales fall back to en without loading anything', async () => {
-    const i18n = createFontemI18n()
+    const i18n = createDargleI18n()
     await expect(ensureLocale(i18n, 'xx')).resolves.toBe('en')
   })
 
   it('activateLocale flips the active locale', async () => {
-    const i18n = createFontemI18n()
+    const i18n = createDargleI18n()
     await activateLocale(i18n, 'pt')
     expect(i18n.global.locale.value).toBe('pt')
     await activateLocale(i18n, 'zz')

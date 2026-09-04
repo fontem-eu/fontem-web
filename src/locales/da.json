@@ -15,10 +15,10 @@
     "chip_story": "Læs en datahistorie fra fællesskabet",
     "hero_lead": "En åben videnskaft, der forbinder EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering.",
     "how_it_works": "Sådan virker det",
-    "mission_body_1": "Den offentlige debat kører på tal — budgetter og kontrakter, migration og udledninger, hvem der ejer hvad, helt ned til lovteksten selv — og de bøjes konstant af dem, der ved, at ingen tjekker efter. Fontem samler disse registre i én søgbar graf, hvor hvert tal forbliver knyttet til den officielle kilde, det stammer fra.",
+    "mission_body_1": "Den offentlige debat kører på tal — budgetter og kontrakter, migration og udledninger, hvem der ejer hvad, helt ned til lovteksten selv — og de bøjes konstant af dem, der ved, at ingen tjekker efter. Dargle samler disse registre i én søgbar graf, hvor hvert tal forbliver knyttet til den officielle kilde, det stammer fra.",
     "mission_body_2": "Det er fundamentet, ikke målet. Vildledende påstande trives, når det er besværligt at tjekke dem; vi gør det til et klik. Og en offentlighed, der kan efterprøve, hvad den får at vide, er en offentlighed, der kan deltage.",
     "mission_lead": "Vi bygger det civile lag for europæisk demokrati — hvor enhver offentlig påstand kan spores tilbage til tallene bag den.",
-    "mission_title": "Hvorfor Fontem findes",
+    "mission_title": "Hvorfor Dargle findes",
     "recently_published": "Senest udgivet",
     "see_all_public_data_stories": "Se alle offentlige datafortællinger →",
     "step_crosscheck_desc": "Sammenlign hvad TED, GLEIF, Transparensregistret, Samhørighed og andre kilder siger om samme entitet, side om side.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Udgivelse af en datahistorie fra editoren",
     "step_publish_name": "Udgiv",
     "step_search_desc": "Slå enhver virksomhed, ordregivende myndighed, lobbyist eller EU-finansieret projekt op efter navn eller identifikator.",
-    "step_search_gif_alt": "Søger efter en entitet i Fontem",
+    "step_search_gif_alt": "Søger efter en entitet i Dargle",
     "step_search_name": "Søg",
     "try": "Prøv:",
     "value_open_desc": "Grafen, metoderne og koden bag dem er offentlige.",
@@ -235,13 +235,13 @@
     "tool_result": "Resultat",
     "tool_truncated": "forkortet, før modellen så det",
     "tool_no_result": "(intet output)",
-    "navigate_ask": "Fontem kan tage dig til {page}. Vil du derhen?",
+    "navigate_ask": "Dargle kan tage dig til {page}. Vil du derhen?",
     "navigate_go": "Gå dertil",
     "navigate_stay": "Bliv her",
     "navigate_went": "Åbnet",
     "navigate_stayed": "Blev her",
     "tool_result_not_kept": "Resultatet gemmes ikke — kun kaldet og dets argumenter registreres.",
-    "signed_out_notice": "Du er ikke logget ind, så assistenten kan kun besvare spørgsmål om Fontem og føre dig til en side. Søgning i data, skrivning og lagring kræver en konto.",
+    "signed_out_notice": "Du er ikke logget ind, så assistenten kan kun besvare spørgsmål om Dargle og føre dig til en side. Søgning i data, skrivning og lagring kræver en konto.",
     "characters_used": "Anvendte tegn"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Offentlige udbud",
@@ -901,12 +901,12 @@
     "title": "Hjælp",
     "toc": "Indhold",
     "connect_title": "Forbind din AI-assistent",
-    "connect_intro": "Fontem stiller sine data til rådighed som værktøjer, din egen AI-klient kan kalde — virksomhedsoplysninger, udbud, entitetsgrafen, SPARQL. Du bruger den assistent, du allerede betaler for, og Fontem ser aldrig din konto hos udbyderen.",
+    "connect_intro": "Dargle stiller sine data til rådighed som værktøjer, din egen AI-klient kan kalde — virksomhedsoplysninger, udbud, entitetsgrafen, SPARQL. Du bruger den assistent, du allerede betaler for, og Dargle ser aldrig din konto hos udbyderen.",
     "step_token": "1. Opret et token",
     "step_token_body_pre": "Gå til",
     "step_token_account": "Kontoindstillinger",
     "step_token_body_post": "→ {section} → {action}. Kopiér det med det samme: det vises én gang og kan ikke hentes bagefter. Mister du det, skal du tilbagekalde det og oprette et nyt.",
-    "step_endpoint": "2. Peg din klient mod Fontem",
+    "step_endpoint": "2. Peg din klient mod Dargle",
     "step_endpoint_body": "Endepunktet er:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Indstillinger → Connectors → Tilføj brugerdefineret connector. Indsæt URL'en ovenfor og dit token som bearer-token.",
@@ -916,15 +916,15 @@
     "anything_else": "Alt andet",
     "anything_else_body": "Enhver klient, der taler MCP over Streamable HTTP, virker. Send token som {header}.",
     "step_ask": "3. Spørg den om noget",
-    "step_ask_body": "Prøv {example}. Din klient bestemmer selv, hvornår den kalder Fontems værktøjer.",
-    "step_ask_example": "»Brug Fontem til at finde kontrakter tildelt virksomheder med forbindelse til X«",
+    "step_ask_body": "Prøv {example}. Din klient bestemmer selv, hvornår den kalder Dargle værktøjer.",
+    "step_ask_example": "»Brug Dargle til at finde kontrakter tildelt virksomheder med forbindelse til X«",
     "revoking": "Tilbagekaldelse",
     "revoking_body": "Kontoindstillingerne viser hver forbundet klient med tidspunktet for seneste brug. Tilbagekaldelse træder i kraft ved næste forespørgsel. Genkender du ikke længere en klient, så tilbagekald den.",
     "why_key_title": "Hvorfor skal jeg have min egen AI-konto?",
     "why_key_short": "Hvorfor min egen konto?",
-    "why_key_body_1": "Fordi ingen AI-udbyder sælger det, der ellers ville være den oplagte løsning. Anthropic forbød brug af et Claude-abonnement i tredjepartsværktøjer i februar 2026 og blokerede det i april samme år; OpenAI's ChatGPT-abonnementer har aldrig omfattet API-adgang; og Mistral fakturerer Le Chat og sit API hver for sig. Et site som Fontem kan reelt ikke bruge dit abonnement på dine vegne.",
+    "why_key_body_1": "Fordi ingen AI-udbyder sælger det, der ellers ville være den oplagte løsning. Anthropic forbød brug af et Claude-abonnement i tredjepartsværktøjer i februar 2026 og blokerede det i april samme år; OpenAI's ChatGPT-abonnementer har aldrig omfattet API-adgang; og Mistral fakturerer Le Chat og sit API hver for sig. Et site som Dargle kan reelt ikke bruge dit abonnement på dine vegne.",
     "why_key_body_2": "Hvad det kan gøre, er at give din egen assistent adgang til data. Det er bedre end alternativet og ikke blot billigere for os: du beholder din udbyder, din historik og dine privatlivsindstillinger, du rationeres ikke af et budget, vi fastsætter, og intet går i stykker her, når en leverandør ændrer sine vilkår.",
-    "in_app_title": "Assistenten inde i Fontem",
+    "in_app_title": "Assistenten inde i Dargle",
     "in_app_body_1": "Der er også en assistent indbygget i sitet, på hver side. Den kan søge i data, forklare hvad du kigger på, flytte dig rundt på platformen og — mens du redigerer en artikel — foreslå ændringer i den.",
     "in_app_body_2_pre": "Den kræver en API-nøgle fra Anthropic, Mistral eller OpenAI, tilføjet i",
     "in_app_body_2_post": ". Det er betaling pr. forbrug og koster typisk meget lidt; et abonnement er ikke nødvendigt og ville alligevel ikke virke her, af ovennævnte grunde.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Gå til forsiden",
     "you_already_have_an_active_session": "Du har allerede en aktiv session.",
     "youre_signed_in": "Du er logget ind",
-    "sign_in_to_fontem": "Log ind på Fontem",
+    "sign_in_to_dargle": "Log ind på Dargle",
     "sign_in_to_start_creating_data_stories": "Log ind for at begynde at skabe datahistorier, rejse sager og samarbejde med fællesskabet.",
     "signing_in": "Logger ind...",
     "sign_in": "Log ind",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Forbind din AI-assistent",
-    "intro_pre": "Brug Fontems data fra Claude, ChatGPT eller enhver MCP-kompatibel klient — på dit eget abonnement. Opret et token her, og følg derefter",
+    "intro_pre": "Brug Dargle data fra Claude, ChatGPT eller enhver MCP-kompatibel klient — på dit eget abonnement. Opret et token her, og følg derefter",
     "intro_link": "opsætningsvejledningen",
     "fresh_warn": "Kopiér det nu — det vises én gang og kan ikke hentes igen.",
     "copy": "Kopiér",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
-      "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Fontem-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
-      "home": "Vi krydser EU's digitale grænser, ét datasæt ad gangen. Offentlige datahistorier fra Fontem-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
-      "login": "Log ind på Fontem for at udgive datahistorier, rejse problemer og gemme din forskning.",
+      "about": "Dargle er gennemsigtighedsplatformen med primære kilder. EU-virksomheder, offentlige indkøb, lobbyister og samhørighedsfinansiering — sammenkædet i én graf og krydstjekket mod de officielle registre.",
+      "data_quality": "Dækning, friskhed og kildefordeling for hvert datasæt i Dargle-vidensgrafen. Gennemsigtighed om gennemsigtighed.",
+      "home": "Opdag. Argumentér. Lær. Nyd. Offentlige datahistorier fra Dargle-fællesskabet — undersøgelser, krydstjek og fund baseret på primære kilder.",
+      "login": "Log ind på Dargle for at udgive datahistorier, rejse problemer og gemme din forskning.",
       "map": "Interaktiv chloroplet af kuraterede Eurostat-datasæt på NUTS-niveau — befolkning, BNP, arbejdsløshed, R&D og mere, kortlagt på tværs af Europa.",
-      "privacy": "Hvordan Fontem håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
-      "sparql": "Forespørg Fontem-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
+      "privacy": "Hvordan Dargle håndterer personoplysninger. Vi gemmer kun grundlæggende kontooplysninger, ingen tracking-cookies, ingen tredjepartsanalyse.",
+      "sparql": "Forespørg Dargle-vidensgrafen direkte via SPARQL. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
       "spending": "Søg EU-virksomheder, ordregivende myndigheder, lobbyister og EU-finansierede projekter. Plus hvad er stort i dit land.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Om — Fontem",
-      "data_quality": "Datakvalitet — Fontem",
-      "home": "Fontem — Vi krydser EU's digitale grænser, ét datasæt ad gangen",
-      "login": "Log ind — Fontem",
-      "map": "Kort — Europæiske statistikker på Fontem",
-      "privacy": "Privatlivspolitik — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Udgifter — EU offentlige indkøb på Fontem",
-      "development": "Development — Fontem"
+      "about": "Om — Dargle",
+      "data_quality": "Datakvalitet — Dargle",
+      "home": "Dargle — Opdag. Argumentér. Lær. Nyd.",
+      "login": "Log ind — Dargle",
+      "map": "Kort — Europæiske statistikker på Dargle",
+      "privacy": "Privatlivspolitik — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Udgifter — EU offentlige indkøb på Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Adgang",
-    "all_data_in_the_fontem_knowledge_graph_r": "Alle data i Fontem-vidensgrafen vedrører",
+    "all_data_in_the_dargle_knowledge_graph_r": "Alle data i Dargle-vidensgrafen vedrører",
     "conversation_processing_is_performed_by_": "Samtalebehandling udføres af EU-baserede AI-leverandører.",
     "conversations_are_automatically_deleted_": "Samtaler slettes automatisk efter 90 dage.",
     "erase": "Slet",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "Under GDPR har du ret til at:",
     "when_you_sign_in_we_collect_and_store": "Når du logger ind, indsamler og opbevarer vi:",
     "your": "Din",
-    "what_fontem_is": "1. Hvad Fontem er",
-    "fontem_is_a_civic_transparency_platform": "Fontem er en platform for borgergennemsigtighed, der forbinder data om EU's offentlige udbud, virksomhedsejerskabsregistre og finansiering under samhørighedspolitikken i én samlet vidensgraf. Formålet er at gøre offentlige udgifter og virksomhedsstrukturer lettere at udforske og forstå.",
+    "what_dargle_is": "1. Hvad Dargle er",
+    "dargle_is_a_civic_transparency_platform": "Dargle er en platform for borgergennemsigtighed, der forbinder data om EU's offentlige udbud, virksomhedsejerskabsregistre og finansiering under samhørighedspolitikken i én samlet vidensgraf. Formålet er at gøre offentlige udgifter og virksomhedsstrukturer lettere at udforske og forstå.",
     "data_in_the_knowledge_graph": "2. Data i vidensgrafen",
     "legal_entities": "juridiske enheder",
     "companies_public_authorities_and_organis": "(virksomheder, offentlige myndigheder og organisationer) — ikke fysiske personer. Vi samler offentligt tilgængelige data fra følgende kilder:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Cookies",
     "we_only_use_strictly_necessary_cookies": "Vi bruger kun strengt nødvendige sessionscookies til godkendelse. Vi bruger ikke sporingscookies, reklamecookies eller tredjeparts-analysecookies.",
     "changes_to_this_policy": "7. Ændringer af denne politik",
-    "we_may_update_this_policy": "Vi kan opdatere denne politik fra tid til anden. Når vi gør det, ændrer vi datoen for \"senest opdateret\" øverst på denne side. Fortsat brug af Fontem efter ændringer udgør en accept af den opdaterede politik."
+    "we_may_update_this_policy": "Vi kan opdatere denne politik fra tid til anden. Når vi gør det, ændrer vi datoen for \"senest opdateret\" øverst på denne side. Fortsat brug af Dargle efter ændringer udgør en accept af den opdaterede politik."
   },
   "procurement_theme": {
     "public_procurement": "Offentlige udbud",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Assistentens udbyder",
-    "intro": "Assistenten kører som standard på Fontems egen indbyggede model — der er ikke noget at sætte op. Du kan i stedet pege den mod din egen LLM-konto, hvis du vil have en større model; nøgler gemmes krypteret og vises aldrig igen, efter du har gemt dem.",
+    "intro": "Assistenten kører som standard på Dargle egen indbyggede model — der er ikke noget at sætte op. Du kan i stedet pege den mod din egen LLM-konto, hvis du vil have en større model; nøgler gemmes krypteret og vises aldrig igen, efter du har gemt dem.",
     "fingerprint": "nøgle nr. {fp}",
     "last_used": "sidst brugt {date}",
     "not_used": "endnu ikke brugt",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Nøglen er fjernet.",
     "builtin_title": "Indbygget model",
     "builtin_active": "I brug",
-    "builtin_note": "Kører på Fontems eget hardware. Ingen konto, ingen nøgle, intet der faktureres dig. Det er en lille model, så den er langsommere og mindre kapabel end en betalt — men den kræver ikke noget af dig for at virke.",
+    "builtin_note": "Kører på Dargle eget hardware. Ingen konto, ingen nøgle, intet der faktureres dig. Det er en lille model, så den er langsommere og mindre kapabel end en betalt — men den kræver ikke noget af dig for at virke.",
     "builtin_superseded": "Din egen nøgle bruges i stedet. Fjern den for at vende tilbage til den indbyggede model.",
     "byo_title": "Brug din egen model i stedet",
     "byo_intro": "Valgfrit. En nøgle fra Anthropic, Mistral eller OpenAI giver dig en større og hurtigere model, som de fakturerer dig for.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Endpoint",
     "endpoint_url": "Endpoint-URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Forespørg Fontems vidensgraf direkte fra browseren, eller plug endpoint i OpenRefine / en notebook / dine egne værktøjer. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
+    "intro": "Forespørg Dargle vidensgraf direkte fra browseren, eller plug endpoint i OpenRefine / en notebook / dine egne værktøjer. Virksomheder, kontrakter, myndigheder, lobbyister, sanktioner — alle sammenkædet.",
     "limits": "Grænser",
     "method": "Metode",
     "post": "POST",
@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-oversigt i Virtuoso-lageret — totaler, tællinger pr. navngiven graf og klasse-/prædikatstrukturen for hver graf. Hentet via SPARQL mod",
     "could_not_load_triple_store_stats": "Kunne ikke indlæse statistik for triple-lageret:",
     "this_environment_has_no_rdf_store": "Dette miljø har ikke noget RDF-lager konfigureret — RDF-graferne for sanktioner, indberetninger og andre Fase 2-grafer findes kun, hvor",
-    "is_set_on_the_gmr_api_deployment": "er sat på gmr-api-deploymentet. Tjek staging- eller prod-dashboardet for aktuelle tal.",
+    "is_set_on_the_gmr_api_deployment": "er sat på fontem-api-deploymentet. Tjek staging- eller prod-dashboardet for aktuelle tal.",
     "assertions_in_this_graph": "assertioner i denne graf."
   },
   "user_profile": {
@@ -2031,9 +2031,9 @@
     "one_moment": "Et øjeblik.",
     "email_confirmed": "E-mail bekræftet",
     "your_account_is_verified": "Din konto er verificeret. Du kan nu udgive historier, kommentere og følge emner.",
-    "continue_to_fontem": "Fortsæt til Fontem",
+    "continue_to_dargle": "Fortsæt til Dargle",
     "the_link_may_have_expired": "Linket kan være udløbet eller allerede være brugt. Log ind, og anmod om en ny bekræftelses-e-mail fra banneret øverst.",
-    "go_to_fontem": "Gå til Fontem",
+    "go_to_dargle": "Gå til Dargle",
     "couldnt_confirm_your_email": "Kunne ikke bekræfte din e-mail"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Ukendt widget-type:"
   },
   "wordmark": {
-    "font": "Skrifttype",
-    "fontem": "Fontem",
-    "tagline": "Vi krydser EU's digitale grænser, ét datasæt ad gangen"
+    "name": "Dargle",
+    "tagline": "Opdag. Argumentér. Lær. Nyd."
   },
   "zoomable_bar_chart": {
     "all": "Alle",

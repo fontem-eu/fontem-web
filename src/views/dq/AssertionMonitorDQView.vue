@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'Assertion Monitor — Fontem' })
+onMounted(() => { document.title = 'Assertion Monitor — Dargle' })
 const data = ref(null)
 const loading = ref(true)
 onMounted(async () => {

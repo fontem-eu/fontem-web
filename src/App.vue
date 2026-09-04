@@ -23,10 +23,10 @@ const { init: initLang } = useLang()
 // `fontem-i18n` provide we set in app.js. globalProperties.$i18n is
 // a property-wrapper without `.global` / `setLocaleMessage`, which
 // is what activateLocale needs when a locale is lazy-loaded.
-const fontemI18n = inject('fontem-i18n', null)
+const dargleI18n = inject('dargle-i18n', null)
 onMounted(() => {
   initTheme()
-  initLang(fontemI18n)
+  initLang(dargleI18n)
 })
 
 // Horizontal swipe between Home / Feed / My Reports on mobile.

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
-onMounted(() => { document.title = 'Privacy Policy — Fontem' })
+onMounted(() => { document.title = 'Privacy Policy — Dargle' })
 </script>
 
 <template>
@@ -9,11 +9,11 @@ onMounted(() => { document.title = 'Privacy Policy — Fontem' })
     <h1>{{ $t('privacy.privacy_policy') }}</h1>
     <p class="privacy-updated">{{ $t('privacy.last_updated_april_2026') }}</p>
 
-    <h2>{{ $t('privacy.what_fontem_is') }}</h2>
-    <p>{{ $t('privacy.fontem_is_a_civic_transparency_platform') }}</p>
+    <h2>{{ $t('privacy.what_dargle_is') }}</h2>
+    <p>{{ $t('privacy.dargle_is_a_civic_transparency_platform') }}</p>
 
     <h2>{{ $t('privacy.data_in_the_knowledge_graph') }}</h2>
-    <p>{{ $t('privacy.all_data_in_the_fontem_knowledge_graph_r') }}<strong>{{ $t('privacy.legal_entities') }}</strong> {{ $t('privacy.companies_public_authorities_and_organis') }}</p>
+    <p>{{ $t('privacy.all_data_in_the_dargle_knowledge_graph_r') }}<strong>{{ $t('privacy.legal_entities') }}</strong> {{ $t('privacy.companies_public_authorities_and_organis') }}</p>
     <ul>
       <li><strong>{{ $t('app.gleif') }}</strong> {{ $t('privacy.global_lei_foundation_company_registry') }}</li>
       <li><strong>{{ $t('app.ted') }}</strong> {{ $t('privacy.eu_public_procurement_notices') }}</li>

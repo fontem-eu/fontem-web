@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import ThemeToggle from '../../components/ThemeToggle.vue'
 import PocketableChart from '../../components/charts/PocketableChart.vue'
 
-onMounted(() => { document.title = 'Graph Connectedness — Fontem' })
+onMounted(() => { document.title = 'Graph Connectedness — Dargle' })
 
 const data = ref(null)
 const loading = ref(true)

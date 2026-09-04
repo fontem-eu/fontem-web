@@ -52,7 +52,7 @@ describe('story meta', () => {
   })
 
   it('falls back to the static map when no story was prefetched', () => {
-    expect(titleForPath({ path: '/about' })).toBe('About — Fontem')
+    expect(titleForPath({ path: '/about' })).toBe('About — Dargle')
     expect(titleForPath(ROUTE, {})).toBe(titleForPath({ path: '/nope' }))
   })
 

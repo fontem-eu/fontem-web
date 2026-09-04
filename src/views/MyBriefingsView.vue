@@ -23,6 +23,10 @@
  */
 import { ref, computed, onMounted } from 'vue'
 import { listMyWatches, getBriefing, listBriefings } from '../api/community.js'
+import { briefingLink } from '../utils/briefingLink.js'
+
+/** Template alias — the destination for one item's card. */
+const linkOf = briefingLink
 
 const SEEN_KEY = 'fontem-briefings-last-visit'
 
@@ -41,7 +45,7 @@ function isNew(item) {
 }
 
 onMounted(async () => {
-  document.title = 'My briefings — Fontem'
+  document.title = 'My briefings — Dargle'
   try {
     const raw = localStorage.getItem(SEEN_KEY)
     if (raw) lastVisit.value = new Date(raw)
@@ -137,7 +141,22 @@ function fmtValue(value) {
           <!-- The source tag: which briefing produced this. -->
           <span class="mb-source" data-testid="source-tag">{{ item._from }}</span>
         </p>
-        <a :href="item.link" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+        <!-- Same-site destinations navigate in-app rather than opening
+             a new tab at the baked-in origin; items whose query could
+             not resolve one stay plain text. -->
+        <router-link
+          v-if="linkOf(item).kind === 'internal'"
+          :to="linkOf(item).to"
+          data-testid="item-link"
+        >{{ item.title }}</router-link>
+        <a
+          v-else-if="linkOf(item).kind === 'external'"
+          :href="linkOf(item).to"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-testid="item-link"
+        >{{ item.title }}</a>
+        <span v-else class="mb-entry-title">{{ item.title }}</span>
         <p v-if="item.summary" class="mb-entry-summary">{{ item.summary }}</p>
         <p class="mb-entry-meta">
           <time>{{ fmtDate(item.item_time) }}</time>

@@ -21,7 +21,7 @@ const meta = computed(() => THEMES.find(t => t.id === themeId.value) || null)
 const cfg = computed(() => SCAFFOLD[themeId.value] || null)
 
 function setTitle() {
-  document.title = meta.value ? `${t(meta.value.title)} — Fontem` : 'Theme — Fontem'
+  document.title = meta.value ? `${t(meta.value.title)} — Dargle` : 'Theme — Dargle'
 }
 onMounted(setTitle)
 watch(themeId, setTitle)

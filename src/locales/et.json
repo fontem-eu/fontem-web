@@ -15,10 +15,10 @@
     "chip_story": "Loe kogukonna andmelugu",
     "hero_lead": "Avatud teadmusgraaf, mis seob ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamise.",
     "how_it_works": "Kuidas see töötab",
-    "mission_body_1": "Avalik arutelu püsib arvudel — eelarvetel ja lepingutel, rändel ja heitmetel, sellel, kes mida omab, isegi seaduse tekstil endal — ning neid painutavad pidevalt need, kes teavad, et keegi ei kontrolli. Fontem koondab need registrid üheks päritavaks graafiks, kus iga arv jääb seotuks ametliku allikaga, kust see pärineb.",
+    "mission_body_1": "Avalik arutelu püsib arvudel — eelarvetel ja lepingutel, rändel ja heitmetel, sellel, kes mida omab, isegi seaduse tekstil endal — ning neid painutavad pidevalt need, kes teavad, et keegi ei kontrolli. Dargle koondab need registrid üheks päritavaks graafiks, kus iga arv jääb seotuks ametliku allikaga, kust see pärineb.",
     "mission_body_2": "See on vundament, mitte eesmärk. Eksitavad väited õitsevad seal, kus nende kontrollimine on vaevarikas; meie teeme sellest ühe klõpsu. Ja avalikkus, kes suudab kontrollida, mida talle räägitakse, on avalikkus, kes suudab kaasa rääkida.",
     "mission_lead": "Ehitame Euroopa demokraatia kodanikukihti — kus iga avalikku väidet saab jälgida tagasi selle taga olevate arvudeni.",
-    "mission_title": "Miks Fontem olemas on",
+    "mission_title": "Miks Dargle olemas on",
     "recently_published": "Hiljuti avaldatud",
     "see_all_public_data_stories": "Vaata kõiki avalikke andmelugusid →",
     "step_crosscheck_desc": "Võrdle kõrvuti, mida sama olemi kohta ütlevad TED, GLEIF, läbipaistvusregister, ühtekuuluvus ja muud allikad.",
@@ -28,7 +28,7 @@
     "step_publish_gif_alt": "Andmeloo avaldamine redaktorist",
     "step_publish_name": "Avalda",
     "step_search_desc": "Otsi mis tahes ettevõtet, hankivat asutust, lobisti või ELi rahastatud projekti nime või identifikaatori järgi.",
-    "step_search_gif_alt": "Olemi otsing Fontemis",
+    "step_search_gif_alt": "Olemi otsing Dargle",
     "step_search_name": "Otsi",
     "try": "Proovi:",
     "value_open_desc": "Graaf, meetodid ja nende taga olev kood on avalikud.",
@@ -235,13 +235,13 @@
     "tool_result": "Tulemus",
     "tool_truncated": "kärbitud enne, kui mudel seda nägi",
     "tool_no_result": "(väljundit pole)",
-    "navigate_ask": "Fontem saab viia teid lehele {page}. Kas soovite minna?",
+    "navigate_ask": "Dargle saab viia teid lehele {page}. Kas soovite minna?",
     "navigate_go": "Mine",
     "navigate_stay": "Jää siia",
     "navigate_went": "Avatud",
     "navigate_stayed": "Jäi siia",
     "tool_result_not_kept": "Tulemust ei säilitata — salvestatakse ainult kutse ja selle argumendid.",
-    "signed_out_notice": "Te ei ole sisse loginud, seega saab assistent üksnes vastata Fontemi kohta käivatele küsimustele ja viia teid lehele. Andmete otsimine, kirjutamine ja salvestamine eeldavad kontot.",
+    "signed_out_notice": "Te ei ole sisse loginud, seega saab assistent üksnes vastata Dargle kohta käivatele küsimustele ja viia teid lehele. Andmete otsimine, kirjutamine ja salvestamine eeldavad kontot.",
     "characters_used": "Kasutatud märgid"
   },
   "assist_panel": {
@@ -604,11 +604,11 @@
   },
   "development": {
     "title": "Development",
-    "subtitle": "Fontem is open source — here's how, and where, we build it.",
+    "subtitle": "Dargle is open source — here's how, and where, we build it.",
     "open_source": "Open source",
     "open_source_desc": "Our code lives in the open on GitHub. Browse the repositories, open issues, or contribute.",
-    "how_we_build": "How we build Fontem",
-    "video_desc": "Learn more about how we develop Fontem in a secure and sound manner."
+    "how_we_build": "How we build Dargle",
+    "video_desc": "Learn more about how we develop Dargle in a secure and sound manner."
   },
   "dq_themes": {
     "procurement_title": "Avalikud hanked",
@@ -901,12 +901,12 @@
     "title": "Abi",
     "toc": "Sisukord",
     "connect_title": "Ühendage oma AI-assistent",
-    "connect_intro": "Fontem avab oma andmed tööriistadena, mida saab kutsuda teie enda AI-klient — ettevõtete andmed, hanked, olemite graaf, SPARQL. Kasutate assistenti, mille eest juba maksate, ja Fontem ei näe kunagi teie teenusepakkuja kontot.",
+    "connect_intro": "Dargle avab oma andmed tööriistadena, mida saab kutsuda teie enda AI-klient — ettevõtete andmed, hanked, olemite graaf, SPARQL. Kasutate assistenti, mille eest juba maksate, ja Dargle ei näe kunagi teie teenusepakkuja kontot.",
     "step_token": "1. Looge luba",
     "step_token_body_pre": "Minge jaotisse",
     "step_token_account": "Konto seaded",
     "step_token_body_post": "→ {section} → {action}. Kopeerige see kohe: seda kuvatakse üks kord ja hiljem ei ole võimalik seda hankida. Kui kaotate selle, tühistage see ja looge uus.",
-    "step_endpoint": "2. Suunake klient Fontemile",
+    "step_endpoint": "2. Suunake klient Dargle",
     "step_endpoint_body": "Lõpp-punkt on:",
     "claude_desktop": "Claude Desktop",
     "claude_desktop_body": "Seaded → Konnektorid → Lisa kohandatud konnektor. Kleepige ülal olev URL ja oma luba bearer-loana.",
@@ -916,15 +916,15 @@
     "anything_else": "Kõik muu",
     "anything_else_body": "Töötab iga klient, mis räägib MCP-d üle Streamable HTTP. Saatke luba kujul {header}.",
     "step_ask": "3. Küsige sellelt midagi",
-    "step_ask_body": "Proovige {example}. Teie klient otsustab ise, millal Fontemi tööriistu kutsuda.",
-    "step_ask_example": "„Kasuta Fontemit, et leida lepingud, mis on sõlmitud X-iga seotud ettevõtetega“",
+    "step_ask_body": "Proovige {example}. Teie klient otsustab ise, millal Dargle tööriistu kutsuda.",
+    "step_ask_example": "„Kasuta Dargle, et leida lepingud, mis on sõlmitud X-iga seotud ettevõtetega“",
     "revoking": "Tühistamine",
     "revoking_body": "Konto seaded loetlevad iga ühendatud kliendi koos viimase kasutuskorraga. Tühistamine jõustub järgmise päringu ajal. Kui te klienti enam ära ei tunne, tühistage see.",
     "why_key_title": "Miks on mul vaja oma AI-kontot?",
     "why_key_short": "Miks oma konto?",
-    "why_key_body_1": "Sest ükski AI-teenusepakkuja ei müü seda, mis muidu oleks ilmne lahendus. Anthropic keelas Claude'i tellimuse kasutamise kolmandate osapoolte tööriistades 2026. aasta veebruaris ja blokeeris selle sama aasta aprillis; OpenAI ChatGPT paketid pole kunagi sisaldanud API-juurdepääsu; ja Mistral arveldab Le Chati ja oma API eest eraldi. Selline sait nagu Fontem tõesti ei saa teie tellimust teie eest kulutada.",
+    "why_key_body_1": "Sest ükski AI-teenusepakkuja ei müü seda, mis muidu oleks ilmne lahendus. Anthropic keelas Claude'i tellimuse kasutamise kolmandate osapoolte tööriistades 2026. aasta veebruaris ja blokeeris selle sama aasta aprillis; OpenAI ChatGPT paketid pole kunagi sisaldanud API-juurdepääsu; ja Mistral arveldab Le Chati ja oma API eest eraldi. Selline sait nagu Dargle tõesti ei saa teie tellimust teie eest kulutada.",
     "why_key_body_2": "Küll aga saab ta anda andmed teie enda assistendile. See on alternatiivist parem, mitte lihtsalt meile odavam: teile jääb teie teenusepakkuja, teie ajalugu ja teie privaatsusseaded, teid ei piira meie määratud eelarve ning siin ei lähe midagi katki, kui tarnija oma tingimusi muudab.",
-    "in_app_title": "Assistent Fontemi sees",
+    "in_app_title": "Assistent Dargle sees",
     "in_app_body_1": "Saidile on sisse ehitatud ka assistent, mis on igal lehel kättesaadav. See oskab andmetes otsida, selgitada, mida te vaatate, teid platvormil ringi liigutada ja — artiklit redigeerides — selles muudatusi soovitada.",
     "in_app_body_2_pre": "Selleks on vaja API-võtit Anthropicult, Mistralilt või OpenAI-lt, mis lisatakse jaotises",
     "in_app_body_2_post": ". Tasu võetakse kasutuse järgi ja tavaliselt maksab see väga vähe; tellimust pole vaja ja see ei töötaks siin niikuinii, ülaltoodud põhjustel.",
@@ -1096,7 +1096,7 @@
     "go_to_home": "Mine avalehele",
     "you_already_have_an_active_session": "Sul on juba aktiivne sessioon.",
     "youre_signed_in": "Oled sisse logitud",
-    "sign_in_to_fontem": "Logi Fontemisse sisse",
+    "sign_in_to_dargle": "Logi Dargle sisse",
     "sign_in_to_start_creating_data_stories": "Logige sisse, et hakata looma andmelugusid, tõstatama probleeme ja tegema koostööd kogukonnaga.",
     "signing_in": "Sisselogimine...",
     "sign_in": "Logi sisse",
@@ -1116,7 +1116,7 @@
   },
   "mcp_tokens": {
     "title": "Ühendage oma AI-assistent",
-    "intro_pre": "Kasutage Fontemi andmeid Claude'ist, ChatGPT-st või mis tahes MCP-toega kliendist — oma tellimusega. Looge siin luba ja järgige seejärel",
+    "intro_pre": "Kasutage Dargle andmeid Claude'ist, ChatGPT-st või mis tahes MCP-toega kliendist — oma tellimusega. Looge siin luba ja järgige seejärel",
     "intro_link": "seadistusjuhendit",
     "fresh_warn": "Kopeerige see kohe — seda kuvatakse üks kord ja seda ei saa uuesti hankida.",
     "copy": "Kopeeri",
@@ -1137,26 +1137,26 @@
   },
   "meta": {
     "description": {
-      "about": "Fontem on esmaste allikate läbipaistvusplatvorm. ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamine — ühte graafi seotud ja ametlike registritega ristkontrollitud.",
-      "data_quality": "Kaetus, värskus ja allikate jaotus iga andmestiku jaoks Fontemi teadmusgraafis. Läbipaistvus läbipaistvuse kohta.",
-      "home": "Ületame ELi digitaalseid piire, üks andmestik korraga. Avalikud andmelood Fontemi kogukonnalt — uurimised, ristkontrollid ja leiud, mis tuginevad esmastele allikatele.",
-      "login": "Logi Fontemisse sisse, et avaldada andmelugusid, esitada probleeme ja salvestada oma uuringuid.",
+      "about": "Dargle on esmaste allikate läbipaistvusplatvorm. ELi ettevõtted, riigihanked, lobistid ja ühtekuuluvuse rahastamine — ühte graafi seotud ja ametlike registritega ristkontrollitud.",
+      "data_quality": "Kaetus, värskus ja allikate jaotus iga andmestiku jaoks Dargle teadmusgraafis. Läbipaistvus läbipaistvuse kohta.",
+      "home": "Avasta. Vaidle. Õpi. Naudi. Avalikud andmelood Dargle kogukonnalt — uurimised, ristkontrollid ja leiud, mis tuginevad esmastele allikatele.",
+      "login": "Logi Dargle sisse, et avaldada andmelugusid, esitada probleeme ja salvestada oma uuringuid.",
       "map": "Kureeritud Eurostati andmestike interaktiivne koroplett NUTS-i tasemel — rahvastik, SKP, tööpuudus, T&A ja muu, kaardistatud üle Euroopa.",
-      "privacy": "Kuidas Fontem käitleb isikuandmeid. Salvestame ainult kontode põhiandmed, ilma jälgimisküpsisteta ja ilma kolmandate osapoolte analüütikata.",
-      "sparql": "Päri Fontemi teadmusgraafi otse SPARQL-i kaudu. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
+      "privacy": "Kuidas Dargle käitleb isikuandmeid. Salvestame ainult kontode põhiandmed, ilma jälgimisküpsisteta ja ilma kolmandate osapoolte analüütikata.",
+      "sparql": "Päri Dargle teadmusgraafi otse SPARQL-i kaudu. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
       "spending": "Otsi ELi ettevõtteid, hankivaid asutusi, lobiste ja ELi rahastatud projekte. Pluss see, mis on sinu riigis suur.",
-      "development": "Fontem is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
+      "development": "Dargle is open source. Explore our GitHub organisation and watch how we build the platform in a secure and sound way."
     },
     "title": {
-      "about": "Teave — Fontem",
-      "data_quality": "Andmekvaliteet — Fontem",
-      "home": "Fontem — Ületame ELi digitaalseid piire, üks andmestik korraga",
-      "login": "Logi sisse — Fontem",
-      "map": "Kaart — Euroopa statistika Fontemis",
-      "privacy": "Privaatsuspoliitika — Fontem",
-      "sparql": "SPARQL — Fontem",
-      "spending": "Kulutused — ELi riigihanked Fontemis",
-      "development": "Development — Fontem"
+      "about": "Teave — Dargle",
+      "data_quality": "Andmekvaliteet — Dargle",
+      "home": "Dargle — Avasta. Vaidle. Õpi. Naudi.",
+      "login": "Logi sisse — Dargle",
+      "map": "Kaart — Euroopa statistika Dargle",
+      "privacy": "Privaatsuspoliitika — Dargle",
+      "sparql": "SPARQL — Dargle",
+      "spending": "Kulutused — ELi riigihanked Dargle",
+      "development": "Development — Dargle"
     }
   },
   "moderation": {
@@ -1320,7 +1320,7 @@
   },
   "privacy": {
     "access": "Juurdepääs",
-    "all_data_in_the_fontem_knowledge_graph_r": "Kõik andmed Fontemi teadmusgraafis puudutavad",
+    "all_data_in_the_dargle_knowledge_graph_r": "Kõik andmed Dargle teadmusgraafis puudutavad",
     "conversation_processing_is_performed_by_": "Vestluste töötlemist teevad ELis asuvad AI-teenusepakkujad.",
     "conversations_are_automatically_deleted_": "Vestlused kustutatakse automaatselt 90 päeva pärast.",
     "erase": "Kustutamine",
@@ -1337,8 +1337,8 @@
     "under_the_gdpr_you_have_the_right_to": "GDPR-i alusel on sul õigus:",
     "when_you_sign_in_we_collect_and_store": "Sisselogimisel kogume ja salvestame:",
     "your": "Sinu",
-    "what_fontem_is": "1. Mis on Fontem",
-    "fontem_is_a_civic_transparency_platform": "Fontem on kodanikuühiskonna läbipaistvusplatvorm, mis koondab ELi riigihangete andmed, ettevõtete omandiregistrid ja ühtekuuluvuspoliitika rahastuse ühte teadmusgraafi. Selle eesmärk on muuta avaliku sektori kulutused ja ettevõtete struktuurid lihtsamini uuritavaks ja mõistetavaks.",
+    "what_dargle_is": "1. Mis on Dargle",
+    "dargle_is_a_civic_transparency_platform": "Dargle on kodanikuühiskonna läbipaistvusplatvorm, mis koondab ELi riigihangete andmed, ettevõtete omandiregistrid ja ühtekuuluvuspoliitika rahastuse ühte teadmusgraafi. Selle eesmärk on muuta avaliku sektori kulutused ja ettevõtete struktuurid lihtsamini uuritavaks ja mõistetavaks.",
     "data_in_the_knowledge_graph": "2. Andmed teadmusgraafis",
     "legal_entities": "juriidilised isikud",
     "companies_public_authorities_and_organis": "(ettevõtted, ametiasutused ja organisatsioonid) — mitte füüsilised isikud. Koondame avalikult kättesaadavaid andmeid järgmistest allikatest:",
@@ -1368,7 +1368,7 @@
     "cookies": "6. Küpsised",
     "we_only_use_strictly_necessary_cookies": "Kasutame üksnes rangelt vajalikke seansiküpsiseid autentimiseks. Me ei kasuta jälgimisküpsiseid, reklaamiküpsiseid ega kolmandate osapoolte analüütikaküpsiseid.",
     "changes_to_this_policy": "7. Selle poliitika muudatused",
-    "we_may_update_this_policy": "Võime seda poliitikat aeg-ajalt ajakohastada. Seda tehes uuendame selle lehe ülaosas olevat kuupäeva \"viimati uuendatud\". Fontemi jätkuv kasutamine pärast muudatusi tähendab ajakohastatud poliitikaga nõustumist."
+    "we_may_update_this_policy": "Võime seda poliitikat aeg-ajalt ajakohastada. Seda tehes uuendame selle lehe ülaosas olevat kuupäeva \"viimati uuendatud\". Dargle jätkuv kasutamine pärast muudatusi tähendab ajakohastatud poliitikaga nõustumist."
   },
   "procurement_theme": {
     "public_procurement": "Riigihanked",
@@ -1421,7 +1421,7 @@
   },
   "provider_keys": {
     "title": "Assistendi teenusepakkuja",
-    "intro": "Assistent töötab vaikimisi Fontemi enda sisseehitatud mudeliga — midagi pole vaja seadistada. Soovi korral võite selle suunata oma LLM-kontole, kui tahate suuremat mudelit; võtmeid hoitakse krüpteeritult ja neid ei kuvata pärast salvestamist enam kunagi.",
+    "intro": "Assistent töötab vaikimisi Dargle enda sisseehitatud mudeliga — midagi pole vaja seadistada. Soovi korral võite selle suunata oma LLM-kontole, kui tahate suuremat mudelit; võtmeid hoitakse krüpteeritult ja neid ei kuvata pärast salvestamist enam kunagi.",
     "fingerprint": "võti nr {fp}",
     "last_used": "viimati kasutatud {date}",
     "not_used": "pole veel kasutatud",
@@ -1439,7 +1439,7 @@
     "removed_notice": "Võti eemaldatud.",
     "builtin_title": "Sisseehitatud mudel",
     "builtin_active": "Kasutusel",
-    "builtin_note": "Töötab Fontemi enda riistvaral. Ei mingit kontot, võtit ega tasu teie jaoks. Tegu on väikese mudeliga, seega on see aeglasem ja vähem võimekas kui tasuline — kuid töötamiseks ei vaja see teilt midagi.",
+    "builtin_note": "Töötab Dargle enda riistvaral. Ei mingit kontot, võtit ega tasu teie jaoks. Tegu on väikese mudeliga, seega on see aeglasem ja vähem võimekas kui tasuline — kuid töötamiseks ei vaja see teilt midagi.",
     "builtin_superseded": "Selle asemel kasutatakse teie enda võtit. Eemaldage see, et naasta sisseehitatud mudeli juurde.",
     "byo_title": "Kasuta selle asemel oma mudelit",
     "byo_intro": "Valikuline. Anthropicu, Mistrali või OpenAI võti annab suurema ja kiirema mudeli, mille eest esitavad arve nemad.",
@@ -1637,7 +1637,7 @@
     "endpoint": "Lõpp-punkt",
     "endpoint_url": "Lõpp-punkti URL",
     "get_apisparql": "GET /api/sparql",
-    "intro": "Päri Fontemi teadmusgraafi otse brauserist või ühenda lõpp-punkt OpenRefine'i / märkmiku / oma tööriistadega. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
+    "intro": "Päri Dargle teadmusgraafi otse brauserist või ühenda lõpp-punkt OpenRefine'i / märkmiku / oma tööriistadega. Ettevõtted, lepingud, asutused, lobistid, sanktsioonid — kõik seotud.",
     "limits": "Piirangud",
     "method": "Meetod",
     "post": "POST",
@@ -1949,7 +1949,7 @@
     "rdf_inventory_in_the_virtuoso_store": "RDF-inventuur Virtuoso hoidlas — kogusummad, nimeliste graafide kaupa arvud ning iga graafi klassi/predikaadi kuju. Allikaks SPARQL päring vastu",
     "could_not_load_triple_store_stats": "Kolmikhoidla statistikat ei õnnestunud laadida:",
     "this_environment_has_no_rdf_store": "Sellel keskkonnal pole RDF-hoidlat ühendatud — sanktsioonide, esitiste ja muud 2. faasi RDF-graafid eksisteerivad üksnes seal, kus",
-    "is_set_on_the_gmr_api_deployment": "on gmr-api juurutuses määratud. Reaalajas arvude jaoks vaadake lava- või tootmiskeskkonna töölauda.",
+    "is_set_on_the_gmr_api_deployment": "on fontem-api juurutuses määratud. Reaalajas arvude jaoks vaadake lava- või tootmiskeskkonna töölauda.",
     "assertions_in_this_graph": "väidet selles graafis."
   },
   "user_profile": {
@@ -2031,9 +2031,9 @@
     "one_moment": "Üks hetk.",
     "email_confirmed": "E-posti aadress kinnitatud",
     "your_account_is_verified": "Teie konto on kinnitatud. Nüüd saate avaldada lugusid, kommenteerida ja teemasid jälgida.",
-    "continue_to_fontem": "Jätka Fontemisse",
+    "continue_to_dargle": "Jätka Dargle",
     "the_link_may_have_expired": "Link võib olla aegunud või juba kasutatud. Logige sisse ja taotlege ülal asuvalt ribalt uut kinnituskirja.",
-    "go_to_fontem": "Mine Fontemisse",
+    "go_to_dargle": "Mine Dargle",
     "couldnt_confirm_your_email": "Teie e-posti aadressi ei õnnestunud kinnitada"
   },
   "widget_node": {
@@ -2043,9 +2043,8 @@
     "unknown_widget_type": "Tundmatu vidina tüüp:"
   },
   "wordmark": {
-    "font": "Font",
-    "fontem": "Fontem",
-    "tagline": "Ületame ELi digitaalseid piire, üks andmestik korraga"
+    "name": "Dargle",
+    "tagline": "Avasta. Vaidle. Õpi. Naudi."
   },
   "zoomable_bar_chart": {
     "all": "Kõik",

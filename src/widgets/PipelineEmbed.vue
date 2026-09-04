@@ -1,7 +1,7 @@
 <script setup>
 /**
  * Renders a pocketed Data Studio pipeline: { data_params: { sources, transform },
- * ui_params: { chart, x, y } }. Re-runs the source queries (Fontem read-only
+ * ui_params: { chart, x, y } }. Re-runs the source queries (Dargle read-only
  * proxies) + the DuckDB-WASM transform in the browser, then plots. No stored data.
  */
 import { ref, computed, watch, onMounted } from 'vue'
