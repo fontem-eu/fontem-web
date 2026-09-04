@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "L-akbar infiq iddikjarat",
     "by_declared_annual_lobbying_cost_ceiling": "Skont il-limitu massimu annwali ddikjarat tal-ispiża tal-lobbying."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbyist",
+    "not_found": "Il-lobbyist ma nstabx.",
+    "category": "Kategorija",
+    "entity_form": "Forma ġuridika",
+    "city": "Belt",
+    "website": "Sit elettroniku",
+    "declared_spend": "Nefqa annwali ddikjarata għal-lobbying",
+    "members_fte": "Membri (EFT)",
+    "registered_on": "Irreġistrat",
+    "last_updated": "L-aħħar aġġornament",
+    "filed_for": "Ippreżentat għal",
+    "no_filers": "Għadha ma ġiet irreġistrata l-ebda organizzazzjoni marbuta.",
+    "goals": "Għanijiet",
+    "interests": "Interessi",
+    "register_entry": "Entrata fir-Reġistru ta' Trasparenza tal-UE"
+  },
   "login": {
     "go_to_home": "Mur lejn id-dar",
     "you_already_have_an_active_session": "Diġà għandek sessjoni attiva.",

@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Водещи по декларирани разходи",
     "by_declared_annual_lobbying_cost_ceiling": "По деклариран годишен таван на разходите за лобиране."
   },
+  "lobbyist": {
+    "lobbyist": "Лобист",
+    "not_found": "Лобистът не е намерен.",
+    "category": "Категория",
+    "entity_form": "Правна форма",
+    "city": "Град",
+    "website": "Уебсайт",
+    "declared_spend": "Деклариран годишен разход за лобиране",
+    "members_fte": "Членове (ЕПРВ)",
+    "registered_on": "Регистриран",
+    "last_updated": "Последна актуализация",
+    "filed_for": "Подадено за",
+    "no_filers": "Все още няма свързана организация.",
+    "goals": "Цели",
+    "interests": "Интереси",
+    "register_entry": "Вписване в Регистъра за прозрачност на ЕС"
+  },
   "login": {
     "go_to_home": "Към началната",
     "you_already_have_an_active_session": "Вече имате активна сесия.",

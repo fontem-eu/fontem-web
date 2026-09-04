@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Lielākie deklarētie tērētāji",
     "by_declared_annual_lobbying_cost_ceiling": "Pēc deklarētā gada lobēšanas izmaksu maksimuma."
   },
+  "lobbyist": {
+    "lobbyist": "Lobētājs",
+    "not_found": "Lobētājs nav atrasts.",
+    "category": "Kategorija",
+    "entity_form": "Juridiskā forma",
+    "city": "Pilsēta",
+    "website": "Tīmekļa vietne",
+    "declared_spend": "Deklarētie gada lobēšanas izdevumi",
+    "members_fte": "Biedri (PLE)",
+    "registered_on": "Reģistrēts",
+    "last_updated": "Pēdējoreiz atjaunināts",
+    "filed_for": "Iesniegts",
+    "no_filers": "Saistīta organizācija vēl nav reģistrēta.",
+    "goals": "Mērķi",
+    "interests": "Intereses",
+    "register_entry": "Ieraksts ES Pārredzamības reģistrā"
+  },
   "login": {
     "go_to_home": "Iet uz sākumu",
     "you_already_have_an_active_session": "Tev jau ir aktīva sesija.",

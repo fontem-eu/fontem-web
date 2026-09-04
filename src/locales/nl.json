@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Grootste opgegeven bestedingen",
     "by_declared_annual_lobbying_cost_ceiling": "Op basis van het opgegeven jaarlijkse maximum aan lobbykosten."
   },
+  "lobbyist": {
+    "lobbyist": "Belangenvertegenwoordiger",
+    "not_found": "Belangenvertegenwoordiger niet gevonden.",
+    "category": "Categorie",
+    "entity_form": "Rechtsvorm",
+    "city": "Stad",
+    "website": "Website",
+    "declared_spend": "Opgegeven jaarlijkse lobbyuitgaven",
+    "members_fte": "Leden (vte)",
+    "registered_on": "Geregistreerd",
+    "last_updated": "Laatst bijgewerkt",
+    "filed_for": "Ingediend voor",
+    "no_filers": "Nog geen gekoppelde organisatie geregistreerd.",
+    "goals": "Doelen",
+    "interests": "Belangen",
+    "register_entry": "Vermelding in het EU-transparantieregister"
+  },
   "login": {
     "go_to_home": "Naar startpagina",
     "you_already_have_an_active_session": "U hebt al een actieve sessie.",

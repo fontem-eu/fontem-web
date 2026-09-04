@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Principali spese dichiarate",
     "by_declared_annual_lobbying_cost_ceiling": "Per massimale annuo dichiarato dei costi di lobbying."
   },
+  "lobbyist": {
+    "lobbyist": "Rappresentante di interessi",
+    "not_found": "Rappresentante di interessi non trovato.",
+    "category": "Categoria",
+    "entity_form": "Forma giuridica",
+    "city": "Città",
+    "website": "Sito web",
+    "declared_spend": "Spesa annua dichiarata per attività di lobbying",
+    "members_fte": "Membri (ETP)",
+    "registered_on": "Registrato",
+    "last_updated": "Ultimo aggiornamento",
+    "filed_for": "Presentato per",
+    "no_filers": "Nessuna organizzazione collegata ancora registrata.",
+    "goals": "Obiettivi",
+    "interests": "Interessi",
+    "register_entry": "Scheda nel registro per la trasparenza dell'UE"
+  },
   "login": {
     "go_to_home": "Vai alla home",
     "you_already_have_an_active_session": "Hai già una sessione attiva.",

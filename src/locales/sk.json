@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Najväčší deklarovaní výdavcovia",
     "by_declared_annual_lobbying_cost_ceiling": "Podľa deklarovaného horného limitu ročných nákladov na lobing."
   },
+  "lobbyist": {
+    "lobbyist": "Lobista",
+    "not_found": "Lobista sa nenašiel.",
+    "category": "Kategória",
+    "entity_form": "Právna forma",
+    "city": "Mesto",
+    "website": "Webové sídlo",
+    "declared_spend": "Deklarované ročné výdavky na lobing",
+    "members_fte": "Členovia (FTE)",
+    "registered_on": "Zaregistrované",
+    "last_updated": "Naposledy aktualizované",
+    "filed_for": "Podané za",
+    "no_filers": "Zatiaľ nie je evidovaná žiadna prepojená organizácia.",
+    "goals": "Ciele",
+    "interests": "Záujmy",
+    "register_entry": "Zápis v registri transparentnosti EÚ"
+  },
   "login": {
     "go_to_home": "Prejsť na domovskú stránku",
     "you_already_have_an_active_session": "Už máš aktívnu reláciu.",

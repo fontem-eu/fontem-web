@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Na caiteoirí dearbhaithe is airde",
     "by_declared_annual_lobbying_cost_ceiling": "De réir uasteorainn dhearbhaithe an chostais stocaireachta bhliantúil."
   },
+  "lobbyist": {
+    "lobbyist": "Stocaire",
+    "not_found": "Níor aimsíodh an stocaire.",
+    "category": "Catagóir",
+    "entity_form": "Foirm dhlíthiúil",
+    "city": "Cathair",
+    "website": "Suíomh gréasáin",
+    "declared_spend": "Caiteachas bliantúil stocaireachta dearbhaithe",
+    "members_fte": "Baill (CLA)",
+    "registered_on": "Cláraithe",
+    "last_updated": "Nuashonraithe",
+    "filed_for": "Comhdaithe do",
+    "no_filers": "Níl aon eagraíocht nasctha ar taifead go fóill.",
+    "goals": "Spriocanna",
+    "interests": "Leasanna",
+    "register_entry": "Iontráil i gClár Trédhearcachta an AE"
+  },
   "login": {
     "go_to_home": "Téigh abhaile",
     "you_already_have_an_active_session": "Tá seisiún gníomhach agat cheana féin.",

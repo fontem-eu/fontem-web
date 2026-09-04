@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Daugiausiai deklaravę subjektai",
     "by_declared_annual_lobbying_cost_ceiling": "Pagal deklaruotą metinių lobizmo išlaidų viršutinę ribą."
   },
+  "lobbyist": {
+    "lobbyist": "Lobistas",
+    "not_found": "Lobistas nerastas.",
+    "category": "Kategorija",
+    "entity_form": "Teisinė forma",
+    "city": "Miestas",
+    "website": "Interneto svetainė",
+    "declared_spend": "Deklaruotos metinės lobizmo išlaidos",
+    "members_fte": "Nariai (VDA)",
+    "registered_on": "Užregistruota",
+    "last_updated": "Paskutinį kartą atnaujinta",
+    "filed_for": "Pateikta",
+    "no_filers": "Susijusios organizacijos dar nėra.",
+    "goals": "Tikslai",
+    "interests": "Interesai",
+    "register_entry": "Įrašas ES skaidrumo registre"
+  },
   "login": {
     "go_to_home": "Eiti į pradžią",
     "you_already_have_an_active_session": "Jau turi aktyvų seansą.",

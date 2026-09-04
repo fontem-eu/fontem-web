@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Maiores gastadores declarados",
     "by_declared_annual_lobbying_cost_ceiling": "Pelo limite máximo anual declarado de custos de representação de interesses."
   },
+  "lobbyist": {
+    "lobbyist": "Representante de interesses",
+    "not_found": "Representante de interesses não encontrado.",
+    "category": "Categoria",
+    "entity_form": "Forma jurídica",
+    "city": "Cidade",
+    "website": "Sítio Web",
+    "declared_spend": "Despesa anual declarada com representação de interesses",
+    "members_fte": "Membros (ETI)",
+    "registered_on": "Registado",
+    "last_updated": "Última atualização",
+    "filed_for": "Apresentado por",
+    "no_filers": "Ainda não há nenhuma organização associada registada.",
+    "goals": "Objetivos",
+    "interests": "Interesses",
+    "register_entry": "Registo no Registo de Transparência da UE"
+  },
   "login": {
     "go_to_home": "Ir para o início",
     "you_already_have_an_active_session": "Já tem uma sessão ativa.",

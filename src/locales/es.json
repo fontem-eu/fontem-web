@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Principales declarantes de gasto",
     "by_declared_annual_lobbying_cost_ceiling": "Por el techo de coste anual de presión declarado."
   },
+  "lobbyist": {
+    "lobbyist": "Grupo de interés",
+    "not_found": "Grupo de interés no encontrado.",
+    "category": "Categoría",
+    "entity_form": "Forma jurídica",
+    "city": "Ciudad",
+    "website": "Sitio web",
+    "declared_spend": "Gasto anual declarado en representación de intereses",
+    "members_fte": "Miembros (ETC)",
+    "registered_on": "Registrado",
+    "last_updated": "Última actualización",
+    "filed_for": "Presentado por",
+    "no_filers": "Aún no consta ninguna organización vinculada.",
+    "goals": "Objetivos",
+    "interests": "Intereses",
+    "register_entry": "Ficha en el Registro de Transparencia de la UE"
+  },
   "login": {
     "go_to_home": "Ir al inicio",
     "you_already_have_an_active_session": "Ya tienes una sesión activa.",

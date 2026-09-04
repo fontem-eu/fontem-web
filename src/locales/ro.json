@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Principalii cheltuitori declarați",
     "by_declared_annual_lobbying_cost_ceiling": "După plafonul anual declarat al costurilor de lobby."
   },
+  "lobbyist": {
+    "lobbyist": "Reprezentant de interese",
+    "not_found": "Reprezentantul de interese nu a fost găsit.",
+    "category": "Categorie",
+    "entity_form": "Formă juridică",
+    "city": "Oraș",
+    "website": "Site web",
+    "declared_spend": "Cheltuieli anuale declarate pentru lobby",
+    "members_fte": "Membri (ENI)",
+    "registered_on": "Înregistrat",
+    "last_updated": "Ultima actualizare",
+    "filed_for": "Depus pentru",
+    "no_filers": "Nicio organizație asociată înregistrată încă.",
+    "goals": "Obiective",
+    "interests": "Interese",
+    "register_entry": "Înregistrare în Registrul de transparență al UE"
+  },
   "login": {
     "go_to_home": "Mergi la pagina principală",
     "you_already_have_an_active_session": "Ai deja o sesiune activă.",

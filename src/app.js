@@ -25,6 +25,7 @@ import PetitionsView from './views/PetitionsView.vue'
 import PetitionDetailView from './views/PetitionDetailView.vue'
 import UserProfileView from './views/UserProfileView.vue'
 import ContractDetailView from './views/ContractDetailView.vue'
+import LobbyistView from './views/LobbyistView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import ValueReviewView from './views/ValueReviewView.vue'
 import AdminView from './views/AdminView.vue'
@@ -236,6 +237,12 @@ const ROUTES = [
   { path: '/company/:gmr_id/:view?', component: HomeView },
   { path: '/authority/:authority_id/:view?', component: HomeView },
   { path: '/contract/:noticeId', component: ContractDetailView },
+
+  // Lobbyist — the EU Transparency Register entry, keyed on
+  // disclosure_id because that is the only identifier these records
+  // carry (they have no gmr_id). Only ~1 in 5 registrants resolves to
+  // a company, so this is the destination for the other four.
+  { path: '/lobbyist/:disclosureId', component: LobbyistView },
   { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
   { path: '/c/:ticker/:view', component: HomeView },
 

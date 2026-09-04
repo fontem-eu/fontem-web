@@ -256,6 +256,13 @@
       "description": "A single data quality issue and its discussion."
     },
     {
+      "path": "/lobbyist/:disclosureId",
+      "params": [
+        "disclosureId"
+      ],
+      "description": "One EU Transparency Register entry: who they are, what they declare spending on lobbying, and which organisation filed it."
+    },
+    {
       "path": "/login",
       "description": "Sign in or create an account."
     },

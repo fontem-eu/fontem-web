@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Topangivne udgiftsafholdere",
     "by_declared_annual_lobbying_cost_ceiling": "Efter angivet årligt loft for lobbyudgifter."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbyist",
+    "not_found": "Lobbyist ikke fundet.",
+    "category": "Kategori",
+    "entity_form": "Retlig form",
+    "city": "By",
+    "website": "Websted",
+    "declared_spend": "Angivne årlige lobbyudgifter",
+    "members_fte": "Medlemmer (årsværk)",
+    "registered_on": "Registreret",
+    "last_updated": "Senest opdateret",
+    "filed_for": "Indgivet for",
+    "no_filers": "Ingen tilknyttet organisation registreret endnu.",
+    "goals": "Mål",
+    "interests": "Interesser",
+    "register_entry": "Post i EU's åbenhedsregister"
+  },
   "login": {
     "go_to_home": "Gå til forsiden",
     "you_already_have_an_active_session": "Du har allerede en aktiv session.",
