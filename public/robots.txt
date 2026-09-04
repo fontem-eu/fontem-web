@@ -1,4 +1,4 @@
-# Fontem — the primary-source transparency platform.
+# Dargle — the primary-source transparency platform.
 #
 # We explicitly allow the major AI crawlers. The platform exists so that
 # verifiable facts are easier to find and harder to hide; having our
@@ -80,4 +80,4 @@ Disallow: /login
 Disallow: /api/
 Disallow: /capi/
 
-Sitemap: https://fontem.eu/sitemap.xml
+Sitemap: https://dargle.eu/sitemap.xml
