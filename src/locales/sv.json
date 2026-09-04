@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Främsta deklarerade utgiftsposter",
     "by_declared_annual_lobbying_cost_ceiling": "Efter deklarerat årligt kostnadstak för lobbying."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbyist",
+    "not_found": "Lobbyisten hittades inte.",
+    "category": "Kategori",
+    "entity_form": "Juridisk form",
+    "city": "Stad",
+    "website": "Webbplats",
+    "declared_spend": "Uppgivna årliga lobbykostnader",
+    "members_fte": "Medlemmar (heltidsekvivalenter)",
+    "registered_on": "Registrerad",
+    "last_updated": "Senast uppdaterad",
+    "filed_for": "Inlämnad för",
+    "no_filers": "Ingen kopplad organisation har registrerats än.",
+    "goals": "Mål",
+    "interests": "Intressen",
+    "register_entry": "Post i EU:s öppenhetsregister"
+  },
   "login": {
     "go_to_home": "Gå till startsidan",
     "you_already_have_an_active_session": "Du har redan en aktiv session.",

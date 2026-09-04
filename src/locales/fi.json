@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Suurimmat ilmoitetut kuluttajat",
     "by_declared_annual_lobbying_cost_ceiling": "Ilmoitetun vuotuisen edunvalvontakustannusten enimmäismäärän mukaan."
   },
+  "lobbyist": {
+    "lobbyist": "Edunvalvoja",
+    "not_found": "Edunvalvojaa ei löytynyt.",
+    "category": "Luokka",
+    "entity_form": "Oikeudellinen muoto",
+    "city": "Kaupunki",
+    "website": "Verkkosivusto",
+    "declared_spend": "Ilmoitetut vuotuiset edunvalvontakulut",
+    "members_fte": "Jäsenet (htv)",
+    "registered_on": "Rekisteröity",
+    "last_updated": "Viimeksi päivitetty",
+    "filed_for": "Toimitettu",
+    "no_filers": "Liitettyä organisaatiota ei ole vielä kirjattu.",
+    "goals": "Tavoitteet",
+    "interests": "Intressit",
+    "register_entry": "Merkintä EU:n avoimuusrekisterissä"
+  },
   "login": {
     "go_to_home": "Siirry etusivulle",
     "you_already_have_an_active_session": "Sinulla on jo aktiivinen istunto.",

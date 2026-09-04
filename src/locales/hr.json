@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Najveći prijavljeni potrošači",
     "by_declared_annual_lobbying_cost_ceiling": "Prema prijavljenoj godišnjoj gornjoj granici troškova lobiranja."
   },
+  "lobbyist": {
+    "lobbyist": "Lobist",
+    "not_found": "Lobist nije pronađen.",
+    "category": "Kategorija",
+    "entity_form": "Pravni oblik",
+    "city": "Grad",
+    "website": "Mrežna stranica",
+    "declared_spend": "Prijavljeni godišnji troškovi lobiranja",
+    "members_fte": "Članovi (EPRV)",
+    "registered_on": "Registrirano",
+    "last_updated": "Zadnja izmjena",
+    "filed_for": "Podneseno za",
+    "no_filers": "Još nema evidentirane povezane organizacije.",
+    "goals": "Ciljevi",
+    "interests": "Interesi",
+    "register_entry": "Upis u Registar transparentnosti EU-a"
+  },
   "login": {
     "go_to_home": "Idi na početnu",
     "you_already_have_an_active_session": "Već imaš aktivnu sesiju.",

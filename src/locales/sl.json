@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Največji prijavljeni porabniki",
     "by_declared_annual_lobbying_cost_ceiling": "Po prijavljeni zgornji meji letnih stroškov lobiranja."
   },
+  "lobbyist": {
+    "lobbyist": "Lobist",
+    "not_found": "Lobista ni bilo mogoče najti.",
+    "category": "Kategorija",
+    "entity_form": "Pravna oblika",
+    "city": "Mesto",
+    "website": "Spletno mesto",
+    "declared_spend": "Prijavljeni letni stroški lobiranja",
+    "members_fte": "Člani (EPDČ)",
+    "registered_on": "Registrirano",
+    "last_updated": "Zadnja posodobitev",
+    "filed_for": "Vloženo za",
+    "no_filers": "Povezana organizacija še ni evidentirana.",
+    "goals": "Cilji",
+    "interests": "Interesi",
+    "register_entry": "Vpis v register EU za preglednost"
+  },
   "login": {
     "go_to_home": "Pojdi na domačo stran",
     "you_already_have_an_active_session": "Že imaš aktivno sejo.",

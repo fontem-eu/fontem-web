@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Top-Ausgaben laut Angaben",
     "by_declared_annual_lobbying_cost_ceiling": "Nach der angegebenen jährlichen Lobbying-Kostenobergrenze."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbyist",
+    "not_found": "Lobbyist nicht gefunden.",
+    "category": "Kategorie",
+    "entity_form": "Rechtsform",
+    "city": "Stadt",
+    "website": "Website",
+    "declared_spend": "Angegebene jährliche Lobbyausgaben",
+    "members_fte": "Mitglieder (VZÄ)",
+    "registered_on": "Registriert",
+    "last_updated": "Zuletzt aktualisiert",
+    "filed_for": "Eingereicht für",
+    "no_filers": "Noch keine verknüpfte Organisation erfasst.",
+    "goals": "Ziele",
+    "interests": "Interessen",
+    "register_entry": "Eintrag im EU-Transparenzregister"
+  },
   "login": {
     "go_to_home": "Zur Startseite",
     "you_already_have_an_active_session": "Sie haben bereits eine aktive Sitzung.",

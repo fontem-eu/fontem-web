@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Suurimad deklareeritud kulutajad",
     "by_declared_annual_lobbying_cost_ceiling": "Deklareeritud aastase lobitöökulude ülemmäära järgi."
   },
+  "lobbyist": {
+    "lobbyist": "Lobist",
+    "not_found": "Lobisti ei leitud.",
+    "category": "Kategooria",
+    "entity_form": "Õiguslik vorm",
+    "city": "Linn",
+    "website": "Veebisait",
+    "declared_spend": "Deklareeritud aastane lobikulu",
+    "members_fte": "Liikmed (TTE)",
+    "registered_on": "Registreeritud",
+    "last_updated": "Viimati uuendatud",
+    "filed_for": "Esitatud",
+    "no_filers": "Seotud organisatsiooni ei ole veel registreeritud.",
+    "goals": "Eesmärgid",
+    "interests": "Huvid",
+    "register_entry": "Kanne ELi läbipaistvusregistris"
+  },
   "login": {
     "go_to_home": "Mine avalehele",
     "you_already_have_an_active_session": "Sul on juba aktiivne sessioon.",

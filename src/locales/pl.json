@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Najwięksi deklarowani wydatkujący",
     "by_declared_annual_lobbying_cost_ceiling": "Według deklarowanego rocznego pułapu kosztów lobbingu."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbysta",
+    "not_found": "Nie znaleziono lobbysty.",
+    "category": "Kategoria",
+    "entity_form": "Forma prawna",
+    "city": "Miasto",
+    "website": "Strona internetowa",
+    "declared_spend": "Zadeklarowane roczne wydatki na lobbing",
+    "members_fte": "Członkowie (EPC)",
+    "registered_on": "Zarejestrowano",
+    "last_updated": "Ostatnia aktualizacja",
+    "filed_for": "Złożono w imieniu",
+    "no_filers": "Nie odnotowano jeszcze powiązanej organizacji.",
+    "goals": "Cele",
+    "interests": "Interesy",
+    "register_entry": "Wpis w Rejestrze Przejrzystości UE"
+  },
   "login": {
     "go_to_home": "Przejdź do strony głównej",
     "you_already_have_an_active_session": "Masz już aktywną sesję.",

@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Legnagyobb bevallott költők",
     "by_declared_annual_lobbying_cost_ceiling": "A bevallott éves lobbiköltség-felső határ szerint."
   },
+  "lobbyist": {
+    "lobbyist": "Érdekképviselő",
+    "not_found": "Az érdekképviselő nem található.",
+    "category": "Kategória",
+    "entity_form": "Jogi forma",
+    "city": "Város",
+    "website": "Weboldal",
+    "declared_spend": "Bejelentett éves lobbiköltség",
+    "members_fte": "Tagok (teljes munkaidős egyenérték)",
+    "registered_on": "Regisztrálva",
+    "last_updated": "Utoljára frissítve",
+    "filed_for": "Benyújtotta",
+    "no_filers": "Még nincs nyilvántartott kapcsolódó szervezet.",
+    "goals": "Célok",
+    "interests": "Érdekek",
+    "register_entry": "Bejegyzés az EU átláthatósági nyilvántartásában"
+  },
   "login": {
     "go_to_home": "Ugrás a kezdőlapra",
     "you_already_have_an_active_session": "Már van aktív munkameneted.",

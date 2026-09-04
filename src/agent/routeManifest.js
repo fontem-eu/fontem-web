@@ -40,6 +40,7 @@ export const NOT_NAVIGABLE = new Set([
 export const ROUTE_DESCRIPTIONS = {
   '/': 'Home feed: published data stories and briefing findings together.',
   '/stories-feed': 'Published data stories only, without the briefing findings.',
+  '/lobbyist/:disclosureId': 'One EU Transparency Register entry: who they are, what they declare spending on lobbying, and which organisation filed it.',
   '/about': 'What Dargle is, how it works, and how to get started.',
   '/help': 'Help and FAQ, including how to connect your own AI assistant to Dargle.',
   '/login': 'Sign in or create an account.',

@@ -1091,6 +1091,23 @@
     "top_declared_spenders": "Top declared spenders",
     "by_declared_annual_lobbying_cost_ceiling": "By declared annual lobbying-cost ceiling."
   },
+  "lobbyist": {
+    "lobbyist": "Lobbyist",
+    "not_found": "Lobbyist not found.",
+    "category": "Category",
+    "entity_form": "Entity form",
+    "city": "City",
+    "website": "Website",
+    "declared_spend": "Declared annual lobbying spend",
+    "members_fte": "Members (FTE)",
+    "registered_on": "Registered",
+    "last_updated": "Last updated",
+    "filed_for": "Filed for",
+    "no_filers": "No linked organisation on record yet.",
+    "goals": "Goals",
+    "interests": "Interests",
+    "register_entry": "EU Transparency Register entry"
+  },
   "login": {
     "go_to_home": "Go to Home",
     "you_already_have_an_active_session": "You already have an active session.",
