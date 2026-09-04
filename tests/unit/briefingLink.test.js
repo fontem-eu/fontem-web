@@ -58,6 +58,24 @@ describe('briefingLink', () => {
       .toEqual({ kind: 'none', to: null })
   })
 
+  it('links a single-segment page like /briefings, which is a real page', () => {
+    // The dead-end guard is about ENTITY prefixes with no id, not about
+    // path length. Counting segments un-linked every card pointing at a
+    // one-segment page — the e2e fixture's own rows among them.
+    expect(briefingLink({ link: 'https://fontem.eu/briefings' }))
+      .toEqual({ kind: 'internal', to: '/briefings' })
+    expect(briefingLink({ link: '/about' }))
+      .toEqual({ kind: 'internal', to: '/about' })
+  })
+
+  it.each(['company', 'contract', 'authority', 'lobbyist'])(
+    'refuses /%s with no id after it', (prefix) => {
+      expect(briefingLink({ link: `https://dargle.eu/${prefix}/` }))
+        .toEqual({ kind: 'none', to: null })
+      expect(briefingLink({ link: `/${prefix}` }))
+        .toEqual({ kind: 'none', to: null })
+    })
+
   it('keeps a genuinely external link external', () => {
     const r = briefingLink({ link: 'https://ted.europa.eu/notice/12345' })
     expect(r.kind).toBe('external')
