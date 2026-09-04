@@ -76,6 +76,35 @@ describe('mergeBriefingItems', () => {
   })
 })
 
+describe('loadBriefingStream — signed in with nothing watched', () => {
+  it('seeds from the public briefing rather than showing nothing', async () => {
+    // Subscribing to nothing is the state every account starts in, not
+    // a preference for an empty feed. Reading it as "wants no
+    // briefings" gave a signed-in reader a THINNER landing page than a
+    // stranger gets.
+    listMyWatches.mockResolvedValue([])
+    getBriefing.mockResolvedValue({ items: [item('i1', '2026-01-01')] })
+    const out = await loadBriefingStream(true)
+    expect(listMyWatches).toHaveBeenCalled()
+    expect(getBriefing.mock.calls.length).toBeGreaterThan(0)
+    expect(getBriefing.mock.calls.every(([slug]) => slug === DEFAULT_BRIEFING_SLUG)).toBe(true)
+    expect(out.length).toBeGreaterThan(0)
+  })
+
+  it('still prefers real watches when the reader has them', async () => {
+    listMyWatches.mockResolvedValue([{ group_id: 'g1', nuts: ['PT16'], volume_per_week: 25 }])
+    listBriefings.mockResolvedValue([
+      { id: 'g1', slug: 'some-briefing', name: 'Some briefing' },
+      { id: 'g2', slug: DEFAULT_BRIEFING_SLUG, name: 'Public investment' },
+    ])
+    getBriefing.mockResolvedValue({ items: [item('i1', '2026-01-01')] })
+    await loadBriefingStream(true)
+    const slugs = getBriefing.mock.calls.map(([slug]) => slug)
+    expect(slugs).toContain('some-briefing')
+    expect(slugs).not.toContain(DEFAULT_BRIEFING_SLUG)
+  })
+})
+
 describe('loadBriefingStream — signed out', () => {
   it('seeds from public investment at 10 local and 3 EU', async () => {
     await loadBriefingStream(false)
@@ -133,11 +162,11 @@ describe('loadBriefingStream — signed in', () => {
     expect(getBriefing).not.toHaveBeenCalled()
   })
 
-  it('returns nothing when the reader watches nothing, without falling back to the anonymous seed', async () => {
-    // A signed-in reader with no watches has made a choice; filling their
-    // feed with defaults would override it.
-    listMyWatches.mockResolvedValue([])
-    await expect(loadBriefingStream(true)).resolves.toEqual([])
-    expect(getBriefing).not.toHaveBeenCalled()
-  })
+  // Reversed 2026-09-04. This used to assert the opposite — that a
+  // signed-in reader with no watches got nothing, on the reasoning that
+  // an empty subscription list was a choice worth respecting. It is not:
+  // it is the state every account starts in, and honouring it gave a
+  // signed-in reader a THINNER landing page than a stranger gets. The
+  // seed is now the floor for everyone; see the 'signed in with nothing
+  // watched' group above.
 })
