@@ -755,6 +755,7 @@
     "loading_feed": "Feed wird geladen...",
     "nothing_here": "Hier ist noch nichts. Sobald jemand öffentliche Datengeschichten veröffentlicht, erscheinen sie hier.",
     "public_data_stories_from_the_community_n": "Öffentliche Datengeschichten der Community, neueste zuerst.",
+    "mixed_sub": "Datengeschichten und Briefing-Funde, neueste zuerst.",
     "unfollow": "Nicht mehr folgen"
   },
   "feeds": {

@@ -755,6 +755,7 @@
     "loading_feed": "Nalaganje vira...",
     "nothing_here": "Tukaj še ni ničesar. Ko bodo ljudje objavili javne podatkovne zgodbe, se bodo pojavile tukaj.",
     "public_data_stories_from_the_community_n": "Javne podatkovne zgodbe iz skupnosti, najnovejše prve.",
+    "mixed_sub": "Podatkovne zgodbe in ugotovitve iz pregledov, najnovejše prve.",
     "unfollow": "Prenehaj slediti"
   },
   "feeds": {

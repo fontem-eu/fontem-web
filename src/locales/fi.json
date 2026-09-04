@@ -755,6 +755,7 @@
     "loading_feed": "Ladataan syötettä...",
     "nothing_here": "Täällä ei ole vielä mitään. Kun ihmiset julkaisevat julkisia datatarinoita, ne näkyvät täällä.",
     "public_data_stories_from_the_community_n": "Julkiset yhteisön datatarinat, uusimmat ensin.",
+    "mixed_sub": "Datatarinat ja katsausten löydöt, uusimmat ensin.",
     "unfollow": "Lopeta seuraaminen"
   },
   "feeds": {

@@ -755,6 +755,7 @@
     "loading_feed": "Ielādē plūsmu...",
     "nothing_here": "Šeit pagaidām nekā nav. Kad cilvēki publicēs publiskus datu stāstus, tie parādīsies šeit.",
     "public_data_stories_from_the_community_n": "Publiski datu stāsti no kopienas, jaunākie pirmie.",
+    "mixed_sub": "Datu stāsti un pārskatu atradumi, jaunākie pirmie.",
     "unfollow": "Pārtraukt sekošanu"
   },
   "feeds": {

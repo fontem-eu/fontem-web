@@ -755,6 +755,7 @@
     "loading_feed": "Wczytywanie strumienia...",
     "nothing_here": "Jeszcze nic tu nie ma. Gdy ludzie opublikują publiczne historie danych, pojawią się tutaj.",
     "public_data_stories_from_the_community_n": "Publiczne historie danych od społeczności, najnowsze pierwsze.",
+    "mixed_sub": "Historie oparte na danych i ustalenia z briefingów, najnowsze na górze.",
     "unfollow": "Przestań obserwować"
   },
   "feeds": {

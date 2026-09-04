@@ -755,6 +755,7 @@
     "loading_feed": "Įkeliamas srautas...",
     "nothing_here": "Kol kas čia nieko nėra. Kai žmonės paskelbs viešas duomenų istorijas, jos atsiras čia.",
     "public_data_stories_from_the_community_n": "Viešos duomenų istorijos iš bendruomenės, naujausios pirma.",
+    "mixed_sub": "Duomenų istorijos ir apžvalgų radiniai, naujausi viršuje.",
     "unfollow": "Nesekti"
   },
   "feeds": {

@@ -755,6 +755,7 @@
     "loading_feed": "Načítání kanálu...",
     "nothing_here": "Zatím tu nic není. Až lidé zveřejní veřejné datové příběhy, objeví se zde.",
     "public_data_stories_from_the_community_n": "Veřejné datové příběhy od komunity, nejnovější jako první.",
+    "mixed_sub": "Datové příběhy a zjištění z briefingů, nejnovější první.",
     "unfollow": "Přestat sledovat"
   },
   "feeds": {

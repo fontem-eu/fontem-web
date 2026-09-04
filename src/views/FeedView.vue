@@ -171,9 +171,13 @@ function truncate(text, maxLen = 180) {
 <template>
   <div class="feed" data-testid="feed">
     <h1 class="feed-title">{{ mixed ? $t('feed.feed') : $t('nav.stories') }}</h1>
-    <!-- The subtitle says "public data stories", which is only true of
-         the stories-only page; the mixed feed also carries briefings. -->
-    <p v-if="!mixed" class="feed-sub">{{ $t('feed.public_data_stories_from_the_community_n') }}</p>
+    <!-- Two subtitles, because one sentence cannot be true of both: the
+         stories page carries only articles, the landing feed also
+         carries briefing findings. Same class either way — it is the
+         page's one-line descriptor. -->
+    <p class="feed-sub">
+      {{ mixed ? $t('feed.mixed_sub') : $t('feed.public_data_stories_from_the_community_n') }}
+    </p>
 
     <!-- Browse-by-tag chip strip. Each chip toggles the URL `?tag=`
          filter; a star toggles follow/unfollow (localStorage when
