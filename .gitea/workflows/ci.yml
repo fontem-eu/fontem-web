@@ -13,7 +13,7 @@ jobs:
         with:
           # vite 8 requires Node >=20.19; pin to 22 (same as the
           # production Dockerfile's build stage) so dev parity holds.
-          node-version: '22'
+          node-version: '24'
       - name: Install dependencies
         run: npm ci
       - name: Run unit tests
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Install dependencies
         run: npm ci
       - name: "Pin the API contract (default main)"
@@ -204,7 +204,7 @@ jobs:
           # (`util.styleText`), so the coverage run silently failed
           # before this step was added, which then blocked the
           # Sonar scan.
-          node-version: '22'
+          node-version: '24'
       - uses: actions/checkout@v4
         with:
           repository: void42/ci-actions
