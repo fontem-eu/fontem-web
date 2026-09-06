@@ -5,6 +5,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
 import { loadBriefingStream } from '../composables/useBriefingStream.js'
 import { briefingLink } from '../utils/briefingLink.js'
+import { loadNutsLabels, nutsLabel } from '../composables/useNutsLabels.js'
 import { isAuthed } from '../api/session.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
 import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
@@ -57,6 +58,9 @@ async function loadBriefings() {
   briefingError.value = null
   try {
     briefingItems.value = await loadBriefingStream(isAuthed.value)
+    // Names for the regions these items sit in — one request for the codes
+    // actually on screen, not the 91 KB catalogue.
+    loadNutsLabels(briefingItems.value).then(() => { nutsReady.value += 1 })
   } catch (err) {
     briefingItems.value = []
     briefingError.value = err.message
@@ -75,9 +79,21 @@ const mixed = computed(() => route.meta?.mixed === true)
 // anyway would imply they had.
 // Each item carries its resolved destination, computed once here
 // rather than per-branch in the template.
+// Bumped once the place names arrive, so the cards re-render with them.
+// The feed does not wait on this: an item's headline and destination are
+// useful immediately, and the region is an enrichment that can land a
+// beat later.
+const nutsReady = ref(0)
+
 const visibleBriefings = computed(() => {
   if (!mixed.value || activeTag.value) return []
-  return briefingItems.value.map((b) => ({ ...b, _link: briefingLink(b) }))
+  // eslint-disable-next-line no-unused-expressions
+  nutsReady.value
+  return briefingItems.value.map((b) => ({
+    ...b,
+    _link: briefingLink(b),
+    _where: nutsLabel(b),
+  }))
 })
 
 function fmtBriefingDate(iso) {
@@ -266,6 +282,30 @@ function truncate(text, maxLen = 180) {
           >{{ b.title || b.name || b.item_id }}</a>
           <span v-else class="feed-briefing-title">{{ b.title || b.name || b.item_id }}</span>
           <time v-if="b.item_time" class="feed-briefing-time">{{ fmtBriefingDate(b.item_time) }}</time>
+
+          <!-- What it was and where it happened, on one line.
+               The headline above answers who and how much; the item's
+               summary is the thing itself (a contract's title, a
+               registrant's category) and the NUTS chain is the place.
+               Kept to a single clamped row on purpose — a dozen of these
+               sit on the landing feed, and two extra lines each is a
+               different page. -->
+          <p
+            v-if="b.summary || b._where"
+            class="feed-briefing-detail"
+            :data-testid="`feed-briefing-detail-${b.item_id}`"
+          >
+            <span
+              v-if="b.summary"
+              class="feed-briefing-what"
+              :data-testid="`feed-briefing-what-${b.item_id}`"
+            >{{ b.summary }}</span>
+            <span
+              v-if="b._where"
+              class="feed-briefing-where"
+              :data-testid="`feed-briefing-where-${b.item_id}`"
+            >{{ b._where }}</span>
+          </p>
         </li>
       </ul>
     </section>
@@ -319,7 +359,7 @@ function truncate(text, maxLen = 180) {
 }
 .feed-briefings-list { list-style: none; margin: 0; padding: 0; }
 .feed-briefing {
-  display: flex; gap: 0.6rem; align-items: baseline;
+  display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap;
   padding: 0.45rem 0; border-bottom: 1px solid var(--border);
 }
 .feed-briefing-src {
@@ -334,6 +374,25 @@ function truncate(text, maxLen = 180) {
 .feed-briefing-link:hover,
 .feed-briefing-link:focus-visible { color: var(--accent); text-decoration: underline; }
 .feed-briefing-time { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
+/* The what/where line: full width under the headline, and hard-clamped to
+   one row. A contract title can run to several hundred characters, and
+   the point of this line is orientation, not the full text. */
+.feed-briefing-detail {
+  flex-basis: 100%; margin: 0.15rem 0 0;
+  font-size: 0.78rem; color: var(--muted);
+  display: flex; gap: 0.45rem; align-items: baseline; min-width: 0;
+}
+.feed-briefing-what {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
+/* The place never gets squeezed out by a long title: it is the shorter of
+   the two and the one a reader scans for. */
+.feed-briefing-where {
+  white-space: nowrap; flex-shrink: 0; opacity: 0.85;
+}
+.feed-briefing-where::before { content: '· '; }
+.feed-briefing-detail > .feed-briefing-where:first-child::before { content: ''; }
 
 .feed {
   max-width: 800px;

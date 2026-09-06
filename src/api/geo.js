@@ -46,12 +46,22 @@ export async function fetchBoundaries(level = 0) {
 }
 
 /**
- * Fetch the flat, geometry-free list of NUTS regions (code, name, level)
- * across all levels — for the cascading region picker.
+ * Fetch the flat, geometry-free list of NUTS regions (code, name, level).
+ *
+ * With no argument this is the whole catalogue — ~1,800 rows, 91 KB — which
+ * is what the cascading region picker needs. Pass `codes` when you only
+ * want to label a handful; the server filters, so a feed card naming one
+ * contract's region costs a couple of hundred bytes instead.
+ *
+ * @param {string[]} [codes] NUTS codes to limit the response to
  * @returns {Promise<{regions: {code:string, name:string, level:number}[]}>}
  */
-export async function fetchNutsRegions() {
-  return _json('/api/geo/nuts-regions')
+export async function fetchNutsRegions(codes) {
+  if (codes === undefined) return _json('/api/geo/nuts-regions')
+  // An empty list means "nothing", and the server agrees — but there is no
+  // point paying for the round trip to be told so.
+  if (!codes.length) return { regions: [] }
+  return _json(`/api/geo/nuts-regions?codes=${encodeURIComponent(codes.join(','))}`)
 }
 
 /**
