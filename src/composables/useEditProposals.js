@@ -37,17 +37,29 @@ const EDIT_ACTIONS = {
   // only; `replace_body` swaps the WHOLE body in one reviewable card.
   set_title:       { category: 'metadata', requiredParams: ['title'] },
   set_abstract:    { category: 'metadata', requiredParams: ['abstract'] },
-  replace_body:    { category: 'content',  requiredParams: ['content'] },
+  // Either shape satisfies it. `content` is HTML, which is what the model
+  // writes for a whole-body rewrite. `content_json` is a TipTap document
+  // the SERVER computed — that is how a `replace_part` arrives, because
+  // the splice is done where the stored document is, not in a browser
+  // whose buffer may have moved on. JSON rather than HTML because a
+  // Studio plot already in the article has data_params/ui_params objects
+  // that do not survive an HTML round trip, and editing the prose around
+  // a chart must not delete the chart.
+  replace_body:    { category: 'content',  requiredParams: [],
+                     oneOfParams: ['content', 'content_json'] },
 }
 
 export function validateProposal(proposal) {
   if (!proposal || typeof proposal !== 'object') return { valid: false, error: 'Invalid proposal' }
   const spec = EDIT_ACTIONS[proposal.action]
   if (!spec) return { valid: false, error: `Unknown action: ${proposal.action}` }
+  const given = (param) =>
+    proposal.params?.[param] !== undefined || proposal[param] !== undefined
   for (const param of spec.requiredParams) {
-    if (proposal.params?.[param] === undefined && proposal[param] === undefined) {
-      return { valid: false, error: `Missing: ${param}` }
-    }
+    if (!given(param)) return { valid: false, error: `Missing: ${param}` }
+  }
+  if (spec.oneOfParams && !spec.oneOfParams.some(given)) {
+    return { valid: false, error: `Missing: ${spec.oneOfParams.join(' or ')}` }
   }
   return { valid: true }
 }
@@ -136,6 +148,15 @@ function _applyInsertContent(action, params, editor) {
 function _applyReplaceBody(action, params, editor) {
   const bad = _requireEditor(editor, action)
   if (bad) return bad
+  // A server-computed document wins over HTML when both are present: it
+  // is the one that was spliced against the stored article, and it is the
+  // only one that carries widgets faithfully. It does not go through
+  // _cleanHtml — there is no HTML to sanitise, and the content came from
+  // our own splice of a document the user already had, not from the model.
+  if (params.content_json) {
+    editor.chain().focus().setContent(params.content_json).run()
+    return { ok: true, action, category: 'content', params }
+  }
   const { clean, error } = _cleanHtml(params, action)
   if (error) return error
   // The whole body, replaced as one unit — setContent, not insert.
@@ -144,10 +165,37 @@ function _applyReplaceBody(action, params, editor) {
   return { ok: true, action, category: 'content', params }
 }
 
+/**
+ * Insert a block node at a block INDEX, or at the cursor when there is none.
+ *
+ * `at_block` is computed server-side from the model's `at_char`, against
+ * the stored document — see assistant/doc_edit.block_index_at. The browser
+ * deliberately does not redo that arithmetic: the editor buffer may have
+ * moved since the model measured, and two implementations of the same
+ * mapping drift.
+ *
+ * Without a position a widget lands at the cursor, which is wherever the
+ * user last clicked — the behaviour every insert had before positions
+ * existed, and the reason a chart could arrive in the middle of a sentence.
+ */
+function _insertBlockAt(editor, node, atBlock) {
+  if (atBlock === undefined || atBlock === null) {
+    editor.chain().focus().insertContent(node).run()
+    return
+  }
+  const doc = editor.state.doc
+  const index = Math.max(0, Math.min(Number(atBlock), doc.childCount))
+  // Sum the sizes of the blocks before it: ProseMirror positions are
+  // measured in document units, not blocks.
+  let pos = 0
+  for (let i = 0; i < index; i += 1) pos += doc.child(i).nodeSize
+  editor.chain().focus().insertContentAt(pos, node).run()
+}
+
 function _applyInsertWidget(action, params, editor) {
   const bad = _requireEditor(editor, action)
   if (bad) return bad
-  editor.chain().focus().insertContent({
+  _insertBlockAt(editor, {
     type: 'widget',
     attrs: {
       widget_type: params.widget_type,
@@ -155,7 +203,7 @@ function _applyInsertWidget(action, params, editor) {
       entityId: params.entityId,
       ...(params.depth ? { depth: params.depth } : {}),
     },
-  }).run()
+  }, params.at_block)
   return { ok: true, action, category: 'content', params }
 }
 
@@ -185,7 +233,7 @@ async function _applyInsertStudioPlot(action, params, editor) {
   }
   // `pipeline` — the same widget the Studio's Pocket button produces, so
   // the article has one renderer for an embedded chart, not two.
-  editor.chain().focus().insertContent({
+  _insertBlockAt(editor, {
     type: 'widget',
     attrs: {
       widget_type: 'pipeline',
@@ -193,7 +241,7 @@ async function _applyInsertStudioPlot(action, params, editor) {
       data_params: config.data_params,
       ui_params: config.ui_params,
     },
-  }).run()
+  }, params.at_block)
   return { ok: true, action, category: 'content', params }
 }
 

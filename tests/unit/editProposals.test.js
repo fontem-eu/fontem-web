@@ -363,3 +363,116 @@ describe('the split proposal actions', () => {
     expect(validateProposal({ action: 'update_title', params: { title: 'x' } }).valid).toBe(true)
   })
 })
+
+// ── Character-addressed editing (2026-09) ─────────────────────────
+//
+// `replace_part` sends the model's offsets; the SERVER computes the
+// revised document and carries it back on the tool result, so what the
+// editor applies is a whole document either way. These pin the two
+// things that has to get right in the browser: a computed document is
+// applied as JSON, and a positioned widget lands where it was asked to.
+describe('a server-computed document', () => {
+  function makeSetContentEditor() {
+    const calls = []
+    const chain = {
+      focus: () => chain,
+      setContent: (c) => { calls.push(['setContent', c]); return chain },
+      insertContent: (c) => { calls.push(['insertContent', c]); return chain },
+      insertContentAt: (pos, c) => { calls.push(['insertContentAt', pos, c]); return chain },
+      run: () => true,
+    }
+    return { chain: () => chain, calls }
+  }
+
+  const DOC = { type: 'doc', content: [
+    { type: 'paragraph', content: [{ type: 'text', text: 'Revised.' }] },
+  ] }
+
+  it('is valid without any HTML content', () => {
+    // replace_part carries no `content` at all — the whole point is that
+    // the model did not have to restate the article.
+    expect(validateProposal({ action: 'replace_body', params: { content_json: DOC } }))
+      .toEqual({ valid: true })
+  })
+
+  it('still rejects a replace_body carrying neither shape', () => {
+    const out = validateProposal({ action: 'replace_body', params: {} })
+    expect(out.valid).toBe(false)
+    expect(out.error).toMatch(/content or content_json/)
+  })
+
+  it('is applied as JSON, not run through the HTML sanitiser', async () => {
+    const editor = makeSetContentEditor()
+    await executeProposal('r1', { action: 'replace_body', params: { content_json: DOC } }, { editor })
+    expect(editor.calls).toEqual([['setContent', DOC]])
+  })
+
+  it('wins over HTML when the server sent both', async () => {
+    // The computed document is the one spliced against the STORED
+    // article, and the only one that carries widgets faithfully.
+    const editor = makeSetContentEditor()
+    await executeProposal('r1', {
+      action: 'replace_body',
+      params: { content: '<p>stale</p>', content_json: DOC },
+    }, { editor })
+    expect(editor.calls).toEqual([['setContent', DOC]])
+  })
+})
+
+describe('a positioned widget', () => {
+  function makePositionedEditor(childSizes) {
+    const calls = []
+    const chain = {
+      focus: () => chain,
+      insertContent: (c) => { calls.push(['insertContent', c]); return chain },
+      insertContentAt: (pos, c) => { calls.push(['at', pos, c]); return chain },
+      run: () => true,
+    }
+    return {
+      chain: () => chain,
+      calls,
+      state: { doc: {
+        childCount: childSizes.length,
+        child: (i) => ({ nodeSize: childSizes[i] }),
+      } },
+    }
+  }
+
+  it('lands at the summed size of the blocks before it', async () => {
+    const editor = makePositionedEditor([10, 20, 30])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1', at_block: 2 },
+    }, { editor })
+    // ProseMirror positions are document units, not blocks: 10 + 20.
+    expect(editor.calls[0][0]).toBe('at')
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('appends at the cursor when no position was given', async () => {
+    const editor = makePositionedEditor([10, 20])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1' },
+    }, { editor })
+    expect(editor.calls[0][0]).toBe('insertContent')
+  })
+
+  it('clamps a position past the end rather than throwing', async () => {
+    const editor = makePositionedEditor([10, 20])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1', at_block: 99 },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('block 0 puts it before everything', async () => {
+    const editor = makePositionedEditor([10, 20])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1', at_block: 0 },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(0)
+  })
+})
