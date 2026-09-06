@@ -323,6 +323,42 @@ function mapToolProposal(p) {
  * kept its Apply button, and went into a published story as a dead
  * embed.
  */
+/**
+ * Fill a card in from what the SERVER computed, not from the model's args.
+ *
+ * A `replace_part` card is drawn from a call carrying start/end/new_text,
+ * but the thing the editor applies is the revised document, which only the
+ * server can produce — it holds the stored article the offsets were
+ * measured against. Same for `at_block`, the editor-side position derived
+ * from the model's `at_char`.
+ *
+ * Without this the card is drawn, Apply is offered, and nothing lands:
+ * exactly the "model proposes an action the frontend doesn't handle"
+ * failure the action-parity test exists to prevent, arriving through the
+ * params instead of the action name.
+ */
+function enrichProposalFromResult(r) {
+  const action = PROPOSAL_TOOL_ACTIONS[r?.tool]
+  if (!action) return
+  let parsed
+  try { parsed = JSON.parse(r.result || '{}') } catch { return }
+  if (!parsed || parsed.error) return
+  const carried = {}
+  if (parsed.content_json !== undefined) carried.content_json = parsed.content_json
+  if (parsed.at_block !== undefined) carried.at_block = parsed.at_block
+  if (!Object.keys(carried).length) return
+  const argsKey = JSON.stringify(r.args || {})
+  for (const msg of messages.value) {
+    for (const p of msg.proposals || []) {
+      if (p.action !== action || p.applied || p.refused) continue
+      if (r.args && Object.keys(r.args).length &&
+          JSON.stringify(proposalArgs(p)) !== argsKey) continue
+      p.params = { ...p.params, ...carried }
+      return
+    }
+  }
+}
+
 function markRefusedProposal(r) {
   const action = PROPOSAL_TOOL_ACTIONS[r?.tool]
   if (!action) return
@@ -822,6 +858,7 @@ async function send() {
               if (typeof r.elapsed === 'number') target.elapsed = r.elapsed
             }
             markRefusedProposal(r)
+            enrichProposalFromResult(r)
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
