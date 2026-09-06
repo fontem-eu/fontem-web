@@ -19,8 +19,22 @@ vi.mock('../../src/composables/useBriefingStream.js', () => ({
   loadBriefingStream: vi.fn(),
 }))
 
+// Real names for a real chain, so the card test asserts on what the
+// catalogue actually returns for CZ010 rather than on invented strings.
+vi.mock('../../src/api/geo.js', () => ({
+  fetchClientRegion: vi.fn(() => Promise.resolve({ nuts0: null })),
+  fetchNutsRegions: vi.fn(() => Promise.resolve({
+    regions: [
+      { code: 'CZ010', name: 'Hlavní město Praha', level: 3 },
+      { code: 'CZ01', name: 'Praha', level: 2 },
+      { code: 'CZ0', name: 'Česko', level: 1 },
+    ],
+  })),
+}))
+
 import * as api from '../../src/api/community.js'
 import * as briefings from '../../src/composables/useBriefingStream.js'
+import { _resetNutsLabelsForTests } from '../../src/composables/useNutsLabels.js'
 import FeedView from '../../src/views/FeedView.vue'
 import { _resetFollowedTagsForTests } from '../../src/composables/useFollowedTags.js'
 
@@ -42,6 +56,10 @@ const BRIEFING_ITEMS = [
     // The origin the stored query bakes in, pre-rename — what prod
     // actually serves today.
     link: 'https://fontem.eu/contract/c818c705-1752-4cb9-854c-c8d5b00f5f81',
+    // What it was, and where. Both come straight off the item: the
+    // query puts the contract's own title in `summary`.
+    summary: 'D0 stavba 511, Běchovice - D1',
+    nuts: ['CZ010'],
   },
   {
     item_id: 'i2', _from: 'Corporate influence', title: 'A lobby update',
@@ -58,6 +76,7 @@ beforeEach(() => {
   api.listReports.mockResolvedValue(STORIES_ALL)
   api.listAllTags.mockResolvedValue({ tags: TAGS })
   briefings.loadBriefingStream.mockResolvedValue(BRIEFING_ITEMS)
+  _resetNutsLabelsForTests()
 })
 
 afterEach(() => vi.restoreAllMocks())
@@ -124,6 +143,32 @@ describe('FeedView — what each route shows', () => {
     // filtered article list would imply they matched the filter.
     const { wrapper } = await mountFeed('/feed?tag=procurement', { mixed: true })
     expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+  })
+})
+
+describe('FeedView — a briefing card says what and where', () => {
+  it('shows the thing itself, not just who and how much', async () => {
+    // The headline answers who and how much. The item's summary is the
+    // contract's own title — the "what" — and without it a reader has to
+    // open the record to learn what was bought.
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    const what = wrapper.find('[data-testid="feed-briefing-what-i1"]')
+    expect(what.exists()).toBe(true)
+    expect(what.text()).toBe('D0 stavba 511, Běchovice - D1')
+  })
+
+  it('names the place as a chain, not a NUTS code', async () => {
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    const where = wrapper.find('[data-testid="feed-briefing-where-i1"]')
+    expect(where.exists()).toBe(true)
+    expect(where.text()).toBe('Hlavní město Praha › Praha › Česko')
+    expect(where.text()).not.toContain('CZ010')
+  })
+
+  it('omits the line entirely when an item has neither', async () => {
+    // A card with nothing to add should not grow by an empty row.
+    const { wrapper } = await mountFeed('/feed', { mixed: true })
+    expect(wrapper.find('[data-testid="feed-briefing-detail-i2"]').exists()).toBe(false)
   })
 })
 
