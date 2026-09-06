@@ -79,7 +79,7 @@ export function nutsLabel(item) {
   for (const c of chainFor(code)) {
     const name = cache.get(c)
     if (!name) continue
-    if (parts[parts.length - 1] !== name) parts.push(name)
+    if (parts.at(-1) !== name) parts.push(name)
   }
   // Names only, never a mix. An unresolved leaf beside a resolved
   // ancestor renders as "PT165 › Continente", which reads as neither a
