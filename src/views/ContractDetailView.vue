@@ -84,7 +84,19 @@ v-if="integrity.tenders_received != null"
         <dt>{{ $t('contract_detail.procedure') }}</dt><dd>{{ integrity.procedure_type || '—' }}</dd>
         <dt>{{ $t('contract_detail.award_criteria') }}</dt><dd>{{ integrity.award_criterion_type || '—' }}</dd>
         <dt>{{ $t('contract_detail.eu_funded') }}</dt><dd>{{ integrity.eu_funded ? $t('contract_detail.yes') : '—' }}</dd>
-        <dt>{{ $t('contract_detail.buyer') }}</dt><dd>{{ contract.authority?.name }} ({{ contract.authority?.country }})</dd>
+        <dt>{{ $t('contract_detail.buyer') }}</dt>
+        <dd>
+          <!-- Linked on the same terms as the supplier below: only when
+               the record carries an id, so a buyer we cannot resolve
+               stays plain text rather than offering a dead click. -->
+          <RouterLink
+            v-if="contract.authority?.authority_id"
+            :to="`/authority/${contract.authority.authority_id}`"
+            data-testid="contract-authority-link"
+          >{{ contract.authority.name }}</RouterLink>
+          <span v-else>{{ contract.authority?.name }}</span>
+          <template v-if="contract.authority?.country"> ({{ contract.authority.country }})</template>
+        </dd>
         <dt>{{ $t('contract_detail.contractor') }}</dt>
         <dd>
           <RouterLink
