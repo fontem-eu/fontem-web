@@ -190,7 +190,7 @@ function _normalised(text) {
  * mapping: it either finds the paragraph or it does not.
  */
 function _blockAfterAnchor(doc, afterText) {
-  if (!afterText || !afterText.trim()) return null
+  if (!afterText?.trim()) return null
   const needle = _normalised(afterText)
   for (let i = 0; i < doc.childCount; i += 1) {
     // `|| ''`: an atom block (a widget) has no text, and a node view
