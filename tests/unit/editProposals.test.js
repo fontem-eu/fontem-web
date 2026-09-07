@@ -556,3 +556,67 @@ describe('a positioned widget', () => {
     expect(editor.calls[0][1]).toBe(0)
   })
 })
+
+describe('a whole-body rewrite keeps the charts', () => {
+  // Run 6 created three charts, inserted all three, and shipped two. Turn 2
+  // called replace_body, and HTML cannot carry a widget's data_params, so
+  // every chart already in the article was dropped on the way in. The model
+  // could not have avoided it: read_document rendered a widget as the empty
+  // string, so its charts existed in nothing it could see or say.
+  //
+  // They read as `[[chart N: label]]` now, and N is the chart's position in
+  // the document it was read from.
+  // `afterHtml` is what TipTap would have parsed the HTML into. getJSON()
+  // returns that whatever setContent was handed, because the real editor
+  // parses HTML on the way in — echoing the raw string back is the one
+  // thing it never does.
+  function makeEditor(widgets, afterHtml) {
+    const calls = []
+    const chain = {
+      focus: () => chain,
+      setContent: (c) => { calls.push(c); return chain },
+      run: () => true,
+    }
+    return {
+      chain: () => chain,
+      calls,
+      getJSON: () => afterHtml,
+      state: { doc: {
+        childCount: widgets.length,
+        child: (i) => ({ type: { name: 'widget' }, toJSON: () => widgets[i] }),
+      } },
+    }
+  }
+
+  const CHART = { type: 'widget', attrs: { widget_type: 'pipeline', data_params: { sources: [{ name: 'by_country' }] } } }
+  const p = (text) => ({ type: 'paragraph', content: [{ type: 'text', text }] })
+
+  it('puts a kept marker back as the original chart node', async () => {
+    const editor = makeEditor([CHART], { type: 'doc', content: [p('New prose.'), p('[[chart 1: by_country]]')] })
+    await executeProposal('r1', {
+      action: 'replace_body',
+      params: { content: '<p>New prose.</p><p>[[chart 1: by_country]]</p>' },
+    }, { editor })
+    const final = editor.calls[editor.calls.length - 1]
+    expect(final.content.map((n) => n.type)).toEqual(['paragraph', 'widget'])
+    expect(final.content[1]).toEqual(CHART)
+  })
+
+  it('removes a chart whose marker the model dropped', async () => {
+    const editor = makeEditor([CHART], { type: 'doc', content: [p('Prose only.')] })
+    await executeProposal('r1', {
+      action: 'replace_body', params: { content: '<p>Prose only.</p>' },
+    }, { editor })
+    const final = editor.calls[editor.calls.length - 1]
+    expect(final.content.map((n) => n.type)).toEqual(['paragraph'])
+  })
+
+  it('leaves an article with no charts alone', async () => {
+    const editor = makeEditor([], { type: 'doc', content: [p('Just prose.')] })
+    await executeProposal('r1', {
+      action: 'replace_body', params: { content: '<p>Just prose.</p>' },
+    }, { editor })
+    // One setContent only — no round trip when there is nothing to restore.
+    expect(editor.calls).toHaveLength(1)
+  })
+})
