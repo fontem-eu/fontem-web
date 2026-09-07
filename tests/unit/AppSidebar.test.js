@@ -51,6 +51,17 @@ describe('AppSidebar (nav rail)', () => {
     expect(myIdx).toBeGreaterThan(studioIdx)
   })
 
+  it('does not repeat the logo directly under the header one', async () => {
+    // The header shows the mark a few pixels above. Repeating it as the
+    // first thing in the rail reads as a mistake rather than as branding,
+    // so expanded the rail head carries the wordmark alone.
+    const { wrapper } = await mountAt('/')
+    const head = wrapper.find('[data-testid="rail-home"]')
+    expect(head.exists()).toBe(true)
+    expect(head.findComponent({ name: 'MosaicMark' }).exists()).toBe(false)
+    expect(head.findComponent({ name: 'Wordmark' }).exists()).toBe(true)
+  })
+
   it('marks Data Stats active on /explore', async () => {
     const { wrapper } = await mountAt('/explore')
     expect(wrapper.find('[data-testid="nav-data-stats"]').classes()).toContain('active')

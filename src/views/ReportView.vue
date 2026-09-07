@@ -1,5 +1,5 @@
 <script setup>
-import { isAuthed } from '../api/session.js'
+import { isAuthed, currentUser } from '../api/session.js'
 import { ref, onMounted, onServerPrefetch, onBeforeUnmount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
@@ -48,6 +48,23 @@ const bodyRef = ref(null)
 const bodyVersion = ref(0)
 
 const hasToken = computed(() => isAuthed.value)
+
+/**
+ * Where "back" goes, and what it is called.
+ *
+ * An author reading their own story got sent to the public list, which
+ * is not where they came from — they were editing it. Their own stories
+ * are.
+ *
+ * For everyone else this is the stories list. It used to point at `/`
+ * while calling itself "Stories", which stopped being true when `/`
+ * became the mixed landing feed and Stories moved to /stories-feed.
+ */
+const isAuthor = computed(
+  () => !!report.value?.created_by && currentUser.value?.id === report.value.created_by)
+const backTo = computed(() => (isAuthor.value ? '/my-stories' : '/stories-feed'))
+const backLabel = computed(
+  () => (isAuthor.value ? 'nav.back_my_stories' : 'nav.back_stories'))
 const { lang: uiLang } = useLang()
 
 // ── translations ────────────────────────────────────────────
@@ -309,8 +326,8 @@ function parseSectionContent(content) {
     <!-- Story content -->
     <template v-else-if="report">
       <div class="report-header">
-        <router-link to="/" class="back-link" data-testid="back-to-feed">
-          {{ $t('nav.back_stories') }}
+        <router-link :to="backTo" class="back-link" data-testid="back-to-feed">
+          {{ $t(backLabel) }}
         </router-link>
         <router-link
           v-if="hasToken"
