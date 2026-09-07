@@ -84,8 +84,13 @@ function isActive(path) {
     data-testid="app-sidebar"
   >
     <router-link to="/" class="rail-head" data-testid="rail-home" @click="closeMobile">
-      <MosaicMark :size="30" class="rail-head-mark" />
-      <Wordmark v-if="!collapsed" size="sm" class="rail-head-wm" />
+      <!-- The mark only when collapsed. Expanded, the header already
+           shows it a few pixels above, and repeating it directly beneath
+           reads as a mistake rather than as branding. Collapsed there is
+           no wordmark, so the mark stays as the thing you click to get
+           home. -->
+      <MosaicMark v-if="collapsed" :size="30" class="rail-head-mark" />
+      <Wordmark v-else size="sm" class="rail-head-wm" />
     </router-link>
     <p v-if="!collapsed" class="rail-tagline" data-testid="rail-tagline">
       {{ $t('wordmark.tagline') }}
