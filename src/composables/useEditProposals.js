@@ -145,6 +145,64 @@ function _applyInsertContent(action, params, editor) {
   return { ok: true, action, category: 'content', params }
 }
 
+/** Mirrors assistant/doc_edit.MARKER_RE. Only the number is parsed; the
+ * label after it is for the model to read. */
+const CHART_MARKER = /\[\[chart (\d+)(?::[^\]]*)?\]\]/g
+
+/**
+ * Put the charts back into a body the model rewrote as prose.
+ *
+ * `replace_body` speaks HTML, and HTML cannot carry a widget's
+ * `data_params` — WidgetNode.renderHTML emits only the type and entity id.
+ * So a whole-body rewrite used to delete every chart already in the
+ * article, silently, and the model could not have avoided it: read_document
+ * rendered a widget as nothing at all, so the chart existed in nothing it
+ * could see or say.
+ *
+ * It now reads as `[[chart N: label]]`, and N is that chart's position in
+ * the document it was read from. Keep the marker, keep the chart; drop it,
+ * and the chart goes — which is a thing the model could not express before.
+ *
+ * The node is reused from the document being replaced rather than re-fetched
+ * so the chart is identical, not merely equivalent.
+ */
+function _restoreCharts(json, widgets) {
+  if (!widgets.length) return json
+  const out = []
+  for (const node of json.content || []) {
+    const text = (node.content || []).map((c) => c.text || '').join('')
+    if (!text?.match(CHART_MARKER)) { out.push(node); continue }
+    let cursor = 0
+    CHART_MARKER.lastIndex = 0
+    let m = CHART_MARKER.exec(text)
+    while (m) {
+      const before = text.slice(cursor, m.index).trim()
+      if (before) out.push({ type: 'paragraph', content: [{ type: 'text', text: before }] })
+      const widget = widgets[Number(m[1]) - 1]
+      // A marker naming a chart the document has not got is dropped, not
+      // printed: brackets in a published article help nobody.
+      if (widget) out.push(widget)
+      cursor = m.index + m[0].length
+      m = CHART_MARKER.exec(text)
+    }
+    const tail = text.slice(cursor).trim()
+    if (tail) out.push({ type: 'paragraph', content: [{ type: 'text', text: tail }] })
+  }
+  return { ...json, content: out }
+}
+
+/** Every widget in the editor now, in the order body_text numbers them. */
+function _currentWidgets(editor) {
+  const doc = editor.state?.doc
+  if (!doc) return []
+  const found = []
+  for (let i = 0; i < doc.childCount; i += 1) {
+    const child = doc.child(i)
+    if (child.type?.name === 'widget') found.push(child.toJSON())
+  }
+  return found
+}
+
 function _applyReplaceBody(action, params, editor) {
   const bad = _requireEditor(editor, action)
   if (bad) return bad
@@ -159,9 +217,16 @@ function _applyReplaceBody(action, params, editor) {
   }
   const { clean, error } = _cleanHtml(params, action)
   if (error) return error
+  const widgets = _currentWidgets(editor)
   // The whole body, replaced as one unit — setContent, not insert.
   // One card, one review; rejecting it leaves the document untouched.
   editor.chain().focus().setContent(clean).run()
+  if (widgets.length) {
+    // Round-trip through JSON to swap the markers for the real nodes: the
+    // HTML that just went in can only carry them as text.
+    editor.chain().focus()
+      .setContent(_restoreCharts(editor.getJSON(), widgets)).run()
+  }
   return { ok: true, action, category: 'content', params }
 }
 
