@@ -165,26 +165,68 @@ function _applyReplaceBody(action, params, editor) {
   return { ok: true, action, category: 'content', params }
 }
 
-/**
- * Insert a block node at a block INDEX, or at the cursor when there is none.
- *
- * `at_block` is computed server-side from the model's `at_char`, against
- * the stored document — see assistant/doc_edit.block_index_at. The browser
- * deliberately does not redo that arithmetic: the editor buffer may have
- * moved since the model measured, and two implementations of the same
- * mapping drift.
- *
- * Without a position a widget lands at the cursor, which is wherever the
- * user last clicked — the behaviour every insert had before positions
- * existed, and the reason a chart could arrive in the middle of a sentence.
+/** Collapse whitespace and case, for anchor matching. Mirrors
+ * assistant/doc_edit._normalised — an anchor is prose that has been through
+ * HTML and TipTap, so runs of spaces and line breaks will not have survived
+ * intact, and matching exact bytes would fail on a difference nobody can see.
  */
-function _insertBlockAt(editor, node, atBlock) {
-  if (atBlock === undefined || atBlock === null) {
+function _normalised(text) {
+  return text.split(/\s+/).filter(Boolean).join(' ').toLowerCase()
+}
+
+/**
+ * The block index just after the first block containing `afterText`, or
+ * null when nothing matches.
+ *
+ * This arithmetic IS redone here, unlike `at_char`, and for the reason
+ * `at_char` is not: the anchor is meant to be resolved against the document
+ * as it stands when the user accepts the card. That document exists only
+ * here. A model that proposes a body and a chart in one turn cannot cite
+ * offsets into the body — its own proposal is still a pending card, so
+ * read_document returns the last SAVED text — but it can quote a sentence
+ * it just wrote.
+ *
+ * Matching a phrase is also far more forgiving than reproducing an offset
+ * mapping: it either finds the paragraph or it does not.
+ */
+function _blockAfterAnchor(doc, afterText) {
+  if (!afterText?.trim()) return null
+  const needle = _normalised(afterText)
+  for (let i = 0; i < doc.childCount; i += 1) {
+    // `|| ''`: an atom block (a widget) has no text, and a node view
+    // need not expose textContent at all.
+    if (_normalised(doc.child(i).textContent || '').includes(needle)) return i + 1
+  }
+  return null
+}
+
+/**
+ * Insert a block node after an anchor phrase, at a block INDEX, or at the
+ * cursor when there is neither.
+ *
+ * Order matters. `after_text` wins: it is resolved against the document in
+ * front of the user right now. `at_block` is computed server-side from the
+ * model's `at_char` against the STORED document — see
+ * assistant/doc_edit.block_index_at — and the browser does not redo that
+ * arithmetic, because the buffer may have moved since the model measured
+ * and two implementations of the same offset mapping drift.
+ *
+ * An anchor that matches nothing falls through to `at_block`, then to the
+ * cursor. A chart in the wrong place is a worse article; a chart that never
+ * arrives is a worse bug.
+ */
+function _insertBlockAt(editor, node, atBlock, afterText) {
+  // Optional chaining, not `editor.state.doc`: an editor that exposes no
+  // document still has to be able to take an insert. Reading it
+  // unconditionally turned "insert at the cursor" into a TypeError.
+  const doc = editor.state?.doc
+  const anchored = doc ? _blockAfterAnchor(doc, afterText) : null
+  const target = anchored === null ? atBlock : anchored
+  if (!doc || target === undefined || target === null) {
     editor.chain().focus().insertContent(node).run()
     return
   }
-  const doc = editor.state.doc
-  const index = Math.max(0, Math.min(Number(atBlock), doc.childCount))
+  const index = Math.max(0, Math.min(Number(target), doc.childCount))
   // Sum the sizes of the blocks before it: ProseMirror positions are
   // measured in document units, not blocks.
   let pos = 0
@@ -203,7 +245,7 @@ function _applyInsertWidget(action, params, editor) {
       entityId: params.entityId,
       ...(params.depth ? { depth: params.depth } : {}),
     },
-  }, params.at_block)
+  }, params.at_block, params.after_text)
   return { ok: true, action, category: 'content', params }
 }
 
@@ -241,7 +283,7 @@ async function _applyInsertStudioPlot(action, params, editor) {
       data_params: config.data_params,
       ui_params: config.ui_params,
     },
-  }, params.at_block)
+  }, params.at_block, params.after_text)
   return { ok: true, action, category: 'content', params }
 }
 

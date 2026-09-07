@@ -420,7 +420,7 @@ describe('a server-computed document', () => {
 })
 
 describe('a positioned widget', () => {
-  function makePositionedEditor(childSizes) {
+  function makePositionedEditor(childSizes, texts = []) {
     const calls = []
     const chain = {
       focus: () => chain,
@@ -433,7 +433,7 @@ describe('a positioned widget', () => {
       calls,
       state: { doc: {
         childCount: childSizes.length,
-        child: (i) => ({ nodeSize: childSizes[i] }),
+        child: (i) => ({ nodeSize: childSizes[i], textContent: texts[i] }),
       } },
     }
   }
@@ -456,6 +456,86 @@ describe('a positioned widget', () => {
       params: { widget_type: 'graph_explorer', entityId: 'e1' },
     }, { editor })
     expect(editor.calls[0][0]).toBe('insertContent')
+  })
+
+  // `after_text` exists because of the story-loop run of 2026-09-07: the
+  // model proposed a whole article, then had nowhere to measure from. Its
+  // own proposal is a card the user has not accepted, so read_document
+  // still returns the last SAVED text -- body_text_length 0 -- and the
+  // four charts it inserted went to the end, under an article whose prose
+  // says "Below: a direct comparison". Quoting a sentence works where
+  // citing an offset cannot, because the anchor is resolved HERE, against
+  // the document in front of the user.
+  it('places the widget after the paragraph whose text is quoted', async () => {
+    const editor = makePositionedEditor([10, 20, 30],
+      ['Intro.', 'Below: a direct comparison.', 'Source: TED.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                after_text: 'Below: a direct comparison' },
+    }, { editor })
+    // After block 1, so past blocks 0 and 1: 10 + 20.
+    expect(editor.calls[0][0]).toBe('at')
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('matches an anchor across whitespace and case differences', async () => {
+    const editor = makePositionedEditor([10, 20],
+      ['Intro.', 'Below:  A Direct\n Comparison.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                after_text: 'below: a direct comparison' },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('prefers the anchor over a stale at_block', async () => {
+    // at_block came from an at_char measured against the last SAVED text;
+    // the anchor is resolved against what is on screen now.
+    const editor = makePositionedEditor([10, 20, 30],
+      ['Intro.', 'The chart belongs here.', 'Tail.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                at_block: 0, after_text: 'belongs here' },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('falls back to at_block when the anchor matches nothing', async () => {
+    const editor = makePositionedEditor([10, 20, 30],
+      ['Intro.', 'Middle.', 'Tail.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                at_block: 2, after_text: 'no such sentence' },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(30)
+  })
+
+  it('still inserts when the anchor matches nothing and there is no at_block', async () => {
+    // A chart in the wrong place is a worse article; a chart that never
+    // arrives is a worse bug.
+    const editor = makePositionedEditor([10, 20], ['Intro.', 'Tail.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                after_text: 'nowhere' },
+    }, { editor })
+    expect(editor.calls[0][0]).toBe('insertContent')
+  })
+
+  it('survives blocks that expose no text at all', async () => {
+    // An atom block -- an embedded widget -- has no textContent, and a
+    // node view need not expose one.
+    const editor = makePositionedEditor([10, 20], [undefined, 'Tail.'])
+    await executeProposal('r1', {
+      action: 'insert_widget',
+      params: { widget_type: 'graph_explorer', entityId: 'e1',
+                after_text: 'Tail' },
+    }, { editor })
+    expect(editor.calls[0][1]).toBe(30)
   })
 
   it('clamps a position past the end rather than throwing', async () => {
