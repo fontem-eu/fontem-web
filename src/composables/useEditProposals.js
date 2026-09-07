@@ -171,7 +171,7 @@ function _restoreCharts(json, widgets) {
   const out = []
   for (const node of json.content || []) {
     const text = (node.content || []).map((c) => c.text || '').join('')
-    if (!text || !text.match(CHART_MARKER)) { out.push(node); continue }
+    if (!text?.match(CHART_MARKER)) { out.push(node); continue }
     let cursor = 0
     CHART_MARKER.lastIndex = 0
     let m = CHART_MARKER.exec(text)
