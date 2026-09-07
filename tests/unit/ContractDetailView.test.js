@@ -15,6 +15,7 @@ async function mountAt(noticeId) {
       { path: '/contract/:noticeId', component: ContractDetailView },
       { path: '/spending', component: { template: '<div />' } },
       { path: '/company/:gmr_id', component: { template: '<div />' } },
+      { path: '/authority/:authority_id', component: { template: '<div />' } },
     ],
   })
   router.push(`/contract/${noticeId}`)
@@ -25,6 +26,45 @@ async function mountAt(noticeId) {
   await flushPromises()
   return wrapper
 }
+
+describe('ContractDetailView — both sides of the contract are reachable', () => {
+  const detail = (authority) => ({
+    ok: true,
+    json: async () => ({
+      ted_notice_id: '123-2024', title: 'Books supply', value_eur: 500000,
+      authority,
+      contractor: { gmr_id: 'g1', name: 'Acme' },
+      integrity: {},
+    }),
+  })
+
+  it('links the buyer, like it already links the supplier', async () => {
+    // The page could name the buyer but not reach it, while the supplier
+    // beside it was clickable.
+    mockFetch.mockResolvedValueOnce(detail(
+      { authority_id: 'a-77', name: 'City of Y', country: 'HUN' }))
+    const wrapper = await mountAt('123-2024')
+    const link = wrapper.find('[data-testid="contract-authority-link"]')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe('/authority/a-77')
+    expect(link.text()).toBe('City of Y')
+  })
+
+  it('still shows the country beside the linked name', async () => {
+    mockFetch.mockResolvedValueOnce(detail(
+      { authority_id: 'a-77', name: 'City of Y', country: 'HUN' }))
+    const wrapper = await mountAt('123-2024')
+    expect(wrapper.text()).toContain('City of Y')
+    expect(wrapper.text()).toContain('(HUN)')
+  })
+
+  it('leaves a buyer with no id as plain text, not a dead click', async () => {
+    mockFetch.mockResolvedValueOnce(detail({ name: 'City of Y', country: 'HUN' }))
+    const wrapper = await mountAt('123-2024')
+    expect(wrapper.find('[data-testid="contract-authority-link"]').exists()).toBe(false)
+    expect(wrapper.text()).toContain('City of Y')
+  })
+})
 
 describe('ContractDetailView', () => {
   it('renders the integrity red flags, bidder count and outward TED link', async () => {
