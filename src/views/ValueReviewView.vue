@@ -9,6 +9,19 @@
  */
 import { ref, onMounted } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+import { getAccessToken } from '../api/session.js'
+
+/**
+ * These routes are restricted to platform data admins (fontem-api
+ * `require_data_admin`). They were open to the whole internet until
+ * 2026-09-07 — a POST here emits a corrective UpsertContract event — so
+ * the token is not optional decoration: without it the endpoint answers
+ * 401 and this screen shows its error state.
+ */
+function authHeaders() {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 onMounted(() => { document.title = 'Value Review — Dargle' })
 
@@ -21,7 +34,7 @@ const drafts = ref({})         // review id -> corrected value text
 async function load() {
   state.value = 'loading'
   try {
-    const r = await fetch('/api/value-review?status=pending')
+    const r = await fetch('/api/value-review?status=pending', { headers: authHeaders() })
     if (!r.ok) throw new Error(r.status)
     const json = await r.json()
     items.value = json.items
@@ -44,7 +57,7 @@ async function decide(item, action) {
   try {
     const r = await fetch(`/api/value-review/${item.id}/decide`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(body),
     })
     if (r.ok) items.value = items.value.filter((i) => i.id !== item.id)
