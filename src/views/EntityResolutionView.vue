@@ -1,6 +1,20 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import ThemeToggle from '../components/ThemeToggle.vue'
+import { getAccessToken } from '../api/session.js'
+
+/**
+ * These calls used to go straight to the consolidator, which nginx
+ * published to the whole internet with no authentication — a POST here
+ * merges two entities in the graph. They now go through fontem-api,
+ * which gates them on `require_data_admin`, so the token is not
+ * optional decoration: without it the endpoint answers 401 and this
+ * screen shows its error state.
+ */
+function authHeaders() {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 // Three review queues live behind one screen:
 //   - same_as     : entity duplicates flagged by the consolidator's
@@ -54,11 +68,14 @@ async function loadCandidates() {
   try {
     let res
     if (mode.value === 'same_as') {
-      res = await fetch('/api/consolidator/candidates?reviewed=false&limit=100')
+      res = await fetch('/api/consolidator/candidates?reviewed=false&limit=100', {
+        headers: authHeaders(),
+      })
     } else {
       const cfg = MODES.find((m) => m.id === mode.value)
       res = await fetch(
         `/api/consolidator/relationships?rel_type=${cfg.relType}&reviewed=false&limit=100`,
+        { headers: authHeaders() },
       )
     }
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -149,7 +166,7 @@ async function _postDecision(decision, fromId, toId) {
   }
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(payload),
   })
   if (!res.ok) {
