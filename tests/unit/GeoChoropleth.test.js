@@ -25,11 +25,11 @@ const { mapInstance } = vi.hoisted(() => ({
   },
 }))
 
+// maplibre-gl 6 has no default export — these are named. The mock
+// mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
-  default: {
-    Map: vi.fn(() => mapInstance),
-    NavigationControl: vi.fn(),
-  },
+  Map: vi.fn(() => mapInstance),
+  NavigationControl: vi.fn(),
 }))
 // Stylesheet import — just stub it out
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))

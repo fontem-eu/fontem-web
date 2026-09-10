@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import maplibregl from 'maplibre-gl'
+// maplibre-gl 6 dropped its default export; the namespace import keeps
+// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
+import * as maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchEntityAggregate, fetchBoundaries } from '../api/geo.js'
 import PocketButton from './PocketButton.vue'

@@ -37,18 +37,18 @@ const { mapInstance } = vi.hoisted(() => ({
 // whole hook and leaves the view stuck on its loading state. Mirror
 // that behaviour here so the regression that hit prod can't sneak past
 // vitest again — any future ordering mistake fails this test loudly.
+// maplibre-gl 6 has no default export — these are named. The mock
+// mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
-  default: {
-    Map: vi.fn((opts) => {
-      if (!opts || !opts.container) {
-        throw new Error(
-          "Invalid type: 'container' must be a String or HTMLElement",
-        )
-      }
-      return mapInstance
-    }),
-    NavigationControl: vi.fn(),
-  },
+  Map: vi.fn((opts) => {
+    if (!opts || !opts.container) {
+      throw new Error(
+        "Invalid type: 'container' must be a String or HTMLElement",
+      )
+    }
+    return mapInstance
+  }),
+  NavigationControl: vi.fn(),
 }))
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
 
@@ -381,7 +381,7 @@ describe('AtlasView — map cleanup', () => {
 
 describe('AtlasView — mount order (regression for stuck-loading bug)', () => {
   it('does not instantiate the map before the body has rendered', async () => {
-    const { Map } = (await import('maplibre-gl')).default
+    const { Map } = await import('maplibre-gl')
     const w = await mountAtlas()
     // At this exact moment fetchDatasets is in-flight; the body
     // (with the map container div) is NOT in the DOM yet.
@@ -411,7 +411,7 @@ describe('AtlasView — mount order (regression for stuck-loading bug)', () => {
   })
 
   it('does not instantiate the map when datasets is empty', async () => {
-    const { Map } = (await import('maplibre-gl')).default
+    const { Map } = await import('maplibre-gl')
     globalThis.fetch = makeFetch({ datasets: [] })
     const w = await mountAtlas()
     await flushPromises()

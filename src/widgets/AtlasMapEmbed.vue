@@ -12,7 +12,9 @@
  * shared into a util once we have a third consumer.
  */
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import maplibregl from 'maplibre-gl'
+// maplibre-gl 6 dropped its default export; the namespace import keeps
+// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
+import * as maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
