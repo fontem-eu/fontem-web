@@ -12,7 +12,9 @@
  *                  vars split into terciles → a 2D colour grid + a 3×3 legend.
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-import maplibregl from 'maplibre-gl'
+// maplibre-gl 6 dropped its default export; the namespace import keeps
+// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
+import * as maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { fetchBoundaries } from '../api/geo.js'
 import { SEQUENTIAL_BLUE, DIVERGING, BIVARIATE_3X3, tercileBreaks, tercileClass } from '../utils/vizPalette.js'
