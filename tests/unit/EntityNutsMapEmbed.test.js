@@ -11,19 +11,19 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 // Stub maplibre-gl so EntityNutsMap can be imported without WebGL
+// maplibre-gl 6 has no default export — these are named. The mock
+// mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
-  default: {
-    Map: vi.fn(() => ({
-      addControl: vi.fn(), on: vi.fn(),
-      once: vi.fn((e, cb) => { if (e === 'load') cb() }),
-      addSource: vi.fn(), getSource: vi.fn(() => null),
-      addLayer: vi.fn(), getLayer: vi.fn(() => null),
-      getCanvas: vi.fn(() => ({ style: {} })),
-      isStyleLoaded: vi.fn(() => true),
-      setPaintProperty: vi.fn(), remove: vi.fn(),
-    })),
-    NavigationControl: vi.fn(),
-  },
+  Map: vi.fn(() => ({
+    addControl: vi.fn(), on: vi.fn(),
+    once: vi.fn((e, cb) => { if (e === 'load') cb() }),
+    addSource: vi.fn(), getSource: vi.fn(() => null),
+    addLayer: vi.fn(), getLayer: vi.fn(() => null),
+    getCanvas: vi.fn(() => ({ style: {} })),
+    isStyleLoaded: vi.fn(() => true),
+    setPaintProperty: vi.fn(), remove: vi.fn(),
+  })),
+  NavigationControl: vi.fn(),
 }))
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
 

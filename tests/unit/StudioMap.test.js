@@ -14,7 +14,8 @@ vi.mock('maplibre-gl', () => {
     isStyleLoaded: () => true, getSource: () => null, addSource() {}, addLayer() {}, setPaintProperty() {}, remove() {},
     getCanvas: () => ({ style: {} }),
   })
-  return { default: { Map: vi.fn(makeMap), NavigationControl: vi.fn(() => ({})) } }
+  // maplibre-gl 6 has no default export — these are named.
+  return { Map: vi.fn(makeMap), NavigationControl: vi.fn(() => ({})) }
 })
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
 const fetchBoundaries = vi.fn()

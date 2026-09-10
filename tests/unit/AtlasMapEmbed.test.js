@@ -8,13 +8,16 @@ const mapInstance = {
   getCanvas: vi.fn(() => ({ style: {} })), isStyleLoaded: vi.fn(() => true),
   setPaintProperty: vi.fn(), remove: vi.fn(),
 }
+// maplibre-gl 6 has no default export — these are named. The mock
+// mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
-  default: { Map: vi.fn((opts) => { if (!opts?.container) throw new Error('container required'); return mapInstance }), NavigationControl: vi.fn() },
+  Map: vi.fn((opts) => { if (!opts?.container) throw new Error('container required'); return mapInstance }),
+  NavigationControl: vi.fn(),
 }))
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
 
 import AtlasMapEmbed from '../../src/widgets/AtlasMapEmbed.vue'
-import maplibregl from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
 
 const SERIES = { data: [
   { geo_code: 'DE', year: 2013, dimensions: { iccs: 'ICCS03011', unit: 'P_HTHAB' }, value: 9.2 },
