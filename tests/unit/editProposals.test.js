@@ -620,3 +620,70 @@ describe('a whole-body rewrite keeps the charts', () => {
     expect(editor.calls).toHaveLength(1)
   })
 })
+
+describe('a chart marker names its chart', () => {
+  // From the production conversation of 2026-09-11. Four charts over ONE
+  // base query named `il_contracts`, so every marker read
+  // `[[chart N: il_contracts]]` — compatible with every chart in the
+  // project. The model took that as confirmation of a belief it had
+  // carried from earlier in the conversation, inserted a duplicate of the
+  // chart already in the article, and never inserted the one it thought
+  // was there.
+  function editorWith(widgets, parsed) {
+    const calls = []
+    const chain = { focus: () => chain, setContent: (c) => { calls.push(c); return chain }, run: () => true }
+    return {
+      chain: () => chain,
+      calls,
+      getJSON: () => parsed,
+      state: { doc: {
+        childCount: widgets.length,
+        child: (i) => ({ type: { name: 'widget' }, toJSON: () => widgets[i] }),
+      } },
+    }
+  }
+  const VALUE = { type: 'widget', attrs: { widget_type: 'pipeline', ui_params: { x: 'buyer_country', y: 'millions_eur' }, data_params: { sources: [{ name: 'il_contracts' }] } } }
+  const COUNT = { type: 'widget', attrs: { widget_type: 'pipeline', ui_params: { x: 'buyer_country', y: 'contracts' }, data_params: { sources: [{ name: 'il_contracts' }] } } }
+  const p = (text) => ({ type: 'paragraph', content: [{ type: 'text', text }] })
+
+  async function rewrite(widgets, parsed) {
+    const editor = editorWith(widgets, parsed)
+    await executeProposal('r1', {
+      action: 'replace_body', params: { content: '<p>x</p>' },
+    }, { editor })
+    return editor.calls[editor.calls.length - 1]
+  }
+
+  it('resolves a numbered marker by number', async () => {
+    const final = await rewrite([VALUE, COUNT], { type: 'doc', content: [p('[[chart 2: whatever]]')] })
+    expect(final.content).toEqual([COUNT])
+  })
+
+  it('resolves an unnumbered marker by label', async () => {
+    // What the model has for a chart it is inserting this turn: no number,
+    // because the chart is not in the saved document yet.
+    const final = await rewrite([VALUE, COUNT], { type: 'doc', content: [p('[[chart: contracts by buyer_country]]')] })
+    expect(final.content).toEqual([COUNT])
+  })
+
+  it('tells the two same-query charts apart', async () => {
+    const final = await rewrite([VALUE, COUNT], {
+      type: 'doc',
+      content: [p('[[chart: millions_eur by buyer_country]]'), p('[[chart: contracts by buyer_country]]')],
+    })
+    expect(final.content).toEqual([VALUE, COUNT])
+  })
+
+  it('prefers the plot name when the widget carries one', async () => {
+    const named = { type: 'widget', attrs: { widget_type: 'pipeline', title: 'Number of EU contracts, by buyer country', ui_params: { x: 'buyer_country', y: 'contracts' } } }
+    const final = await rewrite([named], { type: 'doc', content: [p('[[chart: Number of EU contracts, by buyer country]]')] })
+    expect(final.content).toEqual([named])
+  })
+
+  it('still removes a marker when the document has no charts at all', async () => {
+    // Same defect as capi #269: skipping the walk prints the brackets into
+    // a published article.
+    const final = await rewrite([], { type: 'doc', content: [p('[[chart 1: gone]]'), p('Tail.')] })
+    expect(JSON.stringify(final)).not.toContain('[[chart')
+  })
+})

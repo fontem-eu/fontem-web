@@ -147,7 +147,14 @@ function _applyInsertContent(action, params, editor) {
 
 /** Mirrors assistant/doc_edit.MARKER_RE. Only the number is parsed; the
  * label after it is for the model to read. */
-const CHART_MARKER = /\[\[chart (\d+)(?::[^\]]*)?\]\]/g
+// The number is optional: a model writing prose about a chart it is
+// inserting in the SAME turn has no number to quote, because the chart is
+// not in the saved document yet. `[[chart: <label>]]` resolves by label.
+// No `\s*` before the label: `\s` is a subset of `[^\]]`, so the two compete
+// for the same leading spaces and a long run of them with no closing bracket
+// costs super-linear time to fail (javascript:S5852). The label is trimmed in
+// code instead, which it already was.
+const CHART_MARKER = /\[\[chart ?(\d+)?(?::([^\]]*))?\]\]/g
 
 /**
  * Put the charts back into a body the model rewrote as prose.
@@ -166,8 +173,50 @@ const CHART_MARKER = /\[\[chart (\d+)(?::[^\]]*)?\]\]/g
  * The node is reused from the document being replaced rather than re-fetched
  * so the chart is identical, not merely equivalent.
  */
+/** What to call a chart, mirroring assistant/doc_edit.label_for: the plot's
+ * own name, else its axes, else the source query, else the widget type.
+ *
+ * The source query was the whole label once, and a project built the good
+ * way runs several charts off ONE base query — so an article with three
+ * charts labelled every one of them `[[chart N: il_contracts]]`. A model
+ * took a marker compatible with every chart in the project as confirmation
+ * of which chart it was, inserted a duplicate of the one already there, and
+ * left prose describing a chart the article does not contain.
+ */
+function _labelFor(node) {
+  const a = node.attrs || {}
+  if (a.title) return String(a.title)
+  const ui = a.ui_params || {}
+  if (ui.x && ui.y) return `${ui.y} by ${ui.x}`
+  const src = a.data_params?.sources || []
+  if (src[0]?.name) return String(src[0].name)
+  return String(a.widget_type || 'chart')
+}
+
+function _sameLabel(a, b) {
+  return _normalised(a) === _normalised(b)
+}
+
+/** The widget a marker refers to: by number when it has one, else by label. */
+function _widgetNamed(match, widgets) {
+  const [, number, rawLabel] = match
+  if (number) {
+    const found = widgets[Number(number) - 1]
+    if (found) return found
+    // A number past the end is a chart this document has not got — fall
+    // through to the label, which the model may have written for a chart
+    // it is inserting this turn.
+  }
+  const label = (rawLabel || '').trim()
+  if (!label) return null
+  return widgets.find((w) => _sameLabel(_labelFor(w), label)) || null
+}
+
 function _restoreCharts(json, widgets) {
-  if (!widgets.length) return json
+  // No early-out when there are no widgets. A marker that resolves to
+  // nothing must still be REMOVED — skipping the walk is how literal
+  // `[[chart 1: ...]]` text reaches a published article, which is worse
+  // than losing the chart it stood for.
   const out = []
   for (const node of json.content || []) {
     const text = (node.content || []).map((c) => c.text || '').join('')
@@ -178,7 +227,7 @@ function _restoreCharts(json, widgets) {
     while (m) {
       const before = text.slice(cursor, m.index).trim()
       if (before) out.push({ type: 'paragraph', content: [{ type: 'text', text: before }] })
-      const widget = widgets[Number(m[1]) - 1]
+      const widget = _widgetNamed(m, widgets)
       // A marker naming a chart the document has not got is dropped, not
       // printed: brackets in a published article help nobody.
       if (widget) out.push(widget)
@@ -322,6 +371,9 @@ async function _applyInsertStudioPlot(action, params, editor) {
   // it also means the embed reflects the plot as it stands now, not as it
   // stood when the model proposed it.
   let config
+  // Declared out here with `config`: the widget below carries the plot's
+  // NAME, and a `const` inside the try is not in scope by then.
+  let plotName
   try {
     const { useStudio } = await import('./useStudio.js')
     const studio = useStudio()
@@ -331,6 +383,7 @@ async function _applyInsertStudioPlot(action, params, editor) {
       return { ok: false, action, error: `Plot ${params.plot_id} not found` }
     }
     const { specToPipelineConfig } = await import('./studioPlot.js')
+    plotName = plot.name
     config = specToPipelineConfig(plot.spec || {})
   } catch (e) {
     return { ok: false, action, error: `Could not load the plot: ${e.message}` }
@@ -345,6 +398,11 @@ async function _applyInsertStudioPlot(action, params, editor) {
     attrs: {
       widget_type: 'pipeline',
       schema_version: 1,
+      // The plot's own name, so a marker can identify this chart when the
+      // model reads the article back. Without it the label falls back to
+      // the source query, and a project that runs several charts off one
+      // base query labels every chart identically.
+      title: plotName,
       data_params: config.data_params,
       ui_params: config.ui_params,
     },
