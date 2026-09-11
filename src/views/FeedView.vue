@@ -252,7 +252,15 @@ function truncate(text, maxLen = 180) {
     >
       <h2 class="feed-briefings-head">{{ $t('nav.briefings') }}</h2>
       <ul class="feed-briefings-list">
-        <li v-for="b in visibleBriefings" :key="`${b._from}::${b.item_id}`" class="feed-briefing-item">
+        <!-- The id rides on the li: the e2e selects
+             li[data-testid^="feed-briefing-"], so it must be the list item
+             that carries it, not the card inside. -->
+        <li
+          v-for="b in visibleBriefings"
+          :key="`${b._from}::${b.item_id}`"
+          class="feed-briefing-item"
+          :data-testid="`feed-briefing-${b.item_id}`"
+        >
           <BriefingCard :item="b" />
         </li>
       </ul>

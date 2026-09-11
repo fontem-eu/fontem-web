@@ -108,7 +108,6 @@ const link = computed(() => props.item._link || { kind: 'none' })
   <article
     class="bcard"
     :class="[`bcard--${item._group || 'default'}`, { 'bcard--linked': link.kind !== 'none' }]"
-    :data-testid="`feed-briefing-${item.item_id}`"
   >
     <p class="bcard-head">
       <span class="bcard-src" data-testid="feed-briefing-source">{{ item._from }}</span>
