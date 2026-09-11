@@ -756,7 +756,10 @@
     "nothing_here": "Xejn hawn s'issa. Meta n-nies jippubblikaw stejjer tad-data pubbliċi, jidhru hawn.",
     "public_data_stories_from_the_community_n": "Stejjer pubbliċi tad-data mill-komunità, l-aħħar l-ewwel.",
     "mixed_sub": "Stejjer bid-data u sejbiet mill-briefings, l-aktar riċenti l-ewwel.",
-    "unfollow": "Tibqax issegwi"
+    "unfollow": "Tibqax issegwi",
+    "integrity_ok": "L-ebda bandiera ħamra",
+    "integrity_flags": "{n} bandiera ħamra | {n} bnadar ħomor",
+    "flag_single_bidder": "offerent wieħed"
   },
   "feeds": {
     "add_query": "Żid mistoqsija",

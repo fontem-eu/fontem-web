@@ -756,7 +756,10 @@
     "nothing_here": "Rien ici pour le moment. Quand les gens publieront des histoires de données publiques, elles apparaîtront ici.",
     "public_data_stories_from_the_community_n": "Histoires de données publiques de la communauté, les plus récentes en premier.",
     "mixed_sub": "Histoires de données et conclusions de briefings, les plus récentes d'abord.",
-    "unfollow": "Ne plus suivre"
+    "unfollow": "Ne plus suivre",
+    "integrity_ok": "Aucun signal d'alerte",
+    "integrity_flags": "{n} signal d'alerte | {n} signaux d'alerte",
+    "flag_single_bidder": "soumissionnaire unique"
   },
   "feeds": {
     "add_query": "Ajouter une requête",

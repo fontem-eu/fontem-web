@@ -756,7 +756,10 @@
     "nothing_here": "Itt még semmi nincs. Amikor emberek nyilvános adat-történeteket tesznek közzé, itt jelennek meg.",
     "public_data_stories_from_the_community_n": "Nyilvános közösségi adat-történetek, legújabbak elöl.",
     "mixed_sub": "Adatsztorik és tájékoztatói megállapítások, a legújabbak elöl.",
-    "unfollow": "Követés megszüntetése"
+    "unfollow": "Követés megszüntetése",
+    "integrity_ok": "Nincs figyelmeztető jel",
+    "integrity_flags": "{n} figyelmeztető jel | {n} figyelmeztető jel",
+    "flag_single_bidder": "egyetlen ajánlattevő"
   },
   "feeds": {
     "add_query": "Lekérdezés hozzáadása",

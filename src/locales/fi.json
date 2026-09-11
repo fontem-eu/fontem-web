@@ -756,7 +756,10 @@
     "nothing_here": "Täällä ei ole vielä mitään. Kun ihmiset julkaisevat julkisia datatarinoita, ne näkyvät täällä.",
     "public_data_stories_from_the_community_n": "Julkiset yhteisön datatarinat, uusimmat ensin.",
     "mixed_sub": "Datatarinat ja katsausten löydöt, uusimmat ensin.",
-    "unfollow": "Lopeta seuraaminen"
+    "unfollow": "Lopeta seuraaminen",
+    "integrity_ok": "Ei varoitusmerkkejä",
+    "integrity_flags": "{n} varoitusmerkki | {n} varoitusmerkkiä",
+    "flag_single_bidder": "yksi tarjoaja"
   },
   "feeds": {
     "add_query": "Lisää kysely",

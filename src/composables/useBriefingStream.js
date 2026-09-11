@@ -65,7 +65,10 @@ async function fetchFor(slug, name, watches) {
     const detail = await getBriefing(slug, {
       nuts: w.nuts, volume: w.volume_per_week,
     })
-    return (detail.items || []).map((i) => ({ ...i, _from: name }))
+    // `_from` is what the card prints; `_group` is what it colours by.
+    // A name can be translated, a slug cannot, and a colour keyed on
+    // text would change with the UI language.
+    return (detail.items || []).map((i) => ({ ...i, _from: name, _group: slug }))
   }))
   return lists
 }
