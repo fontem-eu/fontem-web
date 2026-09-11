@@ -551,15 +551,37 @@ const loadingOlder = ref(false)
  * where it happened instead of all of them stacked above the reply. Folded,
  * because on reload the reasoning is history, not the thing being watched.
  */
-/** Fold any reasoning block still open, now that something follows it.
+/** Close every block still open, now that something follows them.
+ *
+ * Reasoning folds; an answer bubble is marked final so `renderedHtml` gives
+ * it an exact render rather than the throttled one it had while streaming.
  *
  * Every open block, not just the last entry: on an error the error bubble is
- * pushed before the turn's `finally` runs, so "fold the last one" would leave
- * the reasoning that preceded it hanging open. At most one is ever open. */
-function foldReasoning() {
+ * pushed before the turn's `finally` runs, so "close the last one" would
+ * leave what preceded it hanging. At most one of each is ever open. */
+function sealOpenBlocks() {
   for (const m of messages.value) {
     if (m.role === 'reasoning' && !m.done) m.done = true
+    if (m.role === 'assistant' && !m.final) m.final = true
   }
+}
+
+/** The answer bubble to append prose to — a NEW one if anything has happened
+ * since the last piece of prose.
+ *
+ * A turn is not prose-then-tools. It is prose, a tool, more prose, another
+ * tool, and the answer, and every one of those happened at a moment. One
+ * bubble per turn put all of the prose at the position of its FIRST chunk,
+ * so every tool call rendered after the whole answer no matter when it ran:
+ * "Let me look that up. Found it." above a search the model did between
+ * those two sentences. */
+function currentAssistBubble() {
+  const last = messages.value[messages.value.length - 1]
+  if (last?.role === 'assistant') return last
+  sealOpenBlocks()
+  const bubble = reactive({ role: 'assistant', text: '' })
+  messages.value.push(bubble)
+  return bubble
 }
 
 function toBubbles(m) {
@@ -673,6 +695,11 @@ async function send() {
   scrollToBottom()
 
   let assistMsg = null
+  let turnText = ''
+  // Every answer bubble this turn, in order. The turn's prose is no
+  // longer one bubble, and the end-of-stream work -- parsing, accept-all
+  // -- is about the TURN, not about whichever bubble happened to be last.
+  const turnBubbles = []
   let toolMsg = null
 
   try {
@@ -770,14 +797,12 @@ async function send() {
                 bytes: 0,
                 truncated: false,
               })
-              foldReasoning()
+              sealOpenBlocks()
               messages.value.push(toolMsg)
             }
             if (status.proposal && status.proposal.action) {
-              if (!assistMsg) {
-                assistMsg = reactive({ role: 'assistant', text: '' })
-                messages.value.push(assistMsg)
-              }
+              assistMsg = currentAssistBubble()
+              if (!turnBubbles.includes(assistMsg)) turnBubbles.push(assistMsg)
               if (!assistMsg._toolProposals) assistMsg._toolProposals = []
               assistMsg._toolProposals.push(status.proposal)
               // APPEND. Rebuilding the array from _toolProposals threw away
@@ -818,12 +843,14 @@ async function send() {
         } else if (eventType === 'chunk' && eventData) {
           try {
             const chunkText = JSON.parse(eventData).text || ''
-            if (!assistMsg) {
-              foldReasoning()
-              assistMsg = reactive({ role: 'assistant', text: '' })
-              messages.value.push(assistMsg)
-            }
+            assistMsg = currentAssistBubble()
+            if (!turnBubbles.includes(assistMsg)) turnBubbles.push(assistMsg)
             assistMsg.text += chunkText
+            // The turn's prose, whole, for the end-of-stream proposal parse.
+            // That parse reads inline `{"proposed": ...}` JSON out of the
+            // answer, and the answer is no longer one string: a proposal
+            // written before a tool call lives in an earlier bubble.
+            turnText += chunkText
             streamPhase.value = 'streaming'
             streamDetail.value = 'Writing response...'
             await nextTick()
@@ -910,18 +937,24 @@ async function send() {
       // reappeared the same way. Both are invisible until the turn settles,
       // which is why they survived the end-to-end test — it asserts after
       // `done`, when the damage looks like the normal initial state.
-      const textProposals = parseProposals(assistMsg.text)
+      const textProposals = parseProposals(turnText)
       assistMsg.proposals = [...(assistMsg.proposals || []), ...textProposals]
-      delete assistMsg._toolProposals
+      for (const b of turnBubbles) delete b._toolProposals
       // Accept-all mode: fire each proposal serially through the same
       // applyProposal path users would click, so the "Applied" badge
       // and the parent's `applied` emit fire the same way. Awaiting
       // here keeps the order deterministic if the same prompt
       // produces multiple edits (e.g. set_title + insert_content).
-      if (bypassPermissions.value && assistMsg.proposals.length > 0) {
-        const msgIndex = messages.value.indexOf(assistMsg)
-        for (const proposal of [...assistMsg.proposals]) {
-          await applyProposal(proposal, msgIndex, true)
+      // Every card the turn produced, in the order it produced them —
+      // across bubbles. Cards live on the bubble that follows the tool call
+      // that made them, so a turn with two tool calls has two bubbles with
+      // one card each; iterating only the last one applied half of them.
+      if (bypassPermissions.value) {
+        for (const bubble of turnBubbles) {
+          const msgIndex = messages.value.indexOf(bubble)
+          for (const proposal of [...(bubble.proposals || [])]) {
+            await applyProposal(proposal, msgIndex, true)
+          }
         }
       }
     }
@@ -933,10 +966,9 @@ async function send() {
   } finally {
     loading.value = false
     stopElapsedTimer()
-    foldReasoning()
+    sealOpenBlocks()
     // The throttled renderer skips intermediate states; the turn's last
     // state must always be exact.
-    if (assistMsg) assistMsg.final = true
     await nextTick()
     scrollToBottom()
   }
