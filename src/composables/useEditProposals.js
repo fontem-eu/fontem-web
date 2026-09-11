@@ -150,7 +150,11 @@ function _applyInsertContent(action, params, editor) {
 // The number is optional: a model writing prose about a chart it is
 // inserting in the SAME turn has no number to quote, because the chart is
 // not in the saved document yet. `[[chart: <label>]]` resolves by label.
-const CHART_MARKER = /\[\[chart ?(\d+)?(?::\s*([^\]]*))?\]\]/g
+// No `\s*` before the label: `\s` is a subset of `[^\]]`, so the two compete
+// for the same leading spaces and a long run of them with no closing bracket
+// costs super-linear time to fail (javascript:S5852). The label is trimmed in
+// code instead, which it already was.
+const CHART_MARKER = /\[\[chart ?(\d+)?(?::([^\]]*))?\]\]/g
 
 /**
  * Put the charts back into a body the model rewrote as prose.
@@ -184,7 +188,7 @@ function _labelFor(node) {
   if (a.title) return String(a.title)
   const ui = a.ui_params || {}
   if (ui.x && ui.y) return `${ui.y} by ${ui.x}`
-  const src = (a.data_params || {}).sources || []
+  const src = a.data_params?.sources || []
   if (src[0]?.name) return String(src[0].name)
   return String(a.widget_type || 'chart')
 }
