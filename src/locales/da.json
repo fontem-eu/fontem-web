@@ -756,7 +756,10 @@
     "nothing_here": "Intet her endnu. Når folk udgiver offentlige datahistorier, dukker de op her.",
     "public_data_stories_from_the_community_n": "Offentlige datafortællinger fra fællesskabet, nyeste først.",
     "mixed_sub": "Datahistorier og briefingfund, nyeste først.",
-    "unfollow": "Stop med at følge"
+    "unfollow": "Stop med at følge",
+    "integrity_ok": "Ingen røde flag",
+    "integrity_flags": "{n} rødt flag | {n} røde flag",
+    "flag_single_bidder": "én byder"
   },
   "feeds": {
     "add_query": "Tilføj forespørgsel",

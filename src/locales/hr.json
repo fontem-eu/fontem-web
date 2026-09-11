@@ -756,7 +756,10 @@
     "nothing_here": "Ovdje još nema ničega. Kad ljudi objave javne podatkovne priče, pojavit će se ovdje.",
     "public_data_stories_from_the_community_n": "Javne podatkovne priče iz zajednice, najnovije prvo.",
     "mixed_sub": "Podatkovne priče i nalazi izvještaja, najnovije prvo.",
-    "unfollow": "Prestani pratiti"
+    "unfollow": "Prestani pratiti",
+    "integrity_ok": "Bez upozorenja",
+    "integrity_flags": "{n} upozorenje | {n} upozorenja",
+    "flag_single_bidder": "jedini ponuditelj"
   },
   "feeds": {
     "add_query": "Dodaj upit",

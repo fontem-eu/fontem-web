@@ -756,7 +756,10 @@
     "nothing_here": "Aún no hay nada aquí. Cuando la gente publique historias de datos públicas aparecerán aquí.",
     "public_data_stories_from_the_community_n": "Historias de datos públicas de la comunidad, las más recientes primero.",
     "mixed_sub": "Historias con datos y hallazgos de informes, primero los más recientes.",
-    "unfollow": "Dejar de seguir"
+    "unfollow": "Dejar de seguir",
+    "integrity_ok": "Sin señales de alerta",
+    "integrity_flags": "{n} señal de alerta | {n} señales de alerta",
+    "flag_single_bidder": "un solo licitador"
   },
   "feeds": {
     "add_query": "Añadir consulta",

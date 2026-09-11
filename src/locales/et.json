@@ -756,7 +756,10 @@
     "nothing_here": "Siin pole veel midagi. Kui inimesed avaldavad avalikke andmelugusid, ilmuvad need siia.",
     "public_data_stories_from_the_community_n": "Avalikud andmelood kogukonnalt, uuemad eespool.",
     "mixed_sub": "Andmelood ja ülevaadete leiud, uusimad enne.",
-    "unfollow": "Lõpeta jälgimine"
+    "unfollow": "Lõpeta jälgimine",
+    "integrity_ok": "Ohumärke pole",
+    "integrity_flags": "{n} ohumärk | {n} ohumärki",
+    "flag_single_bidder": "üks pakkuja"
   },
   "feeds": {
     "add_query": "Lisa päring",

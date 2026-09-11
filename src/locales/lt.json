@@ -756,7 +756,10 @@
     "nothing_here": "Kol kas čia nieko nėra. Kai žmonės paskelbs viešas duomenų istorijas, jos atsiras čia.",
     "public_data_stories_from_the_community_n": "Viešos duomenų istorijos iš bendruomenės, naujausios pirma.",
     "mixed_sub": "Duomenų istorijos ir apžvalgų radiniai, naujausi viršuje.",
-    "unfollow": "Nesekti"
+    "unfollow": "Nesekti",
+    "integrity_ok": "Įspėjamųjų ženklų nėra",
+    "integrity_flags": "{n} įspėjamasis ženklas | {n} įspėjamieji ženklai",
+    "flag_single_bidder": "vienas dalyvis"
   },
   "feeds": {
     "add_query": "Pridėti užklausą",

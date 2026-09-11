@@ -756,7 +756,10 @@
     "nothing_here": "Tukaj še ni ničesar. Ko bodo ljudje objavili javne podatkovne zgodbe, se bodo pojavile tukaj.",
     "public_data_stories_from_the_community_n": "Javne podatkovne zgodbe iz skupnosti, najnovejše prve.",
     "mixed_sub": "Podatkovne zgodbe in ugotovitve iz pregledov, najnovejše prve.",
-    "unfollow": "Prenehaj slediti"
+    "unfollow": "Prenehaj slediti",
+    "integrity_ok": "Brez opozorilnih znakov",
+    "integrity_flags": "{n} opozorilni znak | {n} opozorilni znaki",
+    "flag_single_bidder": "edini ponudnik"
   },
   "feeds": {
     "add_query": "Dodaj poizvedbo",

@@ -756,7 +756,10 @@
     "nothing_here": "Inget här ännu. När folk publicerar offentliga datahistorier dyker de upp här.",
     "public_data_stories_from_the_community_n": "Offentliga datahistorier från gemenskapen, nyaste först.",
     "mixed_sub": "Datberättelser och briefingfynd, senaste först.",
-    "unfollow": "Sluta följa"
+    "unfollow": "Sluta följa",
+    "integrity_ok": "Inga varningsflaggor",
+    "integrity_flags": "{n} varningsflagga | {n} varningsflaggor",
+    "flag_single_bidder": "en enda anbudsgivare"
   },
   "feeds": {
     "add_query": "Lägg till fråga",

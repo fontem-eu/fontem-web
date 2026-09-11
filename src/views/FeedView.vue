@@ -4,6 +4,7 @@ import { useLang } from '../composables/useLang.js'
 import { useRouter, useRoute } from 'vue-router'
 import { listReports, listAllTags } from '../api/community.js'
 import { loadBriefingStream } from '../composables/useBriefingStream.js'
+import BriefingCard from '../components/BriefingCard.vue'
 import { briefingLink } from '../utils/briefingLink.js'
 import { loadNutsLabels, nutsLabel } from '../composables/useNutsLabels.js'
 import { isAuthed } from '../api/session.js'
@@ -95,10 +96,6 @@ const visibleBriefings = computed(() => {
     _where: nutsLabel(b),
   }))
 })
-
-function fmtBriefingDate(iso) {
-  return iso ? new Date(iso).toLocaleDateString() : ''
-}
 
 async function loadStories() {
   loading.value = true
@@ -255,58 +252,11 @@ function truncate(text, maxLen = 180) {
     >
       <h2 class="feed-briefings-head">{{ $t('nav.briefings') }}</h2>
       <ul class="feed-briefings-list">
-        <li
+        <BriefingCard
           v-for="b in visibleBriefings"
           :key="`${b._from}::${b.item_id}`"
-          class="feed-briefing"
-          :data-testid="`feed-briefing-${b.item_id}`"
-        >
-          <span class="feed-briefing-src" data-testid="feed-briefing-source">{{ b._from }}</span>
-          <!-- The item's own link decides the destination: a contract
-               goes to /contract/:id, a resolved lobbyist to the
-               company. Items whose query could not resolve one stay
-               plain text rather than offering a dead click. -->
-          <router-link
-            v-if="b._link.kind === 'internal'"
-            :to="b._link.to"
-            class="feed-briefing-title feed-briefing-link"
-            :data-testid="`feed-briefing-link-${b.item_id}`"
-          >{{ b.title || b.name || b.item_id }}</router-link>
-          <a
-            v-else-if="b._link.kind === 'external'"
-            :href="b._link.to"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="feed-briefing-title feed-briefing-link"
-            :data-testid="`feed-briefing-link-${b.item_id}`"
-          >{{ b.title || b.name || b.item_id }}</a>
-          <span v-else class="feed-briefing-title">{{ b.title || b.name || b.item_id }}</span>
-          <time v-if="b.item_time" class="feed-briefing-time">{{ fmtBriefingDate(b.item_time) }}</time>
-
-          <!-- What it was and where it happened, on one line.
-               The headline above answers who and how much; the item's
-               summary is the thing itself (a contract's title, a
-               registrant's category) and the NUTS chain is the place.
-               Kept to a single clamped row on purpose — a dozen of these
-               sit on the landing feed, and two extra lines each is a
-               different page. -->
-          <p
-            v-if="b.summary || b._where"
-            class="feed-briefing-detail"
-            :data-testid="`feed-briefing-detail-${b.item_id}`"
-          >
-            <span
-              v-if="b.summary"
-              class="feed-briefing-what"
-              :data-testid="`feed-briefing-what-${b.item_id}`"
-            >{{ b.summary }}</span>
-            <span
-              v-if="b._where"
-              class="feed-briefing-where"
-              :data-testid="`feed-briefing-where-${b.item_id}`"
-            >{{ b._where }}</span>
-          </p>
-        </li>
+          :item="b"
+        />
       </ul>
     </section>
 
@@ -358,41 +308,13 @@ function truncate(text, maxLen = 180) {
   letter-spacing: 0.04em; color: var(--muted); margin: 0 0 0.5rem;
 }
 .feed-briefings-list { list-style: none; margin: 0; padding: 0; }
-.feed-briefing {
-  display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap;
-  padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+/* On a phone the page gutter is the card's only side margin, and a card
+   that already has its own padding then loses ~10% of a 412px screen to
+   empty edges. Below the tablet breakpoint the list bleeds to the edges
+   and each card carries its own inset instead. */
+@media (max-width: 640px) {
+  .feed-briefings-list { margin-left: -1rem; margin-right: -1rem; }
 }
-.feed-briefing-src {
-  font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px;
-  background: var(--surface, #f6f8fa); border: 1px solid var(--border);
-  color: var(--muted); white-space: nowrap;
-}
-.feed-briefing-title { flex: 1; min-width: 0; }
-/* Only the linked variant looks clickable — an item whose query could
-   not resolve a destination must not read as a dead link. */
-.feed-briefing-link { color: inherit; text-decoration: none; }
-.feed-briefing-link:hover,
-.feed-briefing-link:focus-visible { color: var(--accent); text-decoration: underline; }
-.feed-briefing-time { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
-
-/* The what/where line: full width under the headline, and hard-clamped to
-   one row. A contract title can run to several hundred characters, and
-   the point of this line is orientation, not the full text. */
-.feed-briefing-detail {
-  flex-basis: 100%; margin: 0.15rem 0 0;
-  font-size: 0.78rem; color: var(--muted);
-  display: flex; gap: 0.45rem; align-items: baseline; min-width: 0;
-}
-.feed-briefing-what {
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
-}
-/* The place never gets squeezed out by a long title: it is the shorter of
-   the two and the one a reader scans for. */
-.feed-briefing-where {
-  white-space: nowrap; flex-shrink: 0; opacity: 0.85;
-}
-.feed-briefing-where::before { content: '· '; }
-.feed-briefing-detail > .feed-briefing-where:first-child::before { content: ''; }
 
 .feed {
   max-width: 800px;

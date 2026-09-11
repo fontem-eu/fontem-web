@@ -756,7 +756,10 @@
     "nothing_here": "Qui non c'è ancora nulla. Quando le persone pubblicheranno storie di dati pubbliche, appariranno qui.",
     "public_data_stories_from_the_community_n": "Storie di dati pubbliche dalla community, le più recenti prima.",
     "mixed_sub": "Storie di dati e risultati dei briefing, prima i più recenti.",
-    "unfollow": "Smetti di seguire"
+    "unfollow": "Smetti di seguire",
+    "integrity_ok": "Nessun segnale di allarme",
+    "integrity_flags": "{n} segnale di allarme | {n} segnali di allarme",
+    "flag_single_bidder": "unico offerente"
   },
   "feeds": {
     "add_query": "Aggiungi query",
