@@ -545,6 +545,29 @@ const loadingOlder = ref(false)
  * the decoration. The result was never stored, so the bubble shows the call
  * and its arguments and says so.
  */
+/*
+ * The reasoning that led to a row is stored ON that row — the tool call it
+ * motivated, or the answer — so a reloaded conversation shows each block
+ * where it happened instead of all of them stacked above the reply. Folded,
+ * because on reload the reasoning is history, not the thing being watched.
+ */
+/** Fold any reasoning block still open, now that something follows it.
+ *
+ * Every open block, not just the last entry: on an error the error bubble is
+ * pushed before the turn's `finally` runs, so "fold the last one" would leave
+ * the reasoning that preceded it hanging open. At most one is ever open. */
+function foldReasoning() {
+  for (const m of messages.value) {
+    if (m.role === 'reasoning' && !m.done) m.done = true
+  }
+}
+
+function toBubbles(m) {
+  const bubble = toBubble(m)
+  const reasoning = m.extras?.reasoning
+  return reasoning ? [{ role: 'reasoning', text: reasoning, done: true }, bubble] : [bubble]
+}
+
 function toBubble(m) {
   return m.role === 'tool'
     ? {
@@ -570,7 +593,7 @@ async function loadConversation() {
     // hundred.
     const page = await getAssistConversationPage(key, { limit: PAGE_SIZE })
     if (page && Array.isArray(page.messages) && page.messages.length > 0) {
-      messages.value = page.messages.map(toBubble)
+      messages.value = page.messages.flatMap(toBubbles)
       olderCursor.value = page.next_before || ''
       hasOlder.value = Boolean(page.has_more)
       await nextTick()
@@ -603,7 +626,7 @@ async function loadOlder() {
     const page = await getAssistConversationPage(key, {
       before: olderCursor.value, limit: PAGE_SIZE,
     })
-    const older = (page?.messages || []).map(toBubble)
+    const older = (page?.messages || []).flatMap(toBubbles)
     if (older.length) {
       messages.value = [...older, ...messages.value]
       olderCursor.value = page.next_before || ''
@@ -747,6 +770,7 @@ async function send() {
                 bytes: 0,
                 truncated: false,
               })
+              foldReasoning()
               messages.value.push(toolMsg)
             }
             if (status.proposal && status.proposal.action) {
@@ -772,19 +796,21 @@ async function send() {
             scrollToBottom()
           } catch { /* skip */ }
         } else if (eventType === 'thinking' && eventData) {
-          // Working-out, not the answer. The model narrates what it is
-          // about to look up, and a turn that takes a minute used to show
-          // nothing at all while it did it. Kept on its own field so it
-          // can be styled as commentary and folded away once the real
-          // answer arrives.
+          // Working-out, not the answer — and its own block each time it
+          // resumes. A turn reads reasoning, tool, reasoning, tool, answer,
+          // so one block per stretch keeps each piece of thinking beside
+          // the action it led to. It used to be a single field on the
+          // answer, which nothing filled: the server sent reasoning as
+          // answer text, so it was never separate at all.
           try {
             const text = JSON.parse(eventData).text || ''
             if (text) {
-              if (!assistMsg) {
-                assistMsg = reactive({ role: 'assistant', text: '' })
-                messages.value.push(assistMsg)
+              const last = messages.value[messages.value.length - 1]
+              if (last?.role === 'reasoning' && !last.done) {
+                last.text += text
+              } else {
+                messages.value.push(reactive({ role: 'reasoning', text, done: false }))
               }
-              assistMsg.thinking = (assistMsg.thinking || '') + text + '\n'
               await nextTick()
               scrollToBottom()
             }
@@ -793,6 +819,7 @@ async function send() {
           try {
             const chunkText = JSON.parse(eventData).text || ''
             if (!assistMsg) {
+              foldReasoning()
               assistMsg = reactive({ role: 'assistant', text: '' })
               messages.value.push(assistMsg)
             }
@@ -906,6 +933,7 @@ async function send() {
   } finally {
     loading.value = false
     stopElapsedTimer()
+    foldReasoning()
     // The throttled renderer skips intermediate states; the turn's last
     // state must always be exact.
     if (assistMsg) assistMsg.final = true
@@ -1304,16 +1332,23 @@ defineExpose({ applyProposal, messages })
           :class="'assist-msg--' + msg.role"
         >
           <div v-if="msg.role === 'user'" class="msg-user">{{ msg.text }}</div>
+          <!-- The model's working-out, one block per stretch of it, beside the
+               action it led to. Open while it is the thing being written, so a
+               long turn is never a blank wait; folded once anything follows, so
+               the reasoning never competes with the answer. Plain text, never
+               v-html: this is the model thinking aloud, not content for the
+               reader, and nothing in it should render as markup. -->
+          <details
+            v-else-if="msg.role === 'reasoning'"
+            class="msg-reasoning"
+            :open="!msg.done"
+            data-testid="assist-reasoning"
+          >
+            <summary>{{ $t('assist.thinking') }}</summary>
+            <div class="msg-reasoning-body">{{ msg.text }}</div>
+          </details>
           <div v-else-if="msg.role === 'assistant'" class="msg-assistant">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <!-- The assistant's working-out. Shown expanded while it is
-                 still the only thing there, folded to a summary once the
-                 answer arrives, so a long turn is legible without the
-                 commentary competing with the result. -->
-            <details v-if="msg.thinking" class="msg-thinking" :open="!msg.text">
-              <summary>{{ $t('assist.thinking') }}</summary>
-              <div class="msg-thinking-body">{{ msg.thinking }}</div>
-            </details>
             <div class="msg-text msg-markdown" v-html="renderedHtml(msg)"></div>
             <div class="msg-actions">
               <button class="msg-action" @click="insertText(msg.text)">{{ $t('assist.insert_into_story') }}</button>
@@ -1941,10 +1976,15 @@ defineExpose({ applyProposal, messages })
   padding: 1rem 0;
 }
 
-.msg-thinking { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem;
-                border-left: 2px solid var(--bezel-border); padding-left: 0.6rem; }
-.msg-thinking summary { cursor: pointer; user-select: none; }
-.msg-thinking-body { white-space: pre-wrap; margin-top: 0.3rem; opacity: 0.9; }
+.msg-reasoning {
+  font-size: 0.82rem;
+  color: var(--muted);
+  border-left: 2px solid var(--border, rgba(127, 127, 127, 0.3));
+  padding: 0.1rem 0 0.1rem 0.6rem;
+  margin: 0.2rem 0;
+}
+.msg-reasoning summary { cursor: pointer; user-select: none; font-style: italic; }
+.msg-reasoning-body { white-space: pre-wrap; margin-top: 0.3rem; opacity: 0.9; }
 .assist-msg {
   margin-bottom: 0.75rem;
 }
