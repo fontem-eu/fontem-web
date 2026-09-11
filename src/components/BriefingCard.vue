@@ -34,6 +34,9 @@ const props = defineProps({
 
 const { t, locale } = useI18n()
 
+/** Flag count → badge level, for counts of one or more. */
+const LEVEL_ABOVE_ONE = { 1: 'warn', 2: 'bad' }
+
 const facets = computed(() => props.item.facets || {})
 
 /** The big text: what the query says the finding IS. */
@@ -75,7 +78,8 @@ const integrity = computed(() => {
   const n = facets.value.red_flags
   if (n === null || n === undefined || !Number.isFinite(Number(n))) return null
   const count = Number(n)
-  const level = count === 0 ? 'ok' : count === 1 ? 'warn' : 'bad'
+  // Zero is a clean finding, one is worth a look, two or more a hard one.
+  const level = count === 0 ? 'ok' : LEVEL_ABOVE_ONE[Math.min(count, 2)]
   const reasons = []
   if (facets.value.single_bidder === true) reasons.push(t('feed.flag_single_bidder'))
   return {
@@ -101,7 +105,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
 </script>
 
 <template>
-  <li
+  <article
     class="bcard"
     :class="[`bcard--${item._group || 'default'}`, { 'bcard--linked': link.kind !== 'none' }]"
     :data-testid="`feed-briefing-${item.item_id}`"
@@ -189,7 +193,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
       >{{ item.title || item.name || item.item_id }}</a>
       <span v-else>{{ item.title || item.name || item.item_id }}</span>
     </p>
-  </li>
+  </article>
 </template>
 
 <style scoped>
@@ -221,7 +225,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
 /* The focal text. Three lines is enough for any contract title to be
    recognisable; the full text is one tap away. */
 .bcard-headline {
-  display: block; margin: 0 0 0.35rem;
+  margin: 0 0 0.35rem;
   font-size: 1.02rem; font-weight: 600; line-height: 1.32; color: var(--text);
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden; overflow-wrap: anywhere;

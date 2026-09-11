@@ -252,11 +252,9 @@ function truncate(text, maxLen = 180) {
     >
       <h2 class="feed-briefings-head">{{ $t('nav.briefings') }}</h2>
       <ul class="feed-briefings-list">
-        <BriefingCard
-          v-for="b in visibleBriefings"
-          :key="`${b._from}::${b.item_id}`"
-          :item="b"
-        />
+        <li v-for="b in visibleBriefings" :key="`${b._from}::${b.item_id}`" class="feed-briefing-item">
+          <BriefingCard :item="b" />
+        </li>
       </ul>
     </section>
 
