@@ -33,6 +33,19 @@ spec:
       labels:
         app: fontem-web-ssr
     spec:
+      # Explicit, because the shutdown budget is sized against it: the
+      # server drains for SSR_SHUTDOWN_DRAIN_MS (5s) so the kubelet can
+      # pull this pod from the endpoints, then has SSR_SHUTDOWN_GRACE_MS
+      # (10s) to finish in-flight renders before it closes connections
+      # outright — 15s worst case, inside this 30s.
+      #
+      # It is not just tidiness. Node is PID 1 here, and PID 1 ignores
+      # signals it has no handler for, so before server/shutdown.js
+      # existed SIGTERM did nothing at all and the container ran until
+      # SIGKILL. A node drain sets its own grace period (kured uses
+      # 1800s), so that cost 30 minutes of a 35-minute drain timeout —
+      # and a drain that times out leaves the node cordoned.
+      terminationGracePeriodSeconds: 30
       imagePullSecrets:
         - name: regcred
       containers:
