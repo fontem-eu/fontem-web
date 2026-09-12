@@ -759,7 +759,9 @@
     "unfollow": "Pārtraukt sekošanu",
     "integrity_ok": "Nav brīdinājuma zīmju",
     "integrity_flags": "{n} brīdinājuma zīme | {n} brīdinājuma zīmes",
-    "flag_single_bidder": "viens pretendents"
+    "flag_single_bidder": "viens pretendents",
+    "modified": "Grozīts",
+    "modified_award_missing": "Grozīts · piešķīrums nav reģistrēts"
   },
   "feeds": {
     "add_query": "Pievienot vaicājumu",

@@ -759,7 +759,9 @@
     "unfollow": "Nicht mehr folgen",
     "integrity_ok": "Keine Warnsignale",
     "integrity_flags": "{n} Warnsignal | {n} Warnsignale",
-    "flag_single_bidder": "einziger Bieter"
+    "flag_single_bidder": "einziger Bieter",
+    "modified": "Geändert",
+    "modified_award_missing": "Geändert · Zuschlag nicht erfasst"
   },
   "feeds": {
     "add_query": "Abfrage hinzufügen",

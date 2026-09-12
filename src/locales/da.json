@@ -759,7 +759,9 @@
     "unfollow": "Stop med at følge",
     "integrity_ok": "Ingen røde flag",
     "integrity_flags": "{n} rødt flag | {n} røde flag",
-    "flag_single_bidder": "én byder"
+    "flag_single_bidder": "én byder",
+    "modified": "Ændret",
+    "modified_award_missing": "Ændret · tildeling ikke registreret"
   },
   "feeds": {
     "add_query": "Tilføj forespørgsel",

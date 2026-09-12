@@ -759,7 +759,9 @@
     "unfollow": "Dejar de seguir",
     "integrity_ok": "Sin señales de alerta",
     "integrity_flags": "{n} señal de alerta | {n} señales de alerta",
-    "flag_single_bidder": "un solo licitador"
+    "flag_single_bidder": "un solo licitador",
+    "modified": "Modificado",
+    "modified_award_missing": "Modificado · adjudicación no registrada"
   },
   "feeds": {
     "add_query": "Añadir consulta",

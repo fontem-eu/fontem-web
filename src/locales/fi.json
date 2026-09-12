@@ -759,7 +759,9 @@
     "unfollow": "Lopeta seuraaminen",
     "integrity_ok": "Ei varoitusmerkkejä",
     "integrity_flags": "{n} varoitusmerkki | {n} varoitusmerkkiä",
-    "flag_single_bidder": "yksi tarjoaja"
+    "flag_single_bidder": "yksi tarjoaja",
+    "modified": "Muutettu",
+    "modified_award_missing": "Muutettu · hankintapäätös puuttuu"
   },
   "feeds": {
     "add_query": "Lisää kysely",

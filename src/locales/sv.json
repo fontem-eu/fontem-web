@@ -759,7 +759,9 @@
     "unfollow": "Sluta följa",
     "integrity_ok": "Inga varningsflaggor",
     "integrity_flags": "{n} varningsflagga | {n} varningsflaggor",
-    "flag_single_bidder": "en enda anbudsgivare"
+    "flag_single_bidder": "en enda anbudsgivare",
+    "modified": "Ändrad",
+    "modified_award_missing": "Ändrad · tilldelning saknas"
   },
   "feeds": {
     "add_query": "Lägg till fråga",

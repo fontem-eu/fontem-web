@@ -759,7 +759,9 @@
     "unfollow": "Deixar de seguir",
     "integrity_ok": "Sem sinais de alerta",
     "integrity_flags": "{n} sinal de alerta | {n} sinais de alerta",
-    "flag_single_bidder": "concorrente único"
+    "flag_single_bidder": "concorrente único",
+    "modified": "Modificado",
+    "modified_award_missing": "Modificado · adjudicação não registada"
   },
   "feeds": {
     "add_query": "Adicionar consulta",

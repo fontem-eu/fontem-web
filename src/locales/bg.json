@@ -759,7 +759,9 @@
     "unfollow": "Не следвай",
     "integrity_ok": "Без червени флагове",
     "integrity_flags": "{n} червен флаг | {n} червени флага",
-    "flag_single_bidder": "един оферент"
+    "flag_single_bidder": "един оферент",
+    "modified": "Изменен",
+    "modified_award_missing": "Изменен · възлагането не е налично"
   },
   "feeds": {
     "add_query": "Добавяне на заявка",

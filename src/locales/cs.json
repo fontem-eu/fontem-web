@@ -759,7 +759,9 @@
     "unfollow": "Přestat sledovat",
     "integrity_ok": "Bez varovných signálů",
     "integrity_flags": "{n} varovný signál | {n} varovné signály",
-    "flag_single_bidder": "jediný uchazeč"
+    "flag_single_bidder": "jediný uchazeč",
+    "modified": "Změněno",
+    "modified_award_missing": "Změněno · zadání není evidováno"
   },
   "feeds": {
     "add_query": "Přidat dotaz",

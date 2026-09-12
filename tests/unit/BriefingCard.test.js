@@ -121,3 +121,23 @@ describe('BriefingCard — items that predate facets', () => {
     expect(w.find('[data-testid="feed-briefing-value-c1"]').text()).toMatch(/34\.8/)
   })
 })
+
+describe('BriefingCard — modified contracts', () => {
+  const chip = (facets) => card({ ...CONTRACT, facets }).find('[data-testid="feed-briefing-modified-c1"]')
+
+  it('says "Modified" when the chain holds more than the award', () => {
+    const w = chip({ ...FACETS, modified: true, award_ingested: true })
+    expect(w.exists()).toBe(true)
+    expect(w.text()).toBe('Modified')
+  })
+
+  it('says the award is not on file when the contract is known only through a modification', () => {
+    const w = chip({ ...FACETS, modified: true, award_ingested: false })
+    expect(w.text()).toContain('award not on file')
+  })
+
+  it('is silent for an unmodified award and for items that predate the facet', () => {
+    expect(chip({ ...FACETS, modified: false }).exists()).toBe(false)
+    expect(chip(FACETS).exists()).toBe(false)
+  })
+})

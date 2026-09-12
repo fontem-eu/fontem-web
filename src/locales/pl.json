@@ -759,7 +759,9 @@
     "unfollow": "Przestań obserwować",
     "integrity_ok": "Brak sygnałów ostrzegawczych",
     "integrity_flags": "{n} sygnał ostrzegawczy | {n} sygnały ostrzegawcze",
-    "flag_single_bidder": "jedyny oferent"
+    "flag_single_bidder": "jedyny oferent",
+    "modified": "Zmieniono",
+    "modified_award_missing": "Zmieniono · brak zarejestrowanego udzielenia"
   },
   "feeds": {
     "add_query": "Dodaj zapytanie",

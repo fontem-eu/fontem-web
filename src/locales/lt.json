@@ -759,7 +759,9 @@
     "unfollow": "Nesekti",
     "integrity_ok": "Įspėjamųjų ženklų nėra",
     "integrity_flags": "{n} įspėjamasis ženklas | {n} įspėjamieji ženklai",
-    "flag_single_bidder": "vienas dalyvis"
+    "flag_single_bidder": "vienas dalyvis",
+    "modified": "Pakeista",
+    "modified_award_missing": "Pakeista · sutarties skyrimas neužregistruotas"
   },
   "feeds": {
     "add_query": "Pridėti užklausą",

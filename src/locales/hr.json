@@ -759,7 +759,9 @@
     "unfollow": "Prestani pratiti",
     "integrity_ok": "Bez upozorenja",
     "integrity_flags": "{n} upozorenje | {n} upozorenja",
-    "flag_single_bidder": "jedini ponuditelj"
+    "flag_single_bidder": "jedini ponuditelj",
+    "modified": "Izmijenjeno",
+    "modified_award_missing": "Izmijenjeno · dodjela nije evidentirana"
   },
   "feeds": {
     "add_query": "Dodaj upit",

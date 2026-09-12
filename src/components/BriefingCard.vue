@@ -89,6 +89,15 @@ const integrity = computed(() => {
   }
 })
 
+/**
+ * "Modified": the contract's chain holds more than the award, or the
+ * award was never loaded and everything we know is a restatement. The
+ * value shown is then the latest restated one, and the reader should
+ * know it moved.
+ */
+const modified = computed(() => facets.value.modified === true)
+const awardMissing = computed(() => facets.value.award_ingested === false)
+
 const date = computed(() => {
   const iso = props.item.item_time
   if (!iso) return ''
@@ -143,8 +152,14 @@ const link = computed(() => props.item._link || { kind: 'none' })
       ><span :data-testid="`feed-briefing-what-${item.item_id}`">{{ headline }}</span></p>
     </template>
 
-    <p v-if="value || integrity" class="bcard-figures">
+    <p v-if="value || integrity || modified" class="bcard-figures">
       <strong v-if="value" class="bcard-value" :data-testid="`feed-briefing-value-${item.item_id}`">{{ value }}</strong>
+      <span
+        v-if="modified"
+        class="bcard-badge bcard-badge--mod"
+        :data-testid="`feed-briefing-modified-${item.item_id}`"
+        :title="awardMissing ? t('feed.modified_award_missing') : t('feed.modified')"
+      >{{ awardMissing ? t('feed.modified_award_missing') : t('feed.modified') }}</span>
       <span
         v-if="integrity"
         class="bcard-badge"
@@ -247,6 +262,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
 .bcard-badge--ok { color: #1f8a4c; }
 .bcard-badge--warn { color: #b8741a; }
 .bcard-badge--bad { color: var(--negative, #c62828); }
+.bcard-badge--mod { color: var(--muted, #5b6472); border-style: dashed; }
 
 .bcard-relation {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.45rem;

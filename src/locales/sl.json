@@ -759,7 +759,9 @@
     "unfollow": "Prenehaj slediti",
     "integrity_ok": "Brez opozorilnih znakov",
     "integrity_flags": "{n} opozorilni znak | {n} opozorilni znaki",
-    "flag_single_bidder": "edini ponudnik"
+    "flag_single_bidder": "edini ponudnik",
+    "modified": "Spremenjeno",
+    "modified_award_missing": "Spremenjeno · oddaja ni evidentirana"
   },
   "feeds": {
     "add_query": "Dodaj poizvedbo",

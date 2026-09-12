@@ -759,7 +759,9 @@
     "unfollow": "Követés megszüntetése",
     "integrity_ok": "Nincs figyelmeztető jel",
     "integrity_flags": "{n} figyelmeztető jel | {n} figyelmeztető jel",
-    "flag_single_bidder": "egyetlen ajánlattevő"
+    "flag_single_bidder": "egyetlen ajánlattevő",
+    "modified": "Módosítva",
+    "modified_award_missing": "Módosítva · az odaítélés nincs nyilvántartva"
   },
   "feeds": {
     "add_query": "Lekérdezés hozzáadása",

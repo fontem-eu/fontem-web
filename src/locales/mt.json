@@ -759,7 +759,9 @@
     "unfollow": "Tibqax issegwi",
     "integrity_ok": "L-ebda bandiera ħamra",
     "integrity_flags": "{n} bandiera ħamra | {n} bnadar ħomor",
-    "flag_single_bidder": "offerent wieħed"
+    "flag_single_bidder": "offerent wieħed",
+    "modified": "Modifikat",
+    "modified_award_missing": "Modifikat · l-għoti mhux irreġistrat"
   },
   "feeds": {
     "add_query": "Żid mistoqsija",

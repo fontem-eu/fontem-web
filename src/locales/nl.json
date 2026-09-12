@@ -759,7 +759,9 @@
     "unfollow": "Niet meer volgen",
     "integrity_ok": "Geen waarschuwingssignalen",
     "integrity_flags": "{n} waarschuwingssignaal | {n} waarschuwingssignalen",
-    "flag_single_bidder": "één inschrijver"
+    "flag_single_bidder": "één inschrijver",
+    "modified": "Gewijzigd",
+    "modified_award_missing": "Gewijzigd · gunning niet geregistreerd"
   },
   "feeds": {
     "add_query": "Query toevoegen",

@@ -759,7 +759,9 @@
     "unfollow": "Lõpeta jälgimine",
     "integrity_ok": "Ohumärke pole",
     "integrity_flags": "{n} ohumärk | {n} ohumärki",
-    "flag_single_bidder": "üks pakkuja"
+    "flag_single_bidder": "üks pakkuja",
+    "modified": "Muudetud",
+    "modified_award_missing": "Muudetud · lepingu sõlmimine puudub"
   },
   "feeds": {
     "add_query": "Lisa päring",

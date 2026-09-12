@@ -759,7 +759,9 @@
     "unfollow": "Unfollow",
     "integrity_ok": "No red flags",
     "integrity_flags": "{n} red flag | {n} red flags",
-    "flag_single_bidder": "single bidder"
+    "flag_single_bidder": "single bidder",
+    "modified": "Modified",
+    "modified_award_missing": "Modified · award not on file"
   },
   "feeds": {
     "add_query": "Add a query",

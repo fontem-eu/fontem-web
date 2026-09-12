@@ -759,7 +759,9 @@
     "unfollow": "Nu mai urmări",
     "integrity_ok": "Fără semnale de alarmă",
     "integrity_flags": "{n} semnal de alarmă | {n} semnale de alarmă",
-    "flag_single_bidder": "ofertant unic"
+    "flag_single_bidder": "ofertant unic",
+    "modified": "Modificat",
+    "modified_award_missing": "Modificat · atribuirea nu este înregistrată"
   },
   "feeds": {
     "add_query": "Adaugă o interogare",

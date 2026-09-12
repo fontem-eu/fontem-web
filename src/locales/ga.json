@@ -759,7 +759,9 @@
     "unfollow": "Stop ag leanúint",
     "integrity_ok": "Gan bratacha dearga",
     "integrity_flags": "{n} bhratach dhearg | {n} bratacha dearga",
-    "flag_single_bidder": "tairgeoir amháin"
+    "flag_single_bidder": "tairgeoir amháin",
+    "modified": "Athraithe",
+    "modified_award_missing": "Athraithe · dámhachtain gan taifead"
   },
   "feeds": {
     "add_query": "Cuir iarratas leis",
