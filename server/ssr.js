@@ -27,6 +27,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { renderHead } from '../src/ssr/head.js'
+import { DEFAULT_DRAIN_MS, DEFAULT_GRACE_MS, installShutdown } from './shutdown.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
@@ -44,6 +45,11 @@ const CACHE_MAX = Number(process.env.SSR_CACHE_MAX || 500)
 // better answer. This bound is what stops a slow API becoming a slow site.
 const FETCH_TIMEOUT_MS = Number(process.env.SSR_FETCH_TIMEOUT_MS || 3000)
 const RENDER_TIMEOUT_MS = Number(process.env.SSR_RENDER_TIMEOUT_MS || 5000)
+// Shutdown pacing. Kept as env knobs like the rest: the drain only has
+// to outlast endpoint propagation, and the deadline only has to outlast
+// the slowest render. Both must fit inside terminationGracePeriodSeconds.
+const SHUTDOWN_DRAIN_MS = Number(process.env.SSR_SHUTDOWN_DRAIN_MS || DEFAULT_DRAIN_MS)
+const SHUTDOWN_GRACE_MS = Number(process.env.SSR_SHUTDOWN_GRACE_MS || DEFAULT_GRACE_MS)
 
 const STORY_RE = /^\/stories\/([^/]+)\/?$/
 
@@ -136,12 +142,18 @@ async function main() {
   }
   const shell = await fs.readFile(path.join(DIST, 'client/spa.html'), 'utf-8')
 
+  // Flipped by the shutdown handler. Only /healthz reads it: the pod
+  // keeps serving real traffic all the way through the drain, and it is
+  // the readiness probe going red that takes it out of the endpoints.
+  let draining = false
+
   const server = http.createServer(async (req, res) => {
     const url = (req.url || '/').split('?')[0]
 
     if (url === '/healthz') {
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('ok')
+      const code = draining ? 503 : 200
+      res.writeHead(code, { 'Content-Type': 'text/plain' })
+      res.end(draining ? 'draining' : 'ok')
       return
     }
 
@@ -172,6 +184,16 @@ async function main() {
       console.error(`ssr: ${url}: ${err?.message || err}`)
       send(shell, false)
     }
+  })
+
+  // Node is PID 1 in this container, so an unhandled SIGTERM is
+  // ignored outright and the process only ever dies on SIGKILL. See
+  // server/shutdown.js.
+  installShutdown({
+    server,
+    onDraining: () => { draining = true },
+    drainMs: SHUTDOWN_DRAIN_MS,
+    graceMs: SHUTDOWN_GRACE_MS,
   })
 
   server.listen(PORT, () => {
