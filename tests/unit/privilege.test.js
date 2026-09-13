@@ -3,7 +3,7 @@
  * Mirrors the backend policy: explicit role OR trust level at the bar.
  */
 import { describe, it, expect } from 'vitest'
-import { isPrivileged } from '../../src/utils/privilege.js'
+import { isAdmin, isPrivileged } from '../../src/utils/privilege.js'
 
 describe('isPrivileged', () => {
   it('is false for missing users', () => {
@@ -32,5 +32,34 @@ describe('isPrivileged', () => {
     expect(isPrivileged({ roles: ['editor'] })).toBe(false)
     expect(isPrivileged({ roles: [] })).toBe(false)
     expect(isPrivileged({ trust_level: 'member', roles: ['viewer'] })).toBe(false)
+  })
+})
+
+describe('isAdmin', () => {
+  it('is false for missing users', () => {
+    expect(isAdmin(null)).toBe(false)
+    expect(isAdmin(undefined)).toBe(false)
+  })
+
+  it('is true for the admin trust level', () => {
+    expect(isAdmin({ trust_level: 'admin' })).toBe(true)
+  })
+
+  it('is false for a moderator, unlike isPrivileged', () => {
+    // The user directory is every account's email; moderation does not need
+    // it, and the backend's _is_admin does not grant it.
+    expect(isAdmin({ trust_level: 'moderator' })).toBe(false)
+    expect(isAdmin({ roles: ['moderator'] })).toBe(false)
+    expect(isPrivileged({ trust_level: 'moderator' })).toBe(true)
+  })
+
+  it('honours an explicit admin role without the trust level', () => {
+    expect(isAdmin({ trust_level: 'contributor', roles: ['admin'] })).toBe(true)
+  })
+
+  it('is false for everyone else', () => {
+    expect(isAdmin({ trust_level: 'contributor' })).toBe(false)
+    expect(isAdmin({ roles: ['editor'] })).toBe(false)
+    expect(isAdmin({})).toBe(false)
   })
 })

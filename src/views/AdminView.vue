@@ -1,8 +1,16 @@
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { currentUser } from '../api/session.js'
+import { isAdmin } from '../utils/privilege.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
 
 onMounted(() => { document.title = 'Admin — Dargle' })
+
+// Shown only to administrators. The hub is also open to moderators, and the
+// directory is not theirs to see; the server refuses them either way.
+const adminOnlyTools = [
+  { path: '/admin/users', title: 'admin.users', desc: 'admin.users_desc' },
+]
 
 const tools = [
   { path: '/admin/entity-resolution', title: 'admin.entity_resolution', desc: 'admin.review_and_merge_duplicate_company_nodes' },
@@ -15,6 +23,8 @@ const tools = [
   { path: 'http://docs.void42.internal/books/testing', title: 'admin.testing', desc: 'admin.e2e_coverage_matrix_and_production_smoke_test', external: true },
   { path: 'http://docs.void42.internal/books/developer-guide', title: 'admin.developer_guide', desc: 'admin.service_directory_repositories_and_quick_commands', external: true },
 ]
+
+const visibleTools = computed(() => (isAdmin(currentUser.value) ? [...adminOnlyTools, ...tools] : tools))
 </script>
 
 <template>
@@ -28,7 +38,7 @@ const tools = [
       <ThemeToggle />
     </header>
     <div class="adm-grid">
-      <template v-for="t in tools" :key="t.path">
+      <template v-for="t in visibleTools" :key="t.path">
         <a v-if="t.external" :href="t.path" class="adm-card">
           <h2>{{ $t(t.title) }}</h2>
           <p>{{ $t(t.desc) }}</p>

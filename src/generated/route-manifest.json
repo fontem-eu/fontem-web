@@ -52,6 +52,10 @@
       "requires_auth": true
     },
     {
+      "path": "/admin/users",
+      "requires_auth": true
+    },
+    {
       "path": "/admin/value-review",
       "requires_auth": true
     },

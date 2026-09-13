@@ -101,6 +101,22 @@ export function createReport(title, abstract) {
   return request('POST', '/data-stories', { title, abstract })
 }
 
+/**
+ * Admin: every registered account, with sign-in and activity trivia.
+ *
+ * Admin-only on the server (`admin:users_list`). For anyone else this rejects
+ * with `err.status === 403`, which the page shows as a refusal rather than a
+ * failure.
+ */
+export function listAdminUsers({ sort, limit, offset } = {}) {
+  const params = new URLSearchParams()
+  if (sort) params.set('sort', sort)
+  if (limit !== undefined) params.set('limit', String(limit))
+  if (offset !== undefined) params.set('offset', String(offset))
+  const qs = params.toString()
+  return request('GET', qs ? `/admin/users?${qs}` : '/admin/users')
+}
+
 export function getReport(id) {
   return request('GET', `/data-stories/${encodeURIComponent(id)}`)
 }

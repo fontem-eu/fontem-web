@@ -105,6 +105,9 @@ describe('isNavigable — the guard before we move the user', () => {
 
   it('refuses routes explicitly excluded from navigation', () => {
     expect(isNavigable('/admin', manifest)).toBe(false)
+    // The user directory is every account's email address; the agent must
+    // never be the thing that sends someone there.
+    expect(isNavigable('/admin/users', manifest)).toBe(false)
     expect(isNavigable('/reset-password', manifest)).toBe(false)
   })
 })

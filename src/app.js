@@ -30,6 +30,7 @@ import LobbyistView from './views/LobbyistView.vue'
 import EntityResolutionView from './views/EntityResolutionView.vue'
 import ValueReviewView from './views/ValueReviewView.vue'
 import AdminView from './views/AdminView.vue'
+import AdminUsersView from './views/AdminUsersView.vue'
 import BriefingsView from './views/BriefingsView.vue'
 import MyBriefingsView from './views/MyBriefingsView.vue'
 import FeedQueriesView from './views/FeedQueriesView.vue'
@@ -125,6 +126,7 @@ const ROUTES = [
   { path: '/briefings', component: BriefingsView },
   { path: '/my-briefings', component: MyBriefingsView },
   { path: '/admin', component: AdminView },
+  { path: '/admin/users', component: AdminUsersView },
   { path: '/admin/entity-resolution', component: EntityResolutionView },
   { path: '/admin/value-review', component: ValueReviewView },
   { path: '/admin/moderation', component: ModerationView },
