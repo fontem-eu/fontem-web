@@ -432,7 +432,8 @@
     "no_call_for_bids": "Intet udbud af tilbud",
     "no_call_hint": "Tilnærmelsesvis direkte tildeling uden offentligt udbud.",
     "lowest_price_only": "Kun laveste pris",
-    "price_only_hint": "Ingen kvalitetskriterier — prisen var det eneste tildelingskriterium."
+    "price_only_hint": "Ingen kvalitetskriterier — prisen var det eneste tildelingskriterium.",
+    "back": "Tilbage"
   },
   "contracts": {
     "cpv": "CPV",

@@ -432,7 +432,8 @@
     "no_call_for_bids": "Ingen anbudsinfordran",
     "no_call_hint": "I praktiken direkttilldelning utan offentlig infordran.",
     "lowest_price_only": "Endast lägsta pris",
-    "price_only_hint": "Inga kvalitetskriterier — priset var det enda tilldelningskriteriet."
+    "price_only_hint": "Inga kvalitetskriterier — priset var det enda tilldelningskriteriet.",
+    "back": "Tillbaka"
   },
   "contracts": {
     "cpv": "CPV",

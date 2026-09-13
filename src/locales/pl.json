@@ -432,7 +432,8 @@
     "no_call_for_bids": "Brak zaproszenia do składania ofert",
     "no_call_hint": "Zamówienie udzielone niemal bezpośrednio, bez publicznego ogłoszenia.",
     "lowest_price_only": "Wyłącznie najniższa cena",
-    "price_only_hint": "Brak kryteriów jakościowych — cena była jedynym kryterium udzielenia zamówienia."
+    "price_only_hint": "Brak kryteriów jakościowych — cena była jedynym kryterium udzielenia zamówienia.",
+    "back": "Wstecz"
   },
   "contracts": {
     "cpv": "CPV",

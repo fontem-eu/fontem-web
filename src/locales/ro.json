@@ -432,7 +432,8 @@
     "no_call_for_bids": "Fără invitație la licitație",
     "no_call_hint": "Atribuire cvasi-directă, fără invitație publică.",
     "lowest_price_only": "Doar prețul cel mai mic",
-    "price_only_hint": "Fără criterii de calitate — prețul a fost singurul criteriu de atribuire."
+    "price_only_hint": "Fără criterii de calitate — prețul a fost singurul criteriu de atribuire.",
+    "back": "Înapoi"
   },
   "contracts": {
     "cpv": "CPV",

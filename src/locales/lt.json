@@ -432,7 +432,8 @@
     "no_call_for_bids": "Nėra kvietimo teikti pasiūlymus",
     "no_call_hint": "Beveik tiesioginis sutarties sudarymas be viešo kvietimo.",
     "lowest_price_only": "Tik mažiausia kaina",
-    "price_only_hint": "Nėra kokybės kriterijų — kaina buvo vienintelis sutarties sudarymo kriterijus."
+    "price_only_hint": "Nėra kokybės kriterijų — kaina buvo vienintelis sutarties sudarymo kriterijus.",
+    "back": "Atgal"
   },
   "contracts": {
     "cpv": "CPV",

@@ -432,7 +432,8 @@
     "no_call_for_bids": "Nessun bando di gara",
     "no_call_hint": "Aggiudicazione quasi diretta senza bando pubblico.",
     "lowest_price_only": "Solo prezzo più basso",
-    "price_only_hint": "Nessun criterio qualitativo — il prezzo è stato l'unico criterio di aggiudicazione."
+    "price_only_hint": "Nessun criterio qualitativo — il prezzo è stato l'unico criterio di aggiudicazione.",
+    "back": "Indietro"
   },
   "contracts": {
     "cpv": "CPV",

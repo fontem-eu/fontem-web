@@ -11,6 +11,11 @@ import { isAuthed } from '../api/session.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
 import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
 
+// Named so App.vue's KeepAlive `include` can match it: coming back
+// from a detail page should restore this list and its scroll, not
+// refetch it from the top.
+defineOptions({ name: 'FeedView' })
+
 const router = useRouter()
 const route = useRoute()
 

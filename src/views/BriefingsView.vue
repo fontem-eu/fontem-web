@@ -23,6 +23,10 @@ import {
   listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
 } from '../api/community.js'
 
+// Named so App.vue's KeepAlive `include` can match it: coming back
+// from a briefing should restore this list and its scroll.
+defineOptions({ name: 'BriefingsView' })
+
 /** Template alias — the destination for one item's card. */
 const linkOf = briefingLink
 

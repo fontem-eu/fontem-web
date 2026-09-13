@@ -432,7 +432,8 @@
     "no_call_for_bids": "Bez výzvy na predkladanie ponúk",
     "no_call_hint": "Takmer priame zadanie bez verejnej výzvy.",
     "lowest_price_only": "Len najnižšia cena",
-    "price_only_hint": "Žiadne kritériá kvality — cena bola jediným kritériom zadania."
+    "price_only_hint": "Žiadne kritériá kvality — cena bola jediným kritériom zadania.",
+    "back": "Späť"
   },
   "contracts": {
     "cpv": "CPV",

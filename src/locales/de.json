@@ -432,7 +432,8 @@
     "no_call_for_bids": "Kein Aufruf zum Wettbewerb",
     "no_call_hint": "Nahezu direkte Vergabe ohne öffentlichen Aufruf.",
     "lowest_price_only": "Nur niedrigster Preis",
-    "price_only_hint": "Keine Qualitätskriterien — der Preis war das alleinige Zuschlagskriterium."
+    "price_only_hint": "Keine Qualitätskriterien — der Preis war das alleinige Zuschlagskriterium.",
+    "back": "Zurück"
   },
   "contracts": {
     "cpv": "CPV",

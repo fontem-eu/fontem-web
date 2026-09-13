@@ -432,7 +432,8 @@
     "no_call_for_bids": "Brez javnega razpisa",
     "no_call_hint": "Skoraj neposredna oddaja brez javnega razpisa.",
     "lowest_price_only": "Samo najnižja cena",
-    "price_only_hint": "Brez kakovostnih meril — cena je bila edino merilo za oddajo."
+    "price_only_hint": "Brez kakovostnih meril — cena je bila edino merilo za oddajo.",
+    "back": "Nazaj"
   },
   "contracts": {
     "cpv": "CPV",

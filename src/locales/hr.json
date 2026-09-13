@@ -432,7 +432,8 @@
     "no_call_for_bids": "Bez poziva na nadmetanje",
     "no_call_hint": "Gotovo izravna dodjela bez javnog poziva.",
     "lowest_price_only": "Samo najniža cijena",
-    "price_only_hint": "Bez kriterija kvalitete — cijena je bila jedini kriterij dodjele."
+    "price_only_hint": "Bez kriterija kvalitete — cijena je bila jedini kriterij dodjele.",
+    "back": "Natrag"
   },
   "contracts": {
     "cpv": "CPV",

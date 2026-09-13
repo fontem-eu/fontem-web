@@ -432,7 +432,8 @@
     "no_call_for_bids": "No call for bids",
     "no_call_hint": "Direct-ish award with no public call.",
     "lowest_price_only": "Lowest-price only",
-    "price_only_hint": "No quality criteria — price was the sole award criterion."
+    "price_only_hint": "No quality criteria — price was the sole award criterion.",
+    "back": "Back"
   },
   "contracts": {
     "cpv": "CPV",

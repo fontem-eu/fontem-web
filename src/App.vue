@@ -1,6 +1,7 @@
 <script setup>
 import { computed, inject, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { CACHED_VIEWS } from './router/cachedViews.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
 import { useSwipeNav } from './composables/useSwipeNav.js'
@@ -16,7 +17,6 @@ import AssistPanel from './components/AssistPanel.vue'
 import ToastStack from './components/ToastStack.vue'
 import { rateLimited } from './api/_retry.js'
 import I18nPluralProbe from './components/I18nPluralProbe.vue'
-
 const { init: initTheme } = useTheme()
 const { init: initLang } = useLang()
 // Resolve the i18n instance now (in setup) — must come from the
@@ -68,7 +68,19 @@ useVisibleViewportHeight()
       <AppSidebar v-if="showSidebar" />
       <div class="app-content">
         <main id="main" tabindex="-1">
-          <router-view />
+          <router-view v-slot="{ Component, route: viewRoute }">
+            <!-- Keyed by path, not by component: FeedView serves both
+                 `/` (mixed) and `/stories-feed` (articles only), and one
+                 shared cache entry would hand each route the other's
+                 list and scroll position. Detail views are unaffected —
+                 they are not in CACHED_VIEWS, and a per-path key is what
+                 they already wanted, since two contracts share one
+                 component and the second used to render the first's
+                 data. -->
+            <KeepAlive :include="CACHED_VIEWS">
+              <component :is="Component" :key="viewRoute.path" />
+            </KeepAlive>
+          </router-view>
         </main>
         <AppFooter v-if="showFooter" />
       </div>
