@@ -4,7 +4,9 @@
 import { _internal } from '../../src/api/session.js'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { createRouter, createMemoryHistory } from 'vue-router'
+import { h, KeepAlive } from 'vue'
+import { createRouter, createMemoryHistory, RouterView } from 'vue-router'
+import { CACHED_VIEWS } from '../../src/router/cachedViews.js'
 import { makeTestI18n } from './helpers/i18n.js'
 
 vi.mock('../../src/api/community.js', () => ({
@@ -296,6 +298,100 @@ describe('FeedView', () => {
     expect(router.currentRoute.value.query.tag).toBe('procurement')
     const lastCall = api.listReports.mock.calls[api.listReports.mock.calls.length - 1][0]
     expect(lastCall).toMatchObject({ tag: 'procurement' })
+    wrapper.unmount()
+  })
+})
+
+/**
+ * The feed is kept alive (src/router/cachedViews.js), so these mount it the
+ * way App.vue does rather than on its own. Mounted directly, FeedView is
+ * re-created on every visit and none of this can go wrong — which is how a
+ * lost tag filter shipped past every test above and was caught only by the
+ * promotion gate's FEED-TAG-PERSIST.
+ */
+describe('FeedView — kept alive, as App.vue mounts it', () => {
+  async function mountKeptAlive(initialPath) {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/stories-feed', component: FeedView, meta: { mixed: false } },
+        { path: '/stories/:id', component: { template: '<div data-testid="story-page" />' } },
+      ],
+    })
+    await router.push(initialPath)
+    await router.isReady()
+    // Kept alive by name, keyed by path — the same shape as App.vue.
+    const Shell = {
+      render: () => h(RouterView, null, {
+        default: ({ Component, route: r }) => h(KeepAlive, { include: CACHED_VIEWS }, {
+          default: () => (Component ? h(Component, { key: r.path }) : null),
+        }),
+      }),
+    }
+    const wrapper = mount(Shell, {
+      global: { plugins: [router, makeTestI18n()] },
+      attachTo: document.body,
+    })
+    await flushPromises()
+    return { wrapper, router }
+  }
+
+  const fetches = () => api.listReports.mock.calls.length
+
+  it('keeps a tag filter when the reader opens a story and follows the link back', async () => {
+    const { wrapper, router } = await mountKeptAlive('/stories-feed')
+    api.listReports.mockResolvedValue(STORIES_PROC)
+    await wrapper.find('[data-testid="tag-chip-procurement"]').trigger('click')
+    await flushPromises()
+    const whileFiltered = fetches()
+
+    await router.push('/stories/a')
+    await flushPromises()
+    // Hidden, the feed must not react to the story's route at all.
+    expect(fetches()).toBe(whileFiltered)
+
+    // "Back to stories" is a link: it arrives with no ?tag= in the URL.
+    await router.push('/stories-feed')
+    await flushPromises()
+
+    expect(router.currentRoute.value.query.tag).toBe('procurement')
+    expect(wrapper.find('[data-testid="feed-active-filter"]').exists()).toBe(true)
+    // The cached, filtered list is shown as it was, not refetched.
+    expect(fetches()).toBe(whileFiltered)
+    wrapper.unmount()
+  })
+
+  it('does not refetch behind the reader when they come back through history', async () => {
+    localStorage.setItem('gmr-stories-tag', 'procurement')
+    const { wrapper, router } = await mountKeptAlive('/stories-feed?tag=procurement')
+    const before = fetches()
+
+    await router.push('/stories/a')
+    await flushPromises()
+    router.back()
+    for (let i = 0; i < 20 && router.currentRoute.value.path !== '/stories-feed'; i += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 5))
+    }
+    await flushPromises()
+
+    expect(router.currentRoute.value.fullPath).toBe('/stories-feed?tag=procurement')
+    expect(fetches()).toBe(before)
+    wrapper.unmount()
+  })
+
+  it('an "All" click still clears the filter for good', async () => {
+    localStorage.setItem('gmr-stories-tag', 'procurement')
+    const { wrapper, router } = await mountKeptAlive('/stories-feed?tag=procurement')
+
+    await wrapper.find('[data-testid="tag-chip-all"]').trigger('click')
+    await flushPromises()
+    await router.push('/stories/a')
+    await flushPromises()
+    await router.push('/stories-feed')
+    await flushPromises()
+
+    expect(router.currentRoute.value.query.tag).toBeUndefined()
+    expect(wrapper.find('[data-testid="feed-active-filter"]').exists()).toBe(false)
     wrapper.unmount()
   })
 })

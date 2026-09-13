@@ -29,10 +29,21 @@ const allTags = ref([])
 
 // Active tag filter — read from + writes back to the URL so the
 // filter is shareable / bookmarkable.
-const activeTag = computed(() => {
-  const t = route.query.tag
+//
+// Held in a ref, not derived live from the route. This view is kept
+// alive (src/router/cachedViews.js), and a kept-alive component keeps
+// its watchers running while it is hidden — while useRoute() follows
+// the *global* route, not the one this view was rendered for. Derived
+// live, the hidden feed saw "no tag" the moment the reader opened a
+// story, refetched the unfiltered list behind them, and the filter was
+// gone when they came back. So the tag is only taken from this view's
+// own route, and held while the reader is elsewhere.
+const ownPath = route.path
+function tagOf(query) {
+  const t = query.tag
   return typeof t === 'string' && t ? t : null
-})
+}
+const activeTag = ref(tagOf(route.query))
 
 // `tags` is read inside the template via the composable's
 // `isFollowing` helper; we don't need a ref here.
@@ -129,17 +140,37 @@ async function loadTags() {
   } catch { /* chip strip is enrichment, not blocking */ }
 }
 
+/**
+ * Put the reader's last filter back when they arrive without a `?tag=`.
+ *
+ * The tag is taken immediately, not when the replace lands: the next
+ * fetch then already carries it, instead of an unfiltered request and a
+ * filtered one racing each other to the screen. Returns whether there
+ * was a saved tag to restore.
+ */
+function restoreSavedTag() {
+  const saved = getStoredTag()
+  if (!saved) return false
+  activeTag.value = saved
+  router.replace({ path: route.path, query: { ...route.query, tag: saved } })
+  return true
+}
+
+// Follow the URL, but only this view's own route. Arriving back here
+// without a `?tag=` — the story page's "Back to stories" is a link, so it
+// carries none — restores the saved tag before anything else looks at
+// it; the held tag and the saved one agree, so the cached, filtered list
+// is simply shown again with nothing refetched. `clearTag` drops the
+// saved tag before this runs, so an "All" click still clears for good.
+watch(() => route.fullPath, () => {
+  if (route.path !== ownPath) return
+  const tag = tagOf(route.query)
+  if (tag === null && restoreSavedTag()) return
+  activeTag.value = tag
+})
+
 onMounted(async () => {
-  // If the URL doesn't carry an explicit `?tag=`, try to restore the
-  // last filter the user had selected. The router.replace happens
-  // before the first listStories fetch so the URL + active filter
-  // stay in sync and the network call already carries `tag=`.
-  if (!activeTag.value) {
-    const saved = getStoredTag()
-    if (saved) {
-      router.replace({ path: route.path, query: { ...route.query, tag: saved } })
-    }
-  }
+  if (!tagOf(route.query)) restoreSavedTag()
   // Stories-only route does not fetch briefings at all -- hiding them
   // client-side would still cost the reader the requests.
   await Promise.all([loadStories(), loadTags(), ...(mixed.value ? [loadBriefings()] : [])])

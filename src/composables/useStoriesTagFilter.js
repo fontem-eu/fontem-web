@@ -4,10 +4,10 @@
  * The Feed view lets users filter the public-story list by tag via a
  * chip strip. The selected tag is reflected in the URL (`?tag=X`) so
  * the filter stays shareable and bookmarkable — but clicking a story
- * card navigates to `/stories/:id`, which unmounts FeedView and
- * therefore drops the query. When the user comes back via the browser
- * back button, the URL is preserved by vue-router, but if they navigate
- * back via the global nav (Stories link → "/"), the query is gone.
+ * card navigates to `/stories/:id`, and a link back (the story page's
+ * "Back to stories", or the global nav) arrives with no query at all.
+ * The browser's back button preserves the URL; a link does not. FeedView
+ * is kept alive rather than unmounted, but the query is still gone.
  *
  * Persist the most recent tag locally so the next time the user lands
  * on `/` *without* a `?tag=` already in the URL, the saved tag is
