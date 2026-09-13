@@ -222,3 +222,59 @@ describe('ContractDetailView — the back arrow goes back', () => {
     expect(back).not.toHaveBeenCalled()
   })
 })
+
+/**
+ * Only the kept-alive feeds are re-created per path, so this view is reused
+ * when one contract links to another and has to reload for the new id itself.
+ */
+describe('ContractDetailView — moving from one contract to another', () => {
+  async function mountReused(first) {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/contract/:noticeId', component: ContractDetailView },
+        { path: '/spending', component: { template: '<div />' } },
+        { path: '/company/:gmr_id', component: { template: '<div />' } },
+        { path: '/authority/:authority_id', component: { template: '<div />' } },
+      ],
+    })
+    await router.push(`/contract/${first}`)
+    await router.isReady()
+    const wrapper = mount(ContractDetailView, {
+      global: { plugins: [makeTestI18n(), router], stubs: { ThemeToggle: true } },
+    })
+    await flushPromises()
+    return { wrapper, router }
+  }
+
+  const answer = (title) => ({ ok: true, status: 200, json: async () => ({ title }) })
+
+  it('loads the new contract when the id changes', async () => {
+    mockFetch.mockImplementation(async (url) => answer(url.includes('n-2') ? 'Second contract' : 'First contract'))
+    const { wrapper, router } = await mountReused('n-1')
+    expect(wrapper.text()).toContain('First contract')
+
+    await router.push('/contract/n-2')
+    await flushPromises()
+
+    expect(mockFetch).toHaveBeenLastCalledWith('/api/contracts/n-2')
+    expect(wrapper.text()).toContain('Second contract')
+    expect(wrapper.text()).not.toContain('First contract')
+  })
+
+  it('does not let a slow answer for the old contract overwrite the new one', async () => {
+    let releaseFirst
+    mockFetch.mockImplementationOnce(() => new Promise((resolve) => { releaseFirst = () => resolve(answer('Stale contract')) }))
+    const { wrapper, router } = await mountReused('n-1')
+
+    mockFetch.mockImplementationOnce(async () => answer('Current contract'))
+    await router.push('/contract/n-2')
+    await flushPromises()
+    releaseFirst()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Current contract')
+    expect(wrapper.text()).not.toContain('Stale contract')
+  })
+})
+

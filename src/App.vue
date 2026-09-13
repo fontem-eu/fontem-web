@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { CACHED_VIEWS } from './router/cachedViews.js'
+import { CACHED_VIEWS, viewKey } from './router/cachedViews.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
 import { useSwipeNav } from './composables/useSwipeNav.js'
@@ -69,16 +69,11 @@ useVisibleViewportHeight()
       <div class="app-content">
         <main id="main" tabindex="-1">
           <router-view v-slot="{ Component, route: viewRoute }">
-            <!-- Keyed by path, not by component: FeedView serves both
-                 `/` (mixed) and `/stories-feed` (articles only), and one
-                 shared cache entry would hand each route the other's
-                 list and scroll position. Detail views are unaffected —
-                 they are not in CACHED_VIEWS, and a per-path key is what
-                 they already wanted, since two contracts share one
-                 component and the second used to render the first's
-                 data. -->
+            <!-- Only the kept-alive feeds are keyed by path; every other
+                 view keeps its instance across its own paths. Why both
+                 halves matter is written on viewKey. -->
             <KeepAlive :include="CACHED_VIEWS">
-              <component :is="Component" :key="viewRoute.path" />
+              <component :is="Component" :key="viewKey(Component, viewRoute)" />
             </KeepAlive>
           </router-view>
         </main>
