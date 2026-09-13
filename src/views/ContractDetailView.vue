@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBack } from '../composables/useBack.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
@@ -31,17 +31,33 @@ const noticeId = computed(() => route.params.noticeId)
 const state = ref('loading')
 const contract = ref(null)
 
-onMounted(async () => {
+// Which load is current. A reader who follows one contract to another before
+// the first answers must not have the slower, older answer painted over the
+// newer one.
+let latestLoad = 0
+
+async function load() {
+  const mine = ++latestLoad
+  state.value = 'loading'
+  contract.value = null
   try {
     const res = await fetch(`/api/contracts/${encodeURIComponent(noticeId.value)}`)
+    if (mine !== latestLoad) return
     if (res.status === 404) { state.value = 'notfound'; return }
     if (!res.ok) { state.value = 'error'; return }
-    contract.value = await res.json()
+    const body = await res.json()
+    if (mine !== latestLoad) return
+    contract.value = body
     state.value = 'ready'
   } catch {
-    state.value = 'error'
+    if (mine === latestLoad) state.value = 'error'
   }
-})
+}
+
+onMounted(load)
+// The view is reused when one contract links to another (only the kept-alive
+// feeds are re-created per path; see viewKey), so a new notice id reloads.
+watch(noticeId, (next, previous) => { if (next !== previous) load() })
 
 const integrity = computed(() => contract.value?.integrity || {})
 // The investigative red flags, in display order with human labels.
