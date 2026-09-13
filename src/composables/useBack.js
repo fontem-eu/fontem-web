@@ -25,7 +25,7 @@ import { useRouter } from 'vue-router'
  * despite the leading slash.
  */
 export function hasInAppHistory(state) {
-  const back = state && state.back
+  const back = state?.back
   return typeof back === 'string' && back.startsWith('/') && !back.startsWith('//')
 }
 
