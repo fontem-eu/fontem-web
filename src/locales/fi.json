@@ -432,7 +432,8 @@
     "no_call_for_bids": "Ei tarjouspyyntöä",
     "no_call_hint": "Lähes suora ratkaisu ilman julkista tarjouspyyntöä.",
     "lowest_price_only": "Vain alin hinta",
-    "price_only_hint": "Ei laatukriteerejä — hinta oli ainoa ratkaisuperuste."
+    "price_only_hint": "Ei laatukriteerejä — hinta oli ainoa ratkaisuperuste.",
+    "back": "Takaisin"
   },
   "contracts": {
     "cpv": "CPV",

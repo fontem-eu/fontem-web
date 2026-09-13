@@ -432,7 +432,8 @@
     "no_call_for_bids": "Nav uzaicinājuma iesniegt piedāvājumus",
     "no_call_hint": "Gandrīz tiešs piešķīrums bez publiska uzaicinājuma.",
     "lowest_price_only": "Tikai zemākā cena",
-    "price_only_hint": "Nav kvalitātes kritēriju — cena bija vienīgais piešķiršanas kritērijs."
+    "price_only_hint": "Nav kvalitātes kritēriju — cena bija vienīgais piešķiršanas kritērijs.",
+    "back": "Atpakaļ"
   },
   "contracts": {
     "cpv": "CPV",

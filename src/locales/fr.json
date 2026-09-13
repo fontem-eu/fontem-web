@@ -432,7 +432,8 @@
     "no_call_for_bids": "Aucun appel d'offres",
     "no_call_hint": "Attribution quasi directe sans appel public.",
     "lowest_price_only": "Prix le plus bas uniquement",
-    "price_only_hint": "Aucun critère de qualité — le prix était le seul critère d'attribution."
+    "price_only_hint": "Aucun critère de qualité — le prix était le seul critère d'attribution.",
+    "back": "Retour"
   },
   "contracts": {
     "cpv": "CPV",

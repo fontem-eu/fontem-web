@@ -432,7 +432,8 @@
     "no_call_for_bids": "Bez výzvy k podání nabídek",
     "no_call_hint": "Téměř přímé zadání bez veřejné výzvy.",
     "lowest_price_only": "Pouze nejnižší cena",
-    "price_only_hint": "Žádná kvalitativní kritéria — cena byla jediným kritériem zadání."
+    "price_only_hint": "Žádná kvalitativní kritéria — cena byla jediným kritériem zadání.",
+    "back": "Zpět"
   },
   "contracts": {
     "cpv": "CPV",

@@ -1,11 +1,32 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useBack } from '../composables/useBack.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
 import { fmtMoney } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
 
 const route = useRoute()
+
+// Back means back. Readers reach a contract from the feed, a briefing,
+// a search or a shared link, and this used to send every one of them to
+// /spending. When there is somewhere to return to we pop the history
+// entry; when there is not — a shared link opened cold — /spending is
+// still the honest destination, so it stays as the fallback.
+const { goBack, cameFromApp } = useBack('/spending')
+
+/**
+ * Plain left-click goes back; anything the reader meant for a new tab
+ * or window is left to the browser, which is why this stays an <a> with
+ * a real href rather than becoming a button.
+ */
+function onBackClick(event) {
+  if (event.defaultPrevented) return
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  goBack()
+}
+
 const noticeId = computed(() => route.params.noticeId)
 const state = ref('loading')
 const contract = ref(null)
@@ -44,7 +65,12 @@ const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
 <template>
   <main class="contract-detail" data-testid="contract-detail-view">
     <header class="cd-head">
-      <RouterLink to="/spending" class="cd-back">&larr; {{ $t('contract_detail.public_spending') }}</RouterLink>
+      <a
+        href="/spending"
+        class="cd-back"
+        data-testid="contract-back"
+        @click="onBackClick"
+      >&larr; {{ cameFromApp ? $t('contract_detail.back') : $t('contract_detail.public_spending') }}</a>
       <ThemeToggle />
     </header>
 

@@ -432,7 +432,8 @@
     "no_call_for_bids": "Geen oproep tot inschrijving",
     "no_call_hint": "Bijna-directe gunning zonder openbare oproep.",
     "lowest_price_only": "Uitsluitend laagste prijs",
-    "price_only_hint": "Geen kwaliteitscriteria — prijs was het enige gunningscriterium."
+    "price_only_hint": "Geen kwaliteitscriteria — prijs was het enige gunningscriterium.",
+    "back": "Terug"
   },
   "contracts": {
     "cpv": "CPV",

@@ -14,6 +14,7 @@ import {
 } from 'vue-router'
 
 import { requiresAuth } from './router/authGate.js'
+import { scrollBehavior } from './router/scrollBehavior.js'
 import { createDargleI18n } from './i18n.js'
 
 import App from './App.vue'
@@ -262,6 +263,7 @@ export function createDargleRouter(ssr = false) {
   const router = createRouter({
     history: ssr ? createMemoryHistory() : createWebHistory(),
     routes: ROUTES,
+    scrollBehavior,
   })
 
   router.beforeEach((to) => {

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { createRouter, createMemoryHistory } from 'vue-router'
+import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'
 import ContractDetailView from '../../src/views/ContractDetailView.vue'
 
@@ -100,5 +100,125 @@ describe('ContractDetailView', () => {
     mockFetch.mockResolvedValueOnce({ status: 404, ok: false })
     const wrapper = await mountAt('nope')
     expect(wrapper.find('[data-testid="contract-notfound"]').exists()).toBe(true)
+  })
+})
+
+/**
+ * The reported bug: reading the mixed feed, opening a briefing's
+ * contract, pressing the back arrow — and landing on Public spending
+ * instead of the feed. The arrow was a hardcoded RouterLink to
+ * /spending, so it ignored where the reader came from, and being a push
+ * it drove the real previous page one entry further away each time.
+ *
+ * These use a real web history, because that is the only implementation
+ * that records the previous entry: `buildState` lives in vue-router's
+ * `useHistoryStateNavigation`, so a memory history reports `state` as
+ * `{}` and could never exercise the path being fixed.
+ */
+describe('ContractDetailView — the back arrow goes back', () => {
+  const ROUTES = [
+    { path: '/', component: { template: '<div />' } },
+    { path: '/briefings', component: { template: '<div />' } },
+    { path: '/contract/:noticeId', component: ContractDetailView },
+    { path: '/spending', component: { template: '<div />' } },
+    { path: '/company/:gmr_id', component: { template: '<div />' } },
+    { path: '/authority/:authority_id', component: { template: '<div />' } },
+  ]
+
+  // jsdom shares one URL across tests; leaving a deep path behind would
+  // change where the next router thinks it started.
+  afterEach(() => { window.history.replaceState(null, '', '/') })
+
+  async function mountWith(router) {
+    await router.isReady()
+    const wrapper = mount(ContractDetailView, {
+      global: { plugins: [makeTestI18n(), router], stubs: { ThemeToggle: true } },
+    })
+    await flushPromises()
+    return wrapper
+  }
+
+  async function arriveFrom(feedPath) {
+    mockFetch.mockResolvedValue({ ok: true, status: 200, json: async () => ({}) })
+    const router = createRouter({ history: createWebHistory(), routes: ROUTES })
+    await router.push(feedPath)
+    await router.push('/contract/n-1')
+    return { wrapper: await mountWith(router), router }
+  }
+
+  it('returns to the mixed feed when that is where the reader came from', async () => {
+    // back() is stubbed rather than called through: a real history.go(-1)
+    // is "Not implemented" in jsdom and only adds noise. What is being
+    // pinned is that the arrow pops the entry instead of pushing a page.
+    const { wrapper, router } = await arriveFrom('/')
+    const back = vi.spyOn(router, 'back').mockImplementation(() => {})
+    const push = vi.spyOn(router, 'push')
+
+    await wrapper.get('[data-testid="contract-back"]').trigger('click')
+
+    expect(back).toHaveBeenCalledTimes(1)
+    expect(push).not.toHaveBeenCalled()
+  })
+
+  it('returns to the briefings feed when that is where the reader came from', async () => {
+    const { wrapper, router } = await arriveFrom('/briefings')
+    const back = vi.spyOn(router, 'back').mockImplementation(() => {})
+
+    await wrapper.get('[data-testid="contract-back"]').trigger('click')
+
+    expect(back).toHaveBeenCalledTimes(1)
+  })
+
+  it('labels the arrow "back", not the fallback page, when it will go back', async () => {
+    const { wrapper } = await arriveFrom('/')
+
+    expect(wrapper.get('[data-testid="contract-back"]').text()).toContain('Back')
+  })
+
+  it('falls back to public spending on a cold deep link', async () => {
+    // A shared contract URL opened in a fresh tab. A memory history is
+    // used purely to arrange that precondition: it reports no previous
+    // entry, which is exactly the cold-start condition. This is the one
+    // case the old hardcoded link got right, and it still holds.
+    mockFetch.mockResolvedValue({ ok: true, status: 200, json: async () => ({}) })
+    const router = createRouter({ history: createMemoryHistory(), routes: ROUTES })
+    await router.push('/contract/n-1')
+    const wrapper = await mountWith(router)
+    const push = vi.spyOn(router, 'push')
+    const back = vi.spyOn(router, 'back').mockImplementation(() => {})
+
+    await wrapper.get('[data-testid="contract-back"]').trigger('click')
+
+    expect(push).toHaveBeenCalledWith('/spending')
+    expect(back).not.toHaveBeenCalled()
+  })
+
+  it('keeps a real href so the link can still be opened in a new tab', async () => {
+    const { wrapper } = await arriveFrom('/')
+
+    expect(wrapper.get('[data-testid="contract-back"]').attributes('href')).toBe('/spending')
+  })
+
+  it('leaves a ctrl/cmd-click to the browser instead of navigating in place', async () => {
+    const { wrapper, router } = await arriveFrom('/')
+    const back = vi.spyOn(router, 'back').mockImplementation(() => {})
+    const link = wrapper.get('[data-testid="contract-back"]')
+
+    // A second listener on the same element, registered after the
+    // component's, so it runs immediately after it: it records whether
+    // the handler cancelled the event, then cancels it so jsdom never
+    // schedules the anchor's real navigation (which it cannot perform
+    // and reports as an unhandled error). Declining to intercept is the
+    // behaviour under test, so it has to be observed, not suppressed.
+    const prevented = []
+    link.element.addEventListener('click', (event) => {
+      prevented.push(event.defaultPrevented)
+      event.preventDefault()
+    })
+
+    await link.trigger('click', { ctrlKey: true })
+
+    expect(prevented).toEqual([false])
+    expect(back).not.toHaveBeenCalled()
   })
 })

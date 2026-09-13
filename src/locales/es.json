@@ -432,7 +432,8 @@
     "no_call_for_bids": "Sin convocatoria de licitación",
     "no_call_hint": "Adjudicación casi directa sin convocatoria pública.",
     "lowest_price_only": "Solo precio más bajo",
-    "price_only_hint": "Sin criterios de calidad: el precio fue el único criterio de adjudicación."
+    "price_only_hint": "Sin criterios de calidad: el precio fue el único criterio de adjudicación.",
+    "back": "Volver"
   },
   "contracts": {
     "cpv": "CPV",

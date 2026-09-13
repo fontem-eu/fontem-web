@@ -432,7 +432,8 @@
     "no_call_for_bids": "Nincs ajánlati felhívás",
     "no_call_hint": "Quasi közvetlen odaítélés nyilvános felhívás nélkül.",
     "lowest_price_only": "Csak legalacsonyabb ár",
-    "price_only_hint": "Nincs minőségi szempont — az ár volt az egyetlen odaítélési szempont."
+    "price_only_hint": "Nincs minőségi szempont — az ár volt az egyetlen odaítélési szempont.",
+    "back": "Vissza"
   },
   "contracts": {
     "cpv": "CPV",

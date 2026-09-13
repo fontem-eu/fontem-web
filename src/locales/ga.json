@@ -432,7 +432,8 @@
     "no_call_for_bids": "Gan glao ar thairiscintí",
     "no_call_hint": "Dámhachtain go leith-dhíreach gan aon ghlao poiblí.",
     "lowest_price_only": "An praghas is ísle amháin",
-    "price_only_hint": "Gan critéir cháilíochta — ba é an praghas an t-aon chritéar dámhachtana."
+    "price_only_hint": "Gan critéir cháilíochta — ba é an praghas an t-aon chritéar dámhachtana.",
+    "back": "Ar ais"
   },
   "contracts": {
     "cpv": "CPV",

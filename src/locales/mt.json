@@ -432,7 +432,8 @@
     "no_call_for_bids": "L-ebda sejħa għall-offerti",
     "no_call_hint": "Aġġudikazzjoni kważi diretta mingħajr sejħa pubblika.",
     "lowest_price_only": "L-orħos prezz biss",
-    "price_only_hint": "L-ebda kriterju ta' kwalità — il-prezz kien l-uniku kriterju tal-aġġudikazzjoni."
+    "price_only_hint": "L-ebda kriterju ta' kwalità — il-prezz kien l-uniku kriterju tal-aġġudikazzjoni.",
+    "back": "Lura"
   },
   "contracts": {
     "cpv": "CPV",
