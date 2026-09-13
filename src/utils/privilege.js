@@ -21,3 +21,19 @@ export function isPrivileged(user) {
   if (PRIVILEGED.has(user.trust_level)) return true
   return (user.roles || []).some((role) => PRIVILEGED.has(role))
 }
+
+/**
+ * Who gets shown the admin-only tools inside the admin area, such as the
+ * user directory. Mirrors the backend's `_is_admin` exactly — the admin
+ * trust level or an explicit admin role — and NOT moderator, which
+ * isPrivileged above deliberately includes: the directory is every account's
+ * email address, and moderating content does not need it.
+ *
+ * Still only a hint. /admin/users is authorised server-side, and anyone who
+ * reaches the page without the right is shown the server's refusal.
+ */
+export function isAdmin(user) {
+  if (!user) return false
+  if (user.trust_level === 'admin') return true
+  return (user.roles || []).includes('admin')
+}

@@ -33,6 +33,7 @@ export const NOT_NAVIGABLE = new Set([
   '/admin/value-review',
   '/admin/feed-queries',
   '/admin/query-groups',
+  '/admin/users',       // every account's email and sign-ins: never steered to
   '/admin/data-quality/:page*',
 ])
 
