@@ -119,18 +119,33 @@ async function toggleSwitcher() {
   if (switcherOpen.value) await loadConversationList()
 }
 
+// Chats started on this page that the server's list may not include yet.
+const createdHere = new Set()
+let listRequest = 0
+
 async function loadConversationList() {
   // Signed-out visitors have no account, so no list and no switcher. The
   // panel still works — it just has the one ephemeral thread. (This used
   // to also bail on report chats, which is what kept the switcher empty
   // — and prompts stranded — on report pages.)
   if (!signedIn.value) return
+  const ask = ++listRequest
+  let fresh = []
   try {
     const data = await listAssistConversations()
-    conversations.value = data?.conversations || []
+    fresh = data?.conversations || []
   } catch {
-    conversations.value = []
+    fresh = []
   }
+  // A later request is on its way; its answer is the one to show.
+  if (ask !== listRequest) return
+  // "New chat" then opening the switcher races the create: the list can be
+  // answered before the new chat commits. Replacing the rows with that answer
+  // dropped the chat just made, and with it any rename open on its row.
+  const listed = new Set(fresh.map(c => c.conversation_key))
+  for (const key of listed) createdHere.delete(key)
+  const pending = conversations.value.filter(c => createdHere.has(c.conversation_key))
+  conversations.value = [...pending, ...fresh]
 }
 
 async function switchConversation(key, { fromList = false } = {}) {
@@ -155,6 +170,7 @@ async function switchConversation(key, { fromList = false } = {}) {
 async function startNewConversation() {
   try {
     const created = await createAssistConversation('')
+    createdHere.add(created.conversation_key)
     conversations.value = [created, ...conversations.value]
     await switchConversation(created.conversation_key)
   } catch {
@@ -207,6 +223,7 @@ async function removeConversation(key) {
   confirmingDelete.value = ''
   try {
     await deleteAssistConversation(key)
+    createdHere.delete(key)
     conversations.value = conversations.value.filter(c => c.conversation_key !== key)
     // Deleting the one you are reading leaves nothing on screen, so fall
     // back to the conversation everybody has rather than an empty panel

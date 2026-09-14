@@ -116,6 +116,46 @@ describe('AssistPanel conversations', () => {
     expect(q('[data-testid="assist-conversation-bar"]')).not.toBeNull()
   })
 
+  it('keeps a chat created while the list was loading, rename and all', async () => {
+    // attest-staging 12601: the switcher's list came back after "New chat"
+    // but without the new chat, replaced the rows, and took the open rename
+    // input with it — the e2e hung waiting for an input that no longer existed.
+    await open()
+    let answerList
+    list.mockImplementationOnce(() => new Promise((resolve) => { answerList = resolve }))
+    await openSwitcher()                                     // list request now in flight
+    q('[data-testid="assist-new-conversation"]').click()     // create lands first
+    await flushPromises()
+    const rows = () => all('[data-testid="assist-conversation-row"]')
+    expect(rows()).toHaveLength(1)
+    rows()[0].querySelector('[data-testid="assist-conversation-rename"]').click()
+    await flushPromises()
+    expect(q('[data-testid="assist-conversation-rename-input"]')).toBeTruthy()
+
+    answerList({ conversations: CONVERSATIONS })             // stale: no chat:new in it
+    await flushPromises()
+
+    expect(rows()).toHaveLength(3)
+    expect(q('[data-testid="assist-conversation-rename-input"]')).toBeTruthy()
+    expect(rows()[0].querySelector('[data-testid="assist-conversation-rename-input"]')).toBeTruthy()
+  })
+
+  it('shows the newest list when two requests overlap', async () => {
+    await open()
+    let answerOld
+    list.mockImplementationOnce(() => new Promise((resolve) => { answerOld = resolve }))
+    await openSwitcher()                                     // first request, slow
+    q('[data-testid="assist-conversation-switcher"]').click() // close
+    await flushPromises()
+    list.mockResolvedValueOnce({ conversations: [CONVERSATIONS[1]] })
+    await openSwitcher()                                     // second request, answered
+    answerOld({ conversations: CONVERSATIONS })              // the old answer arrives late
+    await flushPromises()
+    const titles = all('[data-testid="assist-conversation-row"]').map((r) => r.textContent)
+    expect(titles).toHaveLength(1)
+    expect(titles[0]).toContain('Sanctions')
+  })
+
   it('lists the conversations when opened', async () => {
     await open()
     await openSwitcher()
