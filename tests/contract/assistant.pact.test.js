@@ -105,9 +105,9 @@ describe('assistant conversations', () => {
     pact
       .addInteraction()
       .given('the user is authenticated')
-      .uponReceiving('a request for the conversation list')
+      .uponReceiving('a request for the first page of the conversation list')
       .withRequest('GET', '/assist/conversations', (b) =>
-        b.query({ lang: 'en' })
+        b.query({ limit: '50', lang: 'en' })
           .headers({ Authorization: regex(/^Bearer .+/, 'Bearer pact-token') }))
       .willRespondWith(200, (b) =>
         b.jsonBody({
@@ -116,12 +116,16 @@ describe('assistant conversations', () => {
             title: like('Water quality'),
             updated_at: like('2026-08-30T09:00:00Z'),
           }),
+          has_more: like(true),
+          next_before: like('2026-08-30T09:00:00+00:00|6f1c2a4e-0000-4000-8000-000000000001'),
         }))
       .executeTest(async (mock) => {
         routeCapiTo(mock.url)
         _internal.setAccessToken('pact-token')
         const r = await listAssistConversations()
         expect(r.conversations[0].conversation_key).toBeTruthy()
+        expect(r.has_more).toBe(true)
+        expect(r.next_before).toBeTruthy()
       }))
 
   it('fetches one conversation by its report-scoped key', () =>

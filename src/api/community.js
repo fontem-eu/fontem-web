@@ -327,14 +327,17 @@ export function getAssistConversation(conversationKey) {
  * same as opening a short one.
  */
 /**
- * The signed-in user's standalone conversations, newest activity first.
+ * One page of the signed-in user's conversations, newest activity first.
  *
- * Report-scoped chats are deliberately absent: they belong to their report and
- * open with it, so listing them fills the switcher with entries nobody chose
- * to start.
+ * Report chats and the global chat are included. Pass the `next_before` of
+ * the previous page as `before` to get the one after it.
  */
-export function listAssistConversations() {
-  return request('GET', '/assist/conversations')
+export function listAssistConversations({ before = '', limit = 50 } = {}) {
+  const qs = new URLSearchParams()
+  if (before) qs.set('before', before)
+  if (limit) qs.set('limit', String(limit))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return request('GET', `/assist/conversations${suffix}`)
 }
 
 /** Start a new conversation. The key is minted server-side. */

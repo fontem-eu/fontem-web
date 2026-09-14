@@ -156,6 +156,31 @@ describe('AssistPanel conversations', () => {
     expect(titles[0]).toContain('Sanctions')
   })
 
+  it('lists a page, and shows more chats on request', async () => {
+    list.mockReset()
+    list
+      .mockResolvedValueOnce({ conversations: [CONVERSATIONS[0]], has_more: true, next_before: 'cursor-1' })
+      .mockResolvedValueOnce({ conversations: [CONVERSATIONS[1]], has_more: false, next_before: '' })
+    await open()
+    await openSwitcher()
+    expect(list).toHaveBeenLastCalledWith({ limit: 50 })
+    expect(all('[data-testid="assist-conversation-row"]')).toHaveLength(1)
+
+    q('[data-testid="assist-conversation-more"]').click()
+    await flushPromises()
+
+    expect(list).toHaveBeenLastCalledWith({ before: 'cursor-1', limit: 50 })
+    expect(all('[data-testid="assist-conversation-row"]')).toHaveLength(2)
+    expect(q('[data-testid="assist-conversation-more"]')).toBeNull()   // that was the last page
+  })
+
+  it('offers no more button when the first page is the whole list', async () => {
+    await open()
+    await openSwitcher()
+    expect(all('[data-testid="assist-conversation-row"]')).toHaveLength(2)
+    expect(q('[data-testid="assist-conversation-more"]')).toBeNull()
+  })
+
   it('lists the conversations when opened', async () => {
     await open()
     await openSwitcher()

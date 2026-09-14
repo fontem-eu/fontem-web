@@ -227,6 +227,7 @@
     "untitled_chat": "New chat",
     "new_chat": "New",
     "rename_chat": "Rename",
+    "more_chats": "Show more chats",
     "delete_chat": "Delete",
     "delete_confirm_tap": "Tap again to delete",
     "conversation_create_failed": "Could not start a new chat. Try again.",

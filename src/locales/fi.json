@@ -227,6 +227,7 @@
     "untitled_chat": "Uusi keskustelu",
     "new_chat": "Uusi",
     "rename_chat": "Nimeä uudelleen",
+    "more_chats": "Lisää keskusteluja",
     "delete_chat": "Poista",
     "delete_confirm_tap": "Poista napauttamalla uudelleen",
     "conversation_create_failed": "Uuden keskustelun aloitus epäonnistui. Yritä uudelleen.",

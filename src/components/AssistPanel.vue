@@ -123,6 +123,13 @@ async function toggleSwitcher() {
 const createdHere = new Set()
 let listRequest = 0
 
+// The switcher reads a page at a time. It used to fetch every conversation
+// the user ever had — 690 rows for an account that simply used the assistant.
+const LIST_PAGE_SIZE = 50
+const listCursor = ref('')
+const listHasMore = ref(false)
+const loadingMoreChats = ref(false)
+
 async function loadConversationList() {
   // Signed-out visitors have no account, so no list and no switcher. The
   // panel still works — it just has the one ephemeral thread. (This used
@@ -131,14 +138,17 @@ async function loadConversationList() {
   if (!signedIn.value) return
   const ask = ++listRequest
   let fresh = []
+  let page = null
   try {
-    const data = await listAssistConversations()
-    fresh = data?.conversations || []
+    page = await listAssistConversations({ limit: LIST_PAGE_SIZE })
+    fresh = page?.conversations || []
   } catch {
     fresh = []
   }
   // A later request is on its way; its answer is the one to show.
   if (ask !== listRequest) return
+  listCursor.value = page?.next_before || ''
+  listHasMore.value = Boolean(page?.has_more)
   // "New chat" then opening the switcher races the create: the list can be
   // answered before the new chat commits. Replacing the rows with that answer
   // dropped the chat just made, and with it any rename open on its row.
@@ -146,6 +156,29 @@ async function loadConversationList() {
   for (const key of listed) createdHere.delete(key)
   const pending = conversations.value.filter(c => createdHere.has(c.conversation_key))
   conversations.value = [...pending, ...fresh]
+}
+
+// Append the next page. A reload of the list started while this was in flight
+// owns the rows now, so its answer wins and this page is dropped.
+async function loadMoreConversations() {
+  if (loadingMoreChats.value || !listHasMore.value || !listCursor.value) return
+  const ask = listRequest
+  loadingMoreChats.value = true
+  try {
+    const page = await listAssistConversations({
+      before: listCursor.value, limit: LIST_PAGE_SIZE,
+    })
+    if (ask !== listRequest) return
+    const shown = new Set(conversations.value.map(c => c.conversation_key))
+    const next = (page?.conversations || []).filter(c => !shown.has(c.conversation_key))
+    conversations.value = [...conversations.value, ...next]
+    listCursor.value = page?.next_before || ''
+    listHasMore.value = Boolean(page?.has_more)
+  } catch {
+    // Leave listHasMore as it is: a failed fetch is worth another click.
+  } finally {
+    loadingMoreChats.value = false
+  }
 }
 
 async function switchConversation(key, { fromList = false } = {}) {
@@ -1330,6 +1363,17 @@ defineExpose({ applyProposal, messages })
               </button>
             </template>
           </li>
+          <li v-if="listHasMore" class="assist-conv-more-row">
+            <button
+              class="assist-conv-more"
+              type="button"
+              data-testid="assist-conversation-more"
+              :disabled="loadingMoreChats"
+              @click="loadMoreConversations"
+            >
+              {{ $t('assist.more_chats') }}
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -1863,6 +1907,18 @@ defineExpose({ applyProposal, messages })
   box-shadow: 0 10px 24px rgb(0 0 0 / 18%);
 }
 
+.assist-conv-more-row { list-style: none; padding: 0.25rem 0.5rem; }
+.assist-conv-more {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px dashed var(--border, currentColor);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.assist-conv-more:disabled { opacity: 0.6; cursor: progress; }
 .assist-conv-row {
   display: flex;
   align-items: center;
