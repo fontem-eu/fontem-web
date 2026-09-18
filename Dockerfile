@@ -34,7 +34,7 @@ FROM cgr.void42.internal/chainguard/nginx:latest
 COPY --from=busybox /bin/busybox /usr/local/bin/busybox
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY nginx.conf            /etc/nginx/templates/default.conf.template
-COPY rate-limit.conf       /etc/nginx/rate-limit.conf
+COPY rate-limit.conf       /etc/nginx/templates/rate-limit.conf.template
 COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
 COPY nginx-main.conf       /etc/nginx/nginx.conf
 COPY docker-entrypoint.sh  /usr/local/bin/docker-entrypoint.sh

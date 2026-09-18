@@ -41,11 +41,19 @@ onMounted(refresh)
 async function refresh() {
   loading.value = true
   error.value = null
-  try {
-    investigations.value = (await listInvestigations()) || []
-    grants.value = (await listProjectAccess(props.project.id)) || []
-    try { effective.value = (await projectEffectiveAccess(props.project.id)) || [] } catch { /* non-fatal */ }
-  } catch (e) { error.value = e.message } finally { loading.value = false }
+  // Independent reads, so one slow or failing list cannot hide the others.
+  // The grant list used to wait behind the investigations list, and when
+  // that list timed out a grant the user had just made never appeared.
+  const [inv, acc, eff] = await Promise.allSettled([
+    listInvestigations(),
+    listProjectAccess(props.project.id),
+    projectEffectiveAccess(props.project.id),
+  ])
+  if (acc.status === 'fulfilled') grants.value = acc.value || []
+  else error.value = acc.reason?.message || String(acc.reason)
+  if (inv.status === 'fulfilled') investigations.value = inv.value || []
+  if (eff.status === 'fulfilled') effective.value = eff.value || []
+  loading.value = false
 }
 
 function sourceLabel(src) {

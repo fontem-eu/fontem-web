@@ -48,6 +48,17 @@ spec:
               value: {{ .Values.minioNamespace | default "fontem-prod" | quote }}
             - name: MINIO_BUCKET
               value: {{ .Values.minioBucket | default "fontem-uploads" | quote }}
+            # nginx rate limits (rate-limit.conf, nginx.conf). Defaults are
+            # prod's; non-prod values files raise them so automation never
+            # hits them.
+            - name: RATE_LIMIT_RPS
+              value: {{ (.Values.rateLimit).rps | default 30 | quote }}
+            - name: RATE_LIMIT_SUSTAINED_RPS
+              value: {{ (.Values.rateLimit).sustainedRps | default 10 | quote }}
+            - name: RATE_LIMIT_BURST
+              value: {{ (.Values.rateLimit).burst | default 100 | quote }}
+            - name: RATE_LIMIT_SUSTAINED_BURST
+              value: {{ (.Values.rateLimit).sustainedBurst | default 200 | quote }}
           ports:
             - containerPort: {{ .Values.containerPort | default 80 }}
           resources:

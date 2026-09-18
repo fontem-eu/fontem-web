@@ -50,6 +50,22 @@ describe('StudioShareModal', () => {
     expect(api.revokeProjectAccess).toHaveBeenCalled()
   })
 
+  it('shows a new grant even when the investigations list fails', async () => {
+    // The grant list must not wait behind the investigations list: when that
+    // list timed out, a grant the user had just made never appeared.
+    api.__seed([{ id: 'p1', name: 'Corruption', created_by: 'u', investigation_id: null, queries: [], plots: [] }])
+    listInvestigations.mockRejectedValue(new Error('timed out'))
+    const w = mount(StudioShareModal, {
+      props: { project: { id: 'p1', name: 'Corruption', investigation_id: null } },
+      global: { stubs },
+    })
+    await flushPromises()
+    await w.find('[data-testid="studio-share-email"]').setValue('ana@fontem.eu')
+    await w.find('[data-testid="studio-share-add"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="studio-grant"]').text()).toContain('ana@fontem.eu')
+    expect(w.find('[data-testid="studio-share-error"]').exists()).toBe(false)
+  })
+
   it('shows detach when already attached', async () => {
     api.__seed([{ id: 'p1', name: 'C', created_by: 'u', investigation_id: 'inv1', queries: [], plots: [] }])
     listInvestigations.mockResolvedValue([{ id: 'inv1', name: 'Panama', membership: { role: 'admin' } }])
