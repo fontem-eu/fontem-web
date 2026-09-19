@@ -15,7 +15,8 @@ vi.mock('maplibre-gl', () => {
     getCanvas: () => ({ style: {} }),
   })
   // maplibre-gl 6 has no default export — these are named.
-  return { Map: vi.fn(makeMap), NavigationControl: vi.fn(() => ({})) }
+  // setWorkerUrl: src/lib/maplibre.js points the library at its bundled worker on import.
+  return { Map: vi.fn(makeMap), NavigationControl: vi.fn(() => ({})), setWorkerUrl: vi.fn() }
 })
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))
 const fetchBoundaries = vi.fn()

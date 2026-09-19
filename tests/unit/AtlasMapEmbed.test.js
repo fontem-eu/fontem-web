@@ -12,6 +12,8 @@ const mapInstance = {
 // mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
   Map: vi.fn((opts) => { if (!opts?.container) throw new Error('container required'); return mapInstance }),
+  // src/lib/maplibre.js points the library at its bundled worker on import.
+  setWorkerUrl: vi.fn(),
   NavigationControl: vi.fn(),
 }))
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))

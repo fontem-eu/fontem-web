@@ -12,10 +12,8 @@
  * shared into a util once we have a third consumer.
  */
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-// maplibre-gl 6 dropped its default export; the namespace import keeps
-// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
-import * as maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+// Always through the wrapper: it wires the web worker the region layers need.
+import { maplibregl, createMap, whenStyleReady } from '../lib/maplibre.js'
 import { fetchDatasets, fetchSeries, fetchSliceStats } from '../api/atlas.js'
 import { fetchBoundaries } from '../api/geo.js'
 import AtlasLegend from './atlas/AtlasLegend.vue'
@@ -191,8 +189,7 @@ async function renderMap() {
       map.on('click', 'atlas-embed-null', onMove)
     }
   }
-  if (map.isStyleLoaded()) apply()
-  else map.once('load', apply)
+  whenStyleReady(map, apply)
 }
 
 // ── Data fetching ──────────────────────────────────────────────────
@@ -234,7 +231,7 @@ watch(atlasPalette, () => renderMap())
 
 onMounted(() => {
   if (!container.value) return
-  map = new maplibregl.Map({
+  map = createMap({
     container: container.value,
     preserveDrawingBuffer: true,
     // Inline OSM raster style — CSP allows tile.openstreetmap.org but NOT the

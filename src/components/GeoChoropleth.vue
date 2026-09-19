@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-// maplibre-gl 6 dropped its default export; the namespace import keeps
-// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
-import * as maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+// Always through the wrapper: it wires the web worker the region layers need.
+import { maplibregl, createMap, whenStyleReady } from '../lib/maplibre.js'
 import { fetchAggregate, fetchBoundaries } from '../api/geo.js'
 
 const container = ref(null)
@@ -73,6 +71,17 @@ function applyChoropleth(geojson, rows) {
     const idx = Math.floor(((i + 1) / COLOR_STOPS.length) * values.length)
     return values[Math.max(0, idx - 1)] || 0
   })
+  // A `step` expression must have strictly ascending inputs, and quantiles of
+  // a short or tied list repeat (one region gives the same threshold five
+  // times). MapLibre rejects the whole layer for that — no fill at all, only
+  // a console error — so a repeated threshold is dropped and the step keeps
+  // the darker colour that would have won anyway.
+  const stops = []
+  thresholds.forEach((t, i) => {
+    if (stops.length && t <= stops[stops.length - 1][0]) stops[stops.length - 1][1] = COLOR_STOPS[i + 1]
+    else stops.push([t, COLOR_STOPS[i + 1]])
+  })
+  const fillColor = ['step', ['get', 'value'], COLOR_STOPS[0], ...stops.flat()]
   // Inject value into each feature property for data-driven styling.
   for (const f of geojson.features) {
     f.properties.value = byCode.get(f.properties.nuts_code) ?? 0
@@ -88,12 +97,7 @@ function applyChoropleth(geojson, rows) {
         type: 'fill',
         source: 'nuts',
         paint: {
-          'fill-color': [
-            'step',
-            ['get', 'value'],
-            COLOR_STOPS[0],
-            ...thresholds.flatMap((t, i) => [t, COLOR_STOPS[i + 1]]),
-          ],
+          'fill-color': fillColor,
           'fill-opacity': 0.7,
         },
       })
@@ -114,20 +118,14 @@ function applyChoropleth(geojson, rows) {
       })
     }
     // Recompute the stops each refresh (values change with filters).
-    map.setPaintProperty('nuts-fill', 'fill-color', [
-      'step',
-      ['get', 'value'],
-      COLOR_STOPS[0],
-      ...thresholds.flatMap((t, i) => [t, COLOR_STOPS[i + 1]]),
-    ])
+    map.setPaintProperty('nuts-fill', 'fill-color', fillColor)
   }
 
-  if (map.isStyleLoaded()) addOrUpdate()
-  else map.once('load', addOrUpdate)
+  whenStyleReady(map, addOrUpdate)
 }
 
 onMounted(() => {
-  map = new maplibregl.Map({
+  map = createMap({
     container: container.value,
     style: {
       version: 8,

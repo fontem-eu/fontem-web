@@ -15,10 +15,8 @@
  */
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-// maplibre-gl 6 dropped its default export; the namespace import keeps
-// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
-import * as maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+// Always through the wrapper: it wires the web worker the region layers need.
+import { maplibregl, createMap, whenStyleReady } from '../lib/maplibre.js'
 import {
   fetchAvailability,
   fetchDatasets,
@@ -472,8 +470,7 @@ async function _renderChoropleth() {
       map.on('click', 'atlas-fill-null', onMove)
     }
   }
-  if (map.isStyleLoaded()) apply()
-  else map.once('load', apply)
+  whenStyleReady(map, apply)
 }
 
 // ── Data fetching ────────────────────────────────────────────────────
@@ -616,7 +613,7 @@ watch(selectedDataset, (d) => {
 // container-presence assertion in AtlasView.test.js).
 function _createMap() {
   if (!container.value || map) return
-  map = new maplibregl.Map({
+  map = createMap({
     container: container.value,
     preserveDrawingBuffer: true,
     style: {

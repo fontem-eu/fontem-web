@@ -12,10 +12,8 @@
  *                  vars split into terciles → a 2D colour grid + a 3×3 legend.
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-// maplibre-gl 6 dropped its default export; the namespace import keeps
-// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
-import * as maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+// Always through the wrapper: it wires the web worker the region layers need.
+import { maplibregl, createMap, whenStyleReady } from '../lib/maplibre.js'
 import { fetchBoundaries } from '../api/geo.js'
 import { SEQUENTIAL_BLUE, DIVERGING, BIVARIATE_3X3, tercileBreaks, tercileClass } from '../utils/vizPalette.js'
 
@@ -174,13 +172,12 @@ async function render() {
       map.setPaintProperty('nuts-fill', 'fill-color', fillColor)
       map.setPaintProperty('nuts-fill', 'fill-opacity', fillOpacity)
     }
-    if (map.isStyleLoaded()) apply()
-    else map.once('load', apply)
+    whenStyleReady(map, apply)
   } catch (e) { error.value = e.message } finally { loading.value = false }
 }
 
 onMounted(() => {
-  map = new maplibregl.Map({
+  map = createMap({
     container: container.value,
     style: {
       version: 8,
