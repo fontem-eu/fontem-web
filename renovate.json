@@ -3,5 +3,18 @@
   "extends": [
     "config:recommended"
   ],
-  "enabled": true
+  "enabled": true,
+  "pinDigests": true,
+  "packageRules": [
+    {
+      "description": "Neo4j stays on the 5.26 LTS line; the move to calendar versioning is a deliberate upgrade, not a patch",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "neo4j"
+      ],
+      "allowedVersions": "/^5\\.26\\./"
+    }
+  ]
 }
