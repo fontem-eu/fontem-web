@@ -29,8 +29,28 @@ const data = ref(null)
 const errataContract = ref(null)
 // The contract whose data-confidence modal is open (null = closed).
 const confidenceContract = ref(null)
-const sortKey = ref('value_eur')
+// Date and value are ordered by the API (`sort=`), so they rank the
+// whole contract list and `limit` returns the top of it. Sorting here
+// could only ever reorder the page the API already chose — and the old
+// client-side comparator fell back to '' for missing values, so on a
+// typical authority (81 of 100 contracts carry no value) almost every
+// comparison was number-vs-string, which JavaScript calls neither
+// smaller nor greater: the list came out shuffled.
+//
+// Title and counterparty have no server ordering; those still sort the
+// loaded rows, which is all they ever claimed to do.
+const SERVER_SORTS = {
+  award_date: { desc: 'recent', asc: 'oldest' },
+  value_eur: { desc: 'value_desc', asc: 'value_asc' },
+}
+const sortKey = ref('award_date')
 const sortAsc = ref(false)
+const apiSort = computed(
+  () => SERVER_SORTS[sortKey.value]?.[sortAsc.value ? 'asc' : 'desc'] ?? 'recent',
+)
+// Remembered from the first load so a sort change re-fetches the list
+// directly instead of resolving the id and probing both endpoints again.
+const resolved = ref(null)
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -43,6 +63,24 @@ async function resolveGmrId(symbol) {
   return results.length > 0 ? results[0].gmr_id : null
 }
 
+function contractsUrl(kind, gmrId) {
+  return `/api/${kind}/${encodeURIComponent(gmrId)}/contracts`
+    + `?limit=100&sort=${apiSort.value}`
+}
+
+// An authority response names its fields differently; normalise so the
+// table renders one shape.
+function fromAuthority(gmrId, json) {
+  return {
+    gmr_id: gmrId,
+    company_name: json.authority_name,
+    country: json.country,
+    contract_count: json.contract_count,
+    total_contract_value_eur: json.total_spend_eur,
+    contracts: json.contracts || [],
+  }
+}
+
 async function loadContracts(symbol) {
   state.value = 'loading'
   try {
@@ -52,28 +90,22 @@ async function loadContracts(symbol) {
       return
     }
     // Try as company first, then as authority
-    let res = await fetch(`/api/companies/${encodeURIComponent(gmrId)}/contracts?limit=100`)
+    let res = await fetch(contractsUrl('companies', gmrId))
     if (res.ok) {
       const json = await res.json()
       if (json.contract_count > 0) {
         data.value = json
+        resolved.value = { kind: 'companies', gmrId }
         state.value = 'done'
         return
       }
     }
     // Try authority endpoint
-    res = await fetch(`/api/authorities/${encodeURIComponent(gmrId)}/contracts?limit=100`)
+    res = await fetch(contractsUrl('authorities', gmrId))
     if (res.ok) {
       const json = await res.json()
-      // Normalize authority response to match company contract format
-      data.value = {
-        gmr_id: gmrId,
-        company_name: json.authority_name,
-        country: json.country,
-        contract_count: json.contract_count,
-        total_contract_value_eur: json.total_spend_eur,
-        contracts: json.contracts || [],
-      }
+      data.value = fromAuthority(gmrId, json)
+      resolved.value = { kind: 'authorities', gmrId }
       state.value = json.contract_count > 0 ? 'done' : 'empty'
       return
     }
@@ -83,28 +115,57 @@ async function loadContracts(symbol) {
   }
 }
 
-watch(() => props.symbol, (sym) => { if (sym) loadContracts(sym) }, { immediate: true })
+// Re-ask for the list in the new order. The rows on screen are the top
+// 100 of the old ordering, so re-sorting them locally would answer a
+// different question than the header says.
+async function reloadSorted() {
+  const target = resolved.value
+  if (!target) return loadContracts(props.symbol)
+  try {
+    const res = await fetch(contractsUrl(target.kind, target.gmrId))
+    if (!res.ok) return
+    const json = await res.json()
+    data.value = target.kind === 'authorities'
+      ? fromAuthority(target.gmrId, json)
+      : json
+  } catch {
+    state.value = 'error'
+  }
+  return undefined
+}
+
+watch(() => props.symbol, (sym) => {
+  resolved.value = null
+  if (sym) loadContracts(sym)
+}, { immediate: true })
 
 function sortBy(key) {
   if (sortKey.value === key) {
     sortAsc.value = !sortAsc.value
   } else {
     sortKey.value = key
-    sortAsc.value = key === 'award_date'
+    // First click on a column picks the direction that column is
+    // usually read in: newest and largest first, names A→Z.
+    sortAsc.value = !SERVER_SORTS[key]
   }
+  if (SERVER_SORTS[sortKey.value]) reloadSorted()
 }
 
 const sortedContracts = computed(() => {
-  if (!data.value?.contracts) return []
-  const arr = [...data.value.contracts]
-  arr.sort((a, b) => {
-    const va = a[sortKey.value] ?? ''
-    const vb = b[sortKey.value] ?? ''
-    if (va < vb) return sortAsc.value ? -1 : 1
-    if (va > vb) return sortAsc.value ? 1 : -1
-    return 0
+  const rows = data.value?.contracts || []
+  // Date and value arrive ordered; re-sorting would only shuffle the
+  // page around within itself.
+  if (SERVER_SORTS[sortKey.value]) return rows
+  const dir = sortAsc.value ? 1 : -1
+  return [...rows].sort((a, b) => {
+    const va = a[sortKey.value]
+    const vb = b[sortKey.value]
+    // Missing stays at the bottom whichever way the column points.
+    if (va == null && vb == null) return 0
+    if (va == null) return 1
+    if (vb == null) return -1
+    return String(va).localeCompare(String(vb)) * dir
   })
-  return arr
 })
 
 function indicator(key) {

@@ -216,24 +216,117 @@ describe('ContractsPanel', () => {
   })
 
 
-  it('sorts by value descending by default', async () => {
+  // Ordering by date or value is the API's job: it ranks the whole
+  // contract list, and `limit` then returns the top of it. Sorting the
+  // rows here could only reorder the page the API already picked — and
+  // the old comparator, which substituted '' for a missing value,
+  // produced a visibly shuffled list on any entity where most contracts
+  // carry no value (81 of 100 on a real authority).
+  const UUID = 'abc12345-1234-1234-1234-123456789abc'
+
+  function urls() {
+    return mockFetch.mock.calls.map(([u]) => u)
+  }
+
+  it('asks for the most recent contracts first', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => makeContractsResponse() })
+    mount(ContractsPanel, { props: { symbol: UUID } })
+    await flushPromises()
+
+    expect(urls()[0]).toContain('sort=recent')
+  })
+
+  it('renders the rows in the order the API returned them', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => makeContractsResponse({
         contracts: [
-          makeContract({ ted_notice_id: 'a', value_eur: 100 }),
-          makeContract({ ted_notice_id: 'b', value_eur: 900 }),
+          makeContract({ ted_notice_id: 'newest', award_date: '2024-06-15', value_eur: 100 }),
+          makeContract({ ted_notice_id: 'older', award_date: '2023-01-02', value_eur: 900 }),
         ],
       }),
     })
-    const wrapper = mount(ContractsPanel, {
-      props: { symbol: 'abc12345-1234-1234-1234-123456789abc' },
-    })
+    const wrapper = mount(ContractsPanel, { props: { symbol: UUID } })
     await flushPromises()
 
     const rows = wrapper.findAll('tbody tr')
-    // Default sort is value_eur descending — 900 should be first
-    expect(rows[0].text()).toContain('900')
+    expect(rows[0].text()).toContain('2024-06-15')
+    expect(rows[1].text()).toContain('2023-01-02')
+  })
+
+  it('re-asks the API when the value column is clicked, largest first', async () => {
+    mockFetch.mockResolvedValue({ ok: true, json: async () => makeContractsResponse() })
+    const wrapper = mount(ContractsPanel, { props: { symbol: UUID } })
+    await flushPromises()
+
+    const valueHeader = wrapper.findAll('th.sortable')[2]
+    await valueHeader.trigger('click')
+    await flushPromises()
+    expect(urls().at(-1)).toContain('sort=value_desc')
+
+    await valueHeader.trigger('click')
+    await flushPromises()
+    expect(urls().at(-1)).toContain('sort=value_asc')
+  })
+
+  it('re-asks the API when the date column is clicked, newest then oldest', async () => {
+    mockFetch.mockResolvedValue({ ok: true, json: async () => makeContractsResponse() })
+    const wrapper = mount(ContractsPanel, { props: { symbol: UUID } })
+    await flushPromises()
+
+    const dateHeader = wrapper.findAll('th.sortable')[0]
+    await dateHeader.trigger('click')       // already newest-first: flips to oldest
+    await flushPromises()
+    expect(urls().at(-1)).toContain('sort=oldest')
+
+    await dateHeader.trigger('click')
+    await flushPromises()
+    expect(urls().at(-1)).toContain('sort=recent')
+  })
+
+  it('keeps sorting an authority list through the authority endpoint', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    mockFetch.mockResolvedValue({ ok: true, json: async () => makeAuthorityResponse() })
+    const wrapper = mount(ContractsPanel, { props: { symbol: UUID } })
+    await flushPromises()
+
+    await wrapper.findAll('th.sortable')[2].trigger('click')
+    await flushPromises()
+    const last = urls().at(-1)
+    expect(last).toContain('/api/authorities/')
+    expect(last).toContain('sort=value_desc')
+    // and it did not fall back to re-resolving the entity
+    expect(last).not.toContain('/api/companies/')
+  })
+
+  it('sorts the columns the API cannot order, leaving blanks at the bottom', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [
+          makeContract({ ted_notice_id: 'b', title: 'Beta' }),
+          makeContract({ ted_notice_id: 'none', title: null }),
+          makeContract({ ted_notice_id: 'a', title: 'Alpha' }),
+        ],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, { props: { symbol: UUID } })
+    await flushPromises()
+    const before = mockFetch.mock.calls.length
+
+    await wrapper.findAll('th.sortable')[1].trigger('click')   // Title
+    await flushPromises()
+
+    const rows = wrapper.findAll('tbody tr')
+    expect(rows[0].text()).toContain('Alpha')
+    expect(rows[1].text()).toContain('Beta')
+    // the title-less row sits at the bottom, not among the named ones
+    expect(rows[2].attributes('data-testid')).toBe('contract-row-none')
+    // no request: the API has no ordering for this column
+    expect(mockFetch.mock.calls.length).toBe(before)
   })
 
   // Regression: authority contracts should load via authority endpoint
