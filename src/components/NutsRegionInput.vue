@@ -17,6 +17,15 @@
  * Portugal before Porto and before Alto Alentejo — so prefix matches on name
  * sort above code matches, which sort above anything containing the term.
  *
+ * IT SEARCHES ACROSS LANGUAGES, not only the name on screen. Region names
+ * come from Eurostat, which writes them in the national language — so
+ * Greek and Cyrillic regions used to be findable only by typing Greek or
+ * Cyrillic, or the bare code. "Attica", "Attiki" and "Αττική" all have to
+ * reach EL3, and "Lisbon", "Lisboa" and "Lisbonne" all have to reach
+ * PT1A0, whichever of the 24 languages the reader is using. The names are
+ * matched folded (case- and accent-insensitive) against a server-built
+ * index of every name each region answers to.
+ *
  * IT IS A REAL COMBOBOX. Arrow keys move, Enter selects, Escape closes,
  * aria-activedescendant tells a screen reader which option is current. A
  * typeahead that only works with a mouse is a worse select box.
@@ -24,6 +33,8 @@
 import { ref, computed, onMounted, watch, nextTick, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNutsRegions } from '../composables/useNutsRegions.js'
+import { currentLang } from '../composables/useLang.js'
+import { foldText } from '../utils/foldText.js'
 
 const props = defineProps({
   /** A NUTS code, or 'EU' for everywhere. Empty means nothing chosen yet. */
@@ -37,7 +48,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
-const { regions, load } = useNutsRegions()
+const { regions, searchTerms, load, loadSearchIndex } = useNutsRegions()
 
 const EVERYWHERE = 'EU'
 const MAX_SUGGESTIONS = 40
@@ -65,6 +76,15 @@ const byCode = computed(() => {
   return out
 })
 
+/** The national-language name, when it is not already what we're showing.
+ *  A reader on the English site scanning for Αττική should still recognise
+ *  the row, and the native form is the one printed on official documents. */
+function nativeAliasOf(region) {
+  const native = region.name_native || ''
+  if (!native || foldText(native) === foldText(region.name)) return ''
+  return native
+}
+
 /** "Norte" is ambiguous; "Norte · Portugal" is not. NUTS codes nest by
  *  prefix, so the ancestors are derivable without another lookup. */
 function hintFor(region) {
@@ -81,23 +101,31 @@ const selected = computed(() => {
   if (!props.modelValue) return null
   if (props.modelValue === EVERYWHERE) return everywhereOption.value
   const found = byCode.value.get(props.modelValue)
-  return found ? { ...found, hint: hintFor(found) } : null
+  return found ? { ...found, hint: hintFor(found), native: nativeAliasOf(found) } : null
 })
 
 const candidates = computed(
   () => regions.value.filter((r) => r.level <= props.maxLevel),
 )
 
-// Match strength, lowest wins: a name that starts with what you typed beats
-// a code that does, which beats a name that merely contains it. -1 means no
-// match at all. Split out of `suggestions` because the ranking is the part
-// worth reading on its own — and it kept that computed over the cognitive
-// complexity limit.
+// Match strength, lowest wins: the name on screen beats the region's own
+// other names, which beat the code, which beats a name in another language;
+// a prefix beats a mere containment. -1 means no match at all. Split out of
+// `suggestions` because the ranking is the part worth reading on its own —
+// and it kept that computed over the cognitive complexity limit.
 function rankOf(region, term) {
-  const name = region.name.toLowerCase()
+  const name = foldText(region.name)
   if (name.startsWith(term)) return 0
-  if (region.code.toLowerCase().startsWith(term)) return 1
-  if (name.includes(term)) return 2
+  const eurostat = [foldText(region.name_latn), foldText(region.name_native)]
+  if (eurostat.some((n) => n && n.startsWith(term))) return 1
+  if (region.code.toLowerCase().startsWith(term)) return 2
+  // The index is one pre-folded string per region, names joined by spaces,
+  // so a term at a word boundary is a prefix match on one of those names.
+  const other = searchTerms.value[region.code] || ''
+  if (other.startsWith(term) || other.includes(` ${term}`)) return 3
+  if (name.includes(term)) return 4
+  if (eurostat.some((n) => n && n.includes(term))) return 5
+  if (other.includes(term)) return 6
   return -1
 }
 
@@ -111,12 +139,12 @@ function byRankThenDepth(a, b) {
 
 function everywhereMatches(term) {
   return !term
-    || everywhereOption.value.name.toLowerCase().includes(term)
+    || foldText(everywhereOption.value.name).includes(term)
     || EVERYWHERE.toLowerCase().startsWith(term)
 }
 
 const suggestions = computed(() => {
-  const term = query.value.trim().toLowerCase()
+  const term = foldText(query.value)
   const out = []
 
   if (props.allowEverywhere && everywhereMatches(term)) {
@@ -137,12 +165,16 @@ const suggestions = computed(() => {
     .sort(byRankThenDepth)
 
   for (const { region } of scored.slice(0, MAX_SUGGESTIONS)) {
-    out.push({ ...region, hint: hintFor(region) })
+    out.push({ ...region, hint: hintFor(region), native: nativeAliasOf(region) })
   }
   return out
 })
 
 onMounted(load)
+
+// Names are localised server-side, so a language switch needs a reload —
+// otherwise the picker keeps offering the previous language's names.
+watch(() => currentLang(), () => { load() })
 
 watch(() => props.modelValue, () => { if (!open.value) query.value = '' })
 watch(suggestions, () => { active.value = 0 })
@@ -150,6 +182,9 @@ watch(suggestions, () => { active.value = 0 })
 function show() {
   open.value = true
   active.value = 0
+  // Four times the size of the list and worthless until somebody types, so
+  // it is fetched when the input is touched rather than when it mounts.
+  loadSearchIndex()
 }
 
 function choose(region) {
@@ -195,6 +230,7 @@ function onBlur() {
   <div class="nri">
     <div v-if="selected" class="nri-selected" data-testid="region-selected">
       <span class="nri-selected-name">{{ selected.name }}</span>
+      <span v-if="selected.native" class="nri-option-native">{{ selected.native }}</span>
       <span v-if="selected.hint" class="nri-selected-hint">{{ selected.hint }}</span>
       <button
         type="button" class="nri-clear" data-testid="region-clear"
@@ -249,6 +285,7 @@ v-if="open && suggestions.length" :id="listId" class="nri-list"
           @mouseenter="active = i"
         >
           <span class="nri-option-name">{{ region.name }}</span>
+          <span v-if="region.native" class="nri-option-native">{{ region.native }}</span>
           <span v-if="region.hint" class="nri-option-hint">{{ region.hint }}</span>
           <code v-if="region.level >= 0" class="nri-option-code">{{ region.code }}</code>
         </li>
@@ -274,6 +311,7 @@ v-if="open && suggestions.length" :id="listId" class="nri-list"
 .nri-option { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.4rem 0.5rem; border-radius: 7px; cursor: pointer; }
 .nri-option.is-active { background: color-mix(in srgb, var(--accent) 14%, transparent); }
 .nri-option-name { font-size: 0.88rem; }
+.nri-option-native { font-size: 0.72rem; color: var(--text-2, var(--muted)); }
 .nri-option-hint { font-size: 0.72rem; color: var(--muted); flex: 1; }
 .nri-option-code { font-size: 0.7rem; color: var(--muted); margin-left: auto; }
 .nri-empty { position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 0.6rem; font-size: 0.85rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }

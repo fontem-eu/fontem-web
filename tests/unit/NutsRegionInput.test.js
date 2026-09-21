@@ -2,10 +2,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { makeTestI18n } from './helpers/i18n.js'
 
-vi.mock('../../src/api/geo.js', () => ({ fetchNutsRegions: vi.fn() }))
+vi.mock('../../src/api/geo.js', () => ({
+  fetchNutsRegions: vi.fn(),
+  fetchNutsSearchIndex: vi.fn(),
+}))
 
 import NutsRegionInput from '../../src/components/NutsRegionInput.vue'
-import { fetchNutsRegions } from '../../src/api/geo.js'
+import { fetchNutsRegions, fetchNutsSearchIndex } from '../../src/api/geo.js'
 import { __resetNutsCache } from '../../src/composables/useNutsRegions.js'
 
 const REGIONS = [
@@ -13,12 +16,29 @@ const REGIONS = [
   { code: 'PT1', name: 'Continente', level: 1 },
   { code: 'PT16', name: 'Centro', level: 2 },
   { code: 'PT165', name: 'Coimbra', level: 3 },
-  { code: 'PT17', name: 'Área Metropolitana de Lisboa', level: 2 },
+  { code: 'PT1A0', name: 'Lisbon metropolitan area', level: 3,
+    name_latn: 'Grande Lisboa', name_native: 'Grande Lisboa' },
   { code: 'ES', name: 'Spain', level: 0 },
   { code: 'ES3', name: 'Comunidad de Madrid', level: 1 },
   { code: 'DE', name: 'Germany', level: 0 },
+  { code: 'DE715', name: 'Bergstraße', level: 3, name_native: 'Bergstraße' },
   { code: 'PL71', name: 'Łódzkie', level: 2 },
+  // The case that started this: Eurostat only names EL3 in Greek, and its
+  // Latin transliteration is not what an English or French reader types.
+  { code: 'EL3', name: 'Attica Region', level: 1,
+    name_latn: 'Attiki', name_native: 'Αττική' },
+  { code: 'EL303', name: 'Kentrikos Tomeas Athinon', level: 3,
+    name_latn: 'Kentrikos Tomeas Athinon', name_native: 'Κεντρικός Τομέας Αθηνών' },
 ]
+
+// Folded exactly as the API ships it: lowercase, accents stripped, one
+// region per entry with its names in every language joined by spaces.
+const SEARCH_TERMS = {
+  EL3: 'attika attica region perifereia attikis atica periferia de atica',
+  EL303: 'kentrikos tomeas athinon athina κεντρικος τομεας αθηνων',
+  PT1A0: 'grande lisboa lisbon metropolitan area aire metropolitaine de lisbonne '
+    + 'area metropolitana de lisboa lissabon',
+}
 
 async function mountInput(props = {}) {
   const w = mount(NutsRegionInput, {
@@ -43,6 +63,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   __resetNutsCache()
   fetchNutsRegions.mockResolvedValue({ regions: REGIONS })
+  fetchNutsSearchIndex.mockResolvedValue({ terms: SEARCH_TERMS })
 })
 
 describe('NutsRegionInput', () => {
@@ -173,5 +194,81 @@ describe('NutsRegionInput', () => {
     await mountInput()
     await mountInput()
     expect(fetchNutsRegions).toHaveBeenCalledTimes(1)
+  })
+
+  describe('across languages', () => {
+    it('finds a Greek region by its English name', async () => {
+      const w = await mountInput()
+      await type(w, 'attica')
+      const codes = w.findAll('[data-testid^="region-option-"]')
+        .map((li) => li.attributes('data-testid'))
+      expect(codes).toContain('region-option-EL3')
+    })
+
+    it('finds it by the Latin transliteration Eurostat publishes', async () => {
+      const w = await mountInput()
+      await type(w, 'attiki')
+      expect(w.find('[data-testid="region-option-EL3"]').exists()).toBe(true)
+    })
+
+    it('finds it by its Greek name, accents or none', async () => {
+      const w = await mountInput()
+      await type(w, 'Αττική')
+      expect(w.find('[data-testid="region-option-EL3"]').exists()).toBe(true)
+      await type(w, 'αττικη')
+      expect(w.find('[data-testid="region-option-EL3"]').exists()).toBe(true)
+    })
+
+    it('finds Lisbon from any of the languages it is named in', async () => {
+      const w = await mountInput()
+      for (const term of ['lisboa', 'lisbonne', 'lissabon', 'Grande Lisboa']) {
+        await type(w, term)
+        expect(
+          w.find('[data-testid="region-option-PT1A0"]').exists(),
+          `"${term}" should find PT1A0`,
+        ).toBe(true)
+      }
+    })
+
+    it('finds a NUTS 3 unit by the city it is the metro region of', async () => {
+      /** Nobody looks for central Athens by typing "Kentrikos Tomeas". */
+      const w = await mountInput()
+      await type(w, 'athina')
+      expect(w.find('[data-testid="region-option-EL303"]').exists()).toBe(true)
+    })
+
+    it('matches ß as ss, the way the server folded it', async () => {
+      const w = await mountInput()
+      await type(w, 'bergstrasse')
+      expect(w.find('[data-testid="region-option-DE715"]').exists()).toBe(true)
+    })
+
+    it('ranks the name on screen above a name in another language', async () => {
+      const w = await mountInput()
+      await type(w, 'attica')
+      expect(optionText(w)[0]).toContain('Attica Region')
+    })
+
+    it('shows the national-language name next to a translated one', async () => {
+      const w = await mountInput()
+      await type(w, 'attica')
+      expect(w.find('[data-testid="region-option-EL3"]').text()).toContain('Αττική')
+    })
+
+    it('loads the index when the input is touched, not on mount', async () => {
+      await mountInput()
+      expect(fetchNutsSearchIndex).not.toHaveBeenCalled()
+      const w = await mountInput()
+      await w.find('[data-testid="region-input"]').trigger('focus')
+      await flushPromises()
+      expect(fetchNutsSearchIndex).toHaveBeenCalledTimes(1)
+    })
+
+    it('still matches the visible names when the index fails to load', async () => {
+      fetchNutsSearchIndex.mockRejectedValue(new Error('offline'))
+      const w = await mountInput()
+      await type(w, 'coimbra')
+      expect(w.find('[data-testid="region-option-PT165"]').exists()).toBe(true)
+    })
   })
 })

@@ -13,11 +13,16 @@
  * not a reasonable price for three labels on a feed card.
  */
 import { fetchNutsRegions } from '../api/geo.js'
+import { currentLang } from './useLang.js'
 
 /** code -> name, accumulated across calls. */
 const cache = new Map()
 /** In-flight requests, so ten cards mounting at once make one call. */
 let pending = null
+/** The language the cached names are in. Region names are localised
+ *  server-side, so a switch invalidates every one of them — keeping them
+ *  would leave a reader who switched to Greek looking at English places. */
+let cachedLang = null
 
 /**
  * The codes whose names are needed to label `code`, longest first.
@@ -36,6 +41,10 @@ export function chainFor(code) {
  * @param {{nuts?: string[]}[]} items
  */
 export async function loadNutsLabels(items) {
+  if (cachedLang !== currentLang()) {
+    cache.clear()
+    cachedLang = currentLang()
+  }
   const needed = new Set()
   for (const item of items || []) {
     for (const code of item?.nuts || []) {
@@ -92,4 +101,5 @@ export function nutsLabel(item) {
 export function _resetNutsLabelsForTests() {
   cache.clear()
   pending = null
+  cachedLang = null
 }

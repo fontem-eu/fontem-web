@@ -2,7 +2,9 @@
  * Tests for the geo API client.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { fetchAggregate, fetchBoundaries } from '../../src/api/geo.js'
+import {
+  fetchAggregate, fetchBoundaries, fetchNutsSearchIndex,
+} from '../../src/api/geo.js'
 
 const originalFetch = globalThis.fetch
 
@@ -81,5 +83,17 @@ describe('fetchBoundaries', () => {
       text: async () => 'Boundaries for NUTS 3 are not bundled yet.',
     })
     await expect(fetchBoundaries(3)).rejects.toThrow(/HTTP 501/)
+  })
+})
+
+describe('fetchNutsSearchIndex', () => {
+  it('pins the language, because the index carries all of them', async () => {
+    /** Left to withLang() the URL would vary by locale, and the browser
+     *  would re-download 116 KB on every language switch for the same
+     *  bytes. */
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({ terms: {} }) })
+    await fetchNutsSearchIndex()
+    expect(globalThis.fetch.mock.calls[0][0])
+      .toBe('/api/geo/nuts-search-index?lang=en')
   })
 })
