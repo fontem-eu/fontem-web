@@ -12,6 +12,14 @@ vi.mock('../../src/api/community.js', () => ({
   unwatch: vi.fn(),
 }))
 vi.mock('../../src/api/session.js', () => ({ isAuthed: { value: true } }))
+vi.mock('../../src/api/geo.js', () => ({
+  fetchNutsRegions: vi.fn(async () => ({
+    regions: [{ code: 'PT16', name: 'Centro', level: 2 },
+              { code: 'PT', name: 'Portugal', level: 0 },
+              { code: 'EL3', name: 'Attica Region', level: 1 }],
+  })),
+  fetchNutsSearchIndex: vi.fn(async () => ({ terms: {} })),
+}))
 vi.mock('../../src/components/NutsRegionInput.vue', () => ({
   default: {
     name: 'NutsRegionInput',
@@ -23,6 +31,7 @@ vi.mock('../../src/components/NutsRegionInput.vue', () => ({
 }))
 
 import BriefingsView from '../../src/views/BriefingsView.vue'
+import { __resetNutsCache } from '../../src/composables/useNutsRegions.js'
 import {
   listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
 } from '../../src/api/community.js'
@@ -59,9 +68,31 @@ const open = async (w, slug) => {
 
 beforeEach(() => {
   vi.clearAllMocks()
+  __resetNutsCache()
   listBriefings.mockResolvedValue([INVEST, INFLUENCE])
   getBriefing.mockResolvedValue({ ...INVEST, items: [item('a'), item('b')] })
   listMyWatches.mockResolvedValue([])
+})
+
+describe('BriefingsView — subscription scopes read as places', () => {
+  it('names the region a subscription covers, keeping the code as the title', async () => {
+    /** "EL3" is precise and says nothing. The catalogue is already loaded
+     *  for the picker, so the name is free. */
+    listMyWatches.mockResolvedValue([watch('w1', ['EL3'], 10), watch('w2', ['EU'], 3)])
+    const w = await mountView()
+    const chips = w.findAll('.bf-chip')
+    const scope = chips.find((c) => c.attributes('title') === 'EL3')
+    expect(scope.text()).toBe('Attica Region')
+    // 'EU' is not a NUTS code; it is the deliberate "everywhere" choice.
+    expect(chips.some((c) => c.attributes('title') === 'EU')).toBe(true)
+  })
+
+  it('falls back to the bare code when the catalogue has no name', async () => {
+    listMyWatches.mockResolvedValue([watch('w1', ['XX9'], 10)])
+    const w = await mountView()
+    const chips = w.findAll('.bf-chip')
+    expect(chips.some((c) => c.text() === 'XX9')).toBe(true)
+  })
 })
 
 describe('BriefingsView — several watches on one briefing', () => {
@@ -72,7 +103,8 @@ describe('BriefingsView — several watches on one briefing', () => {
     const w = await mountView()
     const subs = w.find('[data-testid="subscriptions"]')
     expect(subs.findAll('.bf-sub-row')).toHaveLength(3)
-    expect(subs.text()).toContain('PT16')
+    // The scope reads as a place; the code is on the chip's title.
+    expect(subs.text()).toContain('Centro')
     expect(subs.text()).toContain('50 a week')
     // Three subscriptions means three feed URLs to copy.
     for (const id of ['w1', 'w2', 'w3']) {

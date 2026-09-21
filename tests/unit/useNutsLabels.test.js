@@ -7,6 +7,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 vi.mock('../../src/api/geo.js', () => ({ fetchNutsRegions: vi.fn() }))
 
+let lang = 'en'
+vi.mock('../../src/composables/useLang.js', () => ({ currentLang: () => lang }))
+
 const { fetchNutsRegions } = await import('../../src/api/geo.js')
 const {
   chainFor, loadNutsLabels, nutsLabel, _resetNutsLabelsForTests,
@@ -120,5 +123,31 @@ describe('nutsLabel', () => {
     const items = [{ nuts: ['CZ010'] }]
     await expect(loadNutsLabels(items)).resolves.toBeUndefined()
     expect(nutsLabel(items[0])).toBe('CZ010')
+  })
+})
+
+describe('language changes', () => {
+  it('forgets cached names when the language changes', async () => {
+    /** The API localises region names now, so a cached label belongs to the
+     *  language it was fetched in — a reader switching to Greek would
+     *  otherwise keep seeing the English places. */
+    lang = 'en'
+    fetchNutsRegions.mockResolvedValue({ regions: [{ code: 'CZ0', name: 'Czechia' }] })
+    await loadNutsLabels([{ nuts: ['CZ0'] }])
+    expect(nutsLabel({ nuts: ['CZ0'] })).toBe('Czechia')
+
+    lang = 'cs'
+    fetchNutsRegions.mockResolvedValue({ regions: [{ code: 'CZ0', name: 'Česko' }] })
+    await loadNutsLabels([{ nuts: ['CZ0'] }])
+    expect(nutsLabel({ nuts: ['CZ0'] })).toBe('Česko')
+    expect(fetchNutsRegions).toHaveBeenCalledTimes(2)
+  })
+
+  it('does not refetch while the language holds', async () => {
+    lang = 'en'
+    fetchNutsRegions.mockResolvedValue({ regions: [{ code: 'CZ0', name: 'Czechia' }] })
+    await loadNutsLabels([{ nuts: ['CZ0'] }])
+    await loadNutsLabels([{ nuts: ['CZ0'] }])
+    expect(fetchNutsRegions).toHaveBeenCalledTimes(1)
   })
 })

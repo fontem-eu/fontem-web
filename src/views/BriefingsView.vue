@@ -16,8 +16,10 @@
  * added again.
  */
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { isAuthed } from '../api/session.js'
 import NutsRegionInput from '../components/NutsRegionInput.vue'
+import { useNutsRegions } from '../composables/useNutsRegions.js'
 import { briefingLink } from '../utils/briefingLink.js'
 import {
   listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
@@ -29,6 +31,18 @@ defineOptions({ name: 'BriefingsView' })
 
 /** Template alias — the destination for one item's card. */
 const linkOf = briefingLink
+
+const { t } = useI18n()
+const { regions, load: loadRegions } = useNutsRegions()
+
+/** A subscription's scope, as a place rather than a classification code.
+ *  "EL3" is precise and says nothing; the catalogue is already loaded for
+ *  the picker, so the name costs nothing. The code stays as the title, for
+ *  anyone who wants to check which region it actually is. */
+function regionLabel(code) {
+  if (code === 'EU') return t('region_input.everywhere')
+  return regions.value.find((r) => r.code === code)?.name || code
+}
 
 const VOLUMES = [3, 10, 25, 50]
 /** A taste, not a feed. Enough to judge the settings by. */
@@ -71,6 +85,9 @@ function draftOf(watch) {
 
 onMounted(async () => {
   document.title = 'Briefings — Dargle'
+  // Shared with the region picker, so this is one fetch, not two — and the
+  // subscription chips need the names as much as the picker does.
+  loadRegions()
   await load()
 })
 
@@ -200,7 +217,9 @@ function fmtValue(value) {
           <div class="bf-sub-head">
             <span class="bf-sub-name">{{ briefing.name }}</span>
             <span class="bf-chips">
-              <span v-for="r in watch.nuts" :key="r" class="bf-chip">{{ r }}</span>
+              <span v-for="r in watch.nuts" :key="r" class="bf-chip" :title="r">
+                {{ regionLabel(r) }}
+              </span>
               <span class="bf-chip">
                 {{ $t('briefings.n_a_week', { n: watch.volume_per_week }) }}
               </span>

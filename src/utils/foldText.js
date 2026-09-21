@@ -21,8 +21,8 @@ export function foldText(text) {
   if (!text) return ''
   return String(text)
     .toLowerCase()
-    .replace(/ς/g, 'σ')
-    .replace(/ß/g, 'ss')
+    .replaceAll('ς', 'σ')
+    .replaceAll('ß', 'ss')
     .normalize('NFD')
     .replace(/\p{Mn}/gu, '')
     .trim()
