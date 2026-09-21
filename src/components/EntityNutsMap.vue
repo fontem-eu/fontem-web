@@ -1,9 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-// maplibre-gl 6 dropped its default export; the namespace import keeps
-// every `maplibregl.Map` / `.NavigationControl` call site unchanged.
-import * as maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+// Always through the wrapper: it wires the web worker the region layers need.
+import { maplibregl, createMap, whenStyleReady } from '../lib/maplibre.js'
 import { fetchEntityAggregate, fetchBoundaries } from '../api/geo.js'
 import PocketButton from './PocketButton.vue'
 import AtlasLegend from '../widgets/atlas/AtlasLegend.vue'
@@ -166,8 +164,7 @@ function applyChoropleth(geojson, rows) {
     }
   }
 
-  if (map.isStyleLoaded()) addOrUpdate()
-  else map.once('load', addOrUpdate)
+  whenStyleReady(map, addOrUpdate)
 }
 
 watch(level, () => {
@@ -183,7 +180,7 @@ watch([metric, scope], () => refresh())
 watch(atlasPalette, () => { if (map) refresh() })
 
 onMounted(() => {
-  map = new maplibregl.Map({
+  map = createMap({
     container: container.value,
     preserveDrawingBuffer: true,
     style: {

@@ -11,6 +11,7 @@
     "test:ssr": "vitest run tests/ssr --dangerouslyIgnoreUnhandledErrors",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:maps": "playwright test -c playwright.maps.config.js",
     "test": "vitest run --dangerouslyIgnoreUnhandledErrors",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

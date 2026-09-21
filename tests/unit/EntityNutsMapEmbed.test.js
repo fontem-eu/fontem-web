@@ -23,6 +23,8 @@ vi.mock('maplibre-gl', () => ({
     isStyleLoaded: vi.fn(() => true),
     setPaintProperty: vi.fn(), remove: vi.fn(),
   })),
+  // src/lib/maplibre.js points the library at its bundled worker on import.
+  setWorkerUrl: vi.fn(),
   NavigationControl: vi.fn(),
 }))
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}))

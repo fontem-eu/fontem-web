@@ -29,6 +29,8 @@ const { mapInstance } = vi.hoisted(() => ({
 // mirrors the real module's shape so it fails if that changes again.
 vi.mock('maplibre-gl', () => ({
   Map: vi.fn(() => mapInstance),
+  // src/lib/maplibre.js points the library at its bundled worker on import.
+  setWorkerUrl: vi.fn(),
   NavigationControl: vi.fn(),
 }))
 // Stylesheet import — just stub it out
@@ -106,6 +108,25 @@ describe('GeoChoropleth — controls + data fetching', () => {
     const layers = mapInstance.addLayer.mock.calls.map((c) => c[0].id)
     expect(layers).toContain('nuts-fill')
     expect(layers).toContain('nuts-line')
+    wrapper.unmount()
+  })
+
+  // MapLibre rejects a `step` whose inputs are not strictly ascending, and it
+  // rejects the whole layer: the map shows no fill at all. Quantiles over a
+  // short or tied list repeat — the two-region fixture here yields 500 five
+  // times over — which is what any narrow "connected to" filter produces.
+  it('hands MapLibre a step expression with strictly ascending thresholds', async () => {
+    const wrapper = await mountIt()
+    await flushPromises()
+    const fill = mapInstance.addLayer.mock.calls.map((c) => c[0]).find((l) => l.id === 'nuts-fill')
+    const repaint = mapInstance.setPaintProperty.mock.calls.find((c) => c[0] === 'nuts-fill')[2]
+    for (const expr of [fill.paint['fill-color'], repaint]) {
+      expect(expr.slice(0, 2)).toEqual(['step', ['get', 'value']])
+      // ['step', input, base, t1, c1, t2, c2, …] — thresholds sit at odd offsets after the base.
+      const thresholds = expr.slice(3).filter((_, i) => i % 2 === 0)
+      expect(thresholds.length).toBeGreaterThan(0)
+      thresholds.forEach((t, i) => { if (i) expect(t).toBeGreaterThan(thresholds[i - 1]) })
+    }
     wrapper.unmount()
   })
 

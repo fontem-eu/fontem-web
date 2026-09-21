@@ -21,6 +21,30 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+  # Region maps, rendered for real. The unit tests mock maplibre, so they
+  # cannot see the map stack break: when maplibre-gl 6 stopped finding its web
+  # worker in our build (2026-09), every region fill vanished from Atlas, Geo
+  # and the embeds while the whole suite stayed green. This job builds the
+  # client, serves it, and points a real browser at the maps with the network
+  # stubbed — no backend, no basemap traffic. Gates the deploy.
+  maps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build the client bundle
+        run: npx vite build --outDir dist/client
+      - name: Render the maps in a real browser
+        run: npm run test:maps
+        env:
+          CI: 'true'
+
   # Consumer side of bi-directional contract testing: run the pact
   # tests (real api-client wrappers against Pact's mock provider) and
   # publish the recorded pacts to the broker, versioned by commit and
@@ -221,7 +245,7 @@ jobs:
   # be both uploaded to Dependency-Track AND used as the attestation
   # predicate — one generate, one attest, one upload.
   build-deploy:
-    needs: [test, smoke, security, contracts]
+    needs: [test, maps, smoke, security, contracts]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
