@@ -20,7 +20,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 // Guarded for SSR, where the module is evaluated but no map is ever created.
-if (typeof window !== 'undefined') maplibregl.setWorkerUrl(workerUrl)
+if (globalThis.window) maplibregl.setWorkerUrl(workerUrl)
 
 // Maps whose style has finished loading. Recorded from construction because
 // `style.load` fires once and a late listener would wait forever.
