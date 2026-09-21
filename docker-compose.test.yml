@@ -24,7 +24,8 @@ services:
       retries: 10
 
   neo4j:
-    image: neo4j:5-community
+    # Pinned by digest; `5-community` floats upstream.
+    image: neo4j:5.26.30-community@sha256:22ec5cd05a8cbb372fc4bed5e384c30bc75fd92504c72be4462039761b105f61
     environment:
       NEO4J_AUTH: neo4j/testpassword
       NEO4J_PLUGINS: '["apoc"]'
