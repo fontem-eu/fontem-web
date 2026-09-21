@@ -5,7 +5,7 @@
 #                  etc.) for the routes crawlers care about
 #   dist/server/ — SSR bundle used only by scripts/prerender.js at build
 #                  time; never ships in the runtime image
-FROM node:24-slim AS build
+FROM node:24-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 AS build
 WORKDIR /app
 
 # Tailwind's oxide native binding needs glibc — Alpine/musl has a
@@ -27,10 +27,10 @@ RUN npm run build
 # SSR-era Fastify runtime is gone — every URL we index is baked into a
 # static file at build time and cached hard by the CDN / Traefik edge.
 # ── Stage 2: static busybox (render entrypoint; distroless has no shell) ──────
-FROM dockerhub.void42.internal/library/busybox:musl AS busybox
+FROM dockerhub.void42.internal/library/busybox:musl@sha256:32b5cdad7cce41dfd53d0ae06baebcf8357a147ee7694dc706911c373bc30c37 AS busybox
 
 # ── Stage 3: serve — hardened distroless Chainguard nginx (nonroot uid 65532) ─
-FROM cgr.void42.internal/chainguard/nginx:latest
+FROM cgr.void42.internal/chainguard/nginx:latest@sha256:d770a59f02e443a1403d44f4d6c0eb74b076a2433f3df9e0f4782fe4bff2ac22
 COPY --from=busybox /bin/busybox /usr/local/bin/busybox
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY nginx.conf            /etc/nginx/templates/default.conf.template
