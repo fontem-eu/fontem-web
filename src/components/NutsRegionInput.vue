@@ -187,8 +187,9 @@ const suggestions = computed(() => {
   // matched. Everything added here is presentation: the ancestor chain, the
   // national-language name, and the form that matched when it is neither.
   for (const match of results.value.slice(0, MAX_SUGGESTIONS)) {
-    const known = byCode.value.get(match.code)
-    const region = { ...(known || {}), ...match }
+    // Spreading a miss is a no-op, so a region the loaded list has not
+    // heard of still renders from what the search returned.
+    const region = { ...byCode.value.get(match.code), ...match }
     out.push({
       ...region,
       hint: hintFor(region),
