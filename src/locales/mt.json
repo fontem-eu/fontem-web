@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Sommarju skont it-tip"
   },
+  "contract": {
+    "supplier_not_disclosed": "Il-fornitur ma ġiex żvelat fl-avviż",
+    "supplier_not_disclosed_note": "L-avviż poġġa dan it-test fil-kamp tal-isem tal-fornitur minflok isem ta' kumpanija, għalhekk ma nħoloq l-ebda rekord ta' kumpanija. Jintwera eżatt kif ġie ppubblikat.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Test tal-avviż fil-kamp tal-isem",
+      "generic_name_contains_url": "Indirizz tal-web minflok isem",
+      "generic_name_is_sentence": "Sentenza minflok isem",
+      "generic_name_is_placeholder": "Test proviżorju minflok isem",
+      "unknown": "Mhux isem ta' kumpanija"
+    }
+  },
   "contract_detail": {
     "public_spending": "Infiq pubbliku",
     "loading": "Qed jitgħabba…",

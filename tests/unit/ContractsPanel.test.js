@@ -512,6 +512,90 @@ describe('ContractsPanel', () => {
 })
 
 /**
+ * Data-backlog Part 5, C2: on an authority profile a contract whose only
+ * supplier the cleaning stage withheld now reaches the list (the totals
+ * always counted it) with `contractor: null` and a `supplier_withheld_count`.
+ * The counterparty cell says the supplier was not disclosed in the notice
+ * rather than showing a dash that reads as "no supplier field at all".
+ */
+describe('ContractsPanel — supplier not disclosed in the notice', () => {
+  function authorityRow(overrides = {}) {
+    return {
+      ted_notice_id: '184512-2013', title: 'Servizi', value_eur: 12000,
+      award_date: '2013-06-05', cpv: '85100000', procedure_type: 'open', ted_url: null,
+      contractor: null, contractor_country: null, contractor_gmr_id: null,
+      supplier_withheld_count: 1,
+      ...overrides,
+    }
+  }
+
+  async function mountAuthority(rows) {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        authority_id: 'auth-1', authority_name: 'ASS 3 Alto Friuli', country: 'ITA',
+        contract_count: rows.length, total_spend_eur: 12000, contracts: rows,
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'authority' },
+    })
+    await flushPromises()
+    return wrapper
+  }
+
+  it('labels the counterparty cell, with no link, in the table and the card', async () => {
+    const wrapper = await mountAuthority([authorityRow()])
+    const cell = wrapper.find('[data-testid="contract-counterparty-withheld-184512-2013"]')
+    expect(cell.exists()).toBe(true)
+    expect(cell.text()).toBe('Supplier not disclosed in the notice')
+    expect(cell.attributes('title')).toContain('instead of a company name')
+    expect(wrapper.find('[data-testid="contract-counterparty-link-184512-2013"]').exists()).toBe(false)
+    const card = wrapper.find('[data-testid="contract-card-counterparty-withheld-184512-2013"]')
+    expect(card.exists()).toBe(true)
+    expect(card.text()).toBe('Supplier not disclosed in the notice')
+  })
+
+  it('still links the rows whose supplier was named', async () => {
+    const wrapper = await mountAuthority([
+      authorityRow(),
+      authorityRow({ ted_notice_id: '2-2026', contractor: 'Acme S.p.A.', contractor_gmr_id: 'g1',
+        contractor_country: 'ITA', supplier_withheld_count: 0 }),
+    ])
+    expect(wrapper.find('[data-testid="contract-counterparty-link-2-2026"]').text()).toBe('Acme S.p.A.')
+    expect(wrapper.find('[data-testid="contract-counterparty-withheld-2-2026"]').exists()).toBe(false)
+  })
+
+  it('shows a dash when nothing was withheld either', async () => {
+    // A supplier-less row from before the cleaning stage: no count, no
+    // claim about disclosure.
+    const wrapper = await mountAuthority([authorityRow({ supplier_withheld_count: 0 })])
+    expect(wrapper.find('[data-testid="contract-counterparty-withheld-184512-2013"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="contracts-table"]').text()).toContain('—')
+    expect(wrapper.text()).not.toContain('Supplier not disclosed')
+  })
+
+  it('never relabels the authority cell of a company profile', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({
+        contracts: [{ ...makeContract({ ted_notice_id: 'r1' }), supplier_withheld_count: 1 }],
+      }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'company' },
+    })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="contract-counterparty-link-r1"]').text()).toBe('Ministry of Defence')
+    expect(wrapper.text()).not.toContain('Supplier not disclosed')
+  })
+})
+
+/**
  * Regression: the title cell rendered `<RouterLink to="/contract/${c.ted_notice_id}">`
  * unconditionally. Most contracts still have no ted_notice_id (data-backlog
  * item 25, ~94% NULL) — for Siemens AG in testing it was 19 of 19 — so every

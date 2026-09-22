@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useBack } from '../composables/useBack.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
 import { fmtMoney } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
 
 const route = useRoute()
+const { t, te } = useI18n()
 
 // Back means back. Readers reach a contract from the feed, a briefing,
 // a search or a shared link, and this used to send every one of them to
@@ -75,6 +77,30 @@ const flags = computed(() => {
   ].filter((f) => f.on !== undefined && f.on !== null)
 })
 const redFlagCount = computed(() => integrity.value.integrity_red_flags ?? 0)
+
+// The suppliers the notice named that the cleaning stage refused to
+// mint a company for: the name field held a sentence, a web address, a
+// placeholder (data-backlog Part 5, C2). Such a contract has no
+// contractor to link, and an empty cell read as if the page had lost
+// it. When these are the only trace of a supplier, the honest label is
+// "not disclosed in the notice", with the published text kept as a
+// pointer to where the real award lives.
+const withheld = computed(() => (
+  Array.isArray(contract.value?.suppliers_withheld)
+    ? contract.value.suppliers_withheld.filter((w) => w && w.name_raw)
+    : []
+))
+const supplierNotDisclosed = computed(
+  () => !contract.value?.contractor && withheld.value.length > 0,
+)
+// One short explanation per cleaning rule id (`it.notice_text_in_
+// supplier_name` -> contract.withheld_reason.it_notice_text_in_supplier
+// _name). A rule this build has no words for still gets a truthful
+// generic line rather than a raw id or a blank.
+function withheldReason(reason) {
+  const key = `contract.withheld_reason.${String(reason || '').replace(/\./g, '_')}`
+  return te(key) ? t(key) : t('contract.withheld_reason.unknown')
+}
 const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
 </script>
 
@@ -144,7 +170,25 @@ v-if="integrity.tenders_received != null"
           <RouterLink
 v-if="contract.contractor?.gmr_id"
             :to="`/company/${contract.contractor.gmr_id}`">{{ contract.contractor.name }}</RouterLink>
-          <span v-else>{{ contract.contractor?.name }}</span>
+          <span v-else-if="contract.contractor">{{ contract.contractor.name }}</span>
+          <!-- No company, but the notice did put something in the name
+               field: say so, and let the reader see exactly what was
+               published and why it was not taken for a name. -->
+          <details
+            v-else-if="supplierNotDisclosed"
+            class="cd-withheld"
+            data-testid="supplier-not-disclosed"
+          >
+            <summary :title="withheld[0].name_raw">{{ $t('contract.supplier_not_disclosed') }}</summary>
+            <p class="cd-note">{{ $t('contract.supplier_not_disclosed_note') }}</p>
+            <ul class="cd-withheld-list">
+              <li v-for="(w, i) in withheld" :key="i" :data-testid="`withheld-supplier-${i}`">
+                <span class="cd-withheld-why">{{ withheldReason(w.reason) }}</span>
+                <blockquote class="cd-withheld-raw">{{ w.name_raw }}</blockquote>
+              </li>
+            </ul>
+          </details>
+          <span v-else>—</span>
         </dd>
         <dt>CPV</dt><dd>{{ contract.cpv_main || '—' }}</dd>
         <dt>{{ $t('contract_detail.award_date') }}</dt><dd>{{ contract.award_date || '—' }}</dd>
@@ -178,4 +222,8 @@ v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
 .cd-facts { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin-bottom: 1.25rem; }
 .cd-facts dt { color: var(--muted, #6b7280); }
 .cd-ted { display: inline-block; color: var(--accent, #2563eb); text-decoration: none; font-weight: 600; }
+.cd-withheld > summary { cursor: pointer; color: var(--muted, #6b7280); font-style: italic; }
+.cd-withheld-list { list-style: none; padding: 0; margin: .35rem 0 0; }
+.cd-withheld-why { font-size: .8rem; color: var(--muted, #6b7280); }
+.cd-withheld-raw { margin: .15rem 0 .5rem; padding: .35rem .6rem; border-left: 3px solid var(--border, #e5e7eb); font-size: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
 </style>

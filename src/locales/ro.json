@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Rezumat pe tip"
   },
+  "contract": {
+    "supplier_not_disclosed": "Furnizorul nu este indicat în anunț",
+    "supplier_not_disclosed_note": "Anunțul a pus acest text în câmpul pentru numele furnizorului în locul numelui unei societăți, așa că nu a fost creată nicio înregistrare de societate. Este afișat exact așa cum a fost publicat.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Text din anunț în câmpul pentru nume",
+      "generic_name_contains_url": "O adresă web în locul unui nume",
+      "generic_name_is_sentence": "O propoziție în locul unui nume",
+      "generic_name_is_placeholder": "Un text substituent în locul unui nume",
+      "unknown": "Nu este numele unei societăți"
+    }
+  },
   "contract_detail": {
     "public_spending": "Cheltuieli publice",
     "loading": "Se încarcă…",

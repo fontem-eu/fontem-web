@@ -425,6 +425,17 @@
     "min": "Mín.",
     "per_type_summary": "Resumen por tipo"
   },
+  "contract": {
+    "supplier_not_disclosed": "Proveedor no revelado en el anuncio",
+    "supplier_not_disclosed_note": "El anuncio puso este texto en el campo del nombre del proveedor en lugar del nombre de una empresa, por lo que no se creó ningún registro de empresa. Se muestra tal como se publicó.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Texto del anuncio en el campo del nombre",
+      "generic_name_contains_url": "Una dirección web en lugar de un nombre",
+      "generic_name_is_sentence": "Una frase en lugar de un nombre",
+      "generic_name_is_placeholder": "Un texto de relleno en lugar de un nombre",
+      "unknown": "No es el nombre de una empresa"
+    }
+  },
   "contract_detail": {
     "public_spending": "Gasto público",
     "loading": "Cargando…",

@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Sammenfatning pr. type"
   },
+  "contract": {
+    "supplier_not_disclosed": "Leverandør ikke oplyst i bekendtgørelsen",
+    "supplier_not_disclosed_note": "Bekendtgørelsen har denne tekst i feltet til leverandørens navn i stedet for et firmanavn, så der blev ikke oprettet nogen virksomhedspost. Teksten vises præcis som offentliggjort.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Bekendtgørelsestekst i navnefeltet",
+      "generic_name_contains_url": "En webadresse i stedet for et navn",
+      "generic_name_is_sentence": "En sætning i stedet for et navn",
+      "generic_name_is_placeholder": "En pladsholder i stedet for et navn",
+      "unknown": "Ikke et firmanavn"
+    }
+  },
   "contract_detail": {
     "public_spending": "Offentlige udgifter",
     "loading": "Indlæser…",

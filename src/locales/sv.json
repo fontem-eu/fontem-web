@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Sammanfattning per typ"
   },
+  "contract": {
+    "supplier_not_disclosed": "Leverantören anges inte i meddelandet",
+    "supplier_not_disclosed_note": "Meddelandet har denna text i fältet för leverantörens namn i stället för ett företagsnamn, så ingen företagspost skapades. Texten visas exakt som den publicerades.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Meddelandetext i namnfältet",
+      "generic_name_contains_url": "En webbadress i stället för ett namn",
+      "generic_name_is_sentence": "En mening i stället för ett namn",
+      "generic_name_is_placeholder": "En platshållare i stället för ett namn",
+      "unknown": "Inte ett företagsnamn"
+    }
+  },
   "contract_detail": {
     "public_spending": "Offentliga utgifter",
     "loading": "Laddar…",

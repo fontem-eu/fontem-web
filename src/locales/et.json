@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Kokkuvõte tüüpide kaupa"
   },
+  "contract": {
+    "supplier_not_disclosed": "Tarnijat pole teates avaldatud",
+    "supplier_not_disclosed_note": "Teates on tarnija nime väljal ettevõtte nime asemel see tekst, seetõttu ettevõtte kirjet ei loodud. Seda näidatakse täpselt nii, nagu see avaldati.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Teate tekst nimeväljal",
+      "generic_name_contains_url": "Veebiaadress nime asemel",
+      "generic_name_is_sentence": "Lause nime asemel",
+      "generic_name_is_placeholder": "Kohatäide nime asemel",
+      "unknown": "Pole ettevõtte nimi"
+    }
+  },
   "contract_detail": {
     "public_spending": "Avaliku sektori kulutused",
     "loading": "Laadimine…",

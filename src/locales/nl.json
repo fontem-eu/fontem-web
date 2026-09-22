@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Samenvatting per type"
   },
+  "contract": {
+    "supplier_not_disclosed": "Leverancier niet bekendgemaakt in de aankondiging",
+    "supplier_not_disclosed_note": "De aankondiging zette deze tekst in het veld voor de naam van de leverancier in plaats van een bedrijfsnaam, dus er is geen bedrijfsrecord aangemaakt. De tekst wordt getoond zoals gepubliceerd.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Aankondigingstekst in het naamveld",
+      "generic_name_contains_url": "Een webadres in plaats van een naam",
+      "generic_name_is_sentence": "Een zin in plaats van een naam",
+      "generic_name_is_placeholder": "Een tijdelijke aanduiding in plaats van een naam",
+      "unknown": "Geen bedrijfsnaam"
+    }
+  },
   "contract_detail": {
     "public_spending": "Overheidsuitgaven",
     "loading": "Laden…",

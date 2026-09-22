@@ -425,6 +425,17 @@
     "min": "Мин.",
     "per_type_summary": "Резюме по тип"
   },
+  "contract": {
+    "supplier_not_disclosed": "Доставчикът не е посочен в обявлението",
+    "supplier_not_disclosed_note": "В полето за име на доставчика обявлението съдържа този текст вместо име на фирма, затова не е създаден запис за фирма. Показва се точно както е публикуван.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Текст от обявлението в полето за име",
+      "generic_name_contains_url": "Уеб адрес вместо име",
+      "generic_name_is_sentence": "Изречение вместо име",
+      "generic_name_is_placeholder": "Заместващ текст вместо име",
+      "unknown": "Не е име на фирма"
+    }
+  },
   "contract_detail": {
     "public_spending": "Публични разходи",
     "loading": "Зареждане…",

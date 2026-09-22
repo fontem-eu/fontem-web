@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Yhteenveto tyypeittäin"
   },
+  "contract": {
+    "supplier_not_disclosed": "Toimittajaa ei ilmoitettu ilmoituksessa",
+    "supplier_not_disclosed_note": "Ilmoituksessa toimittajan nimikentässä on tämä teksti yrityksen nimen sijaan, joten yritystietuetta ei luotu. Teksti näytetään täsmälleen sellaisena kuin se julkaistiin.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Ilmoituksen tekstiä nimikentässä",
+      "generic_name_contains_url": "Verkko-osoite nimen sijaan",
+      "generic_name_is_sentence": "Lause nimen sijaan",
+      "generic_name_is_placeholder": "Paikkamerkki nimen sijaan",
+      "unknown": "Ei yrityksen nimi"
+    }
+  },
   "contract_detail": {
     "public_spending": "Julkiset menot",
     "loading": "Ladataan…",
