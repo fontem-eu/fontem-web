@@ -7,7 +7,21 @@
 export const ENGINES = [
   {
     key: 'cypher', label: 'Cypher', store: 'Neo4j graph', path: '/api/query/cypher',
-    sample: 'MATCH (c:Company)-[:AWARDED_TO]-(ct:Contract)\nRETURN c.name AS company, count(ct) AS contracts\nORDER BY contracts DESC LIMIT 20',
+    // Bounded on purpose. The previous sample counted contracts per company
+    // across the whole graph — 776k relationships and growing — which took
+    // ~13s against the proxy's 8s cap, so the first thing anyone ran in the
+    // Studio timed out. LIMIT lets Cypher stop early, so this returns in
+    // milliseconds however large the graph gets, and the comment says where
+    // to go next rather than demonstrating it at everyone's expense.
+    sample: [
+      '// 20 contracts and who won them.',
+      '// To aggregate, narrow first — MATCH (ct:Contract {country: \'DEU\'}) —',
+      '// queries run under an 8s cap so one of them cannot stall the graph.',
+      'MATCH (c:Company)-[:AWARDED_TO]-(ct:Contract)',
+      'WHERE ct.value_eur IS NOT NULL',
+      'RETURN c.name AS supplier, ct.title AS contract, ct.value_eur AS value_eur',
+      'LIMIT 20',
+    ].join('\n'),
   },
   {
     key: 'sql', label: 'SQL', store: 'stats / Eurostat', path: '/api/query/sql',
