@@ -425,6 +425,17 @@
     "min": "Íos",
     "per_type_summary": "Achoimre de réir cineáil"
   },
+  "contract": {
+    "supplier_not_disclosed": "Níor nochtadh an soláthraí san fhógra",
+    "supplier_not_disclosed_note": "Chuir an fógra an téacs seo i réimse ainm an tsoláthraí in ionad ainm cuideachta, mar sin níor cruthaíodh aon taifead cuideachta. Taispeántar é díreach mar a foilsíodh é.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Téacs an fhógra sa réimse ainm",
+      "generic_name_contains_url": "Seoladh gréasáin in ionad ainm",
+      "generic_name_is_sentence": "Abairt in ionad ainm",
+      "generic_name_is_placeholder": "Ionadchoinneálaí in ionad ainm",
+      "unknown": "Ní ainm cuideachta é"
+    }
+  },
   "contract_detail": {
     "public_spending": "Caiteachas poiblí",
     "loading": "Á luchtú…",

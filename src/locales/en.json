@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Per-type summary"
   },
+  "contract": {
+    "supplier_not_disclosed": "Supplier not disclosed in the notice",
+    "supplier_not_disclosed_note": "The notice put this text in the supplier name field instead of a company name, so no company record was created. It is shown exactly as published.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Notice text in the name field",
+      "generic_name_contains_url": "A web address instead of a name",
+      "generic_name_is_sentence": "A sentence instead of a name",
+      "generic_name_is_placeholder": "A placeholder instead of a name",
+      "unknown": "Not a company name"
+    }
+  },
   "contract_detail": {
     "public_spending": "Public spending",
     "loading": "Loading…",

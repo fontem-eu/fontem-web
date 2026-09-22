@@ -203,6 +203,15 @@ function counterpartyFor(c) {
       profileId: c.contractor_gmr_id,
     }
   }
+  // A supplier-less row on an authority profile: the notice named
+  // nobody the cleaning stage would mint a company for (a sentence, a
+  // web address, a placeholder in the name field — data-backlog Part 5,
+  // C2), so there is no one to link, and "—" would read as if the
+  // notice had no supplier field at all. `withheld` makes the template
+  // say "not disclosed in the notice" instead.
+  if (isAuthorityView.value && (c.supplier_withheld_count ?? 0) > 0) {
+    return { label: null, country: null, profileId: null, withheld: true }
+  }
   return {
     label: c.authority,
     country: c.authority_country,
@@ -323,6 +332,12 @@ const topCpv = computed(() => {
                     :data-testid="`contract-counterparty-link-${c.ted_notice_id ?? i}`"
                   >{{ counterpartyFor(c).label || '—' }}</RouterLink>
                 </template>
+                <span
+                  v-else-if="counterpartyFor(c).withheld"
+                  class="withheld"
+                  :title="$t('contract.supplier_not_disclosed_note')"
+                  :data-testid="`contract-counterparty-withheld-${c.ted_notice_id ?? i}`"
+                >{{ $t('contract.supplier_not_disclosed') }}</span>
                 <template v-else>{{ counterpartyFor(c).label || '—' }}</template>
                 <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
               </td>
@@ -373,6 +388,12 @@ const topCpv = computed(() => {
                 :data-testid="`contract-card-counterparty-link-${c.ted_notice_id ?? i}`"
               >{{ counterpartyFor(c).label || '—' }}</RouterLink>
             </template>
+            <span
+              v-else-if="counterpartyFor(c).withheld"
+              class="withheld"
+              :title="$t('contract.supplier_not_disclosed_note')"
+              :data-testid="`contract-card-counterparty-withheld-${c.ted_notice_id ?? i}`"
+            >{{ $t('contract.supplier_not_disclosed') }}</span>
             <template v-else>
               <span>{{ counterpartyFor(c).label || '—' }}</span>
             </template>
@@ -455,6 +476,7 @@ const topCpv = computed(() => {
   text-decoration: none;
   font-weight: 500;
 }
+.withheld { color: var(--muted, #6b7280); font-style: italic; }
 .counterparty-link:hover { text-decoration: underline; }
 .ted-link {
   font-size: 0.75rem;

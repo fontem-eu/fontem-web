@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Zhrnutie podľa typu"
   },
+  "contract": {
+    "supplier_not_disclosed": "Dodávateľ v oznámení neuvedený",
+    "supplier_not_disclosed_note": "Oznámenie uvádza v poli pre názov dodávateľa tento text namiesto názvu firmy, preto sa nevytvoril žiadny záznam o firme. Zobrazuje sa presne tak, ako bol zverejnený.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Text oznámenia v poli pre názov",
+      "generic_name_contains_url": "Webová adresa namiesto názvu",
+      "generic_name_is_sentence": "Veta namiesto názvu",
+      "generic_name_is_placeholder": "Zástupný text namiesto názvu",
+      "unknown": "Nie je názov firmy"
+    }
+  },
   "contract_detail": {
     "public_spending": "Verejné výdavky",
     "loading": "Načítava sa…",

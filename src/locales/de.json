@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Zusammenfassung pro Typ"
   },
+  "contract": {
+    "supplier_not_disclosed": "Auftragnehmer in der Bekanntmachung nicht genannt",
+    "supplier_not_disclosed_note": "Die Bekanntmachung enthält im Feld für den Namen des Auftragnehmers diesen Text statt eines Firmennamens, daher wurde kein Unternehmensdatensatz angelegt. Er wird genau so gezeigt, wie er veröffentlicht wurde.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Bekanntmachungstext im Namensfeld",
+      "generic_name_contains_url": "Eine Webadresse statt eines Namens",
+      "generic_name_is_sentence": "Ein Satz statt eines Namens",
+      "generic_name_is_placeholder": "Ein Platzhalter statt eines Namens",
+      "unknown": "Kein Firmenname"
+    }
+  },
   "contract_detail": {
     "public_spending": "Öffentliche Ausgaben",
     "loading": "Wird geladen…",

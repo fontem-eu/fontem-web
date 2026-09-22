@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Résumé par type"
   },
+  "contract": {
+    "supplier_not_disclosed": "Fournisseur non divulgué dans l'avis",
+    "supplier_not_disclosed_note": "L'avis a mis ce texte dans le champ du nom du fournisseur à la place d'un nom d'entreprise ; aucune fiche d'entreprise n'a donc été créée. Il est affiché tel qu'il a été publié.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Texte de l'avis dans le champ du nom",
+      "generic_name_contains_url": "Une adresse web à la place d'un nom",
+      "generic_name_is_sentence": "Une phrase à la place d'un nom",
+      "generic_name_is_placeholder": "Un texte de substitution à la place d'un nom",
+      "unknown": "Pas un nom d'entreprise"
+    }
+  },
   "contract_detail": {
     "public_spending": "Dépenses publiques",
     "loading": "Chargement…",

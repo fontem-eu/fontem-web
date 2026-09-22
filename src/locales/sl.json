@@ -425,6 +425,17 @@
     "min": "Min.",
     "per_type_summary": "Povzetek po vrsti"
   },
+  "contract": {
+    "supplier_not_disclosed": "Dobavitelj v obvestilu ni naveden",
+    "supplier_not_disclosed_note": "Obvestilo ima v polju za ime dobavitelja namesto imena podjetja to besedilo, zato zapis o podjetju ni bil ustvarjen. Prikazano je natanko tako, kot je bilo objavljeno.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Besedilo obvestila v polju za ime",
+      "generic_name_contains_url": "Spletni naslov namesto imena",
+      "generic_name_is_sentence": "Stavek namesto imena",
+      "generic_name_is_placeholder": "Nadomestno besedilo namesto imena",
+      "unknown": "Ni ime podjetja"
+    }
+  },
   "contract_detail": {
     "public_spending": "Javna poraba",
     "loading": "Nalaganje…",

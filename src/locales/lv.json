@@ -425,6 +425,17 @@
     "min": "Min.",
     "per_type_summary": "Kopsavilkums pēc tipa"
   },
+  "contract": {
+    "supplier_not_disclosed": "Piegādātājs paziņojumā nav norādīts",
+    "supplier_not_disclosed_note": "Paziņojumā piegādātāja nosaukuma laukā uzņēmuma nosaukuma vietā ir šis teksts, tāpēc uzņēmuma ieraksts netika izveidots. Tas tiek rādīts tieši tā, kā publicēts.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Paziņojuma teksts nosaukuma laukā",
+      "generic_name_contains_url": "Tīmekļa adrese nosaukuma vietā",
+      "generic_name_is_sentence": "Teikums nosaukuma vietā",
+      "generic_name_is_placeholder": "Vietturis nosaukuma vietā",
+      "unknown": "Nav uzņēmuma nosaukums"
+    }
+  },
   "contract_detail": {
     "public_spending": "Publiskie izdevumi",
     "loading": "Ielādē…",

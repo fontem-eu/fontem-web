@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Riepilogo per tipo"
   },
+  "contract": {
+    "supplier_not_disclosed": "Fornitore non indicato nell'avviso",
+    "supplier_not_disclosed_note": "L'avviso ha inserito questo testo nel campo del nome del fornitore al posto di una ragione sociale, quindi non è stata creata alcuna scheda azienda. Viene mostrato esattamente come pubblicato.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Testo dell'avviso nel campo del nome",
+      "generic_name_contains_url": "Un indirizzo web al posto di un nome",
+      "generic_name_is_sentence": "Una frase al posto di un nome",
+      "generic_name_is_placeholder": "Un segnaposto al posto di un nome",
+      "unknown": "Non è una ragione sociale"
+    }
+  },
   "contract_detail": {
     "public_spending": "Spesa pubblica",
     "loading": "Caricamento…",

@@ -425,6 +425,17 @@
     "min": "Min.",
     "per_type_summary": "Santrauka pagal tipą"
   },
+  "contract": {
+    "supplier_not_disclosed": "Tiekėjas skelbime nenurodytas",
+    "supplier_not_disclosed_note": "Skelbime tiekėjo pavadinimo lauke vietoj įmonės pavadinimo įrašytas šis tekstas, todėl įmonės įrašas nebuvo sukurtas. Rodomas tiksliai toks, koks paskelbtas.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Skelbimo tekstas pavadinimo lauke",
+      "generic_name_contains_url": "Interneto adresas vietoj pavadinimo",
+      "generic_name_is_sentence": "Sakinys vietoj pavadinimo",
+      "generic_name_is_placeholder": "Užpildas vietoj pavadinimo",
+      "unknown": "Ne įmonės pavadinimas"
+    }
+  },
   "contract_detail": {
     "public_spending": "Viešosios išlaidos",
     "loading": "Įkeliama…",

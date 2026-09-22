@@ -66,6 +66,96 @@ describe('ContractDetailView — both sides of the contract are reachable', () =
   })
 })
 
+/**
+ * Data-backlog Part 5, C2: the cleaning stage mints no company when the
+ * supplier name field holds a sentence, a web address or a placeholder.
+ * The contract then has no contractor to link, and the cell used to be
+ * empty — the page looked as if it had lost the supplier. The notice did
+ * publish something, so the page says "not disclosed" and shows it.
+ */
+describe('ContractDetailView — a supplier the notice did not disclose', () => {
+  const DECREE = 'Gara aggiudicata come da determina n. 543 del 2013 pubblicata sul sito www.csc.sanita.fvg.it'
+  const detail = (extra) => ({
+    ok: true,
+    json: async () => ({
+      ted_notice_id: '184512-2013', title: 'Servizi', value_eur: 12000,
+      authority: { authority_id: 'a-1', name: 'ASS 3 Alto Friuli', country: 'ITA' },
+      contractor: null, integrity: {}, suppliers_withheld: [],
+      ...extra,
+    }),
+  })
+
+  it('labels the contractor cell instead of leaving it empty', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      suppliers_withheld: [{ name_raw: DECREE, reason: 'it.notice_text_in_supplier_name' }],
+      supplier_not_disclosed: true,
+    }))
+    const wrapper = await mountAt('184512-2013')
+    const cell = wrapper.find('[data-testid="supplier-not-disclosed"]')
+    expect(cell.exists()).toBe(true)
+    expect(cell.text()).toContain('Supplier not disclosed in the notice')
+    expect(wrapper.find('a[href^="/company/"]').exists()).toBe(false)
+  })
+
+  it('shows the published text and why it was not taken for a name', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      suppliers_withheld: [
+        { name_raw: DECREE, reason: 'it.notice_text_in_supplier_name' },
+        { name_raw: 'www.example.it', reason: 'generic.name_contains_url' },
+      ],
+    }))
+    const wrapper = await mountAt('184512-2013')
+    const cell = wrapper.find('[data-testid="supplier-not-disclosed"]')
+    expect(cell.find('summary').attributes('title')).toBe(DECREE)
+    expect(cell.find('[data-testid="withheld-supplier-0"]').text()).toContain(DECREE)
+    expect(cell.find('[data-testid="withheld-supplier-0"]').text()).toContain('Notice text in the name field')
+    expect(cell.find('[data-testid="withheld-supplier-1"]').text()).toContain('www.example.it')
+    expect(cell.find('[data-testid="withheld-supplier-1"]').text()).toContain('A web address instead of a name')
+  })
+
+  it('explains a rule it has no words for in generic terms, never as a raw id', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      suppliers_withheld: [{ name_raw: 'n/a', reason: 'pt.some_future_rule' }, { name_raw: '-', reason: null }],
+    }))
+    const wrapper = await mountAt('184512-2013')
+    const cell = wrapper.find('[data-testid="supplier-not-disclosed"]')
+    expect(cell.text()).not.toContain('pt.some_future_rule')
+    expect(cell.find('[data-testid="withheld-supplier-0"]').text()).toContain('Not a company name')
+    expect(cell.find('[data-testid="withheld-supplier-1"]').text()).toContain('Not a company name')
+  })
+
+  it('shows a dash, like the other cells, when nothing was withheld either', async () => {
+    // A contract from before the cleaning stage with no supplier on
+    // record: that is not "not disclosed", it is simply not there.
+    mockFetch.mockResolvedValueOnce(detail({}))
+    const wrapper = await mountAt('184512-2013')
+    expect(wrapper.find('[data-testid="supplier-not-disclosed"]').exists()).toBe(false)
+    const dd = wrapper.findAll('dd').find((el) => el.text() === '—' && el.element.previousElementSibling?.textContent === 'Contractor')
+    expect(dd).toBeDefined()
+  })
+
+  it('links the named supplier when one was named, even if another was withheld', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      contractor: { gmr_id: 'g1', name: 'Acme S.p.A.' },
+      suppliers_withheld: [{ name_raw: 'diversi', reason: 'generic.name_is_placeholder' }],
+    }))
+    const wrapper = await mountAt('184512-2013')
+    expect(wrapper.find('[data-testid="supplier-not-disclosed"]').exists()).toBe(false)
+    expect(wrapper.find('a[href="/company/g1"]').text()).toBe('Acme S.p.A.')
+  })
+
+  it('keeps the smoke-test anchors of the page', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      ted_publication_number: '184512-2013',
+      suppliers_withheld: [{ name_raw: DECREE, reason: 'it.notice_text_in_supplier_name' }],
+    }))
+    const wrapper = await mountAt('184512-2013')
+    for (const id of ['contract-detail', 'integrity-profile', 'red-flag-count', 'ted-outlink']) {
+      expect(wrapper.find(`[data-testid="${id}"]`).exists(), id).toBe(true)
+    }
+  })
+})
+
 describe('ContractDetailView', () => {
   it('renders the integrity red flags, bidder count and outward TED link', async () => {
     mockFetch.mockResolvedValueOnce({

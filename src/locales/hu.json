@@ -425,6 +425,17 @@
     "min": "Min",
     "per_type_summary": "Összegzés típusonként"
   },
+  "contract": {
+    "supplier_not_disclosed": "A szállítót a hirdetmény nem nevezi meg",
+    "supplier_not_disclosed_note": "A hirdetmény a szállító nevének mezőjébe cégnév helyett ezt a szöveget írta, ezért nem jött létre cégrekord. Pontosan úgy jelenik meg, ahogy közzétették.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Hirdetményszöveg a névmezőben",
+      "generic_name_contains_url": "Webcím a név helyett",
+      "generic_name_is_sentence": "Mondat a név helyett",
+      "generic_name_is_placeholder": "Helykitöltő a név helyett",
+      "unknown": "Nem cégnév"
+    }
+  },
   "contract_detail": {
     "public_spending": "Közkiadások",
     "loading": "Betöltés…",

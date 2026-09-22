@@ -425,6 +425,17 @@
     "min": "Min.",
     "per_type_summary": "Podsumowanie według typu"
   },
+  "contract": {
+    "supplier_not_disclosed": "Dostawca nieujawniony w ogłoszeniu",
+    "supplier_not_disclosed_note": "W polu nazwy dostawcy ogłoszenie zawiera ten tekst zamiast nazwy firmy, dlatego nie utworzono rekordu firmy. Jest pokazany dokładnie tak, jak został opublikowany.",
+    "withheld_reason": {
+      "it_notice_text_in_supplier_name": "Tekst ogłoszenia w polu nazwy",
+      "generic_name_contains_url": "Adres internetowy zamiast nazwy",
+      "generic_name_is_sentence": "Zdanie zamiast nazwy",
+      "generic_name_is_placeholder": "Tekst zastępczy zamiast nazwy",
+      "unknown": "To nie jest nazwa firmy"
+    }
+  },
   "contract_detail": {
     "public_spending": "Wydatki publiczne",
     "loading": "Ładowanie…",
