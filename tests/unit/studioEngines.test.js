@@ -19,6 +19,20 @@ describe('ENGINES metadata', () => {
     expect(engine('sparql').sample).toContain('PREFIX f: <http://data.fontem.eu/ontology#>')
   })
 
+  it('keeps the Cypher sample bounded, so the first click cannot time out', () => {
+    /** The sample used to aggregate over every Company-Contract relationship
+     *  in the graph — 776k of them and growing — which took ~13s against the
+     *  proxy's 8s cap. So the first thing anyone ran in the Studio timed out,
+     *  and the e2e gate failed on it three times in a day. A default has to
+     *  finish whatever the graph's size: LIMIT lets Cypher stop early, and
+     *  an unfiltered count cannot. */
+    const sample = engine('cypher').sample
+    expect(sample).toMatch(/\bLIMIT\s+\d+/)
+    const statement = sample.split('\n').filter((l) => !l.trim().startsWith('//')).join(' ')
+    expect(statement).not.toMatch(/\bcount\s*\(/i)
+    expect(statement).not.toMatch(/\bORDER BY\b/i)
+  })
+
   it('engine() falls back to the first engine for unknown langs', () => {
     expect(engine('cypher').key).toBe('cypher')
     expect(engine('sparql').key).toBe('sparql')
