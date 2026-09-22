@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Sve regije",
     "clear": "Očisti regiju",
-    "no_match": "Nijedna regija ne odgovara pojmu „{term}”"
+    "no_match": "Nijedna regija ne odgovara pojmu „{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Uredi",

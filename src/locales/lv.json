@@ -1541,7 +1541,8 @@
     "everywhere": "Eiropa",
     "everywhere_hint": "Visi reģioni",
     "clear": "Notīrīt reģionu",
-    "no_match": "Neviens reģions neatbilst “{term}”"
+    "no_match": "Neviens reģions neatbilst “{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Rediģēt",

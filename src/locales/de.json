@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Alle Regionen",
     "clear": "Region löschen",
-    "no_match": "Keine Region passt zu „{term}“"
+    "no_match": "Keine Region passt zu „{term}“",
+    "matched_hint": "Der Name, über den diese Region gefunden wurde"
   },
   "report": {
     "edit": "Bearbeiten",

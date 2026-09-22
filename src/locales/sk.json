@@ -1541,7 +1541,8 @@
     "everywhere": "Európa",
     "everywhere_hint": "Všetky regióny",
     "clear": "Vymazať región",
-    "no_match": "Žiadny región nezodpovedá „{term}“"
+    "no_match": "Žiadny región nezodpovedá „{term}“",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Upraviť",

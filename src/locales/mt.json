@@ -1541,7 +1541,8 @@
     "everywhere": "L-Ewropa",
     "everywhere_hint": "Ir-reġjuni kollha",
     "clear": "Neħħi r-reġjun",
-    "no_match": "L-ebda reġjun ma jaqbel ma' “{term}”"
+    "no_match": "L-ebda reġjun ma jaqbel ma' “{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Editja",

@@ -1541,7 +1541,8 @@
     "everywhere": "Eurooppa",
     "everywhere_hint": "Kaikki alueet",
     "clear": "Tyhjennä alue",
-    "no_match": "Mikään alue ei vastaa hakua ”{term}”"
+    "no_match": "Mikään alue ei vastaa hakua ”{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Muokkaa",

@@ -1541,7 +1541,8 @@
     "everywhere": "Европа",
     "everywhere_hint": "Всички региони",
     "clear": "Изчистване на региона",
-    "no_match": "Няма регион, който да съответства на „{term}“"
+    "no_match": "Няма регион, който да съответства на „{term}“",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Редактирай",

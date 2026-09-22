@@ -12,7 +12,7 @@
  * the codes actually on screen — the full catalogue is 91 KB, which is
  * not a reasonable price for three labels on a feed card.
  */
-import { fetchNutsRegions } from '../api/geo.js'
+import { fetchNutsRegions } from '../api/nuts.js'
 import { currentLang } from './useLang.js'
 
 /** code -> name, accumulated across calls. */
@@ -58,7 +58,7 @@ export async function loadNutsLabels(items) {
   // near-identical one per card.
   const codes = [...needed]
   pending = (pending || Promise.resolve()).then(async () => {
-    const { regions } = await fetchNutsRegions(codes)
+    const { regions } = await fetchNutsRegions({ codes })
     for (const r of regions || []) cache.set(r.code, r.name)
     // Remember the misses too. A code the catalogue does not carry — 'EU',
     // a retired vintage — must not be re-requested on every render.

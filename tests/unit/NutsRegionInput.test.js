@@ -2,13 +2,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { makeTestI18n } from './helpers/i18n.js'
 
-vi.mock('../../src/api/geo.js', () => ({
+vi.mock('../../src/api/nuts.js', () => ({
   fetchNutsRegions: vi.fn(),
-  fetchNutsSearchIndex: vi.fn(),
+  searchNutsRegions: vi.fn(),
 }))
 
 import NutsRegionInput from '../../src/components/NutsRegionInput.vue'
-import { fetchNutsRegions, fetchNutsSearchIndex } from '../../src/api/geo.js'
+import { fetchNutsRegions, searchNutsRegions } from '../../src/api/nuts.js'
 import { __resetNutsCache } from '../../src/composables/useNutsRegions.js'
 
 const REGIONS = [
@@ -31,13 +31,50 @@ const REGIONS = [
     name_latn: 'Kentrikos Tomeas Athinon', name_native: 'Κεντρικός Τομέας Αθηνών' },
 ]
 
-// Folded exactly as the API ships it: lowercase, accents stripped, one
-// region per entry with its names in every language joined by spaces.
-const SEARCH_TERMS = {
-  EL3: 'attika attica region perifereia attikis atica periferia de atica',
-  EL303: 'kentrikos tomeas athinon athina κεντρικος τομεας αθηνων',
-  PT1A0: 'grande lisboa lisbon metropolitan area aire metropolitaine de lisbonne '
-    + 'area metropolitana de lisboa lissabon',
+// What /api/nuts/search answers. The server ranks — these tests assert the
+// component shows what it is given, in the order it is given, and says which
+// form matched; the ranking itself is tested where it lives, in fontem-api.
+const BY_CODE = Object.fromEntries(REGIONS.map((r) => [r.code, r]))
+
+function match(code, { matched, lang = null, kind = 'name', rank = 1 } = {}) {
+  const r = BY_CODE[code]
+  return {
+    code,
+    level: r.level,
+    country: code.slice(0, 2),
+    name: r.name,
+    name_native: r.name_native || r.name,
+    matched: matched || r.name,
+    matched_language: lang,
+    matched_kind: kind,
+    rank,
+  }
+}
+
+/** Stand in for the server: substring over every name a fixture region has,
+ *  which is enough to drive the component. */
+function fakeSearch(q, { maxLevel = 3 } = {}) {
+  const term = q.trim().toLowerCase()
+  const norm = (s) => (s || '').toLowerCase()
+  const matches = REGIONS
+    .filter((r) => r.level <= maxLevel)
+    .map((r) => {
+      const forms = [r.name, r.name_latn, r.name_native, r.code].filter(Boolean)
+      const hit = forms.find((f) => norm(f).includes(term))
+        || (SERVER_ALIASES[r.code] || []).find((f) => norm(f).includes(term))
+      return hit ? match(r.code, { matched: hit }) : null
+    })
+    .filter(Boolean)
+  return Promise.resolve({ matches })
+}
+
+/** Names the fixture regions answer to that are not on the record itself —
+ *  the server knows them from the gazetteer. */
+const SERVER_ALIASES = {
+  EL3: ['Attica', 'Αττική', 'αττικη'],
+  EL303: ['Athina'],
+  PT1A0: ['Lisboa', 'Lisbonne', 'Lissabon'],
+  DE715: ['Bergstrasse'],
 }
 
 async function mountInput(props = {}) {
@@ -48,10 +85,13 @@ async function mountInput(props = {}) {
   return w
 }
 
+/** Type, then wait out the debounce and let the search settle. The
+ *  component asks the server 140ms after the last keystroke. */
 async function type(w, term) {
   const input = w.find('[data-testid="region-input"]')
   await input.trigger('focus')
   await input.setValue(term)
+  await new Promise((r) => { setTimeout(r, 180) })
   await flushPromises()
   return input
 }
@@ -63,7 +103,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   __resetNutsCache()
   fetchNutsRegions.mockResolvedValue({ regions: REGIONS })
-  fetchNutsSearchIndex.mockResolvedValue({ terms: SEARCH_TERMS })
+  searchNutsRegions.mockImplementation((q, opts) => fakeSearch(q, opts))
 })
 
 describe('NutsRegionInput', () => {
@@ -255,20 +295,62 @@ describe('NutsRegionInput', () => {
       expect(w.find('[data-testid="region-option-EL3"]').text()).toContain('Αττική')
     })
 
-    it('loads the index when the input is touched, not on mount', async () => {
-      await mountInput()
-      expect(fetchNutsSearchIndex).not.toHaveBeenCalled()
+    it('asks the server once for a burst of typing, not once per keystroke', async () => {
       const w = await mountInput()
-      await w.find('[data-testid="region-input"]').trigger('focus')
+      const input = w.find('[data-testid="region-input"]')
+      await input.trigger('focus')
+      for (const term of ['c', 'co', 'coi', 'coim', 'coimbra']) {
+        await input.setValue(term)
+      }
+      await new Promise((r) => { setTimeout(r, 200) })
       await flushPromises()
-      expect(fetchNutsSearchIndex).toHaveBeenCalledTimes(1)
+      expect(searchNutsRegions).toHaveBeenCalledTimes(1)
+      expect(searchNutsRegions.mock.calls[0][0]).toBe('coimbra')
     })
 
-    it('still matches the visible names when the index fails to load', async () => {
-      fetchNutsSearchIndex.mockRejectedValue(new Error('offline'))
+    it('never lets a slow answer overwrite a newer query', async () => {
+      /** The classic typeahead bug: "att" comes back after "coimbra" and the
+       *  list flips to the wrong regions under the cursor. */
+      const w = await mountInput()
+      let releaseSlow
+      searchNutsRegions.mockImplementationOnce(() => new Promise((resolve) => {
+        releaseSlow = () => resolve(fakeSearch('att'))
+      }))
+      const input = w.find('[data-testid="region-input"]')
+      await input.trigger('focus')
+      await input.setValue('att')
+      await new Promise((r) => { setTimeout(r, 180) })
+      await type(w, 'coimbra')
+      releaseSlow()
+      await flushPromises()
+      expect(optionText(w).join('|')).toContain('Coimbra')
+      expect(optionText(w).join('|')).not.toContain('Attica')
+    })
+
+    it('keeps the last good list when a search fails', async () => {
       const w = await mountInput()
       await type(w, 'coimbra')
-      expect(w.find('[data-testid="region-option-PT165"]').exists()).toBe(true)
+      searchNutsRegions.mockRejectedValueOnce(new Error('offline'))
+      await type(w, 'coimbras')
+      expect(optionText(w).join('|')).toContain('Coimbra')
+    })
+
+    it('shows the form that matched when the row does not already say it', async () => {
+      /** Typing "Lisbonne" on the English site returns "Lisbon metropolitan
+       *  area"; without the matched form the reader has to take it on
+       *  trust. */
+      const w = await mountInput()
+      await type(w, 'Lisbonne')
+      expect(w.find('[data-testid="region-option-PT1A0"]').text()).toContain('Lisbonne')
+      // …and not when the row already shows it.
+      await type(w, 'Coimbra')
+      expect(w.find('[data-testid="region-option-PT165"]').text()).not.toContain('“')
+    })
+
+    it('asks only as deep as the caller allows', async () => {
+      const w = await mountInput({ maxLevel: 1 })
+      await type(w, 'lisboa')
+      expect(searchNutsRegions.mock.calls.at(-1)[1].maxLevel).toBe(1)
     })
   })
 })

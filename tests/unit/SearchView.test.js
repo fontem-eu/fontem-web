@@ -14,7 +14,7 @@ vi.mock('../../src/api/search.js', () => ({
   searchGraph: (...a) => searchGraph(...a),
   searchStories: (...a) => searchStories(...a),
 }))
-vi.mock('../../src/api/geo.js', () => ({
+vi.mock('../../src/api/nuts.js', () => ({
   fetchNutsRegions: (...a) => fetchNutsRegions(...a),
 }))
 

@@ -1541,7 +1541,8 @@
     "everywhere": "Evropa",
     "everywhere_hint": "Všechny regiony",
     "clear": "Vymazat region",
-    "no_match": "Žádný region neodpovídá „{term}“"
+    "no_match": "Žádný region neodpovídá „{term}“",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Upravit",

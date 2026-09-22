@@ -5,17 +5,17 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-vi.mock('../../src/api/geo.js', () => ({ fetchNutsRegions: vi.fn() }))
+vi.mock('../../src/api/nuts.js', () => ({ fetchNutsRegions: vi.fn() }))
 
 let lang = 'en'
 vi.mock('../../src/composables/useLang.js', () => ({ currentLang: () => lang }))
 
-const { fetchNutsRegions } = await import('../../src/api/geo.js')
+const { fetchNutsRegions } = await import('../../src/api/nuts.js')
 const {
   chainFor, loadNutsLabels, nutsLabel, _resetNutsLabelsForTests,
 } = await import('../../src/composables/useNutsLabels.js')
 
-// Real chains, verified against /api/geo/nuts-regions.
+// Real chains, verified against /api/nuts/regions.
 const CATALOGUE = {
   CZ010: 'Hlavní město Praha', CZ01: 'Praha', CZ0: 'Česko',
   IE061: 'Dublin', IE06: 'Eastern and Midland', IE0: 'Ireland',
@@ -26,7 +26,7 @@ const CATALOGUE = {
 beforeEach(() => {
   _resetNutsLabelsForTests()
   vi.clearAllMocks()
-  fetchNutsRegions.mockImplementation(async (codes) => ({
+  fetchNutsRegions.mockImplementation(async ({ codes } = {}) => ({
     regions: (codes || []).filter((c) => c in CATALOGUE)
       .map((c) => ({ code: c, name: CATALOGUE[c] })),
   }))
@@ -75,7 +75,7 @@ describe('nutsLabel', () => {
     const items = [{ nuts: ['CZ010'] }, { nuts: ['IE061'] }, { nuts: ['FRI12'] }]
     await loadNutsLabels(items)
     expect(fetchNutsRegions).toHaveBeenCalledTimes(1)
-    expect(fetchNutsRegions.mock.calls[0][0]).toHaveLength(9)
+    expect(fetchNutsRegions.mock.calls[0][0].codes).toHaveLength(9)
   })
 
   it('does not re-request what it already knows', async () => {

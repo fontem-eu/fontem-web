@@ -6,7 +6,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'
-vi.mock('../../src/api/geo.js', () => ({
+vi.mock('../../src/api/nuts.js', () => ({
   // plain async fn (not a vi.fn) so afterEach's restoreAllMocks can't wipe it
   fetchNutsRegions: async () => ({
     regions: [

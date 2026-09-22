@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Wszystkie regiony",
     "clear": "Wyczyść region",
-    "no_match": "Żaden region nie pasuje do „{term}”"
+    "no_match": "Żaden region nie pasuje do „{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Edytuj",

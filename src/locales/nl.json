@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Alle regio's",
     "clear": "Regio wissen",
-    "no_match": "Geen regio komt overeen met “{term}”"
+    "no_match": "Geen regio komt overeen met “{term}”",
+    "matched_hint": "De naam waarop deze regio overeenkwam"
   },
   "report": {
     "edit": "Bewerken",
