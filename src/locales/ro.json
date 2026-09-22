@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Toate regiunile",
     "clear": "Șterge regiunea",
-    "no_match": "Nicio regiune nu corespunde cu „{term}”"
+    "no_match": "Nicio regiune nu corespunde cu „{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Editează",

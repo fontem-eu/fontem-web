@@ -54,7 +54,7 @@ import TagEditor from '../components/TagEditor.vue'
 import CountryRegionPicker from '../components/CountryRegionPicker.vue'
 import RevisionHistory from '../components/RevisionHistory.vue'
 import { openReview } from '../api/community.js'
-import { fetchNutsRegions } from '../api/geo.js'
+import { fetchNutsRegions } from '../api/nuts.js'
 import TranslationControls from '../components/TranslationControls.vue'
 
 const route = useRoute()

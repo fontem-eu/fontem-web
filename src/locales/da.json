@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Alle regioner",
     "clear": "Ryd region",
-    "no_match": "Ingen region matcher “{term}”"
+    "no_match": "Ingen region matcher “{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Rediger",

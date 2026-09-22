@@ -13,27 +13,28 @@
  * somebody makes deliberately, and an empty input that silently means
  * everywhere is indistinguishable from an input nobody filled in.
  *
- * MATCHES ARE RANKED, not merely filtered. A search for "port" should offer
- * Portugal before Porto and before Alto Alentejo — so prefix matches on name
- * sort above code matches, which sort above anything containing the term.
+ * THE SERVER RANKS, not this component. /api/nuts/search matches across all
+ * 24 languages — "Attica", "Attiki" and "Αττική" all reach EL3, "Lisbonne"
+ * and "Lissabon" both reach PT1A0 — and returns which form matched, which
+ * the rows show. That surface is public and other people call it, so having
+ * a second ranking here meant two implementations of one behaviour and a
+ * folding contract that had to agree character for character between Python
+ * and JavaScript. One implementation, on the side that owns the data.
  *
- * IT SEARCHES ACROSS LANGUAGES, not only the name on screen. Region names
- * come from Eurostat, which writes them in the national language — so
- * Greek and Cyrillic regions used to be findable only by typing Greek or
- * Cyrillic, or the bare code. "Attica", "Attiki" and "Αττική" all have to
- * reach EL3, and "Lisbon", "Lisboa" and "Lisbonne" all have to reach
- * PT1A0, whichever of the 24 languages the reader is using. The names are
- * matched folded (case- and accent-insensitive) against a server-built
- * index of every name each region answers to.
+ * TYPING IS NOT A REQUEST PER KEYSTROKE. Queries are debounced, and one
+ * in flight is aborted the moment the next is typed, so the list can only
+ * ever settle on the newest query — a slow response for "att" cannot land
+ * after "attica" and overwrite it.
  *
  * IT IS A REAL COMBOBOX. Arrow keys move, Enter selects, Escape closes,
  * aria-activedescendant tells a screen reader which option is current. A
  * typeahead that only works with a mouse is a worse select box.
  */
-import { ref, computed, onMounted, watch, nextTick, useId } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNutsRegions } from '../composables/useNutsRegions.js'
 import { currentLang } from '../composables/useLang.js'
+import { searchNutsRegions } from '../api/nuts.js'
 import { foldText } from '../utils/foldText.js'
 
 const props = defineProps({
@@ -48,12 +49,19 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
-const { regions, searchTerms, load, loadSearchIndex } = useNutsRegions()
+const { regions, load } = useNutsRegions()
 
 const EVERYWHERE = 'EU'
 const MAX_SUGGESTIONS = 40
+/** Long enough that a normal typing burst is one request, short enough that
+ *  the list feels attached to the keyboard. */
+const DEBOUNCE_MS = 140
 
 const query = ref('')
+const results = ref([])
+const searching = ref(false)
+let debounce = null
+let inflight = null
 const open = ref(false)
 const active = ref(0)
 const inputEl = ref(null)
@@ -108,40 +116,56 @@ const candidates = computed(
   () => regions.value.filter((r) => r.level <= props.maxLevel),
 )
 
-// Match strength, lowest wins: the name on screen beats the region's own
-// other names, which beat the code, which beats a name in another language;
-// a prefix beats a mere containment. -1 means no match at all. Split out of
-// `suggestions` because the ranking is the part worth reading on its own —
-// and it kept that computed over the cognitive complexity limit.
-function rankOf(region, term) {
-  const name = foldText(region.name)
-  if (name.startsWith(term)) return 0
-  const eurostat = [foldText(region.name_latn), foldText(region.name_native)]
-  if (eurostat.some((n) => n && n.startsWith(term))) return 1
-  if (region.code.toLowerCase().startsWith(term)) return 2
-  // The index is one pre-folded string per region, names joined by spaces,
-  // so a term at a word boundary is a prefix match on one of those names.
-  const other = searchTerms.value[region.code] || ''
-  if (other.startsWith(term) || other.includes(` ${term}`)) return 3
-  if (name.includes(term)) return 4
-  if (eurostat.some((n) => n && n.includes(term))) return 5
-  if (other.includes(term)) return 6
-  return -1
-}
-
-// Shallower regions first within a rank: typing "PT" more likely means
-// Portugal than one of its municipalities.
-function byRankThenDepth(a, b) {
-  return a.rank - b.rank
-    || a.region.level - b.region.level
-    || a.region.name.localeCompare(b.region.name)
-}
-
 function everywhereMatches(term) {
   return !term
     || foldText(everywhereOption.value.name).includes(term)
     || EVERYWHERE.toLowerCase().startsWith(term)
 }
+
+/**
+ * Ask the server for matches.
+ *
+ * Aborts whatever was in flight: only the newest query may produce a list,
+ * so a slow response for "att" can never land after "attica" and replace it.
+ * A failed search leaves the previous list rather than blanking it — the
+ * next keystroke will ask again anyway.
+ */
+async function runSearch(term) {
+  inflight?.abort()
+  const controller = new AbortController()
+  inflight = controller
+  searching.value = true
+  try {
+    const data = await searchNutsRegions(term, {
+      maxLevel: props.maxLevel, limit: MAX_SUGGESTIONS, signal: controller.signal,
+    })
+    if (controller === inflight) results.value = data?.matches || []
+  } catch {
+    // An abort is the normal case here, not a failure worth showing.
+  } finally {
+    if (controller === inflight) {
+      inflight = null
+      searching.value = false
+    }
+  }
+}
+
+watch(query, (value) => {
+  const term = value.trim()
+  clearTimeout(debounce)
+  if (!term) {
+    inflight?.abort()
+    inflight = null
+    results.value = []
+    return
+  }
+  debounce = setTimeout(() => runSearch(term), DEBOUNCE_MS)
+})
+
+onBeforeUnmount(() => {
+  clearTimeout(debounce)
+  inflight?.abort()
+})
 
 const suggestions = computed(() => {
   const term = foldText(query.value)
@@ -154,21 +178,41 @@ const suggestions = computed(() => {
     // No term yet: offer countries, which is the useful starting point.
     const countries = candidates.value.filter((r) => r.level === 0)
     for (const r of countries.slice(0, MAX_SUGGESTIONS)) {
-      out.push({ ...r, hint: '' })
+      out.push({ ...r, hint: '', native: nativeAliasOf(r) })
     }
     return out.slice(0, MAX_SUGGESTIONS)
   }
 
-  const scored = candidates.value
-    .map((region) => ({ region, rank: rankOf(region, term) }))
-    .filter(({ rank }) => rank >= 0)
-    .sort(byRankThenDepth)
-
-  for (const { region } of scored.slice(0, MAX_SUGGESTIONS)) {
-    out.push({ ...region, hint: hintFor(region), native: nativeAliasOf(region) })
+  // Server order is the ranking — it knows the 24 languages and which form
+  // matched. Everything added here is presentation: the ancestor chain, the
+  // national-language name, and the form that matched when it is neither.
+  for (const match of results.value.slice(0, MAX_SUGGESTIONS)) {
+    // Spreading a miss is a no-op, so a region the loaded list has not
+    // heard of still renders from what the search returned.
+    const region = { ...byCode.value.get(match.code), ...match }
+    out.push({
+      ...region,
+      hint: hintFor(region),
+      native: nativeAliasOf(region),
+      matched: matchedAliasOf(match),
+    })
   }
   return out
 })
+
+/**
+ * The form that matched, when the row does not already show it.
+ *
+ * Someone typing "Lisbonne" on the English site gets a row reading "Lisbon
+ * metropolitan area"; without this they have to take on trust that it is the
+ * right region.
+ */
+function matchedAliasOf(match) {
+  const matched = match.matched || ''
+  if (!matched) return ''
+  const shown = [match.name, match.name_native].map(foldText)
+  return shown.includes(foldText(matched)) ? '' : matched
+}
 
 onMounted(load)
 
@@ -182,9 +226,6 @@ watch(suggestions, () => { active.value = 0 })
 function show() {
   open.value = true
   active.value = 0
-  // Four times the size of the list and worthless until somebody types, so
-  // it is fetched when the input is touched rather than when it mounts.
-  loadSearchIndex()
 }
 
 function choose(region) {
@@ -286,6 +327,9 @@ v-if="open && suggestions.length" :id="listId" class="nri-list"
         >
           <span class="nri-option-name">{{ region.name }}</span>
           <span v-if="region.native" class="nri-option-native">{{ region.native }}</span>
+          <span
+v-if="region.matched" class="nri-option-matched"
+                :title="$t('region_input.matched_hint')">“{{ region.matched }}”</span>
           <span v-if="region.hint" class="nri-option-hint">{{ region.hint }}</span>
           <code v-if="region.level >= 0" class="nri-option-code">{{ region.code }}</code>
         </li>
@@ -312,6 +356,7 @@ v-if="open && suggestions.length" :id="listId" class="nri-list"
 .nri-option.is-active { background: color-mix(in srgb, var(--accent) 14%, transparent); }
 .nri-option-name { font-size: 0.88rem; }
 .nri-option-native { font-size: 0.72rem; color: var(--text-2, var(--muted)); }
+.nri-option-matched { font-size: 0.72rem; color: var(--muted); font-style: italic; }
 .nri-option-hint { font-size: 0.72rem; color: var(--muted); flex: 1; }
 .nri-option-code { font-size: 0.7rem; color: var(--muted); margin-left: auto; }
 .nri-empty { position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 0.6rem; font-size: 0.85rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }

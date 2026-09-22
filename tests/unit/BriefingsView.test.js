@@ -12,13 +12,13 @@ vi.mock('../../src/api/community.js', () => ({
   unwatch: vi.fn(),
 }))
 vi.mock('../../src/api/session.js', () => ({ isAuthed: { value: true } }))
-vi.mock('../../src/api/geo.js', () => ({
+vi.mock('../../src/api/nuts.js', () => ({
   fetchNutsRegions: vi.fn(async () => ({
     regions: [{ code: 'PT16', name: 'Centro', level: 2 },
               { code: 'PT', name: 'Portugal', level: 0 },
               { code: 'EL3', name: 'Attica Region', level: 1 }],
   })),
-  fetchNutsSearchIndex: vi.fn(async () => ({ terms: {} })),
+  searchNutsRegions: vi.fn(async () => ({ matches: [] })),
 }))
 vi.mock('../../src/components/NutsRegionInput.vue', () => ({
   default: {

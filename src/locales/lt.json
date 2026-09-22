@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Visi regionai",
     "clear": "Išvalyti regioną",
-    "no_match": "Nė vienas regionas neatitinka „{term}“"
+    "no_match": "Nė vienas regionas neatitinka „{term}“",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Redaguoti",

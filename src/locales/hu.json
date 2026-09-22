@@ -1541,7 +1541,8 @@
     "everywhere": "Európa",
     "everywhere_hint": "Minden régió",
     "clear": "Régió törlése",
-    "no_match": "Egyetlen régió sem felel meg ennek: „{term}”"
+    "no_match": "Egyetlen régió sem felel meg ennek: „{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Szerkesztés",

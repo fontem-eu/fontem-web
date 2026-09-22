@@ -10,7 +10,7 @@
  */
 import { ref, computed, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { fetchNutsRegions } from '../api/geo.js'
+import { fetchNutsRegions } from '../api/nuts.js'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

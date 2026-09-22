@@ -22,7 +22,7 @@ vi.mock('../../src/api/community.js', () => ({
   getTranslation: vi.fn(),
   getUserProfile: vi.fn().mockResolvedValue(null),
 }))
-vi.mock('../../src/api/geo.js', () => ({ fetchNutsRegions: vi.fn().mockResolvedValue([]) }))
+vi.mock('../../src/api/nuts.js', () => ({ fetchNutsRegions: vi.fn().mockResolvedValue([]) }))
 vi.mock('vue-router', () => ({ useRoute: () => ({ params: { id: 'r1' } }) }))
 vi.mock('../../src/composables/useLang.js', () => ({
   useLang: () => ({ lang: { value: 'en' } }),

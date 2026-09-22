@@ -1541,7 +1541,8 @@
     "everywhere": "Europa",
     "everywhere_hint": "Tutte le regioni",
     "clear": "Cancella regione",
-    "no_match": "Nessuna regione corrisponde a “{term}”"
+    "no_match": "Nessuna regione corrisponde a “{term}”",
+    "matched_hint": "Il nome con cui questa regione corrisponde"
   },
   "report": {
     "edit": "Modifica",

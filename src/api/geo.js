@@ -45,44 +45,11 @@ export async function fetchBoundaries(level = 0) {
   return _json(`/api/geo/nuts-boundaries?level=${level}`)
 }
 
-/**
- * Fetch the flat, geometry-free list of NUTS regions.
- *
- * With no argument this is the whole catalogue — ~1,800 rows, 230 KB (37 KB
- * gzipped) — which is what the region picker needs. Pass `codes` when you
- * only want to label a handful; the server filters, so a feed card naming
- * one contract's region costs a couple of hundred bytes instead.
- *
- * Names come back in the user's language (`withLang` adds it), falling back
- * to the Latin transliteration and then the national-language name;
- * `name_source` says which of the three a row got.
- *
- * @param {string[]} [codes] NUTS codes to limit the response to
- * @returns {Promise<{regions: {code:string, name:string, level:number,
- *   name_latn:string, name_native:string, name_source:string}[]}>}
+/*
+ * The NUTS region list and the name search live in `./nuts.js` now — they
+ * are served by the public /api/nuts surface, not by /api/geo. Boundaries
+ * and aggregation stay here: they are map data, not names.
  */
-export async function fetchNutsRegions(codes) {
-  if (codes === undefined) return _json('/api/geo/nuts-regions')
-  // An empty list means "nothing", and the server agrees — but there is no
-  // point paying for the round trip to be told so.
-  if (!codes.length) return { regions: [] }
-  return _json(`/api/geo/nuts-regions?codes=${encodeURIComponent(codes.join(','))}`)
-}
-
-/**
- * Fetch the folded cross-language search index for the region picker.
- *
- * `{terms: {NUTS code: "every name it answers to"}}` — ~460 KB, 116 KB
- * gzipped, and language-independent, so it is fetched once and only when
- * somebody actually starts typing. Without it the picker can only match the
- * name on screen, which is what made Greek and Cyrillic regions
- * unfindable: nobody types `Αττική` to look for Attica.
- *
- * @returns {Promise<{terms: Record<string, string>}>}
- */
-export async function fetchNutsSearchIndex() {
-  return _json('/api/geo/nuts-search-index?lang=en')
-}
 
 /**
  * Coarse home-region guess (NUTS-0 country) from the caller's IP — used to

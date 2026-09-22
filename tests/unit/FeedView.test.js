@@ -25,6 +25,8 @@ vi.mock('../../src/composables/useBriefingStream.js', () => ({
 // catalogue actually returns for CZ010 rather than on invented strings.
 vi.mock('../../src/api/geo.js', () => ({
   fetchClientRegion: vi.fn(() => Promise.resolve({ nuts0: null })),
+}))
+vi.mock('../../src/api/nuts.js', () => ({
   fetchNutsRegions: vi.fn(() => Promise.resolve({
     regions: [
       { code: 'CZ010', name: 'Hlavní město Praha', level: 3 },

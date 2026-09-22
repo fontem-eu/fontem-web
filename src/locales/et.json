@@ -1541,7 +1541,8 @@
     "everywhere": "Euroopa",
     "everywhere_hint": "Kõik piirkonnad",
     "clear": "Tühjenda piirkond",
-    "no_match": "Ükski piirkond ei vasta otsingule „{term}”"
+    "no_match": "Ükski piirkond ei vasta otsingule „{term}”",
+    "matched_hint": "The name this region matched on"
   },
   "report": {
     "edit": "Muuda",

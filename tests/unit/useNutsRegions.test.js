@@ -3,15 +3,12 @@
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-vi.mock('../../src/api/geo.js', () => ({
-  fetchNutsRegions: vi.fn(),
-  fetchNutsSearchIndex: vi.fn(),
-}))
+vi.mock('../../src/api/nuts.js', () => ({ fetchNutsRegions: vi.fn() }))
 
 let lang = 'en'
 vi.mock('../../src/composables/useLang.js', () => ({ currentLang: () => lang }))
 
-import { fetchNutsRegions, fetchNutsSearchIndex } from '../../src/api/geo.js'
+import { fetchNutsRegions } from '../../src/api/nuts.js'
 import { useNutsRegions, __resetNutsCache } from '../../src/composables/useNutsRegions.js'
 
 const REGIONS = [{ code: 'DE11', name: 'Stuttgart', level: 2 }]
@@ -21,7 +18,6 @@ beforeEach(() => {
   __resetNutsCache()
   lang = 'en'
   fetchNutsRegions.mockReset()
-  fetchNutsSearchIndex.mockReset()
 })
 
 describe('useNutsRegions', () => {
@@ -76,33 +72,13 @@ describe('useNutsRegions', () => {
     expect(fetchNutsRegions).toHaveBeenCalledTimes(2)
   })
 
-  it('loads the search index separately, once', async () => {
-    fetchNutsSearchIndex.mockResolvedValue({ terms: { DE11: 'stuttgart' } })
+  it('leaves searching to the server', async () => {
+    /** The composable used to fetch a folded index for the component to rank
+     *  against. /api/nuts/search ranks across all 24 languages server-side,
+     *  so the second implementation — and the folding contract it had to
+     *  honour — is gone. */
     const u = useNutsRegions()
-    await u.loadSearchIndex()
-    await u.loadSearchIndex()
-    expect(u.searchTerms.value).toEqual({ DE11: 'stuttgart' })
-    expect(fetchNutsSearchIndex).toHaveBeenCalledTimes(1)
+    expect(Object.keys(u)).toEqual(['regions', 'error', 'load'])
   })
 
-  it('keeps the index out of the language-keyed cache', async () => {
-    /** The index carries every language at once, so a language switch is
-     *  no reason to fetch 116 KB again. */
-    fetchNutsRegions.mockResolvedValue({ regions: REGIONS })
-    fetchNutsSearchIndex.mockResolvedValue({ terms: { DE11: 'stuttgart' } })
-    const u = useNutsRegions()
-    await u.load()
-    await u.loadSearchIndex()
-    lang = 'el'
-    await u.load()
-    await u.loadSearchIndex()
-    expect(fetchNutsSearchIndex).toHaveBeenCalledTimes(1)
-  })
-
-  it('a failed index leaves matching to the visible names', async () => {
-    fetchNutsSearchIndex.mockRejectedValue(new Error('geo down'))
-    const u = useNutsRegions()
-    await expect(u.loadSearchIndex()).resolves.toEqual({})
-    expect(u.error.value).toBeNull()
-  })
 })

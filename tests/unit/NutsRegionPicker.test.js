@@ -6,7 +6,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { makeTestI18n } from './helpers/i18n.js'
 
 const fetchNutsRegions = vi.fn()
-vi.mock('../../src/api/geo.js', () => ({ fetchNutsRegions: (...a) => fetchNutsRegions(...a) }))
+vi.mock('../../src/api/nuts.js', () => ({ fetchNutsRegions: (...a) => fetchNutsRegions(...a) }))
 
 import NutsRegionPicker from '../../src/components/NutsRegionPicker.vue'
 

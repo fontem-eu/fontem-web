@@ -17,7 +17,7 @@ vi.mock('../../src/api/session.js', () => ({
   setSessionAvatar: vi.fn(),
   setSessionName: vi.fn(),
 }))
-vi.mock('../../src/api/geo.js', () => ({
+vi.mock('../../src/api/nuts.js', () => ({
   fetchNutsRegions: vi.fn().mockResolvedValue({
     regions: [
       { code: 'PT', name: 'Portugal', level: 0 },
@@ -25,6 +25,8 @@ vi.mock('../../src/api/geo.js', () => ({
       { code: 'PT17', name: 'Lisboa', level: 2 },
     ],
   }),
+}))
+vi.mock('../../src/api/geo.js', () => ({
   fetchClientRegion: vi.fn().mockResolvedValue({ country_alpha3: 'PRT', nuts0: 'PT' }),
 }))
 
