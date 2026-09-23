@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "A sentence instead of a name",
       "generic_name_is_placeholder": "A placeholder instead of a name",
       "unknown": "Not a company name"
+    },
+    "framework": {
+      "badge": "Part of a framework agreement",
+      "badge_hint": "This notice belongs to a framework procedure. The published data does not say whether the award set the framework up or was made under one.",
+      "heading": "Framework agreement",
+      "max_value": "Maximum value",
+      "reestimated_value": "Re-estimated value",
+      "duration_months": "Duration (months)",
+      "max_operators": "Maximum number of operators",
+      "ceiling_note": "A framework ceiling is the most the agreement may buy over its lifetime, not money paid. It is capacity, not spending, so it is never added to any total here.",
+      "ted_link": "View the framework notice on TED",
+      "siblings_heading": "Other awards under this framework ({n})",
+      "siblings_more": "and {n} more not shown here",
+      "siblings_note": "Award notices published with the same framework identifier. The data does not say which of them set the framework up."
     }
   },
   "contract_detail": {

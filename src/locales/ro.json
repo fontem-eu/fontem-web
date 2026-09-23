@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "O propoziție în locul unui nume",
       "generic_name_is_placeholder": "Un text substituent în locul unui nume",
       "unknown": "Nu este numele unei societăți"
+    },
+    "framework": {
+      "badge": "Parte dintr-un acord-cadru",
+      "badge_hint": "Acest anunț face parte dintr-o procedură de acord-cadru. Datele publicate nu spun dacă atribuirea a încheiat acordul-cadru sau a fost făcută în temeiul lui.",
+      "heading": "Acord-cadru",
+      "max_value": "Valoare maximă",
+      "reestimated_value": "Valoare reestimată",
+      "duration_months": "Durată (luni)",
+      "max_operators": "Număr maxim de operatori",
+      "ceiling_note": "Plafonul unui acord-cadru este maximul care poate fi achiziționat în baza lui pe toată durata sa, nu bani plătiți. Este capacitate, nu cheltuială, așa că nu se adună niciodată aici la vreun total.",
+      "ted_link": "Vezi anunțul acordului-cadru pe TED",
+      "siblings_heading": "Alte atribuiri în cadrul acestui acord-cadru ({n})",
+      "siblings_more": "și încă {n} care nu sunt afișate aici",
+      "siblings_note": "Anunțuri de atribuire publicate cu același identificator de acord-cadru. Datele nu spun care dintre ele l-a încheiat."
     }
   },
   "contract_detail": {

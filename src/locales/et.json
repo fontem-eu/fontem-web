@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Lause nime asemel",
       "generic_name_is_placeholder": "Kohatäide nime asemel",
       "unknown": "Pole ettevõtte nimi"
+    },
+    "framework": {
+      "badge": "Raamlepingu osa",
+      "badge_hint": "See teade kuulub raamlepingu menetlusse. Avaldatud andmed ei ütle, kas selle lepinguga sõlmiti raamleping või tehti ost selle alusel.",
+      "heading": "Raamleping",
+      "max_value": "Maksimaalne maksumus",
+      "reestimated_value": "Ümberhinnatud maksumus",
+      "duration_months": "Kestus (kuud)",
+      "max_operators": "Ettevõtjate suurim arv",
+      "ceiling_note": "Raamlepingu ülempiir on suurim summa, mille eest selle kehtivusajal osta tohib, mitte makstud raha. See on maht, mitte kulu, ja seepärast ei liideta seda siin kunagi ühegi kogusumma hulka.",
+      "ted_link": "Vaata raamlepingu teadet TEDis",
+      "siblings_heading": "Muud selle raamlepingu alusel sõlmitud lepingud ({n})",
+      "siblings_more": "ja veel {n}, mida siin ei kuvata",
+      "siblings_note": "Lepingu sõlmimise teated, mis on avaldatud sama raamlepingu tunnusega. Andmed ei ütle, millisega neist raamleping sõlmiti."
     }
   },
   "contract_detail": {

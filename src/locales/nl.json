@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Een zin in plaats van een naam",
       "generic_name_is_placeholder": "Een tijdelijke aanduiding in plaats van een naam",
       "unknown": "Geen bedrijfsnaam"
+    },
+    "framework": {
+      "badge": "Onderdeel van een raamovereenkomst",
+      "badge_hint": "Deze aankondiging hoort bij een procedure voor een raamovereenkomst. De gepubliceerde gegevens zeggen niet of de gunning de raamovereenkomst heeft gesloten of eronder is gedaan.",
+      "heading": "Raamovereenkomst",
+      "max_value": "Maximale waarde",
+      "reestimated_value": "Herschatte waarde",
+      "duration_months": "Looptijd (maanden)",
+      "max_operators": "Maximaal aantal ondernemers",
+      "ceiling_note": "Het plafond van een raamovereenkomst is het meeste dat er gedurende de hele looptijd voor mag worden ingekocht, geen betaald geld. Het is capaciteit, geen uitgave, en wordt hier dus nooit bij een totaal opgeteld.",
+      "ted_link": "Bekijk de aankondiging van de raamovereenkomst op TED",
+      "siblings_heading": "Andere gunningen onder deze raamovereenkomst ({n})",
+      "siblings_more": "en nog {n} die hier niet worden getoond",
+      "siblings_note": "Aankondigingen van gegunde opdrachten die met dezelfde raamovereenkomst-identificatie zijn gepubliceerd. De gegevens zeggen niet met welke ervan de raamovereenkomst is gesloten."
     }
   },
   "contract_detail": {

@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Teikums nosaukuma vietā",
       "generic_name_is_placeholder": "Vietturis nosaukuma vietā",
       "unknown": "Nav uzņēmuma nosaukums"
+    },
+    "framework": {
+      "badge": "Daļa no vispārīgās vienošanās",
+      "badge_hint": "Šis paziņojums pieder vispārīgās vienošanās procedūrai. Publicētie dati nenorāda, vai ar šo lēmumu vispārīgā vienošanās tika noslēgta vai iepirkums veikts uz tās pamata.",
+      "heading": "Vispārīgā vienošanās",
+      "max_value": "Maksimālā vērtība",
+      "reestimated_value": "Pārrēķinātā vērtība",
+      "duration_months": "Ilgums (mēneši)",
+      "max_operators": "Maksimālais dalībnieku skaits",
+      "ceiling_note": "Vispārīgās vienošanās griesti ir lielākā summa, par kādu uz tās pamata drīkst iepirkt visā tās darbības laikā, nevis samaksātā nauda. Tā ir ietilpība, nevis izdevumi, tāpēc to šeit nekad nepieskaita nevienai kopsummai.",
+      "ted_link": "Skatīt vispārīgās vienošanās paziņojumu TED",
+      "siblings_heading": "Citas šīs vispārīgās vienošanās ietvaros piešķirtās tiesības ({n})",
+      "siblings_more": "un vēl {n}, kas šeit nav parādītas",
+      "siblings_note": "Paziņojumi par līguma slēgšanas tiesību piešķiršanu, kas publicēti ar to pašu vispārīgās vienošanās identifikatoru. Dati nenorāda, ar kuru no tiem tā tika noslēgta."
     }
   },
   "contract_detail": {

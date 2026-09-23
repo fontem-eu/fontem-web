@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Abairt in ionad ainm",
       "generic_name_is_placeholder": "Ionadchoinneálaí in ionad ainm",
       "unknown": "Ní ainm cuideachta é"
+    },
+    "framework": {
+      "badge": "Cuid de chreatchomhaontú",
+      "badge_hint": "Baineann an fógra seo le nós imeachta creatchomhaontaithe. Ní deir na sonraí foilsithe ar bhunaigh an dámhachtain an creatchomhaontú nó an ndearnadh faoi cheann í.",
+      "heading": "Creatchomhaontú",
+      "max_value": "Uasluach",
+      "reestimated_value": "Luach athmheasta",
+      "duration_months": "Fad (míonna)",
+      "max_operators": "Uaslíon oibreoirí",
+      "ceiling_note": "Is é uasteorainn creatchomhaontaithe an méid is mó a cheadaítear a cheannach faoi ar feadh a shaolré, ní airgead a íocadh. Cumas atá ann, ní caiteachas, agus mar sin ní chuirtear le haon suim anseo riamh é.",
+      "ted_link": "Féach fógra an chreatchomhaontaithe ar TED",
+      "siblings_heading": "Dámhachtainí eile faoin gcreatchomhaontú seo ({n})",
+      "siblings_more": "agus {n} eile nach dtaispeántar anseo",
+      "siblings_note": "Fógraí dámhachtana a foilsíodh leis an aitheantóir creatchomhaontaithe céanna. Ní deir na sonraí cé acu díobh a bhunaigh é."
     }
   },
   "contract_detail": {

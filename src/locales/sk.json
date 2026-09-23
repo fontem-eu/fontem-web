@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Veta namiesto názvu",
       "generic_name_is_placeholder": "Zástupný text namiesto názvu",
       "unknown": "Nie je názov firmy"
+    },
+    "framework": {
+      "badge": "Súčasť rámcovej dohody",
+      "badge_hint": "Toto oznámenie patrí ku konaniu o rámcovej dohode. Zverejnené údaje nehovoria, či sa týmto zadaním rámcová dohoda uzavrela, alebo sa nákup uskutočnil na jej základe.",
+      "heading": "Rámcová dohoda",
+      "max_value": "Maximálna hodnota",
+      "reestimated_value": "Prepočítaná hodnota",
+      "duration_months": "Trvanie (mesiace)",
+      "max_operators": "Maximálny počet hospodárskych subjektov",
+      "ceiling_note": "Strop rámcovej dohody je najviac, čo sa na jej základe smie počas celého jej trvania nakúpiť, nie zaplatené peniaze. Je to kapacita, nie výdavok, a preto sa tu nikdy nepripočítava k žiadnemu súčtu.",
+      "ted_link": "Zobraziť oznámenie o rámcovej dohode na TED",
+      "siblings_heading": "Ďalšie zadania v rámci tejto rámcovej dohody ({n})",
+      "siblings_more": "a ďalších {n}, ktoré tu nie sú uvedené",
+      "siblings_note": "Oznámenia o zadaní zákazky zverejnené s rovnakým identifikátorom rámcovej dohody. Z údajov nevyplýva, ktorým z nich sa dohoda uzavrela."
     }
   },
   "contract_detail": {

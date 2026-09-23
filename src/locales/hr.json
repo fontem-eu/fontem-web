@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Rečenica umjesto naziva",
       "generic_name_is_placeholder": "Rezervirani tekst umjesto naziva",
       "unknown": "Nije naziv tvrtke"
+    },
+    "framework": {
+      "badge": "Dio okvirnog sporazuma",
+      "badge_hint": "Ova obavijest pripada postupku okvirnog sporazuma. Objavljeni podaci ne govore je li se ovom dodjelom sklopio okvirni sporazum ili je nabava provedena na temelju njega.",
+      "heading": "Okvirni sporazum",
+      "max_value": "Najveća vrijednost",
+      "reestimated_value": "Ponovno procijenjena vrijednost",
+      "duration_months": "Trajanje (mjeseci)",
+      "max_operators": "Najveći broj gospodarskih subjekata",
+      "ceiling_note": "Gornja granica okvirnog sporazuma najviše je što se na temelju njega smije kupiti tijekom cijelog trajanja, a ne isplaćeni novac. To je kapacitet, a ne potrošnja, pa se ovdje nikada ne pribraja nijednom zbroju.",
+      "ted_link": "Pogledaj obavijest o okvirnom sporazumu na TED-u",
+      "siblings_heading": "Druge dodjele u okviru ovog okvirnog sporazuma ({n})",
+      "siblings_more": "i još {n} koje ovdje nisu prikazane",
+      "siblings_note": "Obavijesti o dodjeli objavljene s istom oznakom okvirnog sporazuma. Podaci ne govore kojom je od njih sporazum sklopljen."
     }
   },
   "contract_detail": {

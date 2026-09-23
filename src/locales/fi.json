@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Lause nimen sijaan",
       "generic_name_is_placeholder": "Paikkamerkki nimen sijaan",
       "unknown": "Ei yrityksen nimi"
+    },
+    "framework": {
+      "badge": "Osa puitejärjestelyä",
+      "badge_hint": "Tämä ilmoitus kuuluu puitejärjestelyä koskevaan menettelyyn. Julkaistut tiedot eivät kerro, perustiko tämä hankinta puitejärjestelyn vai tehtiinkö se sen perusteella.",
+      "heading": "Puitejärjestely",
+      "max_value": "Enimmäisarvo",
+      "reestimated_value": "Uudelleen arvioitu arvo",
+      "duration_months": "Kesto (kuukautta)",
+      "max_operators": "Toimittajien enimmäismäärä",
+      "ceiling_note": "Puitejärjestelyn enimmäisarvo on eniten, mitä sen perusteella saa koko kestoaikana hankkia, ei maksettua rahaa. Se on kapasiteettia eikä menoa, joten sitä ei koskaan lisätä täällä mihinkään summaan.",
+      "ted_link": "Katso puitejärjestelyn ilmoitus TEDissä",
+      "siblings_heading": "Muut tämän puitejärjestelyn hankinnat ({n})",
+      "siblings_more": "ja {n} muuta, joita ei näytetä tässä",
+      "siblings_note": "Jälki-ilmoitukset, jotka on julkaistu samalla puitejärjestelyn tunnisteella. Tiedoista ei käy ilmi, mikä niistä perusti puitejärjestelyn."
     }
   },
   "contract_detail": {

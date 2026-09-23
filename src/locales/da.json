@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "En sætning i stedet for et navn",
       "generic_name_is_placeholder": "En pladsholder i stedet for et navn",
       "unknown": "Ikke et firmanavn"
+    },
+    "framework": {
+      "badge": "Del af en rammeaftale",
+      "badge_hint": "Denne bekendtgørelse hører til en rammeaftaleprocedure. De offentliggjorte data siger ikke, om tildelingen oprettede rammeaftalen eller blev foretaget under den.",
+      "heading": "Rammeaftale",
+      "max_value": "Maksimal værdi",
+      "reestimated_value": "Revurderet værdi",
+      "duration_months": "Varighed (måneder)",
+      "max_operators": "Maksimalt antal operatører",
+      "ceiling_note": "En rammeaftales loft er det mest, aftalen må købe for i hele sin løbetid, ikke penge der er betalt. Det er kapacitet, ikke forbrug, og lægges derfor aldrig til nogen sum her.",
+      "ted_link": "Se rammeaftalens bekendtgørelse på TED",
+      "siblings_heading": "Andre tildelinger under denne rammeaftale ({n})",
+      "siblings_more": "og {n} mere, som ikke vises her",
+      "siblings_note": "Bekendtgørelser om tildeling offentliggjort med samme rammeaftale-id. Data siger ikke, hvilken af dem der oprettede rammeaftalen."
     }
   },
   "contract_detail": {
