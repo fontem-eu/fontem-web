@@ -6,6 +6,7 @@
  * Functions:
  *   fmtMoney(n, currency, opts)  — generic money formatter
  *   fmtEur(n, opts)              — EUR shorthand
+ *   fmtUsd(n, opts)              — USD shorthand (US filings/market data)
  *   fmtPrice(n, currency)        — exact price for stock data
  *   fmtCompact(n, currency)      — compact (1.2M, 1.5B) for charts
  *   fmtDual(orig, ccy, eur)      — "1.2M PLN (€280K)" for contract displays
@@ -40,12 +41,16 @@ export function fmtCompact(n, currency = 'EUR', decimals = 1) {
 }
 
 /**
- * Generic money formatter — defaults to USD compact (K/M/B/T), matching
- * legacy behavior. Stock dashboards (IncomePanel etc.) call this with just
- * a number and expect '$1.5B' style output.
+ * Generic money formatter — defaults to EUR compact (K/M/B/T).
+ *
+ * This is a euro-denominated platform: procurement values, cohesion
+ * budgets and lobbying declarations are all EUR, and every one of them
+ * used to render with a '$' because the default said USD. A caller
+ * whose figures really are another currency passes it explicitly — the
+ * North-America market panels do (see ValuationPanel, ProfilePanel).
  *
  * Two calling styles supported:
- *   fmtMoney(n)                                  → '$1.5B'
+ *   fmtMoney(n)                                  → '€1.5B'
  *   fmtMoney(n, decimals)                        → legacy positional (deprecated)
  *   fmtMoney(n, decimals, currency)              → legacy positional (deprecated)
  *   fmtMoney(n, currency, { compact: false })    → new style with Intl
@@ -54,12 +59,12 @@ export function fmtCompact(n, currency = 'EUR', decimals = 1) {
  * @param {string|number} arg2  - currency code or (legacy) decimals
  * @param {string|object} arg3  - opts object or (legacy) currency code
  */
-export function fmtMoney(n, arg2 = 'USD', arg3 = {}) {
+export function fmtMoney(n, arg2 = 'EUR', arg3 = {}) {
   if (n == null || Number.isNaN(Number(n))) return '—'
 
   // Legacy positional: fmtMoney(n, decimals, currency)
   if (typeof arg2 === 'number') {
-    const currency = typeof arg3 === 'string' ? arg3 : 'USD'
+    const currency = typeof arg3 === 'string' ? arg3 : 'EUR'
     return fmtCompact(n, currency, arg2)
   }
 
@@ -82,6 +87,21 @@ export function fmtMoney(n, arg2 = 'USD', arg3 = {}) {
   } catch {
     return fmtCompact(num, currency, decimals)
   }
+}
+
+/**
+ * Format a value in USD (compact: $1.5B).
+ *
+ * For the North-America financial statements and market data — revenue,
+ * assets, equity, cashflow, EBITDA, market cap — which come from the US
+ * price/filing feeds and are dollars. Everything euro-denominated uses
+ * the default; this shorthand exists so a dollar figure has to say so.
+ */
+export function fmtUsd(n, decimalsOrOpts = 1) {
+  if (typeof decimalsOrOpts === 'number') {
+    return fmtCompact(n, 'USD', decimalsOrOpts)
+  }
+  return fmtMoney(n, 'USD', { compact: true, ...decimalsOrOpts })
 }
 
 /** Format a value in EUR (compact: €1.5B). */

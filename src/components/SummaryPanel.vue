@@ -2,7 +2,7 @@
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
 import { fetchPriceHistory, fetchFundamentals } from '../api/gmr.js'
-import { fmtPrice, fmtMoney } from '../utils/format.js'
+import { fmtPrice, fmtUsd } from '../utils/format.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -63,7 +63,7 @@ const statsBar = computed(() => {
   const s = snapStats.value
   if (!s) return []
   return [
-    { label: 'summary_panel.mkt_cap',  value: fmtMoney(s.marketCap) },
+    { label: 'summary_panel.mkt_cap',  value: fmtUsd(s.marketCap) },
     { label: 'summary_panel.avg_pe',  value: s.pe       == null ? '—' : Number(s.pe).toFixed(1) },
     { label: 'summary_panel.beta',     value: s.beta     == null ? '—' : Number(s.beta).toFixed(2) },
     { label: 'summary_panel.div_yld',  value: s.divYield == null ? '—' : `${Number(s.divYield).toFixed(1)}%` },

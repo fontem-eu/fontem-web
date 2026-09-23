@@ -80,11 +80,11 @@ watch(() => props.symbol, (sym) => {
       <h3>{{ $t('profile.financial_overview') }}</h3>
       <div class="pp-stats">
         <div v-if="data.market_snapshot?.current_price" class="pp-stat">
-          <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.current_price) }}</span>
+          <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.current_price, 'USD') }}</span>
           <span class="pp-stat__label">{{ $t('profile.current_price') }}</span>
         </div>
         <div v-if="data.market_snapshot?.market_cap" class="pp-stat">
-          <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.market_cap) }}</span>
+          <span class="pp-stat__num">{{ fmtMoney(data.market_snapshot.market_cap, 'USD') }}</span>
           <span class="pp-stat__label">{{ $t('profile.market_cap') }}</span>
         </div>
         <div v-if="data.ratios_summary?.avg_roe" class="pp-stat">
@@ -145,7 +145,7 @@ watch(() => props.symbol, (sym) => {
       <div v-if="profile && profile.contract_count > 0" class="pp-procurement-summary">
         <span class="pp-stat__num">{{ profile.contract_count.toLocaleString() }} {{ $t('profile_panel.contracts') }}</span>
         <span> &middot; </span>
-        <span class="pp-stat__num">{{ fmtMoney(profile.total_contract_value_eur) }} EUR</span>
+        <span class="pp-stat__num">{{ fmtMoney(profile.total_contract_value_eur) }}</span>
       </div>
       <ContractsPanel :symbol="gmrId || symbol" />
     </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
-import { fmtMoney } from '../utils/format.js'
+import { fmtUsd } from '../utils/format.js'
 
 const props = defineProps({
   data:         { type: Object, required: true },
@@ -26,9 +26,9 @@ const avgItems = computed(() => {
 
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
-  { key: 'operating_cashflow', label: 'cashflow_panel.op_cashflow',  fmt: fmtMoney },
-  { key: 'capex',              label: 'cashflow_panel.capex',          fmt: fmtMoney },
-  { key: 'free_cashflow',      label: 'cashflow_panel.free_cashflow',  fmt: fmtMoney },
+  { key: 'operating_cashflow', label: 'cashflow_panel.op_cashflow',  fmt: fmtUsd },
+  { key: 'capex',              label: 'cashflow_panel.capex',          fmt: fmtUsd },
+  { key: 'free_cashflow',      label: 'cashflow_panel.free_cashflow',  fmt: fmtUsd },
   { key: 'fcf_per_share',      label: 'cashflow_panel.fcf_per_share',      fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'dividend_per_share', label: 'cashflow_panel.div_per_share',     fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'fcf_yield',          label: 'cashflow_panel.fcf_yield',      fmt: fmtPct },

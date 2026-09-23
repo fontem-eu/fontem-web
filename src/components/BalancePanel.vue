@@ -2,7 +2,7 @@
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
 import { useI18n } from 'vue-i18n'
-import { fmtMoney } from '../utils/format.js'
+import { fmtUsd } from '../utils/format.js'
 
 const props = defineProps({
   data:         { type: Object, required: true },
@@ -36,9 +36,9 @@ const avgItems = computed(() => {
 
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
-  { key: 'total_assets',         label: 'balance_panel.total_assets',    fmt: fmtMoney },
-  { key: 'total_liabilities',    label: 'balance_panel.total_liabilities', fmt: fmtMoney },
-  { key: 'equity',               label: 'balance_panel.equity',           fmt: fmtMoney },
+  { key: 'total_assets',         label: 'balance_panel.total_assets',    fmt: fmtUsd },
+  { key: 'total_liabilities',    label: 'balance_panel.total_liabilities', fmt: fmtUsd },
+  { key: 'equity',               label: 'balance_panel.equity',           fmt: fmtUsd },
   { key: 'book_value_per_share', label: 'balance_panel.book_value_share', fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'revenue_per_share',    label: 'balance_panel.revenue_share',    fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'current_ratio',        label: 'balance_panel.current_ratio',    fmt: (n) => fmtRatio(n) },

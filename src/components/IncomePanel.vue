@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import * as d3 from 'd3'
-import { fmtMoney, fmtPrice } from '../utils/format.js'
+import { fmtUsd, fmtPrice } from '../utils/format.js'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
@@ -38,10 +38,10 @@ const avgItems = computed(() => {
 // ── Per-year data ─────────────────────────────────────────────
 const tableRows = [
   { key: 'avg_price',        label: 'income_panel.avg_price',       fmt: fmtPrice },
-  { key: 'revenue',          label: 'income_panel.revenue',          fmt: fmtMoney },
-  { key: 'gross_profit',     label: 'income_panel.gross_profit',     fmt: fmtMoney },
-  { key: 'operating_income', label: 'income_panel.op_income',       fmt: fmtMoney },
-  { key: 'net_income',       label: 'income_panel.net_income',       fmt: fmtMoney },
+  { key: 'revenue',          label: 'income_panel.revenue',          fmt: fmtUsd },
+  { key: 'gross_profit',     label: 'income_panel.gross_profit',     fmt: fmtUsd },
+  { key: 'operating_income', label: 'income_panel.op_income',       fmt: fmtUsd },
+  { key: 'net_income',       label: 'income_panel.net_income',       fmt: fmtUsd },
   { key: 'eps',              label: 'EPS',              fmt: (n) => n == null ? '—' : `$${Number(n).toFixed(2)}` },
   { key: 'gross_margin',     label: 'income_panel.gross_margin',     fmt: fmtPct },
   { key: 'operating_margin', label: 'income_panel.op_margin',       fmt: fmtPct },
