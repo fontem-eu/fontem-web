@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "En mening i stället för ett namn",
       "generic_name_is_placeholder": "En platshållare i stället för ett namn",
       "unknown": "Inte ett företagsnamn"
+    },
+    "framework": {
+      "badge": "Del av ett ramavtal",
+      "badge_hint": "Det här meddelandet hör till ett ramavtalsförfarande. De publicerade uppgifterna säger inte om tilldelningen upprättade ramavtalet eller gjordes inom ett.",
+      "heading": "Ramavtal",
+      "max_value": "Högsta värde",
+      "reestimated_value": "Omvärderat värde",
+      "duration_months": "Löptid (månader)",
+      "max_operators": "Högsta antal leverantörer",
+      "ceiling_note": "Ett ramavtals tak är det mesta som får köpas inom avtalet under hela dess löptid, inte pengar som betalats. Det är kapacitet, inte utgift, och läggs därför aldrig till någon summa här.",
+      "ted_link": "Se ramavtalets meddelande på TED",
+      "siblings_heading": "Andra tilldelningar inom detta ramavtal ({n})",
+      "siblings_more": "och {n} till som inte visas här",
+      "siblings_note": "Tilldelningsmeddelanden som publicerats med samma ramavtalsidentifierare. Uppgifterna säger inte vilket av dem som upprättade avtalet."
     }
   },
   "contract_detail": {

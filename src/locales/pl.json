@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Zdanie zamiast nazwy",
       "generic_name_is_placeholder": "Tekst zastępczy zamiast nazwy",
       "unknown": "To nie jest nazwa firmy"
+    },
+    "framework": {
+      "badge": "Część umowy ramowej",
+      "badge_hint": "To ogłoszenie należy do postępowania o umowę ramową. Opublikowane dane nie mówią, czy to udzielenie zamówienia ustanowiło umowę ramową, czy nastąpiło na jej podstawie.",
+      "heading": "Umowa ramowa",
+      "max_value": "Maksymalna wartość",
+      "reestimated_value": "Ponownie oszacowana wartość",
+      "duration_months": "Czas trwania (miesiące)",
+      "max_operators": "Maksymalna liczba wykonawców",
+      "ceiling_note": "Pułap umowy ramowej to najwięcej, co można na jej podstawie kupić przez cały okres jej obowiązywania, a nie zapłacone pieniądze. To zdolność, a nie wydatek, dlatego nigdy nie jest tu doliczany do żadnej sumy.",
+      "ted_link": "Zobacz ogłoszenie o umowie ramowej w TED",
+      "siblings_heading": "Inne zamówienia udzielone w ramach tej umowy ramowej ({n})",
+      "siblings_more": "i jeszcze {n}, których tu nie pokazano",
+      "siblings_note": "Ogłoszenia o udzieleniu zamówienia opublikowane z tym samym identyfikatorem umowy ramowej. Dane nie mówią, które z nich ją ustanowiło."
     }
   },
   "contract_detail": {

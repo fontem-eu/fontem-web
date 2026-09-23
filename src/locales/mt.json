@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Sentenza minflok isem",
       "generic_name_is_placeholder": "Test proviżorju minflok isem",
       "unknown": "Mhux isem ta' kumpanija"
+    },
+    "framework": {
+      "badge": "Parti minn ftehim qafas",
+      "badge_hint": "Dan l-avviż jappartjeni għal proċedura ta' ftehim qafas. Id-data ppubblikata ma tgħidx jekk l-għoti tal-kuntratt stabbilixxiex il-ftehim qafas jew sarx taħtu.",
+      "heading": "Ftehim qafas",
+      "max_value": "Valur massimu",
+      "reestimated_value": "Valur stmat mill-ġdid",
+      "duration_months": "Tul (xhur)",
+      "max_operators": "Numru massimu ta' operaturi",
+      "ceiling_note": "Il-limitu ta' ftehim qafas huwa l-iktar li jista' jinxtara taħtu matul it-tul kollu tiegħu, mhux flus imħallsa. Huwa kapaċità, mhux infiq, u għalhekk qatt ma jiżdied ma' xi total hawnhekk.",
+      "ted_link": "Ara l-avviż tal-ftehim qafas fuq TED",
+      "siblings_heading": "Għotjiet oħra taħt dan il-ftehim qafas ({n})",
+      "siblings_more": "u {n} oħra li mhumiex murija hawn",
+      "siblings_note": "Avviżi ta' għoti ppubblikati bl-istess identifikatur ta' ftehim qafas. Id-data ma tgħidx liema minnhom stabbilixxieh."
     }
   },
   "contract_detail": {

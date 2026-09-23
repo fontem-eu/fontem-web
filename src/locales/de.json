@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Ein Satz statt eines Namens",
       "generic_name_is_placeholder": "Ein Platzhalter statt eines Namens",
       "unknown": "Kein Firmenname"
+    },
+    "framework": {
+      "badge": "Teil einer Rahmenvereinbarung",
+      "badge_hint": "Diese Bekanntmachung gehört zu einem Rahmenvereinbarungsverfahren. Die veröffentlichten Daten sagen nicht, ob der Zuschlag die Rahmenvereinbarung begründet hat oder auf ihrer Grundlage erfolgte.",
+      "heading": "Rahmenvereinbarung",
+      "max_value": "Höchstwert",
+      "reestimated_value": "Neu geschätzter Wert",
+      "duration_months": "Laufzeit (Monate)",
+      "max_operators": "Höchstzahl der Wirtschaftsteilnehmer",
+      "ceiling_note": "Der Höchstwert einer Rahmenvereinbarung ist das Meiste, was über ihre Laufzeit abgerufen werden darf, kein gezahltes Geld. Er ist Kapazität, keine Ausgabe, und wird hier deshalb niemals zu einer Summe addiert.",
+      "ted_link": "Bekanntmachung der Rahmenvereinbarung auf TED ansehen",
+      "siblings_heading": "Weitere Zuschläge im Rahmen dieser Rahmenvereinbarung ({n})",
+      "siblings_more": "und {n} weitere, die hier nicht aufgeführt sind",
+      "siblings_note": "Vergabebekanntmachungen mit derselben Kennung der Rahmenvereinbarung. Die Daten sagen nicht, welche davon sie begründet hat."
     }
   },
   "contract_detail": {

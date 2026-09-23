@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useBack } from '../composables/useBack.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
-import { fmtMoney } from '../utils/format.js'
+import { fmtEur, fmtMoney } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
 
 const route = useRoute()
@@ -101,6 +101,56 @@ function withheldReason(reason) {
   const key = `contract.withheld_reason.${String(reason || '').replace(/\./g, '_')}`
   return te(key) ? t(key) : t('contract.withheld_reason.unknown')
 }
+// The framework agreement this award belongs to. The key behind it is
+// eForms OPT-100 (efac:SettledContract/cac:NoticeDocumentReference/cbc:ID),
+// which the framework-establishing notice and every call-off under it
+// carry identically — a grouping key, not a pointer. ~80% of the time it
+// names a call for competition, which this platform does not ingest, so
+// the sibling list is other awards we happen to hold under the same key
+// and nothing in the data ranks them. Every field may be missing on its
+// own, so each is guarded separately and the panel degrades to nothing.
+const framework = computed(() => contract.value?.framework || null)
+// Capacity terms of the agreement, in display order. The value is
+// pre-formatted here so the template does not have to fork per term.
+const frameworkTerms = computed(() => {
+  const f = framework.value
+  if (!f) return []
+  return [
+    { key: 'max-value', label: 'contract.framework.max_value',
+      value: f.max_value_eur != null ? fmtEur(f.max_value_eur) : null },
+    { key: 'reestimated-value', label: 'contract.framework.reestimated_value',
+      value: f.reestimated_value_eur != null ? fmtEur(f.reestimated_value_eur) : null },
+    { key: 'duration', label: 'contract.framework.duration_months',
+      value: f.duration_months != null ? String(f.duration_months) : null },
+    { key: 'max-operators', label: 'contract.framework.max_operators',
+      value: f.max_operators != null ? String(f.max_operators) : null },
+  ].filter((term) => term.value !== null)
+})
+// A ceiling is what the agreement may buy, not what was paid. Wherever
+// one of the two value terms is on screen the caption saying so goes
+// with it, or a reader adds it to spend.
+const showsFrameworkCeiling = computed(
+  () => framework.value != null
+    && (framework.value.max_value_eur != null || framework.value.reestimated_value_eur != null),
+)
+const frameworkSiblingCount = computed(() => framework.value?.sibling_count ?? 0)
+const frameworkSiblings = computed(() => framework.value?.siblings || [])
+// The API returns at most ten; say how many were left out rather than
+// letting the list pass for the whole cluster (the largest real one has
+// 148 award notices).
+const frameworkSiblingsHidden = computed(
+  () => Math.max(0, frameworkSiblingCount.value - frameworkSiblings.value.length),
+)
+// A contract flagged as framework but with no published key and no terms
+// has nothing to show, and "no framework" would be a lie for every
+// pre-2024 notice, which carries no key at all. Show nothing instead.
+const showFramework = computed(() => (
+  framework.value != null
+  && (frameworkTerms.value.length > 0
+    || !!framework.value.ted_url
+    || frameworkSiblingCount.value >= 1)
+))
+
 const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
 </script>
 
@@ -123,7 +173,22 @@ const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
     <p v-else-if="state === 'error'" class="cd-state">{{ $t('contract_detail.couldnt_load_this_contract') }}</p>
 
     <article v-else-if="state === 'ready'" data-testid="contract-detail">
-      <h1 class="cd-title">{{ contract.title || $t('contract_detail.untitled_contract') }}</h1>
+      <div class="cd-titlerow">
+        <h1 class="cd-title">{{ contract.title || $t('contract_detail.untitled_contract') }}</h1>
+        <!-- Deliberately beside the title and not in .cd-flags below:
+             that list is the red-flag row and a framework agreement is a
+             procurement instrument, not a risk. The wording is "part of"
+             because is_framework (the lot's ContractingSystemTypeCode
+             starting `fa`) is carried by establishing notices and
+             call-offs alike — 344 of 351 sampled call-offs have it — so
+             the data cannot say which this one is. -->
+        <span
+          v-if="integrity.is_framework"
+          class="badge badge-tag cd-fw-badge"
+          data-testid="framework-badge"
+          :title="$t('contract.framework.badge_hint')"
+        >{{ $t('contract.framework.badge') }}</span>
+      </div>
 
       <!-- Integrity profile — the investigative lede -->
       <section class="cd-integrity" data-testid="integrity-profile">
@@ -194,6 +259,57 @@ v-if="contract.contractor?.gmr_id"
         <dt>{{ $t('contract_detail.award_date') }}</dt><dd>{{ contract.award_date || '—' }}</dd>
       </dl>
 
+      <section v-if="showFramework" class="cd-framework" data-testid="framework-panel">
+        <h2 class="cd-fw-head">{{ $t('contract.framework.heading') }}</h2>
+        <dl v-if="frameworkTerms.length" class="cd-facts cd-fw-facts">
+          <template v-for="term in frameworkTerms" :key="term.key">
+            <dt>{{ $t(term.label) }}</dt>
+            <dd :data-testid="`framework-${term.key}`">{{ term.value }}</dd>
+          </template>
+        </dl>
+        <p v-if="showsFrameworkCeiling" class="cd-note">{{ $t('contract.framework.ceiling_note') }}</p>
+
+        <a
+v-if="framework.ted_url" :href="framework.ted_url"
+           target="_blank" rel="noopener noreferrer"
+           class="cd-ted cd-fw-ted" data-testid="framework-ted-link">
+          {{ $t('contract.framework.ted_link') }}<template
+            v-if="framework.framework_id"> ({{ framework.framework_id }})</template> &nearr;
+        </a>
+
+        <template v-if="frameworkSiblingCount >= 1">
+          <h3 class="cd-fw-sub">
+            {{ $t('contract.framework.siblings_heading', { n: frameworkSiblingCount }) }}
+          </h3>
+          <ul class="cd-fw-siblings" data-testid="framework-siblings">
+            <li
+v-for="(sib, i) in frameworkSiblings" :key="sib.ted_notice_id || i"
+                :data-testid="`framework-sibling-${i}`">
+              <!-- Linked only when there is somewhere to link to, like
+                   every other contract link in the app: a row without a
+                   notice id would otherwise be a click to /contract/undefined. -->
+              <RouterLink
+                v-if="sib.ted_notice_id"
+                :to="`/contract/${sib.ted_notice_id}`"
+              >{{ sib.title || $t('contract_detail.untitled_contract') }}</RouterLink>
+              <span v-else>{{ sib.title || $t('contract_detail.untitled_contract') }}</span>
+              <span class="cd-fw-meta">
+                <span v-if="sib.supplier">{{ sib.supplier }}</span>
+                <span v-if="sib.country">{{ sib.country }}</span>
+                <span v-if="sib.value_eur != null">{{ fmtEur(sib.value_eur) }}</span>
+                <span v-if="sib.publication_date">{{ String(sib.publication_date).substring(0, 10) }}</span>
+              </span>
+            </li>
+          </ul>
+          <p
+v-if="frameworkSiblingsHidden > 0" class="cd-note"
+             data-testid="framework-siblings-more">
+            {{ $t('contract.framework.siblings_more', { n: frameworkSiblingsHidden }) }}
+          </p>
+          <p class="cd-note">{{ $t('contract.framework.siblings_note') }}</p>
+        </template>
+      </section>
+
       <!-- The outward link to the original TED notice -->
       <a
 v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
@@ -209,7 +325,9 @@ v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
 .cd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
 .cd-back { color: var(--accent, #2563eb); text-decoration: none; }
 .cd-state { color: var(--muted, #6b7280); padding: 2rem 0; }
-.cd-title { font-size: 1.4rem; margin: 0 0 1rem; }
+.cd-titlerow { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; margin-bottom: 1rem; }
+.cd-title { font-size: 1.4rem; margin: 0; }
+.cd-fw-badge { border-radius: 999px; }
 .cd-integrity { border: 1px solid var(--border, #e5e7eb); border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
 .cd-flagcount { font-weight: 700; }
 .cd-flagcount.alert { color: #b91c1c; }
@@ -222,6 +340,15 @@ v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
 .cd-facts { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin-bottom: 1.25rem; }
 .cd-facts dt { color: var(--muted, #6b7280); }
 .cd-ted { display: inline-block; color: var(--accent, #2563eb); text-decoration: none; font-weight: 600; }
+.cd-framework { border: 1px solid var(--border, #e5e7eb); border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
+.cd-fw-head { font-size: 1rem; font-weight: 700; margin: 0 0 .6rem; }
+.cd-fw-facts { margin-bottom: 0; }
+.cd-fw-ted { margin-top: .75rem; }
+.cd-fw-sub { font-size: .9rem; font-weight: 700; margin: 1rem 0 .4rem; }
+.cd-fw-siblings { list-style: none; padding: 0; margin: 0; }
+.cd-fw-siblings li { padding: .35rem 0; border-top: 1px solid var(--border, #e5e7eb); }
+.cd-fw-siblings a { color: var(--accent, #2563eb); text-decoration: none; }
+.cd-fw-meta { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .8rem; color: var(--muted, #6b7280); }
 .cd-withheld > summary { cursor: pointer; color: var(--muted, #6b7280); font-style: italic; }
 .cd-withheld-list { list-style: none; padding: 0; margin: .35rem 0 0; }
 .cd-withheld-why { font-size: .8rem; color: var(--muted, #6b7280); }

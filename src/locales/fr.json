@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Une phrase à la place d'un nom",
       "generic_name_is_placeholder": "Un texte de substitution à la place d'un nom",
       "unknown": "Pas un nom d'entreprise"
+    },
+    "framework": {
+      "badge": "Fait partie d'un accord-cadre",
+      "badge_hint": "Cet avis relève d'une procédure d'accord-cadre. Les données publiées ne disent pas si l'attribution a établi l'accord-cadre ou si elle a été passée sur son fondement.",
+      "heading": "Accord-cadre",
+      "max_value": "Valeur maximale",
+      "reestimated_value": "Valeur réestimée",
+      "duration_months": "Durée (mois)",
+      "max_operators": "Nombre maximal d'opérateurs",
+      "ceiling_note": "Le plafond d'un accord-cadre est le maximum qu'il permet d'acheter sur toute sa durée, et non de l'argent versé. C'est une capacité, pas une dépense : il n'est jamais ajouté ici à un total.",
+      "ted_link": "Voir l'avis de l'accord-cadre sur TED",
+      "siblings_heading": "Autres attributions au titre de cet accord-cadre ({n})",
+      "siblings_more": "et {n} autres non affichées ici",
+      "siblings_note": "Avis d'attribution publiés avec le même identifiant d'accord-cadre. Les données ne disent pas lequel d'entre eux l'a établi."
     }
   },
   "contract_detail": {

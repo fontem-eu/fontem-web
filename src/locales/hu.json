@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Mondat a név helyett",
       "generic_name_is_placeholder": "Helykitöltő a név helyett",
       "unknown": "Nem cégnév"
+    },
+    "framework": {
+      "badge": "Keretmegállapodás része",
+      "badge_hint": "Ez a hirdetmény keretmegállapodásos eljáráshoz tartozik. A közzétett adatokból nem derül ki, hogy az odaítélés hozta-e létre a keretmegállapodást, vagy annak alapján történt.",
+      "heading": "Keretmegállapodás",
+      "max_value": "Legnagyobb érték",
+      "reestimated_value": "Újrabecsült érték",
+      "duration_months": "Időtartam (hónap)",
+      "max_operators": "Gazdasági szereplők legnagyobb száma",
+      "ceiling_note": "A keretmegállapodás felső értéke az a legtöbb, amennyit annak alapján a teljes futamideje alatt be lehet szerezni, nem pedig kifizetett pénz. Ez kapacitás, nem kiadás, ezért itt soha nem adódik hozzá semmilyen összeghez.",
+      "ted_link": "A keretmegállapodás hirdetményének megtekintése a TED-en",
+      "siblings_heading": "A keretmegállapodás további odaítélései ({n})",
+      "siblings_more": "és további {n}, amelyek itt nem szerepelnek",
+      "siblings_note": "Ugyanazzal a keretmegállapodás-azonosítóval közzétett eredménytájékoztatók. Az adatokból nem derül ki, melyikük hozta létre a keretmegállapodást."
     }
   },
   "contract_detail": {

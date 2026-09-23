@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Sakinys vietoj pavadinimo",
       "generic_name_is_placeholder": "Užpildas vietoj pavadinimo",
       "unknown": "Ne įmonės pavadinimas"
+    },
+    "framework": {
+      "badge": "Preliminariosios sutarties dalis",
+      "badge_hint": "Šis skelbimas priklauso preliminariosios sutarties procedūrai. Paskelbti duomenys nenurodo, ar šiuo sprendimu buvo sudaryta preliminarioji sutartis, ar pirkta pagal ją.",
+      "heading": "Preliminarioji sutartis",
+      "max_value": "Didžiausia vertė",
+      "reestimated_value": "Perskaičiuota vertė",
+      "duration_months": "Trukmė (mėnesiais)",
+      "max_operators": "Didžiausias tiekėjų skaičius",
+      "ceiling_note": "Preliminariosios sutarties riba yra daugiausia, ką pagal ją galima nupirkti per visą jos galiojimo laiką, o ne sumokėti pinigai. Tai pajėgumas, o ne išlaidos, todėl čia niekada nepridedama prie jokios sumos.",
+      "ted_link": "Žiūrėti preliminariosios sutarties skelbimą TED",
+      "siblings_heading": "Kiti pagal šią preliminariąją sutartį skirti pirkimai ({n})",
+      "siblings_more": "ir dar {n}, kurie čia nerodomi",
+      "siblings_note": "Skelbimai apie sutarties skyrimą, paskelbti su tuo pačiu preliminariosios sutarties identifikatoriumi. Duomenys nenurodo, kuriuo iš jų ji buvo sudaryta."
     }
   },
   "contract_detail": {

@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Una frase en lugar de un nombre",
       "generic_name_is_placeholder": "Un texto de relleno en lugar de un nombre",
       "unknown": "No es el nombre de una empresa"
+    },
+    "framework": {
+      "badge": "Parte de un acuerdo marco",
+      "badge_hint": "Este anuncio pertenece a un procedimiento de acuerdo marco. Los datos publicados no dicen si la adjudicación creó el acuerdo marco o se realizó al amparo de uno.",
+      "heading": "Acuerdo marco",
+      "max_value": "Valor máximo",
+      "reestimated_value": "Valor reestimado",
+      "duration_months": "Duración (meses)",
+      "max_operators": "Número máximo de operadores",
+      "ceiling_note": "El límite de un acuerdo marco es lo máximo que puede comprarse con él durante toda su vigencia, no dinero pagado. Es capacidad, no gasto, por lo que aquí nunca se suma a ningún total.",
+      "ted_link": "Ver el anuncio del acuerdo marco en TED",
+      "siblings_heading": "Otras adjudicaciones de este acuerdo marco ({n})",
+      "siblings_more": "y {n} más que no se muestran aquí",
+      "siblings_note": "Anuncios de adjudicación publicados con el mismo identificador de acuerdo marco. Los datos no dicen cuál de ellos lo creó."
     }
   },
   "contract_detail": {

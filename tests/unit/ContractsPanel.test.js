@@ -668,3 +668,50 @@ describe('ContractsPanel — contracts with no TED notice id', () => {
   })
 })
 
+
+/**
+ * `is_framework` on a list row marks a notice that belongs to a framework
+ * procedure — 152,758 of them in production. The tag says "part of" and
+ * is not a link: the framework's own notice is usually a call for
+ * competition this platform does not ingest, so there is nothing to click.
+ */
+describe('ContractsPanel — rows that are part of a framework agreement', () => {
+  afterEach(() => { vi.clearAllMocks() })
+
+  async function mountRows(rows) {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: rows.length, contracts: rows }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'company' },
+    })
+    await flushPromises()
+    return wrapper
+  }
+
+  it('tags the row in the table and in the card, unlinked', async () => {
+    const wrapper = await mountRows([makeContract({ ted_notice_id: '761784-2024', is_framework: true })])
+    const tag = wrapper.find('[data-testid="contract-framework-tag-761784-2024"]')
+    expect(tag.exists()).toBe(true)
+    expect(tag.text()).toBe('Part of a framework agreement')
+    expect(tag.element.tagName).toBe('SPAN')
+    expect(tag.attributes('title')).toContain('framework procedure')
+    expect(wrapper.find('[data-testid="contract-card-framework-tag-761784-2024"]').text())
+      .toBe('Part of a framework agreement')
+  })
+
+  it('leaves a row the flag says nothing about untagged', async () => {
+    const wrapper = await mountRows([
+      makeContract({ ted_notice_id: '761784-2024', is_framework: true }),
+      makeContract({ ted_notice_id: '156-2025' }),
+    ])
+    expect(wrapper.find('[data-testid="contract-framework-tag-761784-2024"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="contract-framework-tag-156-2025"]').exists()).toBe(false)
+  })
+
+  it('falls back to the row index for a row with no notice id, like the other tags', async () => {
+    const wrapper = await mountRows([makeContract({ ted_notice_id: null, is_framework: true })])
+    expect(wrapper.find('[data-testid="contract-framework-tag-0"]').exists()).toBe(true)
+  })
+})

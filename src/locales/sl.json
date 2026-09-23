@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Stavek namesto imena",
       "generic_name_is_placeholder": "Nadomestno besedilo namesto imena",
       "unknown": "Ni ime podjetja"
+    },
+    "framework": {
+      "badge": "Del okvirnega sporazuma",
+      "badge_hint": "To obvestilo sodi v postopek okvirnega sporazuma. Objavljeni podatki ne povedo, ali je ta oddaja okvirni sporazum sklenila ali je bila izvedena na njegovi podlagi.",
+      "heading": "Okvirni sporazum",
+      "max_value": "Največja vrednost",
+      "reestimated_value": "Ponovno ocenjena vrednost",
+      "duration_months": "Trajanje (meseci)",
+      "max_operators": "Največje število gospodarskih subjektov",
+      "ceiling_note": "Zgornja meja okvirnega sporazuma je največ, kar se lahko na njegovi podlagi kupi v celotnem obdobju, ne pa plačani denar. Gre za zmogljivost, ne za odhodek, zato se tu nikoli ne prišteva k nobeni vsoti.",
+      "ted_link": "Oglejte si obvestilo o okvirnem sporazumu na TED",
+      "siblings_heading": "Druge oddaje v okviru tega okvirnega sporazuma ({n})",
+      "siblings_more": "in še {n}, ki tu niso prikazane",
+      "siblings_note": "Obvestila o oddaji naročila, objavljena z isto oznako okvirnega sporazuma. Podatki ne povedo, s katerim od njih je bil sklenjen."
     }
   },
   "contract_detail": {

@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Uma frase em vez de um nome",
       "generic_name_is_placeholder": "Um texto de preenchimento em vez de um nome",
       "unknown": "Não é o nome de uma empresa"
+    },
+    "framework": {
+      "badge": "Parte de um acordo-quadro",
+      "badge_hint": "Este anúncio pertence a um procedimento de acordo-quadro. Os dados publicados não dizem se a adjudicação celebrou o acordo-quadro ou se foi feita ao abrigo dele.",
+      "heading": "Acordo-quadro",
+      "max_value": "Valor máximo",
+      "reestimated_value": "Valor reestimado",
+      "duration_months": "Duração (meses)",
+      "max_operators": "Número máximo de operadores",
+      "ceiling_note": "O limite de um acordo-quadro é o máximo que pode ser adquirido ao seu abrigo durante toda a sua vigência, não dinheiro pago. É capacidade, não despesa, pelo que nunca é somado a qualquer total aqui.",
+      "ted_link": "Ver o anúncio do acordo-quadro no TED",
+      "siblings_heading": "Outras adjudicações ao abrigo deste acordo-quadro ({n})",
+      "siblings_more": "e mais {n} que não são mostradas aqui",
+      "siblings_note": "Anúncios de adjudicação publicados com o mesmo identificador de acordo-quadro. Os dados não dizem qual deles o celebrou."
     }
   },
   "contract_detail": {

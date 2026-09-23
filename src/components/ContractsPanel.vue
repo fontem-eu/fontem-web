@@ -322,6 +322,18 @@ const topCpv = computed(() => {
                     :data-testid="`contract-title-link-${c.ted_notice_id}`"
                   >{{ c.title }}</RouterLink>
                   <span v-else data-testid="contract-title-unlinked">{{ c.title }}</span>
+                  <!-- "Part of", not "is": is_framework marks a notice
+                       that belongs to a framework procedure, and
+                       establishing notices and call-offs carry it
+                       alike. Unlinked — the framework's own notice is
+                       usually a call for competition we do not hold, so
+                       there is nothing here to click through to. -->
+                  <span
+                    v-if="c.is_framework"
+                    class="ctag fw-tag"
+                    :title="$t('contract.framework.badge_hint')"
+                    :data-testid="`contract-framework-tag-${c.ted_notice_id ?? i}`"
+                  >{{ $t('contract.framework.badge') }}</span>
               </td>
               <td class="num">{{ c.value_eur ? fmtEur(c.value_eur) : '—' }}<DataConfidenceIcon v-if="contractValueBadness(c)" :badness="contractValueBadness(c)" @click="confidenceContract = c" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" /></td>
               <td>
@@ -379,6 +391,12 @@ const topCpv = computed(() => {
             <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataConfidenceIcon v-if="contractValueBadness(c)" :badness="contractValueBadness(c)" @click="confidenceContract = c" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" />
             <span v-if="c.award_date" class="cc-date">{{ c.award_date.substring(0, 10) }}</span>
             <span v-if="c.procedure_type" class="ctag">{{ c.procedure_type }}</span>
+            <span
+              v-if="c.is_framework"
+              class="ctag fw-tag"
+              :title="$t('contract.framework.badge_hint')"
+              :data-testid="`contract-card-framework-tag-${c.ted_notice_id ?? i}`"
+            >{{ $t('contract.framework.badge') }}</span>
           </div>
           <div class="cc-meta">
             <template v-if="counterpartyFor(c).profileId">
@@ -477,6 +495,7 @@ const topCpv = computed(() => {
   font-weight: 500;
 }
 .withheld { color: var(--muted, #6b7280); font-style: italic; }
+.fw-tag { margin-left: 0.35rem; white-space: normal; }
 .counterparty-link:hover { text-decoration: underline; }
 .ted-link {
   font-size: 0.75rem;

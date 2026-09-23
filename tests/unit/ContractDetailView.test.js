@@ -368,3 +368,194 @@ describe('ContractDetailView — moving from one contract to another', () => {
   })
 })
 
+
+/**
+ * eForms OPT-100 "Framework Notice Identifier" is the same value on the
+ * notice that establishes a framework agreement and on every call-off
+ * under it, so it groups award notices; it does not order them and it
+ * does not point at a contract we hold (~80% of the time it names a call
+ * for competition, which this platform does not ingest). The page says
+ * "part of a framework agreement" and nothing stronger.
+ */
+describe('ContractDetailView — part of a framework agreement', () => {
+  const detail = (extra) => ({
+    ok: true,
+    json: async () => ({
+      ted_notice_id: '761784-2024', title: 'Cleaning services', value_eur: 90000,
+      authority: { authority_id: 'a-1', name: 'Ville de X', country: 'FRA' },
+      contractor: { gmr_id: 'g1', name: 'Alfa S.p.A.' },
+      integrity: {}, framework: null,
+      ...extra,
+    }),
+  })
+
+  const FRAMEWORK = {
+    framework_id: '536632-2024',
+    ted_url: 'https://ted.europa.eu/en/notice/536632-2024',
+    max_value_eur: 4200000, reestimated_value_eur: null,
+    duration_months: 48, max_operators: 5,
+    sibling_count: 0, siblings: [],
+  }
+
+  const sibling = (over = {}) => ({
+    ted_notice_id: '3406-2025', title: 'Cleaning, second call-off', country: 'PRT',
+    value_eur: 120000, publication_date: '2026-03-04', supplier: 'Alfa S.p.A.',
+    ...over,
+  })
+
+  it('badges a framework contract beside the title, outside the red-flag list', async () => {
+    mockFetch.mockResolvedValueOnce(detail({ integrity: { is_framework: true } }))
+    const wrapper = await mountAt('761784-2024')
+    const badge = wrapper.find('[data-testid="framework-badge"]')
+    expect(badge.exists()).toBe(true)
+    expect(badge.text()).toBe('Part of a framework agreement')
+    // A framework is an instrument, not a risk: it must not join the
+    // red-flag row, and it must not move the red-flag count.
+    expect(wrapper.find('.cd-flags [data-testid="framework-badge"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="red-flag-count"]').text()).toContain('0')
+  })
+
+  it('does not badge a contract the flag says nothing about', async () => {
+    // Pre-2024 notices carry no framework signal at all. Absent is not
+    // "not a framework", so the page stays silent rather than denying it.
+    mockFetch.mockResolvedValueOnce(detail({ integrity: {} }))
+    const wrapper = await mountAt('761784-2024')
+    expect(wrapper.find('[data-testid="framework-badge"]').exists()).toBe(false)
+    expect(wrapper.text()).not.toContain('framework')
+  })
+
+  it('shows no panel when the contract has no framework object', async () => {
+    mockFetch.mockResolvedValueOnce(detail({ integrity: { is_framework: true }, framework: null }))
+    const wrapper = await mountAt('761784-2024')
+    expect(wrapper.find('[data-testid="framework-badge"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="framework-panel"]').exists()).toBe(false)
+  })
+
+  it('renders the terms the notice published and the ceiling caption', async () => {
+    mockFetch.mockResolvedValueOnce(detail({ integrity: { is_framework: true }, framework: FRAMEWORK }))
+    const wrapper = await mountAt('761784-2024')
+    const panel = wrapper.find('[data-testid="framework-panel"]')
+    expect(panel.exists()).toBe(true)
+    expect(panel.find('[data-testid="framework-max-value"]').text()).toBe('€4.2M')
+    expect(panel.find('[data-testid="framework-duration"]').text()).toBe('48')
+    expect(panel.find('[data-testid="framework-max-operators"]').text()).toBe('5')
+    expect(panel.text()).toContain('Maximum value')
+    expect(panel.text()).toContain('capacity, not spending')
+  })
+
+  it('leaves out each term the notice did not publish', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      integrity: { is_framework: true },
+      framework: {
+        ...FRAMEWORK,
+        max_value_eur: null, reestimated_value_eur: 880000,
+        duration_months: null, max_operators: null,
+      },
+    }))
+    const wrapper = await mountAt('761784-2024')
+    const panel = wrapper.find('[data-testid="framework-panel"]')
+    expect(panel.find('[data-testid="framework-reestimated-value"]').text()).toBe('€880K')
+    for (const absent of ['framework-max-value', 'framework-duration', 'framework-max-operators']) {
+      expect(panel.find(`[data-testid="${absent}"]`).exists(), absent).toBe(false)
+    }
+    expect(panel.text()).not.toContain('Maximum value')
+  })
+
+  it('renders no panel for a flagged contract with no key and no terms', async () => {
+    // is_framework with nothing published under it: 2024 notices carry
+    // OPT-100 only 28.8% of the time, so this is the common shape there.
+    mockFetch.mockResolvedValueOnce(detail({
+      integrity: { is_framework: true },
+      framework: {
+        framework_id: null, ted_url: null, max_value_eur: null,
+        reestimated_value_eur: null, duration_months: null, max_operators: null,
+        sibling_count: 0, siblings: [],
+      },
+    }))
+    const wrapper = await mountAt('761784-2024')
+    expect(wrapper.find('[data-testid="framework-panel"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="framework-badge"]').exists()).toBe(true)
+  })
+
+  it('links the framework notice on TED, and omits the link when there is none', async () => {
+    mockFetch.mockResolvedValueOnce(detail({ integrity: { is_framework: true }, framework: FRAMEWORK }))
+    let wrapper = await mountAt('761784-2024')
+    const link = wrapper.find('[data-testid="framework-ted-link"]')
+    expect(link.attributes('href')).toBe('https://ted.europa.eu/en/notice/536632-2024')
+    expect(link.attributes('target')).toBe('_blank')
+    expect(link.text()).toContain('536632-2024')
+
+    mockFetch.mockResolvedValueOnce(detail({
+      integrity: { is_framework: true },
+      framework: { ...FRAMEWORK, framework_id: null, ted_url: null },
+    }))
+    wrapper = await mountAt('761784-2024')
+    expect(wrapper.find('[data-testid="framework-panel"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="framework-ted-link"]').exists()).toBe(false)
+  })
+
+  it('lists the other awards under the framework as links', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      integrity: { is_framework: true },
+      framework: {
+        ...FRAMEWORK,
+        sibling_count: 2,
+        siblings: [sibling(), sibling({ ted_notice_id: '156-2025', title: 'Third call-off', value_eur: null })],
+      },
+    }))
+    const wrapper = await mountAt('761784-2024')
+    const list = wrapper.find('[data-testid="framework-siblings"]')
+    expect(list.exists()).toBe(true)
+    expect(wrapper.text()).toContain('Other awards under this framework (2)')
+    const first = list.find('[data-testid="framework-sibling-0"]')
+    expect(first.find('a').attributes('href')).toBe('/contract/3406-2025')
+    expect(first.text()).toContain('Cleaning, second call-off')
+    expect(first.text()).toContain('PRT')
+    expect(first.text()).toContain('€120K')
+    expect(first.text()).toContain('2026-03-04')
+    expect(list.find('[data-testid="framework-sibling-1"]').find('a').attributes('href'))
+      .toBe('/contract/156-2025')
+    // Nothing in the data ranks the cluster, so the list must not be
+    // introduced as this framework's call-offs.
+    expect(wrapper.text()).not.toContain('call-offs of this framework')
+    expect(wrapper.find('[data-testid="framework-siblings-more"]').exists()).toBe(false)
+  })
+
+  it('says how many more there are when the API returned only the first ten', async () => {
+    // The largest real cluster has 148 award notices; a list of ten must
+    // not pass for the whole of it.
+    mockFetch.mockResolvedValueOnce(detail({
+      integrity: { is_framework: true },
+      framework: {
+        ...FRAMEWORK,
+        sibling_count: 147,
+        siblings: Array.from({ length: 10 }, (_, i) => sibling({ ted_notice_id: `s-${i}` })),
+      },
+    }))
+    const wrapper = await mountAt('761784-2024')
+    expect(wrapper.findAll('[data-testid^="framework-sibling-"]')).toHaveLength(10)
+    expect(wrapper.find('[data-testid="framework-siblings-more"]').text())
+      .toBe('and 137 more not shown here')
+  })
+
+  it('renders no sibling section at all when this is the only award we hold', async () => {
+    // 68.8% of real frameworks have exactly one award notice; "0 others"
+    // would be noise on more than two thirds of the pages.
+    mockFetch.mockResolvedValueOnce(detail({ integrity: { is_framework: true }, framework: FRAMEWORK }))
+    const wrapper = await mountAt('761784-2024')
+    expect(wrapper.find('[data-testid="framework-panel"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="framework-siblings"]').exists()).toBe(false)
+    expect(wrapper.text()).not.toContain('Other awards under this framework')
+  })
+
+  it('keeps the smoke-test anchors of the page', async () => {
+    mockFetch.mockResolvedValueOnce(detail({
+      ted_publication_number: '761784-2024',
+      integrity: { is_framework: true }, framework: FRAMEWORK,
+    }))
+    const wrapper = await mountAt('761784-2024')
+    for (const id of ['contract-detail', 'integrity-profile', 'red-flag-count', 'ted-outlink']) {
+      expect(wrapper.find(`[data-testid="${id}"]`).exists(), id).toBe(true)
+    }
+  })
+})

@@ -434,6 +434,20 @@
       "generic_name_is_sentence": "Una frase al posto di un nome",
       "generic_name_is_placeholder": "Un segnaposto al posto di un nome",
       "unknown": "Non è una ragione sociale"
+    },
+    "framework": {
+      "badge": "Parte di un accordo quadro",
+      "badge_hint": "Questo avviso appartiene a una procedura di accordo quadro. I dati pubblicati non dicono se l'aggiudicazione ha istituito l'accordo quadro o è avvenuta in base a esso.",
+      "heading": "Accordo quadro",
+      "max_value": "Valore massimo",
+      "reestimated_value": "Valore rideterminato",
+      "duration_months": "Durata (mesi)",
+      "max_operators": "Numero massimo di operatori",
+      "ceiling_note": "Il massimale di un accordo quadro è quanto si può acquistare al massimo per tutta la sua durata, non denaro pagato. È capacità, non spesa, e quindi qui non viene mai sommato ad alcun totale.",
+      "ted_link": "Vedi l'avviso dell'accordo quadro su TED",
+      "siblings_heading": "Altre aggiudicazioni nell'ambito di questo accordo quadro ({n})",
+      "siblings_more": "e altre {n} non mostrate qui",
+      "siblings_note": "Avvisi di aggiudicazione pubblicati con lo stesso identificativo di accordo quadro. I dati non dicono quale di essi lo abbia istituito."
     }
   },
   "contract_detail": {
