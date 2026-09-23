@@ -805,7 +805,17 @@
     "integrity_flags": "{n} waarschuwingssignaal | {n} waarschuwingssignalen",
     "flag_single_bidder": "één inschrijver",
     "modified": "Gewijzigd",
-    "modified_award_missing": "Gewijzigd · gunning niet geregistreerd"
+    "modified_award_missing": "Gewijzigd · gunning niet geregistreerd",
+    "data_story": "Dataverhaal",
+    "briefings_sub": "Briefingbevindingen, nieuwste eerst.",
+    "show_label": "Tonen",
+    "pick_briefing": "Briefing",
+    "all_briefings": "Alle briefings",
+    "loading_more": "Meer laden…",
+    "load_more": "Meer tonen",
+    "paused_after": "U hebt {n} items doorgebladerd.",
+    "end_of_feed": "U bent helemaal bij.",
+    "nothing_here_briefings": "Nog geen briefingbevindingen."
   },
   "feeds": {
     "add_query": "Query toevoegen",
@@ -1271,7 +1281,8 @@
     "petitions": "Petities",
     "spending": "Uitgaven",
     "stories": "Verhalen",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Terug naar startpagina",

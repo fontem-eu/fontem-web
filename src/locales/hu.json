@@ -805,7 +805,17 @@
     "integrity_flags": "{n} figyelmeztető jel | {n} figyelmeztető jel",
     "flag_single_bidder": "egyetlen ajánlattevő",
     "modified": "Módosítva",
-    "modified_award_missing": "Módosítva · az odaítélés nincs nyilvántartva"
+    "modified_award_missing": "Módosítva · az odaítélés nincs nyilvántartva",
+    "data_story": "Adatsztori",
+    "briefings_sub": "Tájékoztatói megállapítások, a legújabbak elöl.",
+    "show_label": "Megjelenítés",
+    "pick_briefing": "Tájékoztató",
+    "all_briefings": "Minden tájékoztató",
+    "loading_more": "További elemek betöltése…",
+    "load_more": "Több megjelenítése",
+    "paused_after": "Eddig {n} elemet görgetett végig.",
+    "end_of_feed": "Mindent megtekintett.",
+    "nothing_here_briefings": "Még nincsenek tájékoztatói megállapítások."
   },
   "feeds": {
     "add_query": "Lekérdezés hozzáadása",
@@ -1271,7 +1281,8 @@
     "petitions": "Petíciók",
     "spending": "Kiadások",
     "stories": "Történetek",
-    "studio": "Stúdió"
+    "studio": "Stúdió",
+    "back_feed": "← Hírfolyam"
   },
   "not_found": {
     "back_to_home": "Vissza a kezdőlapra",

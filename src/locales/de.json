@@ -805,7 +805,17 @@
     "integrity_flags": "{n} Warnsignal | {n} Warnsignale",
     "flag_single_bidder": "einziger Bieter",
     "modified": "Geändert",
-    "modified_award_missing": "Geändert · Zuschlag nicht erfasst"
+    "modified_award_missing": "Geändert · Zuschlag nicht erfasst",
+    "data_story": "Datengeschichte",
+    "briefings_sub": "Briefing-Funde, neueste zuerst.",
+    "show_label": "Anzeigen",
+    "pick_briefing": "Briefing",
+    "all_briefings": "Alle Briefings",
+    "loading_more": "Weitere werden geladen…",
+    "load_more": "Mehr anzeigen",
+    "paused_after": "Sie haben {n} Einträge durchgesehen.",
+    "end_of_feed": "Sie sind auf dem neuesten Stand.",
+    "nothing_here_briefings": "Noch keine Briefing-Funde vorhanden."
   },
   "feeds": {
     "add_query": "Abfrage hinzufügen",
@@ -1271,7 +1281,8 @@
     "petitions": "Petitionen",
     "spending": "Ausgaben",
     "stories": "Stories",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Zurück zur Startseite",

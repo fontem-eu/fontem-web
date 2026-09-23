@@ -805,7 +805,17 @@
     "integrity_flags": "{n} brīdinājuma zīme | {n} brīdinājuma zīmes",
     "flag_single_bidder": "viens pretendents",
     "modified": "Grozīts",
-    "modified_award_missing": "Grozīts · piešķīrums nav reģistrēts"
+    "modified_award_missing": "Grozīts · piešķīrums nav reģistrēts",
+    "data_story": "Datu stāsts",
+    "briefings_sub": "Pārskatu atradumi, jaunākie pirmie.",
+    "show_label": "Rādīt",
+    "pick_briefing": "Pārskats",
+    "all_briefings": "Visi pārskati",
+    "loading_more": "Ielādē vēl…",
+    "load_more": "Rādīt vairāk",
+    "paused_after": "Jūs esat apskatījis {n} ierakstus.",
+    "end_of_feed": "Jūs esat redzējis visu.",
+    "nothing_here_briefings": "Pārskatu atradumu vēl nav."
   },
   "feeds": {
     "add_query": "Pievienot vaicājumu",
@@ -1271,7 +1281,8 @@
     "petitions": "Petīcijas",
     "spending": "Tēriņi",
     "stories": "Stāsti",
-    "studio": "Studija"
+    "studio": "Studija",
+    "back_feed": "← Plūsma"
   },
   "not_found": {
     "back_to_home": "Atpakaļ uz sākumu",

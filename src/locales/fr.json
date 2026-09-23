@@ -805,7 +805,17 @@
     "integrity_flags": "{n} signal d'alerte | {n} signaux d'alerte",
     "flag_single_bidder": "soumissionnaire unique",
     "modified": "Modifié",
-    "modified_award_missing": "Modifié · attribution non enregistrée"
+    "modified_award_missing": "Modifié · attribution non enregistrée",
+    "data_story": "Histoire de données",
+    "briefings_sub": "Conclusions des bulletins, les plus récentes d'abord.",
+    "show_label": "Afficher",
+    "pick_briefing": "Bulletin",
+    "all_briefings": "Tous les bulletins",
+    "loading_more": "Chargement de la suite…",
+    "load_more": "Afficher plus",
+    "paused_after": "Vous avez parcouru {n} éléments.",
+    "end_of_feed": "Vous êtes à jour.",
+    "nothing_here_briefings": "Aucune conclusion de bulletin pour l'instant."
   },
   "feeds": {
     "add_query": "Ajouter une requête",
@@ -1271,7 +1281,8 @@
     "petitions": "Pétitions",
     "spending": "Dépenses",
     "stories": "Histoires",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Flux"
   },
   "not_found": {
     "back_to_home": "Retour à l'accueil",

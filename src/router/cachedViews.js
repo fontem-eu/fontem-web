@@ -19,9 +19,11 @@ export const CACHED_VIEWS = ['FeedView', 'BriefingsView']
 /**
  * The key a routed view is rendered under.
  *
- * Only the kept-alive views get one, and theirs is the path: FeedView serves
- * both `/` (mixed) and `/stories-feed` (articles only), and one shared cache
- * entry would hand each route the other's list and scroll position.
+ * Only the kept-alive views get one, and theirs is the path: a view that
+ * served two paths would otherwise hand each the other's list and scroll
+ * position from one shared cache entry. (FeedView served `/` and
+ * `/stories-feed` until 2026-09-23; stories-only is a `?show=` filter of
+ * `/` now, so it keeps its state by staying on one path.)
  *
  * Every other view gets no key — what it had before KeepAlive existed — so
  * Vue reuses the instance when the path changes but the component does not.

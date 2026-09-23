@@ -56,15 +56,16 @@ const hasToken = computed(() => isAuthed.value)
  * is not where they came from — they were editing it. Their own stories
  * are.
  *
- * For everyone else this is the stories list. It used to point at `/`
- * while calling itself "Stories", which stopped being true when `/`
- * became the mixed landing feed and Stories moved to /stories-feed.
+ * For everyone else it is the feed, which remembers the view the reader
+ * left it in (stories only, one briefing, …) — the link carries no query,
+ * so the feed restores its own. It pointed at /stories-feed while Stories
+ * was a page of its own; that page is a filter of the feed now.
  */
 const isAuthor = computed(
   () => !!report.value?.created_by && currentUser.value?.id === report.value.created_by)
-const backTo = computed(() => (isAuthor.value ? '/my-stories' : '/stories-feed'))
+const backTo = computed(() => (isAuthor.value ? '/my-stories' : '/'))
 const backLabel = computed(
-  () => (isAuthor.value ? 'nav.back_my_stories' : 'nav.back_stories'))
+  () => (isAuthor.value ? 'nav.back_my_stories' : 'nav.back_feed'))
 const { lang: uiLang } = useLang()
 
 // ── translations ────────────────────────────────────────────

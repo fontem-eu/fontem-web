@@ -805,7 +805,17 @@
     "integrity_flags": "{n} bandiera ħamra | {n} bnadar ħomor",
     "flag_single_bidder": "offerent wieħed",
     "modified": "Modifikat",
-    "modified_award_missing": "Modifikat · l-għoti mhux irreġistrat"
+    "modified_award_missing": "Modifikat · l-għoti mhux irreġistrat",
+    "data_story": "Storja bid-data",
+    "briefings_sub": "Sejbiet mit-taqsiriet, l-aktar riċenti l-ewwel.",
+    "show_label": "Uri",
+    "pick_briefing": "Taqsira",
+    "all_briefings": "It-taqsiriet kollha",
+    "loading_more": "Qed jitgħabba aktar…",
+    "load_more": "Uri aktar",
+    "paused_after": "Għaddejt minn {n} oġġett.",
+    "end_of_feed": "Rajt kollox.",
+    "nothing_here_briefings": "Għad m'hemmx sejbiet mit-taqsiriet."
   },
   "feeds": {
     "add_query": "Żid mistoqsija",
@@ -1271,7 +1281,8 @@
     "petitions": "Petizzjonijiet",
     "spending": "Nefqa",
     "stories": "Stejjer",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Lura lejn id-dar",

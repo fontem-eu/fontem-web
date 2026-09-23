@@ -172,10 +172,10 @@ test.describe('Settings gear — rendering', () => {
   test('the rail gear is the same size as the other rail icons', async ({ page }) => {
     await page.goto('/')
     const gear = page.locator('[data-testid="rail-settings"] svg')
-    const stories = page.locator('[data-testid="nav-stories"] svg')
+    const feed = page.locator('[data-testid="nav-feed"] svg')
     await expect(gear).toBeVisible()
     const g = await gear.boundingBox()
-    const s = await stories.boundingBox()
+    const s = await feed.boundingBox()
     expect(Math.abs(g.width - s.width)).toBeLessThanOrEqual(1)
     expect(Math.abs(g.height - s.height)).toBeLessThanOrEqual(1)
     // Guards the actual failure mode: a sizeless SVG renders far larger.
@@ -233,7 +233,7 @@ test.describe('Settings gear — rendering on mobile', () => {
     await page.goto('/')
     await page.locator('[data-testid="nav-toggle"]').click()
     const g = await page.locator('[data-testid="rail-settings"] svg').boundingBox()
-    const s = await page.locator('[data-testid="nav-stories"] svg').boundingBox()
+    const s = await page.locator('[data-testid="nav-feed"] svg').boundingBox()
     expect(Math.abs(g.width - s.width)).toBeLessThanOrEqual(1)
     expect(g.width).toBeLessThan(40)
   })

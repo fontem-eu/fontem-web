@@ -805,7 +805,17 @@
     "integrity_flags": "{n} sinal de alerta | {n} sinais de alerta",
     "flag_single_bidder": "concorrente único",
     "modified": "Modificado",
-    "modified_award_missing": "Modificado · adjudicação não registada"
+    "modified_award_missing": "Modificado · adjudicação não registada",
+    "data_story": "História com dados",
+    "briefings_sub": "Achados dos boletins, primeiro os mais recentes.",
+    "show_label": "Mostrar",
+    "pick_briefing": "Boletim",
+    "all_briefings": "Todos os boletins",
+    "loading_more": "A carregar mais…",
+    "load_more": "Mostrar mais",
+    "paused_after": "Já percorreu {n} itens.",
+    "end_of_feed": "Está tudo em dia.",
+    "nothing_here_briefings": "Ainda não há achados de boletins."
   },
   "feeds": {
     "add_query": "Adicionar consulta",
@@ -1271,7 +1281,8 @@
     "petitions": "Petições",
     "spending": "Despesas",
     "stories": "Histórias",
-    "studio": "Estúdio"
+    "studio": "Estúdio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Voltar ao início",

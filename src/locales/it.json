@@ -805,7 +805,17 @@
     "integrity_flags": "{n} segnale di allarme | {n} segnali di allarme",
     "flag_single_bidder": "unico offerente",
     "modified": "Modificato",
-    "modified_award_missing": "Modificato · aggiudicazione non registrata"
+    "modified_award_missing": "Modificato · aggiudicazione non registrata",
+    "data_story": "Storia di dati",
+    "briefings_sub": "Risultati dei bollettini, prima i più recenti.",
+    "show_label": "Mostra",
+    "pick_briefing": "Bollettino",
+    "all_briefings": "Tutti i bollettini",
+    "loading_more": "Caricamento di altri…",
+    "load_more": "Mostra altri",
+    "paused_after": "Hai scorso {n} elementi.",
+    "end_of_feed": "Sei in pari.",
+    "nothing_here_briefings": "Ancora nessun risultato dai bollettini."
   },
   "feeds": {
     "add_query": "Aggiungi query",
@@ -1271,7 +1281,8 @@
     "petitions": "Petizioni",
     "spending": "Spesa",
     "stories": "Storie",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Torna alla home",

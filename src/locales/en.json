@@ -805,7 +805,17 @@
     "integrity_flags": "{n} red flag | {n} red flags",
     "flag_single_bidder": "single bidder",
     "modified": "Modified",
-    "modified_award_missing": "Modified · award not on file"
+    "modified_award_missing": "Modified · award not on file",
+    "data_story": "Data story",
+    "briefings_sub": "Briefing findings, newest first.",
+    "show_label": "Show",
+    "pick_briefing": "Briefing",
+    "all_briefings": "All briefings",
+    "loading_more": "Loading more…",
+    "load_more": "Show more",
+    "paused_after": "You've scrolled through {n} items.",
+    "end_of_feed": "You're all caught up.",
+    "nothing_here_briefings": "No briefing findings to show yet."
   },
   "feeds": {
     "add_query": "Add a query",
@@ -1271,7 +1281,8 @@
     "petitions": "Petitions",
     "spending": "Spending",
     "stories": "Stories",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Back to home",

@@ -805,7 +805,17 @@
     "integrity_flags": "{n} червен флаг | {n} червени флага",
     "flag_single_bidder": "един оферент",
     "modified": "Изменен",
-    "modified_award_missing": "Изменен · възлагането не е налично"
+    "modified_award_missing": "Изменен · възлагането не е налично",
+    "data_story": "История с данни",
+    "briefings_sub": "Находки от бюлетините, най-новите най-отгоре.",
+    "show_label": "Показване",
+    "pick_briefing": "Бюлетин",
+    "all_briefings": "Всички бюлетини",
+    "loading_more": "Зареждане на още…",
+    "load_more": "Покажи още",
+    "paused_after": "Прегледахте {n} елемента.",
+    "end_of_feed": "Видяхте всичко.",
+    "nothing_here_briefings": "Все още няма находки от бюлетини."
   },
   "feeds": {
     "add_query": "Добавяне на заявка",
@@ -1271,7 +1281,8 @@
     "petitions": "Петиции",
     "spending": "Разходи",
     "stories": "Истории",
-    "studio": "Студио"
+    "studio": "Студио",
+    "back_feed": "← Поток"
   },
   "not_found": {
     "back_to_home": "Към началната страница",

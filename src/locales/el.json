@@ -805,7 +805,17 @@
     "integrity_flags": "{n} προειδοποίηση | {n} προειδοποιήσεις",
     "flag_single_bidder": "ένας προσφέρων",
     "modified": "Τροποποιήθηκε",
-    "modified_award_missing": "Τροποποιήθηκε · η ανάθεση δεν έχει καταχωριστεί"
+    "modified_award_missing": "Τροποποιήθηκε · η ανάθεση δεν έχει καταχωριστεί",
+    "data_story": "Ιστορία δεδομένων",
+    "briefings_sub": "Ευρήματα ενημερώσεων, τα νεότερα πρώτα.",
+    "show_label": "Εμφάνιση",
+    "pick_briefing": "Ενημέρωση",
+    "all_briefings": "Όλες οι ενημερώσεις",
+    "loading_more": "Φόρτωση περισσότερων…",
+    "load_more": "Εμφάνιση περισσότερων",
+    "paused_after": "Έχετε δει {n} στοιχεία.",
+    "end_of_feed": "Είστε πλήρως ενημερωμένοι.",
+    "nothing_here_briefings": "Δεν υπάρχουν ακόμη ευρήματα ενημερώσεων."
   },
   "feeds": {
     "add_query": "Προσθήκη ερωτήματος",
@@ -1271,7 +1281,8 @@
     "petitions": "Αναφορές",
     "spending": "Δαπάνες",
     "stories": "Ιστορίες",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Ροή"
   },
   "not_found": {
     "back_to_home": "Επιστροφή στην αρχική",

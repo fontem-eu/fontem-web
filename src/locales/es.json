@@ -805,7 +805,17 @@
     "integrity_flags": "{n} señal de alerta | {n} señales de alerta",
     "flag_single_bidder": "un solo licitador",
     "modified": "Modificado",
-    "modified_award_missing": "Modificado · adjudicación no registrada"
+    "modified_award_missing": "Modificado · adjudicación no registrada",
+    "data_story": "Historia con datos",
+    "briefings_sub": "Hallazgos de los boletines, primero los más recientes.",
+    "show_label": "Mostrar",
+    "pick_briefing": "Boletín",
+    "all_briefings": "Todos los boletines",
+    "loading_more": "Cargando más…",
+    "load_more": "Mostrar más",
+    "paused_after": "Has recorrido {n} elementos.",
+    "end_of_feed": "Estás al día.",
+    "nothing_here_briefings": "Aún no hay hallazgos de boletines."
   },
   "feeds": {
     "add_query": "Añadir consulta",
@@ -1271,7 +1281,8 @@
     "petitions": "Peticiones",
     "spending": "Gasto",
     "stories": "Historias",
-    "studio": "Estudio"
+    "studio": "Estudio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Volver al inicio",
