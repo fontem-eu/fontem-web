@@ -805,7 +805,17 @@
     "integrity_flags": "{n} varovný signál | {n} varovné signály",
     "flag_single_bidder": "jediný uchádzač",
     "modified": "Zmenené",
-    "modified_award_missing": "Zmenené · zadanie nie je evidované"
+    "modified_award_missing": "Zmenené · zadanie nie je evidované",
+    "data_story": "Dátový príbeh",
+    "briefings_sub": "Zistenia z prehľadov, najnovšie prvé.",
+    "show_label": "Zobraziť",
+    "pick_briefing": "Prehľad",
+    "all_briefings": "Všetky prehľady",
+    "loading_more": "Načítavajú sa ďalšie…",
+    "load_more": "Zobraziť viac",
+    "paused_after": "Prešli ste {n} položiek.",
+    "end_of_feed": "Videli ste všetko.",
+    "nothing_here_briefings": "Zatiaľ tu nie sú žiadne zistenia z prehľadov."
   },
   "feeds": {
     "add_query": "Pridať dopyt",
@@ -1271,7 +1281,8 @@
     "petitions": "Petície",
     "spending": "Výdavky",
     "stories": "Príbehy",
-    "studio": "Štúdio"
+    "studio": "Štúdio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Späť na domovskú stránku",

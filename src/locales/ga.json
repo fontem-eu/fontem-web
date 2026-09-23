@@ -805,7 +805,17 @@
     "integrity_flags": "{n} bhratach dhearg | {n} bratacha dearga",
     "flag_single_bidder": "tairgeoir amháin",
     "modified": "Athraithe",
-    "modified_award_missing": "Athraithe · dámhachtain gan taifead"
+    "modified_award_missing": "Athraithe · dámhachtain gan taifead",
+    "data_story": "Scéal sonraí",
+    "briefings_sub": "Torthaí na bhfaisnéisithe, na cinn is nuaí ar dtús.",
+    "show_label": "Taispeáin",
+    "pick_briefing": "Faisnéiseán",
+    "all_briefings": "Gach faisnéiseán",
+    "loading_more": "Tuilleadh á lódáil…",
+    "load_more": "Taispeáin tuilleadh",
+    "paused_after": "Tá {n} mír feicthe agat.",
+    "end_of_feed": "Tá tú suas chun dáta.",
+    "nothing_here_briefings": "Níl aon torthaí faisnéise le taispeáint fós."
   },
   "feeds": {
     "add_query": "Cuir iarratas leis",
@@ -1271,7 +1281,8 @@
     "petitions": "Achainíocha",
     "spending": "Caiteachas",
     "stories": "Scéalta",
-    "studio": "Stiúideo"
+    "studio": "Stiúideo",
+    "back_feed": "← Fotha"
   },
   "not_found": {
     "back_to_home": "Ar ais abhaile",

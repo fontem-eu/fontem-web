@@ -805,7 +805,17 @@
     "integrity_flags": "{n} varovný signál | {n} varovné signály",
     "flag_single_bidder": "jediný uchazeč",
     "modified": "Změněno",
-    "modified_award_missing": "Změněno · zadání není evidováno"
+    "modified_award_missing": "Změněno · zadání není evidováno",
+    "data_story": "Datový příběh",
+    "briefings_sub": "Zjištění z přehledů, nejnovější první.",
+    "show_label": "Zobrazit",
+    "pick_briefing": "Přehled",
+    "all_briefings": "Všechny přehledy",
+    "loading_more": "Načítání dalších…",
+    "load_more": "Zobrazit další",
+    "paused_after": "Prošli jste {n} položek.",
+    "end_of_feed": "Máte vše přečtené.",
+    "nothing_here_briefings": "Zatím zde nejsou žádná zjištění z přehledů."
   },
   "feeds": {
     "add_query": "Přidat dotaz",
@@ -1271,7 +1281,8 @@
     "petitions": "Petice",
     "spending": "Výdaje",
     "stories": "Příběhy",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Kanál"
   },
   "not_found": {
     "back_to_home": "Zpět na domovskou stránku",

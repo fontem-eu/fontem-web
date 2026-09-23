@@ -805,7 +805,17 @@
     "integrity_flags": "{n} įspėjamasis ženklas | {n} įspėjamieji ženklai",
     "flag_single_bidder": "vienas dalyvis",
     "modified": "Pakeista",
-    "modified_award_missing": "Pakeista · sutarties skyrimas neužregistruotas"
+    "modified_award_missing": "Pakeista · sutarties skyrimas neužregistruotas",
+    "data_story": "Duomenų istorija",
+    "briefings_sub": "Apžvalgų radiniai, naujausi viršuje.",
+    "show_label": "Rodyti",
+    "pick_briefing": "Apžvalga",
+    "all_briefings": "Visos apžvalgos",
+    "loading_more": "Įkeliama daugiau…",
+    "load_more": "Rodyti daugiau",
+    "paused_after": "Peržiūrėjote {n} įrašų.",
+    "end_of_feed": "Viską peržiūrėjote.",
+    "nothing_here_briefings": "Apžvalgų radinių dar nėra."
   },
   "feeds": {
     "add_query": "Pridėti užklausą",
@@ -1271,7 +1281,8 @@
     "petitions": "Peticijos",
     "spending": "Išlaidos",
     "stories": "Istorijos",
-    "studio": "Studija"
+    "studio": "Studija",
+    "back_feed": "← Srautas"
   },
   "not_found": {
     "back_to_home": "Atgal į pradžią",

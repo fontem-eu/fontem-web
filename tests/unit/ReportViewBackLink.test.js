@@ -5,6 +5,8 @@
  * list, which is not where they came from. And the link called itself
  * "Stories" while pointing at `/`, which stopped being true when `/`
  * became the mixed landing feed and Stories moved to /stories-feed.
+ * Stories is a filter of the feed now (2026-09-23), so the link is `/`
+ * again — this time correctly labelled as the feed.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
@@ -59,21 +61,25 @@ describe('ReportView — the back link', () => {
     expect(back.text()).toMatch(/My Stories/i)
   })
 
-  it('sends anyone else to the stories list', async () => {
+  it('sends anyone else to the feed', async () => {
     const w = await mountAs({ id: 'someone-else' })
-    expect(w.find('[data-testid="back-to-feed"]').attributes('href')).toBe('/stories-feed')
+    const back = w.find('[data-testid="back-to-feed"]')
+    expect(back.attributes('href')).toBe('/')
+    expect(back.text()).toMatch(/Feed/)
   })
 
-  it('sends a signed-out reader to the stories list', async () => {
+  it('sends a signed-out reader to the feed', async () => {
     const w = await mountAs(null)
-    expect(w.find('[data-testid="back-to-feed"]').attributes('href')).toBe('/stories-feed')
+    expect(w.find('[data-testid="back-to-feed"]').attributes('href')).toBe('/')
   })
 
-  it('never points at `/`, which is the mixed feed and not Stories', async () => {
-    // The label says Stories. `/` stopped being that.
-    for (const user of [{ id: 'author-1' }, { id: 'other' }, null]) {
+  it('carries no view in the link, leaving the feed to restore the one the reader left', async () => {
+    // Stories-only used to be its own page at /stories-feed. It is a
+    // filter of the feed now, and the feed remembers which filter the
+    // reader was on — a view baked into this link would override that.
+    for (const user of [{ id: 'other' }, null]) {
       const w = await mountAs(user)
-      expect(w.find('[data-testid="back-to-feed"]').attributes('href')).not.toBe('/')
+      expect(w.find('[data-testid="back-to-feed"]').attributes('href')).not.toContain('?')
     }
   })
 })

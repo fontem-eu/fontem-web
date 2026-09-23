@@ -805,7 +805,17 @@
     "integrity_flags": "{n} rødt flag | {n} røde flag",
     "flag_single_bidder": "én byder",
     "modified": "Ændret",
-    "modified_award_missing": "Ændret · tildeling ikke registreret"
+    "modified_award_missing": "Ændret · tildeling ikke registreret",
+    "data_story": "Datahistorie",
+    "briefings_sub": "Fund fra briefinger, nyeste først.",
+    "show_label": "Vis",
+    "pick_briefing": "Briefing",
+    "all_briefings": "Alle briefinger",
+    "loading_more": "Indlæser flere…",
+    "load_more": "Vis flere",
+    "paused_after": "Du har scrollet gennem {n} elementer.",
+    "end_of_feed": "Du er helt opdateret.",
+    "nothing_here_briefings": "Ingen fund fra briefinger endnu."
   },
   "feeds": {
     "add_query": "Tilføj forespørgsel",
@@ -1271,7 +1281,8 @@
     "petitions": "Underskriftindsamlinger",
     "spending": "Udgifter",
     "stories": "Historier",
-    "studio": "Studie"
+    "studio": "Studie",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Tilbage til forsiden",

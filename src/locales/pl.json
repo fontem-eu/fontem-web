@@ -805,7 +805,17 @@
     "integrity_flags": "{n} sygnał ostrzegawczy | {n} sygnały ostrzegawcze",
     "flag_single_bidder": "jedyny oferent",
     "modified": "Zmieniono",
-    "modified_award_missing": "Zmieniono · brak zarejestrowanego udzielenia"
+    "modified_award_missing": "Zmieniono · brak zarejestrowanego udzielenia",
+    "data_story": "Historia oparta na danych",
+    "briefings_sub": "Ustalenia z biuletynów, najnowsze na górze.",
+    "show_label": "Pokaż",
+    "pick_briefing": "Biuletyn",
+    "all_briefings": "Wszystkie biuletyny",
+    "loading_more": "Wczytywanie kolejnych…",
+    "load_more": "Pokaż więcej",
+    "paused_after": "Przejrzano {n} pozycji.",
+    "end_of_feed": "To już wszystko.",
+    "nothing_here_briefings": "Nie ma jeszcze ustaleń z biuletynów."
   },
   "feeds": {
     "add_query": "Dodaj zapytanie",
@@ -1271,7 +1281,8 @@
     "petitions": "Petycje",
     "spending": "Wydatki",
     "stories": "Historie",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Strumień"
   },
   "not_found": {
     "back_to_home": "Powrót do strony głównej",

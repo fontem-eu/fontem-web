@@ -805,7 +805,17 @@
     "integrity_flags": "{n} ohumärk | {n} ohumärki",
     "flag_single_bidder": "üks pakkuja",
     "modified": "Muudetud",
-    "modified_award_missing": "Muudetud · lepingu sõlmimine puudub"
+    "modified_award_missing": "Muudetud · lepingu sõlmimine puudub",
+    "data_story": "Andmelugu",
+    "briefings_sub": "Ülevaadete leiud, uusimad enne.",
+    "show_label": "Näita",
+    "pick_briefing": "Ülevaade",
+    "all_briefings": "Kõik ülevaated",
+    "loading_more": "Laadin veel…",
+    "load_more": "Näita rohkem",
+    "paused_after": "Olete sirvinud {n} kirjet.",
+    "end_of_feed": "Olete kõigega kursis.",
+    "nothing_here_briefings": "Ülevaadete leide veel pole."
   },
   "feeds": {
     "add_query": "Lisa päring",
@@ -1271,7 +1281,8 @@
     "petitions": "Petitsioonid",
     "spending": "Kulutused",
     "stories": "Lood",
-    "studio": "Stuudio"
+    "studio": "Stuudio",
+    "back_feed": "← Voog"
   },
   "not_found": {
     "back_to_home": "Tagasi avalehele",

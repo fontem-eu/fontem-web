@@ -87,7 +87,9 @@ describe('requiresAuth subpath boundaries', () => {
   it('exact-only paths do not gate their subpaths', () => {
     expect(requiresAuth('/activity')).toBe(true)
     expect(requiresAuth('/activity/feed')).toBe(false)
-    expect(requiresAuth('/my-briefings')).toBe(true)
+    // /my-briefings redirects to the public feed (?show=briefings) now, so
+    // gating it would only bounce a signed-out reader off a public page.
+    expect(requiresAuth('/my-briefings')).toBe(false)
     expect(requiresAuth('/ai-usage')).toBe(true)
   })
 

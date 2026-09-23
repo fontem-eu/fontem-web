@@ -55,7 +55,7 @@ const TAGS = [
 
 const BRIEFING_ITEMS = [
   {
-    item_id: 'i1', _from: 'Public investment', title: 'A tender',
+    item_id: 'i1', _from: 'Public investment', _group: 'public-investment', title: 'A tender',
     item_time: '2026-04-03',
     // The origin the stored query bakes in, pre-rename — what prod
     // actually serves today.
@@ -66,7 +66,7 @@ const BRIEFING_ITEMS = [
     nuts: ['CZ010'],
   },
   {
-    item_id: 'i2', _from: 'Corporate influence', title: 'A lobby update',
+    item_id: 'i2', _from: 'Corporate influence', _group: 'corporate-influence', title: 'A lobby update',
     item_time: '2026-04-02',
     // The coalesce-to-empty case: a lobbyist with no resolved company.
     link: 'https://fontem.eu/company/',
@@ -103,50 +103,136 @@ async function mountFeed(initialPath = '/feed', meta = undefined) {
   return { wrapper, router }
 }
 
-describe('FeedView — what each route shows', () => {
-  // The Stories nav entry pointed at the mixed landing feed, so there
-  // was nowhere to read only the stories. One component backs both
-  // routes; `meta.mixed` is the whole difference.
-  it('the landing feed mixes briefings in with the articles', async () => {
-    const { wrapper } = await mountFeed('/feed', { mixed: true })
-    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(true)
+const kinds = (wrapper) => wrapper.findAll('li[data-kind]').map((li) => li.attributes('data-kind')[0]).join('')
+
+describe('FeedView — one feed, three views of it', () => {
+  // Feed, Stories and Briefings were three menu entries over one stream.
+  // They are one feed now, and which part of it to show is in the URL.
+  it('by default mixes briefings in with the stories', async () => {
+    const { wrapper } = await mountFeed('/feed')
+    expect(kinds(wrapper)).toContain('b')
+    expect(kinds(wrapper)).toContain('s')
     expect(wrapper.text()).toContain('A tender')
   })
 
-  it('each route describes itself accurately', async () => {
-    // One sentence cannot be true of both: the stories page carries only
-    // articles, the landing feed also carries briefing findings. An
-    // e2e also reads .feed-sub to prove locale switching re-renders
-    // template strings, so it has to exist on both.
-    const mix = await mountFeed('/feed', { mixed: true })
-    const stories = await mountFeed('/feed', { mixed: false })
-    expect(mix.wrapper.find('.feed-sub').exists()).toBe(true)
-    expect(stories.wrapper.find('.feed-sub').exists()).toBe(true)
-    expect(mix.wrapper.find('.feed-sub').text())
-      .not.toBe(stories.wrapper.find('.feed-sub').text())
+  it('each view describes itself accurately', async () => {
+    // One sentence cannot be true of every view. An e2e also reads
+    // .feed-sub to prove a locale switch re-renders template strings,
+    // so it has to exist on each.
+    const all = await mountFeed('/feed')
+    const stories = await mountFeed('/feed?show=stories')
+    const briefingsOnly = await mountFeed('/feed?show=briefings')
+    const subs = [all, stories, briefingsOnly].map((m) => m.wrapper.find('.feed-sub').text())
+    expect(new Set(subs).size).toBe(3)
   })
 
-  it('the stories page shows articles only', async () => {
-    const { wrapper } = await mountFeed('/feed', { mixed: false })
-    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+  it('?show=stories shows stories only', async () => {
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    expect(kinds(wrapper)).toBe('ss')
     expect(wrapper.text()).not.toContain('A tender')
-    // Articles are still there — this is a filter on the briefings, not
-    // a broken page.
-    expect(wrapper.text()).toContain('A')
   })
 
-  it('the stories page does not even request the briefings', async () => {
+  it('?show=stories does not even request the briefings', async () => {
     // Hiding them client-side would still cost the reader the round
     // trips, and on the signed-out path that is several.
-    await mountFeed('/feed', { mixed: false })
+    await mountFeed('/feed?show=stories')
     expect(briefings.loadBriefingStream).not.toHaveBeenCalled()
   })
 
-  it('a tag filter hides briefings even on the mixed feed', async () => {
+  it('?show=briefings shows briefings only, and does not ask for stories', async () => {
+    const { wrapper } = await mountFeed('/feed?show=briefings')
+    expect(kinds(wrapper)).toBe('bb')
+    expect(api.listReports).not.toHaveBeenCalled()
+  })
+
+  it('?briefing=<slug> narrows the feed to that one briefing', async () => {
+    const { wrapper } = await mountFeed('/feed?briefing=corporate-influence')
+    expect(kinds(wrapper)).toBe('b')
+    expect(wrapper.text()).toContain('A lobby update')
+    expect(wrapper.text()).not.toContain('A tender')
+  })
+
+  it('a tag filter hides briefings on the mixed feed', async () => {
     // Briefing items carry no story tags, so showing them beside a
-    // filtered article list would imply they matched the filter.
-    const { wrapper } = await mountFeed('/feed?tag=procurement', { mixed: true })
-    expect(wrapper.find('[data-testid="feed-briefings"]').exists()).toBe(false)
+    // filtered story list would imply they matched the filter.
+    api.listReports.mockResolvedValue(STORIES_PROC)
+    const { wrapper } = await mountFeed('/feed?tag=procurement')
+    expect(kinds(wrapper)).toBe('s')
+  })
+
+  it('a tag does not empty the briefings-only view the reader chose', async () => {
+    const { wrapper } = await mountFeed('/feed?show=briefings&tag=procurement')
+    expect(kinds(wrapper)).toBe('bb')
+    // Tags are a story filter; with no stories on screen the strip goes.
+    expect(wrapper.find('[data-testid="feed-tag-strip"]').exists()).toBe(false)
+  })
+})
+
+describe('FeedView — the filter control', () => {
+  it('writes the choice to the URL', async () => {
+    const { wrapper, router } = await mountFeed('/feed')
+    await wrapper.find('[data-testid="feed-filter-stories"]').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.query.show).toBe('stories')
+    expect(kinds(wrapper)).toBe('ss')
+    await wrapper.find('[data-testid="feed-filter-all"]').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.query.show).toBeUndefined()
+    expect(kinds(wrapper)).toContain('b')
+  })
+
+  it('offers the briefings actually in the stream, and picking one narrows to it', async () => {
+    const { wrapper, router } = await mountFeed('/feed')
+    const select = wrapper.find('[data-testid="feed-briefing-select"]')
+    const values = select.findAll('option').map((o) => o.attributes('value'))
+    expect(values).toEqual(['', 'public-investment', 'corporate-influence'])
+    await select.setValue('public-investment')
+    await flushPromises()
+    expect(router.currentRoute.value.query.briefing).toBe('public-investment')
+    expect(kinds(wrapper)).toBe('b')
+    expect(wrapper.text()).toContain('A tender')
+  })
+
+  it('marks the active view for assistive technology', async () => {
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    expect(wrapper.find('[data-testid="feed-filter-stories"]').attributes('aria-pressed')).toBe('true')
+    expect(wrapper.find('[data-testid="feed-filter-all"]').attributes('aria-pressed')).toBe('false')
+  })
+})
+
+describe('FeedView — the feed remembers its view', () => {
+  // Links back to the feed carry no query, so without this a reader who
+  // opened a story from "Stories only" came back to everything.
+  it('restores the last view when arriving without one', async () => {
+    localStorage.setItem('gmr-feed-view', 'stories')
+    const { router } = await mountFeed('/feed')
+    expect(router.currentRoute.value.query.show).toBe('stories')
+    // Adopted at mount, so the first request is already the right one.
+    expect(briefings.loadBriefingStream).not.toHaveBeenCalled()
+  })
+
+  it('restores one chosen briefing', async () => {
+    localStorage.setItem('gmr-feed-view', 'briefing:corporate-influence')
+    const { wrapper, router } = await mountFeed('/feed')
+    expect(router.currentRoute.value.query.briefing).toBe('corporate-influence')
+    expect(kinds(wrapper)).toBe('b')
+  })
+
+  it('an explicit view in the URL wins over the remembered one', async () => {
+    localStorage.setItem('gmr-feed-view', 'stories')
+    const { router } = await mountFeed('/feed?show=briefings')
+    expect(router.currentRoute.value.query.show).toBe('briefings')
+  })
+
+  it('choosing "All" forgets the view for good', async () => {
+    localStorage.setItem('gmr-feed-view', 'stories')
+    const { wrapper, router } = await mountFeed('/feed')
+    await wrapper.find('[data-testid="feed-filter-all"]').trigger('click')
+    await flushPromises()
+    expect(localStorage.getItem('gmr-feed-view')).toBeNull()
+    // Not put straight back by the restore that runs on every arrival.
+    expect(router.currentRoute.value.query.show).toBeUndefined()
+    expect(kinds(wrapper)).toContain('b')
   })
 })
 
@@ -253,7 +339,7 @@ describe('FeedView', () => {
 
   it('cards still show their tag pills inline', async () => {
     const { wrapper } = await mountFeed()
-    expect(wrapper.findAll('[data-testid="feed-card-tags"]').length).toBe(2)
+    expect(wrapper.findAll('[data-testid="feed-story-tags"]').length).toBe(2)
     wrapper.unmount()
   })
 
@@ -395,5 +481,166 @@ describe('FeedView — kept alive, as App.vue mounts it', () => {
     expect(router.currentRoute.value.query.tag).toBeUndefined()
     expect(wrapper.find('[data-testid="feed-active-filter"]').exists()).toBe(false)
     wrapper.unmount()
+  })
+})
+
+// ── The stream: interleaving and paging ────────────────────────────
+
+const manyBriefings = (n) => Array.from({ length: n }, (_, i) => ({
+  item_id: `mb${i}`, _from: 'Public investment', _group: 'public-investment',
+  item_time: '2026-04-01', summary: `Finding ${i}`, link: 'https://fontem.eu/company/',
+}))
+const manyStories = (n) => Array.from({ length: n }, (_, i) => ({
+  id: `ms${i}`, title: `Story ${i}`, abstract: '', updated_at: '2026-04-01', tags: [],
+}))
+/** Serve `stories` a page at a time, honouring limit/offset like the API. */
+function servePages(stories) {
+  api.listReports.mockImplementation(({ limit, offset }) =>
+    Promise.resolve(stories.slice(offset, offset + limit)))
+}
+async function settle(times = 30) {
+  for (let i = 0; i < times; i += 1) await flushPromises()
+}
+const entryIds = (wrapper) => wrapper.findAll('li[data-kind]').map((li) => li.attributes('data-testid'))
+const clickMore = async (wrapper) => {
+  await wrapper.find('[data-testid="feed-load-more"]').trigger('click')
+  await settle()
+}
+
+describe('FeedView — stories inside the run of briefings', () => {
+  it('puts a story after every five briefings, and the leftovers at the end', async () => {
+    briefings.loadBriefingStream.mockResolvedValue(manyBriefings(12))
+    api.listReports.mockResolvedValue(manyStories(3))
+    const { wrapper } = await mountFeed('/feed')
+    expect(kinds(wrapper)).toBe('bbbbbsbbbbbsbbs')
+  })
+
+  it('renders a story in the same card as a briefing, in its own reserved colour', async () => {
+    briefings.loadBriefingStream.mockResolvedValue(manyBriefings(5))
+    api.listReports.mockResolvedValue(manyStories(1))
+    const { wrapper } = await mountFeed('/feed')
+    const story = wrapper.find('[data-testid="feed-story-ms0"]')
+    const briefing = wrapper.find('li[data-kind="briefing"] article')
+    expect(story.classes()).toContain('bcard')
+    expect(briefing.classes()).toContain('bcard')
+    // The kind is in the class, so the colour comes from one place — and
+    // in words, for a reader who cannot use the colour.
+    expect(story.classes()).toContain('bcard--story')
+    expect(story.find('[data-testid="feed-story-kind"]').text()).toContain('Data story')
+    expect(story.find('a').attributes('href')).toBe('/stories/ms0')
+  })
+})
+
+describe('FeedView — paging', () => {
+  it('shows twenty at a time, asking the server for each next page of stories', async () => {
+    servePages(manyStories(45))
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    expect(entryIds(wrapper)).toHaveLength(20)
+    await clickMore(wrapper)
+    expect(entryIds(wrapper)).toHaveLength(40)
+    await clickMore(wrapper)
+    expect(entryIds(wrapper)).toHaveLength(45)
+    expect(api.listReports.mock.calls.map(([q]) => q.offset)).toEqual([0, 20, 40])
+    expect(wrapper.find('[data-testid="feed-load-more"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="feed-end"]').exists()).toBe(true)
+  })
+
+  it('never moves what is already on screen when the next page of stories arrives', async () => {
+    // Many briefings, few stories per page: the case where a later page
+    // of stories would otherwise be spliced in between briefings the
+    // reader has already scrolled past.
+    briefings.loadBriefingStream.mockResolvedValue(manyBriefings(150))
+    servePages(manyStories(60))
+    const { wrapper } = await mountFeed('/feed')
+    for (let i = 0; i < 5; i += 1) await clickMore(wrapper)
+    const before = entryIds(wrapper)
+    expect(before).toHaveLength(120)
+    const storyPagesBefore = api.listReports.mock.calls.length
+    await clickMore(wrapper)
+    // This page could only be filled by fetching more stories...
+    expect(api.listReports.mock.calls.length).toBeGreaterThan(storyPagesBefore)
+    // ...and fetching them changed nothing above the fold.
+    expect(entryIds(wrapper).slice(0, 120)).toEqual(before)
+    expect(entryIds(wrapper)).toHaveLength(140)
+  })
+
+  it('drops a page that arrives after the reader changed the filter', async () => {
+    // The unfiltered request is still in flight when the reader picks a
+    // tag. Both views show stories, so a late answer from the first would
+    // land in the second — three unrelated stories under "procurement".
+    let answerLate
+    api.listReports
+      .mockImplementationOnce(() => new Promise((r) => { answerLate = r }))
+      .mockResolvedValue(STORIES_PROC)
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    await wrapper.find('[data-testid="tag-chip-procurement"]').trigger('click')
+    await settle()
+    answerLate(manyStories(3))
+    await settle()
+    expect(entryIds(wrapper)).toEqual(['feed-card-a'])
+  })
+})
+
+describe('FeedView — infinite scroll, with a pause every five pages', () => {
+  // A stand-in observer: the feed only needs to be told "look now".
+  let observers
+  beforeEach(() => {
+    observers = []
+    vi.stubGlobal('IntersectionObserver', class {
+      constructor(cb) { this.cb = cb; observers.push(this) }
+      observe() {}
+      disconnect() {}
+    })
+    // Keep the sentinel permanently in view: the worst case, where
+    // nothing but the pause would ever stop the feed loading.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100, bottom: 101, left: 0, right: 1, width: 1, height: 1, x: 0, y: 100, toJSON() {},
+    })
+  })
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('loads five pages on its own, then waits for a click', async () => {
+    servePages(manyStories(250))
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    await settle()
+    expect(entryIds(wrapper)).toHaveLength(100)
+    expect(wrapper.find('[data-testid="feed-load-more"]').exists()).toBe(true)
+    expect(wrapper.find('.feed-more-note').text()).toContain('100')
+  })
+
+  it('after the click, five more pages, then the next pause', async () => {
+    servePages(manyStories(250))
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    await settle()
+    await clickMore(wrapper)
+    expect(entryIds(wrapper)).toHaveLength(200)
+    expect(wrapper.find('[data-testid="feed-load-more"]').exists()).toBe(true)
+  })
+
+  it('stops at the end without offering more', async () => {
+    servePages(manyStories(30))
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    await settle()
+    expect(entryIds(wrapper)).toHaveLength(30)
+    expect(wrapper.find('[data-testid="feed-load-more"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="feed-end"]').exists()).toBe(true)
+  })
+
+  it('loads when the observer reports the bottom coming into view', async () => {
+    // Sentinel out of view at first: only the first page.
+    Element.prototype.getBoundingClientRect.mockReturnValue({
+      top: 99999, bottom: 100000, left: 0, right: 1, width: 1, height: 1, x: 0, y: 99999, toJSON() {},
+    })
+    servePages(manyStories(100))
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    await settle()
+    expect(entryIds(wrapper)).toHaveLength(20)
+    // The reader scrolls down: the bottom is in view and the observer says so.
+    Element.prototype.getBoundingClientRect.mockReturnValue({
+      top: 100, bottom: 101, left: 0, right: 1, width: 1, height: 1, x: 0, y: 100, toJSON() {},
+    })
+    observers.at(-1).cb([{ isIntersecting: true }])
+    await settle()
+    expect(entryIds(wrapper).length).toBeGreaterThan(20)
   })
 })

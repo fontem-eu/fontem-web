@@ -805,7 +805,17 @@
     "integrity_flags": "{n} upozorenje | {n} upozorenja",
     "flag_single_bidder": "jedini ponuditelj",
     "modified": "Izmijenjeno",
-    "modified_award_missing": "Izmijenjeno · dodjela nije evidentirana"
+    "modified_award_missing": "Izmijenjeno · dodjela nije evidentirana",
+    "data_story": "Podatkovna priča",
+    "briefings_sub": "Nalazi iz biltena, najnoviji prvi.",
+    "show_label": "Prikaži",
+    "pick_briefing": "Bilten",
+    "all_briefings": "Svi bilteni",
+    "loading_more": "Učitavanje još…",
+    "load_more": "Prikaži više",
+    "paused_after": "Pregledali ste {n} stavki.",
+    "end_of_feed": "Sve ste vidjeli.",
+    "nothing_here_briefings": "Još nema nalaza iz biltena."
   },
   "feeds": {
     "add_query": "Dodaj upit",
@@ -1271,7 +1281,8 @@
     "petitions": "Peticije",
     "spending": "Potrošnja",
     "stories": "Priče",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Feed"
   },
   "not_found": {
     "back_to_home": "Natrag na početnu",

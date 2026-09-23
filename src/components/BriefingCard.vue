@@ -210,66 +210,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
   </article>
 </template>
 
-<style scoped>
-.bcard {
-  --bcard-accent: var(--muted);
-  position: relative;
-  padding: 0.7rem 0.9rem 0.75rem 1rem;
-  border-bottom: 1px solid var(--border);
-  border-left: 4px solid var(--bcard-accent);
-  min-width: 0;
-}
-/* One hue per briefing group. Chosen to sit at similar lightness so
-   neither reads as "the important one", and to hold up on both the
-   light and the dark ground. */
-.bcard--public-investment { --bcard-accent: #2f80c9; }
-.bcard--corporate-influence { --bcard-accent: #b8741a; }
-
-.bcard-head {
-  display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; align-items: baseline;
-  margin: 0 0 0.3rem; font-size: 0.74rem; color: var(--muted); min-width: 0;
-}
-.bcard-src { color: var(--bcard-accent); font-weight: 700; letter-spacing: 0.02em; }
-.bcard-date { white-space: nowrap; }
-/* No glyph between date and place: the header wraps on a phone and a
-   separator that lands at the start of a line reads as a stray mark.
-   The gap is the separator. */
-.bcard-where { min-width: 0; overflow-wrap: anywhere; }
-
-/* The focal text. Three lines is enough for any contract title to be
-   recognisable; the full text is one tap away. */
-.bcard-headline {
-  margin: 0 0 0.35rem;
-  font-size: 1.02rem; font-weight: 600; line-height: 1.32; color: var(--text);
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-  overflow: hidden; overflow-wrap: anywhere;
-}
-.bcard-link { text-decoration: none; color: inherit; }
-.bcard-link:hover, .bcard-link:focus-visible { color: var(--accent); text-decoration: underline; }
-
-.bcard-figures {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.6rem;
-  margin: 0 0 0.3rem;
-}
-.bcard-value { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
-
-.bcard-badge {
-  display: inline-flex; align-items: center; gap: 0.3rem;
-  font-size: 0.72rem; font-weight: 600; padding: 0.12rem 0.5rem 0.12rem 0.4rem;
-  border-radius: 999px; border: 1px solid currentColor; line-height: 1.4;
-}
-.bcard-badge-mark { font-weight: 800; }
-.bcard-badge--ok { color: #1f8a4c; }
-.bcard-badge--warn { color: #b8741a; }
-.bcard-badge--bad { color: var(--negative, #c62828); }
-.bcard-badge--mod { color: var(--muted, #5b6472); border-style: dashed; }
-
-.bcard-relation {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.45rem;
-  margin: 0; font-size: 0.84rem; color: var(--muted); min-width: 0;
-}
-.bcard-party { min-width: 0; overflow-wrap: anywhere; }
-.bcard-arrow { color: var(--bcard-accent); font-weight: 700; }
-.bcard-more { color: var(--muted); font-weight: 600; white-space: nowrap; }
-.bcard-relation--prose { font-size: 0.9rem; color: var(--text); }
-</style>
+<!-- The card's styles are shared with StoryCard and live in
+     src/assets/feed-card.css: a briefing finding and a data story sit in
+     the same stream and must read as the same kind of object, differing
+     only by the accent colour and the label. -->

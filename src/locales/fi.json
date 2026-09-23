@@ -805,7 +805,17 @@
     "integrity_flags": "{n} varoitusmerkki | {n} varoitusmerkkiä",
     "flag_single_bidder": "yksi tarjoaja",
     "modified": "Muutettu",
-    "modified_award_missing": "Muutettu · hankintapäätös puuttuu"
+    "modified_award_missing": "Muutettu · hankintapäätös puuttuu",
+    "data_story": "Datatarina",
+    "briefings_sub": "Katsausten löydöt, uusimmat ensin.",
+    "show_label": "Näytä",
+    "pick_briefing": "Katsaus",
+    "all_briefings": "Kaikki katsaukset",
+    "loading_more": "Ladataan lisää…",
+    "load_more": "Näytä lisää",
+    "paused_after": "Olet selannut {n} kohdetta.",
+    "end_of_feed": "Olet ajan tasalla.",
+    "nothing_here_briefings": "Katsausten löytöjä ei vielä ole."
   },
   "feeds": {
     "add_query": "Lisää kysely",
@@ -1271,7 +1281,8 @@
     "petitions": "Vetoomukset",
     "spending": "Menot",
     "stories": "Tarinat",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Syöte"
   },
   "not_found": {
     "back_to_home": "Takaisin etusivulle",

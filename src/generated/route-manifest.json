@@ -3,7 +3,7 @@
   "routes": [
     {
       "path": "/",
-      "description": "Home feed: published data stories and briefing findings together."
+      "description": "The feed: published data stories and briefing findings, interleaved. Add ?show=stories or ?show=briefings for one kind, or ?briefing=<slug> for a single briefing."
     },
     {
       "path": "/:pathMatch(.*)*",
@@ -276,8 +276,7 @@
     },
     {
       "path": "/my-briefings",
-      "requires_auth": true,
-      "description": "The briefings you watch, newest findings first, with their feed URLs."
+      "redirects_to": "/?show=briefings"
     },
     {
       "path": "/my-reports",
@@ -353,7 +352,7 @@
     },
     {
       "path": "/stories-feed",
-      "description": "Published data stories only, without the briefing findings."
+      "redirects_to": "/?show=stories"
     },
     {
       "path": "/stories/:id",

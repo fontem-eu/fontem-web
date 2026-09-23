@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
+/* The feed card, shared by BriefingCard and StoryCard — see the file. */
+@import './feed-card.css';
 
 /* ── Theme variants (toggled via class on <html>) ─────────
    `.dark` — dusk (deep twilight with a warm violet undertone),

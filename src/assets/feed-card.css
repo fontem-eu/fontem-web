@@ -1,0 +1,130 @@
+/* The feed card.
+ *
+ * One shape for everything in the feed, because the feed is one stream.
+ * A briefing finding and a data story are different kinds of thing — one
+ * is produced by a query, the other written by a person — and the reader
+ * has to be able to tell them apart at a glance without the two looking
+ * like they came from different products. So: identical geometry,
+ * identical type scale, and the ONLY thing that varies is the 4px rule in
+ * the left margin plus the small label at the top, both in the kind's
+ * reserved colour.
+ *
+ * The shape is the one data stories had on their own page: a card that
+ * stands by itself on the surface colour, with a border, and that you
+ * click anywhere to open. Briefing findings used to be rows in a ruled
+ * list; they take the story's shape and give it their colour rule.
+ *
+ * Lives here rather than in a scoped block because two components render
+ * it. It was BriefingCard's scoped style until data stories joined the
+ * same stream (2026-09-23); the class prefix stays `bcard` so the
+ * existing selectors, tests and e2e locators keep working.
+ */
+
+.bcard {
+  --bcard-accent: var(--muted);
+  position: relative;
+  padding: 0.8rem 1rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--bcard-accent);
+  border-radius: 4px;
+  min-width: 0;
+  transition: border-color 0.15s;
+}
+
+/* The whole card opens the record. The headline stays the one real link
+   — one tab stop, one name for a screen reader — and its ::after is
+   stretched over the card to take the clicks around it. A card with
+   nothing to open (a register entrant we hold no record for) stays inert
+   rather than looking clickable. */
+.bcard--linked { cursor: pointer; }
+.bcard--linked .bcard-link::after { content: ''; position: absolute; inset: 0; }
+.bcard--linked:hover,
+.bcard--linked:focus-within {
+  border-color: var(--accent);
+  border-left-color: var(--bcard-accent);
+}
+
+/* One hue per kind. Chosen to sit at similar lightness so none reads as
+   "the important one", and to hold up on both the light linen and the
+   dark dusk ground.
+     blue  — public investment (a briefing group)
+     amber — corporate influence (a briefing group)
+     plum  — data stories, RESERVED: no briefing group may take it, so
+             that "plum" always means "a person wrote this". It echoes
+             the ESEF badge plum already in the palette. */
+.bcard--public-investment { --bcard-accent: #2f80c9; }
+.bcard--corporate-influence { --bcard-accent: #b8741a; }
+.bcard--story { --bcard-accent: #6b4a86; }
+/* Dusk: the same three hues, lifted until the label reads on the dark
+   surface (about 6:1). At their daylight values the plum measured 2.2:1
+   there — a label you could not read. */
+.dark .bcard--public-investment { --bcard-accent: #6aa9e3; }
+.dark .bcard--corporate-influence { --bcard-accent: #d9974a; }
+.dark .bcard--story { --bcard-accent: #b995d9; }
+
+.bcard-head {
+  display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; align-items: baseline;
+  margin: 0 0 0.3rem; font-size: 0.74rem; color: var(--muted); min-width: 0;
+}
+.bcard-src { color: var(--bcard-accent); font-weight: 700; letter-spacing: 0.02em; }
+/* The kind's glyph, beside its label. Carries the same meaning as the
+   colour for anyone who cannot use colour to tell them apart — the rule
+   in the margin alone would be the only signal otherwise. */
+.bcard-mark { color: var(--bcard-accent); font-weight: 700; }
+.bcard-date { white-space: nowrap; }
+/* No glyph between date and place: the header wraps on a phone and a
+   separator that lands at the start of a line reads as a stray mark.
+   The gap is the separator. */
+.bcard-where { min-width: 0; overflow-wrap: anywhere; }
+
+/* The focal text. Three lines is enough for any contract title or story
+   headline to be recognisable; the full text is one tap away. */
+.bcard-headline {
+  margin: 0 0 0.35rem;
+  font-size: 1.02rem; font-weight: 600; line-height: 1.32; color: var(--text);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
+.bcard-link { text-decoration: none; color: inherit; }
+.bcard-link:hover, .bcard-link:focus-visible { color: var(--accent); text-decoration: underline; }
+
+.bcard-figures {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.6rem;
+  margin: 0 0 0.3rem;
+}
+.bcard-value { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+
+.bcard-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.72rem; font-weight: 600; padding: 0.12rem 0.5rem 0.12rem 0.4rem;
+  border-radius: 999px; border: 1px solid currentColor; line-height: 1.4;
+}
+.bcard-badge-mark { font-weight: 800; }
+.bcard-badge--ok { color: #1f8a4c; }
+.bcard-badge--warn { color: #b8741a; }
+.bcard-badge--bad { color: var(--negative, #c62828); }
+.bcard-badge--mod { color: var(--muted, #5b6472); border-style: dashed; }
+
+.bcard-relation {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.45rem;
+  margin: 0; font-size: 0.84rem; color: var(--muted); min-width: 0;
+}
+.bcard-party { min-width: 0; overflow-wrap: anywhere; }
+.bcard-arrow { color: var(--bcard-accent); font-weight: 700; }
+.bcard-more { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.bcard-relation--prose { font-size: 0.9rem; color: var(--text); }
+
+/* ── Data story only ──────────────────────────────────────────────
+   A story has a byline and an abstract where a briefing has a value and
+   a relation. Same slots, different contents. */
+.bcard-abstract {
+  margin: 0 0 0.35rem; font-size: 0.86rem; line-height: 1.4; color: var(--text);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
+.bcard-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0 0 0.35rem; }
+.bcard-tag {
+  font-size: 0.7rem; padding: 0.08rem 0.45rem; border-radius: 999px;
+  background: var(--badge-tag-bg, #f1e3cc); color: var(--badge-tag-text, #5a4330);
+}

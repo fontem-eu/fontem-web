@@ -805,7 +805,17 @@
     "integrity_flags": "{n} varningsflagga | {n} varningsflaggor",
     "flag_single_bidder": "en enda anbudsgivare",
     "modified": "Ändrad",
-    "modified_award_missing": "Ändrad · tilldelning saknas"
+    "modified_award_missing": "Ändrad · tilldelning saknas",
+    "data_story": "Databerättelse",
+    "briefings_sub": "Fynd från nyhetsbreven, senaste först.",
+    "show_label": "Visa",
+    "pick_briefing": "Nyhetsbrev",
+    "all_briefings": "Alla nyhetsbrev",
+    "loading_more": "Läser in fler…",
+    "load_more": "Visa fler",
+    "paused_after": "Du har bläddrat igenom {n} poster.",
+    "end_of_feed": "Du är ikapp.",
+    "nothing_here_briefings": "Inga fynd från nyhetsbreven än."
   },
   "feeds": {
     "add_query": "Lägg till fråga",
@@ -1271,7 +1281,8 @@
     "petitions": "Petitioner",
     "spending": "Utgifter",
     "stories": "Berättelser",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Flöde"
   },
   "not_found": {
     "back_to_home": "Tillbaka till start",

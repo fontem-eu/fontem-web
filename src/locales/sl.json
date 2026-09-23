@@ -805,7 +805,17 @@
     "integrity_flags": "{n} opozorilni znak | {n} opozorilni znaki",
     "flag_single_bidder": "edini ponudnik",
     "modified": "Spremenjeno",
-    "modified_award_missing": "Spremenjeno · oddaja ni evidentirana"
+    "modified_award_missing": "Spremenjeno · oddaja ni evidentirana",
+    "data_story": "Podatkovna zgodba",
+    "briefings_sub": "Ugotovitve iz poročil, najnovejše prve.",
+    "show_label": "Prikaži",
+    "pick_briefing": "Poročilo",
+    "all_briefings": "Vsa poročila",
+    "loading_more": "Nalaganje več…",
+    "load_more": "Prikaži več",
+    "paused_after": "Pregledali ste {n} elementov.",
+    "end_of_feed": "Videli ste vse.",
+    "nothing_here_briefings": "Ugotovitev iz poročil še ni."
   },
   "feeds": {
     "add_query": "Dodaj poizvedbo",
@@ -1271,7 +1281,8 @@
     "petitions": "Peticije",
     "spending": "Poraba",
     "stories": "Zgodbe",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Vir"
   },
   "not_found": {
     "back_to_home": "Nazaj na domačo stran",

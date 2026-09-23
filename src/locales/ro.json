@@ -805,7 +805,17 @@
     "integrity_flags": "{n} semnal de alarmă | {n} semnale de alarmă",
     "flag_single_bidder": "ofertant unic",
     "modified": "Modificat",
-    "modified_award_missing": "Modificat · atribuirea nu este înregistrată"
+    "modified_award_missing": "Modificat · atribuirea nu este înregistrată",
+    "data_story": "Poveste cu date",
+    "briefings_sub": "Constatări din buletine, cele mai recente primele.",
+    "show_label": "Afișează",
+    "pick_briefing": "Buletin",
+    "all_briefings": "Toate buletinele",
+    "loading_more": "Se încarcă mai multe…",
+    "load_more": "Afișează mai multe",
+    "paused_after": "Ați parcurs {n} elemente.",
+    "end_of_feed": "Ați văzut tot.",
+    "nothing_here_briefings": "Încă nu există constatări din buletine."
   },
   "feeds": {
     "add_query": "Adaugă o interogare",
@@ -1271,7 +1281,8 @@
     "petitions": "Petiții",
     "spending": "Cheltuieli",
     "stories": "Povești",
-    "studio": "Studio"
+    "studio": "Studio",
+    "back_feed": "← Flux"
   },
   "not_found": {
     "back_to_home": "Înapoi la pagina principală",

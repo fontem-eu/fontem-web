@@ -32,7 +32,6 @@ import ValueReviewView from './views/ValueReviewView.vue'
 import AdminView from './views/AdminView.vue'
 import AdminUsersView from './views/AdminUsersView.vue'
 import BriefingsView from './views/BriefingsView.vue'
-import MyBriefingsView from './views/MyBriefingsView.vue'
 import FeedQueriesView from './views/FeedQueriesView.vue'
 import QueryGroupsView from './views/QueryGroupsView.vue'
 import DataQualityHubView from './views/DataQualityHubView.vue'
@@ -97,16 +96,18 @@ const ROUTES = [
   // "Home" (carousel + chips + how-it-works + 45s tour) moved to
   // /about and is reachable from the footer link.
   //
-  // Same component as /stories-feed below; `meta.mixed` is what makes
-  // this one carry briefings. Signed out that is the public default —
-  // ten a week of public investment from your country, three from the
-  // EU — so a first-time visitor never lands on an empty page.
-  { path: '/', component: FeedView, meta: { mixed: true } },
+  // One feed with a filter in the URL: everything, ?show=stories,
+  // ?show=briefings, or ?briefing=<slug> for one briefing. Signed out the
+  // briefings are the public default — ten a week of public investment
+  // from your country, three from the EU — so a first-time visitor never
+  // lands on an empty page.
+  { path: '/', component: FeedView },
 
-  // Stories — articles only. Split out because the Stories nav entry
-  // pointing at the mixed landing meant there was nowhere to read just
-  // the stories.
-  { path: '/stories-feed', component: FeedView, meta: { mixed: false } },
+  // Stories and the briefings reader used to be pages of their own, three
+  // menu entries over one stream. They are views of the feed now; the old
+  // addresses land on the matching filter so links and bookmarks keep
+  // working.
+  { path: '/stories-feed', redirect: '/?show=stories' },
 
   // About — the marketing/onboarding page that used to live at `/`.
   { path: '/about', component: AboutView },
@@ -124,7 +125,7 @@ const ROUTES = [
 
   // Admin area — auth-guarded (see AUTH_REQUIRED below).
   { path: '/briefings', component: BriefingsView },
-  { path: '/my-briefings', component: MyBriefingsView },
+  { path: '/my-briefings', redirect: '/?show=briefings' },
   { path: '/admin', component: AdminView },
   { path: '/admin/users', component: AdminUsersView },
   { path: '/admin/entity-resolution', component: EntityResolutionView },

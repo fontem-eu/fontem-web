@@ -39,8 +39,7 @@ export const NOT_NAVIGABLE = new Set([
 
 /** path -> what a user would go there to do. Keep them short and concrete. */
 export const ROUTE_DESCRIPTIONS = {
-  '/': 'Home feed: published data stories and briefing findings together.',
-  '/stories-feed': 'Published data stories only, without the briefing findings.',
+  '/': 'The feed: published data stories and briefing findings, interleaved. Add ?show=stories or ?show=briefings for one kind, or ?briefing=<slug> for a single briefing.',
   '/lobbyist/:disclosureId': 'One EU Transparency Register entry: who they are, what they declare spending on lobbying, and which organisation filed it.',
   '/about': 'What Dargle is, how it works, and how to get started.',
   '/help': 'Help and FAQ, including how to connect your own AI assistant to Dargle.',
@@ -50,7 +49,6 @@ export const ROUTE_DESCRIPTIONS = {
   '/development': 'Dargle is open source: the GitHub organisation and a walkthrough video of how the platform is built.',
 
   '/briefings': 'Browse briefings — curated subjects you can watch to get new findings as they appear.',
-  '/my-briefings': 'The briefings you watch, newest findings first, with their feed URLs.',
   '/petitions': 'Browse and sign public petitions.',
   '/petitions/:id': 'A single petition, with its signatures and status.',
 
