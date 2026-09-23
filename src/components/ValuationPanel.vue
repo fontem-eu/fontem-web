@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { fmtMoney } from '../utils/format.js'
+import { fmtMoney, fmtUsd } from '../utils/format.js'
 
 const props = defineProps({
   data:         { type: Object, required: true },
@@ -20,8 +20,10 @@ function fmtRatio(n, decimals = 2) {
 function snapItems(snap) {
   if (!snap) return []
   return [
-    { label: 'valuation_panel.enterprise_value', value: fmtMoney(snap.enterprise_value), testid: 'val-ev' },
-    { label: 'valuation_panel.market_cap', value: fmtMoney(snap.market_cap), testid: 'val-mcap' },
+    // USD explicitly: this panel reads the North-America price feed
+    // (src/data/north_america/local_price_fetcher.py), not euro figures.
+    { label: 'valuation_panel.enterprise_value', value: fmtMoney(snap.enterprise_value, 'USD'), testid: 'val-ev' },
+    { label: 'valuation_panel.market_cap', value: fmtMoney(snap.market_cap, 'USD'), testid: 'val-mcap' },
     { label: 'valuation_panel.ev_ebitda', value: fmtRatio(snap.ev_ebitda), testid: 'val-ev-ebitda' },
     { label: 'valuation_panel.ev_revenue', value: fmtRatio(snap.ev_revenue), testid: 'val-ev-rev' },
     { label: 'valuation_panel.ev_fcf', value: fmtRatio(snap.ev_fcf), testid: 'val-ev-fcf' },
@@ -42,18 +44,18 @@ function summaryItems(summary) {
 
 // ── Per-year table config ─────────────────────────────────────
 const perYearRows = [
-  { key: 'da', label: 'D&A', fmt: fmtMoney },
-  { key: 'interest_expense', label: 'valuation_panel.interest_expense', fmt: fmtMoney },
-  { key: 'cash_and_equivalents', label: 'valuation_panel.cash_and_equiv', fmt: fmtMoney },
-  { key: 'long_term_debt', label: 'valuation_panel.lt_debt', fmt: fmtMoney },
-  { key: 'ebitda', label: 'EBITDA', fmt: fmtMoney },
+  { key: 'da', label: 'D&A', fmt: fmtUsd },
+  { key: 'interest_expense', label: 'valuation_panel.interest_expense', fmt: fmtUsd },
+  { key: 'cash_and_equivalents', label: 'valuation_panel.cash_and_equiv', fmt: fmtUsd },
+  { key: 'long_term_debt', label: 'valuation_panel.lt_debt', fmt: fmtUsd },
+  { key: 'ebitda', label: 'EBITDA', fmt: fmtUsd },
   { key: 'ebitda_margin', label: 'valuation_panel.ebitda_margin', fmt: fmtPct },
-  { key: 'net_debt', label: 'valuation_panel.net_debt', fmt: fmtMoney },
+  { key: 'net_debt', label: 'valuation_panel.net_debt', fmt: fmtUsd },
   { key: 'net_debt_to_ebitda', label: 'valuation_panel.net_debt_ebitda', fmt: fmtRatio },
   { key: 'interest_coverage', label: 'valuation_panel.interest_coverage', fmt: fmtRatio },
   { key: 'effective_tax_rate', label: 'valuation_panel.eff_tax_rate', fmt: fmtPct },
-  { key: 'nopat', label: 'NOPAT', fmt: fmtMoney },
-  { key: 'invested_capital', label: 'valuation_panel.invested_capital', fmt: fmtMoney },
+  { key: 'nopat', label: 'NOPAT', fmt: fmtUsd },
+  { key: 'invested_capital', label: 'valuation_panel.invested_capital', fmt: fmtUsd },
   { key: 'roic', label: 'ROIC', fmt: fmtPct },
 ]
 

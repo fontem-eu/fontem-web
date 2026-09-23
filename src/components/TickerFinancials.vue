@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fetchGmrData, fetchFundamentals, fetchValuation } from '../api/gmr.js'
-import { fmtMoney, fmtPrice } from '../utils/format.js'
+import { fmtUsd, fmtPrice } from '../utils/format.js'
 import SummaryPanel from './SummaryPanel.vue'
 import ValuationPanel from './ValuationPanel.vue'
 import IncomePanel from './IncomePanel.vue'
@@ -273,8 +273,8 @@ const gmrSnapshot = computed(() => {
   return [
     { label: 'ticker_financials.price', value: fmtPrice(s.price), testid: 'snap-price' },
     { label: 'ticker_financials.avg_volume', value: fmtNum(s.avg_volume), testid: 'snap-volume' },
-    { label: 'ticker_financials.total_debt', value: fmtMoney(s.total_debt), testid: 'snap-debt' },
-    { label: 'ticker_financials.equity', value: fmtMoney(s.equity), testid: 'snap-equity' },
+    { label: 'ticker_financials.total_debt', value: fmtUsd(s.total_debt), testid: 'snap-debt' },
+    { label: 'ticker_financials.equity', value: fmtUsd(s.equity), testid: 'snap-equity' },
     { label: 'ticker_financials.shares', value: fmtNum(s.shares), testid: 'snap-shares' },
     { label: 'ticker_financials.quick_ratio', value: qr, testid: 'snap-qr' },
     {
@@ -304,13 +304,13 @@ const gmrAnnualMap = computed(() => {
 
 const gmrAnnualRows = [
   { key: 'avg_price', label: 'ticker_financials.avg_price', fmt: fmtPrice },
-  { key: 'revenue', label: 'ticker_financials.revenue', fmt: fmtMoney },
-  { key: 'earnings', label: 'ticker_financials.net_income', fmt: fmtMoney },
-  { key: 'cfo', label: 'ticker_financials.cash_from_ops', fmt: fmtMoney },
-  { key: 'delta_ppe', label: 'ticker_financials.capex_net', fmt: fmtMoney },
-  { key: 'total_assets', label: 'ticker_financials.total_assets', fmt: fmtMoney },
-  { key: 'liabilities', label: 'ticker_financials.liabilities', fmt: fmtMoney },
-  { key: 'equity', label: 'ticker_financials.equity', fmt: fmtMoney },
+  { key: 'revenue', label: 'ticker_financials.revenue', fmt: fmtUsd },
+  { key: 'earnings', label: 'ticker_financials.net_income', fmt: fmtUsd },
+  { key: 'cfo', label: 'ticker_financials.cash_from_ops', fmt: fmtUsd },
+  { key: 'delta_ppe', label: 'ticker_financials.capex_net', fmt: fmtUsd },
+  { key: 'total_assets', label: 'ticker_financials.total_assets', fmt: fmtUsd },
+  { key: 'liabilities', label: 'ticker_financials.liabilities', fmt: fmtUsd },
+  { key: 'equity', label: 'ticker_financials.equity', fmt: fmtUsd },
 ]
 
 function gmrCellValue(year, row) {
@@ -328,7 +328,7 @@ const fundMktSnapshot = computed(() => {
   if (!s) return []
   return [
     { label: 'ticker_financials.price', value: fmtPrice(s.current_price), testid: 'fund-snap-price' },
-    { label: 'ticker_financials.market_cap', value: fmtMoney(s.market_cap), testid: 'fund-snap-mcap' },
+    { label: 'ticker_financials.market_cap', value: fmtUsd(s.market_cap), testid: 'fund-snap-mcap' },
     { label: 'ticker_financials.shares_out', value: fmtNum(s.shares_outstanding), testid: 'fund-snap-shares' },
     { label: 'ticker_financials.avg_volume', value: fmtNum(s.avg_volume), testid: 'fund-snap-vol' },
     {
@@ -376,12 +376,12 @@ const fundMap = computed(() => {
 
 const fundRows = [
   { key: 'avg_price',    label: 'ticker_financials.avg_price',    fmt: fmtPrice },
-  { key: 'revenue',      label: 'ticker_financials.revenue',       fmt: fmtMoney },
-  { key: 'net_income',   label: 'ticker_financials.net_income',    fmt: fmtMoney },
+  { key: 'revenue',      label: 'ticker_financials.revenue',       fmt: fmtUsd },
+  { key: 'net_income',   label: 'ticker_financials.net_income',    fmt: fmtUsd },
   { key: 'eps',          label: 'EPS',           fmt: (n) => (n == null ? '—' : `$${Number(n).toFixed(2)}`) },
-  { key: 'free_cashflow',label: 'ticker_financials.free_cashflow', fmt: fmtMoney },
-  { key: 'total_assets', label: 'ticker_financials.total_assets',  fmt: fmtMoney },
-  { key: 'equity',       label: 'ticker_financials.equity',        fmt: fmtMoney },
+  { key: 'free_cashflow',label: 'ticker_financials.free_cashflow', fmt: fmtUsd },
+  { key: 'total_assets', label: 'ticker_financials.total_assets',  fmt: fmtUsd },
+  { key: 'equity',       label: 'ticker_financials.equity',        fmt: fmtUsd },
   { key: 'pe',           label: 'P/E',           fmt: (n) => fmtRatio(n, 1) },
   { key: 'roe',          label: 'ROE',           fmt: fmtPct },
   { key: 'npm',          label: 'ticker_financials.net_margin',    fmt: fmtPct },

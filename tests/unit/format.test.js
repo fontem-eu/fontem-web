@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { fmtMoney, fmtEur, fmtPrice, fmtCompact, fmtDual } from '../../src/utils/format.js'
+import { fmtMoney, fmtEur, fmtPrice, fmtCompact, fmtDual, fmtUsd } from '../../src/utils/format.js'
 
 describe('fmtMoney', () => {
   // null / undefined guard
@@ -11,76 +11,77 @@ describe('fmtMoney', () => {
     expect(fmtMoney(undefined)).toBe('—')
   })
 
-  // Default currency is USD ($)
-  it('formats a small positive number with $', () => {
-    expect(fmtMoney(42)).toBe('$42')
+  // Default currency is EUR (€) — this is a euro-denominated
+  // platform; a dollar figure has to ask for USD explicitly.
+  it('formats a small positive number with €', () => {
+    expect(fmtMoney(42)).toBe('€42')
   })
 
   // Negative values produce "-" prefix
   it('formats a negative number with - prefix', () => {
-    expect(fmtMoney(-5000)).toBe('-$5K')
+    expect(fmtMoney(-5000)).toBe('-€5K')
   })
 
   it('positive number has no - prefix', () => {
-    expect(fmtMoney(5000)).toBe('$5K')
+    expect(fmtMoney(5000)).toBe('€5K')
   })
 
   // Boundary: exactly 1e12
   it('formats exactly 1e12 as T', () => {
-    expect(fmtMoney(1e12)).toBe('$1.0T')
+    expect(fmtMoney(1e12)).toBe('€1.0T')
   })
 
   it('formats above 1e12 as T', () => {
-    expect(fmtMoney(2.5e12)).toBe('$2.5T')
+    expect(fmtMoney(2.5e12)).toBe('€2.5T')
   })
 
   it('formats just below 1e12 as B', () => {
-    expect(fmtMoney(999_999_999_999)).toBe('$1000.0B')
+    expect(fmtMoney(999_999_999_999)).toBe('€1000.0B')
   })
 
   // Boundary: exactly 1e9
   it('formats exactly 1e9 as B', () => {
-    expect(fmtMoney(1e9)).toBe('$1.0B')
+    expect(fmtMoney(1e9)).toBe('€1.0B')
   })
 
   it('formats just below 1e9 as M', () => {
-    expect(fmtMoney(999_999_999)).toBe('$1000.0M')
+    expect(fmtMoney(999_999_999)).toBe('€1000.0M')
   })
 
   // Boundary: exactly 1e6
   it('formats exactly 1e6 as M', () => {
-    expect(fmtMoney(1e6)).toBe('$1.0M')
+    expect(fmtMoney(1e6)).toBe('€1.0M')
   })
 
   it('formats just below 1e6 as K', () => {
-    expect(fmtMoney(999_999)).toBe('$1000K')
+    expect(fmtMoney(999_999)).toBe('€1000K')
   })
 
   // Boundary: exactly 1e3
   it('formats exactly 1e3 as K', () => {
-    expect(fmtMoney(1000)).toBe('$1K')
+    expect(fmtMoney(1000)).toBe('€1K')
   })
 
   it('formats 999 without suffix', () => {
-    expect(fmtMoney(999)).toBe('$999')
+    expect(fmtMoney(999)).toBe('€999')
   })
 
   // Custom decimals
   it('respects custom decimals for T', () => {
-    expect(fmtMoney(1.234e12, 2)).toBe('$1.23T')
+    expect(fmtMoney(1.234e12, 2)).toBe('€1.23T')
   })
 
   it('respects custom decimals for B', () => {
-    expect(fmtMoney(1.234e9, 2)).toBe('$1.23B')
+    expect(fmtMoney(1.234e9, 2)).toBe('€1.23B')
   })
 
   it('respects custom decimals for M', () => {
-    expect(fmtMoney(1.234e6, 2)).toBe('$1.23M')
+    expect(fmtMoney(1.234e6, 2)).toBe('€1.23M')
   })
 
   // K always uses toFixed(0)
   it('K suffix uses 0 decimal places regardless', () => {
-    expect(fmtMoney(1500, 3)).toBe('$2K')
+    expect(fmtMoney(1500, 3)).toBe('€2K')
   })
 
   // Truly unknown currency falls back to "{CCY}\u00A0" prefix
@@ -107,28 +108,38 @@ describe('fmtMoney', () => {
 
   // Negative with each tier
   it('negative trillion', () => {
-    expect(fmtMoney(-2e12)).toBe('-$2.0T')
+    expect(fmtMoney(-2e12)).toBe('-€2.0T')
   })
 
   it('negative billion', () => {
-    expect(fmtMoney(-3e9)).toBe('-$3.0B')
+    expect(fmtMoney(-3e9)).toBe('-€3.0B')
   })
 
   it('negative million', () => {
-    expect(fmtMoney(-4e6)).toBe('-$4.0M')
+    expect(fmtMoney(-4e6)).toBe('-€4.0M')
   })
 
   it('negative thousand', () => {
-    expect(fmtMoney(-5000)).toBe('-$5K')
+    expect(fmtMoney(-5000)).toBe('-€5K')
   })
 
   it('negative small number', () => {
-    expect(fmtMoney(-42)).toBe('-$42')
+    expect(fmtMoney(-42)).toBe('-€42')
   })
 
   // Zero
   it('formats zero without - prefix', () => {
-    expect(fmtMoney(0)).toBe('$0')
+    expect(fmtMoney(0)).toBe('€0')
+  })
+
+  // The dollar path still exists, it just has to be asked for.
+  it('formats USD when the caller says so', () => {
+    expect(fmtMoney(42, 'USD')).toBe('$42')
+    expect(fmtMoney(-5000, 'USD')).toBe('-$5K')
+  })
+
+  it('fmtUsd is the shorthand the US filing panels use', () => {
+    expect(fmtUsd(245_122_000_000)).toBe('$245.1B')
   })
 })
 
