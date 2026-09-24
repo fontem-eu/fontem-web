@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Proġetti skont il-pajjiż (Top 15)",
     "projects_by_fund_top_10": "Proġetti skont il-fond (Top 10)"
   },
-  "explore": {
-    "explore": "Esplora",
-    "intro": "Esplora d-dashboards sors-tal-verità tal-pjattaforma u l-uċuħ ta' mistoqsija diretta. Agħżel karta biex tħaffer fid-data wara l-istejjer.",
-    "data_quality": "Kwalità tad-Data",
-    "data_quality_desc": "Dashboards ta' kopertura u freskezza għal kull sors ta' inġestjoni — kuntratti TED, filings EDGAR, entitajiet GLEIF, rapporti iXBRL ESEF, reġistri tal-lobbying, sanzjonijiet, FIRDS, CDP, reġjuni NUTS.",
-    "open_data_quality_hub": "Iftaħ iċ-ċentru tal-Kwalità tad-Data",
-    "sparql_endpoint": "Endpoint SPARQL",
-    "sparql_desc": "Interroga l-graf tal-għarfien direttament bis-SPARQL. L-istess datasets li jħaddmu l-bqija tal-pjattaforma, esposti bħala triples.",
-    "open_sparql_playground": "Iftaħ il-playground SPARQL",
-    "geographic_explorer": "Esploratur Ġeografiku",
-    "geo_desc": "Esplora kumpaniji u akkwist skont ir-reġjun NUTS u l-pajjiż. Punt tat-tluq utli meta trid tara min jopera fejn qabel ma tidħol fid-dettall tal-entitajiet individwali.",
-    "open_geo_explorer": "Iftaħ l-Esploratur Ġeografiku"
-  },
   "feed": {
     "clear_filter": "Naddaf il-filtru",
     "feed": "Feed",
@@ -883,21 +870,6 @@
     "send_reset_link": "Ibgħat il-link tar-reset",
     "check_your_email": "Iċċekkja l-email tiegħek",
     "if_account_exists_sent_link": "Jekk jeżisti kont għal dak l-indirizz, bgħatna link biex tirrisettja l-password tiegħek. Jiskadi f'siegħa."
-  },
-  "geo": {
-    "geo_explorer": "Esploratur ġeografiku",
-    "intro": "Aggregati ta' entitajiet u kuntratti fuq il-ġerarkija NUTS. Illum f'livell ta' pajjiż — reġjuni iktar irqaq ġejjin meta jiġi implimentat il-ġeokodifikazzjoni tal-entitajiet."
-  },
-  "geo_choropleth": {
-    "companies": "Kumpaniji",
-    "connected_to_3": "Konness ma' (α-3)",
-    "parent_nuts_1": "NUTS 1 ġenituri",
-    "level_0_country": "0 — Pajjiż",
-    "level_1_macro_region_coming_soon": "1 — Makro-reġjun (dalwaqt)",
-    "level_2_region_coming_soon": "2 — Reġjun (dalwaqt)",
-    "level_3_small_region_coming_soon": "3 — Reġjun żgħir (dalwaqt)",
-    "eg_rus": "eż. RUS",
-    "eg_de1": "eż. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Kumpaniji skont il-pajjiż (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Taqsiriet",
     "collapse": "Ikkollassa",
     "dashboards": "Dashboards",
-    "data_stats": "Statistika",
     "explore": "Esplora",
-    "log_in": "Illoggja",
+    "log_in_settings": "Illoggja · Preferenzi",
     "map": "Mappa",
     "menu": "Menu",
     "my_briefings": "It-taqsiriet tiegħi",
@@ -1797,7 +1768,8 @@
     "queries": "Mistoqsijiet",
     "plots": "Plottijiet",
     "new_plot": "Plott ġdid",
-    "new_project": "Proġett ġdid"
+    "new_project": "Proġett ġdid",
+    "all_projects": "Il-proġetti kollha ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

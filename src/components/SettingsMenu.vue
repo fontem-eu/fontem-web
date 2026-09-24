@@ -8,30 +8,23 @@
  * carries NO account rows: identity lives in ProfileMenu (header) and
  * the account item at the bottom of the rail.
  *
+ * Desktop only. It was mounted in the rail too ("Preferences"), for the
+ * phone, where the header has no room for it; that button was removed
+ * (2026-09-24) and on a phone the same preferences live on /account,
+ * which the rail's account row opens — labelled "Log in · Settings"
+ * when signed out, so a visitor looking for a language finds it.
+ *
  * Why it exists: 5dd542d ("lean profile menu") replaced the old
  * PreferencesMenu with ProfileMenu and moved display preferences to
  * /account. /account itself stayed public, but the only affordance
  * pointing at it reads "Log in" when signed out — so a visitor who
  * wanted a different language had no discoverable way to pick one.
- *
- * Mounted twice — header bezel and rail bottom — because both are
- * places people look for settings. Each instance owns its own `open`
- * state, so at most one menu is ever in the DOM.
  */
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useTheme } from '../composables/useTheme.js'
 import { useLang } from '../composables/useLang.js'
 import { useAtlasPalette } from '../composables/useAtlasPalette.js'
 import { EU_LANGUAGES } from '../composables/eu-languages.js'
-import RailIcon from './RailIcon.vue'
-
-const props = defineProps({
-  // 'header' drops the menu below the gear, right-aligned to the bezel.
-  // 'rail' anchors it beside the rail and opens upward.
-  placement: { type: String, default: 'header' },
-  // Rail only: hide the text label when the rail is icon-width.
-  collapsed: { type: Boolean, default: false },
-})
 
 const { isDark, toggle: toggleTheme } = useTheme()
 const { lang, setLang } = useLang()
@@ -46,8 +39,6 @@ const menuStyle = ref({})
 // mountable target and the menu is closed anyway.
 const mounted = ref(false)
 
-const isRail = computed(() => props.placement === 'rail')
-
 // Sequential first (the common case), diverging next, auto pinned top.
 const paletteOptions = computed(() => {
   const all = Object.entries(paletteCatalog)
@@ -60,18 +51,9 @@ const paletteOptions = computed(() => {
 
 /**
  * The menu is teleported to <body> and positioned in viewport
- * coordinates. Two separate ancestors would otherwise hide it:
- *
- *  - `.rail` sets `overflow-y: auto`, which per CSS forces overflow-x to
- *    `auto` as well, so an absolutely-positioned popover is clipped by
- *    the rail rather than overlapping the page;
- *  - below 900px `.rail` also sets `transform: translateX(...)` for the
- *    drawer slide, and a transformed ancestor becomes the containing
- *    block for `position: fixed` descendants — so even fixed positioning
- *    was still being clipped by the rail on mobile.
- *
- * Teleporting sidesteps both: nothing between the menu and <body> can
- * clip it, whatever the rail does with transforms or overflow later.
+ * coordinates, so no ancestor's overflow or transform can clip it. (It
+ * was written for the rail, whose scroll and drawer transform did; the
+ * header's sticky bar is the same risk in a smaller form.)
  */
 // Fallback only — the menu is min-width 260 / max-width 320 and its
 // real width depends on the longest translated label, so clamping
@@ -85,17 +67,12 @@ function updatePosition() {
   const vw = globalThis.innerWidth || 0
   const vh = globalThis.innerHeight || 0
   const mw = menuRef.value?.offsetWidth || MENU_W
-  const style = { position: 'fixed' }
-  if (isRail.value) {
-    // Beside the rail, opening upward from the trigger.
-    style.left = Math.max(8, Math.min(r.right + 8, vw - mw - 8)) + 'px'
-    style.bottom = Math.max(8, vh - r.bottom) + 'px'
-  } else {
-    // Under the gear, right-aligned to it.
-    style.left = Math.max(8, Math.min(r.right - mw, vw - mw - 8)) + 'px'
-    style.top = Math.min(r.bottom + 6, Math.max(8, vh - 8)) + 'px'
+  // Under the gear, right-aligned to it.
+  menuStyle.value = {
+    position: 'fixed',
+    left: Math.max(8, Math.min(r.right - mw, vw - mw - 8)) + 'px',
+    top: Math.min(r.bottom + 6, Math.max(8, vh - 8)) + 'px',
   }
-  menuStyle.value = style
 }
 
 async function toggleOpen() {
@@ -130,8 +107,8 @@ onMounted(() => {
   document.addEventListener('click', onDocumentClick)
   document.addEventListener('keydown', onKeydown)
   globalThis.addEventListener('resize', updatePosition)
-  // Capture phase: the rail scrolls independently of the page, so a
-  // bubbling listener on window would miss it and leave the menu behind.
+  // Capture phase: a scroll inside any scrolling container, not only
+  // the window, must move the menu with its trigger.
   globalThis.addEventListener('scroll', updatePosition, true)
 })
 onBeforeUnmount(() => {
@@ -143,28 +120,24 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="rootRef" class="settings" :class="isRail ? 'settings--rail' : 'settings--header'">
+  <div ref="rootRef" class="settings">
     <button
       ref="triggerRef"
       type="button"
-      :class="isRail ? 'settings-rail-trigger' : 'settings-trigger'"
+      class="settings-trigger"
       :aria-expanded="open"
       aria-haspopup="menu"
       :aria-label="$t('preferences_menu.preferences')"
-      :title="isRail && collapsed ? $t('preferences_menu.preferences') : null"
-      :data-testid="isRail ? 'rail-settings' : 'settings-trigger'"
+      data-testid="settings-trigger"
       @click.stop="toggleOpen"
     >
-      <RailIcon v-if="isRail" name="settings" />
       <svg
-        v-else
         width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
       >
         <circle cx="12" cy="12" r="3" />
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
       </svg>
-      <span v-if="isRail" class="rail-label">{{ $t('preferences_menu.preferences') }}</span>
     </button>
 
     <Teleport v-if="mounted" to="body">
@@ -172,7 +145,6 @@ onBeforeUnmount(() => {
         v-if="open"
         ref="menuRef"
         class="settings-menu"
-        :class="isRail ? 'settings-menu--rail' : 'settings-menu--header'"
         :style="menuStyle"
         role="menu"
         data-testid="settings-menu"
@@ -230,7 +202,6 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .settings { position: relative; display: inline-flex; align-items: center; }
-.settings--rail { display: block; }
 
 .settings-trigger {
   background: transparent;
@@ -246,23 +217,6 @@ onBeforeUnmount(() => {
 .settings-trigger:hover { border-color: var(--accent); color: var(--accent); }
 .settings-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* Mirrors .rail-item from AppSidebar — that rule is scoped to the
-   parent component, so the shape is restated here rather than shared. */
-.settings-rail-trigger {
-  display: flex; align-items: center; gap: 0.7rem;
-  padding: 0.55rem 0.6rem; border-radius: 8px;
-  color: var(--muted); font-size: 0.9rem; font-weight: 500;
-  white-space: nowrap; border: 0; background: transparent;
-  cursor: pointer; width: 100%; text-align: left;
-  transition: background 0.12s, color 0.12s;
-}
-.settings-rail-trigger:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--text);
-}
-.settings-rail-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.settings-rail-trigger .rail-label { overflow: hidden; text-overflow: ellipsis; }
-
 .settings-menu {
   min-width: 260px;
   max-width: 320px;
@@ -273,9 +227,9 @@ onBeforeUnmount(() => {
   z-index: 90;
   overflow: hidden;
 }
-/* Both variants are positioned inline, in viewport coordinates, by
-   updatePosition() — the menu is teleported to <body> so there is no
-   positioned ancestor to lay it out against. */
+/* Positioned inline, in viewport coordinates, by updatePosition() —
+   the menu is teleported to <body> so there is no positioned ancestor
+   to lay it out against. */
 
 .settings-section { padding: 0.55rem 0.5rem; }
 .settings-section-title {

@@ -272,7 +272,7 @@ test.describe('Account settings — assistant configuration', () => {
 })
 
 test.describe('The assistant is reachable everywhere', () => {
-  const ROUTES = ['/', '/about', '/explore', '/help']
+  const ROUTES = ['/', '/about', '/data-quality', '/help']
 
   for (const path of ROUTES) {
     test(`the assistant toggle is present on ${path}`, async ({ page }) => {

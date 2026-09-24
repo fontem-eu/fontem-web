@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projecten per land (Top 15)",
     "projects_by_fund_top_10": "Projecten per fonds (Top 10)"
   },
-  "explore": {
-    "explore": "Verkennen",
-    "intro": "Blader door de bron-van-waarheid-dashboards van het platform en de directe-query-oppervlakken. Kies een kaart om in de data achter de verhalen te duiken.",
-    "data_quality": "Gegevenskwaliteit",
-    "data_quality_desc": "Dashboards voor dekking + actualiteit voor elke ingestiebron — TED-opdrachten, EDGAR-indieningen, GLEIF-entiteiten, ESEF iXBRL-rapporten, lobbyregisters, sancties, FIRDS, CDP, NUTS-regio's.",
-    "open_data_quality_hub": "Open de hub Gegevenskwaliteit",
-    "sparql_endpoint": "SPARQL-endpoint",
-    "sparql_desc": "Bevraag de kennisgraaf rechtstreeks met SPARQL. Dezelfde datasets die de rest van het platform aandrijven, blootgesteld als triples.",
-    "open_sparql_playground": "Open de SPARQL-playground",
-    "geographic_explorer": "Geografische verkenner",
-    "geo_desc": "Blader door ondernemingen + aanbestedingen per NUTS-regio en land. Een handig startpunt wanneer u wilt zien wie waar actief is voordat u inzoomt op afzonderlijke entiteiten.",
-    "open_geo_explorer": "Open de geoverkenner"
-  },
   "feed": {
     "clear_filter": "Filter wissen",
     "feed": "Feed",
@@ -883,21 +870,6 @@
     "send_reset_link": "Herstellink versturen",
     "check_your_email": "Controleer uw e-mail",
     "if_account_exists_sent_link": "Als er een account voor dat adres bestaat, hebben wij een link gestuurd om uw wachtwoord opnieuw in te stellen. Deze verloopt over één uur."
-  },
-  "geo": {
-    "geo_explorer": "Geografische verkenner",
-    "intro": "Aggregaten van entiteiten en contracten over de NUTS-hiërarchie. Vandaag op landniveau — fijnere regio's komen zodra entity-geocoding wordt uitgerold."
-  },
-  "geo_choropleth": {
-    "companies": "Bedrijven",
-    "connected_to_3": "Verbonden met (α-3)",
-    "parent_nuts_1": "Bovenliggende NUTS 1",
-    "level_0_country": "0 — Land",
-    "level_1_macro_region_coming_soon": "1 — Macroregio (binnenkort beschikbaar)",
-    "level_2_region_coming_soon": "2 — Regio (binnenkort beschikbaar)",
-    "level_3_small_region_coming_soon": "3 — Kleine regio (binnenkort beschikbaar)",
-    "eg_rus": "bijv. RUS",
-    "eg_de1": "bijv. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Bedrijven per land (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Briefings",
     "collapse": "Inklappen",
     "dashboards": "Dashboards",
-    "data_stats": "Statistieken",
     "explore": "Verkennen",
-    "log_in": "Aanmelden",
+    "log_in_settings": "Aanmelden · Voorkeuren",
     "map": "Kaart",
     "menu": "Menu",
     "my_briefings": "Mijn briefings",
@@ -1797,7 +1768,8 @@
     "queries": "Query's",
     "plots": "Grafieken",
     "new_plot": "Nieuwe grafiek",
-    "new_project": "Nieuw project"
+    "new_project": "Nieuw project",
+    "all_projects": "Alle projecten ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

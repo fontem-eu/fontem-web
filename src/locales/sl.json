@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projekti po državi (Top 15)",
     "projects_by_fund_top_10": "Projekti po skladu (Top 10)"
   },
-  "explore": {
-    "explore": "Razišči",
-    "intro": "Brskaj po platformnih armaturnih ploščah vira-resnice in površinah neposrednih poizvedb. Izberi karto in se poglobi v podatke za zgodbami.",
-    "data_quality": "Kakovost podatkov",
-    "data_quality_desc": "Nadzorne plošče pokritosti in svežine za vsak vir zajema — pogodbe TED, prijave EDGAR, entitete GLEIF, poročila ESEF iXBRL, registri lobiranja, sankcije, FIRDS, CDP, regije NUTS.",
-    "open_data_quality_hub": "Odpri vozlišče kakovosti podatkov",
-    "sparql_endpoint": "Končna točka SPARQL",
-    "sparql_desc": "Neposredno poizvedujte po grafu znanja s SPARQL. Isti nabori podatkov, ki poganjajo preostalo platformo, izpostavljeni kot trojčki.",
-    "open_sparql_playground": "Odpri igrišče SPARQL",
-    "geographic_explorer": "Geografski raziskovalec",
-    "geo_desc": "Brskajte po podjetjih in javnih naročilih po regiji NUTS in državi. Uporabna začetna točka, ko želite videti, kdo deluje kje, preden se poglobite v posamezne entitete.",
-    "open_geo_explorer": "Odpri geografski raziskovalec"
-  },
   "feed": {
     "clear_filter": "Počisti filter",
     "feed": "Vir",
@@ -883,21 +870,6 @@
     "send_reset_link": "Pošlji povezavo za ponastavitev",
     "check_your_email": "Preverite e-pošto",
     "if_account_exists_sent_link": "Če za ta naslov obstaja račun, smo poslali povezavo za ponastavitev gesla. Poteče čez eno uro."
-  },
-  "geo": {
-    "geo_explorer": "Geo raziskovalec",
-    "intro": "Agregati entitet in pogodb prek hierarhije NUTS. Danes na ravni držav — drobnejše regije pridejo, ko bo geokodiranje entitet pripravljeno."
-  },
-  "geo_choropleth": {
-    "companies": "Podjetja",
-    "connected_to_3": "Povezano z (α-3)",
-    "parent_nuts_1": "Nadrejen NUTS 1",
-    "level_0_country": "0 — Država",
-    "level_1_macro_region_coming_soon": "1 — Makroregija (kmalu na voljo)",
-    "level_2_region_coming_soon": "2 — Regija (kmalu na voljo)",
-    "level_3_small_region_coming_soon": "3 — Majhna regija (kmalu na voljo)",
-    "eg_rus": "npr. RUS",
-    "eg_de1": "npr. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Podjetja po državi (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Poročila",
     "collapse": "Strni",
     "dashboards": "Nadzorne plošče",
-    "data_stats": "Statistika",
     "explore": "Razišči",
-    "log_in": "Prijava",
+    "log_in_settings": "Prijava · Nastavitve",
     "map": "Zemljevid",
     "menu": "Meni",
     "my_briefings": "Moja poročila",
@@ -1797,7 +1768,8 @@
     "queries": "Poizvedbe",
     "plots": "Grafi",
     "new_plot": "Nov graf",
-    "new_project": "Nov projekt"
+    "new_project": "Nov projekt",
+    "all_projects": "Vsi projekti ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

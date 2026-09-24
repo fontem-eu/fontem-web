@@ -55,11 +55,6 @@ describe('SettingsMenu', () => {
     expect(w.find('[data-testid="settings-trigger"]').exists()).toBe(true)
   })
 
-  it('renders the rail gear for an anonymous visitor', async () => {
-    const w = await mountMenu({ placement: 'rail' })
-    expect(w.find('[data-testid="rail-settings"]').exists()).toBe(true)
-  })
-
   it('opens theme + language + palette with no session', async () => {
     const w = await mountMenu()
     expect(menuEl()).toBeNull()
@@ -103,36 +98,13 @@ describe('SettingsMenu', () => {
   })
 
   /**
-   * Regression: RailIcon's sizing lived only in AppSidebar's *scoped*
-   * style, so rendering it from SettingsMenu dropped the rule entirely
-   * and the SVG fell back to the default replaced-element size — a gear
-   * several times the size of every other rail icon. The dimensions are
-   * intrinsic attributes now, which is what makes this assertable.
+   * The menu is teleported to <body> so no ancestor's overflow or
+   * transform can clip it (the rail's did, when it carried a gear).
    */
-  it('renders the rail gear at the same 20px as every other rail icon', async () => {
-    const w = await mountMenu({ placement: 'rail' })
-    const svg = w.find('[data-testid="rail-settings"] svg')
-    expect(svg.exists()).toBe(true)
-    expect(svg.attributes('width')).toBe('20')
-    expect(svg.attributes('height')).toBe('20')
-  })
-
-  /**
-   * Regression: the popover was clipped on mobile. `.rail` sets
-   * `overflow-y: auto` (which forces overflow-x to `auto` too) and, below
-   * 900px, `transform: translateX(...)` for the drawer slide — and a
-   * transformed ancestor becomes the containing block for `position:
-   * fixed` descendants, so even fixed positioning stayed trapped inside
-   * the rail. The menu is teleported to <body> so nothing between it and
-   * the document root can hide it.
-   */
-  it.each(['header', 'rail'])('teleports the %s menu out to <body>', async (placement) => {
-    const trigger = placement === 'rail' ? 'rail-settings' : 'settings-trigger'
-    const w = await mountMenu({ placement })
-    const menu = await openMenu(w, trigger)
+  it('teleports the menu out to <body>', async () => {
+    const w = await mountMenu()
+    const menu = await openMenu(w)
     expect(menu).not.toBeNull()
-    // Not nested inside the component's own subtree — that subtree is
-    // what the rail clips.
     expect(w.element.contains(menu)).toBe(false)
     expect(menu.style.position).toBe('fixed')
   })

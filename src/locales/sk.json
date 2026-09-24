@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projekty podľa krajiny (Top 15)",
     "projects_by_fund_top_10": "Projekty podľa fondu (Top 10)"
   },
-  "explore": {
-    "explore": "Preskúmať",
-    "intro": "Prezri si platformové dashboardy zdroja-pravdy a plochy priamych dopytov. Vyber kartu a ponor sa do údajov za príbehmi.",
-    "data_quality": "Kvalita dát",
-    "data_quality_desc": "Dashboardy pokrytia a aktuálnosti pre každý zdroj vstupu — zmluvy TED, podania EDGAR, entity GLEIF, výkazy ESEF iXBRL, registre lobingu, sankcie, FIRDS, CDP, regióny NUTS.",
-    "open_data_quality_hub": "Otvoriť centrum kvality dát",
-    "sparql_endpoint": "Koncový bod SPARQL",
-    "sparql_desc": "Dopytujte znalostný graf priamo pomocou SPARQL. Rovnaké datasety, ktoré poháňajú zvyšok platformy, vystavené ako trojice.",
-    "open_sparql_playground": "Otvoriť pieskovisko SPARQL",
-    "geographic_explorer": "Geografický prieskumník",
-    "geo_desc": "Prehliadajte spoločnosti a obstarávanie podľa regiónu NUTS a krajiny. Užitočný východiskový bod, keď chcete vidieť, kto kde pôsobí, skôr než sa zameriate na jednotlivé entity.",
-    "open_geo_explorer": "Otvoriť geo prieskumník"
-  },
   "feed": {
     "clear_filter": "Vymazať filter",
     "feed": "Feed",
@@ -883,21 +870,6 @@
     "send_reset_link": "Odoslať odkaz na obnovenie",
     "check_your_email": "Skontrolujte svoj e-mail",
     "if_account_exists_sent_link": "Ak pre danú adresu existuje účet, poslali sme odkaz na obnovenie hesla. Jeho platnosť vyprší za jednu hodinu."
-  },
-  "geo": {
-    "geo_explorer": "Geo prieskumník",
-    "intro": "Agregáty entít a zmlúv cez hierarchiu NUTS. Dnes na úrovni krajiny — jemnejšie regióny prídu, keď bude geokódovanie entít k dispozícii."
-  },
-  "geo_choropleth": {
-    "companies": "Firmy",
-    "connected_to_3": "Spojené s (α-3)",
-    "parent_nuts_1": "Rodičovský NUTS 1",
-    "level_0_country": "0 — Krajina",
-    "level_1_macro_region_coming_soon": "1 — Makroregión (čoskoro)",
-    "level_2_region_coming_soon": "2 — Región (čoskoro)",
-    "level_3_small_region_coming_soon": "3 — Malý región (čoskoro)",
-    "eg_rus": "napr. RUS",
-    "eg_de1": "napr. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Firmy podľa krajiny (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Prehľady",
     "collapse": "Zbaliť",
     "dashboards": "Dashboardy",
-    "data_stats": "Štatistiky",
     "explore": "Preskúmať",
-    "log_in": "Prihlásiť sa",
+    "log_in_settings": "Prihlásiť sa · Predvoľby",
     "map": "Mapa",
     "menu": "Ponuka",
     "my_briefings": "Moje prehľady",
@@ -1797,7 +1768,8 @@
     "queries": "Dopyty",
     "plots": "Grafy",
     "new_plot": "Nový graf",
-    "new_project": "Nový projekt"
+    "new_project": "Nový projekt",
+    "all_projects": "Všetky projekty ({n})"
   },
   "studio_plot": {
     "studio": "Štúdio",

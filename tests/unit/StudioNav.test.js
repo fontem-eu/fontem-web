@@ -17,16 +17,55 @@ function seed() {
 describe('StudioNav (server-backed drawer tree)', () => {
   beforeEach(() => { api.__reset(); useStudio().reset(); push.mockReset(); routeParams = {} })
 
-  it('renders projects; expanding reveals queries + plots + add actions', async () => {
+  it('renders projects already expanded: queries, plots and add actions without a click', async () => {
     seed()
     const w = mount(StudioNav); await flushPromises()
     expect(w.find('[data-testid="studio-nav-project"]').text()).toContain('Corruption')
-    expect(w.find('[data-testid="studio-nav-query"]').exists()).toBe(false)
-    await w.find('[data-testid="nav-project-toggle-p1"]').trigger('click')
+    expect(w.find('[data-testid="nav-project-toggle-p1"]').attributes('aria-expanded')).toBe('true')
     expect(w.find('[data-testid="studio-nav-query"]').text()).toContain('contracts')
     expect(w.find('[data-testid="studio-nav-plot"]').text()).toContain('Overview')
     expect(w.find('[data-testid="nav-new-query"]').exists()).toBe(true)
     expect(w.find('[data-testid="nav-new-plot"]').exists()).toBe(true)
+  })
+
+  it('collapses a project on request, and opens it again', async () => {
+    seed()
+    const w = mount(StudioNav); await flushPromises()
+    const toggle = () => w.find('[data-testid="nav-project-toggle-p1"]')
+    await toggle().trigger('click')
+    expect(toggle().attributes('aria-expanded')).toBe('false')
+    expect(w.find('[data-testid="studio-nav-query"]').exists()).toBe(false)
+    await toggle().trigger('click')
+    expect(w.find('[data-testid="studio-nav-query"]').exists()).toBe(true)
+  })
+
+  describe('with a limit (the rail)', () => {
+    const many = (n) => api.__seed(Array.from({ length: n }, (_, i) => ({
+      id: `p${i}`, name: `Project ${i}`, created_by: 'u', queries: [], plots: [] })))
+    const names = (w) => w.findAll('[data-testid="nav-project-name"]').map((b) => b.text())
+
+    it('shows only the first N projects, then a link to all of them', async () => {
+      many(12)
+      const w = mount(StudioNav, { props: { limit: 3 } }); await flushPromises()
+      expect(names(w)).toEqual(['Project 0', 'Project 1', 'Project 2'])
+      const all = w.find('[data-testid="nav-all-projects"]')
+      expect(all.text()).toContain('12')
+      await all.trigger('click')
+      expect(push).toHaveBeenCalledWith('/studio')
+    })
+
+    it('keeps the project you are in, even when it is older than the first N', async () => {
+      many(12); routeParams = { projectId: 'p9' }
+      const w = mount(StudioNav, { props: { limit: 3 } }); await flushPromises()
+      expect(names(w)).toEqual(['Project 0', 'Project 1', 'Project 2', 'Project 9'])
+    })
+
+    it('shows no link when everything fits', async () => {
+      many(3)
+      const w = mount(StudioNav, { props: { limit: 3 } }); await flushPromises()
+      expect(names(w)).toHaveLength(3)
+      expect(w.find('[data-testid="nav-all-projects"]').exists()).toBe(false)
+    })
   })
 
   it('auto-expands the project in the current route', async () => {

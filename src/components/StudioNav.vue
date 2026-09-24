@@ -5,15 +5,30 @@
  * duplicate / delete / new) are inline — rename edits the label in place,
  * delete is a two-click confirm — so there are no native browser popups.
  */
-import { reactive, ref, nextTick, watch, onMounted } from 'vue'
+import { reactive, ref, computed, nextTick, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
 
+const props = defineProps({
+  /**
+   * Show at most this many projects (the API lists the most recently
+   * updated first), plus the one the route is in, then a link to the
+   * full list on /studio. The rail passes a limit because it draws this
+   * tree on every page, expanded: an account with thousands of projects
+   * (the e2e account on testing had 5,226) put 73k nodes in the DOM and
+   * took 6–8 s to render every page. Null shows everything.
+   */
+  limit: { type: Number, default: null },
+})
 const emit = defineEmits(['navigate'])
 const route = useRoute()
 const router = useRouter()
 const studio = useStudio()
 
+// A project is open unless you closed it. The tree sits in the rail on
+// every page now, and a list of collapsed names makes you click before
+// you can see a single query — so everything starts expanded, and only
+// an explicit collapse is remembered (false), for this session.
 const expanded = reactive({})
 const menu = reactive({ kind: null, pid: null, id: null })
 const editing = reactive({ kind: null, pid: null, id: null, buffer: '' })
@@ -21,8 +36,8 @@ const confirmId = ref(null)
 
 onMounted(() => studio.ensureLoaded())
 
-const isExpanded = (pid) => !!expanded[pid]
-const toggleExpand = (pid) => { expanded[pid] = !expanded[pid] }
+const isExpanded = (pid) => expanded[pid] !== false
+const toggleExpand = (pid) => { expanded[pid] = !isExpanded(pid) }
 function openMenu(kind, pid, id = null) {
   confirmId.value = null
   if (menu.kind === kind && menu.id === (id || pid)) { menu.kind = null; return }
@@ -33,6 +48,16 @@ function go(path) { closeMenu(); emit('navigate'); router.push(path) }
 
 watch(() => route.params.projectId, (pid) => { if (pid) expanded[pid] = true }, { immediate: true })
 const activeProject = (pid) => route.params.projectId === pid
+
+const allProjects = computed(() => (Array.isArray(studio.projects.value) ? studio.projects.value : []))
+const shownProjects = computed(() => {
+  const all = allProjects.value
+  if (props.limit == null || all.length <= props.limit) return all
+  const head = all.slice(0, props.limit)
+  const current = all.find((p) => activeProject(p.id))
+  return current && !head.includes(current) ? [...head, current] : head
+})
+const hiddenCount = computed(() => allProjects.value.length - shownProjects.value.length)
 const activeQuery = (qid) => route.params.queryId === qid
 const activePlot = (plid) => route.params.plotId === plid
 
@@ -81,7 +106,7 @@ async function doDelete(kind, pid, id) {
 
 <template>
   <div class="snav" data-testid="studio-nav">
-    <div v-for="p in studio.projects.value" :key="p.id" class="proj" data-testid="studio-nav-project">
+    <div v-for="p in shownProjects" :key="p.id" class="proj" data-testid="studio-nav-project">
       <div class="srow" :class="{ active: activeProject(p.id) }">
         <button type="button" class="twist" :data-testid="'nav-project-toggle-' + p.id" :aria-expanded="isExpanded(p.id)" @click="toggleExpand(p.id)">
           <span class="chev" :class="{ open: isExpanded(p.id) }">▸</span>
@@ -137,6 +162,13 @@ v-if="isEditing('plot', pl.id)" v-model="editing.buffer" class="rename" data-tes
       </div>
     </div>
 
+    <button
+      v-if="hiddenCount > 0"
+      type="button"
+      class="add add--all"
+      data-testid="nav-all-projects"
+      @click="go('/studio')"
+    >{{ $t('studio_nav.all_projects', { n: allProjects.length }) }} →</button>
     <button type="button" class="add add--project" data-testid="nav-new-project" @click="newProject">+ {{ $t('studio_nav.new_project') }}</button>
   </div>
 </template>
@@ -159,6 +191,7 @@ v-if="isEditing('plot', pl.id)" v-model="editing.buffer" class="rename" data-tes
 .grouplabel { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); opacity: 0.7; padding: 0.35rem 0.2rem 0.15rem; }
 .add { text-align: left; border: 0; background: transparent; color: var(--accent); cursor: pointer; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.2rem; }
 .add--project { margin-top: 0.3rem; padding-left: 0.2rem; }
+.add--all { margin-top: 0.2rem; padding-left: 0.2rem; color: var(--muted); font-weight: 500; }
 .menu { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin: 0.2rem 0 0.2rem 0.3rem; overflow: hidden; }
 .menu button { text-align: left; border: 0; background: transparent; color: var(--text); cursor: pointer; font-size: 0.8rem; padding: 0.45rem 0.7rem; }
 .menu button:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }

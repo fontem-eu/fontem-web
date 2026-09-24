@@ -17,28 +17,6 @@ async function _json(url) {
 }
 
 /**
- * Aggregate a metric across NUTS regions.
- *
- * @param {object} opts
- * @param {number} [opts.level=0]  — NUTS level 0..3. Level 3 requires scopeNuts.
- * @param {string} [opts.metric='companies']
- *        'companies' | 'contracts' | 'contracts_eur'
- * @param {string} [opts.scopeNuts]  — required when level=3 (NUTS 1 ancestor)
- * @param {string} [opts.connectedToCountry]  — alpha-3 (e.g. 'RUS')
- */
-export async function fetchAggregate({
-  level = 0,
-  metric = 'companies',
-  scopeNuts,
-  connectedToCountry,
-} = {}) {
-  const params = new URLSearchParams({ level: String(level), metric })
-  if (scopeNuts) params.set('scope_nuts', scopeNuts)
-  if (connectedToCountry) params.set('connected_to_country', connectedToCountry)
-  return _json(`/api/geo/aggregate?${params.toString()}`)
-}
-
-/**
  * Fetch NUTS boundary GeoJSON for a level.
  */
 export async function fetchBoundaries(level = 0) {

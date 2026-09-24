@@ -20,7 +20,10 @@ async function ensureLoaded(force = false) {
   loading.value = true
   error.value = null
   _loadPromise = api.listProjects()
-    .then((list) => { projects.value = list || []; loaded.value = true; return projects.value })
+    // Only a list is a list of projects. An error body or an HTML page
+    // that slipped through as 200 would otherwise land here, and the
+    // rail (which now draws this tree on every page) would crash on it.
+    .then((list) => { projects.value = Array.isArray(list) ? list : []; loaded.value = true; return projects.value })
     .catch((e) => { error.value = e.message; return [] })
     .finally(() => { loading.value = false; _loadPromise = null })
   return _loadPromise

@@ -46,10 +46,6 @@ const DATASET = {
 }
 const API = {
   '/api/geo/nuts-boundaries': BOUNDARIES,
-  '/api/geo/aggregate': {
-    level: 0, metric: 'companies', scope_nuts: null, connected_to_country: null,
-    regions: [{ nuts_code: 'TL', label: 'Testland', level: 0, value: 4321 }],
-  },
   '/api/atlas/datasets/test_ds/slice-stats': [{
     dimensions: DIMS, value_min: 0, value_max: 100, value_p02: 0, value_p50: 50,
     value_p98: 100, observation_count: 1, value_kind: 'sequential', skew_ratio: 1,
@@ -113,33 +109,16 @@ async function hoverMapCentre(page, mapLocator, tooltip) {
 test.describe('region maps render their regions', () => {
   test('the map worker is part of the build and loads', async ({ page }) => {
     const worker = await stubNetwork(page)
-    await page.goto('/geo')
-    await expect(page.locator('[data-testid="geo-choropleth"] canvas')).toBeVisible()
+    await page.goto('/map')
+    await expect(page.locator('[data-testid="atlas-map"] canvas')).toBeVisible()
     await expect.poll(() => worker.requested.length, { timeout: 30_000 }).toBeGreaterThan(0)
     expect(worker.failed).toEqual([])
-  })
-
-  test('Geo explorer: a region with a value is drawn and answers hover', async ({ page }) => {
-    await stubNetwork(page)
-    await page.goto('/geo')
-    const tooltip = page.getByTestId('geo-hover')
-    await hoverMapCentre(page, page.locator('[data-testid="geo-choropleth"] canvas'), tooltip)
-    await expect(tooltip).toContainText('Testland')
-    await expect(tooltip).toContainText('4,321')
   })
 
   // The basemap is a third party's server. When it is down, rate-limiting us
   // or blocked by the visitor's browser, maplibre never fires `load` — and the
   // maps used to wait for `load` before painting, so our own data vanished
   // along with the background.
-  test('Geo explorer: regions are drawn even when the basemap tiles fail', async ({ page }) => {
-    await stubNetwork(page, { tiles: 'down' })
-    await page.goto('/geo')
-    const tooltip = page.getByTestId('geo-hover')
-    await hoverMapCentre(page, page.locator('[data-testid="geo-choropleth"] canvas'), tooltip)
-    await expect(tooltip).toContainText('Testland')
-  })
-
   test('Atlas: regions are drawn even when the basemap tiles fail', async ({ page }) => {
     await stubNetwork(page, { tiles: 'down' })
     const slice = encodeURIComponent(JSON.stringify(DIMS))

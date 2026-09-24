@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projektai pagal šalį (Top 15)",
     "projects_by_fund_top_10": "Projektai pagal fondą (Top 10)"
   },
-  "explore": {
-    "explore": "Tyrinėti",
-    "intro": "Naršyk platformos tiesos-šaltinio prietaisų skydelius ir tiesioginių užklausų paviršius. Pasirink kortą ir gilinkis į duomenis už atsakymų.",
-    "data_quality": "Duomenų kokybė",
-    "data_quality_desc": "Aprėpties ir šviežumo skydeliai kiekvienam duomenų šaltiniui — TED sutartys, EDGAR teikimai, GLEIF esybės, ESEF iXBRL ataskaitos, lobizmo registrai, sankcijos, FIRDS, CDP, NUTS regionai.",
-    "open_data_quality_hub": "Atverti Duomenų kokybės centrą",
-    "sparql_endpoint": "SPARQL galinis taškas",
-    "sparql_desc": "Užklauskite žinių grafą tiesiogiai su SPARQL. Tie patys duomenų rinkiniai, kurie maitina visą platformą, pateikiami kaip trejetai.",
-    "open_sparql_playground": "Atverti SPARQL žaidimų aikštelę",
-    "geographic_explorer": "Geografinė naršyklė",
-    "geo_desc": "Naršykite įmones ir viešuosius pirkimus pagal NUTS regioną ir šalį. Naudingas atspirties taškas, kai norite pamatyti, kas kur veikia, prieš gilindamiesi į atskiras esybes.",
-    "open_geo_explorer": "Atverti geografinę naršyklę"
-  },
   "feed": {
     "clear_filter": "Išvalyti filtrą",
     "feed": "Srautas",
@@ -883,21 +870,6 @@
     "send_reset_link": "Siųsti atkūrimo nuorodą",
     "check_your_email": "Patikrinkite savo el. paštą",
     "if_account_exists_sent_link": "Jei šiuo adresu egzistuoja paskyra, išsiuntėme nuorodą slaptažodžiui atkurti. Ji galioja vieną valandą."
-  },
-  "geo": {
-    "geo_explorer": "Geo tyrinėtojas",
-    "intro": "Esybių ir sutarčių agregatai NUTS hierarchijoje. Šiandien šalies lygiu — smulkesni regionai atvyks, kai bus įdiegtas esybių geokodavimas."
-  },
-  "geo_choropleth": {
-    "companies": "Įmonės",
-    "connected_to_3": "Sujungta su (α-3)",
-    "parent_nuts_1": "Tėvinis NUTS 1",
-    "level_0_country": "0 — Šalis",
-    "level_1_macro_region_coming_soon": "1 — Makroregionas (netrukus)",
-    "level_2_region_coming_soon": "2 — Regionas (netrukus)",
-    "level_3_small_region_coming_soon": "3 — Mažas regionas (netrukus)",
-    "eg_rus": "pvz., RUS",
-    "eg_de1": "pvz., DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Įmonės pagal šalį (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Apžvalgos",
     "collapse": "Suskleisti",
     "dashboards": "Skydeliai",
-    "data_stats": "Statistika",
     "explore": "Tyrinėk",
-    "log_in": "Prisijungti",
+    "log_in_settings": "Prisijungti · Nuostatos",
     "map": "Žemėlapis",
     "menu": "Meniu",
     "my_briefings": "Mano apžvalgos",
@@ -1797,7 +1768,8 @@
     "queries": "Užklausos",
     "plots": "Diagramos",
     "new_plot": "Nauja diagrama",
-    "new_project": "Naujas projektas"
+    "new_project": "Naujas projektas",
+    "all_projects": "Visi projektai ({n})"
   },
   "studio_plot": {
     "studio": "Studija",
