@@ -82,12 +82,10 @@ import StudioProjectView from './views/StudioProjectView.vue'
 import StudioQueryView from './views/StudioQueryView.vue'
 import StudioPlotView from './views/StudioPlotView.vue'
 import NotFoundView from './views/NotFoundView.vue'
-import GeoView from './views/GeoView.vue'
 import SearchView from './views/SearchView.vue'
 import SparqlView from './views/SparqlView.vue'
 import AtlasView from './views/AtlasView.vue'
 import PublicSpendingView from './views/PublicSpendingView.vue'
-import ExploreView from './views/ExploreView.vue'
 
 import './assets/main.css'
 
@@ -134,14 +132,13 @@ const ROUTES = [
   { path: '/admin/feed-queries', component: FeedQueriesView },
   { path: '/admin/query-groups', component: QueryGroupsView },
 
-  // Explore — top-level hub that groups the data-quality, SPARQL,
-  // and geo destinations under a single nav entry. Replaces direct
-  // nav-bar access to /data-quality.
-  { path: '/explore', component: ExploreView },
+  // Explore ("Stats") was a hub of three cards: Dashboards, SPARQL
+  // and the geographic explorer. Dashboards is in the nav, SPARQL in
+  // the footer, and the geographic explorer is retired, so the hub
+  // is gone and old links land on the dashboards.
+  { path: '/explore', redirect: '/data-quality' },
 
-  // Data quality — public. Reachable from the Explore hub above
-  // and from existing in-app links / external bookmarks; the
-  // route paths stay where they are so nothing breaks.
+  // Data quality — public. The "Dashboards" nav entry.
   { path: '/data-quality', component: DataQualityHubView },
   { path: '/data-quality/theme/procurement', component: ProcurementThemeView },
   { path: '/data-quality/theme/:themeId', component: ThemeScaffoldView },
@@ -181,8 +178,9 @@ const ROUTES = [
   // SPARQL — public graph query surface
   { path: '/sparql', component: SparqlView },
 
-  // Geo explorer
-  { path: '/geo', component: GeoView },
+  // The geographic explorer is retired: Data Studio plots the same
+  // aggregates, and more, so old links go there.
+  { path: '/geo', redirect: '/studio' },
   { path: '/search', component: SearchView },
 
   // User

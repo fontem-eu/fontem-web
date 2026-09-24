@@ -32,38 +32,45 @@ describe('AppSidebar (nav rail)', () => {
   beforeEach(() => { _internal.clearForTests(); localStorage.clear() })
   afterEach(() => { _internal.clearForTests(); localStorage.clear() })
 
-  it('renders Feed/Petitions/Atlas, then Data Stats/Dashboards, for anonymous visitors (contribution section hidden)', async () => {
+  it('shows one section to anonymous visitors: Feed, Petitions, Atlas, Dashboards', async () => {
     const { wrapper } = await mountAt('/')
-    const nav = wrapper.find('[data-testid="app-nav"]')
-    expect(nav.exists()).toBe(true)
-    expect(nav.text()).toContain('Feed')
-    expect(nav.text()).toContain('Petitions')
-    expect(nav.text()).toContain('Data Stats')
-    expect(nav.text()).toContain('Atlas')
-    // Spending dropped; contribution section (Studio, My Stories) is login-only
-    expect(nav.text()).not.toContain('Spending')
-    expect(wrapper.find('[data-testid="nav-data-stats"]').exists()).toBe(true)
+    expect(groupsOf(wrapper)).toEqual([['feed', 'petitions', 'atlas', 'dashboards']])
+    expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href')).toBe('/map')
+    expect(wrapper.find('[data-testid="nav-dashboards"]').attributes('href')).toBe('/data-quality')
+    // Spending and Stats are gone; Studio and the contribution entries
+    // are signed-in only.
+    expect(wrapper.find('[data-testid="app-nav"]').text()).not.toContain('Spending')
+    expect(wrapper.find('[data-testid="nav-data-stats"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="nav-studio"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="nav-my-reports"]').exists()).toBe(false)
-    expect(wrapper.find('[data-testid="nav-atlas"]').attributes('href')).toBe('/map')
-    // Dashboards selector lives in the data group
-    expect(wrapper.find('[data-testid="nav-dashboards"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="nav-dashboards"]').attributes('href')).toBe('/data-quality')
   })
 
-  it('shows the contribution section (Studio, My Stories) when authenticated, after the data group', async () => {
+  it('gives Data Studio a section of its own when signed in, before the contribution entries', async () => {
     _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
     const groups = groupsOf(wrapper)
     expect(groups).toHaveLength(3)
-    expect(groups[2].slice(0, 2)).toEqual(['studio', 'my-reports'])
+    expect(groups[0]).toEqual(['feed', 'petitions', 'atlas', 'dashboards'])
+    expect(groups[1]).toEqual(['studio'])
+    expect(groups[2].slice(0, 1)).toEqual(['my-reports'])
   })
 
-  it('puts Atlas beside Feed and Petitions, where the things you go to look at are', async () => {
+  it('has no link to the retired Stats hub or geographic explorer', async () => {
+    _internal.setAccessToken('test-token')
     const { wrapper } = await mountAt('/')
-    const [reading, data] = groupsOf(wrapper)
-    expect(reading).toEqual(['feed', 'petitions', 'atlas'])
-    expect(data).toEqual(['data-stats', 'dashboards'])
+    const hrefs = wrapper.findAll('[data-testid^="nav-"]').map((a) => a.attributes('href'))
+    expect(hrefs).not.toContain('/explore')
+    expect(hrefs).not.toContain('/geo')
+  })
+
+  it('has no Preferences button: display settings are on /account, via the account row', async () => {
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="rail-settings"]').exists()).toBe(false)
+    const account = wrapper.find('[data-testid="rail-account"]')
+    expect(account.attributes('href')).toBe('/account')
+    // Signed out it must say the settings are there, or nobody looking
+    // for a language would click a row that only says "Log in".
+    expect(account.text()).toBe('Log in · Preferences')
   })
 
   it('does not repeat the logo directly under the header one', async () => {
@@ -77,9 +84,9 @@ describe('AppSidebar (nav rail)', () => {
     expect(head.findComponent({ name: 'Wordmark' }).exists()).toBe(true)
   })
 
-  it('marks Data Stats active on /explore', async () => {
-    const { wrapper } = await mountAt('/explore')
-    expect(wrapper.find('[data-testid="nav-data-stats"]').classes()).toContain('active')
+  it('marks Dashboards active on /data-quality', async () => {
+    const { wrapper } = await mountAt('/data-quality')
+    expect(wrapper.find('[data-testid="nav-dashboards"]').classes()).toContain('active')
   })
 
   it('has one Feed entry, not separate Stories and Briefings entries, signed in or out', async () => {
@@ -112,13 +119,18 @@ describe('AppSidebar (nav rail)', () => {
     expect(wrapper.find('[data-testid="rail-collapse"]').exists()).toBe(true)
   })
 
-  it('reveals the Data Studio navigator on /studio routes (authed)', async () => {
+  it('shows the Data Studio navigator on every page when signed in, not only inside /studio', async () => {
     _internal.setAccessToken('test-token')
-    const { wrapper } = await mountAt('/studio')
-    expect(wrapper.find('[data-testid="studio-nav"]').exists()).toBe(true)
-    // and not on other routes
-    const { wrapper: home } = await mountAt('/')
-    expect(home.find('[data-testid="studio-nav"]').exists()).toBe(false)
+    for (const path of ['/studio', '/', '/map']) {
+      const { wrapper } = await mountAt(path)
+      expect(wrapper.find('[data-testid="studio-nav"]').exists()).toBe(true)
+      wrapper.unmount()
+    }
+  })
+
+  it('shows no Data Studio navigator to anonymous visitors', async () => {
+    const { wrapper } = await mountAt('/')
+    expect(wrapper.find('[data-testid="studio-nav"]').exists()).toBe(false)
   })
 
   it('collapse toggle flips the collapsed rail class', async () => {

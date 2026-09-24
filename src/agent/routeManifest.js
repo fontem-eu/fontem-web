@@ -52,9 +52,7 @@ export const ROUTE_DESCRIPTIONS = {
   '/petitions': 'Browse and sign public petitions.',
   '/petitions/:id': 'A single petition, with its signatures and status.',
 
-  '/explore': 'Data exploration hub — the entry point to the datasets.',
   '/map': 'Atlas: geographic view of the data by region.',
-  '/geo': 'Geographic data browser.',
   '/spending': 'Public spending overview and search.',
   '/search': 'Full-text search across entities and stories.',
   '/sparql': 'Advanced: run SPARQL queries directly against the graph.',

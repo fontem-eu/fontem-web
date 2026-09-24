@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 import { CACHED_VIEWS, viewKey } from './router/cachedViews.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLang } from './composables/useLang.js'
-import { useSwipeNav } from './composables/useSwipeNav.js'
 import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppSidebar from './components/AppSidebar.vue'
@@ -28,9 +27,6 @@ onMounted(() => {
   initTheme()
   initLang(dargleI18n)
 })
-
-// Horizontal swipe between Home / Feed / My Reports on mobile.
-useSwipeNav()
 
 // Per-route document.title + meta description, reactive to locale switch.
 useDocumentMeta()

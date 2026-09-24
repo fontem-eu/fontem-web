@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projekt per land (Top 15)",
     "projects_by_fund_top_10": "Projekt per fond (Top 10)"
   },
-  "explore": {
-    "explore": "Utforska",
-    "intro": "Bläddra bland plattformens källa-till-sanning-paneler och direktfrågeytor. Välj ett kort för att gräva i datan bakom berättelserna.",
-    "data_quality": "Datakvalitet",
-    "data_quality_desc": "Instrumentpaneler för täckning och aktualitet för varje insamlingskälla — TED-kontrakt, EDGAR-inlämningar, GLEIF-entiteter, ESEF iXBRL-rapporter, lobbyregister, sanktioner, FIRDS, CDP, NUTS-regioner.",
-    "open_data_quality_hub": "Öppna datakvalitetsnavet",
-    "sparql_endpoint": "SPARQL-slutpunkt",
-    "sparql_desc": "Fråga kunskapsgrafen direkt med SPARQL. Samma datamängder som driver resten av plattformen, exponerade som trippler.",
-    "open_sparql_playground": "Öppna SPARQL-lekplatsen",
-    "geographic_explorer": "Geografisk utforskare",
-    "geo_desc": "Bläddra bland företag och upphandlingar per NUTS-region och land. En bra utgångspunkt när du vill se vem som verkar var innan du fördjupar dig i enskilda entiteter.",
-    "open_geo_explorer": "Öppna geografiska utforskaren"
-  },
   "feed": {
     "clear_filter": "Rensa filter",
     "feed": "Flöde",
@@ -883,21 +870,6 @@
     "send_reset_link": "Skicka återställningslänk",
     "check_your_email": "Kontrollera din e-post",
     "if_account_exists_sent_link": "Om ett konto finns för den adressen har vi skickat en länk för att återställa ditt lösenord. Den upphör att gälla om en timme."
-  },
-  "geo": {
-    "geo_explorer": "Geo-utforskare",
-    "intro": "Entitets- och kontraktaggregat över NUTS-hierarkin. Idag på landsnivå — finare regioner kommer när entitetsgeokodning landar."
-  },
-  "geo_choropleth": {
-    "companies": "Företag",
-    "connected_to_3": "Anslutet till (α-3)",
-    "parent_nuts_1": "Förälder NUTS 1",
-    "level_0_country": "0 — Land",
-    "level_1_macro_region_coming_soon": "1 — Makroregion (kommer snart)",
-    "level_2_region_coming_soon": "2 — Region (kommer snart)",
-    "level_3_small_region_coming_soon": "3 — Småregion (kommer snart)",
-    "eg_rus": "t.ex. RUS",
-    "eg_de1": "t.ex. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Företag per land (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Nyhetsbrev",
     "collapse": "Fäll ihop",
     "dashboards": "Instrumentpaneler",
-    "data_stats": "Statistik",
     "explore": "Utforska",
-    "log_in": "Logga in",
+    "log_in_settings": "Logga in · Inställningar",
     "map": "Karta",
     "menu": "Meny",
     "my_briefings": "Mina nyhetsbrev",
@@ -1797,7 +1768,8 @@
     "queries": "Frågor",
     "plots": "Diagram",
     "new_plot": "Nytt diagram",
-    "new_project": "Nytt projekt"
+    "new_project": "Nytt projekt",
+    "all_projects": "Alla projekt ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

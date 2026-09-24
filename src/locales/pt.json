@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projetos por país (Top 15)",
     "projects_by_fund_top_10": "Projetos por fundo (Top 10)"
   },
-  "explore": {
-    "explore": "Explorar",
-    "intro": "Navega pelos painéis fonte-da-verdade da plataforma e pelas superfícies de consulta direta. Escolhe um cartão e mergulha nos dados por detrás das histórias.",
-    "data_quality": "Qualidade dos Dados",
-    "data_quality_desc": "Painéis de cobertura + atualidade para cada fonte de ingestão — contratos TED, registos EDGAR, entidades GLEIF, relatórios iXBRL ESEF, registos de representação de interesses, sanções, FIRDS, CDP, regiões NUTS.",
-    "open_data_quality_hub": "Abrir o hub de Qualidade dos Dados",
-    "sparql_endpoint": "Endpoint SPARQL",
-    "sparql_desc": "Consulte diretamente o grafo de conhecimento com SPARQL. Os mesmos conjuntos de dados que alimentam o resto da plataforma, expostos como triplos.",
-    "open_sparql_playground": "Abrir o playground SPARQL",
-    "geographic_explorer": "Explorador Geográfico",
-    "geo_desc": "Navegue por empresas + contratação pública por região NUTS e país. Um bom ponto de partida quando quer ver quem opera onde antes de aprofundar entidades individuais.",
-    "open_geo_explorer": "Abrir o Explorador Geográfico"
-  },
   "feed": {
     "clear_filter": "Limpar filtro",
     "feed": "Feed",
@@ -883,21 +870,6 @@
     "send_reset_link": "Enviar ligação de reposição",
     "check_your_email": "Verifique o seu e-mail",
     "if_account_exists_sent_link": "Se existir uma conta associada a esse endereço, enviámos uma ligação para repor a sua palavra-passe. Expira dentro de uma hora."
-  },
-  "geo": {
-    "geo_explorer": "Explorador geográfico",
-    "intro": "Agregados de entidades e contratos sobre a hierarquia NUTS. Hoje ao nível dos países — regiões mais finas chegam quando a geocodificação das entidades estiver pronta."
-  },
-  "geo_choropleth": {
-    "companies": "Empresas",
-    "connected_to_3": "Ligado a (α-3)",
-    "parent_nuts_1": "NUTS 1 superior",
-    "level_0_country": "0 — País",
-    "level_1_macro_region_coming_soon": "1 — Macrorregião (em breve)",
-    "level_2_region_coming_soon": "2 — Região (em breve)",
-    "level_3_small_region_coming_soon": "3 — Pequena região (em breve)",
-    "eg_rus": "por exemplo, RUS",
-    "eg_de1": "por exemplo, DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Empresas por país (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Boletins",
     "collapse": "Recolher",
     "dashboards": "Dashboards",
-    "data_stats": "Estatísticas",
     "explore": "Explorar",
-    "log_in": "Iniciar sessão",
+    "log_in_settings": "Iniciar sessão · Preferências",
     "map": "Mapa",
     "menu": "Menu",
     "my_briefings": "Os meus boletins",
@@ -1797,7 +1768,8 @@
     "queries": "Consultas",
     "plots": "Gráficos",
     "new_plot": "Novo gráfico",
-    "new_project": "Novo projeto"
+    "new_project": "Novo projeto",
+    "all_projects": "Todos os projetos ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

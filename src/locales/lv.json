@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projekti pa valstīm (Top 15)",
     "projects_by_fund_top_10": "Projekti pa fondiem (Top 10)"
   },
-  "explore": {
-    "explore": "Izpētīt",
-    "intro": "Pārlūko platformas patiesības-avota informācijas paneļus un tiešo vaicājumu virsmas. Izvēlies kartīti, lai iedziļinātos datos aiz stāstiem.",
-    "data_quality": "Datu kvalitāte",
-    "data_quality_desc": "Pārklājuma un svaiguma informācijas paneļi katram ievades avotam — TED līgumi, EDGAR iesniegumi, GLEIF entītijas, ESEF iXBRL pārskati, lobēšanas reģistri, sankcijas, FIRDS, CDP, NUTS reģioni.",
-    "open_data_quality_hub": "Atvērt datu kvalitātes centru",
-    "sparql_endpoint": "SPARQL galapunkts",
-    "sparql_desc": "Vaicājiet zināšanu grafu tieši ar SPARQL. Tās pašas datu kopas, kas darbina pārējo platformu, atklātas kā tripleti.",
-    "open_sparql_playground": "Atvērt SPARQL rotaļu laukumu",
-    "geographic_explorer": "Ģeogrāfiskais pārlūks",
-    "geo_desc": "Pārlūkojiet uzņēmumus un iepirkumus pēc NUTS reģiona un valsts. Noderīgs sākumpunkts, kad vēlaties redzēt, kurš kur darbojas, pirms iedziļināties atsevišķās entītijās.",
-    "open_geo_explorer": "Atvērt ģeogrāfisko pārlūku"
-  },
   "feed": {
     "clear_filter": "Notīrīt filtru",
     "feed": "Plūsma",
@@ -883,21 +870,6 @@
     "send_reset_link": "Nosūtīt atiestatīšanas saiti",
     "check_your_email": "Pārbaudiet savu e-pastu",
     "if_account_exists_sent_link": "Ja šai adresei pastāv konts, mēs esam nosūtījuši saiti paroles atiestatīšanai. Tā beidzas pēc vienas stundas."
-  },
-  "geo": {
-    "geo_explorer": "Ģeo pārlūks",
-    "intro": "Entītu un līgumu agregāti pēc NUTS hierarhijas. Šobrīd valsts līmenī — smalkāki reģioni nāks, kad būs ieviesta entītu ģeokodēšana."
-  },
-  "geo_choropleth": {
-    "companies": "Uzņēmumi",
-    "connected_to_3": "Savienots ar (α-3)",
-    "parent_nuts_1": "Vecāks NUTS 1",
-    "level_0_country": "0 — Valsts",
-    "level_1_macro_region_coming_soon": "1 — Makroreģions (drīzumā)",
-    "level_2_region_coming_soon": "2 — Reģions (drīzumā)",
-    "level_3_small_region_coming_soon": "3 — Mazs reģions (drīzumā)",
-    "eg_rus": "piem., RUS",
-    "eg_de1": "piem., DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Uzņēmumi pa valstīm (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Pārskati",
     "collapse": "Sakļaut",
     "dashboards": "Informācijas paneļi",
-    "data_stats": "Statistika",
     "explore": "Izpētīt",
-    "log_in": "Pieteikties",
+    "log_in_settings": "Pieteikties · Iestatījumi",
     "map": "Karte",
     "menu": "Izvēlne",
     "my_briefings": "Mani pārskati",
@@ -1797,7 +1768,8 @@
     "queries": "Vaicājumi",
     "plots": "Diagrammas",
     "new_plot": "Jauna diagramma",
-    "new_project": "Jauns projekts"
+    "new_project": "Jauns projekts",
+    "all_projects": "Visi projekti ({n})"
   },
   "studio_plot": {
     "studio": "Studija",

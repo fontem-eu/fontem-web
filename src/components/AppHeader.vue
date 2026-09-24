@@ -123,10 +123,9 @@ function onTickerSelect(symbol) {
    Why: at 412px the bar had ~6px of slack. Adding the gear (32px + a
    10px gap) took the search input from 206px to 167px, under the 200px
    minimum responsive.spec.js enforces — a genuinely unusable search box
-   on a phone, not just a failing assertion. Settings stay reachable on
-   mobile from the gear at the bottom of the nav drawer, which is the
-   same component; below 900px that drawer is how all navigation works
-   anyway. Above 900px both affordances are visible, as intended. */
+   on a phone, not just a failing assertion. On a phone the same
+   preferences are on /account, which the drawer's account row opens
+   ("Log in · Settings" when signed out). */
 @media (max-width: 899px) {
   .header-settings { display: none; }
 }

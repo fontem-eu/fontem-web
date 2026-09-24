@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Progetti per paese (Top 15)",
     "projects_by_fund_top_10": "Progetti per fondo (Top 10)"
   },
-  "explore": {
-    "explore": "Esplora",
-    "intro": "Sfoglia i dashboard fonte-di-verità della piattaforma e le superfici di interrogazione diretta. Scegli una scheda per scavare nei dati dietro le storie.",
-    "data_quality": "Qualità dei dati",
-    "data_quality_desc": "Dashboard di copertura e aggiornamento per ogni fonte di acquisizione — contratti TED, documenti EDGAR, entità GLEIF, report ESEF iXBRL, registri di lobbying, sanzioni, FIRDS, CDP, regioni NUTS.",
-    "open_data_quality_hub": "Apri l'hub Qualità dei dati",
-    "sparql_endpoint": "Endpoint SPARQL",
-    "sparql_desc": "Interroga direttamente il knowledge graph con SPARQL. Gli stessi dataset che alimentano il resto della piattaforma, esposti come triple.",
-    "open_sparql_playground": "Apri il playground SPARQL",
-    "geographic_explorer": "Esploratore geografico",
-    "geo_desc": "Sfoglia aziende e appalti per regione NUTS e paese. Utile punto di partenza per vedere chi opera dove prima di approfondire le singole entità.",
-    "open_geo_explorer": "Apri l'esploratore geografico"
-  },
   "feed": {
     "clear_filter": "Cancella filtro",
     "feed": "Feed",
@@ -883,21 +870,6 @@
     "send_reset_link": "Invia link di reimpostazione",
     "check_your_email": "Controlli la Sua email",
     "if_account_exists_sent_link": "Se esiste un account per quell'indirizzo, abbiamo inviato un link per reimpostare la password. Scade entro un'ora."
-  },
-  "geo": {
-    "geo_explorer": "Esploratore geografico",
-    "intro": "Aggregati di entità e contratti sulla gerarchia NUTS. Oggi a livello di paese — regioni più fini in arrivo quando arriverà il geocoding delle entità."
-  },
-  "geo_choropleth": {
-    "companies": "Aziende",
-    "connected_to_3": "Connesso a (α-3)",
-    "parent_nuts_1": "NUTS 1 padre",
-    "level_0_country": "0 — Paese",
-    "level_1_macro_region_coming_soon": "1 — Macro-regione (prossimamente)",
-    "level_2_region_coming_soon": "2 — Regione (prossimamente)",
-    "level_3_small_region_coming_soon": "3 — Piccola regione (prossimamente)",
-    "eg_rus": "ad es. RUS",
-    "eg_de1": "ad es. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Aziende per paese (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Bollettini",
     "collapse": "Comprimi",
     "dashboards": "Dashboard",
-    "data_stats": "Statistiche",
     "explore": "Esplora",
-    "log_in": "Accedi",
+    "log_in_settings": "Accedi · Preferenze",
     "map": "Mappa",
     "menu": "Menu",
     "my_briefings": "I miei bollettini",
@@ -1797,7 +1768,8 @@
     "queries": "Query",
     "plots": "Grafici",
     "new_plot": "Nuovo grafico",
-    "new_project": "Nuovo progetto"
+    "new_project": "Nuovo progetto",
+    "all_projects": "Tutti i progetti ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

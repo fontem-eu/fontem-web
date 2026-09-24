@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Proiecte pe țară (Top 15)",
     "projects_by_fund_top_10": "Proiecte pe fond (Top 10)"
   },
-  "explore": {
-    "explore": "Explorează",
-    "intro": "Răsfoiește tablourile sursă-de-adevăr ale platformei și suprafețele de interogare directă. Alege un card și aprofundează datele din spatele poveștilor.",
-    "data_quality": "Calitatea datelor",
-    "data_quality_desc": "Tablouri de bord privind acoperirea și prospețimea pentru fiecare sursă de ingestie — contracte TED, depuneri EDGAR, entități GLEIF, rapoarte iXBRL ESEF, registre de lobby, sancțiuni, FIRDS, CDP, regiuni NUTS.",
-    "open_data_quality_hub": "Deschide centrul Calitatea datelor",
-    "sparql_endpoint": "Punct final SPARQL",
-    "sparql_desc": "Interoghează direct graful de cunoștințe cu SPARQL. Aceleași seturi de date care alimentează restul platformei, expuse ca triplete.",
-    "open_sparql_playground": "Deschide zona de test SPARQL",
-    "geographic_explorer": "Explorator geografic",
-    "geo_desc": "Răsfoiește companii și achiziții după regiunea NUTS și țară. Un punct de plecare util când vrei să vezi cine unde operează înainte de a analiza entitățile individuale.",
-    "open_geo_explorer": "Deschide Exploratorul geografic"
-  },
   "feed": {
     "clear_filter": "Șterge filtrul",
     "feed": "Flux",
@@ -883,21 +870,6 @@
     "send_reset_link": "Trimite linkul de resetare",
     "check_your_email": "Verificați-vă e-mailul",
     "if_account_exists_sent_link": "Dacă există un cont pentru acea adresă, am trimis un link pentru resetarea parolei. Acesta expiră într-o oră."
-  },
-  "geo": {
-    "geo_explorer": "Explorator geo",
-    "intro": "Agregate de entități și contracte pe ierarhia NUTS. Astăzi la nivel de țară — regiuni mai fine vor sosi când geocodarea entităților va fi gata."
-  },
-  "geo_choropleth": {
-    "companies": "Companii",
-    "connected_to_3": "Conectat la (α-3)",
-    "parent_nuts_1": "NUTS 1 părinte",
-    "level_0_country": "0 — Țară",
-    "level_1_macro_region_coming_soon": "1 — Macroregiune (în curând)",
-    "level_2_region_coming_soon": "2 — Regiune (în curând)",
-    "level_3_small_region_coming_soon": "3 — Regiune mică (în curând)",
-    "eg_rus": "de ex. RUS",
-    "eg_de1": "de ex. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Companii pe țară (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Buletine",
     "collapse": "Restrânge",
     "dashboards": "Dashboards",
-    "data_stats": "Statistici",
     "explore": "Explorează",
-    "log_in": "Autentificare",
+    "log_in_settings": "Autentificare · Preferințe",
     "map": "Hartă",
     "menu": "Meniu",
     "my_briefings": "Buletinele mele",
@@ -1797,7 +1768,8 @@
     "queries": "Interogări",
     "plots": "Grafice",
     "new_plot": "Grafic nou",
-    "new_project": "Proiect nou"
+    "new_project": "Proiect nou",
+    "all_projects": "Toate proiectele ({n})"
   },
   "studio_plot": {
     "studio": "Studio",

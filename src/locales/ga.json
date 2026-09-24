@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Tionscadail de réir tíre (Top 15)",
     "projects_by_fund_top_10": "Tionscadail de réir ciste (Top 10)"
   },
-  "explore": {
-    "explore": "Taiscéal",
-    "intro": "Brabhsáil painéil fhoinse-na-fírinne an ardáin agus dromchlaí ceiste dírí. Roghnaigh cárta chun tochailt sna sonraí taobh thiar de na scéalta.",
-    "data_quality": "Cáilíocht Sonraí",
-    "data_quality_desc": "Deaisbhoird chumhdaigh + úire do gach foinse ionghabhála — conarthaí TED, comhdú EDGAR, eintitis GLEIF, tuairiscí iXBRL ESEF, cláir bhrústocaireachta, smachtbhannaí, FIRDS, CDP, réigiúin NUTS.",
-    "open_data_quality_hub": "Oscail an mol Cáilíochta Sonraí",
-    "sparql_endpoint": "Críochphointe SPARQL",
-    "sparql_desc": "Ceistigh an graf eolais go díreach le SPARQL. Na tacair sonraí chéanna a thiomáineann an chuid eile den ardán, nochta mar thrírí.",
-    "open_sparql_playground": "Oscail clós súgartha SPARQL",
-    "geographic_explorer": "Taiscéalaí Geografach",
-    "geo_desc": "Brabhsáil cuideachtaí + soláthar de réir réigiúin NUTS agus tíre. Áit thosaigh úsáideach nuair is mian leat a fheiceáil cé atá ag oibriú cén áit sula ndruilleálann tú isteach in eintitis aonair.",
-    "open_geo_explorer": "Oscail an Taiscéalaí Geografach"
-  },
   "feed": {
     "clear_filter": "Glan an scagaire",
     "feed": "Fotha",
@@ -883,21 +870,6 @@
     "send_reset_link": "Seol nasc athshocraithe",
     "check_your_email": "Seiceáil do ríomhphost",
     "if_account_exists_sent_link": "Má tá cuntas ann don seoladh sin, sheolamar nasc chun do phasfhocal a athshocrú. Rachaidh sé as feidhm i gceann uair an chloig."
-  },
-  "geo": {
-    "geo_explorer": "Taiscéalaí geo",
-    "intro": "Comhiomláin aonáin agus conarthaí thar an ordlathas NUTS. Ag leibhéal tíre inniu — réigiúin níos míne ag teacht nuair a thosóidh geochódú aonán."
-  },
-  "geo_choropleth": {
-    "companies": "Comhlachtaí",
-    "connected_to_3": "Nasctha le (α-3)",
-    "parent_nuts_1": "Tuismitheoir NUTS 1",
-    "level_0_country": "0 — Tír",
-    "level_1_macro_region_coming_soon": "1 — Macra-réigiún (ag teacht go luath)",
-    "level_2_region_coming_soon": "2 — Réigiún (ag teacht go luath)",
-    "level_3_small_region_coming_soon": "3 — Réigiún beag (ag teacht go luath)",
-    "eg_rus": "m.sh. RUS",
-    "eg_de1": "m.sh. DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Comhlachtaí de réir tíre (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Faisnéisithe",
     "collapse": "Laghdaigh",
     "dashboards": "Deaiseanna",
-    "data_stats": "Staitisticí",
     "explore": "Taiscéal",
-    "log_in": "Logáil isteach",
+    "log_in_settings": "Logáil isteach · Sainroghanna",
     "map": "Léarscáil",
     "menu": "Roghchlár",
     "my_briefings": "Mo chuid faisnéisithe",
@@ -1797,7 +1768,8 @@
     "queries": "Iarratais",
     "plots": "Breacthaí",
     "new_plot": "Breacadh nua",
-    "new_project": "Tionscadal nua"
+    "new_project": "Tionscadal nua",
+    "all_projects": "Gach tionscadal ({n})"
   },
   "studio_plot": {
     "studio": "Stiúideo",

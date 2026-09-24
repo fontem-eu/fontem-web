@@ -13,7 +13,6 @@ import MosaicMark from './MosaicMark.vue'
 import Wordmark from './Wordmark.vue'
 import RailIcon from './RailIcon.vue'
 import StudioNav from './StudioNav.vue'
-import SettingsMenu from './SettingsMenu.vue'
 import { useSidebar } from '../composables/useSidebar.js'
 
 const route = useRoute()
@@ -22,38 +21,45 @@ const { collapsed, mobileOpen, toggleCollapsed, closeMobile } = useSidebar()
 
 const authed = computed(() => typeof localStorage !== 'undefined' && isAuthed.value)
 const user = computed(() => currentUser.value)
-const onStudio = computed(() => route.path.startsWith('/studio'))
 
-// Three sections: what you read (Feed, Petitions, Atlas), data
-// exploration (Data Stats, Dashboards), and a contribution section that
-// only appears when signed in. Spending was dropped — the always-visible
-// header search covers it.
+// Sections: what you read and look at (Feed, Petitions, Atlas,
+// Dashboards); then, signed in, Data Studio on its own and the things
+// you contribute. Spending was dropped — the always-visible header
+// search covers it. "Stats" (/explore) was dropped too: it was a hub of
+// links to Dashboards, SPARQL and the retired geographic explorer.
 //
 // Feed is ONE entry. It was three — Feed, Stories, Briefings — for three
 // pages over the same stream; stories-only, briefings-only and a single
 // briefing are filters inside the feed now (?show= / ?briefing=).
 //
-// Atlas sits with the reading entries: it is somewhere you go to look,
-// like the feed, not a dataset tool.
+// Atlas and Dashboards sit with the reading entries: they are places
+// you go to look, like the feed.
+//
+// Studio is a section of its own because it carries its project tree
+// with it — always open, not only while you are inside /studio — so
+// your projects are one click away from anywhere.
 //
 // "My briefings" (/briefings) is the SUBSCRIPTION editor — your watches
 // and what else there is to subscribe to — so it stays with the other
 // things you configure about your own account.
+// The rail draws the Studio tree on every page, expanded, so it shows the
+// most recently updated projects rather than all of them (see StudioNav).
+const STUDIO_RAIL_LIMIT = 8
+
 const navGroups = computed(() => {
   const groups = [
     { key: 'view', items: [
       { key: 'feed', label: t('feed.feed'), path: '/', icon: 'stories' },
       { key: 'petitions', label: t('nav.petitions'), path: '/petitions', icon: 'petitions' },
       { key: 'atlas', label: t('nav.atlas'), path: '/map', icon: 'map' },
-    ] },
-    { key: 'data', items: [
-      { key: 'data-stats', label: t('nav.data_stats'), path: '/explore', icon: 'explore' },
       { key: 'dashboards', label: t('nav.dashboards'), path: '/data-quality', icon: 'dashboards' },
     ] },
   ]
   if (authed.value) {
-    groups.push({ key: 'contribute', items: [
+    groups.push({ key: 'studio', items: [
       { key: 'studio', label: t('nav.studio'), path: '/studio', icon: 'studio' },
+    ] })
+    groups.push({ key: 'contribute', items: [
       { key: 'my-reports', label: t('nav.my_stories'), path: '/my-stories', icon: 'mystories' },
       { key: 'my-reviews', label: t('nav.my_reviews'), path: '/my-reviews', icon: 'mystories' },
       { key: 'my-briefings', label: t('nav.my_briefings'), path: '/briefings', icon: 'stories' },
@@ -103,17 +109,14 @@ function isActive(path) {
             <RailIcon :name="item.icon" />
             <span class="rail-label">{{ item.label }}</span>
           </router-link>
-          <div v-if="item.key === 'studio' && onStudio" class="rail-studio">
-            <StudioNav @navigate="closeMobile" />
+          <div v-if="item.key === 'studio'" class="rail-studio">
+            <StudioNav :limit="STUDIO_RAIL_LIMIT" @navigate="closeMobile" />
           </div>
         </template>
       </template>
     </nav>
 
     <div class="rail-bottom">
-      <!-- Above the account row on purpose: signed out, that row reads
-           "Log in", and display preferences must not look like they
-           live behind it. -->
       <!-- Help sits above the account row for the same reason settings do:
            it is not something you should have to be signed in to find, and
            the account row reads as "Log in" when you are not. -->
@@ -129,18 +132,20 @@ function isActive(path) {
         <span class="rail-label">{{ $t('app_footer.help') }}</span>
       </router-link>
 
-      <SettingsMenu placement="rail" :collapsed="collapsed" />
-
       <router-link
         to="/account"
         class="rail-item rail-account"
         data-testid="rail-account"
-        :title="collapsed ? (authed ? (user?.name || user?.email) : $t('nav.log_in')) : null"
+        :title="collapsed ? (authed ? (user?.name || user?.email) : $t('nav.log_in_settings')) : null"
         @click="closeMobile"
       >
         <UserAvatar v-if="authed" :user="user" :size="24" class="rail-avatar" />
         <RailIcon v-else name="account" />
-        <span class="rail-label">{{ authed ? (user?.name || $t('nav.account')) : $t('nav.log_in') }}</span>
+        <!-- Signed out this row says it holds the settings too: /account
+             has theme, language and map palette for everyone, and on a
+             phone it is where they live (the header gear is desktop-only,
+             and the rail no longer carries a Preferences button). -->
+        <span class="rail-label">{{ authed ? (user?.name || $t('nav.account')) : $t('nav.log_in_settings') }}</span>
       </router-link>
 
       <button

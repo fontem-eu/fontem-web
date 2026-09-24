@@ -778,19 +778,6 @@
     "projects_by_country_top_15": "Projektid riigi järgi (Top 15)",
     "projects_by_fund_top_10": "Projektid fondi järgi (Top 10)"
   },
-  "explore": {
-    "explore": "Uuri",
-    "intro": "Sirvi platvormi tõe-allika paneele ja otsepäringuvõimalusi. Vali kaart, et süveneda andmetesse vastuste taga.",
-    "data_quality": "Andmekvaliteet",
-    "data_quality_desc": "Katvuse ja värskuse töölauad iga sisestusallika kohta — TED lepingud, EDGAR esitised, GLEIF üksused, ESEF iXBRL aruanded, lobiregistrid, sanktsioonid, FIRDS, CDP, NUTS piirkonnad.",
-    "open_data_quality_hub": "Ava andmekvaliteedi keskus",
-    "sparql_endpoint": "SPARQL lõpp-punkt",
-    "sparql_desc": "Päri teadmusgraafi otse SPARQL-iga. Samad andmestikud, mis toidavad ülejäänud platvormi, esitatud kolmikutena.",
-    "open_sparql_playground": "Ava SPARQL mänguväljak",
-    "geographic_explorer": "Geograafiline sirvija",
-    "geo_desc": "Sirvi ettevõtteid ja hankeid NUTS piirkonna ja riigi järgi. Kasulik lähtepunkt, kui soovid enne üksikutesse üksustesse süvenemist näha, kes kus tegutseb.",
-    "open_geo_explorer": "Ava geosirvija"
-  },
   "feed": {
     "clear_filter": "Tühjenda filter",
     "feed": "Voog",
@@ -883,21 +870,6 @@
     "send_reset_link": "Saada lähtestamislink",
     "check_your_email": "Kontrollige oma e-posti",
     "if_account_exists_sent_link": "Kui sellele aadressile on olemas konto, oleme saatnud lingi teie parooli lähtestamiseks. See aegub ühe tunni pärast."
-  },
-  "geo": {
-    "geo_explorer": "Geo-uurija",
-    "intro": "Olemite ja lepingute koondnäitajad NUTS-i hierarhia järgi. Praegu riigi tasandil — peenemad piirkonnad tulevad, kui olemi geokodeerimine jõustub."
-  },
-  "geo_choropleth": {
-    "companies": "Ettevõtted",
-    "connected_to_3": "Ühendatud (α-3)",
-    "parent_nuts_1": "Vanem NUTS 1",
-    "level_0_country": "0 — Riik",
-    "level_1_macro_region_coming_soon": "1 — Makropiirkond (tulekul)",
-    "level_2_region_coming_soon": "2 — Piirkond (tulekul)",
-    "level_3_small_region_coming_soon": "3 — Väikepiirkond (tulekul)",
-    "eg_rus": "nt RUS",
-    "eg_de1": "nt DE1"
   },
   "gleif_d_q": {
     "companies_by_country_top_30": "Ettevõtted riigi järgi (Top 30)",
@@ -1270,9 +1242,8 @@
     "briefings": "Ülevaated",
     "collapse": "Ahenda",
     "dashboards": "Dashboards",
-    "data_stats": "Statistika",
     "explore": "Uuri",
-    "log_in": "Logi sisse",
+    "log_in_settings": "Logi sisse · Eelistused",
     "map": "Kaart",
     "menu": "Menüü",
     "my_briefings": "Minu ülevaated",
@@ -1797,7 +1768,8 @@
     "queries": "Päringud",
     "plots": "Graafikud",
     "new_plot": "Uus graafik",
-    "new_project": "Uus projekt"
+    "new_project": "Uus projekt",
+    "all_projects": "Kõik projektid ({n})"
   },
   "studio_plot": {
     "studio": "Stuudio",
