@@ -1,5 +1,8 @@
 import { _internal } from '../../src/api/session.js'
-import { describe, it, expect, afterEach, beforeEach } from 'vitest'
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
+// Signed in, the rail mounts the Studio tree on every page, and the tree
+// loads your projects. Keep that off the network.
+vi.mock('../../src/api/studio.js', async () => (await import('./helpers/studioApiMock.js')).makeStudioApiMock())
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'

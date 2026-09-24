@@ -49,7 +49,7 @@ function go(path) { closeMenu(); emit('navigate'); router.push(path) }
 watch(() => route.params.projectId, (pid) => { if (pid) expanded[pid] = true }, { immediate: true })
 const activeProject = (pid) => route.params.projectId === pid
 
-const allProjects = computed(() => studio.projects.value)
+const allProjects = computed(() => (Array.isArray(studio.projects.value) ? studio.projects.value : []))
 const shownProjects = computed(() => {
   const all = allProjects.value
   if (props.limit == null || all.length <= props.limit) return all

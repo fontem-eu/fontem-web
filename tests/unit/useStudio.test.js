@@ -16,6 +16,14 @@ describe('useStudio (server-backed store)', () => {
     expect(api.listProjects).toHaveBeenCalledTimes(1)
   })
 
+  it('treats anything but a list from the API as no projects', async () => {
+    // The rail draws the project tree on every page; an error body that
+    // arrived as data crashed it (StudioNav sliced it as an array).
+    api.listProjects.mockResolvedValueOnce({ detail: 'Not authenticated', length: 99 })
+    await s.ensureLoaded()
+    expect(s.projects.value).toEqual([])
+  })
+
   it('creates a project via the API and prepends it to the cache', async () => {
     await s.ensureLoaded()
     const p = await s.createProject('Corruption')
