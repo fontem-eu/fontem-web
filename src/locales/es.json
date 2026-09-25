@@ -260,7 +260,13 @@
     "navigate_stayed": "Se quedó aquí",
     "tool_result_not_kept": "Resultado no conservado: solo se registran la llamada y sus argumentos.",
     "signed_out_notice": "No has iniciado sesión, así que el asistente solo puede responder preguntas sobre Dargle y llevarte a una página. Buscar en los datos, escribir y guardar requieren una cuenta.",
-    "characters_used": "Caracteres usados"
+    "characters_used": "Caracteres usados",
+    "locked_notice": "Una consulta propuesta espera tu revisión. Acéptala o recházala para continuar.",
+    "locked_open": "Abrir la consulta",
+    "proposal_checking": "Comprobando la consulta…",
+    "proposal_superseded": "Sustituida por una propuesta más reciente.",
+    "proposal_unconfirmed": "El servidor no confirmó la propuesta.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "No se ha recibido respuesta del asistente."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "La consulta se ejecutó correctamente — no se devolvieron filas.",
     "showing_first_100_of": "Mostrando las primeras 100 de",
     "rows_2": "filas.",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "assist_hint": "¿No sabes cómo escribirla? Describe lo que quieres y el asistente redacta la consulta.",
+    "assist_ask": "Preguntar al asistente",
+    "assist_fix": "Corregir con el asistente",
+    "assist_prompt_write": "Escribe una consulta {lang} que ",
+    "assist_prompt_fix": "Esta consulta falla con: \"{error}\". Por favor, corrígela.",
+    "proposal_title": "Cambio propuesto",
+    "proposal_note": "Revisa el cambio de abajo. Se aplica como un todo: acepta o rechaza todo.",
+    "proposal_accept": "Aceptar",
+    "proposal_reject": "Rechazar",
+    "proposal_applying": "Aplicando…",
+    "proposal_error": "No se pudo guardar el cambio: {error}"
   },
   "studio_share_modal": {
     "share": "Compartir",

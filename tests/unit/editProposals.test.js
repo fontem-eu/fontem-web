@@ -118,6 +118,9 @@ describe('action metadata', () => {
       // The Studio bridge (2026-09): ids only, and the widget it applies
       // is the `pipeline` recipe the Pocket button also produces.
       'insert_studio_plot',
+      // A query for the Studio editor (2026-09-25): reviewed as a diff and
+      // applied by useStudioProposal, not by executeProposal.
+      'propose_query',
     ])
   })
 

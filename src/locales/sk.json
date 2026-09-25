@@ -260,7 +260,13 @@
     "navigate_stayed": "Zostalo tu",
     "tool_result_not_kept": "Výsledok sa neukladá — zaznamenáva sa iba volanie a jeho argumenty.",
     "signed_out_notice": "Nie ste prihlásení, takže asistent môže iba odpovedať na otázky o Dargle a presunúť vás na stránku. Vyhľadávanie v údajoch, písanie a ukladanie vyžadujú účet.",
-    "characters_used": "Použité znaky"
+    "characters_used": "Použité znaky",
+    "locked_notice": "Navrhovaný dopyt čaká na vašu kontrolu. Prijmite ho alebo odmietnite, aby ste mohli pokračovať.",
+    "locked_open": "Otvoriť dopyt",
+    "proposal_checking": "Kontrola dopytu…",
+    "proposal_superseded": "Nahradené novším návrhom.",
+    "proposal_unconfirmed": "Server návrh nepotvrdil.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Od asistenta neprišla žiadna odpoveď."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Dopyt prebehol úspešne — nevrátili sa žiadne riadky.",
     "showing_first_100_of": "Zobrazuje sa prvých 100 z",
     "rows_2": "riadkov.",
-    "loading": "Načítava sa…"
+    "loading": "Načítava sa…",
+    "assist_hint": "Neviete, ako ho napísať? Opíšte, čo chcete, a asistent dopyt navrhne.",
+    "assist_ask": "Opýtať sa asistenta",
+    "assist_fix": "Opraviť s asistentom",
+    "assist_prompt_write": "Napíš dopyt {lang}, ktorý ",
+    "assist_prompt_fix": "Tento dopyt zlyháva s chybou: \"{error}\". Prosím, oprav ho.",
+    "proposal_title": "Navrhovaná zmena",
+    "proposal_note": "Skontrolujte zmenu nižšie. Použije sa ako celok: prijmite alebo odmietnite všetko.",
+    "proposal_accept": "Prijať",
+    "proposal_reject": "Odmietnuť",
+    "proposal_applying": "Používa sa…",
+    "proposal_error": "Zmenu sa nepodarilo uložiť: {error}"
   },
   "studio_share_modal": {
     "share": "Zdieľať",

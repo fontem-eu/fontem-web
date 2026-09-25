@@ -84,6 +84,10 @@ export const ASSISTANT_ADVERTISED_ACTIONS = [
   'replace_body',
   'insert_widget',
   'insert_studio_plot',
+  // A Studio query, reviewed as a diff in the query editor and applied by
+  // useStudioProposal.js rather than by executeProposal: it is not an
+  // edit to the article, so it has no entry in EDIT_ACTIONS.
+  'propose_query',
 ]
 
 /**
@@ -100,6 +104,7 @@ export const PROPOSAL_TOOL_ACTIONS = {
   mcp__gmr__replace_body: 'replace_body',
   mcp__gmr__insert_widget: 'insert_widget',
   mcp__gmr__insert_studio_plot: 'insert_studio_plot',
+  mcp__gmr__studio_propose_query: 'propose_query',
 }
 
 const _IRI_RE = /^http:\/\/data\.fontem\.eu\/id\/([A-Za-z]+)\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/

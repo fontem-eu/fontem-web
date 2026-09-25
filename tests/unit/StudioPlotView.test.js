@@ -8,6 +8,7 @@ const push = vi.fn(); const replace = vi.fn()
 vi.mock('vue-router', () => ({ useRoute: () => ({ get params() { return routeParams } }), useRouter: () => ({ push, replace }) }))
 import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
+import { useAssistantContext } from '../../src/composables/useAssistantContext.js'
 import StudioPlotView from '../../src/views/StudioPlotView.vue'
 
 const QueryEditorStub = {
@@ -93,6 +94,14 @@ describe('StudioPlotView (server-backed, new + edit)', () => {
     // the chart + result render immediately, without clicking Run & combine
     expect(w.find('[data-testid="plot-result"] table').text()).toContain('country')
     expect(w.find('[data-testid="studio-plot"]').exists()).toBe(true)
+  })
+
+  it('scopes the assistant to the project, with no query open (the transform is not a project query)', async () => {
+    seedProject()
+    const ctx = useAssistantContext()
+    mount(StudioPlotView, { global: { stubs } }); await flushPromises()
+    expect(ctx.conversationKey.value).toBe('studio:p1')
+    expect(ctx.studioTurnPayload()).toEqual({ project_id: 'p1', project_name: 'Corruption', query: null })
   })
 
   it('pockets the combined plot as a live pipeline recipe', async () => {

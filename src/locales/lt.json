@@ -260,7 +260,13 @@
     "navigate_stayed": "Liko čia",
     "tool_result_not_kept": "Rezultatas nesaugomas — įrašomas tik iškvietimas ir jo argumentai.",
     "signed_out_notice": "Nesate prisijungę, todėl asistentas gali tik atsakyti į klausimus apie „Dargle“ ir nuvesti jus į puslapį. Duomenų paieškai, rašymui ir darbo išsaugojimui reikia paskyros.",
-    "characters_used": "Panaudoti simboliai"
+    "characters_used": "Panaudoti simboliai",
+    "locked_notice": "Siūloma užklausa laukia jūsų peržiūros. Norėdami tęsti, priimkite arba atmeskite ją.",
+    "locked_open": "Atidaryti užklausą",
+    "proposal_checking": "Tikrinama užklausa…",
+    "proposal_superseded": "Pakeista naujesniu pasiūlymu.",
+    "proposal_unconfirmed": "Serveris nepatvirtino pasiūlymo.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Iš asistento negautas joks atsakymas."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Užklausa įvykdyta sėkmingai – negrąžinta jokių eilučių.",
     "showing_first_100_of": "Rodoma pirmosios 100 iš",
     "rows_2": "eilučių.",
-    "loading": "Įkeliama…"
+    "loading": "Įkeliama…",
+    "assist_hint": "Nežinote, kaip ją parašyti? Aprašykite, ko norite, ir asistentas parengs užklausą.",
+    "assist_ask": "Klausti asistento",
+    "assist_fix": "Taisyti su asistentu",
+    "assist_prompt_write": "Parašyk {lang} užklausą, kuri ",
+    "assist_prompt_fix": "Ši užklausa nepavyksta su klaida: \"{error}\". Prašau ją pataisyti.",
+    "proposal_title": "Siūlomas pakeitimas",
+    "proposal_note": "Peržiūrėkite toliau pateiktą pakeitimą. Jis taikomas visas: priimkite arba atmeskite viską.",
+    "proposal_accept": "Priimti",
+    "proposal_reject": "Atmesti",
+    "proposal_applying": "Taikoma…",
+    "proposal_error": "Pakeitimo nepavyko išsaugoti: {error}"
   },
   "studio_share_modal": {
     "share": "Dalytis",

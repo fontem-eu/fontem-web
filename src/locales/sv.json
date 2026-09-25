@@ -260,7 +260,13 @@
     "navigate_stayed": "Stannade här",
     "tool_result_not_kept": "Resultatet sparas inte — endast anropet och dess argument registreras.",
     "signed_out_notice": "Du är inte inloggad, så assistenten kan bara svara på frågor om Dargle och ta dig till en sida. Att söka i data, skriva och spara kräver ett konto.",
-    "characters_used": "Använda tecken"
+    "characters_used": "Använda tecken",
+    "locked_notice": "En föreslagen fråga väntar på din granskning. Acceptera eller avvisa den för att fortsätta.",
+    "locked_open": "Öppna frågan",
+    "proposal_checking": "Kontrollerar frågan…",
+    "proposal_superseded": "Ersatt av ett nyare förslag.",
+    "proposal_unconfirmed": "Förslaget bekräftades inte av servern.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Inget svar mottogs från assistenten."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Frågan kördes utan problem — inga rader returnerades.",
     "showing_first_100_of": "Visar de första 100 av",
     "rows_2": "rader.",
-    "loading": "Laddar…"
+    "loading": "Laddar…",
+    "assist_hint": "Vet du inte hur den ska skrivas? Beskriv vad du vill ha, så tar assistenten fram frågan.",
+    "assist_ask": "Fråga assistenten",
+    "assist_fix": "Åtgärda med assistenten",
+    "assist_prompt_write": "Skriv en {lang}-fråga som ",
+    "assist_prompt_fix": "Den här frågan misslyckas med: \"{error}\". Åtgärda den, tack.",
+    "proposal_title": "Föreslagen ändring",
+    "proposal_note": "Granska ändringen nedan. Den tillämpas i sin helhet: acceptera eller avvisa allt.",
+    "proposal_accept": "Acceptera",
+    "proposal_reject": "Avvisa",
+    "proposal_applying": "Tillämpar…",
+    "proposal_error": "Ändringen kunde inte sparas: {error}"
   },
   "studio_share_modal": {
     "share": "Dela",

@@ -260,7 +260,13 @@
     "navigate_stayed": "Ostalo ovdje",
     "tool_result_not_kept": "Rezultat nije pohranjen — bilježe se samo poziv i njegovi argumenti.",
     "signed_out_notice": "Niste prijavljeni pa asistent može samo odgovarati na pitanja o Dargle i odvesti vas na stranicu. Pretraživanje podataka, pisanje i spremanje zahtijevaju račun.",
-    "characters_used": "Upotrijebljeni znakovi"
+    "characters_used": "Upotrijebljeni znakovi",
+    "locked_notice": "Predloženi upit čeka vaš pregled. Prihvatite ga ili odbijte da biste nastavili.",
+    "locked_open": "Otvori upit",
+    "proposal_checking": "Provjera upita…",
+    "proposal_superseded": "Zamijenjeno novijim prijedlogom.",
+    "proposal_unconfirmed": "Poslužitelj nije potvrdio prijedlog.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Nije zaprimljen odgovor od asistenta."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Upit je uspješno izvršen — nema vraćenih redaka.",
     "showing_first_100_of": "Prikaz prvih 100 od",
     "rows_2": "redaka.",
-    "loading": "Učitavanje…"
+    "loading": "Učitavanje…",
+    "assist_hint": "Ne znate kako ga napisati? Opišite što želite i asistent će sastaviti upit.",
+    "assist_ask": "Pitaj asistenta",
+    "assist_fix": "Popravi s asistentom",
+    "assist_prompt_write": "Napiši {lang} upit koji ",
+    "assist_prompt_fix": "Ovaj upit ne uspijeva uz grešku: \"{error}\". Molim te, popravi ga.",
+    "proposal_title": "Predložena promjena",
+    "proposal_note": "Pregledajte promjenu u nastavku. Primjenjuje se u cijelosti: prihvatite ili odbijte sve.",
+    "proposal_accept": "Prihvati",
+    "proposal_reject": "Odbij",
+    "proposal_applying": "Primjenjuje se…",
+    "proposal_error": "Promjenu nije bilo moguće spremiti: {error}"
   },
   "studio_share_modal": {
     "share": "Podijeli",

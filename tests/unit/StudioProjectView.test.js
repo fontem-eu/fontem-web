@@ -5,6 +5,7 @@ const push = vi.fn(); const replace = vi.fn()
 vi.mock('vue-router', () => ({ useRoute: () => ({ params: { projectId: 'p1' }, query: {} }), useRouter: () => ({ push, replace }) }))
 import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
+import { useAssistantContext } from '../../src/composables/useAssistantContext.js'
 import StudioProjectView from '../../src/views/StudioProjectView.vue'
 
 const stubs = { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } }
@@ -77,5 +78,13 @@ describe('StudioProjectView (server-backed)', () => {
     expect(w.find('[data-testid="project-new-query"]').exists()).toBe(true)
     expect(w.find('[data-testid="project-readonly"]').exists()).toBe(false)
     expect(w.find('[data-testid="project-access"]').text()).toBe('owner')
+  })
+
+  it('scopes the assistant to the project, with no query open', async () => {
+    seed([{ id: 'q1', name: 'q', lang: 'cypher', query: 'MATCH (n) RETURN n' }], [])
+    const ctx = useAssistantContext()
+    mount(StudioProjectView, { global: { stubs } }); await flushPromises()
+    expect(ctx.conversationKey.value).toBe('studio:p1')
+    expect(ctx.studioTurnPayload()).toEqual({ project_id: 'p1', project_name: 'Corruption', query: null })
   })
 })

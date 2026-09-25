@@ -260,7 +260,13 @@
     "navigate_stayed": "Baqa' hawn",
     "tool_result_not_kept": "Ir-riżultat ma jinżammx — jiġu rreġistrati biss is-sejħa u l-argumenti tagħha.",
     "signed_out_notice": "M'intix illoggjat, għalhekk l-assistent jista' biss iwieġeb mistoqsijiet dwar Dargle u jeħodok f'paġna. It-tfittxija fid-data, il-kitba u l-issejvjar jeħtieġu kont.",
-    "characters_used": "Karattri użati"
+    "characters_used": "Karattri użati",
+    "locked_notice": "Mistoqsija proposta qed tistenna r-reviżjoni tiegħek. Aċċettaha jew irrifjutaha biex tkompli.",
+    "locked_open": "Iftaħ il-mistoqsija",
+    "proposal_checking": "Qed tiġi ċċekkjata l-mistoqsija…",
+    "proposal_superseded": "Sostitwita bi proposta aktar reċenti.",
+    "proposal_unconfirmed": "Il-proposta ma ġietx ikkonfermata mis-server.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Ma waslet l-ebda tweġiba mill-assistent."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Il-query ħadmet b'suċċess — l-ebda ringiela ma ġiet ritornata.",
     "showing_first_100_of": "Qed jintwerew l-ewwel 100 minn",
     "rows_2": "ringieli.",
-    "loading": "Qed jitgħabba…"
+    "loading": "Qed jitgħabba…",
+    "assist_hint": "Ma tafx kif tiktibha? Iddeskrivi x'trid u l-assistent jabbozza l-mistoqsija.",
+    "assist_ask": "Staqsi lill-assistent",
+    "assist_fix": "Irranġa mal-assistent",
+    "assist_prompt_write": "Ikteb mistoqsija {lang} li ",
+    "assist_prompt_fix": "Din il-mistoqsija tfalli bi: \"{error}\". Jekk jogħġbok irranġaha.",
+    "proposal_title": "Bidla proposta",
+    "proposal_note": "Irrevedi l-bidla hawn taħt. Tiġi applikata kollha flimkien: aċċetta jew irrifjuta kollox.",
+    "proposal_accept": "Aċċetta",
+    "proposal_reject": "Irrifjuta",
+    "proposal_applying": "Qed tiġi applikata…",
+    "proposal_error": "Il-bidla ma setgħetx tiġi salvata: {error}"
   },
   "studio_share_modal": {
     "share": "Ixxerja",

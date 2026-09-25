@@ -260,7 +260,13 @@
     "navigate_stayed": "Pysyi tässä",
     "tool_result_not_kept": "Tulosta ei säilytetä — vain kutsu ja sen argumentit tallennetaan.",
     "signed_out_notice": "Et ole kirjautunut sisään, joten avustaja voi vain vastata Dargle koskeviin kysymyksiin ja viedä sinut sivulle. Tietojen haku, kirjoittaminen ja tallentaminen vaativat tilin.",
-    "characters_used": "Käytetyt merkit"
+    "characters_used": "Käytetyt merkit",
+    "locked_notice": "Ehdotettu kysely odottaa tarkistustasi. Hyväksy tai hylkää se jatkaaksesi.",
+    "locked_open": "Avaa kysely",
+    "proposal_checking": "Tarkistetaan kyselyä…",
+    "proposal_superseded": "Korvattu uudemmalla ehdotuksella.",
+    "proposal_unconfirmed": "Palvelin ei vahvistanut ehdotusta.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Avustajalta ei saatu vastausta."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Kysely suoritettiin onnistuneesti — ei palautettuja rivejä.",
     "showing_first_100_of": "Näytetään ensimmäiset 100 /",
     "rows_2": "riviä.",
-    "loading": "Ladataan…"
+    "loading": "Ladataan…",
+    "assist_hint": "Etkö tiedä, miten se kirjoitetaan? Kuvaile, mitä haluat, niin avustaja laatii kyselyn.",
+    "assist_ask": "Kysy avustajalta",
+    "assist_fix": "Korjaa avustajan kanssa",
+    "assist_prompt_write": "Kirjoita {lang}-kysely, joka ",
+    "assist_prompt_fix": "Tämä kysely epäonnistuu virheeseen: \"{error}\". Korjaa se.",
+    "proposal_title": "Ehdotettu muutos",
+    "proposal_note": "Tarkista alla oleva muutos. Se otetaan käyttöön kokonaisuutena: hyväksy tai hylkää kaikki.",
+    "proposal_accept": "Hyväksy",
+    "proposal_reject": "Hylkää",
+    "proposal_applying": "Otetaan käyttöön…",
+    "proposal_error": "Muutosta ei voitu tallentaa: {error}"
   },
   "studio_share_modal": {
     "share": "Jaa",

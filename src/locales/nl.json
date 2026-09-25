@@ -260,7 +260,13 @@
     "navigate_stayed": "Hier gebleven",
     "tool_result_not_kept": "Resultaat niet bewaard — alleen de aanroep en de argumenten worden vastgelegd.",
     "signed_out_notice": "Je bent niet ingelogd, dus de assistent kan alleen vragen over Dargle beantwoorden en je naar een pagina brengen. Zoeken in de data, schrijven en opslaan vereisen een account.",
-    "characters_used": "Gebruikte tekens"
+    "characters_used": "Gebruikte tekens",
+    "locked_notice": "Een voorgestelde query wacht op uw beoordeling. Accepteer of wijs hem af om verder te gaan.",
+    "locked_open": "Query openen",
+    "proposal_checking": "Query wordt gecontroleerd…",
+    "proposal_superseded": "Vervangen door een nieuwer voorstel.",
+    "proposal_unconfirmed": "Het voorstel is niet bevestigd door de server.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Geen reactie ontvangen van de assistent."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Query succesvol uitgevoerd — geen rijen geretourneerd.",
     "showing_first_100_of": "Eerste 100 weergegeven van",
     "rows_2": "rijen.",
-    "loading": "Laden…"
+    "loading": "Laden…",
+    "assist_hint": "Weet u niet hoe u die schrijft? Beschrijf wat u wilt en de assistent stelt de query op.",
+    "assist_ask": "Vraag het de assistent",
+    "assist_fix": "Herstellen met de assistent",
+    "assist_prompt_write": "Schrijf een {lang}-query die ",
+    "assist_prompt_fix": "Deze query mislukt met: \"{error}\". Herstel dit alstublieft.",
+    "proposal_title": "Voorgestelde wijziging",
+    "proposal_note": "Controleer de wijziging hieronder. Ze wordt als geheel toegepast: alles accepteren of alles afwijzen.",
+    "proposal_accept": "Accepteren",
+    "proposal_reject": "Afwijzen",
+    "proposal_applying": "Toepassen…",
+    "proposal_error": "De wijziging kon niet worden opgeslagen: {error}"
   },
   "studio_share_modal": {
     "share": "Delen",

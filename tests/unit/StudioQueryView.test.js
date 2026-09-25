@@ -5,12 +5,14 @@ const push = vi.fn(); const replace = vi.fn()
 vi.mock('vue-router', () => ({ useRoute: () => ({ params: { projectId: 'p1', queryId: 'q1' } }), useRouter: () => ({ push, replace }) }))
 import * as api from '../../src/api/studio.js'
 import { useStudio } from '../../src/composables/useStudio.js'
+import { useAssistantContext } from '../../src/composables/useAssistantContext.js'
+import { useStudioProposal } from '../../src/composables/useStudioProposal.js'
 import StudioQueryView from '../../src/views/StudioQueryView.vue'
 
 const QueryEditorStub = {
-  props: ['modelValue', 'lang', 'placeholder'],
+  props: ['modelValue', 'lang', 'placeholder', 'proposal'],
   emits: ['update:modelValue', 'run'],
-  template: `<textarea data-testid="query-editor" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></textarea>`,
+  template: `<textarea data-testid="query-editor" :value="modelValue" :data-proposal="proposal != null ? '1' : null" @input="$emit('update:modelValue', $event.target.value)"></textarea>`,
 }
 const stubs = {
   RouterLink: { props: ['to'], template: '<a><slot /></a>' },
@@ -24,7 +26,7 @@ function seedQuery(q = 'MATCH (c) RETURN c.name AS name', lang = 'cypher') {
 const mountView = () => mount(StudioQueryView, { global: { stubs } })
 
 describe('StudioQueryView (server-backed)', () => {
-  beforeEach(() => { api.__reset(); useStudio().reset(); global.fetch = vi.fn(); push.mockReset(); replace.mockReset() })
+  beforeEach(() => { api.__reset(); useStudio().reset(); useStudioProposal()._reset(); global.fetch = vi.fn(); push.mockReset(); replace.mockReset() })
 
   it('runs the query and shows a tabular result preview', async () => {
     seedQuery()
@@ -67,5 +69,137 @@ describe('StudioQueryView (server-backed)', () => {
     expect(btn.text()).toContain('Confirm')
     await btn.trigger('click'); await flushPromises() // second click → deletes
     expect(api.deleteQuery).toHaveBeenCalledWith('p1', 'q1')
+  })
+})
+
+// ── Assistant: conversation scope, proposals, entry points ──────────────
+describe('StudioQueryView — assistant proposals', () => {
+  const ctx = useAssistantContext()
+  const proposals = useStudioProposal()
+  const PROPOSED = 'MATCH (c:Company) RETURN count(c) AS companies'
+  const proposeHere = () => proposals.propose({ projectId: 'p1', queryId: 'q1', query: PROPOSED, explanation: 'Counts companies instead of listing them.' })
+
+  beforeEach(() => {
+    // __reset() clears the fake db but not vi.fn call history — the PUT
+    // counts below must not read a save made by an earlier test.
+    vi.clearAllMocks()
+    api.__reset(); useStudio().reset(); proposals._reset(); ctx.clearAssistRequest()
+    global.fetch = vi.fn(); push.mockReset(); replace.mockReset()
+  })
+
+  it('registers the project conversation and a live snapshot of the open query', async () => {
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    expect(ctx.conversationKey.value).toBe('studio:p1')
+    expect(ctx.studioTurnPayload()).toEqual(expect.objectContaining({
+      project_id: 'p1', project_name: 'P',
+      query: expect.objectContaining({ id: 'q1', name: 'Companies', lang: 'cypher', text: 'MATCH (c) RETURN c.name AS name', last_error: null }),
+    }))
+    // read at send time, not copied at registration: the assistant sees what the user is looking at
+    await w.find('[data-testid="query-editor"]').setValue('MATCH (x) RETURN x')
+    expect(ctx.studioTurnPayload().query.text).toBe('MATCH (x) RETURN x')
+  })
+
+  it('a viewer registers the project but no query (nothing to propose into)', async () => {
+    api.__seed([{ id: 'p1', name: 'Shared', created_by: 'other',
+      my_access: { level: 'viewer', can_edit: false, can_delete: false, can_share: false },
+      plots: [], queries: [{ id: 'q1', name: 'q', lang: 'cypher', query: 'MATCH (n) RETURN n' }] }])
+    mountView(); await flushPromises()
+    expect(ctx.conversationKey.value).toBe('studio:p1')
+    expect(ctx.studioTurnPayload().query).toBeNull()
+  })
+
+  it('a pending proposal for this query shows the bar, hands the editor the diff and holds Run + language', async () => {
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    proposeHere(); await flushPromises()
+    const bar = w.find('[data-testid="query-proposal"]')
+    expect(bar.exists()).toBe(true)
+    expect(w.find('[data-testid="query-proposal-explanation"]').text()).toContain('Counts companies')
+    expect(w.find('[data-testid="query-editor"]').attributes('data-proposal')).toBe('1')
+    // the draft is untouched: the diff is drawn from the proposal, not written into the model
+    expect(w.find('[data-testid="query-editor"]').element.value).toBe('MATCH (c) RETURN c.name AS name')
+    expect(w.find('[data-testid="query-run"]').attributes('disabled')).toBeDefined()
+    expect(w.find('[data-testid="query-lang-sql"]').attributes('disabled')).toBeDefined()
+    // the editor's Ctrl/Cmd+Enter shortcut goes the same way as the button
+    w.findComponent(QueryEditorStub).vm.$emit('run'); await flushPromises()
+    expect(global.fetch).not.toHaveBeenCalledWith('/api/query/cypher', expect.anything())
+  })
+
+  it('a pending proposal for another query shows nothing here', async () => {
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    proposals.propose({ projectId: 'p1', queryId: 'q-other', query: PROPOSED, explanation: 'x' }); await flushPromises()
+    expect(w.find('[data-testid="query-proposal"]').exists()).toBe(false)
+    expect(w.find('[data-testid="query-editor"]').attributes('data-proposal')).toBeUndefined()
+    expect(w.find('[data-testid="query-run"]').attributes('disabled')).toBeUndefined()
+  })
+
+  it('accept puts the text in the draft, saves it exactly once and releases the lock', async () => {
+    vi.useFakeTimers()
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    proposeHere(); await flushPromises()
+    expect(api.updateQuery).not.toHaveBeenCalled()
+    await w.find('[data-testid="query-proposal-accept"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="query-editor"]').element.value).toBe(PROPOSED)
+    expect(w.find('[data-testid="query-proposal"]').exists()).toBe(false)
+    expect(w.find('[data-testid="query-editor"]').attributes('data-proposal')).toBeUndefined()
+    expect(proposals.locked.value).toBe(false)
+    // the debounced autosave must not follow up with a second PUT
+    vi.advanceTimersByTime(600); await flushPromises()
+    expect(api.updateQuery).toHaveBeenCalledTimes(1)
+    expect(api.updateQuery).toHaveBeenCalledWith('p1', 'q1', expect.objectContaining({ query: PROPOSED }))
+    vi.useRealTimers()
+  })
+
+  it('reject leaves the draft alone, writes nothing and releases the lock', async () => {
+    vi.useFakeTimers()
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    proposeHere(); await flushPromises()
+    await w.find('[data-testid="query-proposal-reject"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="query-editor"]').element.value).toBe('MATCH (c) RETURN c.name AS name')
+    expect(w.find('[data-testid="query-proposal"]').exists()).toBe(false)
+    expect(proposals.locked.value).toBe(false)
+    vi.advanceTimersByTime(600); await flushPromises()
+    expect(api.updateQuery).not.toHaveBeenCalled()
+    vi.useRealTimers()
+  })
+
+  it('a failed accept shows the error and keeps the proposal pending', async () => {
+    seedQuery()
+    api.updateQuery.mockRejectedValueOnce(new Error('HTTP 500'))
+    const w = mountView(); await flushPromises()
+    proposeHere(); await flushPromises()
+    await w.find('[data-testid="query-proposal-accept"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="query-proposal-error"]').text()).toContain('HTTP 500')
+    expect(w.find('[data-testid="query-proposal"]').exists()).toBe(true)
+    expect(proposals.locked.value).toBe(true)
+  })
+
+  it('an empty editor offers the assistant, and asking prefills a prompt that names the engine', async () => {
+    seedQuery('')
+    const w = mountView(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-hint"]').exists()).toBe(true)
+    await w.find('[data-testid="query-assist-ask"]').trigger('click')
+    expect(ctx.assistRequest.value.prompt).toContain('Cypher')
+  })
+
+  it('a failed run offers a fix, and asking prefills a prompt with the error', async () => {
+    seedQuery('CREATE (x)')
+    global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'write not allowed' }) })
+    const w = mountView(); await flushPromises()
+    await w.find('[data-testid="query-run"]').trigger('click'); await flushPromises()
+    await w.find('[data-testid="query-assist-fix"]').trigger('click')
+    expect(ctx.assistRequest.value.prompt).toContain('write not allowed')
+  })
+
+  it('no hint while a proposal is pending', async () => {
+    seedQuery('')
+    const w = mountView(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-hint"]').exists()).toBe(true)
+    proposeHere(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-hint"]').exists()).toBe(false)
   })
 })
