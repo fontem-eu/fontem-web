@@ -260,7 +260,13 @@
     "navigate_stayed": "Stayed here",
     "tool_result_not_kept": "Result not kept — only the call and its arguments are recorded.",
     "signed_out_notice": "You're not signed in, so the assistant can only answer questions about Dargle and take you to a page. Searching the data, writing and saving work need an account.",
-    "characters_used": "Characters used"
+    "characters_used": "Characters used",
+    "locked_notice": "A proposed query is waiting for your review. Accept or reject it to continue.",
+    "locked_open": "Open the query",
+    "proposal_checking": "Checking the query…",
+    "proposal_superseded": "Replaced by a newer proposal.",
+    "proposal_unconfirmed": "The proposal was not confirmed by the server.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "No response received from assistant."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Query ran successfully — no rows returned.",
     "showing_first_100_of": "Showing first 100 of",
     "rows_2": "rows.",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "assist_hint": "Not sure how to write it? Describe what you want and the assistant drafts the query.",
+    "assist_ask": "Ask the assistant",
+    "assist_fix": "Fix with the assistant",
+    "assist_prompt_write": "Write a {lang} query that ",
+    "assist_prompt_fix": "This query fails with: \"{error}\". Please fix it.",
+    "proposal_title": "Proposed change",
+    "proposal_note": "Review the change below. It is applied as a whole: accept or reject all of it.",
+    "proposal_accept": "Accept",
+    "proposal_reject": "Reject",
+    "proposal_applying": "Applying…",
+    "proposal_error": "The change could not be saved: {error}"
   },
   "studio_share_modal": {
     "share": "Share",

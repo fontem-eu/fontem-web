@@ -260,7 +260,13 @@
     "navigate_stayed": "Itt maradt",
     "tool_result_not_kept": "Az eredmény nincs eltárolva – csak a hívás és annak argumentumai kerülnek naplózásra.",
     "signed_out_notice": "Nincs bejelentkezve, ezért az asszisztens csak a Dargle kapcsolatos kérdésekre tud válaszolni, és egy oldalra tudja vinni. Az adatokban való kereséshez, az íráshoz és a mentéshez fiók szükséges.",
-    "characters_used": "Felhasznált karakterek"
+    "characters_used": "Felhasznált karakterek",
+    "locked_notice": "Egy javasolt lekérdezés várja az áttekintését. A folytatáshoz fogadja el vagy utasítsa el.",
+    "locked_open": "Lekérdezés megnyitása",
+    "proposal_checking": "A lekérdezés ellenőrzése…",
+    "proposal_superseded": "Újabb javaslat váltotta fel.",
+    "proposal_unconfirmed": "A szerver nem erősítette meg a javaslatot.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Nem érkezett válasz az asszisztenstől."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "A lekérdezés sikeresen lefutott — nem tért vissza sor.",
     "showing_first_100_of": "Az első 100 megjelenítése ennyiből:",
     "rows_2": "sor.",
-    "loading": "Betöltés…"
+    "loading": "Betöltés…",
+    "assist_hint": "Nem tudja, hogyan írja meg? Írja le, mit szeretne, és az asszisztens megfogalmazza a lekérdezést.",
+    "assist_ask": "Kérdezze az asszisztenst",
+    "assist_fix": "Javítás az asszisztenssel",
+    "assist_prompt_write": "Írj egy {lang} lekérdezést, amely ",
+    "assist_prompt_fix": "Ez a lekérdezés hibával áll le: \"{error}\". Kérlek, javítsd ki.",
+    "proposal_title": "Javasolt módosítás",
+    "proposal_note": "Nézze át az alábbi módosítást. Egészében kerül alkalmazásra: fogadja el vagy utasítsa el az egészet.",
+    "proposal_accept": "Elfogadás",
+    "proposal_reject": "Elutasítás",
+    "proposal_applying": "Alkalmazás…",
+    "proposal_error": "A módosítást nem sikerült menteni: {error}"
   },
   "studio_share_modal": {
     "share": "Megosztás",

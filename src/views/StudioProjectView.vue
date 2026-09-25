@@ -4,9 +4,10 @@
  * (autosaves), the project's queries (open the editor) and its saved plots
  * (open the plot builder). No browser prompts.
  */
-import { ref, computed, watch, onMounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
+import { registerStudioContext } from '../composables/useAssistantContext.js'
 import { engine } from '../composables/studioEngines.js'
 import StudioShareModal from '../components/StudioShareModal.vue'
 
@@ -20,14 +21,23 @@ const showShare = ref(false)
 const access = computed(() => project.value?.my_access
   || { level: 'owner', can_edit: true, can_delete: true, can_share: true })
 
+// Scope the assistant's conversation to this project. No query is open
+// here, so there is nothing for it to propose into — only a thread to keep.
+let disposeContext = null
+
 async function hydrate() {
   await studio.ensureLoaded()
   project.value = await studio.ensureProject(route.params.projectId)
   if (!project.value) { router.replace('/studio'); return }
+  if (disposeContext) disposeContext()
+  disposeContext = registerStudioContext({
+    projectId: route.params.projectId, projectName: project.value.name, getQuery: () => null,
+  })
   if (route.query.new) nextTick(() => { nameEl.value?.focus(); nameEl.value?.select() })
 }
 onMounted(hydrate)
 watch(() => route.params.projectId, hydrate)
+onBeforeUnmount(() => { if (disposeContext) disposeContext() })
 
 let renameTimer = null
 function onName(e) {

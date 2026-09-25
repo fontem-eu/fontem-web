@@ -260,7 +260,13 @@
     "navigate_stayed": "Ostalo tukaj",
     "tool_result_not_kept": "Rezultat ni shranjen — zabeležen je samo klic in njegovi argumenti.",
     "signed_out_notice": "Niste prijavljeni, zato lahko pomočnik samo odgovarja na vprašanja o Dargle in vas popelje na stran. Iskanje po podatkih, pisanje in shranjevanje zahtevajo račun.",
-    "characters_used": "Uporabljeni znaki"
+    "characters_used": "Uporabljeni znaki",
+    "locked_notice": "Predlagana poizvedba čaka na vaš pregled. Za nadaljevanje jo sprejmite ali zavrnite.",
+    "locked_open": "Odpri poizvedbo",
+    "proposal_checking": "Preverjanje poizvedbe…",
+    "proposal_superseded": "Nadomeščeno z novejšim predlogom.",
+    "proposal_unconfirmed": "Strežnik predloga ni potrdil.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Od pomočnika ni bilo prejetega odgovora."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Poizvedba uspešno izvedena — ni vrnjenih vrstic.",
     "showing_first_100_of": "Prikaz prvih 100 od",
     "rows_2": "vrstic.",
-    "loading": "Nalaganje…"
+    "loading": "Nalaganje…",
+    "assist_hint": "Ne veste, kako jo napisati? Opišite, kaj želite, in pomočnik bo pripravil poizvedbo.",
+    "assist_ask": "Vprašaj pomočnika",
+    "assist_fix": "Popravi s pomočnikom",
+    "assist_prompt_write": "Napiši poizvedbo {lang}, ki ",
+    "assist_prompt_fix": "Ta poizvedba ne uspe z napako: \"{error}\". Prosim, popravi jo.",
+    "proposal_title": "Predlagana sprememba",
+    "proposal_note": "Preglejte spodnjo spremembo. Uporabi se kot celota: sprejmite ali zavrnite vse.",
+    "proposal_accept": "Sprejmi",
+    "proposal_reject": "Zavrni",
+    "proposal_applying": "Uporabljam…",
+    "proposal_error": "Spremembe ni bilo mogoče shraniti: {error}"
   },
   "studio_share_modal": {
     "share": "Deli",

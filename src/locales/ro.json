@@ -260,7 +260,13 @@
     "navigate_stayed": "A rămas aici",
     "tool_result_not_kept": "Rezultatul nu este păstrat — se înregistrează doar apelul și argumentele sale.",
     "signed_out_notice": "Nu v-ați autentificat, așa că asistentul poate doar să răspundă la întrebări despre Dargle și să vă ducă la o pagină. Căutarea în date, scrierea și salvarea necesită un cont.",
-    "characters_used": "Caractere utilizate"
+    "characters_used": "Caractere utilizate",
+    "locked_notice": "O interogare propusă așteaptă verificarea dvs. Acceptați-o sau respingeți-o pentru a continua.",
+    "locked_open": "Deschide interogarea",
+    "proposal_checking": "Se verifică interogarea…",
+    "proposal_superseded": "Înlocuită de o propunere mai recentă.",
+    "proposal_unconfirmed": "Propunerea nu a fost confirmată de server.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Niciun răspuns primit de la asistent."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Interogarea a rulat cu succes — niciun rând returnat.",
     "showing_first_100_of": "Se afișează primele 100 din",
     "rows_2": "rânduri.",
-    "loading": "Se încarcă…"
+    "loading": "Se încarcă…",
+    "assist_hint": "Nu știți cum s-o scrieți? Descrieți ce doriți și asistentul redactează interogarea.",
+    "assist_ask": "Întreabă asistentul",
+    "assist_fix": "Repară cu asistentul",
+    "assist_prompt_write": "Scrie o interogare {lang} care ",
+    "assist_prompt_fix": "Această interogare eșuează cu: \"{error}\". Te rog, repar-o.",
+    "proposal_title": "Modificare propusă",
+    "proposal_note": "Verificați modificarea de mai jos. Se aplică în întregime: acceptați sau respingeți totul.",
+    "proposal_accept": "Acceptă",
+    "proposal_reject": "Respinge",
+    "proposal_applying": "Se aplică…",
+    "proposal_error": "Modificarea nu a putut fi salvată: {error}"
   },
   "studio_share_modal": {
     "share": "Distribuie",

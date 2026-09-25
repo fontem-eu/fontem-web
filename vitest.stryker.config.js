@@ -53,7 +53,7 @@ export default defineConfig({
       'tests/unit/parseProposals.test.js', 'tests/unit/silentRefresh.test.js',
       'tests/unit/useAtlasPalette.test.js', 'tests/unit/useNutsRegions.test.js',
       'tests/unit/useAssistantContext.test.js', 'tests/unit/studioEngines.test.js',
-      'tests/unit/useSwipeNav.test.js',
+      'tests/unit/useSwipeNav.test.js', 'tests/unit/useStudioProposal.test.js',
       // core (agent / ssr / router / app / i18n)
       'tests/unit/routeManifest.test.js', 'tests/unit/routerAuthGate.test.js',
       'tests/unit/ssrMeta.test.js', 'tests/unit/coreSsrI18n.test.js',

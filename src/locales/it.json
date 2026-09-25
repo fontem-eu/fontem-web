@@ -260,7 +260,13 @@
     "navigate_stayed": "Rimasto qui",
     "tool_result_not_kept": "Risultato non conservato — vengono registrati solo la chiamata e i suoi argomenti.",
     "signed_out_notice": "Non hai effettuato l'accesso, quindi l'assistente può solo rispondere a domande su Dargle e portarti a una pagina. La ricerca nei dati, la scrittura e il salvataggio richiedono un account.",
-    "characters_used": "Caratteri utilizzati"
+    "characters_used": "Caratteri utilizzati",
+    "locked_notice": "Una query proposta attende la tua revisione. Accettala o rifiutala per continuare.",
+    "locked_open": "Apri la query",
+    "proposal_checking": "Verifica della query…",
+    "proposal_superseded": "Sostituita da una proposta più recente.",
+    "proposal_unconfirmed": "La proposta non è stata confermata dal server.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Nessuna risposta ricevuta dall'assistente."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Query eseguita correttamente — nessuna riga restituita.",
     "showing_first_100_of": "Visualizzazione delle prime 100 di",
     "rows_2": "righe.",
-    "loading": "Caricamento…"
+    "loading": "Caricamento…",
+    "assist_hint": "Non sai come scriverla? Descrivi cosa vuoi e l'assistente redige la query.",
+    "assist_ask": "Chiedi all'assistente",
+    "assist_fix": "Correggi con l'assistente",
+    "assist_prompt_write": "Scrivi una query {lang} che ",
+    "assist_prompt_fix": "Questa query fallisce con: \"{error}\". Per favore, correggila.",
+    "proposal_title": "Modifica proposta",
+    "proposal_note": "Controlla la modifica qui sotto. Viene applicata nel suo insieme: accetta o rifiuta tutto.",
+    "proposal_accept": "Accetta",
+    "proposal_reject": "Rifiuta",
+    "proposal_applying": "Applicazione…",
+    "proposal_error": "Impossibile salvare la modifica: {error}"
   },
   "studio_share_modal": {
     "share": "Condividi",

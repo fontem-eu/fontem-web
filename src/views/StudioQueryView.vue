@@ -4,10 +4,18 @@
  * query, run it against the read-only proxy, and preview the result table.
  * The recipe autosaves to its project. Inline name + two-click delete (no
  * browser dialogs).
+ *
+ * The assistant can propose new text for the open query. The proposal never
+ * touches `draft` (which autosaves) until the user accepts it: the editor
+ * draws it as a diff, Run and the language switch wait, and the bar above
+ * the editor decides — all of it or none of it.
  */
 import { ref, reactive, watch, computed, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useStudio } from '../composables/useStudio.js'
+import { registerStudioContext, requestAssist } from '../composables/useAssistantContext.js'
+import { useStudioProposal } from '../composables/useStudioProposal.js'
 import { ENGINES, engine, runSource } from '../composables/studioEngines.js'
 import QueryEditor from '../components/QueryEditor.vue'
 import SchemaPanel from '../components/SchemaPanel.vue'
@@ -15,6 +23,8 @@ import SchemaPanel from '../components/SchemaPanel.vue'
 const route = useRoute()
 const router = useRouter()
 const studio = useStudio()
+const { t } = useI18n()
+const proposals = useStudioProposal()
 
 const draft = reactive({ name: '', lang: 'cypher', query: '' })
 const run = reactive({ result: null, error: null, loading: false })
@@ -24,6 +34,33 @@ const ready = ref(false)
 const confirmDelete = ref(false)
 const showSchema = ref(true)
 const canEdit = computed(() => project.value?.my_access?.can_edit !== false)
+
+// The proposal that concerns THIS query. The pending one is a singleton and
+// survives navigation, so a proposal for q1 must not be drawn over q2.
+const proposalFor = computed(() => (
+  proposals.pending.value && proposals.pending.value.queryId === route.params.queryId
+    ? proposals.pending.value : null
+))
+
+// What the assistant knows about this page. Re-registered on every hydrate
+// because the same component instance serves one query after another; the
+// snapshot is a getter so the assistant reads the draft as it is when the
+// user sends, not as it was when the page opened. Viewers register the
+// project (the conversation is still theirs) but no query: nothing to
+// propose into when nothing can be saved.
+let disposeContext = null
+function registerContext() {
+  if (disposeContext) disposeContext()
+  const { projectId, queryId } = route.params
+  disposeContext = registerStudioContext({
+    projectId,
+    projectName: project.value?.name,
+    getQuery: canEdit.value
+      ? () => ({ id: queryId, name: draft.name, lang: draft.lang, text: draft.query,
+        lastError: run.error, columns: run.result?.columns ?? null })
+      : () => null,
+  })
+}
 
 async function hydrate() {
   ready.value = false
@@ -37,11 +74,13 @@ async function hydrate() {
   draft.lang = query.value.lang
   draft.query = query.value.query
   run.result = null; run.error = null; run.loading = false
+  registerContext()
   await nextTick() // let the hydrate-driven draft watch flush before enabling autosave
   ready.value = true
 }
 onMounted(hydrate)
 watch(() => route.params.queryId, hydrate)
+onBeforeUnmount(() => { if (disposeContext) disposeContext() })
 
 let saveTimer = null
 function persist() {
@@ -56,6 +95,36 @@ watch(draft, () => {
 })
 onBeforeUnmount(() => clearTimeout(saveTimer))
 
+// Accepting a proposal, here, where the query is open: the editor text, the
+// autosave and the server move together. Setting the draft schedules the
+// debounced save; that timer is cancelled and the write made at once, so
+// there is exactly one PUT and the user is not left wondering for half a
+// second whether it took. A proposal for some other query is declined and
+// the composable writes it to the store directly.
+const disposeApplier = proposals.registerApplier(async (p) => {
+  const { projectId, queryId } = route.params
+  if (p.projectId !== projectId || p.queryId !== queryId) return false
+  draft.query = p.query
+  await nextTick()
+  clearTimeout(saveTimer)
+  await studio.updateQuery(projectId, queryId,
+    { name: draft.name.trim() || 'Untitled', lang: draft.lang, query: p.query })
+  return true
+})
+onBeforeUnmount(disposeApplier)
+
+async function acceptProposal() { await proposals.accept() }
+
+// The two doors into the assistant: an empty editor ("write it for me") and
+// a failed run ("fix it"). Both only prefill the composer — the user sees
+// the question and sends it themselves.
+function askToWrite() {
+  requestAssist({ prompt: t('studio_query.assist_prompt_write', { lang: activeEngine.value.label }) })
+}
+function askToFix() {
+  requestAssist({ prompt: t('studio_query.assist_prompt_fix', { error: run.error }) })
+}
+
 const activeEngine = computed(() => engine(draft.lang))
 function pickLang(k) {
   const prev = engine(draft.lang)
@@ -64,7 +133,9 @@ function pickLang(k) {
 }
 
 async function execute() {
-  if (!draft.query.trim() || run.loading) return
+  // Also reached by the editor's Ctrl/Cmd+Enter, which the disabled Run
+  // button does not cover: nothing runs (or autosaves) while a proposal waits.
+  if (!draft.query.trim() || run.loading || proposalFor.value) return
   run.loading = true; run.error = null; run.result = null
   clearTimeout(saveTimer); persist()
   try {
@@ -103,7 +174,7 @@ async function remove() {
     <div class="qlangs" role="tablist" :aria-label="$t('studio_query.query_language')">
       <button
         v-for="e in ENGINES" :key="e.key" type="button" class="lang"
-        :class="{ active: draft.lang === e.key }" :data-testid="'query-lang-' + e.key"
+        :class="{ active: draft.lang === e.key }" :data-testid="'query-lang-' + e.key" :disabled="!!proposalFor"
         @click="pickLang(e.key)"
       >{{ e.label }}</button>
       <span class="qstore">→ {{ activeEngine.store }}</span>
@@ -112,15 +183,34 @@ async function remove() {
 
     <div class="qbody">
       <div class="qedit">
-        <QueryEditor v-model="draft.query" :lang="draft.lang" :placeholder="$t('studio_query.write_your_query_shortcut')" @run="execute" />
+        <div v-if="proposalFor" class="qproposal" data-testid="query-proposal">
+          <strong>{{ $t('studio_query.proposal_title') }}</strong>
+          <p class="qproposal-why" data-testid="query-proposal-explanation">{{ proposalFor.explanation }}</p>
+          <p class="qproposal-note">{{ $t('studio_query.proposal_note') }}</p>
+          <div class="qproposal-actions">
+            <button type="button" class="sbtn sbtn--primary" data-testid="query-proposal-accept" :disabled="proposals.busy.value" @click="acceptProposal">
+              {{ proposals.busy.value ? $t('studio_query.proposal_applying') : $t('studio_query.proposal_accept') }}
+            </button>
+            <button type="button" class="sbtn" data-testid="query-proposal-reject" @click="proposals.reject()">{{ $t('studio_query.proposal_reject') }}</button>
+            <span v-if="proposals.error.value" class="qerr" data-testid="query-proposal-error">{{ $t('studio_query.proposal_error', { error: proposals.error.value }) }}</span>
+          </div>
+        </div>
+
+        <QueryEditor v-model="draft.query" :lang="draft.lang" :placeholder="$t('studio_query.write_your_query_shortcut')" :proposal="proposalFor?.query ?? null" @run="execute" />
+
+        <div v-if="!draft.query.trim() && !proposalFor && canEdit" class="qassist" data-testid="query-assist-hint">
+          <span>{{ $t('studio_query.assist_hint') }}</span>
+          <button type="button" class="sbtn" data-testid="query-assist-ask" @click="askToWrite">{{ $t('studio_query.assist_ask') }}</button>
+        </div>
 
         <div class="qrun">
-          <button type="button" class="sbtn sbtn--primary" data-testid="query-run" :disabled="run.loading || !draft.query.trim()" @click="execute">
+          <button type="button" class="sbtn sbtn--primary" data-testid="query-run" :disabled="run.loading || !draft.query.trim() || !!proposalFor" @click="execute">
             {{ run.loading ? $t('studio_query.running') : $t('studio_query.run_query') }}
           </button>
           <span class="qhint">Ctrl/Cmd+Enter</span>
           <span v-if="run.result" class="qmeta" data-testid="query-meta">{{ run.result.rows.length }} {{ $t('studio_query.rows') }} · {{ run.result.columns.length }} {{ $t('studio_query.cols') }}</span>
           <span v-if="run.error" class="qerr" data-testid="query-error">{{ run.error }}</span>
+          <button v-if="run.error && canEdit" type="button" class="sbtn" data-testid="query-assist-fix" @click="askToFix">{{ $t('studio_query.assist_fix') }}</button>
         </div>
 
         <div v-if="run.result" class="qresult" data-testid="query-result">
@@ -170,6 +260,11 @@ async function remove() {
 .qrun { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; flex-wrap: wrap; }
 .qmeta { font-size: 0.78rem; color: var(--muted); font-family: ui-monospace, monospace; }
 .qerr { font-size: 0.82rem; color: #dc2626; }
+.qproposal { border: 1px solid var(--accent); border-radius: 8px; padding: 0.7rem 0.9rem; margin-bottom: 0.6rem; background: color-mix(in srgb, var(--accent) 6%, var(--bg)); font-size: 0.85rem; }
+.qproposal-why { margin: 0.3rem 0; }
+.qproposal-note { margin: 0 0 0.6rem; color: var(--muted); font-size: 0.78rem; }
+.qproposal-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.qassist { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; padding: 0.6rem 0.8rem; border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }
 .qresult { margin-top: 1rem; }
 .qempty { color: var(--muted); font-size: 0.85rem; padding: 0.8rem; border: 1px dashed var(--border); border-radius: 8px; }
 .twrap { overflow: auto; max-height: 26rem; border: 1px solid var(--border); border-radius: 8px; }

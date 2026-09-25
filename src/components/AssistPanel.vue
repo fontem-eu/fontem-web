@@ -16,6 +16,7 @@ import {
   streamRequest,
 } from '../api/community.js'
 import { useAssistantContext } from '../composables/useAssistantContext.js'
+import { useStudioProposal } from '../composables/useStudioProposal.js'
 import { useSidebar } from '../composables/useSidebar.js'
 import { useRoute, useRouter } from 'vue-router'
 import routeManifest from '../generated/route-manifest.json'
@@ -45,6 +46,19 @@ const props = defineProps({
 })
 
 const ctx = useAssistantContext()
+
+/*
+ * The one query change the assistant has proposed and the user has not
+ * decided on. Module state, not the panel's: the query view draws the
+ * diff from the same object, and the lock it implies must survive the
+ * user walking away from the query — the notice above the composer can
+ * still settle it from anywhere. Pulled out as top-level refs so the
+ * template sees them unwrapped.
+ */
+const studioProposal = useStudioProposal()
+const studioLocked = studioProposal.locked
+const studioBusy = studioProposal.busy
+const studioPending = studioProposal.pending
 /*
  * Router context is optional here, deliberately. This is a shell component
  * mounted once for the whole app, but it is also mounted directly in unit
@@ -82,8 +96,19 @@ const editorState = computed(() => props.editorState ?? ctx.editorState.value)
  * discussing that report. Everywhere else the user picks, and `activeKey`
  * holds their choice; 'global' is the one everybody starts with and is what
  * a signed-out visitor gets, since they have no account to hang a list off.
+ *
+ * `contextKey` is what the surface on screen asks for: the article's chat
+ * while editing one, the Studio project's while a Studio view is up, the
+ * global thread otherwise — in that order, so a report open from inside a
+ * project still talks about the report. A report handed in as a prop
+ * (tests, legacy callers) counts the same as one registered in the shared
+ * context, which is why the first branch is decided here and only the
+ * rest is left to the context's own key.
  */
-const activeKey = ref(reportId.value ? `report:${reportId.value}` : 'global')
+const contextKey = computed(() => (
+  reportId.value ? `report:${reportId.value}` : ctx.conversationKey.value
+))
+const activeKey = ref(contextKey.value)
 const conversations = ref([])
 const switcherOpen = ref(false)
 const renamingKey = ref('')
@@ -98,8 +123,7 @@ function conversationKey() {
 // switcher was hidden on report pages entirely, so a prompt sent while
 // editing landed in a chat that was invisible from everywhere else — the
 // "my prompt disappeared into a hidden chat" report (2026-08-28).
-watch(reportId, (id) => {
-  const wanted = id ? `report:${id}` : 'global'
+watch(contextKey, (wanted) => {
   if (activeKey.value !== wanted) {
     activeKey.value = wanted
     messages.value = []
@@ -111,7 +135,16 @@ watch(reportId, (id) => {
 
 const activeTitle = computed(() => {
   const found = conversations.value.find(c => c.conversation_key === activeKey.value)
-  return found?.title || ''
+  if (found?.title) return found.title
+  // A project's chat is named after the project until the user renames it.
+  // The server mints these keys without a title, and "New chat" over a
+  // thread that is plainly about one project reads as the panel having
+  // lost track of where it is.
+  const studio = ctx.studioContext.value
+  if (studio && activeKey.value === `studio:${studio.projectId}`) {
+    return t('assist.studio_chat', { name: studio.projectName })
+  }
+  return ''
 })
 
 async function toggleSwitcher() {
@@ -397,12 +430,12 @@ function enrichProposalFromResult(r) {
   if (parsed.content_json !== undefined) carried.content_json = parsed.content_json
   if (parsed.at_block !== undefined) carried.at_block = parsed.at_block
   if (!Object.keys(carried).length) return
-  const argsKey = JSON.stringify(r.args || {})
+  const key = argsKey(r.args)
   for (const msg of messages.value) {
     for (const p of msg.proposals || []) {
       if (p.action !== action || p.applied || p.refused) continue
       if (r.args && Object.keys(r.args).length &&
-          JSON.stringify(proposalArgs(p)) !== argsKey) continue
+          argsKey(proposalArgs(p)) !== key) continue
       p.params = { ...p.params, ...carried }
       return
     }
@@ -418,19 +451,105 @@ function markRefusedProposal(r) {
     if (!parsed || !parsed.error) return
     reason = String(parsed.error)
   } catch { return }
-  const argsKey = JSON.stringify(r.args || {})
+  const key = argsKey(r.args)
   for (const msg of messages.value) {
     for (const p of msg.proposals || []) {
       if (p.action !== action || p.applied || p.refused) continue
       // Match on the arguments when the server echoed them; a turn can
       // propose two widgets and only one of them be refused.
       if (r.args && Object.keys(r.args).length &&
-          JSON.stringify(proposalArgs(p)) !== argsKey) continue
+          argsKey(proposalArgs(p)) !== key) continue
       p.refused = true
       p.refusedReason = reason
       return
     }
   }
+}
+
+/**
+ * The server's verdict on a proposed query.
+ *
+ * The card was drawn from the tool_use event with `checking` set, and
+ * nothing on it is clickable until this arrives. `proposed` means the text
+ * ran against the engine: it becomes THE pending proposal — there is only
+ * ever one, the model speaking again replaces what it said before, and the
+ * earlier card says so — and the composer locks until the user decides.
+ * An error was already written on the card by markRefusedProposal; here it
+ * only stops checking.
+ */
+function settleProposedQuery(r) {
+  if (PROPOSAL_TOOL_ACTIONS[r?.tool] !== 'propose_query') return
+  let parsed
+  try { parsed = JSON.parse(r.result || '{}') } catch { return }
+  // Still checking, refused or not: markRefusedProposal ran first and may
+  // already have written the verdict on the card this is looking for.
+  const found = findProposalCard('propose_query', r.args, (p) => p.checking)
+  if (!found) return
+  found.checking = false
+  if (!parsed || !parsed.proposed) return
+  for (const msg of messages.value) {
+    for (const p of msg.proposals || []) {
+      if (p === found || p.action !== 'propose_query') continue
+      if (p.applied || p.refused || p.checking) continue
+      p.superseded = true
+    }
+  }
+  // The args the server echoed are the ones it validated; the card's copy
+  // came from the tool_use event and is the fallback.
+  const args = r.args && Object.keys(r.args).length ? r.args : proposalArgs(found)
+  studioProposal.propose({
+    projectId: args.project_id,
+    queryId: args.query_id,
+    query: args.query,
+    explanation: args.explanation,
+  })
+  studioCard = { proposal: found, seq: studioProposal.pending.value?.seq }
+}
+
+/**
+ * A card still checking when the turn is over never got its verdict: the
+ * stream broke, or the tool answered without a result event. It must not
+ * stay clickable — nothing was validated and nothing is pending, so an
+ * Apply on it would land on air.
+ */
+function settleUnconfirmedQueries(bubbles) {
+  for (const b of bubbles) {
+    for (const p of b.proposals || []) {
+      if (p.action !== 'propose_query' || !p.checking) continue
+      p.checking = false
+      p.refused = true
+      p.refusedReason = t('assist.proposal_unconfirmed')
+    }
+  }
+}
+
+/**
+ * The first card for `action` that `live` admits and whose arguments are
+ * the ones the server echoed — the rule markRefusedProposal applies, with
+ * the liveness test pluggable. Cards have no id; action + args is what
+ * ties a result back to the tool_use that drew the card.
+ */
+function findProposalCard(action, args, live = (p) => !p.applied && !p.refused) {
+  const key = argsKey(args)
+  for (const msg of messages.value) {
+    for (const p of msg.proposals || []) {
+      if (p.action !== action || !live(p)) continue
+      if (args && Object.keys(args).length && argsKey(proposalArgs(p)) !== key) continue
+      return p
+    }
+  }
+  return null
+}
+
+/**
+ * Arguments as a comparable string. Keys sorted: the card's copy comes from
+ * the server's proposal dict and the result's from the model's call, and
+ * the two are not guaranteed to spell the same object in the same order.
+ */
+function argsKey(args) {
+  const sorted = {}
+  for (const k of Object.keys(args || {}).sort()) sorted[k] = args[k]
+  return JSON.stringify(sorted)
 }
 
 /** The args as the server saw them — the card carries them flattened. */
@@ -731,7 +850,10 @@ onMounted(() => {
 
 async function send() {
   const text = input.value.trim()
-  if (!text || loading.value) return
+  // Locked while a proposed query awaits the user's decision. The next
+  // turn would show the model the editor's text, which is not the text it
+  // just proposed and not yet the text the user has kept either.
+  if (!text || loading.value || studioLocked.value) return
 
   messages.value.push({ role: 'user', text })
   input.value = ''
@@ -783,6 +905,12 @@ async function send() {
         // separate flag that can drift away from it.
         has_editor: Boolean(reportId.value && editorState.value),
         context_block: reportContext.value,
+        // The Studio project and the open query, while a Studio view is
+        // on screen; the key is simply absent otherwise. The server offers
+        // the propose tool only when this carries a query — leave it out
+        // and the model narrates a change it was never able to make, the
+        // has_editor story one floor down.
+        studio: ctx.studioTurnPayload(),
           // Where the user is, and every page they can reach. Sent from
           // here rather than held server-side so there is one source of
           // truth: this is the same generated manifest the app routes
@@ -862,10 +990,15 @@ async function send() {
               // how one story ended up with every widget inserted twice.
               // (The same bug was fixed at stream end; this is the
               // mid-stream half of it.)
-              assistMsg.proposals = [
-                ...(assistMsg.proposals || []),
-                mapToolProposal(status.proposal),
-              ]
+              const card = mapToolProposal(status.proposal)
+              // A proposed query is not offered until the server has run
+              // it against the engine. The card is drawn now so the user
+              // sees the model at work; its buttons wait for the verdict.
+              if (card.action === 'propose_query') {
+                card.checking = true
+                card.description = status.proposal.explanation || card.description
+              }
+              assistMsg.proposals = [...(assistMsg.proposals || []), card]
             }
             await nextTick()
             scrollToBottom()
@@ -963,6 +1096,7 @@ async function send() {
             }
             markRefusedProposal(r)
             enrichProposalFromResult(r)
+            settleProposedQuery(r)
             await nextTick()
             scrollToBottom()
           } catch { /* skip */ }
@@ -1003,6 +1137,11 @@ async function send() {
         for (const bubble of turnBubbles) {
           const msgIndex = messages.value.indexOf(bubble)
           for (const proposal of [...(bubble.proposals || [])]) {
+            // Never a proposed query. The review IS the feature: a diff
+            // nobody looked at is a change nobody approved, and accept-all
+            // was agreed to for edits to an article, not for rewriting the
+            // query under the user's cursor.
+            if (proposal.action === 'propose_query') continue
             await applyProposal(proposal, msgIndex, true)
           }
         }
@@ -1014,6 +1153,7 @@ async function send() {
       messages.value.push({ role: 'error', text: err.message })
     }
   } finally {
+    settleUnconfirmedQueries(turnBubbles)
     loading.value = false
     stopElapsedTimer()
     sealOpenBlocks()
@@ -1121,6 +1261,7 @@ async function applyProposal(proposal, msgIndex, auto = false) {
   // Belt and braces: the button is hidden for both states, but accept-all
   // walks the array directly.
   if (proposal.applied || proposal.refused) return
+  if (proposal.action === 'propose_query') return acceptProposedQuery(proposal)
   const result = await executeProposal(reportId.value, proposal, editorState.value)
   if (result.ok) {
     const msg = messages.value[msgIndex]
@@ -1142,11 +1283,123 @@ async function applyProposal(proposal, msgIndex, auto = false) {
 }
 
 function dismissProposal(proposal, msgIndex) {
+  if (proposal.action === 'propose_query') return rejectProposedQuery(proposal)
   const msg = messages.value[msgIndex]
   if (msg?.proposals) {
     msg.proposals = msg.proposals.filter(p => p !== proposal)
   }
 }
+
+/*
+ * The proposed-query card the lock notice acts on.
+ *
+ * The proposal is created here, from the tool_result that confirmed it,
+ * and decided either on its card or on the notice above the composer —
+ * which has no card of its own and needs to know which one to mark. The
+ * card is found by identity rather than by index: history loads older
+ * pages above it, and an index captured now points elsewhere later.
+ */
+let studioCard = null
+
+function isCurrentStudioCard(proposal) {
+  const pending = studioPending.value
+  return Boolean(studioCard && studioCard.proposal === proposal
+    && pending && pending.seq === studioCard.seq)
+}
+
+/** Replace the card in whichever bubble holds it, as applyProposal does. */
+function replaceCard(proposal, patch) {
+  for (const msg of messages.value) {
+    const idx = (msg.proposals || []).indexOf(proposal)
+    if (idx >= 0) {
+      msg.proposals[idx] = { ...proposal, ...patch }
+      return
+    }
+  }
+}
+
+function removeCard(proposal) {
+  for (const msg of messages.value) {
+    if ((msg.proposals || []).includes(proposal)) {
+      msg.proposals = msg.proposals.filter(p => p !== proposal)
+      return
+    }
+  }
+}
+
+/**
+ * Accept a proposed query, whole. It goes through useStudioProposal, which
+ * hands it to the query view when one has that query open and writes the
+ * store directly otherwise — never through executeProposal, which edits
+ * the article. A failure keeps the card and the lock: nothing landed, so
+ * the decision is still the user's to make.
+ */
+async function acceptProposedQuery(proposal) {
+  if (proposal.checking || proposal.superseded) return
+  if (!isCurrentStudioCard(proposal)) {
+    // Decided already — from the query view's own bar, or a newer proposal
+    // replaced it while this card was off screen. Nothing left to apply.
+    proposal.superseded = true
+    return
+  }
+  const ok = await studioProposal.accept()
+  if (!ok) {
+    error.value = t('studio_query.proposal_error', { error: studioProposal.error.value || '' })
+    return
+  }
+  replaceCard(proposal, { applied: true })
+  studioCard = null
+}
+
+/** Reject it: the lock lifts, the editor drops the diff, the card goes. */
+function rejectProposedQuery(proposal) {
+  if (isCurrentStudioCard(proposal)) {
+    studioProposal.reject()
+    studioCard = null
+  }
+  removeCard(proposal)
+}
+
+/* The notice above the composer: same decisions, aimed at the card that
+ * created the pending proposal. After a "Clear chat" there is no card, and
+ * the proposal is still settled — the notice is what the user has left. */
+function acceptStudioProposal() {
+  if (studioCard) return acceptProposedQuery(studioCard.proposal)
+  return studioProposal.accept()
+}
+
+function rejectStudioProposal() {
+  if (studioCard) return rejectProposedQuery(studioCard.proposal)
+  studioProposal.reject()
+}
+
+/** Where the pending proposal's diff is drawn. */
+const studioProposalPath = computed(() => {
+  const p = studioPending.value
+  return p ? `/studio/p/${p.projectId}/q/${p.queryId}` : ''
+})
+
+// Offered only from elsewhere: on the query page the diff is already in view.
+const showProposalLink = computed(() => (
+  Boolean(studioProposalPath.value) && route?.path !== studioProposalPath.value
+))
+
+/*
+ * A surface asked for the panel with a prompt ready: the empty query
+ * editor's "ask the assistant", the run error's "fix it". Opened the way the
+ * toggle opens it, the prompt put in the composer UNSENT — the user sees
+ * exactly what will be asked and can change it first, and so can an e2e.
+ * `immediate` covers a request made before the panel mounted.
+ */
+watch(ctx.assistRequest, async (req) => {
+  if (!req) return
+  if (!open.value) toggle()
+  input.value = req.prompt
+  await nextTick()
+  autoGrow()
+  inputEl.value?.focus()
+  ctx.clearAssistRequest()
+}, { immediate: true })
 
 /**
  * The user said yes to a navigation the assistant asked for.
@@ -1475,7 +1728,21 @@ defineExpose({ applyProposal, messages })
                   class="proposal-refused"
                   data-testid="proposal-refused"
                 >{{ p.refusedReason }}</div>
-                <div v-if="!p.applied && !p.refused" class="proposal-buttons">
+                <!-- A proposed query is checked against the engine before
+                     it is offered, so the buttons wait for the verdict; and
+                     once a newer proposal has replaced it there is nothing
+                     left to decide on this one. -->
+                <div
+                  v-else-if="p.checking"
+                  class="proposal-checking"
+                  data-testid="proposal-checking"
+                >{{ $t('assist.proposal_checking') }}</div>
+                <div
+                  v-else-if="p.superseded"
+                  class="proposal-superseded"
+                  data-testid="proposal-superseded"
+                >{{ $t('assist.proposal_superseded') }}</div>
+                <div v-else-if="!p.applied" class="proposal-buttons">
                   <button class="proposal-apply" data-testid="proposal-apply" @click="applyProposal(p, i)">{{ $t('assist.apply') }}</button>
                   <button class="proposal-dismiss" data-testid="proposal-dismiss" @click="dismissProposal(p, i)">{{ $t('app.dismiss') }}</button>
                 </div>
@@ -1588,12 +1855,44 @@ defineExpose({ applyProposal, messages })
         {{ $t('assist.jump_to_latest') }}
       </button>
 
+      <!-- The composer is locked while a proposed query waits for a
+           decision: the model must not be told about text the user has
+           neither kept nor replaced yet. The notice says so and offers the
+           decision here, so leaving the query page cannot strand the
+           user with a dead input — and links back to the diff when the
+           user is not looking at it. -->
+      <div v-if="studioLocked" class="assist-locked" data-testid="assist-locked">
+        <p class="assist-locked-text">{{ $t('assist.locked_notice') }}</p>
+        <div class="assist-locked-actions">
+          <button
+            type="button"
+            class="proposal-apply"
+            data-testid="assist-locked-accept"
+            :disabled="studioBusy"
+            @click="acceptStudioProposal"
+          >{{ $t('studio_query.proposal_accept') }}</button>
+          <button
+            type="button"
+            class="proposal-dismiss"
+            data-testid="assist-locked-reject"
+            :disabled="studioBusy"
+            @click="rejectStudioProposal"
+          >{{ $t('studio_query.proposal_reject') }}</button>
+          <router-link
+            v-if="showProposalLink"
+            :to="studioProposalPath"
+            class="assist-locked-open"
+            data-testid="assist-locked-open"
+          >{{ $t('assist.locked_open') }}</router-link>
+        </div>
+      </div>
+
       <form class="assist-input" @submit.prevent="send">
         <textarea
           ref="inputEl"
           v-model="input"
           :placeholder="$t('assist.ask_about_the_data')"
-          :disabled="loading"
+          :disabled="loading || studioLocked"
           :maxlength="promptLimit"
           data-testid="assist-input"
           rows="1"
@@ -1606,7 +1905,7 @@ defineExpose({ applyProposal, messages })
           data-testid="assist-charcount"
           :aria-label="$t('assist.characters_used')"
         >{{ input.length }}/{{ promptLimit }}</span>
-        <button type="submit" :disabled="loading || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
+        <button type="submit" :disabled="loading || studioLocked || !input.trim()" data-testid="assist-send">{{ $t('assist.send') }}</button>
       </form>
     </div>
     </Teleport>
@@ -2042,6 +2341,39 @@ defineExpose({ applyProposal, messages })
   color: #b91c1c;
 }
 .proposal-refused-card { opacity: 0.75; }
+
+/* Waiting for the engine's verdict, or overtaken by a newer proposal:
+   either way a card with nothing to click. */
+.proposal-checking,
+.proposal-superseded {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.proposal-checking { font-style: italic; }
+
+/* The lock notice sits between the transcript and the disabled composer,
+   in the composer's own register: this is where the user would type, and
+   this is why they cannot. */
+.assist-locked {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid var(--border);
+  background: var(--bezel, var(--surface));
+  color: var(--text);
+  font-size: 0.78rem;
+}
+.assist-locked-text { margin: 0 0 0.4rem; }
+.assist-locked-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.assist-locked-open {
+  font-size: 0.7rem;
+  color: var(--accent);
+}
 
 .assist-jump-latest {
   position: absolute;

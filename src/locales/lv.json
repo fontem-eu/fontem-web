@@ -260,7 +260,13 @@
     "navigate_stayed": "Palika šeit",
     "tool_result_not_kept": "Rezultāts netiek saglabāts — tiek reģistrēts tikai izsaukums un tā argumenti.",
     "signed_out_notice": "Jūs neesat pieteicies, tāpēc asistents var tikai atbildēt uz jautājumiem par Dargle un aizvest jūs uz lapu. Datu meklēšanai, rakstīšanai un saglabāšanai ir nepieciešams konts.",
-    "characters_used": "Izmantotās rakstzīmes"
+    "characters_used": "Izmantotās rakstzīmes",
+    "locked_notice": "Ierosinātais vaicājums gaida jūsu pārskatīšanu. Lai turpinātu, pieņemiet vai noraidiet to.",
+    "locked_open": "Atvērt vaicājumu",
+    "proposal_checking": "Pārbauda vaicājumu…",
+    "proposal_superseded": "Aizstāts ar jaunāku priekšlikumu.",
+    "proposal_unconfirmed": "Serveris neapstiprināja priekšlikumu.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "No asistenta netika saņemta atbilde."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Vaicājums veiksmīgi izpildīts — nav atgrieztu rindu.",
     "showing_first_100_of": "Rāda pirmās 100 no",
     "rows_2": "rindām.",
-    "loading": "Ielādē…"
+    "loading": "Ielādē…",
+    "assist_hint": "Nezināt, kā to uzrakstīt? Aprakstiet, ko vēlaties, un asistents sagatavos vaicājumu.",
+    "assist_ask": "Jautāt asistentam",
+    "assist_fix": "Labot ar asistentu",
+    "assist_prompt_write": "Uzraksti {lang} vaicājumu, kas ",
+    "assist_prompt_fix": "Šis vaicājums neizdodas ar kļūdu: \"{error}\". Lūdzu, izlabo to.",
+    "proposal_title": "Ierosinātās izmaiņas",
+    "proposal_note": "Pārskatiet izmaiņas zemāk. Tās tiek piemērotas kopumā: pieņemiet vai noraidiet visu.",
+    "proposal_accept": "Pieņemt",
+    "proposal_reject": "Noraidīt",
+    "proposal_applying": "Piemēro…",
+    "proposal_error": "Izmaiņas neizdevās saglabāt: {error}"
   },
   "studio_share_modal": {
     "share": "Kopīgot",

@@ -260,7 +260,13 @@
     "navigate_stayed": "Resté ici",
     "tool_result_not_kept": "Résultat non conservé — seuls l'appel et ses arguments sont enregistrés.",
     "signed_out_notice": "Vous n'êtes pas connecté : l'assistant peut seulement répondre à des questions sur Dargle et vous amener à une page. La recherche dans les données, la rédaction et l'enregistrement nécessitent un compte.",
-    "characters_used": "Caractères utilisés"
+    "characters_used": "Caractères utilisés",
+    "locked_notice": "Une requête proposée attend votre relecture. Acceptez-la ou refusez-la pour continuer.",
+    "locked_open": "Ouvrir la requête",
+    "proposal_checking": "Vérification de la requête…",
+    "proposal_superseded": "Remplacée par une proposition plus récente.",
+    "proposal_unconfirmed": "La proposition n'a pas été confirmée par le serveur.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Aucune réponse reçue de l'assistant."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Requête exécutée avec succès — aucune ligne renvoyée.",
     "showing_first_100_of": "Affichage des 100 premières sur",
     "rows_2": "lignes.",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "assist_hint": "Vous ne savez pas comment l'écrire ? Décrivez ce que vous voulez et l'assistant rédige la requête.",
+    "assist_ask": "Demander à l'assistant",
+    "assist_fix": "Corriger avec l'assistant",
+    "assist_prompt_write": "Écris une requête {lang} qui ",
+    "assist_prompt_fix": "Cette requête échoue avec : \"{error}\". Corrige-la, s'il te plaît.",
+    "proposal_title": "Modification proposée",
+    "proposal_note": "Vérifiez la modification ci-dessous. Elle s'applique en bloc : acceptez ou refusez le tout.",
+    "proposal_accept": "Accepter",
+    "proposal_reject": "Refuser",
+    "proposal_applying": "Application…",
+    "proposal_error": "La modification n'a pas pu être enregistrée : {error}"
   },
   "studio_share_modal": {
     "share": "Partager",

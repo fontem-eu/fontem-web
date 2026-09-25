@@ -260,7 +260,13 @@
     "navigate_stayed": "Zůstalo zde",
     "tool_result_not_kept": "Výsledek se neukládá — zaznamenává se pouze volání a jeho argumenty.",
     "signed_out_notice": "Nejste přihlášeni, takže asistent může pouze odpovídat na otázky o Dargle a přejít s vámi na stránku. Vyhledávání v datech, psaní a ukládání vyžadují účet.",
-    "characters_used": "Použité znaky"
+    "characters_used": "Použité znaky",
+    "locked_notice": "Navržený dotaz čeká na vaši kontrolu. Přijměte ho nebo odmítněte, abyste mohli pokračovat.",
+    "locked_open": "Otevřít dotaz",
+    "proposal_checking": "Kontrola dotazu…",
+    "proposal_superseded": "Nahrazeno novějším návrhem.",
+    "proposal_unconfirmed": "Server návrh nepotvrdil.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Od asistenta nebyla přijata žádná odpověď."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Dotaz proběhl úspěšně — nebyly vráceny žádné řádky.",
     "showing_first_100_of": "Zobrazuji prvních 100 z",
     "rows_2": "řádků.",
-    "loading": "Načítání…"
+    "loading": "Načítání…",
+    "assist_hint": "Nevíte, jak ho napsat? Popište, co chcete, a asistent dotaz navrhne.",
+    "assist_ask": "Zeptat se asistenta",
+    "assist_fix": "Opravit s asistentem",
+    "assist_prompt_write": "Napiš dotaz {lang}, který ",
+    "assist_prompt_fix": "Tento dotaz selhává s chybou: \"{error}\". Oprav ho, prosím.",
+    "proposal_title": "Navržená změna",
+    "proposal_note": "Zkontrolujte změnu níže. Použije se jako celek: přijměte nebo odmítněte vše.",
+    "proposal_accept": "Přijmout",
+    "proposal_reject": "Odmítnout",
+    "proposal_applying": "Používá se…",
+    "proposal_error": "Změnu se nepodařilo uložit: {error}"
   },
   "studio_share_modal": {
     "share": "Sdílet",

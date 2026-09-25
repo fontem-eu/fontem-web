@@ -260,7 +260,13 @@
     "navigate_stayed": "Hier geblieben",
     "tool_result_not_kept": "Ergebnis nicht gespeichert – nur der Aufruf und seine Argumente werden protokolliert.",
     "signed_out_notice": "Sie sind nicht angemeldet, daher kann der Assistent nur Fragen zu Dargle beantworten und Sie zu einer Seite führen. Für die Suche in den Daten sowie zum Schreiben und Speichern ist ein Konto erforderlich.",
-    "characters_used": "Verwendete Zeichen"
+    "characters_used": "Verwendete Zeichen",
+    "locked_notice": "Eine vorgeschlagene Abfrage wartet auf Ihre Prüfung. Nehmen Sie sie an oder lehnen Sie sie ab, um fortzufahren.",
+    "locked_open": "Abfrage öffnen",
+    "proposal_checking": "Abfrage wird geprüft…",
+    "proposal_superseded": "Durch einen neueren Vorschlag ersetzt.",
+    "proposal_unconfirmed": "Der Vorschlag wurde vom Server nicht bestätigt.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Keine Antwort vom Assistenten erhalten."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Abfrage erfolgreich ausgeführt — keine Zeilen zurückgegeben.",
     "showing_first_100_of": "Anzeige der ersten 100 von",
     "rows_2": "Zeilen.",
-    "loading": "Wird geladen…"
+    "loading": "Wird geladen…",
+    "assist_hint": "Unsicher, wie man sie schreibt? Beschreiben Sie, was Sie wollen, und der Assistent entwirft die Abfrage.",
+    "assist_ask": "Assistenten fragen",
+    "assist_fix": "Mit dem Assistenten beheben",
+    "assist_prompt_write": "Schreibe eine {lang}-Abfrage, die ",
+    "assist_prompt_fix": "Diese Abfrage schlägt fehl mit: \"{error}\". Bitte behebe das.",
+    "proposal_title": "Vorgeschlagene Änderung",
+    "proposal_note": "Prüfen Sie die Änderung unten. Sie wird als Ganzes übernommen: alles annehmen oder alles ablehnen.",
+    "proposal_accept": "Annehmen",
+    "proposal_reject": "Ablehnen",
+    "proposal_applying": "Wird übernommen…",
+    "proposal_error": "Die Änderung konnte nicht gespeichert werden: {error}"
   },
   "studio_share_modal": {
     "share": "Teilen",

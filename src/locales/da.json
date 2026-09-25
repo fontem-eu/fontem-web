@@ -260,7 +260,13 @@
     "navigate_stayed": "Blev her",
     "tool_result_not_kept": "Resultatet gemmes ikke — kun kaldet og dets argumenter registreres.",
     "signed_out_notice": "Du er ikke logget ind, så assistenten kan kun besvare spørgsmål om Dargle og føre dig til en side. Søgning i data, skrivning og lagring kræver en konto.",
-    "characters_used": "Anvendte tegn"
+    "characters_used": "Anvendte tegn",
+    "locked_notice": "En foreslået forespørgsel venter på din gennemgang. Acceptér eller afvis den for at fortsætte.",
+    "locked_open": "Åbn forespørgslen",
+    "proposal_checking": "Kontrollerer forespørgslen…",
+    "proposal_superseded": "Erstattet af et nyere forslag.",
+    "proposal_unconfirmed": "Forslaget blev ikke bekræftet af serveren.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Intet svar modtaget fra assistenten."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Forespørgslen kørte uden fejl — ingen rækker returneret.",
     "showing_first_100_of": "Viser de første 100 af",
     "rows_2": "rækker.",
-    "loading": "Indlæser…"
+    "loading": "Indlæser…",
+    "assist_hint": "Ved du ikke, hvordan den skal skrives? Beskriv, hvad du vil have, så udarbejder assistenten forespørgslen.",
+    "assist_ask": "Spørg assistenten",
+    "assist_fix": "Ret med assistenten",
+    "assist_prompt_write": "Skriv en {lang}-forespørgsel, der ",
+    "assist_prompt_fix": "Denne forespørgsel fejler med: \"{error}\". Ret den venligst.",
+    "proposal_title": "Foreslået ændring",
+    "proposal_note": "Gennemgå ændringen nedenfor. Den anvendes samlet: acceptér eller afvis det hele.",
+    "proposal_accept": "Acceptér",
+    "proposal_reject": "Afvis",
+    "proposal_applying": "Anvender…",
+    "proposal_error": "Ændringen kunne ikke gemmes: {error}"
   },
   "studio_share_modal": {
     "share": "Del",

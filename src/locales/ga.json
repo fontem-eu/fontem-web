@@ -260,7 +260,13 @@
     "navigate_stayed": "D'fhan anseo",
     "tool_result_not_kept": "Ní choinnítear an toradh — ní thaifeadtar ach an glao agus a argóintí.",
     "signed_out_notice": "Níl tú sínithe isteach, mar sin ní féidir leis an gcúntóir ach ceisteanna faoi Dargle a fhreagairt agus tú a thabhairt chuig leathanach. Teastaíonn cuntas chun na sonraí a chuardach, chun scríobh agus chun obair a shábháil.",
-    "characters_used": "Carachtair a úsáideadh"
+    "characters_used": "Carachtair a úsáideadh",
+    "locked_notice": "Tá iarratas molta ag fanacht le d'athbhreithniú. Glac leis nó diúltaigh dó chun leanúint ar aghaidh.",
+    "locked_open": "Oscail an t-iarratas",
+    "proposal_checking": "Ag seiceáil an iarratais…",
+    "proposal_superseded": "Curtha in ionad ag moladh níos nuaí.",
+    "proposal_unconfirmed": "Níor dheimhnigh an freastalaí an moladh.",
+    "studio_chat": "Studio · {name}"
   },
   "assist_panel": {
     "no_response": "Ní bhfuarthas freagra ar bith ón gcúntóir."
@@ -1841,7 +1847,18 @@
     "query_ran_no_rows": "Rith an t-iarratas go rathúil — níor aisíocadh aon ró.",
     "showing_first_100_of": "Ag taispeáint an chéad 100 as",
     "rows_2": "rónna.",
-    "loading": "Á luchtú…"
+    "loading": "Á luchtú…",
+    "assist_hint": "Níl a fhios agat conas é a scríobh? Déan cur síos ar a bhfuil uait agus dréachtóidh an cúntóir an t-iarratas.",
+    "assist_ask": "Fiafraigh den chúntóir",
+    "assist_fix": "Ceartaigh leis an gcúntóir",
+    "assist_prompt_write": "Scríobh iarratas {lang} a ",
+    "assist_prompt_fix": "Teipeann ar an iarratas seo le: \"{error}\". Ceartaigh é, le do thoil.",
+    "proposal_title": "Athrú molta",
+    "proposal_note": "Athbhreithnigh an t-athrú thíos. Cuirtear i bhfeidhm é ina iomláine: glac leis nó diúltaigh dó go hiomlán.",
+    "proposal_accept": "Glac leis",
+    "proposal_reject": "Diúltaigh",
+    "proposal_applying": "Á chur i bhfeidhm…",
+    "proposal_error": "Níorbh fhéidir an t-athrú a shábháil: {error}"
   },
   "studio_share_modal": {
     "share": "Comhroinn",

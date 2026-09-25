@@ -8,11 +8,12 @@
  * Edit plot (/studio/p/:pid/plot/:plotId): re-runs the stored recipe; tweak the
  * transform/chart and Save. Either can be pocketed into a report (live recipe).
  */
-import { ref, reactive, computed, watch, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChartSpec from '../components/charts/ChartSpec.vue'
 import StudioMap from '../components/StudioMap.vue'
 import { useStudio } from '../composables/useStudio.js'
+import { registerStudioContext } from '../composables/useAssistantContext.js'
 import { runSource } from '../composables/studioEngines.js'
 import { useDuckDB } from '../composables/useDuckDB.js'
 import { buildChartProps, specToPipelineConfig } from '../composables/studioPlot.js'
@@ -63,12 +64,19 @@ function loadCachedRun() {
   try { const raw = localStorage.getItem(k); if (raw) combine.result = JSON.parse(raw) } catch { /* ignore */ }
 }
 
+// Scope the assistant's conversation to this project. The transform editor
+// is not a project query, so nothing is registered as open here (plot
+// proposals are a later phase).
+let disposeContext = null
+
 async function hydrate() {
   ready.value = false
   await studio.ensureLoaded()
   const pid = route.params.projectId
   project.value = await studio.ensureProject(pid)
   if (!project.value) { router.replace('/studio'); return }
+  if (disposeContext) disposeContext()
+  disposeContext = registerStudioContext({ projectId: pid, projectName: project.value.name, getQuery: () => null })
   if (editMode.value) {
     const pl = studio.getPlot(pid, route.params.plotId)
     if (!pl) { router.replace(`/studio/p/${pid}`); return }
@@ -98,6 +106,7 @@ async function hydrate() {
 }
 onMounted(hydrate)
 watch(() => route.params.plotId, hydrate)
+onBeforeUnmount(() => { if (disposeContext) disposeContext() })
 
 function toggle(id) {
   const i = selection.value.indexOf(id)
