@@ -101,7 +101,7 @@ function reject() {
 }
 
 function isFor(queryId) {
-  return Boolean(pending.value && pending.value.queryId === String(queryId ?? ''))
+  return pending.value?.queryId === String(queryId ?? '')
 }
 
 /** Tests only: the state is module-level. */
