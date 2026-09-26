@@ -178,25 +178,73 @@ describe('StudioQueryView — assistant proposals', () => {
     expect(proposals.locked.value).toBe(true)
   })
 
-  it('an empty editor offers the assistant, and asking prefills a prompt that names the engine', async () => {
+  it('offers the assistant with an empty editor, and the prompt leaves the store to the assistant', async () => {
     seedQuery('')
     const w = mountView(); await flushPromises()
     expect(w.find('[data-testid="query-assist-hint"]').exists()).toBe(true)
     await w.find('[data-testid="query-assist-ask"]').trigger('click')
-    expect(ctx.assistRequest.value.prompt).toContain('Cypher')
+    // Which store answers the question (graph, statistics, Virtuoso) is the
+    // assistant's decision: the prompt must not pin a language.
+    const prompt = ctx.assistRequest.value.prompt
+    expect(prompt).toContain('Write a query that')
+    for (const lang of ['Cypher', 'SQL', 'SPARQL']) expect(prompt).not.toContain(lang)
   })
 
-  it('a failed run offers a fix, and asking prefills a prompt with the error', async () => {
+  it('keeps offering the assistant once the query has text', async () => {
+    seedQuery('MATCH (c) RETURN c.name AS name')
+    const w = mountView(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-ask"]').exists()).toBe(true)
+    await w.find('[data-testid="query-editor"]').setValue('MATCH (a:Authority) RETURN a')
+    expect(w.find('[data-testid="query-assist-ask"]').exists()).toBe(true)
+  })
+
+  it('a failed run adds a fix next to the ask, and the fix prompt carries the error', async () => {
     seedQuery('CREATE (x)')
     global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'write not allowed' }) })
     const w = mountView(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-fix"]').exists()).toBe(false)
     await w.find('[data-testid="query-run"]').trigger('click'); await flushPromises()
+    // Both doors at once: the ask stays, the fix joins it.
+    expect(w.find('[data-testid="query-assist-ask"]').exists()).toBe(true)
     await w.find('[data-testid="query-assist-fix"]').trigger('click')
     expect(ctx.assistRequest.value.prompt).toContain('write not allowed')
   })
 
+  it('viewers are offered neither door', async () => {
+    api.__seed([{ id: 'p1', name: 'P', created_by: 'u', plots: [],
+      my_access: { level: 'viewer', can_edit: false, can_delete: false, can_share: false },
+      queries: [{ id: 'q1', name: 'Companies', lang: 'cypher', query: 'CREATE (x)' }] }])
+    global.fetch.mockResolvedValue({ ok: false, status: 400, json: async () => ({ detail: 'nope' }) })
+    const w = mountView(); await flushPromises()
+    expect(w.find('[data-testid="query-assist-ask"]').exists()).toBe(false)
+    await w.find('[data-testid="query-run"]').trigger('click'); await flushPromises()
+    expect(w.find('[data-testid="query-assist-fix"]').exists()).toBe(false)
+  })
+
+  it('a proposal that switches the store is shown in that language and saved with it', async () => {
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    const sparql = 'SELECT ?act WHERE { ?act a ?t } LIMIT 5'
+    proposals.propose({ projectId: 'p1', queryId: 'q1', query: sparql, explanation: 'Legislation lives in Virtuoso.', lang: 'sparql' })
+    await flushPromises()
+    expect(w.find('[data-testid="query-proposal-lang"]').text()).toContain('Cypher → SPARQL')
+    // Reviewed in the language it will be saved in.
+    expect(w.findComponent(QueryEditorStub).props('lang')).toBe('sparql')
+    await w.find('[data-testid="query-proposal-accept"]').trigger('click'); await flushPromises()
+    expect(api.updateQuery).toHaveBeenCalledWith('p1', 'q1', expect.objectContaining({ query: sparql, lang: 'sparql' }))
+    expect(w.find('[data-testid="query-lang-sparql"]').classes()).toContain('active')
+  })
+
+  it('a proposal in the same language says nothing about stores', async () => {
+    seedQuery()
+    const w = mountView(); await flushPromises()
+    proposeHere(); await flushPromises()
+    expect(w.find('[data-testid="query-proposal-lang"]').exists()).toBe(false)
+    expect(w.findComponent(QueryEditorStub).props('lang')).toBe('cypher')
+  })
+
   it('no hint while a proposal is pending', async () => {
-    seedQuery('')
+    seedQuery('MATCH (c) RETURN c')
     const w = mountView(); await flushPromises()
     expect(w.find('[data-testid="query-assist-hint"]').exists()).toBe(true)
     proposeHere(); await flushPromises()

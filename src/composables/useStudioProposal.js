@@ -40,13 +40,17 @@ const locked = computed(() => Boolean(pending.value))
  * older text is no longer what it means. Returns the replaced proposal so
  * the panel can mark that card superseded, or null.
  */
-function propose({ projectId, queryId, query, explanation }) {
+function propose({ projectId, queryId, query, explanation, lang }) {
   const previous = pending.value
   pending.value = {
     projectId: String(projectId ?? ''),
     queryId: String(queryId ?? ''),
     query: String(query ?? ''),
     explanation: String(explanation ?? ''),
+    // The store the assistant chose, when it chose one other than the
+    // open query's: legislation lives in Virtuoso, contracts in Neo4j,
+    // and the user asked in words. Empty means "keep the query's own".
+    lang: lang ? String(lang) : '',
     seq: ++seq,
   }
   error.value = null
@@ -82,7 +86,8 @@ async function accept() {
     let applied = false
     if (applier) applied = (await applier(p)) === true
     if (!applied) {
-      await useStudio().updateQuery(p.projectId, p.queryId, { query: p.query })
+      await useStudio().updateQuery(p.projectId, p.queryId,
+        p.lang ? { query: p.query, lang: p.lang } : { query: p.query })
     }
     if (pending.value === p) pending.value = null
     return true

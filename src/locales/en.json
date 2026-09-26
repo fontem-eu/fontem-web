@@ -1851,7 +1851,7 @@
     "assist_hint": "Not sure how to write it? Describe what you want and the assistant drafts the query.",
     "assist_ask": "Ask the assistant",
     "assist_fix": "Fix with the assistant",
-    "assist_prompt_write": "Write a {lang} query that ",
+    "assist_prompt_write": "Write a query that ",
     "assist_prompt_fix": "This query fails with: \"{error}\". Please fix it.",
     "proposal_title": "Proposed change",
     "proposal_note": "Review the change below. It is applied as a whole: accept or reject all of it.",

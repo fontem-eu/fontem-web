@@ -1851,7 +1851,7 @@
     "assist_hint": "Ei tea, kuidas seda kirjutada? Kirjelda, mida soovid, ja abiline koostab päringu.",
     "assist_ask": "Küsi abiliselt",
     "assist_fix": "Paranda abilisega",
-    "assist_prompt_write": "Kirjuta {lang} päring, mis ",
+    "assist_prompt_write": "Kirjuta päring, mis ",
     "assist_prompt_fix": "See päring ebaõnnestub veaga: \"{error}\". Palun paranda see.",
     "proposal_title": "Pakutud muudatus",
     "proposal_note": "Vaata allolev muudatus üle. See rakendatakse tervikuna: võta kõik vastu või lükka kõik tagasi.",

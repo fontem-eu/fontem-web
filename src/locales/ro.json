@@ -1851,7 +1851,7 @@
     "assist_hint": "Nu știți cum s-o scrieți? Descrieți ce doriți și asistentul redactează interogarea.",
     "assist_ask": "Întreabă asistentul",
     "assist_fix": "Repară cu asistentul",
-    "assist_prompt_write": "Scrie o interogare {lang} care ",
+    "assist_prompt_write": "Scrie o interogare care ",
     "assist_prompt_fix": "Această interogare eșuează cu: \"{error}\". Te rog, repar-o.",
     "proposal_title": "Modificare propusă",
     "proposal_note": "Verificați modificarea de mai jos. Se aplică în întregime: acceptați sau respingeți totul.",

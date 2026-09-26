@@ -1851,7 +1851,7 @@
     "assist_hint": "Ne veste, kako jo napisati? Opišite, kaj želite, in pomočnik bo pripravil poizvedbo.",
     "assist_ask": "Vprašaj pomočnika",
     "assist_fix": "Popravi s pomočnikom",
-    "assist_prompt_write": "Napiši poizvedbo {lang}, ki ",
+    "assist_prompt_write": "Napiši poizvedbo, ki ",
     "assist_prompt_fix": "Ta poizvedba ne uspe z napako: \"{error}\". Prosim, popravi jo.",
     "proposal_title": "Predlagana sprememba",
     "proposal_note": "Preglejte spodnjo spremembo. Uporabi se kot celota: sprejmite ali zavrnite vse.",

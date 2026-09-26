@@ -1851,7 +1851,7 @@
     "assist_hint": "Níl a fhios agat conas é a scríobh? Déan cur síos ar a bhfuil uait agus dréachtóidh an cúntóir an t-iarratas.",
     "assist_ask": "Fiafraigh den chúntóir",
     "assist_fix": "Ceartaigh leis an gcúntóir",
-    "assist_prompt_write": "Scríobh iarratas {lang} a ",
+    "assist_prompt_write": "Scríobh iarratas a ",
     "assist_prompt_fix": "Teipeann ar an iarratas seo le: \"{error}\". Ceartaigh é, le do thoil.",
     "proposal_title": "Athrú molta",
     "proposal_note": "Athbhreithnigh an t-athrú thíos. Cuirtear i bhfeidhm é ina iomláine: glac leis nó diúltaigh dó go hiomlán.",

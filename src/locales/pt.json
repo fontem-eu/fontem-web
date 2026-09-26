@@ -1851,7 +1851,7 @@
     "assist_hint": "Não sabe como a escrever? Descreva o que quer e o assistente redige a consulta.",
     "assist_ask": "Perguntar ao assistente",
     "assist_fix": "Corrigir com o assistente",
-    "assist_prompt_write": "Escreve uma consulta {lang} que ",
+    "assist_prompt_write": "Escreve uma consulta que ",
     "assist_prompt_fix": "Esta consulta falha com: \"{error}\". Por favor, corrige-a.",
     "proposal_title": "Alteração proposta",
     "proposal_note": "Reveja a alteração abaixo. É aplicada como um todo: aceite ou rejeite tudo.",

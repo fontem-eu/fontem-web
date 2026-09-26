@@ -104,6 +104,7 @@ onBeforeUnmount(() => clearTimeout(saveTimer))
 const disposeApplier = proposals.registerApplier(async (p) => {
   const { projectId, queryId } = route.params
   if (p.projectId !== projectId || p.queryId !== queryId) return false
+  if (p.lang) draft.lang = p.lang
   draft.query = p.query
   await nextTick()
   clearTimeout(saveTimer)
@@ -115,17 +116,26 @@ onBeforeUnmount(disposeApplier)
 
 async function acceptProposal() { await proposals.accept() }
 
-// The two doors into the assistant: an empty editor ("write it for me") and
-// a failed run ("fix it"). Both only prefill the composer — the user sees
-// the question and sends it themselves.
+// The two doors into the assistant: "write it for me", always there for an
+// editor, and "fix it" once a run has failed. Both only prefill the
+// composer — the user sees the question and sends it themselves. The write
+// prompt names no language: which store answers the question (the graph,
+// the statistics, Virtuoso's legislation and Wikidata) is the assistant's
+// call, and a prompt that said "Cypher" pinned it to the wrong one.
 function askToWrite() {
-  requestAssist({ prompt: t('studio_query.assist_prompt_write', { lang: activeEngine.value.label }) })
+  requestAssist({ prompt: t('studio_query.assist_prompt_write') })
 }
 function askToFix() {
   requestAssist({ prompt: t('studio_query.assist_prompt_fix', { error: run.error }) })
 }
 
 const activeEngine = computed(() => engine(draft.lang))
+// A proposal may change the language as well as the text; while it is on
+// screen the editor highlights it in the language it will be saved in.
+const proposalSwitchesStore = computed(() => Boolean(
+  proposalFor.value?.lang && proposalFor.value.lang !== draft.lang))
+const proposedEngine = computed(() => engine(proposalFor.value?.lang || draft.lang))
+const proposalLang = computed(() => (proposalSwitchesStore.value ? proposalFor.value.lang : draft.lang))
 function pickLang(k) {
   const prev = engine(draft.lang)
   draft.lang = k
@@ -186,6 +196,11 @@ async function remove() {
         <div v-if="proposalFor" class="qproposal" data-testid="query-proposal">
           <strong>{{ $t('studio_query.proposal_title') }}</strong>
           <p class="qproposal-why" data-testid="query-proposal-explanation">{{ proposalFor.explanation }}</p>
+          <!-- The assistant picked a different store than the query had.
+               Engine labels and stores are proper names, not prose. -->
+          <p v-if="proposalSwitchesStore" class="qproposal-lang" data-testid="query-proposal-lang">
+            {{ activeEngine.label }} → {{ proposedEngine.label }} · {{ proposedEngine.store }}
+          </p>
           <p class="qproposal-note">{{ $t('studio_query.proposal_note') }}</p>
           <div class="qproposal-actions">
             <button type="button" class="sbtn sbtn--primary" data-testid="query-proposal-accept" :disabled="proposals.busy.value" @click="acceptProposal">
@@ -196,9 +211,13 @@ async function remove() {
           </div>
         </div>
 
-        <QueryEditor v-model="draft.query" :lang="draft.lang" :placeholder="$t('studio_query.write_your_query_shortcut')" :proposal="proposalFor?.query ?? null" @run="execute" />
+        <QueryEditor v-model="draft.query" :lang="proposalLang" :placeholder="$t('studio_query.write_your_query_shortcut')" :proposal="proposalFor?.query ?? null" @run="execute" />
 
-        <div v-if="!draft.query.trim() && !proposalFor && canEdit" class="qassist" data-testid="query-assist-hint">
+        <!-- Always offered to an editor, not only on an empty query: asking
+             for a rewrite of a query that already has text is the common
+             case. Hidden only while a proposal waits — the assistant is
+             locked then, and the bar above is the decision to make. -->
+        <div v-if="!proposalFor && canEdit" class="qassist" data-testid="query-assist-hint">
           <span>{{ $t('studio_query.assist_hint') }}</span>
           <button type="button" class="sbtn" data-testid="query-assist-ask" @click="askToWrite">{{ $t('studio_query.assist_ask') }}</button>
         </div>
@@ -262,6 +281,7 @@ async function remove() {
 .qerr { font-size: 0.82rem; color: #dc2626; }
 .qproposal { border: 1px solid var(--accent); border-radius: 8px; padding: 0.7rem 0.9rem; margin-bottom: 0.6rem; background: color-mix(in srgb, var(--accent) 6%, var(--bg)); font-size: 0.85rem; }
 .qproposal-why { margin: 0.3rem 0; }
+.qproposal-lang { margin: 0 0 0.3rem; font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--accent); }
 .qproposal-note { margin: 0 0 0.6rem; color: var(--muted); font-size: 0.78rem; }
 .qproposal-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 .qassist { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; padding: 0.6rem 0.8rem; border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 0.82rem; }

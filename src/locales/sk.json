@@ -1851,7 +1851,7 @@
     "assist_hint": "Neviete, ako ho napísať? Opíšte, čo chcete, a asistent dopyt navrhne.",
     "assist_ask": "Opýtať sa asistenta",
     "assist_fix": "Opraviť s asistentom",
-    "assist_prompt_write": "Napíš dopyt {lang}, ktorý ",
+    "assist_prompt_write": "Napíš dopyt, ktorý ",
     "assist_prompt_fix": "Tento dopyt zlyháva s chybou: \"{error}\". Prosím, oprav ho.",
     "proposal_title": "Navrhovaná zmena",
     "proposal_note": "Skontrolujte zmenu nižšie. Použije sa ako celok: prijmite alebo odmietnite všetko.",
