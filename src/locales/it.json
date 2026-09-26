@@ -1851,7 +1851,7 @@
     "assist_hint": "Non sai come scriverla? Descrivi cosa vuoi e l'assistente redige la query.",
     "assist_ask": "Chiedi all'assistente",
     "assist_fix": "Correggi con l'assistente",
-    "assist_prompt_write": "Scrivi una query {lang} che ",
+    "assist_prompt_write": "Scrivi una query che ",
     "assist_prompt_fix": "Questa query fallisce con: \"{error}\". Per favore, correggila.",
     "proposal_title": "Modifica proposta",
     "proposal_note": "Controlla la modifica qui sotto. Viene applicata nel suo insieme: accetta o rifiuta tutto.",

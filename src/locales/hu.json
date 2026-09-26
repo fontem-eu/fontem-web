@@ -1851,7 +1851,7 @@
     "assist_hint": "Nem tudja, hogyan írja meg? Írja le, mit szeretne, és az asszisztens megfogalmazza a lekérdezést.",
     "assist_ask": "Kérdezze az asszisztenst",
     "assist_fix": "Javítás az asszisztenssel",
-    "assist_prompt_write": "Írj egy {lang} lekérdezést, amely ",
+    "assist_prompt_write": "Írj egy lekérdezést, amely ",
     "assist_prompt_fix": "Ez a lekérdezés hibával áll le: \"{error}\". Kérlek, javítsd ki.",
     "proposal_title": "Javasolt módosítás",
     "proposal_note": "Nézze át az alábbi módosítást. Egészében kerül alkalmazásra: fogadja el vagy utasítsa el az egészet.",

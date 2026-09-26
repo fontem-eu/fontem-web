@@ -1851,7 +1851,7 @@
     "assist_hint": "Ma tafx kif tiktibha? Iddeskrivi x'trid u l-assistent jabbozza l-mistoqsija.",
     "assist_ask": "Staqsi lill-assistent",
     "assist_fix": "Irranġa mal-assistent",
-    "assist_prompt_write": "Ikteb mistoqsija {lang} li ",
+    "assist_prompt_write": "Ikteb mistoqsija li ",
     "assist_prompt_fix": "Din il-mistoqsija tfalli bi: \"{error}\". Jekk jogħġbok irranġaha.",
     "proposal_title": "Bidla proposta",
     "proposal_note": "Irrevedi l-bidla hawn taħt. Tiġi applikata kollha flimkien: aċċetta jew irrifjuta kollox.",

@@ -1851,7 +1851,7 @@
     "assist_hint": "Ne znate kako ga napisati? Opišite što želite i asistent će sastaviti upit.",
     "assist_ask": "Pitaj asistenta",
     "assist_fix": "Popravi s asistentom",
-    "assist_prompt_write": "Napiši {lang} upit koji ",
+    "assist_prompt_write": "Napiši upit koji ",
     "assist_prompt_fix": "Ovaj upit ne uspijeva uz grešku: \"{error}\". Molim te, popravi ga.",
     "proposal_title": "Predložena promjena",
     "proposal_note": "Pregledajte promjenu u nastavku. Primjenjuje se u cijelosti: prihvatite ili odbijte sve.",

@@ -502,6 +502,9 @@ function settleProposedQuery(r) {
     queryId: args.query_id,
     query: args.query,
     explanation: args.explanation,
+    // The store the model chose, if it switched one; absent keeps the
+    // open query's language.
+    lang: args.lang,
   })
   studioCard = { proposal: found, seq: studioProposal.pending.value?.seq }
 }

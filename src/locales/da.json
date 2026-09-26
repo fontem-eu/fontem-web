@@ -1851,7 +1851,7 @@
     "assist_hint": "Ved du ikke, hvordan den skal skrives? Beskriv, hvad du vil have, så udarbejder assistenten forespørgslen.",
     "assist_ask": "Spørg assistenten",
     "assist_fix": "Ret med assistenten",
-    "assist_prompt_write": "Skriv en {lang}-forespørgsel, der ",
+    "assist_prompt_write": "Skriv en forespørgsel, der ",
     "assist_prompt_fix": "Denne forespørgsel fejler med: \"{error}\". Ret den venligst.",
     "proposal_title": "Foreslået ændring",
     "proposal_note": "Gennemgå ændringen nedenfor. Den anvendes samlet: acceptér eller afvis det hele.",

@@ -1851,7 +1851,7 @@
     "assist_hint": "Vet du inte hur den ska skrivas? Beskriv vad du vill ha, så tar assistenten fram frågan.",
     "assist_ask": "Fråga assistenten",
     "assist_fix": "Åtgärda med assistenten",
-    "assist_prompt_write": "Skriv en {lang}-fråga som ",
+    "assist_prompt_write": "Skriv en fråga som ",
     "assist_prompt_fix": "Den här frågan misslyckas med: \"{error}\". Åtgärda den, tack.",
     "proposal_title": "Föreslagen ändring",
     "proposal_note": "Granska ändringen nedan. Den tillämpas i sin helhet: acceptera eller avvisa allt.",

@@ -1851,7 +1851,7 @@
     "assist_hint": "Nie wiesz, jak je napisać? Opisz, czego chcesz, a asystent przygotuje zapytanie.",
     "assist_ask": "Zapytaj asystenta",
     "assist_fix": "Napraw z asystentem",
-    "assist_prompt_write": "Napisz zapytanie {lang}, które ",
+    "assist_prompt_write": "Napisz zapytanie, które ",
     "assist_prompt_fix": "To zapytanie kończy się błędem: \"{error}\". Proszę, napraw je.",
     "proposal_title": "Proponowana zmiana",
     "proposal_note": "Sprawdź poniższą zmianę. Jest stosowana w całości: zaakceptuj lub odrzuć wszystko.",

@@ -145,6 +145,23 @@ describe('useStudioProposal', () => {
     expect(sp.pending.value).toBeNull()
   })
 
+  it('a proposal that switches the store writes the language along with the text', async () => {
+    const sparql = 'SELECT ?act WHERE { ?act a ?t } LIMIT 5'
+    sp.propose(proposalFor({ query: sparql, lang: 'sparql' }))
+    expect(sp.pending.value.lang).toBe('sparql')
+    await expect(sp.accept()).resolves.toBe(true)
+    expect(api.updateQuery).toHaveBeenCalledWith('p1', 'q1', { query: sparql, lang: 'sparql' })
+    expect(store.getQuery('p1', 'q1').lang).toBe('sparql')
+  })
+
+  it('a proposal without a language leaves the query\'s own untouched', async () => {
+    sp.propose(proposalFor())
+    expect(sp.pending.value.lang).toBe('')
+    await sp.accept()
+    expect(api.updateQuery.mock.calls[0][2]).not.toHaveProperty('lang')
+    expect(store.getQuery('p1', 'q1').lang).toBe('cypher')
+  })
+
   it('accept with nothing pending is a no-op that resolves false', async () => {
     await expect(sp.accept()).resolves.toBe(false)
     expect(api.updateQuery).not.toHaveBeenCalled()

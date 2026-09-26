@@ -1851,7 +1851,7 @@
     "assist_hint": "Unsicher, wie man sie schreibt? Beschreiben Sie, was Sie wollen, und der Assistent entwirft die Abfrage.",
     "assist_ask": "Assistenten fragen",
     "assist_fix": "Mit dem Assistenten beheben",
-    "assist_prompt_write": "Schreibe eine {lang}-Abfrage, die ",
+    "assist_prompt_write": "Schreibe eine Abfrage, die ",
     "assist_prompt_fix": "Diese Abfrage schlägt fehl mit: \"{error}\". Bitte behebe das.",
     "proposal_title": "Vorgeschlagene Änderung",
     "proposal_note": "Prüfen Sie die Änderung unten. Sie wird als Ganzes übernommen: alles annehmen oder alles ablehnen.",

@@ -1851,7 +1851,7 @@
     "assist_hint": "Nežinote, kaip ją parašyti? Aprašykite, ko norite, ir asistentas parengs užklausą.",
     "assist_ask": "Klausti asistento",
     "assist_fix": "Taisyti su asistentu",
-    "assist_prompt_write": "Parašyk {lang} užklausą, kuri ",
+    "assist_prompt_write": "Parašyk užklausą, kuri ",
     "assist_prompt_fix": "Ši užklausa nepavyksta su klaida: \"{error}\". Prašau ją pataisyti.",
     "proposal_title": "Siūlomas pakeitimas",
     "proposal_note": "Peržiūrėkite toliau pateiktą pakeitimą. Jis taikomas visas: priimkite arba atmeskite viską.",

@@ -1851,7 +1851,7 @@
     "assist_hint": "Vous ne savez pas comment l'écrire ? Décrivez ce que vous voulez et l'assistant rédige la requête.",
     "assist_ask": "Demander à l'assistant",
     "assist_fix": "Corriger avec l'assistant",
-    "assist_prompt_write": "Écris une requête {lang} qui ",
+    "assist_prompt_write": "Écris une requête qui ",
     "assist_prompt_fix": "Cette requête échoue avec : \"{error}\". Corrige-la, s'il te plaît.",
     "proposal_title": "Modification proposée",
     "proposal_note": "Vérifiez la modification ci-dessous. Elle s'applique en bloc : acceptez ou refusez le tout.",

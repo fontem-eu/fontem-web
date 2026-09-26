@@ -1851,7 +1851,7 @@
     "assist_hint": "Etkö tiedä, miten se kirjoitetaan? Kuvaile, mitä haluat, niin avustaja laatii kyselyn.",
     "assist_ask": "Kysy avustajalta",
     "assist_fix": "Korjaa avustajan kanssa",
-    "assist_prompt_write": "Kirjoita {lang}-kysely, joka ",
+    "assist_prompt_write": "Kirjoita kysely, joka ",
     "assist_prompt_fix": "Tämä kysely epäonnistuu virheeseen: \"{error}\". Korjaa se.",
     "proposal_title": "Ehdotettu muutos",
     "proposal_note": "Tarkista alla oleva muutos. Se otetaan käyttöön kokonaisuutena: hyväksy tai hylkää kaikki.",

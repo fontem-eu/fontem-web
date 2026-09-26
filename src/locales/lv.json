@@ -1851,7 +1851,7 @@
     "assist_hint": "Nezināt, kā to uzrakstīt? Aprakstiet, ko vēlaties, un asistents sagatavos vaicājumu.",
     "assist_ask": "Jautāt asistentam",
     "assist_fix": "Labot ar asistentu",
-    "assist_prompt_write": "Uzraksti {lang} vaicājumu, kas ",
+    "assist_prompt_write": "Uzraksti vaicājumu, kas ",
     "assist_prompt_fix": "Šis vaicājums neizdodas ar kļūdu: \"{error}\". Lūdzu, izlabo to.",
     "proposal_title": "Ierosinātās izmaiņas",
     "proposal_note": "Pārskatiet izmaiņas zemāk. Tās tiek piemērotas kopumā: pieņemiet vai noraidiet visu.",

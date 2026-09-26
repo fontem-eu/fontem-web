@@ -376,6 +376,18 @@ describe('AssistPanel in the Data Studio', () => {
       })
     })
 
+    it('carries the store the model chose into the proposal', async () => {
+      // The model decided the answer lives in Virtuoso: the language it
+      // named must reach the editor and the save, not just the text.
+      const sparql = 'SELECT ?act WHERE { ?act a ?t } LIMIT 5'
+      await sendAndStream([
+        proposeEvent({ query: sparql, lang: 'sparql' }),
+        proposeResult({ query: sparql, lang: 'sparql' }),
+        sse('done', {}),
+      ])
+      expect(useStudioProposal().pending.value).toMatchObject({ query: sparql, lang: 'sparql' })
+    })
+
     it('a refusal leaves the card refused and the composer free', async () => {
       const w = await sendAndStream([
         proposeEvent(),

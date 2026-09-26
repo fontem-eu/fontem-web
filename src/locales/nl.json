@@ -1851,7 +1851,7 @@
     "assist_hint": "Weet u niet hoe u die schrijft? Beschrijf wat u wilt en de assistent stelt de query op.",
     "assist_ask": "Vraag het de assistent",
     "assist_fix": "Herstellen met de assistent",
-    "assist_prompt_write": "Schrijf een {lang}-query die ",
+    "assist_prompt_write": "Schrijf een query die ",
     "assist_prompt_fix": "Deze query mislukt met: \"{error}\". Herstel dit alstublieft.",
     "proposal_title": "Voorgestelde wijziging",
     "proposal_note": "Controleer de wijziging hieronder. Ze wordt als geheel toegepast: alles accepteren of alles afwijzen.",
