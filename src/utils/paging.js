@@ -13,7 +13,7 @@ export const PAGE_SIZE = Object.freeze({ projects: 30, investigations: 10 })
 /** The largest page each endpoint allows; what the pickers walk at. */
 export const MAX_PAGE_SIZE = Object.freeze({ projects: 200, investigations: 500 })
 
-export const cursorOf = (row) => (row && row.updated_at && row.id ? `${row.updated_at}|${row.id}` : '')
+export const cursorOf = (row) => (row?.updated_at && row?.id ? `${row.updated_at}|${row.id}` : '')
 
 export const mayHaveMore = (page, limit) => Array.isArray(page) && page.length === limit
 
@@ -52,6 +52,6 @@ export async function fetchAll(fetchPage, limit) {
     const grew = next.length > all.length
     all = next
     if (!mayHaveMore(page, limit) || !grew) return all
-    before = cursorOf(page[page.length - 1])
+    before = cursorOf(page.at(-1))
   }
 }

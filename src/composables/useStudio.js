@@ -35,7 +35,7 @@ async function ensureLoaded(force = false) {
       const page = Array.isArray(list) ? list : []
       projects.value = page
       hasMore.value = mayHaveMore(page, PAGE_SIZE.projects)
-      _cursor = cursorOf(page[page.length - 1])
+      _cursor = cursorOf(page.at(-1))
       loaded.value = true
       return projects.value
     })
@@ -53,7 +53,7 @@ async function loadMore() {
     projects.value = appendPage(projects.value, page)
     // Nothing new means nothing more, whatever the page size says.
     hasMore.value = mayHaveMore(page, PAGE_SIZE.projects) && projects.value.length > before
-    if (Array.isArray(page) && page.length) _cursor = cursorOf(page[page.length - 1])
+    if (Array.isArray(page) && page.length) _cursor = cursorOf(page.at(-1))
   } catch (e) {
     error.value = e.message
   } finally {

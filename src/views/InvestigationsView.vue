@@ -27,7 +27,7 @@ let cursor = ''
 
 function takePage(page) {
   hasMore.value = mayHaveMore(page, PAGE_SIZE.investigations)
-  if (Array.isArray(page) && page.length) cursor = cursorOf(page[page.length - 1])
+  if (Array.isArray(page) && page.length) cursor = cursorOf(page.at(-1))
 }
 
 async function load() {
