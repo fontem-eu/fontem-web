@@ -167,7 +167,9 @@
     "total_value_eur": "Συνολική αξία (EUR)",
     "unknown": "Άγνωστο",
     "working": "Δουλεύει…",
-    "xbrl_field_coverage": "Κάλυψη πεδίων XBRL (%)"
+    "xbrl_field_coverage": "Κάλυψη πεδίων XBRL (%)",
+    "show_more": "Εμφάνιση περισσότερων",
+    "loading_more": "Φόρτωση περισσότερων…"
   },
   "app_footer": {
     "about": "Σχετικά",

@@ -167,7 +167,9 @@
     "total_value_eur": "Teljes érték (EUR)",
     "unknown": "Ismeretlen",
     "working": "Dolgozik…",
-    "xbrl_field_coverage": "XBRL-mezők lefedettsége (%)"
+    "xbrl_field_coverage": "XBRL-mezők lefedettsége (%)",
+    "show_more": "Több megjelenítése",
+    "loading_more": "További elemek betöltése…"
   },
   "app_footer": {
     "about": "Rólunk",

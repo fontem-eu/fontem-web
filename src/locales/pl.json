@@ -167,7 +167,9 @@
     "total_value_eur": "Wartość całkowita (EUR)",
     "unknown": "Nieznany",
     "working": "Pracuję…",
-    "xbrl_field_coverage": "Pokrycie pól XBRL (%)"
+    "xbrl_field_coverage": "Pokrycie pól XBRL (%)",
+    "show_more": "Pokaż więcej",
+    "loading_more": "Wczytywanie kolejnych…"
   },
   "app_footer": {
     "about": "O projekcie",

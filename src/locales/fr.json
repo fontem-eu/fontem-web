@@ -167,7 +167,9 @@
     "total_value_eur": "Valeur totale (EUR)",
     "unknown": "Inconnu",
     "working": "Travail en cours…",
-    "xbrl_field_coverage": "Couverture des champs XBRL (%)"
+    "xbrl_field_coverage": "Couverture des champs XBRL (%)",
+    "show_more": "Afficher plus",
+    "loading_more": "Chargement de la suite…"
   },
   "app_footer": {
     "about": "À propos",

@@ -8,6 +8,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { listInvestigations, createInvestigation } from '../api/community.js'
+import { PAGE_SIZE, appendPage, cursorOf, mayHaveMore } from '../utils/paging.js'
 import { roleLabel } from '../utils/investigationRole.js'
 
 const router = useRouter()
@@ -18,16 +19,44 @@ const showCreate = ref(false)
 const newName = ref('')
 const newDesc = ref('')
 const creating = ref(false)
+// Ten at a time, newest activity first. The list used to come back whole: an
+// account that belongs to many investigations fetched every one on each visit.
+const hasMore = ref(false)
+const loadingMore = ref(false)
+let cursor = ''
+
+function takePage(page) {
+  hasMore.value = mayHaveMore(page, PAGE_SIZE.investigations)
+  if (Array.isArray(page) && page.length) cursor = cursorOf(page[page.length - 1])
+}
 
 async function load() {
   loading.value = true
   error.value = null
   try {
-    items.value = (await listInvestigations()) || []
+    const page = (await listInvestigations()) || []
+    items.value = page
+    takePage(page)
   } catch (e) {
     error.value = e.message
   } finally {
     loading.value = false
+  }
+}
+
+async function loadMore() {
+  if (!hasMore.value || loadingMore.value) return
+  loadingMore.value = true
+  try {
+    const page = (await listInvestigations({ before: cursor })) || []
+    const had = items.value.length
+    items.value = appendPage(items.value, page)
+    takePage(page)
+    if (items.value.length === had) hasMore.value = false
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loadingMore.value = false
   }
 }
 onMounted(load)
@@ -84,6 +113,14 @@ function open(id) { router.push(`/investigations/${id}`) }
         <span class="inv-role" data-testid="investigation-role">{{ roleLabel(it.membership) }}</span>
       </li>
     </ul>
+    <button
+      v-if="!loading && hasMore && items.length"
+      type="button"
+      class="inv-more"
+      data-testid="investigations-show-more"
+      :disabled="loadingMore"
+      @click="loadMore"
+    >{{ loadingMore ? $t('app.loading_more') : $t('app.show_more') }}</button>
 
     <div
       v-if="showCreate"
@@ -131,6 +168,8 @@ function open(id) { router.push(`/investigations/${id}`) }
 .inv-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .inv-card { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; background: var(--surface); }
 .inv-card:hover { border-color: var(--accent); }
+.inv-more { display: block; margin: 1rem auto 0; padding: 0.45rem 0.9rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer; font-size: 0.85rem; }
+.inv-more:disabled { opacity: 0.6; cursor: default; }
 .inv-card-main { display: flex; flex-direction: column; min-width: 0; }
 .inv-card-name { font-weight: 600; color: var(--text); }
 .inv-card-desc { font-size: 0.8rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

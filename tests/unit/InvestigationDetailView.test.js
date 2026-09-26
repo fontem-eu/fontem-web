@@ -17,7 +17,7 @@ vi.mock('../../src/api/community.js', () => ({
 }))
 
 vi.mock('../../src/api/studio.js', () => ({
-  listProjectsForInvestigation: vi.fn(),
+  listAllProjectsForInvestigation: vi.fn(),
   detachProject: vi.fn(),
 }))
 
@@ -28,7 +28,7 @@ import {
   listInvestigationStories, removeInvestigationStory,
   listVisualizations, deleteInvestigation,
 } from '../../src/api/community.js'
-import { listProjectsForInvestigation, detachProject } from '../../src/api/studio.js'
+import { listAllProjectsForInvestigation, detachProject } from '../../src/api/studio.js'
 
 const MEMBERS = [
   { user_id: 'u1', email: 'owner@x.io', role: 'owner' },
@@ -40,7 +40,7 @@ async function mountDetail(membership) {
   listInvestigationMembers.mockResolvedValue(MEMBERS)
   if (!listInvestigationStories.getMockImplementation()) listInvestigationStories.mockResolvedValue([])
   if (!listVisualizations.getMockImplementation()) listVisualizations.mockResolvedValue([])
-  if (!listProjectsForInvestigation.getMockImplementation()) listProjectsForInvestigation.mockResolvedValue([])
+  if (!listAllProjectsForInvestigation.getMockImplementation()) listAllProjectsForInvestigation.mockResolvedValue([])
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
@@ -57,7 +57,7 @@ async function mountDetail(membership) {
 }
 
 beforeEach(() => {
-  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory, listVisualizations, deleteInvestigation, listProjectsForInvestigation, detachProject]) m.mockReset()
+  for (const m of [getInvestigation, listInvestigationMembers, addInvestigationMember, updateInvestigationMember, removeInvestigationMember, listInvestigationStories, removeInvestigationStory, listVisualizations, deleteInvestigation, listAllProjectsForInvestigation, detachProject]) m.mockReset()
 })
 
 describe('InvestigationDetailView', () => {
@@ -154,7 +154,7 @@ describe('InvestigationDetailView — viz list + delete', () => {
     expect(deleteInvestigation).toHaveBeenCalledWith('i1', 'orphan')
   })
   it('lists shared data projects and renders their plots inline', async () => {
-    listProjectsForInvestigation.mockResolvedValue([
+    listAllProjectsForInvestigation.mockResolvedValue([
       { id: 'dp1', name: 'Single-bidder', investigation_id: 'i1',
         queries: [{ id: 'q1' }],
         plots: [{ id: 'pl1', name: 'By country', spec: { sources: [], transform: '', chart: 'bar_h' } }] },

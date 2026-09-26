@@ -167,7 +167,9 @@
     "total_value_eur": "Totale waarde (EUR)",
     "unknown": "Onbekend",
     "working": "Bezig…",
-    "xbrl_field_coverage": "XBRL-velddekking (%)"
+    "xbrl_field_coverage": "XBRL-velddekking (%)",
+    "show_more": "Meer tonen",
+    "loading_more": "Meer laden…"
   },
   "app_footer": {
     "about": "Over",

@@ -167,7 +167,9 @@
     "total_value_eur": "Valur totali (EUR)",
     "unknown": "Mhux magħruf",
     "working": "Qed jaħdem…",
-    "xbrl_field_coverage": "Kopertura tal-kampi XBRL (%)"
+    "xbrl_field_coverage": "Kopertura tal-kampi XBRL (%)",
+    "show_more": "Uri aktar",
+    "loading_more": "Qed jitgħabba aktar…"
   },
   "app_footer": {
     "about": "Dwar",

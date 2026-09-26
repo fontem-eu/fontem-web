@@ -3,12 +3,12 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { _internal } from '../../src/api/session.js'
 
 vi.mock('../../src/api/community.js', () => ({
-  listInvestigations: vi.fn(),
+  listAllInvestigations: vi.fn(),
   createVisualization: vi.fn(),
 }))
 
 import PocketButton from '../../src/components/PocketButton.vue'
-import { listInvestigations, createVisualization } from '../../src/api/community.js'
+import { listAllInvestigations, createVisualization } from '../../src/api/community.js'
 
 const PROPS = {
   widgetType: 'chart_snapshot',
@@ -21,13 +21,13 @@ const PROPS = {
 beforeEach(() => {
   _internal.clearForTests?.()
   localStorage.clear()
-  listInvestigations.mockReset()
+  listAllInvestigations.mockReset()
   createVisualization.mockReset()
 })
 
 describe('PocketButton — Add to investigation', () => {
   it('lists writable investigations and saves the viz server-side', async () => {
-    listInvestigations.mockResolvedValue([
+    listAllInvestigations.mockResolvedValue([
       { id: 'inv-w', name: 'Writable', membership: { role: 'owner' } },
       { id: 'inv-v', name: 'ViewerOnly', membership: { role: 'viewer' } },
     ])

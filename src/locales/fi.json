@@ -167,7 +167,9 @@
     "total_value_eur": "Kokonaisarvo (EUR)",
     "unknown": "Tuntematon",
     "working": "Työskennellään…",
-    "xbrl_field_coverage": "XBRL-kenttien kattavuus (%)"
+    "xbrl_field_coverage": "XBRL-kenttien kattavuus (%)",
+    "show_more": "Näytä lisää",
+    "loading_more": "Ladataan lisää…"
   },
   "app_footer": {
     "about": "Tietoja",

@@ -167,7 +167,9 @@
     "total_value_eur": "Luach iomlán (EUR)",
     "unknown": "Anaithnid",
     "working": "Ag obair…",
-    "xbrl_field_coverage": "Clúdach réimsí XBRL (%)"
+    "xbrl_field_coverage": "Clúdach réimsí XBRL (%)",
+    "show_more": "Taispeáin tuilleadh",
+    "loading_more": "Tuilleadh á lódáil…"
   },
   "app_footer": {
     "about": "Maidir le",

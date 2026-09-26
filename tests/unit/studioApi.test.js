@@ -13,7 +13,7 @@ beforeEach(() => { request.mockReset(); request.mockResolvedValue({}) })
 describe('studio projects', () => {
   it('lists, gets, renames and deletes projects', async () => {
     await studio.listProjects()
-    expect(request).toHaveBeenLastCalledWith('GET', '/studio/projects')
+    expect(request).toHaveBeenLastCalledWith('GET', '/studio/projects?limit=30')
     await studio.getProject('p1')
     expect(request).toHaveBeenLastCalledWith('GET', '/studio/projects/p1')
     await studio.renameProject('p1', 'New')
@@ -33,7 +33,7 @@ describe('studio projects', () => {
 
   it('handles investigation attach/detach and sharing', async () => {
     await studio.listProjectsForInvestigation('i/1')
-    expect(request).toHaveBeenLastCalledWith('GET', '/studio/projects?investigation_id=i%2F1')
+    expect(request).toHaveBeenLastCalledWith('GET', '/studio/projects?investigation_id=i%2F1&limit=30')
     await studio.attachProject('p1', 'i-2')
     expect(request).toHaveBeenLastCalledWith('POST', '/studio/projects/p1/attach', { investigation_id: 'i-2' })
     await studio.detachProject('p1')

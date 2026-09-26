@@ -167,7 +167,9 @@
     "total_value_eur": "Kopējā vērtība (EUR)",
     "unknown": "Nezināms",
     "working": "Strādā…",
-    "xbrl_field_coverage": "XBRL lauku pārklājums (%)"
+    "xbrl_field_coverage": "XBRL lauku pārklājums (%)",
+    "show_more": "Rādīt vairāk",
+    "loading_more": "Ielādē vēl…"
   },
   "app_footer": {
     "about": "Par",

@@ -87,7 +87,7 @@ describe('ReportEditorView — unified editor', () => {
   })
 
   it('add-to-investigation picker lists writable investigations and adds the story', async () => {
-    vi.spyOn(communityApi, 'listInvestigations').mockResolvedValue([
+    vi.spyOn(communityApi, 'listAllInvestigations').mockResolvedValue([
       { id: 'inv-w', name: 'Writable', membership: { role: 'owner' } },
       { id: 'inv-v', name: 'ViewerOnly', membership: { role: 'viewer' } },
     ])

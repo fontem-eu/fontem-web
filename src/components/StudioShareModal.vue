@@ -12,7 +12,7 @@ import { useStudio } from '../composables/useStudio.js'
 import {
   listProjectAccess, shareProject, revokeProjectAccess, projectEffectiveAccess,
 } from '../api/studio.js'
-import { listInvestigations } from '../api/community.js'
+import { listAllInvestigations } from '../api/community.js'
 import { canContribute } from '../utils/investigationRole.js'
 
 const props = defineProps({ project: { type: Object, required: true } })
@@ -45,7 +45,7 @@ async function refresh() {
   // The grant list used to wait behind the investigations list, and when
   // that list timed out a grant the user had just made never appeared.
   const [inv, acc, eff] = await Promise.allSettled([
-    listInvestigations(),
+    listAllInvestigations(),
     listProjectAccess(props.project.id),
     projectEffectiveAccess(props.project.id),
   ])

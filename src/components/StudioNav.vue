@@ -8,6 +8,7 @@
 import { reactive, ref, computed, nextTick, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStudio } from '../composables/useStudio.js'
+import { currentUser } from '../api/session.js'
 
 const props = defineProps({
   /**
@@ -50,13 +51,26 @@ watch(() => route.params.projectId, (pid) => { if (pid) expanded[pid] = true }, 
 const activeProject = (pid) => route.params.projectId === pid
 
 const allProjects = computed(() => (Array.isArray(studio.projects.value) ? studio.projects.value : []))
+// The owned list is paged now, so the project the route is in may not be in
+// the pages loaded yet — the project view fetched it on its own. It was always
+// in the rail before (the whole list was loaded), so keep it there: but only if
+// it is yours, as before. A project someone shared with you never was.
+function activeBeyondLoaded() {
+  const pid = route.params.projectId
+  if (!pid) return null
+  const p = studio.getProject(pid)
+  return p && p.created_by && p.created_by === currentUser.value?.id ? p : null
+}
 const shownProjects = computed(() => {
   const all = allProjects.value
-  if (props.limit == null || all.length <= props.limit) return all
-  const head = all.slice(0, props.limit)
-  const current = all.find((p) => activeProject(p.id))
-  return current && !head.includes(current) ? [...head, current] : head
+  const head = props.limit == null || all.length <= props.limit ? all : all.slice(0, props.limit)
+  const current = all.find((p) => activeProject(p.id)) || activeBeyondLoaded()
+  return current && !head.some((p) => p.id === current.id) ? [...head, current] : head
 })
+// "All projects (30+)" while more pages exist: the list has no total count,
+// and the loaded length alone would under-report every account past a page.
+const allProjectsCount = computed(() =>
+  studio.hasMore.value ? `${allProjects.value.length}+` : allProjects.value.length)
 const hiddenCount = computed(() => allProjects.value.length - shownProjects.value.length)
 const activeQuery = (qid) => route.params.queryId === qid
 const activePlot = (plid) => route.params.plotId === plid
@@ -163,12 +177,12 @@ v-if="isEditing('plot', pl.id)" v-model="editing.buffer" class="rename" data-tes
     </div>
 
     <button
-      v-if="hiddenCount > 0"
+      v-if="hiddenCount > 0 || studio.hasMore.value"
       type="button"
       class="add add--all"
       data-testid="nav-all-projects"
       @click="go('/studio')"
-    >{{ $t('studio_nav.all_projects', { n: allProjects.length }) }} →</button>
+    >{{ $t('studio_nav.all_projects', { n: allProjectsCount }) }} →</button>
     <button type="button" class="add add--project" data-testid="nav-new-project" @click="newProject">+ {{ $t('studio_nav.new_project') }}</button>
   </div>
 </template>

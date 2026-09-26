@@ -10,11 +10,19 @@ export function makeStudioApiMock() {
   const find = (id) => db.find((p) => p.id === id)
   const findQ = (pid, qid) => find(pid)?.queries.find((x) => x.id === qid)
   const findPl = (pid, plid) => find(pid)?.plots.find((x) => x.id === plid)
+  // Pages the way the API does (src/utils/paging.js): `limit` rows after the
+  // row the cursor names. The mock's array order stands in for the server's
+  // newest-first order, so existing tests see the order they always did.
+  const pageOf = (rows, { limit, before } = {}) => {
+    const afterId = before ? before.slice(before.lastIndexOf('|') + 1) : ''
+    const start = afterId ? rows.findIndex((r) => r.id === afterId) + 1 : 0
+    return clone(limit ? rows.slice(start, start + limit) : rows.slice(start))
+  }
   return {
     __reset: () => { db = []; seq = 0 },
     __seed: (projects) => { db = clone(projects) },
     __db: () => db,
-    listProjects: vi.fn(async () => clone(db)),
+    listProjects: vi.fn(async (opts = {}) => pageOf(db, opts)),
     createProject: vi.fn(async (name, investigationId = null) => {
       const p = { id: uid(), name, created_by: 'u', investigation_id: investigationId, queries: [], plots: [] }
       db.unshift(p); return clone(p)
@@ -36,7 +44,8 @@ export function makeStudioApiMock() {
     }),
     updatePlot: vi.fn(async (pid, plid, body) => { const pl = findPl(pid, plid); Object.assign(pl, body); return clone(pl) }),
     deletePlot: vi.fn(async (pid, plid) => { const p = find(pid); p.plots = p.plots.filter((x) => x.id !== plid) }),
-    listProjectsForInvestigation: vi.fn(async (iid) => clone(db.filter((p) => p.investigation_id === iid))),
+    listProjectsForInvestigation: vi.fn(async (iid, opts = {}) => pageOf(db.filter((p) => p.investigation_id === iid), opts)),
+    listAllProjectsForInvestigation: vi.fn(async (iid) => clone(db.filter((p) => p.investigation_id === iid))),
     attachProject: vi.fn(async (id, iid) => { const p = find(id); if (p) p.investigation_id = iid }),
     detachProject: vi.fn(async (id) => { const p = find(id); if (p) p.investigation_id = null }),
     listProjectAccess: vi.fn(async (id) => clone((find(id)?.__grants) || [])),

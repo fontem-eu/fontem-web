@@ -167,7 +167,9 @@
     "total_value_eur": "Skupna vrednost (EUR)",
     "unknown": "Neznano",
     "working": "Dela…",
-    "xbrl_field_coverage": "Pokritost polj XBRL (%)"
+    "xbrl_field_coverage": "Pokritost polj XBRL (%)",
+    "show_more": "Prikaži več",
+    "loading_more": "Nalaganje več…"
   },
   "app_footer": {
     "about": "O nas",
