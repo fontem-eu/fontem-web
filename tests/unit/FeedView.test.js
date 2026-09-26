@@ -644,3 +644,54 @@ describe('FeedView — infinite scroll, with a pause every five pages', () => {
     expect(entryIds(wrapper).length).toBeGreaterThan(20)
   })
 })
+
+describe('FeedView — the same story is never listed twice', () => {
+  // A full page, so the feed would want another.
+  const page = (from, n = 20) => Array.from({ length: n }, (_, i) => ({
+    id: `s${from + i}`, title: `S${from + i}`, abstract: '', tags: [],
+    updated_at: new Date(Date.UTC(2026, 3, 30) - (from + i) * 3_600_000).toISOString(),
+  }))
+  const storyIds = (wrapper) => wrapper.findAll('li[data-kind="story"]').map((li) => li.attributes('data-testid'))
+
+  it('an overtaken reload does not fetch the first page a second time', async () => {
+    // FEED-TAG-PERSIST, 2026-09-26: two identical cards for one story. A
+    // reload that had been superseded adopted the newer generation in
+    // fillTo, found the list still empty, and fetched offset 0 alongside the
+    // newer reload — both pages were appended.
+    const pending = []
+    api.listReports.mockImplementation(() => new Promise((resolve) => pending.push(resolve)))
+    const { wrapper, router } = await mountFeed('/feed?show=stories')
+    expect(pending).toHaveLength(1)                   // reload 1, from mount
+
+    await router.push('/feed?show=stories&tag=procurement')
+    await flushPromises()
+    expect(pending).toHaveLength(2)                   // reload 2, from the route
+
+    pending[0](page(0))                               // the overtaken page lands first
+    await flushPromises()
+    for (let i = 1; i < pending.length; i++) { pending[i](page(0)); await flushPromises() }
+
+    expect(pending).toHaveLength(2)                   // nobody asked for offset 0 again
+    // What the reader saw: the first screen looked right, and the next page
+    // was the first one again — 40 cards, 20 stories.
+    const more = wrapper.find('[data-testid="feed-load-more"]')
+    if (more.exists()) { await more.trigger('click'); await flushPromises() }
+    const ids = storyIds(wrapper)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('a page that overlaps the last one adds only what is new', async () => {
+    // Offsets into a list ordered by updated_at shift when a story is edited
+    // mid-scroll: the next page opens with the row the last one ended on.
+    api.listReports
+      .mockResolvedValueOnce(page(0))                 // s0..s19
+      .mockResolvedValueOnce(page(19))                // s19..s38 — s19 again
+      .mockResolvedValue([])
+    const { wrapper } = await mountFeed('/feed?show=stories')
+    const more = wrapper.find('[data-testid="feed-load-more"]')
+    if (more.exists()) { await more.trigger('click'); await flushPromises() }
+    const ids = storyIds(wrapper)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(ids).toContain('feed-card-s38')
+  })
+})
