@@ -117,8 +117,7 @@ const nutsReady = ref(0)
 // filter's page to the new one.
 let generation = 0
 
-async function fetchStoryPage() {
-  const gen = generation
+async function fetchStoryPage(gen = generation) {
   const data = await listReports({
     scope: 'public',
     limit: PAGE_SIZE,
@@ -129,7 +128,13 @@ async function fetchStoryPage() {
   // The endpoint returns `{ reports }` (backend internals are still named
   // Report); accept a future `stories` key and the bare array tests use.
   const page = data?.stories || data?.reports || (Array.isArray(data) ? data : [])
-  stories.value = [...stories.value, ...page]
+  // Never the same story twice. Pages are offsets into a list ordered by
+  // updated_at, and that order moves under the reader: a story edited while
+  // they scroll jumps to the top, everything shifts down one, and the next
+  // page opens with the row the last one ended on. fillTo stops on a page
+  // that adds nothing, so dropping repeats cannot make it spin.
+  const have = new Set(stories.value.map((s) => s.id))
+  stories.value = [...stories.value, ...page.filter((s) => !have.has(s.id))]
   if (page.length < PAGE_SIZE) storiesDone.value = true
 }
 
@@ -184,11 +189,18 @@ const canLoadMore = computed(() =>
 const needsClick = computed(() => pagesSinceClick.value >= AUTO_PAGES)
 
 /** Fetch stories until `want` entries exist or the server runs dry. */
-async function fillTo(want) {
-  while (wantStories.value && !storiesDone.value && entries.value.length < want) {
+// `gen` is the generation of whoever asked, not whatever is current when the
+// loop starts. It used to read `generation` here — so a reload that had been
+// superseded mid-flight adopted the NEWER generation as its own, found the
+// list still empty (the newer reload's first page not back yet), and fetched
+// offset 0 alongside it. Both pages were appended: every story twice. The
+// e2e gate caught it (FEED-TAG-PERSIST, 2026-09-26: a strict-mode match on
+// two identical cards) once in-cluster responses got fast enough to land
+// inside the window.
+async function fillTo(want, gen = generation) {
+  while (gen === generation && wantStories.value && !storiesDone.value && entries.value.length < want) {
     const before = stories.value.length
-    const gen = generation
-    await fetchStoryPage()
+    await fetchStoryPage(gen)
     // A stale generation or a page that added nothing: stop, rather
     // than spin on a server that keeps answering the same way.
     if (gen !== generation || stories.value.length === before) break
@@ -202,7 +214,7 @@ async function loadMore({ manual = false } = {}) {
   const gen = generation
   try {
     if (manual) pagesSinceClick.value = 0
-    await fillTo((pagesShown.value + 1) * PAGE_SIZE)
+    await fillTo((pagesShown.value + 1) * PAGE_SIZE, gen)
     if (gen !== generation) return
     pagesShown.value += 1
     pagesSinceClick.value += 1
@@ -219,7 +231,7 @@ async function loadMore({ manual = false } = {}) {
 
 /** Throw away what is loaded and start from page one for the current filter. */
 async function reload() {
-  generation += 1
+  const gen = ++generation
   stories.value = []
   storiesDone.value = false
   pagesShown.value = 1
@@ -228,17 +240,21 @@ async function reload() {
   loading.value = true
   try {
     await Promise.all([
-      wantStories.value ? fetchStoryPage() : Promise.resolve(),
+      wantStories.value ? fetchStoryPage(gen) : Promise.resolve(),
       // Only when this view will show them: the stories-only feed must
       // not cost the reader the briefing requests.
       wantBriefings.value ? loadBriefings() : Promise.resolve(),
     ])
-    await fillTo(PAGE_SIZE)
+    if (gen === generation) await fillTo(PAGE_SIZE, gen)
   } catch (err) {
-    error.value = err.message
+    if (gen === generation) error.value = err.message
   } finally {
-    loading.value = false
+    // Only the current reload owns `loading`. A superseded one clearing it
+    // would let the scroll observer call loadMore while the newer reload's
+    // first page is still in flight — the same double fetch at offset 0.
+    if (gen === generation) loading.value = false
   }
+  if (gen !== generation) return
   await nextTick()
   maybeAutoLoad()
 }
