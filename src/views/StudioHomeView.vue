@@ -41,6 +41,14 @@ async function newProject() {
         </router-link>
       </li>
     </ul>
+    <button
+      v-if="studio.hasMore.value && studio.projects.value.length"
+      type="button"
+      class="sbtn more"
+      data-testid="studio-show-more"
+      :disabled="studio.loadingMore.value"
+      @click="studio.loadMore()"
+    >{{ studio.loadingMore.value ? $t('app.loading_more') : $t('app.show_more') }}</button>
   </div>
 </template>
 
@@ -59,4 +67,6 @@ async function newProject() {
 .pcard-meta { font-size: 0.76rem; color: var(--muted); }
 .sbtn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 8px; padding: 0.45rem 0.9rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
 .sbtn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.more { display: block; margin: 1rem auto 0; }
+.more:disabled { opacity: 0.6; cursor: default; }
 </style>

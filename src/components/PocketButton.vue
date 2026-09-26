@@ -12,7 +12,7 @@
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { usePocket } from '../composables/usePocket.js'
 import { downloadElementAsImage } from '../utils/downloadViz.js'
-import { listInvestigations, createVisualization } from '../api/community.js'
+import { listAllInvestigations, createVisualization } from '../api/community.js'
 import { canContribute } from '../utils/investigationRole.js'
 
 const props = defineProps({
@@ -78,7 +78,7 @@ async function openInvPicker() {
   closeMenu()
   invStatus.value = null
   try {
-    const all = (await listInvestigations()) || []
+    const all = (await listAllInvestigations()) || []
     // Only investigations the user may add viz to (contributor+).
     invOptions.value = all.filter((i) => canContribute(i.membership))
     showInvPicker.value = true

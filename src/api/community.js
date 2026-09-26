@@ -12,6 +12,7 @@
  */
 
 import { withLang } from './_lang.js'
+import { PAGE_SIZE, MAX_PAGE_SIZE, pageQuery, fetchAll } from '../utils/paging.js'
 import { capiBase } from './_origin.js'
 import { fetchRetrying } from './_retry.js'
 import { getAccessToken, refresh, whenSessionReady } from './session.js'
@@ -563,8 +564,14 @@ export async function uploadImage(reportId, file) {
 // Aggregating workspaces (M2). Membership = capability flags; the list
 // endpoint returns each investigation with the caller's `membership` so
 // the UI can show their role.
-export function listInvestigations() {
-  return request('GET', '/investigations')
+// A page at a time, newest activity first — see src/utils/paging.js.
+export function listInvestigations({ limit = PAGE_SIZE.investigations, before = '' } = {}) {
+  return request('GET', `/investigations${pageQuery({ limit, before })}`)
+}
+// Every investigation the caller belongs to. For the pickers (attach a story,
+// pocket a chart, attach a studio project), which choose from all of them.
+export function listAllInvestigations() {
+  return fetchAll(listInvestigations, MAX_PAGE_SIZE.investigations)
 }
 export function createInvestigation(name, description = '') {
   return request('POST', '/investigations', { name, description })

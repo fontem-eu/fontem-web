@@ -6,12 +6,20 @@
  */
 import { ref } from 'vue'
 import * as api from '../api/studio.js'
+import { PAGE_SIZE, appendPage, cursorOf, mayHaveMore } from '../utils/paging.js'
 
-const projects = ref([])          // owned (list_mine) — shown in home/drawer
-const shared = ref({})            // id -> project, individually fetched (shared with me)
+const projects = ref([])          // owned (list_mine), the pages loaded so far — home/drawer
+const shared = ref({})            // id -> project, individually fetched (shared with me, or not yet paged in)
 const loaded = ref(false)
 const loading = ref(false)
 const error = ref(null)
+// The owned list is paged. The rail draws it on every page of the app, and
+// fetching all of it was 3.26 MB on an account with 1,147 projects — each one
+// carries every query and plot. A view that needs a project outside the pages
+// loaded so far gets it from ensureProject(), which fetches it on its own.
+const hasMore = ref(false)
+const loadingMore = ref(false)
+let _cursor = ''
 let _loadPromise = null
 
 async function ensureLoaded(force = false) {
@@ -19,14 +27,39 @@ async function ensureLoaded(force = false) {
   if (_loadPromise) return _loadPromise
   loading.value = true
   error.value = null
-  _loadPromise = api.listProjects()
+  _loadPromise = api.listProjects({ limit: PAGE_SIZE.projects })
     // Only a list is a list of projects. An error body or an HTML page
     // that slipped through as 200 would otherwise land here, and the
     // rail (which now draws this tree on every page) would crash on it.
-    .then((list) => { projects.value = Array.isArray(list) ? list : []; loaded.value = true; return projects.value })
+    .then((list) => {
+      const page = Array.isArray(list) ? list : []
+      projects.value = page
+      hasMore.value = mayHaveMore(page, PAGE_SIZE.projects)
+      _cursor = cursorOf(page.at(-1))
+      loaded.value = true
+      return projects.value
+    })
     .catch((e) => { error.value = e.message; return [] })
     .finally(() => { loading.value = false; _loadPromise = null })
   return _loadPromise
+}
+
+async function loadMore() {
+  if (!hasMore.value || loadingMore.value) return projects.value
+  loadingMore.value = true
+  try {
+    const page = await api.listProjects({ limit: PAGE_SIZE.projects, before: _cursor })
+    const before = projects.value.length
+    projects.value = appendPage(projects.value, page)
+    // Nothing new means nothing more, whatever the page size says.
+    hasMore.value = mayHaveMore(page, PAGE_SIZE.projects) && projects.value.length > before
+    if (Array.isArray(page) && page.length) _cursor = cursorOf(page.at(-1))
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loadingMore.value = false
+  }
+  return projects.value
 }
 
 const _find = (id) => projects.value.find((p) => p.id === id) || shared.value[id] || null
@@ -116,11 +149,14 @@ async function deletePlot(pid, plid) {
 
 export function useStudio() {
   return {
-    projects, loaded, loading, error, ensureLoaded,
+    projects, loaded, loading, error, ensureLoaded, hasMore, loadingMore, loadMore,
     getProject, getQuery, getPlot, ensureProject,
     createProject, renameProject, deleteProject, attachProject, detachProject,
     createQuery, updateQuery, renameQuery, deleteQuery, duplicateQuery,
     createPlot, updatePlot, deletePlot,
-    reset: () => { projects.value = []; shared.value = {}; loaded.value = false },
+    reset: () => {
+      projects.value = []; shared.value = {}; loaded.value = false
+      hasMore.value = false; _cursor = ''
+    },
   }
 }

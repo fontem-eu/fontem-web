@@ -5,9 +5,12 @@
  * silent refresh).
  */
 import { request } from './community.js'
+import { PAGE_SIZE, MAX_PAGE_SIZE, pageQuery, fetchAll } from '../utils/paging.js'
 
 // ── projects ────────────────────────────────────────────────────
-export const listProjects = () => request('GET', '/studio/projects')
+// A page at a time, newest first — see src/utils/paging.js.
+export const listProjects = ({ limit = PAGE_SIZE.projects, before = '' } = {}) =>
+  request('GET', `/studio/projects${pageQuery({ limit, before })}`)
 export const createProject = (name, investigationId = null) =>
   request('POST', '/studio/projects', { name, investigation_id: investigationId })
 export const getProject = (id) => request('GET', `/studio/projects/${id}`)
@@ -15,8 +18,12 @@ export const renameProject = (id, name) => request('PUT', `/studio/projects/${id
 export const deleteProject = (id) => request('DELETE', `/studio/projects/${id}`)
 
 // ── investigation attach + per-user sharing ──
-export const listProjectsForInvestigation = (iid) =>
-  request('GET', `/studio/projects?investigation_id=${encodeURIComponent(iid)}`)
+export const listProjectsForInvestigation = (iid, { limit = PAGE_SIZE.projects, before = '' } = {}) =>
+  request('GET', `/studio/projects${pageQuery({ limit, before }, { investigation_id: iid })}`)
+// Every project attached to an investigation. The detail view lists them all,
+// as it always has; it walks the pages at the largest size the API allows.
+export const listAllProjectsForInvestigation = (iid) =>
+  fetchAll((page) => listProjectsForInvestigation(iid, page), MAX_PAGE_SIZE.projects)
 export const attachProject = (id, investigationId) =>
   request('POST', `/studio/projects/${id}/attach`, { investigation_id: investigationId })
 export const detachProject = (id) => request('POST', `/studio/projects/${id}/detach`)

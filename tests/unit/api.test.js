@@ -188,6 +188,21 @@ describe('community.js API', () => {
     expect(mockFetch).toHaveBeenCalledWith('/capi/data-stories', expect.objectContaining({ method: 'GET' }))
   })
 
+  it('listInvestigations asks for ten, the page the list view shows', async () => {
+    mockFetch.mockResolvedValue(mockOk([]))
+    await communityApi.listInvestigations()
+    expect(mockFetch).toHaveBeenCalledWith('/capi/investigations?limit=10', expect.objectContaining({ method: 'GET' }))
+  })
+
+  it('listAllInvestigations walks every page at the cap, for the pickers', async () => {
+    const rows = (a, b) => Array.from({ length: b - a }, (_, k) => ({ id: `i${a + k}`, updated_at: `2026-09-26T00:00:00Z` }))
+    mockFetch.mockResolvedValueOnce(mockOk(rows(0, 500))).mockResolvedValueOnce(mockOk(rows(500, 503)))
+    const all = await communityApi.listAllInvestigations()
+    expect(all).toHaveLength(503)
+    expect(mockFetch.mock.calls[0][0]).toBe('/capi/investigations?limit=500')
+    expect(mockFetch.mock.calls[1][0]).toBe(`/capi/investigations?limit=500&before=${encodeURIComponent('2026-09-26T00:00:00Z|i499')}`)
+  })
+
   it('deleteReport sends DELETE and returns null for 204', async () => {
     mockFetch.mockResolvedValue({ ok: true, status: 204 })
     const result = await communityApi.deleteReport('r1')

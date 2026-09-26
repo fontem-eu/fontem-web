@@ -167,7 +167,9 @@
     "total_value_eur": "Koguväärtus (EUR)",
     "unknown": "Tundmatu",
     "working": "Töötab…",
-    "xbrl_field_coverage": "XBRL-väljade kaetus (%)"
+    "xbrl_field_coverage": "XBRL-väljade kaetus (%)",
+    "show_more": "Näita rohkem",
+    "loading_more": "Laadin veel…"
   },
   "app_footer": {
     "about": "Info",

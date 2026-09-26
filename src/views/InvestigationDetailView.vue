@@ -15,7 +15,7 @@ import {
   listInvestigationStories, removeInvestigationStory,
   listVisualizations, deleteInvestigation,
 } from '../api/community.js'
-import { listProjectsForInvestigation, detachProject } from '../api/studio.js'
+import { listAllProjectsForInvestigation, detachProject } from '../api/studio.js'
 import PipelineEmbed from '../widgets/PipelineEmbed.vue'
 import { roleLabel, roleAtLeast, ROLES } from '../utils/investigationRole.js'
 
@@ -54,7 +54,7 @@ async function load() {
     members.value = (await listInvestigationMembers(id)) || []
     stories.value = (await listInvestigationStories(id)) || []
     viz.value = (await listVisualizations(id)) || []
-    dataProjects.value = (await listProjectsForInvestigation(id)) || []
+    dataProjects.value = (await listAllProjectsForInvestigation(id)) || []
   } catch (e) {
     error.value = e.message
   } finally {
@@ -77,7 +77,7 @@ function plotConfig(spec) {
 
 async function detachDataProject(pid) {
   error.value = null
-  try { await detachProject(pid); dataProjects.value = (await listProjectsForInvestigation(id)) || [] }
+  try { await detachProject(pid); dataProjects.value = (await listAllProjectsForInvestigation(id)) || [] }
   catch (e) { error.value = e.message }
 }
 

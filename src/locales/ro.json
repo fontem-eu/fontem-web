@@ -167,7 +167,9 @@
     "total_value_eur": "Valoare totală (EUR)",
     "unknown": "Necunoscut",
     "working": "Lucrează…",
-    "xbrl_field_coverage": "Acoperire câmpuri XBRL (%)"
+    "xbrl_field_coverage": "Acoperire câmpuri XBRL (%)",
+    "show_more": "Afișează mai multe",
+    "loading_more": "Se încarcă mai multe…"
   },
   "app_footer": {
     "about": "Despre",

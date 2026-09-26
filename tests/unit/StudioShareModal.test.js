@@ -2,21 +2,21 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 
 vi.mock('../../src/api/studio.js', async () => (await import('./helpers/studioApiMock.js')).makeStudioApiMock())
-vi.mock('../../src/api/community.js', () => ({ listInvestigations: vi.fn() }))
+vi.mock('../../src/api/community.js', () => ({ listAllInvestigations: vi.fn() }))
 
 import * as api from '../../src/api/studio.js'
-import { listInvestigations } from '../../src/api/community.js'
+import { listAllInvestigations } from '../../src/api/community.js'
 import { useStudio } from '../../src/composables/useStudio.js'
 import StudioShareModal from '../../src/components/StudioShareModal.vue'
 
 const stubs = { teleport: { template: '<div><slot /></div>' } }
 
 describe('StudioShareModal', () => {
-  beforeEach(() => { api.__reset(); useStudio().reset(); listInvestigations.mockReset() })
+  beforeEach(() => { api.__reset(); useStudio().reset(); listAllInvestigations.mockReset() })
 
   it('offers only contributor+ investigations and attaches', async () => {
     api.__seed([{ id: 'p1', name: 'Corruption', created_by: 'u', investigation_id: null, queries: [], plots: [] }])
-    listInvestigations.mockResolvedValue([
+    listAllInvestigations.mockResolvedValue([
       { id: 'inv1', name: 'Panama', membership: { role: 'contributor' } },
       { id: 'inv2', name: 'ReadOnly', membership: { role: 'viewer' } },
     ])
@@ -35,7 +35,7 @@ describe('StudioShareModal', () => {
 
   it('shares by email then revokes the grant', async () => {
     api.__seed([{ id: 'p1', name: 'Corruption', created_by: 'u', investigation_id: null, queries: [], plots: [] }])
-    listInvestigations.mockResolvedValue([])
+    listAllInvestigations.mockResolvedValue([])
     const w = mount(StudioShareModal, {
       props: { project: { id: 'p1', name: 'Corruption', investigation_id: null } },
       global: { stubs },
@@ -54,7 +54,7 @@ describe('StudioShareModal', () => {
     // The grant list must not wait behind the investigations list: when that
     // list timed out, a grant the user had just made never appeared.
     api.__seed([{ id: 'p1', name: 'Corruption', created_by: 'u', investigation_id: null, queries: [], plots: [] }])
-    listInvestigations.mockRejectedValue(new Error('timed out'))
+    listAllInvestigations.mockRejectedValue(new Error('timed out'))
     const w = mount(StudioShareModal, {
       props: { project: { id: 'p1', name: 'Corruption', investigation_id: null } },
       global: { stubs },
@@ -68,7 +68,7 @@ describe('StudioShareModal', () => {
 
   it('shows detach when already attached', async () => {
     api.__seed([{ id: 'p1', name: 'C', created_by: 'u', investigation_id: 'inv1', queries: [], plots: [] }])
-    listInvestigations.mockResolvedValue([{ id: 'inv1', name: 'Panama', membership: { role: 'admin' } }])
+    listAllInvestigations.mockResolvedValue([{ id: 'inv1', name: 'Panama', membership: { role: 'admin' } }])
     const w = mount(StudioShareModal, {
       props: { project: { id: 'p1', name: 'C', investigation_id: 'inv1' } },
       global: { stubs },

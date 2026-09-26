@@ -42,7 +42,7 @@ import {
   uploadImage,
   listDossiers,
   addDossierArticle,
-  listInvestigations,
+  listAllInvestigations,
   addInvestigationStory,
   listVisualizations,
   getTranslation,
@@ -92,7 +92,7 @@ const investigationAddStatus = ref(null)
 async function openInvestigationPicker() {
   investigationAddStatus.value = null
   try {
-    const all = (await listInvestigations()) || []
+    const all = (await listAllInvestigations()) || []
     // Only investigations where the current user may add stories (write cap or
     // owner) — the others would 403 server-side.
     investigationOptions.value = all.filter((i) => canContribute(i.membership))

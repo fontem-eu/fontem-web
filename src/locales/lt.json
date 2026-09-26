@@ -167,7 +167,9 @@
     "total_value_eur": "Bendra vertė (EUR)",
     "unknown": "Nežinoma",
     "working": "Vykdoma…",
-    "xbrl_field_coverage": "XBRL laukų aprėptis (%)"
+    "xbrl_field_coverage": "XBRL laukų aprėptis (%)",
+    "show_more": "Rodyti daugiau",
+    "loading_more": "Įkeliama daugiau…"
   },
   "app_footer": {
     "about": "Apie",

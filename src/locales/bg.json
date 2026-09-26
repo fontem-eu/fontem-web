@@ -167,7 +167,9 @@
     "total_value_eur": "Обща стойност (EUR)",
     "unknown": "Неизвестно",
     "working": "Работи…",
-    "xbrl_field_coverage": "Покритие на XBRL полета (%)"
+    "xbrl_field_coverage": "Покритие на XBRL полета (%)",
+    "show_more": "Покажи още",
+    "loading_more": "Зареждане на още…"
   },
   "app_footer": {
     "about": "За нас",

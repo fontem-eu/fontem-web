@@ -167,7 +167,9 @@
     "total_value_eur": "Celková hodnota (EUR)",
     "unknown": "Neznámé",
     "working": "Pracuji…",
-    "xbrl_field_coverage": "Pokrytí polí XBRL (%)"
+    "xbrl_field_coverage": "Pokrytí polí XBRL (%)",
+    "show_more": "Zobrazit další",
+    "loading_more": "Načítání dalších…"
   },
   "app_footer": {
     "about": "O projektu",

@@ -167,7 +167,9 @@
     "total_value_eur": "Totalt värde (EUR)",
     "unknown": "Okänd",
     "working": "Arbetar…",
-    "xbrl_field_coverage": "Täckning av XBRL-fält (%)"
+    "xbrl_field_coverage": "Täckning av XBRL-fält (%)",
+    "show_more": "Visa fler",
+    "loading_more": "Läser in fler…"
   },
   "app_footer": {
     "about": "Om",

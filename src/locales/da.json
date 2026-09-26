@@ -167,7 +167,9 @@
     "total_value_eur": "Samlet værdi (EUR)",
     "unknown": "Ukendt",
     "working": "Arbejder…",
-    "xbrl_field_coverage": "XBRL-feltdækning (%)"
+    "xbrl_field_coverage": "XBRL-feltdækning (%)",
+    "show_more": "Vis flere",
+    "loading_more": "Indlæser flere…"
   },
   "app_footer": {
     "about": "Om",
