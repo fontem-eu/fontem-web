@@ -37,6 +37,7 @@ vi.mock('../../src/api/nuts.js', () => ({
 }))
 
 import * as api from '../../src/api/community.js'
+import { useStoriesTagFilter } from '../../src/composables/useStoriesTagFilter.js'
 import * as briefings from '../../src/composables/useBriefingStream.js'
 import { _resetNutsLabelsForTests } from '../../src/composables/useNutsLabels.js'
 import FeedView from '../../src/views/FeedView.vue'
@@ -74,7 +75,7 @@ const BRIEFING_ITEMS = [
 ]
 
 beforeEach(() => {
-  _internal.clearForTests(); localStorage.clear()
+  _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
   _resetFollowedTagsForTests()
   vi.clearAllMocks()
   api.listReports.mockResolvedValue(STORIES_ALL)
@@ -200,11 +201,15 @@ describe('FeedView — the filter control', () => {
   })
 })
 
+/** What the feed would have saved had the reader chosen `view` on this visit. */
+const rememberView = (view, reader = '') => useStoriesTagFilter().saveView(view, reader)
+const has = (wrapper, id) => wrapper.find(`[data-testid="feed-briefing-${id}"]`).exists()
+
 describe('FeedView — the feed remembers its view', () => {
   // Links back to the feed carry no query, so without this a reader who
   // opened a story from "Stories only" came back to everything.
   it('restores the last view when arriving without one', async () => {
-    localStorage.setItem('gmr-feed-view', 'stories')
+    rememberView('stories')
     const { router } = await mountFeed('/feed')
     expect(router.currentRoute.value.query.show).toBe('stories')
     // Adopted at mount, so the first request is already the right one.
@@ -212,27 +217,77 @@ describe('FeedView — the feed remembers its view', () => {
   })
 
   it('restores one chosen briefing', async () => {
-    localStorage.setItem('gmr-feed-view', 'briefing:corporate-influence')
+    rememberView('briefing:corporate-influence')
     const { wrapper, router } = await mountFeed('/feed')
     expect(router.currentRoute.value.query.briefing).toBe('corporate-influence')
     expect(kinds(wrapper)).toBe('b')
   })
 
   it('an explicit view in the URL wins over the remembered one', async () => {
-    localStorage.setItem('gmr-feed-view', 'stories')
+    rememberView('stories')
     const { router } = await mountFeed('/feed?show=briefings')
     expect(router.currentRoute.value.query.show).toBe('briefings')
   })
 
   it('choosing "All" forgets the view for good', async () => {
-    localStorage.setItem('gmr-feed-view', 'stories')
+    rememberView('stories')
     const { wrapper, router } = await mountFeed('/feed')
     await wrapper.find('[data-testid="feed-filter-all"]').trigger('click')
     await flushPromises()
-    expect(localStorage.getItem('gmr-feed-view')).toBeNull()
+    expect(useStoriesTagFilter().getStoredView('')).toBeNull()
     // Not put straight back by the restore that runs on every arrival.
     expect(router.currentRoute.value.query.show).toBeUndefined()
     expect(kinds(wrapper)).toContain('b')
+  })
+})
+
+describe('FeedView — a reader following several briefings sees all of them', () => {
+  // 2026-09-29: a reader following Public investment (Portugal, Coimbra)
+  // and Corporate influence (the EU) saw only the Portuguese cards. Every
+  // load had fetched all three watches; the feed then narrowed them to
+  // one briefing, because a pick made on the briefing picker in an
+  // earlier visit sat in localStorage and was put back on every arrival,
+  // sign-ins included. The view is remembered so a round trip through a
+  // card comes back to it — for this visit, by the reader who chose it.
+  const READER = { id: 'u-1', email: 'r@example.org', name: 'R' }
+
+  it('shows every followed briefing by default', async () => {
+    const { wrapper } = await mountFeed('/feed')
+    expect(has(wrapper, 'i1')).toBe(true)
+    expect(has(wrapper, 'i2')).toBe(true)
+  })
+
+  it('a briefing picked on an earlier visit does not narrow this one', async () => {
+    // The state the reporter's browser was left in by the old storage.
+    localStorage.setItem('gmr-feed-view', 'briefing:public-investment')
+    _internal.setUserForTests(READER)
+    const { wrapper, router } = await mountFeed('/feed')
+    expect(router.currentRoute.value.query.briefing).toBeUndefined()
+    expect(has(wrapper, 'i1')).toBe(true)
+    expect(has(wrapper, 'i2')).toBe(true)
+  })
+
+  it('a briefing picked before signing in does not narrow the signed-in feed', async () => {
+    // Signing in reloads the same tab, so this visit's storage survives
+    // it — but the feed it now shows is a different reader's.
+    rememberView('briefing:public-investment', '')
+    _internal.setUserForTests(READER)
+    const { wrapper, router } = await mountFeed('/feed')
+    expect(router.currentRoute.value.query.briefing).toBeUndefined()
+    expect(has(wrapper, 'i2')).toBe(true)
+  })
+
+  it('a briefing picked on this visit still survives a round trip through a card', async () => {
+    _internal.setUserForTests(READER)
+    const { wrapper } = await mountFeed('/feed')
+    await wrapper.find('[data-testid="feed-briefing-select"]').setValue('public-investment')
+    await flushPromises()
+    wrapper.unmount()
+    // Back from the card by a link, which carries no query.
+    const again = await mountFeed('/feed')
+    expect(again.router.currentRoute.value.query.briefing).toBe('public-investment')
+    expect(has(again.wrapper, 'i1')).toBe(true)
+    expect(has(again.wrapper, 'i2')).toBe(false)
   })
 })
 

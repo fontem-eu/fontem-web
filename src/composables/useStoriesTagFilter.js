@@ -15,35 +15,57 @@
  * `getStoredTag()` keeps the composable a thin facade over
  * localStorage — same shape as useFollowedTags / usePocket.
  *
- * The feed's VIEW is remembered the same way, for the same reason: since
- * Stories and the briefings reader became filters of the one feed
- * (?show=stories, ?show=briefings, ?briefing=<slug>) rather than pages
- * of their own, a reader who opened a story from "Stories only" and
- * followed its back link would otherwise come back to everything. Stored
- * as 'stories' | 'briefings' | 'briefing:<slug>'; the mixed view is the
- * absence of a value.
+ * The feed's VIEW is remembered for the same reason: since Stories and
+ * the briefings reader became filters of the one feed (?show=stories,
+ * ?show=briefings, ?briefing=<slug>) rather than pages of their own, a
+ * reader who opened a story from "Stories only" and followed its back
+ * link would otherwise come back to everything. Stored as 'stories' |
+ * 'briefings' | 'briefing:<slug>'; the mixed view is the absence of a
+ * value.
+ *
+ * But only for this visit, and only for the reader who chose it. It used
+ * to sit in localStorage with no end, so one look at a single briefing
+ * narrowed every later visit to it: a reader following Public investment
+ * in Portugal and Corporate influence in the EU signed in on 2026-09-29
+ * to a feed of Portuguese cards alone, with nothing but the picker to say
+ * why. A round trip through a card happens inside one tab session, which
+ * sessionStorage covers; signing in or out reloads that same tab, which
+ * is why the reader is part of what is stored.
  */
 const STORAGE_KEY = 'gmr-stories-tag'
 const VIEW_KEY = 'gmr-feed-view'
 
-function _read(key) {
-  if (typeof localStorage === 'undefined') return null
+const local = () => (typeof localStorage === 'undefined' ? null : localStorage)
+const session = () => (typeof sessionStorage === 'undefined' ? null : sessionStorage)
+
+function _read(store, key) {
   try {
-    const v = localStorage.getItem(key)
+    const v = store()?.getItem(key)
     return v?.length ? v : null
   } catch { return null }
 }
 
-function _write(key, value) {
-  if (typeof localStorage === 'undefined') return
+function _write(store, key, value) {
   try {
-    if (value == null || value === '') localStorage.removeItem(key)
-    else localStorage.setItem(key, String(value))
+    if (value == null || value === '') store()?.removeItem(key)
+    else store()?.setItem(key, String(value))
   } catch { /* private mode / quota — non-fatal */ }
 }
 
-const _safeGet = () => _read(STORAGE_KEY)
-const _safeSet = (value) => _write(STORAGE_KEY, value)
+const _safeGet = () => _read(local, STORAGE_KEY)
+const _safeSet = (value) => _write(local, STORAGE_KEY, value)
+
+/** The view `reader` saved on this visit, or null. '' is the signed-out reader. */
+function _getView(reader = '') {
+  try {
+    const saved = JSON.parse(_read(session, VIEW_KEY))
+    return saved?.reader === reader && saved.view ? String(saved.view) : null
+  } catch { return null }
+}
+
+function _saveView(view, reader = '') {
+  _write(session, VIEW_KEY, view ? JSON.stringify({ reader, view }) : null)
+}
 
 export function useStoriesTagFilter() {
   return {
@@ -53,10 +75,10 @@ export function useStoriesTagFilter() {
     saveTag: _safeSet,
     /** Drop the persisted tag. */
     clearStoredTag: () => _safeSet(null),
-    /** Last-saved feed view, or null for the mixed feed. */
-    getStoredView: () => _read(VIEW_KEY),
-    /** Persist the feed view, or null / '' for the mixed feed. */
-    saveView: (value) => _write(VIEW_KEY, value),
+    /** The feed view `reader` chose on this visit, or null for the mixed feed. */
+    getStoredView: _getView,
+    /** Remember the feed view for this visit, or null / '' for the mixed feed. */
+    saveView: _saveView,
     /** Exposed for tests that want to assert on the actual key. */
     _STORAGE_KEY: STORAGE_KEY,
     _VIEW_KEY: VIEW_KEY,
