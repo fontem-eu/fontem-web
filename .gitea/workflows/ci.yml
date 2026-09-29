@@ -302,6 +302,9 @@ jobs:
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           sbom-path: ${{ steps.sbom.outputs.sbom-path }}
+          # DHI node runtime: no shell, npm or apt. Fail the build if one
+          # comes back.
+          minimal-enforce: "true"
 
       # Inline gitops-bump. The shared action in void42/ci-actions
       # was rewritten for the void42-templates layout
