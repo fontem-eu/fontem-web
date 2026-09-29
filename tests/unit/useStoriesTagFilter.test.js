@@ -6,7 +6,7 @@ describe('useStoriesTagFilter', () => {
   const KEY = 'gmr-stories-tag'
 
   beforeEach(() => {
-    _internal.clearForTests(); localStorage.clear()
+    _internal.clearForTests(); localStorage.clear(); sessionStorage.clear()
   })
 
   it('exposes the storage key (so tests + future migrations can target it)', () => {
@@ -60,5 +60,44 @@ describe('useStoriesTagFilter', () => {
     localStorage.setItem(KEY, '')
     const { getStoredTag } = useStoriesTagFilter()
     expect(getStoredTag()).toBeNull()
+  })
+
+  // The feed's view, unlike the tag, lasts one visit and belongs to one
+  // reader: kept for good, a single briefing picked once hid every other
+  // briefing the reader followed, on every later visit (2026-09-29).
+  describe('the feed view', () => {
+    it('is kept for this visit only, not across visits', () => {
+      const { saveView, getStoredView } = useStoriesTagFilter()
+      saveView('briefing:public-investment', 'u-1')
+      expect(getStoredView('u-1')).toBe('briefing:public-investment')
+      expect(localStorage.length).toBe(0)
+      sessionStorage.clear() // a new visit
+      expect(getStoredView('u-1')).toBeNull()
+    })
+
+    it('ignores a view left in localStorage by the old storage', () => {
+      localStorage.setItem('gmr-feed-view', 'briefing:public-investment')
+      expect(useStoriesTagFilter().getStoredView('u-1')).toBeNull()
+      expect(useStoriesTagFilter().getStoredView('')).toBeNull()
+    })
+
+    it('comes back only to the reader who chose it', () => {
+      const { saveView, getStoredView } = useStoriesTagFilter()
+      saveView('briefing:public-investment', '')
+      expect(getStoredView('')).toBe('briefing:public-investment')
+      expect(getStoredView('u-1')).toBeNull()
+    })
+
+    it('saveView(null) forgets it', () => {
+      const { saveView, getStoredView } = useStoriesTagFilter()
+      saveView('stories', 'u-1')
+      saveView(null, 'u-1')
+      expect(getStoredView('u-1')).toBeNull()
+    })
+
+    it('treats an unreadable stored value as no view', () => {
+      sessionStorage.setItem('gmr-feed-view', 'stories')
+      expect(useStoriesTagFilter().getStoredView('')).toBeNull()
+    })
   })
 })

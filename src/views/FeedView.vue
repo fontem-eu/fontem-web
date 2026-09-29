@@ -11,7 +11,7 @@ import StoryCard from '../components/StoryCard.vue'
 import { briefingLink } from '../utils/briefingLink.js'
 import { interleaveFeed, feedKey } from '../utils/feedOrder.js'
 import { loadNutsLabels, nutsLabel } from '../composables/useNutsLabels.js'
-import { isAuthed } from '../api/session.js'
+import { isAuthed, currentUser } from '../api/session.js'
 import { useFollowedTags } from '../composables/useFollowedTags.js'
 import { useStoriesTagFilter } from '../composables/useStoriesTagFilter.js'
 
@@ -86,6 +86,8 @@ const { toggle, isFollowing } = useFollowedTags()
 const {
   getStoredTag, saveTag, clearStoredTag, getStoredView, saveView,
 } = useStoriesTagFilter()
+/** Whose feed this is. A remembered view belongs to the reader who chose it. */
+const reader = () => currentUser.value?.id || ''
 
 async function loadTags() {
   try {
@@ -318,11 +320,11 @@ function setShow(value) {
   // Saved before the URL changes: the route watcher restores whatever is
   // saved when the URL carries no view, so an "All" click that left the
   // old view in storage would be undone on the spot.
-  saveView(value === 'all' ? null : value)
+  saveView(value === 'all' ? null : value, reader())
   writeQuery({ show: value === 'all' ? null : value, briefing: null })
 }
 function setBriefing(slug) {
-  saveView(slug ? `briefing:${slug}` : 'briefings')
+  saveView(slug ? `briefing:${slug}` : 'briefings', reader())
   writeQuery({ briefing: slug || null, show: slug ? null : 'briefings' })
 }
 
@@ -332,7 +334,8 @@ function setBriefing(slug) {
  * Links back to the feed — the story page's, the menu's — carry no
  * query, so without this the reader loses their view and their tag every
  * time they open something. Only fills what the URL leaves out: an
- * explicit ?show= or ?tag= always wins.
+ * explicit ?show= or ?tag= always wins. The view comes back only within
+ * the visit and to the reader who chose it (see useStoriesTagFilter).
  *
  * `adopt` takes the result at once, which is what mount wants: the first
  * fetch then already carries it, instead of an unfiltered request and a
@@ -344,7 +347,7 @@ function restoreSaved({ adopt = false } = {}) {
   const q = route.query
   const patch = {}
   if (!q.show && !q.briefing) {
-    const view = getStoredView()
+    const view = getStoredView(reader())
     if (view?.startsWith('briefing:')) patch.briefing = view.slice('briefing:'.length)
     else if (SHOWS.includes(view)) patch.show = view
   }
