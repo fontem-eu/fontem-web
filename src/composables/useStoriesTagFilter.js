@@ -23,14 +23,10 @@
  * 'briefings' | 'briefing:<slug>'; the mixed view is the absence of a
  * value.
  *
- * But only for this visit, and only for the reader who chose it. It used
- * to sit in localStorage with no end, so one look at a single briefing
- * narrowed every later visit to it: a reader following Public investment
- * in Portugal and Corporate influence in the EU signed in on 2026-09-29
- * to a feed of Portuguese cards alone, with nothing but the picker to say
- * why. A round trip through a card happens inside one tab session, which
- * sessionStorage covers; signing in or out reloads that same tab, which
- * is why the reader is part of what is stored.
+ * Unlike the tag, the view is kept for this visit only (sessionStorage):
+ * the round trip through a card happens inside one tab session, and a
+ * view kept for good would let one look at a single briefing narrow every
+ * later visit to it, with only the picker to say why.
  */
 const STORAGE_KEY = 'gmr-stories-tag'
 const VIEW_KEY = 'gmr-feed-view'
@@ -55,18 +51,6 @@ function _write(store, key, value) {
 const _safeGet = () => _read(local, STORAGE_KEY)
 const _safeSet = (value) => _write(local, STORAGE_KEY, value)
 
-/** The view `reader` saved on this visit, or null. '' is the signed-out reader. */
-function _getView(reader = '') {
-  try {
-    const saved = JSON.parse(_read(session, VIEW_KEY))
-    return saved?.reader === reader && saved.view ? String(saved.view) : null
-  } catch { return null }
-}
-
-function _saveView(view, reader = '') {
-  _write(session, VIEW_KEY, view ? JSON.stringify({ reader, view }) : null)
-}
-
 export function useStoriesTagFilter() {
   return {
     /** Last-saved tag, or null if none / SSR / disabled storage. */
@@ -75,10 +59,10 @@ export function useStoriesTagFilter() {
     saveTag: _safeSet,
     /** Drop the persisted tag. */
     clearStoredTag: () => _safeSet(null),
-    /** The feed view `reader` chose on this visit, or null for the mixed feed. */
-    getStoredView: _getView,
+    /** The feed view chosen on this visit, or null for the mixed feed. */
+    getStoredView: () => _read(session, VIEW_KEY),
     /** Remember the feed view for this visit, or null / '' for the mixed feed. */
-    saveView: _saveView,
+    saveView: (value) => _write(session, VIEW_KEY, value),
     /** Exposed for tests that want to assert on the actual key. */
     _STORAGE_KEY: STORAGE_KEY,
     _VIEW_KEY: VIEW_KEY,
