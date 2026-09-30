@@ -30,7 +30,7 @@ RUN npm run build
 FROM dockerhub.void42.internal/library/busybox:musl@sha256:ea2b9914a16a4ac1981994af97b318f7c7d4db76b580c56177f08bf76f4a0be8 AS busybox
 
 # ── Stage 3: serve — hardened distroless Chainguard nginx (nonroot uid 65532) ─
-FROM cgr.void42.internal/chainguard/nginx:latest@sha256:567df6c255a4f25814a8c089b6d498d79771ba1b0dd825ad3a70c2bbe4388e86
+FROM cgr.void42.internal/chainguard/nginx:latest@sha256:a57e76e6fc57826717c7696df82441f66a835205b3f09232a598840e2fac7786
 COPY --from=busybox /bin/busybox /usr/local/bin/busybox
 COPY --from=build /app/dist/client /usr/share/nginx/html
 COPY nginx.conf            /etc/nginx/templates/default.conf.template
