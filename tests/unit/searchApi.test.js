@@ -42,6 +42,29 @@ describe('searchGraph', () => {
     expect(url).toContain('offset=15')
   })
 
+  it('asks the index for cohesion grants by its own name for them', async () => {
+    // The page says `cohesion`, the index `eu_cohesion`; unmapped, no grant
+    // was ever found from the site.
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
+    await searchGraph({ q: 'port', types: ['contract', 'cohesion'] })
+    expect(globalThis.fetch.mock.calls[0][0]).toContain('types=contract%2Ceu_cohesion')
+  })
+
+  it('hands grants back to the page under its name for them', async () => {
+    globalThis.fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [{ type: 'eu_cohesion', id: 'Q1' }, { type: 'contract', id: 'n1' }],
+        counts: { eu_cohesion: 1, contract: 1 },
+        has_more: false,
+      }),
+    })
+    const out = await searchGraph({ q: 'port' })
+    expect(out.results.map((r) => r.type)).toEqual(['cohesion', 'contract'])
+    expect(out.counts).toEqual({ cohesion: 1, contract: 1 })
+    expect(out.has_more).toBe(false)
+  })
+
   it('drops empty facets and empty type arrays from the query string', async () => {
     globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({}) })
     await searchGraph({ q: 'x', types: [], country: '', nuts: null })
