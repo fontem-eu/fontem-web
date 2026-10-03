@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fmtEur } from '../utils/format.js'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 
 // EU cohesion (Kohesio) grants a company has *attained*, mirroring
 // ContractsPanel on the funding side. The granting side is carried by the
@@ -18,8 +20,10 @@ async function load(gid) {
   state.value = 'loading'
   data.value = null
   try {
+    // With the reader's language: a grant's title comes back translated
+    // where a machine translation exists, the original as title_original.
     const res = await fetch(
-      `/api/companies/${encodeURIComponent(gid)}/cohesion-grants?limit=100`,
+      withLang(`/api/companies/${encodeURIComponent(gid)}/cohesion-grants?limit=100`),
     )
     if (!res.ok) { state.value = 'error'; return }
     data.value = await res.json()
@@ -29,6 +33,8 @@ async function load(gid) {
   }
 }
 watch(() => props.gmrId, load, { immediate: true })
+const { lang: uiLang } = useLang()
+watch(uiLang, () => load(props.gmrId))
 
 const grants = computed(() => data.value?.grants || [])
 const hasGrants = computed(() => (data.value?.grant_count || 0) > 0)
@@ -63,7 +69,10 @@ const hasGrants = computed(() => (data.value?.grant_count || 0) > 0)
             :key="i"
             :data-testid="`cohesion-grant-${i}`"
           >
-            <td class="cg-title">{{ g.title || '—' }}</td>
+            <td
+              class="cg-title"
+              :title="g.title_original ? $t('title_translation.hint', { original: g.title_original }) : undefined"
+            >{{ g.title || '—' }}</td>
             <td><span class="cg-fund">{{ g.fund || '—' }}</span></td>
             <td>{{ g.programme || '—' }}</td>
             <td class="num">{{ g.eu_contribution ? fmtEur(g.eu_contribution) : '—' }}</td>

@@ -1985,6 +1985,10 @@
     "search_results": "Zoekresultaten",
     "search_the_knowledge_graph": "Zoek in de kennisgraf"
   },
+  "title_translation": {
+    "hint": "Machinevertaling. Oorspronkelijke titel: {original}",
+    "original_title": "Oorspronkelijke titel"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Gematerialiseerde autoriteit-bedrijf-handelsrelaties uit contracten",
     "trade_edges": "Handelskanten",

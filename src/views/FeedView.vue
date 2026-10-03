@@ -394,8 +394,12 @@ watch(() => route.fullPath, () => {
   if (changed) reload()
 })
 
-// A new UI language means translated titles and abstracts from the API.
-watch(uiLang, () => reload())
+// A new UI language means translated titles and abstracts from the API —
+// briefings included: loadBriefings keeps what it loaded until told not to.
+watch(uiLang, () => {
+  briefingsLoaded.value = false
+  reload()
+})
 
 onMounted(async () => {
   restoreSaved({ adopt: true })

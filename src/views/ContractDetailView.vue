@@ -6,6 +6,8 @@ import { useBack } from '../composables/useBack.js'
 import ThemeToggle from '../components/ThemeToggle.vue'
 import { fmtEur, fmtMoney } from '../utils/format.js'
 import { tedNoticeUrl } from '../utils/tedUrl.js'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 
 const route = useRoute()
 const { t, te } = useI18n()
@@ -43,7 +45,9 @@ async function load() {
   state.value = 'loading'
   contract.value = null
   try {
-    const res = await fetch(`/api/contracts/${encodeURIComponent(noticeId.value)}`)
+    // With the reader's language: the title comes back translated where a
+    // machine translation exists, with the original as title_original.
+    const res = await fetch(withLang(`/api/contracts/${encodeURIComponent(noticeId.value)}`))
     if (mine !== latestLoad) return
     if (res.status === 404) { state.value = 'notfound'; return }
     if (!res.ok) { state.value = 'error'; return }
@@ -60,6 +64,8 @@ onMounted(load)
 // The view is reused when one contract links to another (only the kept-alive
 // feeds are re-created per path; see viewKey), so a new notice id reloads.
 watch(noticeId, (next, previous) => { if (next !== previous) load() })
+const { lang: uiLang } = useLang()
+watch(uiLang, () => load())
 
 const integrity = computed(() => contract.value?.integrity || {})
 // The investigative red flags, in display order with human labels.
@@ -174,7 +180,7 @@ const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
 
     <article v-else-if="state === 'ready'" data-testid="contract-detail">
       <div class="cd-titlerow">
-        <h1 class="cd-title">{{ contract.title || $t('contract_detail.untitled_contract') }}</h1>
+        <h1 class="cd-title" data-testid="contract-title">{{ contract.title || $t('contract_detail.untitled_contract') }}</h1>
         <!-- Deliberately beside the title and not in .cd-flags below:
              that list is the red-flag row and a framework agreement is a
              procurement instrument, not a risk. The wording is "part of"
@@ -189,6 +195,12 @@ const tedHref = computed(() => contract.value && tedNoticeUrl(contract.value))
           :title="$t('contract.framework.badge_hint')"
         >{{ $t('contract.framework.badge') }}</span>
       </div>
+      <!-- A machine translation is shown in the reader's language; what the
+           buyer actually published stays one line below it. -->
+      <p v-if="contract.title_original" class="cd-original" data-testid="contract-title-original">
+        <!-- One line, so the space between label and title survives. -->
+        <span class="cd-original-label">{{ $t('title_translation.original_title') }}<template v-if="contract.title_lang"> ({{ contract.title_lang.toUpperCase() }})</template>:</span> <span :lang="contract.title_lang || undefined">{{ contract.title_original }}</span>
+      </p>
 
       <!-- Integrity profile — the investigative lede -->
       <section class="cd-integrity" data-testid="integrity-profile">
@@ -327,6 +339,8 @@ v-if="tedHref" :href="tedHref" target="_blank" rel="noopener noreferrer"
 .cd-state { color: var(--muted, #6b7280); padding: 2rem 0; }
 .cd-titlerow { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; margin-bottom: 1rem; }
 .cd-title { font-size: 1.4rem; margin: 0; }
+.cd-titlerow + .cd-original { margin: -0.6rem 0 1rem; font-size: .85rem; color: var(--muted); }
+.cd-original-label { font-weight: 600; }
 .cd-fw-badge { border-radius: 999px; }
 .cd-integrity { border: 1px solid var(--border, #e5e7eb); border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
 .cd-flagcount { font-weight: 700; }

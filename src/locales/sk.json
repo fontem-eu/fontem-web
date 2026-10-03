@@ -1985,6 +1985,10 @@
     "search_results": "Výsledky vyhľadávania",
     "search_the_knowledge_graph": "Hľadaj v znalostnom grafe"
   },
+  "title_translation": {
+    "hint": "Strojový preklad. Pôvodný názov: {original}",
+    "original_title": "Pôvodný názov"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Obchodné vzťahy úrad-firma materializované zo zmlúv",
     "trade_edges": "Obchodné hrany",

@@ -1985,6 +1985,10 @@
     "search_results": "Keresési eredmények",
     "search_the_knowledge_graph": "Keresés a tudásgráfban"
   },
+  "title_translation": {
+    "hint": "Gépi fordítás. Eredeti cím: {original}",
+    "original_title": "Eredeti cím"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Szerződésekből materializált hatóság-vállalat kereskedelmi kapcsolatok",
     "trade_edges": "Kereskedelmi élek",

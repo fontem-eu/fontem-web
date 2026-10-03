@@ -1985,6 +1985,10 @@
     "search_results": "Резултати от търсенето",
     "search_the_knowledge_graph": "Търсене в графа на знанията"
   },
+  "title_translation": {
+    "hint": "Машинен превод. Оригинално заглавие: {original}",
+    "original_title": "Оригинално заглавие"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Материализирани търговски отношения власт-компания от договори",
     "trade_edges": "Търговски ребра",

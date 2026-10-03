@@ -1985,6 +1985,10 @@
     "search_results": "Rezultatele căutării",
     "search_the_knowledge_graph": "Caută în graful de cunoștințe"
   },
+  "title_translation": {
+    "hint": "Traducere automată. Titlul original: {original}",
+    "original_title": "Titlul original"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relații comerciale autoritate-companie materializate din contracte",
     "trade_edges": "Muchii comerciale",

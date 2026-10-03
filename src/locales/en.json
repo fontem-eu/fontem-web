@@ -1985,6 +1985,10 @@
     "search_results": "Search results",
     "search_the_knowledge_graph": "Search the knowledge graph"
   },
+  "title_translation": {
+    "hint": "Machine translation. Original title: {original}",
+    "original_title": "Original title"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialized authority-company trade relationships from contracts",
     "trade_edges": "Trade Edges",

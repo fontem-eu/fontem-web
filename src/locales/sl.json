@@ -1985,6 +1985,10 @@
     "search_results": "Rezultati iskanja",
     "search_the_knowledge_graph": "Išči v grafu znanja"
   },
+  "title_translation": {
+    "hint": "Strojni prevod. Izvirni naslov: {original}",
+    "original_title": "Izvirni naslov"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Trgovinski odnosi organ-podjetje materializirani iz pogodb",
     "trade_edges": "Trgovinski robovi",
