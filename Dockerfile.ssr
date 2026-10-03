@@ -11,7 +11,7 @@
 # apt, no system OpenSSL (Node carries its own). node:24-slim shipped all
 # of those (Debian 12, 91 packages) and with them the only critical CVE
 # left on the site (DEBIAN-CVE-2026-75803, system OpenSSL, 2026-09-29).
-FROM dhi.void42.internal/node:24-dev@sha256:7472702d42985694a5a75938ee84e7fbd8bb418c2347ced74e00c57622d5fa75 AS build
+FROM dhi.void42.internal/node:24-dev@sha256:2e51e8397b85c3771c554834fb55d7fd5825e7d57a993e00153db42c584b7e58 AS build
 WORKDIR /app
 COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
 ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/void42-ca.crt
@@ -27,7 +27,7 @@ RUN npm run build
 # The render path needs vue/server-renderer and whatever the app bundle
 # pulls in at runtime, so production deps ship with it. Installed here,
 # where npm is; the runtime has none.
-FROM dhi.void42.internal/node:24-dev@sha256:7472702d42985694a5a75938ee84e7fbd8bb418c2347ced74e00c57622d5fa75 AS deps
+FROM dhi.void42.internal/node:24-dev@sha256:2e51e8397b85c3771c554834fb55d7fd5825e7d57a993e00153db42c584b7e58 AS deps
 WORKDIR /app
 COPY void42-ca.crt /usr/local/share/ca-certificates/void42-ca.crt
 ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/void42-ca.crt
