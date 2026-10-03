@@ -41,6 +41,11 @@ const facets = computed(() => props.item.facets || {})
 
 /** The big text: what the query says the finding IS. */
 const headline = computed(() => facets.value.headline || props.item.summary || '')
+/** Shown on hover when the headline is a machine translation: what the
+ *  source published (the briefing API keeps it as headline_original). */
+const headlineHint = computed(() => (facets.value.headline_original
+  ? t('title_translation.hint', { original: facets.value.headline_original })
+  : undefined))
 
 /** Buyer / declarant, and how many more stood beside them. */
 const from = computed(() => facets.value.from || '')
@@ -136,7 +141,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
         :to="link.to"
         class="bcard-headline bcard-link"
         :data-testid="`feed-briefing-link-${item.item_id}`"
-      ><span :data-testid="`feed-briefing-what-${item.item_id}`">{{ headline }}</span></router-link>
+      ><span :data-testid="`feed-briefing-what-${item.item_id}`" :title="headlineHint">{{ headline }}</span></router-link>
       <a
         v-else-if="link.kind === 'external'"
         :href="link.to"
@@ -144,12 +149,12 @@ const link = computed(() => props.item._link || { kind: 'none' })
         rel="noopener noreferrer"
         class="bcard-headline bcard-link"
         :data-testid="`feed-briefing-link-${item.item_id}`"
-      ><span :data-testid="`feed-briefing-what-${item.item_id}`">{{ headline }}</span></a>
+      ><span :data-testid="`feed-briefing-what-${item.item_id}`" :title="headlineHint">{{ headline }}</span></a>
       <p
         v-else
         class="bcard-headline"
         :data-testid="`feed-briefing-detail-${item.item_id}`"
-      ><span :data-testid="`feed-briefing-what-${item.item_id}`">{{ headline }}</span></p>
+      ><span :data-testid="`feed-briefing-what-${item.item_id}`" :title="headlineHint">{{ headline }}</span></p>
     </template>
 
     <p v-if="value || integrity || modified" class="bcard-figures">

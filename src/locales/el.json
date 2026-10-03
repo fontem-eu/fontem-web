@@ -1985,6 +1985,10 @@
     "search_results": "Αποτελέσματα αναζήτησης",
     "search_the_knowledge_graph": "Αναζήτηση στον γράφο γνώσης"
   },
+  "title_translation": {
+    "hint": "Μηχανική μετάφραση. Αρχικός τίτλος: {original}",
+    "original_title": "Αρχικός τίτλος"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Υλοποιημένες εμπορικές σχέσεις αρχής-εταιρείας από συμβάσεις",
     "trade_edges": "Εμπορικές ακμές",

@@ -1985,6 +1985,10 @@
     "search_results": "Resultados de búsqueda",
     "search_the_knowledge_graph": "Buscar en el grafo de conocimiento"
   },
+  "title_translation": {
+    "hint": "Traducción automática. Título original: {original}",
+    "original_title": "Título original"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relaciones comerciales autoridad-empresa materializadas a partir de los contratos",
     "trade_edges": "Aristas comerciales",

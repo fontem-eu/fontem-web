@@ -1985,6 +1985,10 @@
     "search_results": "Paieškos rezultatai",
     "search_the_knowledge_graph": "Ieškoti žinių grafe"
   },
+  "title_translation": {
+    "hint": "Mašininis vertimas. Originalus pavadinimas: {original}",
+    "original_title": "Originalus pavadinimas"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Iš sutarčių materializuoti institucijos-įmonės prekybos santykiai",
     "trade_edges": "Prekybos briaunos",

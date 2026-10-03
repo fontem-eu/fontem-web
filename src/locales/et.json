@@ -1985,6 +1985,10 @@
     "search_results": "Otsingutulemused",
     "search_the_knowledge_graph": "Otsi teadmusgraafist"
   },
+  "title_translation": {
+    "hint": "Masintõlge. Algne pealkiri: {original}",
+    "original_title": "Algne pealkiri"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Lepingutest materialiseeritud asutuse-ettevõtte kaubandussuhted",
     "trade_edges": "Kaubandusservad",

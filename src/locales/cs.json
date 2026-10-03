@@ -1985,6 +1985,10 @@
     "search_results": "Výsledky vyhledávání",
     "search_the_knowledge_graph": "Hledat v znalostním grafu"
   },
+  "title_translation": {
+    "hint": "Strojový překlad. Původní název: {original}",
+    "original_title": "Původní název"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materializované obchodní vztahy úřad-společnost ze zakázek",
     "trade_edges": "Obchodní hrany",

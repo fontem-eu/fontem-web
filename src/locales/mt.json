@@ -1985,6 +1985,10 @@
     "search_results": "Riżultati tat-tfittxija",
     "search_the_knowledge_graph": "Fittex fil-graf tal-għarfien"
   },
+  "title_translation": {
+    "hint": "Traduzzjoni awtomatika. Titlu oriġinali: {original}",
+    "original_title": "Titlu oriġinali"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relazzjonijiet kummerċjali awtorità-kumpanija materjalizzati minn kuntratti",
     "trade_edges": "Truf kummerċjali",

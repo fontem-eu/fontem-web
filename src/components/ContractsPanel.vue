@@ -8,6 +8,8 @@ import ContractModificationModal from './ContractModificationModal.vue'
 import DataConfidenceIcon from './DataConfidenceIcon.vue'
 import DataConfidenceModal from './DataConfidenceModal.vue'
 import { contractValueBadness } from '../utils/dataQuality.js'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
@@ -63,9 +65,11 @@ async function resolveGmrId(symbol) {
   return results.length > 0 ? results[0].gmr_id : null
 }
 
+// With the reader's language: titles come back translated where a machine
+// translation exists, the original beside them as `title_original`.
 function contractsUrl(kind, gmrId) {
-  return `/api/${kind}/${encodeURIComponent(gmrId)}/contracts`
-    + `?limit=100&sort=${apiSort.value}`
+  return withLang(`/api/${kind}/${encodeURIComponent(gmrId)}/contracts`
+    + `?limit=100&sort=${apiSort.value}`)
 }
 
 // An authority response names its fields differently; normalise so the
@@ -138,6 +142,13 @@ watch(() => props.symbol, (sym) => {
   resolved.value = null
   if (sym) loadContracts(sym)
 }, { immediate: true })
+
+// A new UI language means the titles in that language.
+const { lang: uiLang } = useLang()
+watch(uiLang, () => {
+  if (resolved.value) reloadSorted()
+  else if (props.symbol) loadContracts(props.symbol)
+})
 
 function sortBy(key) {
   if (sortKey.value === key) {
@@ -320,8 +331,9 @@ const topCpv = computed(() => {
                     v-if="c.ted_notice_id"
                     :to="`/contract/${c.ted_notice_id}`"
                     :data-testid="`contract-title-link-${c.ted_notice_id}`"
+                    :title="c.title_original ? $t('title_translation.hint', { original: c.title_original }) : undefined"
                   >{{ c.title }}</RouterLink>
-                  <span v-else data-testid="contract-title-unlinked">{{ c.title }}</span>
+                  <span v-else data-testid="contract-title-unlinked" :title="c.title_original ? $t('title_translation.hint', { original: c.title_original }) : undefined">{{ c.title }}</span>
                   <!-- "Part of", not "is": is_framework marks a notice
                        that belongs to a framework procedure, and
                        establishing notices and call-offs carry it
@@ -384,8 +396,9 @@ const topCpv = computed(() => {
               :to="`/contract/${c.ted_notice_id}`"
               class="cc-title"
               :data-testid="`contract-card-title-link-${c.ted_notice_id}`"
+              :title="c.title_original ? $t('title_translation.hint', { original: c.title_original }) : undefined"
             >{{ c.title }}</RouterLink>
-            <span v-else class="cc-title" data-testid="contract-card-title-unlinked">{{ c.title }}</span>
+            <span v-else class="cc-title" data-testid="contract-card-title-unlinked" :title="c.title_original ? $t('title_translation.hint', { original: c.title_original }) : undefined">{{ c.title }}</span>
           </div>
           <div class="cc-details">
             <span v-if="c.value_eur" class="cc-value">{{ fmtEur(c.value_eur) }}</span><DataConfidenceIcon v-if="contractValueBadness(c)" :badness="contractValueBadness(c)" @click="confidenceContract = c" /><ErrataIcon v-if="c.value_before_eur != null" @click="errataContract = c" />

@@ -1985,6 +1985,10 @@
     "search_results": "Wyniki wyszukiwania",
     "search_the_knowledge_graph": "Szukaj w grafie wiedzy"
   },
+  "title_translation": {
+    "hint": "Tłumaczenie maszynowe. Oryginalny tytuł: {original}",
+    "original_title": "Oryginalny tytuł"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Zmaterializowane relacje handlowe instytucja-firma z umów",
     "trade_edges": "Krawędzie handlowe",

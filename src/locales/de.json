@@ -1985,6 +1985,10 @@
     "search_results": "Suchergebnisse",
     "search_the_knowledge_graph": "Im Wissensgraphen suchen"
   },
+  "title_translation": {
+    "hint": "Maschinelle Übersetzung. Originaltitel: {original}",
+    "original_title": "Originaltitel"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialisierte Behörde-Unternehmen-Handelsbeziehungen aus Aufträgen",
     "trade_edges": "Handelskanten",

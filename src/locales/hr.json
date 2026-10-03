@@ -1985,6 +1985,10 @@
     "search_results": "Rezultati pretrage",
     "search_the_knowledge_graph": "Pretraži graf znanja"
   },
+  "title_translation": {
+    "hint": "Strojni prijevod. Izvorni naslov: {original}",
+    "original_title": "Izvorni naslov"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Trgovinski odnosi ustanove-tvrtke materijalizirani iz ugovora",
     "trade_edges": "Trgovinski bridovi",

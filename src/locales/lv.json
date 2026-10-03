@@ -1985,6 +1985,10 @@
     "search_results": "Meklēšanas rezultāti",
     "search_the_knowledge_graph": "Meklē zināšanu grafā"
   },
+  "title_translation": {
+    "hint": "Mašīntulkojums. Oriģinālais nosaukums: {original}",
+    "original_title": "Oriģinālais nosaukums"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "No līgumiem materializētās iestāžu-uzņēmumu tirdzniecības attiecības",
     "trade_edges": "Tirdzniecības šķautnes",

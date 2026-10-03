@@ -15,6 +15,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useLang } from '../composables/useLang.js'
 import { searchGraph, searchStories } from '../api/search.js'
 import NutsRegionPicker from '../components/NutsRegionPicker.vue'
 
@@ -221,6 +222,10 @@ watch(() => route.query, () => {
   runSearch(true)
 })
 
+// A new UI language: contract and grant titles come back in that language.
+const { lang: uiLang } = useLang()
+watch(uiLang, () => runSearch(true))
+
 onMounted(() => {
   runSearch(true)
 })
@@ -316,7 +321,10 @@ onMounted(() => {
             >
               <span class="result-type" :class="`type-${r.type}`">{{ t(`search.type.${r.type}`) }}</span>
               <div class="result-body">
-                <span class="result-title">
+                <span
+                  class="result-title"
+                  :title="r.title_original ? t('title_translation.hint', { original: r.title_original }) : undefined"
+                >
                   {{ r.title }}
                   <span v-if="cardLink(r)?.external" class="result-ext" aria-hidden="true">↗</span>
                 </span>

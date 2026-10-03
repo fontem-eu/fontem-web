@@ -1985,6 +1985,10 @@
     "search_results": "Sökresultat",
     "search_the_knowledge_graph": "Sök i kunskapsgrafen"
   },
+  "title_translation": {
+    "hint": "Maskinöversättning. Originaltitel: {original}",
+    "original_title": "Originaltitel"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Materialiserade myndighet-företag handelsrelationer från kontrakt",
     "trade_edges": "Handelskanter",

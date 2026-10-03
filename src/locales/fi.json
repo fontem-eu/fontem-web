@@ -1985,6 +1985,10 @@
     "search_results": "Hakutulokset",
     "search_the_knowledge_graph": "Etsi tietämysgraafista"
   },
+  "title_translation": {
+    "hint": "Konekäännös. Alkuperäinen otsikko: {original}",
+    "original_title": "Alkuperäinen otsikko"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Sopimuksista materialisoidut viranomais-yritys-kauppasuhteet",
     "trade_edges": "Kauppakaaret",

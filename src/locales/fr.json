@@ -1985,6 +1985,10 @@
     "search_results": "Résultats de la recherche",
     "search_the_knowledge_graph": "Rechercher dans le graphe de connaissances"
   },
+  "title_translation": {
+    "hint": "Traduction automatique. Titre original : {original}",
+    "original_title": "Titre original"
+  },
   "trade_edges_d_q": {
     "materialized_authority_company_trade_rel": "Relations commerciales autorité-entreprise matérialisées à partir des marchés",
     "trade_edges": "Arêtes commerciales",
