@@ -28,6 +28,24 @@ function qs(params) {
   return p.toString()
 }
 
+// The search index names cohesion grants after their disclosure system,
+// `eu_cohesion`; this page, its facet chips and its labels call them
+// `cohesion`. Unmapped, the type filter the page always sends never matched
+// a grant, so no search on the site could find one (prod, 2026-10-03: "port"
+// with the page's types returned 0 grants; with none, 3).
+const TO_API_TYPE = { cohesion: 'eu_cohesion' }
+const FROM_API_TYPE = { eu_cohesion: 'cohesion' }
+
+function fromApi(body) {
+  const results = (body.results || []).map((r) => ({ ...r, type: FROM_API_TYPE[r.type] || r.type }))
+  const counts = {}
+  for (const [type, n] of Object.entries(body.counts || {})) {
+    const ui = FROM_API_TYPE[type] || type
+    counts[ui] = (counts[ui] || 0) + n
+  }
+  return { ...body, results, counts }
+}
+
 /**
  * Faceted keyword search over graph entities.
  * @returns {Promise<{query,types,counts,results,has_more,total_shown}>}
@@ -37,7 +55,7 @@ export async function searchGraph({
 }) {
   if (!q?.trim()) return { query: '', types: [], counts: {}, results: [], has_more: false }
   const query = qs({
-    q: q.trim(), types, country, nuts,
+    q: q.trim(), types: types?.map((t) => TO_API_TYPE[t] || t), country, nuts,
     date_from: dateFrom, date_to: dateTo, limit, offset,
   })
   const res = await fetchRetrying(withLang(`/api/search/results?${query}`))
@@ -45,7 +63,7 @@ export async function searchGraph({
     const text = await res.text().catch(() => '')
     throw new Error(`HTTP ${res.status}: ${text}`)
   }
-  return res.json()
+  return fromApi(await res.json())
 }
 
 /**
