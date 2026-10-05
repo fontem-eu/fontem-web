@@ -280,7 +280,9 @@ jobs:
           # path doesn't read /etc/docker/certs.d, so `docker login`
           # rejects the void42 private CA and the job dies on push.
           image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/fontem-web
-          cosign-key: ${{ secrets.COSIGN_KEY }}
+          vault-role-id: ${{ secrets.VAULT_SIGNER_ROLE_ID }}
+          vault-secret-id: ${{ secrets.VAULT_SIGNER_SECRET_ID }}
+          sbom-coverage: enforce
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           sbom-path: ${{ steps.sbom.outputs.sbom-path }}
@@ -298,7 +300,9 @@ jobs:
         with:
           image: gitea-http.dev-tools.svc.cluster.local:3000/fontem/fontem-web-ssr
           dockerfile: Dockerfile.ssr
-          cosign-key: ${{ secrets.COSIGN_KEY }}
+          vault-role-id: ${{ secrets.VAULT_SIGNER_ROLE_ID }}
+          vault-secret-id: ${{ secrets.VAULT_SIGNER_SECRET_ID }}
+          sbom-coverage: enforce
           registry-user: ${{ secrets.REGISTRY_USER }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           sbom-path: ${{ steps.sbom.outputs.sbom-path }}
