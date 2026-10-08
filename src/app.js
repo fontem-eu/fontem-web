@@ -287,10 +287,9 @@ export function createDargleApp(ssr = false) {
   const i18n = createDargleI18n()
   app.use(router)
   app.use(i18n)
-  // Expose the full i18n instance via provide so App.vue can hand it
-  // to useLang's init() — `globalProperties.$i18n` is a wrapper that
-  // only exposes the read-only display props (locale, t, n, d), not
-  // setLocaleMessage / global, which are what activateLocale needs.
-  app.provide('dargle-i18n', i18n)
+  // `i18n` is returned whole for main.js to hand to useLang's init():
+  // `globalProperties.$i18n` is a wrapper that only exposes the
+  // read-only display props (locale, t, n, d), not setLocaleMessage /
+  // global, which are what activateLocale needs.
   return { app, router, i18n }
 }
