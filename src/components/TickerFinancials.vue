@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { fetchGmrData, fetchFundamentals, fetchValuation } from '../api/gmr.js'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 import { fmtUsd, fmtPrice } from '../utils/format.js'
 import SummaryPanel from './SummaryPanel.vue'
 import ValuationPanel from './ValuationPanel.vue'
@@ -84,13 +86,15 @@ async function _resolveUuidEntity(sym, { profile = false } = {}) {
   // stub and never reached the authorities endpoint, so the header fell
   // back to rendering the UUID. Require a real `company_name` to keep
   // going down the company path.
-  const companyInfo = await _tryFetchJson(`/api/companies/${encodeURIComponent(sym)}`)
+  const companyInfo = await _tryFetchJson(withLang(`/api/companies/${encodeURIComponent(sym)}`))
   if (companyInfo?.company_name) {
     return profile
       ? { gmr_id: sym, company_name: companyInfo.company_name, ticker: sym, _entityType: 'company' }
       : { ...companyInfo, _entityType: 'company' }
   }
-  const authorityInfo = await _tryFetchJson(`/api/authorities/${encodeURIComponent(sym)}`)
+  // In the reader's language: the API answers with the authority's
+  // translated name where one exists (name_<lang>), else the original.
+  const authorityInfo = await _tryFetchJson(withLang(`/api/authorities/${encodeURIComponent(sym)}`))
   if (!authorityInfo) return null
   const base = {
     gmr_id: sym,
@@ -192,8 +196,12 @@ async function loadData(sym) {
   }
 }
 
+// A new UI language re-resolves the entity, so an authority's heading
+// follows it.
+const { lang: uiLang } = useLang()
+
 watch(
-  () => [props.symbol, props.view],
+  () => [props.symbol, props.view, uiLang.value],
   ([sym]) => {
     if (!sym) return
     // Summary view manages its own data/state internally via SummaryPanel.
