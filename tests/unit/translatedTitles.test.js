@@ -19,6 +19,7 @@ import CohesionGrantsPanel from '../../src/components/CohesionGrantsPanel.vue'
 import ContractDetailView from '../../src/views/ContractDetailView.vue'
 import BriefingCard from '../../src/components/BriefingCard.vue'
 import FeedView from '../../src/views/FeedView.vue'
+import TickerFinancials from '../../src/components/TickerFinancials.vue'
 import * as briefings from '../../src/composables/useBriefingStream.js'
 
 // FeedView's sources, mocked as FeedView.test.js does.
@@ -197,5 +198,44 @@ describe('the feed', () => {
     lang.value = 'de'
     await flushPromises()
     expect(briefings.loadBriefingStream).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('an authority\'s page heading', () => {
+  // The heading comes from the authority's profile, which the page used to
+  // ask for without a language: the name stayed in the original even where
+  // a translation exists (Ředitelství silnic a dálnic s. p. in a German UI).
+  const ID = '07f593b2-7c4c-536f-852a-d886502e71f0'
+  const NAMES = { de: 'Straßen- und Autobahndirektion, ö. U.', en: 'Road and Motorway Directorate' }
+
+  function api() {
+    mockFetch.mockImplementation(async (url) => {
+      const u = String(url)
+      if (u.includes('/api/companies/')) return ok({ gmr_id: ID, company_name: null })
+      if (u.includes('/api/authorities/')) {
+        const code = new URL(u, 'http://x').searchParams.get('lang')
+        return ok({ authority_id: ID, authority_name: NAMES[code] || 'Ředitelství silnic a dálnic s. p.' })
+      }
+      return { ok: false, status: 404, json: async () => ({}), text: async () => '' }
+    })
+  }
+
+  it('is asked for in the reader\'s language and shows the translated name', async () => {
+    api()
+    lang.value = 'de'
+    const w = mount(TickerFinancials, { props: { symbol: ID, view: 'summary' } })
+    await flushPromises()
+    expect(urls()).toContain(`/api/authorities/${ID}?lang=de`)
+    expect(w.find('[data-testid="financials-title"]').text()).toBe(NAMES.de)
+  })
+
+  it('follows a change of UI language', async () => {
+    api()
+    lang.value = 'de'
+    const w = mount(TickerFinancials, { props: { symbol: ID, view: 'summary' } })
+    await flushPromises()
+    lang.value = 'en'
+    await flushPromises()
+    expect(w.find('[data-testid="financials-title"]').text()).toBe(NAMES.en)
   })
 })
