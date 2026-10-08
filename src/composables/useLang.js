@@ -16,8 +16,9 @@ import { activateLocale } from '../i18n.js'
  * Initial value is an empty string (not 'en') so `currentLang()` returns
  * nothing until `init()` has run. That keeps the pre-mount window + any
  * test environment that doesn't opt in from sending `?lang=en` on URLs
- * the caller didn't ask for. Once `init()` runs (App.vue onMounted), the
- * ref settles on a concrete code.
+ * the caller didn't ask for. `init()` runs in main.js before the app
+ * mounts, so by the time any component asks for data the ref has settled
+ * on a concrete code.
  */
 const lang = ref('')
 let i18nInstance = null

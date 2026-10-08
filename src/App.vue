@@ -1,9 +1,8 @@
 <script setup>
-import { computed, inject, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { CACHED_VIEWS, viewKey } from './router/cachedViews.js'
 import { useTheme } from './composables/useTheme.js'
-import { useLang } from './composables/useLang.js'
 import { useDocumentMeta } from './composables/useDocumentMeta.js'
 import AppHeader from './components/AppHeader.vue'
 import AppSidebar from './components/AppSidebar.vue'
@@ -17,15 +16,11 @@ import ToastStack from './components/ToastStack.vue'
 import { rateLimited } from './api/_retry.js'
 import I18nPluralProbe from './components/I18nPluralProbe.vue'
 const { init: initTheme } = useTheme()
-const { init: initLang } = useLang()
-// Resolve the i18n instance now (in setup) — must come from the
-// `fontem-i18n` provide we set in app.js. globalProperties.$i18n is
-// a property-wrapper without `.global` / `setLocaleMessage`, which
-// is what activateLocale needs when a locale is lazy-loaded.
-const dargleI18n = inject('dargle-i18n', null)
+// The UI language is settled in main.js, before the app mounts — not
+// here: a parent's onMounted runs after its children's, so every page
+// had already sent its first requests without a language.
 onMounted(() => {
   initTheme()
-  initLang(dargleI18n)
 })
 
 // Per-route document.title + meta description, reactive to locale switch.

@@ -6,8 +6,17 @@
 import { createDargleApp } from './app.js'
 import { restoreSession } from './api/session.js'
 import { useAnalytics } from './composables/useAnalytics.js'
+import { useLang } from './composables/useLang.js'
 
-const { app, router } = createDargleApp(false)
+const { app, router, i18n } = createDargleApp(false)
+
+// Settle the UI language before anything mounts. Every API call carries
+// it (withLang), and a page sends its first requests while mounting —
+// before App.vue's own onMounted, which is where this used to happen.
+// Those requests went out with no language, and every page that follows
+// the language then loaded a second time when it arrived: twice the
+// requests, and whichever answer came back last was the one shown.
+useLang().init(i18n)
 
 // Silently refresh the session on every cold page load. If the user
 // has a live refresh cookie (legitimate browser session), this
