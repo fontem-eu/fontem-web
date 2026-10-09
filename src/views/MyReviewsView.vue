@@ -8,18 +8,48 @@
  */
 import { ref, onMounted } from 'vue'
 import { myReviews } from '../api/community.js'
+import { PAGE_SIZE, appendPage, cursorOf, mayHaveMore } from '../utils/paging.js'
 
 const reviews = ref([])
 const loading = ref(true)
 const error = ref('')
+// Thirty at a time, most recently active first. Nothing ever leaves this
+// list, and it came back whole: the e2e account's 1,513 reviews took 22
+// seconds to arrive and failed a promotion gate.
+const hasMore = ref(false)
+const loadingMore = ref(false)
+let cursor = ''
+
+function takePage(page) {
+  hasMore.value = mayHaveMore(page, PAGE_SIZE.reviews)
+  if (Array.isArray(page) && page.length) cursor = cursorOf(page.at(-1))
+}
 
 async function load() {
   try {
-    reviews.value = await myReviews()
+    const page = (await myReviews()) || []
+    reviews.value = page
+    takePage(page)
   } catch (err) {
     error.value = err.message
   } finally {
     loading.value = false
+  }
+}
+
+async function loadMore() {
+  if (!hasMore.value || loadingMore.value) return
+  loadingMore.value = true
+  try {
+    const page = (await myReviews({ before: cursor })) || []
+    const had = reviews.value.length
+    reviews.value = appendPage(reviews.value, page)
+    takePage(page)
+    if (reviews.value.length === had) hasMore.value = false
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    loadingMore.value = false
   }
 }
 
@@ -64,6 +94,14 @@ onMounted(load)
         </RouterLink>
       </li>
     </ul>
+    <button
+      v-if="!loading && hasMore && reviews.length"
+      type="button"
+      class="mr-more"
+      data-testid="my-reviews-show-more"
+      :disabled="loadingMore"
+      @click="loadMore"
+    >{{ loadingMore ? $t('app.loading_more') : $t('app.show_more') }}</button>
   </main>
 </template>
 
@@ -94,4 +132,17 @@ onMounted(load)
 }
 .mr-kind { font-weight: 600; }
 .mr-changes { font-variant-numeric: tabular-nums; }
+.mr-more {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border, #eee);
+  border-radius: 6px;
+  background: var(--surface, transparent);
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.85rem;
+  touch-action: manipulation;
+}
+.mr-more:disabled { opacity: 0.6; cursor: default; }
 </style>

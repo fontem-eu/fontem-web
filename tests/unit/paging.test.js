@@ -3,8 +3,8 @@ import { PAGE_SIZE, MAX_PAGE_SIZE, cursorOf, mayHaveMore, pageQuery, appendPage,
 
 describe('paging utils (the community API keyset contract)', () => {
   it('uses the page sizes the API defaults to, and its caps', () => {
-    expect(PAGE_SIZE).toEqual({ projects: 30, investigations: 10 })
-    expect(MAX_PAGE_SIZE).toEqual({ projects: 200, investigations: 500 })
+    expect(PAGE_SIZE).toEqual({ projects: 30, investigations: 10, reviews: 30 })
+    expect(MAX_PAGE_SIZE).toEqual({ projects: 200, investigations: 500, reviews: 200 })
   })
 
   it('builds the cursor from the last row, and nothing from nothing', () => {
