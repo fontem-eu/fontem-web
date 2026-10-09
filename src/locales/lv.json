@@ -1146,7 +1146,12 @@
     "no_filers": "Saistīta organizācija vēl nav reģistrēta.",
     "goals": "Mērķi",
     "interests": "Intereses",
-    "register_entry": "Ieraksts ES Pārredzamības reģistrā"
+    "register_entry": "Ieraksts ES Pārredzamības reģistrā",
+    "summary": "Īsumā",
+    "machine_summary": "Mašīnas rakstīts kopsavilkums",
+    "machine_translated": "Mašīntulkojums (oriģināls: {lang})",
+    "show_original": "Rādīt oriģinālu",
+    "hide_original": "Slēpt oriģinālu"
   },
   "login": {
     "go_to_home": "Iet uz sākumu",
@@ -1341,7 +1346,10 @@
       "answered": "Atbildēts",
       "conditions_not_fulfilled": "Nosacījumi nav izpildīti",
       "withdrawn": "Atsaukta"
-    }
+    },
+    "summary": "Īsumā",
+    "machine_summary": "Mašīnas rakstīts kopsavilkums",
+    "not_in_language": "Reģistrs nepublicē šo iniciatīvu jūsu valodā; tā ir parādīta angļu valodā."
   },
   "pocket_button": {
     "add_to_investigation": "Pievienot izmeklēšanai",

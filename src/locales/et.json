@@ -1146,7 +1146,12 @@
     "no_filers": "Seotud organisatsiooni ei ole veel registreeritud.",
     "goals": "Eesmärgid",
     "interests": "Huvid",
-    "register_entry": "Kanne ELi läbipaistvusregistris"
+    "register_entry": "Kanne ELi läbipaistvusregistris",
+    "summary": "Lühidalt",
+    "machine_summary": "Masina kirjutatud kokkuvõte",
+    "machine_translated": "Masintõlge (originaal: {lang})",
+    "show_original": "Näita originaali",
+    "hide_original": "Peida originaal"
   },
   "login": {
     "go_to_home": "Mine avalehele",
@@ -1341,7 +1346,10 @@
       "answered": "Vastatud",
       "conditions_not_fulfilled": "Tingimused täitmata",
       "withdrawn": "Tagasi võetud"
-    }
+    },
+    "summary": "Lühidalt",
+    "machine_summary": "Masina kirjutatud kokkuvõte",
+    "not_in_language": "Register ei avalda seda algatust teie keeles; see on näidatud inglise keeles."
   },
   "pocket_button": {
     "add_to_investigation": "Lisa uurimisse",

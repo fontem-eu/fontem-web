@@ -17,6 +17,7 @@ vi.mock('../../src/api/petitions.js', () => ({
 
 import PetitionsView from '../../src/views/PetitionsView.vue'
 import PetitionDetailView from '../../src/views/PetitionDetailView.vue'
+import { useLang } from '../../src/composables/useLang.js'
 
 function makeRouter() {
   return createRouter({
@@ -128,5 +129,61 @@ describe('PetitionDetailView', () => {
     const leg = w.find('[data-testid="petition-legislation"]')
     expect(leg.text()).toContain('Commission Implementing Decision (EU) 2024/1824')
     expect(w.find('[data-testid="unresolved-refs"]').text()).toContain('C(2026)4110')
+  })
+})
+
+
+describe('summaries and languages', () => {
+  const VIDEOGAMES = {
+    system: 'eu-eci', petition_id: 'ECI(2024)000007', status: 'ANSWERED',
+    title: 'Stop à la destruction des jeux vidéo', total_supporters: 1294188,
+    summary: "Demande à l'UE de garder jouables les jeux vendus.",
+  }
+
+  async function mountDetail(petition) {
+    fetchPetitionDetail.mockResolvedValue({ petition, legislation: [], unresolved_answer_refs: [] })
+    const router = makeRouter()
+    router.push(`/petitions/${encodeURIComponent(petition.petition_id)}`)
+    await router.isReady()
+    const w = mount(PetitionDetailView, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    return w
+  }
+
+  it('shows each petition\'s summary in the list', async () => {
+    stubBySection({ reached: [VIDEOGAMES] })
+    const router = makeRouter()
+    router.push('/petitions')
+    await router.isReady()
+    const w = mount(PetitionsView, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    expect(w.find('[data-testid="petition-summary"]').text()).toBe(VIDEOGAMES.summary)
+  })
+
+  it('shows the summary on the petition page, marked as machine-written', async () => {
+    const w = await mountDetail({ ...VIDEOGAMES, objectives: 'Obliger les éditeurs…', language_shown: 'fr' })
+    const summary = w.find('[data-testid="petition-summary"]')
+    expect(summary.text()).toContain(VIDEOGAMES.summary)
+    expect(summary.text()).toContain('Summary written by machine')
+  })
+
+  it('says so when the register publishes no version in the reader\'s language', async () => {
+    useLang().setLang('pl')
+    try {
+      const w = await mountDetail({ ...VIDEOGAMES, title: 'Stop Destroying Videogames', language_shown: 'en' })
+      expect(w.find('[data-testid="petition-not-in-language"]').exists()).toBe(true)
+    } finally {
+      useLang().setLang('en')
+    }
+  })
+
+  it('says nothing when the petition is shown in the reader\'s language', async () => {
+    useLang().setLang('fr')
+    try {
+      const w = await mountDetail({ ...VIDEOGAMES, language_shown: 'fr' })
+      expect(w.find('[data-testid="petition-not-in-language"]').exists()).toBe(false)
+    } finally {
+      useLang().setLang('en')
+    }
   })
 })

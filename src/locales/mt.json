@@ -1146,7 +1146,12 @@
     "no_filers": "Għadha ma ġiet irreġistrata l-ebda organizzazzjoni marbuta.",
     "goals": "Għanijiet",
     "interests": "Interessi",
-    "register_entry": "Entrata fir-Reġistru ta' Trasparenza tal-UE"
+    "register_entry": "Entrata fir-Reġistru ta' Trasparenza tal-UE",
+    "summary": "Fil-qosor",
+    "machine_summary": "Sommarju miktub minn magna",
+    "machine_translated": "Traduzzjoni awtomatika (oriġinal: {lang})",
+    "show_original": "Uri l-oriġinal",
+    "hide_original": "Aħbi l-oriġinal"
   },
   "login": {
     "go_to_home": "Mur lejn id-dar",
@@ -1341,7 +1346,10 @@
       "answered": "Imwieġba",
       "conditions_not_fulfilled": "Kundizzjonijiet mhux issodisfati",
       "withdrawn": "Irtirata"
-    }
+    },
+    "summary": "Fil-qosor",
+    "machine_summary": "Sommarju miktub minn magna",
+    "not_in_language": "Ir-reġistru ma jippubblikax din l-inizjattiva bil-lingwa tiegħek; tidher bl-Ingliż."
   },
   "pocket_button": {
     "add_to_investigation": "Żid mal-investigazzjoni",

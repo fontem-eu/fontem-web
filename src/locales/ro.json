@@ -1146,7 +1146,12 @@
     "no_filers": "Nicio organizație asociată înregistrată încă.",
     "goals": "Obiective",
     "interests": "Interese",
-    "register_entry": "Înregistrare în Registrul de transparență al UE"
+    "register_entry": "Înregistrare în Registrul de transparență al UE",
+    "summary": "Pe scurt",
+    "machine_summary": "Rezumat scris de o mașină",
+    "machine_translated": "Traducere automată (original: {lang})",
+    "show_original": "Arată originalul",
+    "hide_original": "Ascunde originalul"
   },
   "login": {
     "go_to_home": "Mergi la pagina principală",
@@ -1341,7 +1346,10 @@
       "answered": "Cu răspuns",
       "conditions_not_fulfilled": "Condiții neîndeplinite",
       "withdrawn": "Retrasă"
-    }
+    },
+    "summary": "Pe scurt",
+    "machine_summary": "Rezumat scris de o mașină",
+    "not_in_language": "Registrul nu publică această inițiativă în limba dumneavoastră; este afișată în engleză."
   },
   "pocket_button": {
     "add_to_investigation": "Adaugă la investigație",

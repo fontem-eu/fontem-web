@@ -1146,7 +1146,12 @@
     "no_filers": "Povezana organizacija še ni evidentirana.",
     "goals": "Cilji",
     "interests": "Interesi",
-    "register_entry": "Vpis v register EU za preglednost"
+    "register_entry": "Vpis v register EU za preglednost",
+    "summary": "Na kratko",
+    "machine_summary": "Povzetek, ki ga je napisal stroj",
+    "machine_translated": "Strojni prevod (izvirnik: {lang})",
+    "show_original": "Pokaži izvirnik",
+    "hide_original": "Skrij izvirnik"
   },
   "login": {
     "go_to_home": "Pojdi na domačo stran",
@@ -1341,7 +1346,10 @@
       "answered": "Odgovorjena",
       "conditions_not_fulfilled": "Pogoji niso izpolnjeni",
       "withdrawn": "Umaknjena"
-    }
+    },
+    "summary": "Na kratko",
+    "machine_summary": "Povzetek, ki ga je napisal stroj",
+    "not_in_language": "Register te pobude ne objavlja v vašem jeziku; prikazana je v angleščini."
   },
   "pocket_button": {
     "add_to_investigation": "Dodaj v preiskavo",

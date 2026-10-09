@@ -1146,7 +1146,12 @@
     "no_filers": "No linked organisation on record yet.",
     "goals": "Goals",
     "interests": "Interests",
-    "register_entry": "EU Transparency Register entry"
+    "register_entry": "EU Transparency Register entry",
+    "summary": "In short",
+    "machine_summary": "Summary written by machine",
+    "machine_translated": "Machine translation (original: {lang})",
+    "show_original": "Show original",
+    "hide_original": "Hide original"
   },
   "login": {
     "go_to_home": "Go to Home",
@@ -1341,7 +1346,10 @@
       "answered": "Answered",
       "conditions_not_fulfilled": "Conditions not fulfilled",
       "withdrawn": "Withdrawn"
-    }
+    },
+    "summary": "In short",
+    "machine_summary": "Summary written by machine",
+    "not_in_language": "The register does not publish this initiative in your language; it is shown in English."
   },
   "pocket_button": {
     "add_to_investigation": "Add to investigation",

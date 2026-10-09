@@ -1,22 +1,31 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getLobbyist } from '../api/lobbyists.js'
+import { useLang } from '../composables/useLang.js'
 import { fmtMoney } from '../utils/format.js'
 
 const route = useRoute()
+const { lang: uiLang } = useLang()
 const disclosureId = computed(() => route.params.disclosureId)
 const state = ref('loading')
 const lobbyist = ref(null)
+// The goals come back in the reader's language where translated; the
+// original stays one click away, as the register states it.
+const showOriginal = ref(false)
 
-onMounted(async () => {
+async function load() {
   try {
     lobbyist.value = await getLobbyist(disclosureId.value)
     state.value = 'ready'
   } catch (err) {
     state.value = /HTTP 404/.test(err.message) ? 'notfound' : 'error'
   }
-})
+}
+
+onMounted(load)
+// A new UI language means the goals in that language.
+watch(uiLang, () => { showOriginal.value = false; load() })
 
 /**
  * The register records a BAND, not a figure, and often only one end of
@@ -104,14 +113,37 @@ const facts = computed(() => {
         <p v-else class="lb-empty">{{ $t('lobbyist.no_filers') }}</p>
       </section>
 
-      <section v-if="lobbyist.goals" class="lb-section">
-        <h2>{{ $t('lobbyist.goals') }}</h2>
-        <p class="lb-prose">{{ lobbyist.goals }}</p>
+      <section v-if="lobbyist.goals_summary" class="lb-section" data-testid="lobbyist-summary">
+        <h2>{{ $t('lobbyist.summary') }}</h2>
+        <p class="lb-lead">{{ lobbyist.goals_summary }}</p>
+        <p class="lb-note">{{ $t('lobbyist.machine_summary') }}</p>
       </section>
 
-      <section v-if="lobbyist.interests" class="lb-section">
+      <section v-if="lobbyist.goals" class="lb-section" data-testid="lobbyist-goals">
+        <h2>{{ $t('lobbyist.goals') }}</h2>
+        <p
+          v-if="lobbyist.goals_translated && showOriginal"
+          class="lb-prose"
+          :lang="lobbyist.goals_lang || undefined"
+          data-testid="lobbyist-goals-original"
+        >{{ lobbyist.goals_original }}</p>
+        <p v-else class="lb-prose" data-testid="lobbyist-goals-text">{{ lobbyist.goals }}</p>
+        <p v-if="lobbyist.goals_translated" class="lb-note" data-testid="lobbyist-goals-note">
+          {{ $t('lobbyist.machine_translated', { lang: (lobbyist.goals_lang || '').toUpperCase() }) }}
+          <button
+            type="button"
+            class="lb-toggle"
+            data-testid="lobbyist-goals-toggle"
+            @click="showOriginal = !showOriginal"
+          >{{ showOriginal ? $t('lobbyist.hide_original') : $t('lobbyist.show_original') }}</button>
+        </p>
+      </section>
+
+      <section v-if="lobbyist.interests?.length" class="lb-section">
         <h2>{{ $t('lobbyist.interests') }}</h2>
-        <p class="lb-prose">{{ lobbyist.interests }}</p>
+        <ul class="lb-interests" data-testid="lobbyist-interests">
+          <li v-for="i in lobbyist.interests" :key="i">{{ i }}</li>
+        </ul>
       </section>
 
       <p class="lb-links">
@@ -161,5 +193,18 @@ const facts = computed(() => {
 .lb-filers li { padding: 0.2rem 0; }
 .lb-empty { color: var(--muted); margin: 0; }
 .lb-prose { margin: 0; white-space: pre-wrap; }
+.lb-lead { margin: 0; font-size: 1.05rem; line-height: 1.5; }
+.lb-note { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.8rem; }
+.lb-toggle {
+  margin-left: 0.5rem; padding: 0; border: 0; background: none;
+  color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline;
+}
+.lb-interests {
+  list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem;
+}
+.lb-interests li {
+  padding: 0.1rem 0.55rem; border-radius: 999px;
+  background: var(--surface-2, rgba(127, 127, 127, 0.15)); font-size: 0.85rem;
+}
 .lb-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
 </style>

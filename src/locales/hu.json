@@ -1146,7 +1146,12 @@
     "no_filers": "Még nincs nyilvántartott kapcsolódó szervezet.",
     "goals": "Célok",
     "interests": "Érdekek",
-    "register_entry": "Bejegyzés az EU átláthatósági nyilvántartásában"
+    "register_entry": "Bejegyzés az EU átláthatósági nyilvántartásában",
+    "summary": "Röviden",
+    "machine_summary": "Gép által írt összefoglaló",
+    "machine_translated": "Gépi fordítás (eredeti: {lang})",
+    "show_original": "Eredeti megjelenítése",
+    "hide_original": "Eredeti elrejtése"
   },
   "login": {
     "go_to_home": "Ugrás a kezdőlapra",
@@ -1341,7 +1346,10 @@
       "answered": "Megválaszolva",
       "conditions_not_fulfilled": "A feltételek nem teljesültek",
       "withdrawn": "Visszavonva"
-    }
+    },
+    "summary": "Röviden",
+    "machine_summary": "Gép által írt összefoglaló",
+    "not_in_language": "A nyilvántartás nem teszi közzé ezt a kezdeményezést az Ön nyelvén; angolul jelenik meg."
   },
   "pocket_button": {
     "add_to_investigation": "Hozzáadás a vizsgálathoz",

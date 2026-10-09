@@ -1146,7 +1146,12 @@
     "no_filers": "Liitettyä organisaatiota ei ole vielä kirjattu.",
     "goals": "Tavoitteet",
     "interests": "Intressit",
-    "register_entry": "Merkintä EU:n avoimuusrekisterissä"
+    "register_entry": "Merkintä EU:n avoimuusrekisterissä",
+    "summary": "Lyhyesti",
+    "machine_summary": "Koneen kirjoittama tiivistelmä",
+    "machine_translated": "Konekäännös (alkuperäinen: {lang})",
+    "show_original": "Näytä alkuperäinen",
+    "hide_original": "Piilota alkuperäinen"
   },
   "login": {
     "go_to_home": "Siirry etusivulle",
@@ -1341,7 +1346,10 @@
       "answered": "Vastattu",
       "conditions_not_fulfilled": "Ehdot eivät täyty",
       "withdrawn": "Peruutettu"
-    }
+    },
+    "summary": "Lyhyesti",
+    "machine_summary": "Koneen kirjoittama tiivistelmä",
+    "not_in_language": "Rekisteri ei julkaise tätä aloitetta kielelläsi; se näytetään englanniksi."
   },
   "pocket_button": {
     "add_to_investigation": "Lisää tutkintaan",

@@ -1146,7 +1146,12 @@
     "no_filers": "Ingen kopplad organisation har registrerats än.",
     "goals": "Mål",
     "interests": "Intressen",
-    "register_entry": "Post i EU:s öppenhetsregister"
+    "register_entry": "Post i EU:s öppenhetsregister",
+    "summary": "I korthet",
+    "machine_summary": "Maskinskriven sammanfattning",
+    "machine_translated": "Maskinöversättning (original: {lang})",
+    "show_original": "Visa originalet",
+    "hide_original": "Dölj originalet"
   },
   "login": {
     "go_to_home": "Gå till startsidan",
@@ -1341,7 +1346,10 @@
       "answered": "Besvarad",
       "conditions_not_fulfilled": "Villkoren ej uppfyllda",
       "withdrawn": "Tillbakadragen"
-    }
+    },
+    "summary": "I korthet",
+    "machine_summary": "Maskinskriven sammanfattning",
+    "not_in_language": "Registret publicerar inte detta initiativ på ditt språk; det visas på engelska."
   },
   "pocket_button": {
     "add_to_investigation": "Lägg till i granskning",

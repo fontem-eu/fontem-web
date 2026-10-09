@@ -1146,7 +1146,12 @@
     "no_filers": "Níl aon eagraíocht nasctha ar taifead go fóill.",
     "goals": "Spriocanna",
     "interests": "Leasanna",
-    "register_entry": "Iontráil i gClár Trédhearcachta an AE"
+    "register_entry": "Iontráil i gClár Trédhearcachta an AE",
+    "summary": "Go hachomair",
+    "machine_summary": "Achoimre scríofa ag meaisín",
+    "machine_translated": "Aistriúchán meaisín (bunleagan: {lang})",
+    "show_original": "Taispeáin an bunleagan",
+    "hide_original": "Folaigh an bunleagan"
   },
   "login": {
     "go_to_home": "Téigh abhaile",
@@ -1341,7 +1346,10 @@
       "answered": "Freagartha",
       "conditions_not_fulfilled": "Coinníollacha gan chomhlíonadh",
       "withdrawn": "Tarraingthe siar"
-    }
+    },
+    "summary": "Go hachomair",
+    "machine_summary": "Achoimre scríofa ag meaisín",
+    "not_in_language": "Ní fhoilsíonn an clár an tionscnamh seo i do theanga; taispeántar i mBéarla é."
   },
   "pocket_button": {
     "add_to_investigation": "Cuir leis an imscrúdú",

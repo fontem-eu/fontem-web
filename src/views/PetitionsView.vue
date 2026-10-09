@@ -11,11 +11,13 @@
  * Each section paginates independently with its own "Show more" button,
  * following the load-more pattern used by SearchView.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchPetitions } from '../api/petitions.js'
+import { useLang } from '../composables/useLang.js'
 
 const { t } = useI18n()
+const { lang: uiLang } = useLang()
 const NUM = new Intl.NumberFormat()
 
 // Status sets + page sizes for each section.
@@ -116,6 +118,12 @@ onMounted(() => {
   loadCollecting(true)
   loadReached(true)
 })
+// Titles and summaries come in the reader's language: a new UI language
+// reloads both sections from the start.
+watch(uiLang, () => {
+  loadCollecting(true)
+  loadReached(true)
+})
 </script>
 
 <template>
@@ -156,6 +164,7 @@ onMounted(() => {
             class="pt-title"
             :to="`/petitions/${encodeURIComponent(r.petition_id)}`"
           >{{ r.title || r.petition_id }}</RouterLink>
+          <p v-if="r.summary" class="pt-summary" data-testid="petition-summary">{{ r.summary }}</p>
           <div class="pt-meta">
             <span class="pt-badge" :data-status="r.status">{{ statusLabel(r.status) }}</span>
             <span class="pt-supporters" data-testid="petition-supporters">
@@ -190,6 +199,7 @@ onMounted(() => {
 .pt-card { border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem; background: var(--surface, transparent); }
 .pt-title { font-weight: 600; color: var(--text); text-decoration: none; }
 .pt-title:hover { color: var(--accent); text-decoration: underline; }
+.pt-summary { margin: 0.3rem 0 0; color: var(--text); font-size: 0.9rem; line-height: 1.45; }
 .pt-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.4rem; font-size: 0.85rem; align-items: center; }
 .pt-badge {
   text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em;
