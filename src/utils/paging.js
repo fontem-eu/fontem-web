@@ -8,10 +8,10 @@
  * limit and returns everything in one go, and that must read as "no more",
  * not as a page with a Show-more button that fetches the same rows forever.
  */
-export const PAGE_SIZE = Object.freeze({ projects: 30, investigations: 10 })
+export const PAGE_SIZE = Object.freeze({ projects: 30, investigations: 10, reviews: 30 })
 
 /** The largest page each endpoint allows; what the pickers walk at. */
-export const MAX_PAGE_SIZE = Object.freeze({ projects: 200, investigations: 500 })
+export const MAX_PAGE_SIZE = Object.freeze({ projects: 200, investigations: 500, reviews: 200 })
 
 export const cursorOf = (row) => (row?.updated_at && row?.id ? `${row.updated_at}|${row.id}` : '')
 

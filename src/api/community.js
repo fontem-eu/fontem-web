@@ -484,9 +484,12 @@ export function closeReview(reportId, reviewId, state = 'closed') {
   )
 }
 
-/** Everything I started or was asked to read. */
-export function myReviews() {
-  return request('GET', '/data-stories/my-reviews')
+/**
+ * Everything I started or was asked to read, most recently active first, a
+ * page at a time. Pass the last row's `cursorOf` as `before` for the next.
+ */
+export function myReviews({ limit = PAGE_SIZE.reviews, before = '' } = {}) {
+  return request('GET', `/data-stories/my-reviews${pageQuery({ limit, before })}`)
 }
 
 function _reviewPath(reportId, reviewId) {
