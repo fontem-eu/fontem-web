@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Machinevertaling. Oorspronkelijke titel: {original}",
+    "name_hint": "Machinevertaling. Oorspronkelijke naam: {original}",
     "original_title": "Oorspronkelijke titel"
   },
   "trade_edges_d_q": {

@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Konekäännös. Alkuperäinen otsikko: {original}",
+    "name_hint": "Konekäännös. Alkuperäinen nimi: {original}",
     "original_title": "Alkuperäinen otsikko"
   },
   "trade_edges_d_q": {

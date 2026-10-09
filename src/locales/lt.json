@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Mašininis vertimas. Originalus pavadinimas: {original}",
+    "name_hint": "Mašininis vertimas. Originalus pavadinimas: {original}",
     "original_title": "Originalus pavadinimas"
   },
   "trade_edges_d_q": {

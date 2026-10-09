@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Μηχανική μετάφραση. Αρχικός τίτλος: {original}",
+    "name_hint": "Μηχανική μετάφραση. Αρχική ονομασία: {original}",
     "original_title": "Αρχικός τίτλος"
   },
   "trade_edges_d_q": {

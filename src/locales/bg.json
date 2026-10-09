@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Машинен превод. Оригинално заглавие: {original}",
+    "name_hint": "Машинен превод. Оригинално наименование: {original}",
     "original_title": "Оригинално заглавие"
   },
   "trade_edges_d_q": {

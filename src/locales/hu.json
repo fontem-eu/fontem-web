@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Gépi fordítás. Eredeti cím: {original}",
+    "name_hint": "Gépi fordítás. Eredeti név: {original}",
     "original_title": "Eredeti cím"
   },
   "trade_edges_d_q": {

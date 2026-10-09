@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Mašīntulkojums. Oriģinālais nosaukums: {original}",
+    "name_hint": "Mašīntulkojums. Oriģinālais nosaukums: {original}",
     "original_title": "Oriģinālais nosaukums"
   },
   "trade_edges_d_q": {

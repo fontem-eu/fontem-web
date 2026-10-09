@@ -179,6 +179,23 @@ describe('briefing cards', () => {
     const w = card({ kind: 'contract', headline: CZ })
     expect(w.find('[data-testid="feed-briefing-what-c1"]').attributes('title')).toBeUndefined()
   })
+
+  // The briefing API names the buyer in the reader's language when it can,
+  // and keeps the name the source published as facets.from_original.
+  it('keeps the original buyer name on hover when it was translated', () => {
+    const w = card({ kind: 'contract', headline: EN, from: 'Straßen- und Autobahndirektion',
+      from_original: 'Ředitelství silnic a dálnic s. p.', to: ['Y'] })
+    const buyer = w.find('[data-testid="feed-briefing-from-c1"]')
+    expect(buyer.text()).toBe('Straßen- und Autobahndirektion')
+    expect(buyer.attributes('title')).toBe(
+      'Machine translation. Original name: Ředitelství silnic a dálnic s. p.')
+  })
+
+  it('a buyer shown as published has no hint', () => {
+    const w = card({ kind: 'contract', headline: EN, from: 'Ředitelství silnic a dálnic s. p.',
+      to: ['Y'] })
+    expect(w.find('[data-testid="feed-briefing-from-c1"]').attributes('title')).toBeUndefined()
+  })
 })
 
 describe('the feed', () => {

@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Traduzzjoni awtomatika. Titlu oriġinali: {original}",
+    "name_hint": "Traduzzjoni awtomatika. Isem oriġinali: {original}",
     "original_title": "Titlu oriġinali"
   },
   "trade_edges_d_q": {
