@@ -1146,7 +1146,12 @@
     "no_filers": "Nessuna organizzazione collegata ancora registrata.",
     "goals": "Obiettivi",
     "interests": "Interessi",
-    "register_entry": "Scheda nel registro per la trasparenza dell'UE"
+    "register_entry": "Scheda nel registro per la trasparenza dell'UE",
+    "summary": "In breve",
+    "machine_summary": "Sintesi scritta da una macchina",
+    "machine_translated": "Traduzione automatica (originale: {lang})",
+    "show_original": "Mostra l'originale",
+    "hide_original": "Nascondi l'originale"
   },
   "login": {
     "go_to_home": "Vai alla home",
@@ -1341,7 +1346,10 @@
       "answered": "Risposta",
       "conditions_not_fulfilled": "Condizioni non soddisfatte",
       "withdrawn": "Ritirata"
-    }
+    },
+    "summary": "In breve",
+    "machine_summary": "Sintesi scritta da una macchina",
+    "not_in_language": "Il registro non pubblica questa iniziativa nella tua lingua; è mostrata in inglese."
   },
   "pocket_button": {
     "add_to_investigation": "Aggiungi all'inchiesta",

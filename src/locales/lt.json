@@ -1146,7 +1146,12 @@
     "no_filers": "Susijusios organizacijos dar nėra.",
     "goals": "Tikslai",
     "interests": "Interesai",
-    "register_entry": "Įrašas ES skaidrumo registre"
+    "register_entry": "Įrašas ES skaidrumo registre",
+    "summary": "Trumpai",
+    "machine_summary": "Mašinos parašyta santrauka",
+    "machine_translated": "Mašininis vertimas (originalas: {lang})",
+    "show_original": "Rodyti originalą",
+    "hide_original": "Slėpti originalą"
   },
   "login": {
     "go_to_home": "Eiti į pradžią",
@@ -1341,7 +1346,10 @@
       "answered": "Atsakyta",
       "conditions_not_fulfilled": "Sąlygos neįvykdytos",
       "withdrawn": "Atsiimta"
-    }
+    },
+    "summary": "Trumpai",
+    "machine_summary": "Mašinos parašyta santrauka",
+    "not_in_language": "Registras neskelbia šios iniciatyvos jūsų kalba; ji rodoma anglų kalba."
   },
   "pocket_button": {
     "add_to_investigation": "Pridėti į tyrimą",

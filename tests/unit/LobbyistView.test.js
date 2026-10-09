@@ -28,7 +28,7 @@ const JANE = {
   registered_on: '2021-03-04',
   last_updated: '2026-08-14',
   active: true,
-  register_url: 'http://www.janestreet.com/',
+  register_url: 'https://transparency-register.europa.eu/search-register-or-update/organisation-detail_en?id=763743132433-49',
   filed_for: [],
 }
 
@@ -128,5 +128,61 @@ describe('LobbyistView', () => {
     const rel = w.find('[data-testid="lobbyist-website"]').attributes('rel')
     expect(rel).toContain('nofollow')
     expect(rel).toContain('noopener')
+  })
+
+  it('opens the register entry the API names, not the organisation\'s website', async () => {
+    // Regression: the "register entry" link opened janestreet.com.
+    const w = await mountView()
+    expect(w.find('[data-testid="lobbyist-register"]').attributes('href')).toBe(JANE.register_url)
+    expect(w.find('[data-testid="lobbyist-website"]').attributes('href')).toBe(JANE.website)
+  })
+
+  it('lists the interests one by one', async () => {
+    // They are a list; the page printed the raw array.
+    api.getLobbyist.mockResolvedValue({ ...JANE, interests: ['Banking and financial services', 'Taxation'] })
+    const w = await mountView()
+    const items = w.findAll('[data-testid="lobbyist-interests"] li').map((li) => li.text())
+    expect(items).toEqual(['Banking and financial services', 'Taxation'])
+    expect(w.text()).not.toContain('["')
+  })
+
+  const BRAUER = {
+    ...JANE,
+    disclosure_id: '9218245390-27',
+    name: 'Beispiel Brauer-Bund e.V.',
+    goals: 'Representing the interests of the German brewing industry.',
+    goals_original: 'Die Interessen der deutschen Brauwirtschaft vertreten.',
+    goals_lang: 'de',
+    goals_translated: true,
+    goals_summary: 'Represents the German brewing industry at the EU.',
+  }
+
+  it('shows the summary first, marked as machine-written', async () => {
+    api.getLobbyist.mockResolvedValue(BRAUER)
+    const w = await mountView('9218245390-27')
+    const summary = w.find('[data-testid="lobbyist-summary"]')
+    expect(summary.text()).toContain('Represents the German brewing industry at the EU.')
+    expect(summary.text()).toContain('Summary written by machine')
+  })
+
+  it('shows translated goals with the original one click away', async () => {
+    api.getLobbyist.mockResolvedValue(BRAUER)
+    const w = await mountView('9218245390-27')
+    expect(w.find('[data-testid="lobbyist-goals-text"]').text()).toBe(BRAUER.goals)
+    expect(w.find('[data-testid="lobbyist-goals-note"]').text()).toContain('Machine translation (original: DE)')
+    await w.find('[data-testid="lobbyist-goals-toggle"]').trigger('click')
+    const original = w.find('[data-testid="lobbyist-goals-original"]')
+    expect(original.text()).toBe(BRAUER.goals_original)
+    expect(original.attributes('lang')).toBe('de')
+    expect(w.find('[data-testid="lobbyist-goals-toggle"]').text()).toBe('Hide original')
+  })
+
+  it('shows goals as written, with no note, when nothing is translated', async () => {
+    api.getLobbyist.mockResolvedValue({ ...BRAUER, goals: BRAUER.goals_original, goals_translated: false,
+                                        goals_summary: null })
+    const w = await mountView('9218245390-27')
+    expect(w.find('[data-testid="lobbyist-goals-text"]').text()).toBe(BRAUER.goals_original)
+    expect(w.find('[data-testid="lobbyist-goals-note"]').exists()).toBe(false)
+    expect(w.find('[data-testid="lobbyist-summary"]').exists()).toBe(false)
   })
 })

@@ -1146,7 +1146,12 @@
     "no_filers": "Ingen tilknyttet organisation registreret endnu.",
     "goals": "Mål",
     "interests": "Interesser",
-    "register_entry": "Post i EU's åbenhedsregister"
+    "register_entry": "Post i EU's åbenhedsregister",
+    "summary": "Kort fortalt",
+    "machine_summary": "Maskinskrevet resumé",
+    "machine_translated": "Maskinoversættelse (original: {lang})",
+    "show_original": "Vis originalen",
+    "hide_original": "Skjul originalen"
   },
   "login": {
     "go_to_home": "Gå til forsiden",
@@ -1341,7 +1346,10 @@
       "answered": "Besvaret",
       "conditions_not_fulfilled": "Betingelser ikke opfyldt",
       "withdrawn": "Trukket tilbage"
-    }
+    },
+    "summary": "Kort fortalt",
+    "machine_summary": "Maskinskrevet resumé",
+    "not_in_language": "Registret offentliggør ikke dette initiativ på dit sprog; det vises på engelsk."
   },
   "pocket_button": {
     "add_to_investigation": "Føj til undersøgelse",

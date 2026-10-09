@@ -1146,7 +1146,12 @@
     "no_filers": "Nog geen gekoppelde organisatie geregistreerd.",
     "goals": "Doelen",
     "interests": "Belangen",
-    "register_entry": "Vermelding in het EU-transparantieregister"
+    "register_entry": "Vermelding in het EU-transparantieregister",
+    "summary": "In het kort",
+    "machine_summary": "Door een machine geschreven samenvatting",
+    "machine_translated": "Machinevertaling (origineel: {lang})",
+    "show_original": "Origineel tonen",
+    "hide_original": "Origineel verbergen"
   },
   "login": {
     "go_to_home": "Naar startpagina",
@@ -1341,7 +1346,10 @@
       "answered": "Beantwoord",
       "conditions_not_fulfilled": "Voorwaarden niet vervuld",
       "withdrawn": "Ingetrokken"
-    }
+    },
+    "summary": "In het kort",
+    "machine_summary": "Door een machine geschreven samenvatting",
+    "not_in_language": "Het register publiceert dit initiatief niet in uw taal; het wordt in het Engels getoond."
   },
   "pocket_button": {
     "add_to_investigation": "Aan onderzoek toevoegen",

@@ -6,13 +6,15 @@
  * response), LED_TO (resulting acts). Unresolved answer refs render as
  * "documented, not yet linkable" — never silently dropped.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { fetchPetitionDetail } from '../api/petitions.js'
+import { useLang } from '../composables/useLang.js'
 
 const route = useRoute()
 const { t } = useI18n()
+const { lang: uiLang } = useLang()
 
 const detail = ref(null)
 const error = ref('')
@@ -47,13 +49,25 @@ function statusLabel(s) {
   return label === key ? s : label
 }
 
-onMounted(async () => {
+// The register publishes each initiative in up to 24 official languages;
+// when it does not publish one in the reader's, the English one is shown
+// and the page says so.
+const notInLanguage = computed(() => {
+  const shown = petition.value.language_shown
+  return Boolean(shown && uiLang.value && shown !== uiLang.value)
+})
+
+async function load() {
   try {
     detail.value = await fetchPetitionDetail(route.params.id)
   } catch (e) {
     error.value = e?.message || String(e)
   }
-})
+}
+
+onMounted(load)
+// A new UI language means the petition in that language.
+watch(uiLang, load)
 </script>
 
 <template>
@@ -63,11 +77,20 @@ onMounted(async () => {
       <header class="pd-head">
         <span class="pd-badge" :data-status="petition.status">{{ statusLabel(petition.status) }}</span>
         <h1>{{ petition.title }}</h1>
+        <p v-if="notInLanguage" class="pd-note" data-testid="petition-not-in-language">
+          {{ t('petitions.not_in_language') }}
+        </p>
         <div class="pd-hero" data-testid="petition-supporters-hero">
           <strong>{{ NUM.format(petition.total_supporters || 0) }}</strong>
           <span>{{ t('petitions.supporters') }}</span>
         </div>
       </header>
+
+      <section v-if="petition.summary" class="pd-section" data-testid="petition-summary">
+        <h2>{{ t('petitions.summary') }}</h2>
+        <p class="pd-lead">{{ petition.summary }}</p>
+        <p class="pd-note">{{ t('petitions.machine_summary') }}</p>
+      </section>
 
       <section v-if="petition.objectives" class="pd-section">
         <h2>{{ t('petitions.about') }}</h2>
@@ -148,6 +171,8 @@ onMounted(async () => {
 .pd-section { margin-top: 1.75rem; }
 .pd-section h2 { font-size: 1.05rem; margin-bottom: 0.5rem; }
 .pd-objectives { white-space: pre-line; line-height: 1.55; }
+.pd-lead { margin: 0; font-size: 1.05rem; line-height: 1.5; }
+.pd-note { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.8rem; }
 .pd-external { display: inline-block; margin-top: 0.5rem; color: var(--accent); }
 .pd-timeline { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
 .pd-tl-date { font-variant-numeric: tabular-nums; opacity: 0.7; margin-right: 0.5rem; }

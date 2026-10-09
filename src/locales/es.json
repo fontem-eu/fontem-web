@@ -1146,7 +1146,12 @@
     "no_filers": "Aún no consta ninguna organización vinculada.",
     "goals": "Objetivos",
     "interests": "Intereses",
-    "register_entry": "Ficha en el Registro de Transparencia de la UE"
+    "register_entry": "Ficha en el Registro de Transparencia de la UE",
+    "summary": "En resumen",
+    "machine_summary": "Resumen escrito por una máquina",
+    "machine_translated": "Traducción automática (original: {lang})",
+    "show_original": "Mostrar el original",
+    "hide_original": "Ocultar el original"
   },
   "login": {
     "go_to_home": "Ir al inicio",
@@ -1341,7 +1346,10 @@
       "answered": "Respondida",
       "conditions_not_fulfilled": "Condiciones no cumplidas",
       "withdrawn": "Retirada"
-    }
+    },
+    "summary": "En resumen",
+    "machine_summary": "Resumen escrito por una máquina",
+    "not_in_language": "El registro no publica esta iniciativa en su idioma; se muestra en inglés."
   },
   "pocket_button": {
     "add_to_investigation": "Añadir a la investigación",

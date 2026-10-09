@@ -1146,7 +1146,12 @@
     "no_filers": "Zatím není evidována žádná propojená organizace.",
     "goals": "Cíle",
     "interests": "Zájmy",
-    "register_entry": "Záznam v rejstříku transparentnosti EU"
+    "register_entry": "Záznam v rejstříku transparentnosti EU",
+    "summary": "Ve zkratce",
+    "machine_summary": "Shrnutí napsané strojem",
+    "machine_translated": "Strojový překlad (originál: {lang})",
+    "show_original": "Zobrazit originál",
+    "hide_original": "Skrýt originál"
   },
   "login": {
     "go_to_home": "Přejít na domovskou stránku",
@@ -1341,7 +1346,10 @@
       "answered": "Zodpovězeno",
       "conditions_not_fulfilled": "Podmínky nesplněny",
       "withdrawn": "Staženo"
-    }
+    },
+    "summary": "Ve zkratce",
+    "machine_summary": "Shrnutí napsané strojem",
+    "not_in_language": "Rejstřík tuto iniciativu ve vašem jazyce nezveřejňuje; zobrazuje se v angličtině."
   },
   "pocket_button": {
     "add_to_investigation": "Přidat do vyšetřování",

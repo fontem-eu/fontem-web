@@ -1146,7 +1146,12 @@
     "no_filers": "Nie odnotowano jeszcze powiązanej organizacji.",
     "goals": "Cele",
     "interests": "Interesy",
-    "register_entry": "Wpis w Rejestrze Przejrzystości UE"
+    "register_entry": "Wpis w Rejestrze Przejrzystości UE",
+    "summary": "W skrócie",
+    "machine_summary": "Streszczenie napisane przez maszynę",
+    "machine_translated": "Tłumaczenie maszynowe (oryginał: {lang})",
+    "show_original": "Pokaż oryginał",
+    "hide_original": "Ukryj oryginał"
   },
   "login": {
     "go_to_home": "Przejdź do strony głównej",
@@ -1341,7 +1346,10 @@
       "answered": "Udzielono odpowiedzi",
       "conditions_not_fulfilled": "Warunki niespełnione",
       "withdrawn": "Wycofano"
-    }
+    },
+    "summary": "W skrócie",
+    "machine_summary": "Streszczenie napisane przez maszynę",
+    "not_in_language": "Rejestr nie publikuje tej inicjatywy w Twoim języku; jest wyświetlana po angielsku."
   },
   "pocket_button": {
     "add_to_investigation": "Dodaj do śledztwa",
