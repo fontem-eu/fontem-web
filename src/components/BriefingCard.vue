@@ -49,6 +49,11 @@ const headlineHint = computed(() => (facets.value.headline_original
 
 /** Buyer / declarant, and how many more stood beside them. */
 const from = computed(() => facets.value.from || '')
+/** Shown on hover when the buyer is named in the reader's language: the
+ *  name the source published (the briefing API keeps it as from_original). */
+const fromHint = computed(() => (facets.value.from_original
+  ? t('title_translation.name_hint', { original: facets.value.from_original })
+  : undefined))
 const fromMore = computed(() => Number(facets.value.from_more) || 0)
 /** Suppliers. `to_more` is how many the query left out of the list. */
 const to = computed(() => (Array.isArray(facets.value.to) ? facets.value.to : []))
@@ -185,7 +190,11 @@ const link = computed(() => props.item._link || { kind: 'none' })
       class="bcard-relation"
       :data-testid="`feed-briefing-relation-${item.item_id}`"
     >
-      <span class="bcard-party">{{ from }}<span v-if="fromMore" class="bcard-more"> +{{ fromMore }}</span></span>
+      <span
+        class="bcard-party"
+        :title="fromHint"
+        :data-testid="`feed-briefing-from-${item.item_id}`"
+      >{{ from }}<span v-if="fromMore" class="bcard-more"> +{{ fromMore }}</span></span>
       <!-- The arrow belongs to the supplier, not to the buyer: kept in
            the same span so a wrap moves "→ B" down together rather than
            leaving the arrow dangling at the end of the line above. -->

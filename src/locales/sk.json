@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Strojový preklad. Pôvodný názov: {original}",
+    "name_hint": "Strojový preklad. Pôvodný názov: {original}",
     "original_title": "Pôvodný názov"
   },
   "trade_edges_d_q": {

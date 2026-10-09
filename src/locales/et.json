@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Masintõlge. Algne pealkiri: {original}",
+    "name_hint": "Masintõlge. Algne nimi: {original}",
     "original_title": "Algne pealkiri"
   },
   "trade_edges_d_q": {

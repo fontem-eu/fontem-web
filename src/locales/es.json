@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Traducción automática. Título original: {original}",
+    "name_hint": "Traducción automática. Nombre original: {original}",
     "original_title": "Título original"
   },
   "trade_edges_d_q": {

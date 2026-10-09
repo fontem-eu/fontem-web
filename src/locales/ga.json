@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Aistriúchán meaisín. Bunteideal: {original}",
+    "name_hint": "Aistriúchán meaisín. Bunainm: {original}",
     "original_title": "Bunteideal"
   },
   "trade_edges_d_q": {

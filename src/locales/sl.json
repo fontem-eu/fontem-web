@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Strojni prevod. Izvirni naslov: {original}",
+    "name_hint": "Strojni prevod. Izvirno ime: {original}",
     "original_title": "Izvirni naslov"
   },
   "trade_edges_d_q": {

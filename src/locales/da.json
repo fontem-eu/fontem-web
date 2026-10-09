@@ -1995,6 +1995,7 @@
   },
   "title_translation": {
     "hint": "Maskinoversættelse. Original titel: {original}",
+    "name_hint": "Maskinoversættelse. Oprindeligt navn: {original}",
     "original_title": "Original titel"
   },
   "trade_edges_d_q": {
