@@ -102,6 +102,6 @@
     "lightningcss": "1.33.0",
     "proxy-addr": "2.0.8",
     "source-map-js": "1.2.2",
-    "tinypool": "2.1.2"
+    "tinypool": "2.2.0"
   }
 }
