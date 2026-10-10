@@ -18,6 +18,13 @@ if (typeof globalThis.URL.createObjectURL === 'undefined') {
   globalThis.URL.createObjectURL = () => 'blob:mock'
 }
 
+// jsdom has no Element.scrollTo. RecentlyPublishedCarousel scrolls its track
+// on a timer, and a carousel a test leaves mounted fires it after the test:
+// "track.scrollTo is not a function", reported against whichever file runs.
+if (typeof Element !== 'undefined' && !Element.prototype.scrollTo) {
+  Element.prototype.scrollTo = function scrollTo() {}
+}
+
 // ResizeObserver is needed by D3 chart components
 if (typeof globalThis.ResizeObserver === 'undefined') {
   globalThis.ResizeObserver = class ResizeObserver {
