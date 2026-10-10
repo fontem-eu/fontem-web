@@ -98,6 +98,17 @@ const selectedTicker = computed(() =>
 const selectedView = computed(
   () => route.params.view || (route.params.ticker ? 'summary' : 'profile'))
 
+/** What the URL already says the entity is: `/authority/:id` and
+ *  `/company/:id` name it; the ticker route does not, and the page has to
+ *  find out. Handed down so nothing below asks an endpoint that cannot be
+ *  the answer — an authority page used to ask for fundamentals twice, for
+ *  the id as a company twice and for its contracts as a company first. */
+const kindFromRoute = computed(() => {
+  if (route.params.authority_id) return 'authority'
+  if (route.params.gmr_id) return 'company'
+  return null
+})
+
 /** The URL family this page was entered through, so tabs stay on it. */
 function basePath() {
   if (route.params.gmr_id) return `/company/${route.params.gmr_id}`
@@ -106,12 +117,18 @@ function basePath() {
 }
 
 // Re-probe when the ticker changes (route param) — every new entity
-// might have different data coverage. Also wipe entityKind so we
+// might have different data coverage. Also reset entityKind so we
 // don't carry the previous entity's classification into the new
 // resolver round-trip; TickerFinancials will re-emit `company-resolved`
-// with the fresh value as soon as the new entity resolves.
-watch(selectedTicker, (sym) => {
-  entityKind.value = null
+// with the fresh value as soon as the new entity resolves. An authority
+// URL needs no probe: authorities have no financials.
+watch([selectedTicker, kindFromRoute], ([sym, kind]) => {
+  entityKind.value = kind
+  if (kind === 'authority') {
+    ++_probeId
+    hasFinancials.value = false
+    return
+  }
   probeFinancials(sym)
 }, { immediate: true })
 
@@ -119,11 +136,13 @@ watch(selectedTicker, (sym) => {
 // a Financials view (e.g. summary), bounce to Profile — the Financials
 // group is hidden so the selected view would otherwise be orphaned.
 const FINANCIAL_VIEW_KEYS = new Set(['summary', 'fundamentals', 'income', 'cashflow', 'balance', 'valuation'])
+// Immediate: on an authority URL the kind is known before anything
+// resolves, so there is no later change for a plain watcher to see.
 watch(entityKind, (kind) => {
   if (kind === 'authority' && FINANCIAL_VIEW_KEYS.has(selectedView.value)) {
-    router.replace(`/c/${selectedTicker.value}/profile`)
+    router.replace(`${basePath()}/profile`)
   }
-})
+}, { immediate: true })
 
 // Render-time view list. Two layers of filtering:
 //   1. For authorities, drop the Financials group entirely — the
@@ -190,6 +209,7 @@ function onClose() {
         <TickerFinancials
           :symbol="selectedTicker"
           :view="selectedView"
+          :kind="kindFromRoute"
           class="min-w-0 flex-1"
           @close="onClose"
           @company-resolved="onCompanyResolved"

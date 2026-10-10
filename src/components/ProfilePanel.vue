@@ -4,12 +4,17 @@ import ContractsPanel from './ContractsPanel.vue'
 import CohesionGrantsPanel from './CohesionGrantsPanel.vue'
 import PocketButton from './PocketButton.vue'
 import { fmtMoney } from '../utils/format.js'
+import { withLang } from '../api/_lang.js'
 
 const props = defineProps({
   symbol: { type: String, required: true },
   data: { type: Object, default: null },
   gmrId: { type: String, default: null },
   companyName: { type: String, default: null },
+  // 'authority' | 'company' | null. An authority is not looked up as a
+  // company: the company record only feeds the cohesion grants, which
+  // only companies have.
+  entityKind: { type: String, default: null },
 })
 
 const pocketConfig = computed(() => ({ entityId: props.gmrId || props.symbol }))
@@ -30,13 +35,13 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const isCompany = computed(() => Boolean(profile.value?.company_name))
 
 async function loadProfile(id) {
-  if (!id) {
+  if (!id || props.entityKind === 'authority') {
     profileState.value = 'none'
     return
   }
   profileState.value = 'loading'
   try {
-    const res = await fetch(`/api/companies/${encodeURIComponent(id)}`)
+    const res = await fetch(withLang(`/api/companies/${encodeURIComponent(id)}`))
     if (!res.ok) {
       profileState.value = 'none'
       return
@@ -147,7 +152,7 @@ watch(() => props.symbol, (sym) => {
         <span> &middot; </span>
         <span class="pp-stat__num">{{ fmtMoney(profile.total_contract_value_eur) }}</span>
       </div>
-      <ContractsPanel :symbol="gmrId || symbol" />
+      <ContractsPanel :symbol="gmrId || symbol" :entity-kind="entityKind" />
     </div>
 
     <!-- EU-funded projects. Carried over from the old standalone company

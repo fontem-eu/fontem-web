@@ -21,7 +21,7 @@ import { fetchFundamentals } from '../../src/api/gmr.js'
 const TickerFinancialsStub = {
   name: 'TickerFinancials',
   template: '<div data-testid="ticker-financials" />',
-  props: ['symbol', 'view'],
+  props: ['symbol', 'view', 'kind'],
   emits: ['close', 'company-resolved'],
 }
 
@@ -39,6 +39,8 @@ function makeRouter() {
       { path: '/', component: HomeView },
       { path: '/c/:ticker', redirect: (to) => `/c/${to.params.ticker}/profile` },
       { path: '/c/:ticker/:view', component: HomeView },
+      { path: '/authority/:authority_id/:view?', component: HomeView },
+      { path: '/company/:gmr_id/:view?', component: HomeView },
     ],
   })
 }
@@ -75,6 +77,22 @@ describe('HomeView (ticker-detail host)', () => {
   // The router maps `/` to FeedView now. These two tests pin the
   // contract that HomeView itself doesn't render anything when
   // there's no ticker — the empty <main> renders, that's it.
+  // The URL names the kind: no fundamentals probe for an authority, and
+  // the kind goes down so nothing asks an endpoint that cannot answer.
+  it('on an /authority URL: no fundamentals probe, kind passed down, no Financials group', async () => {
+    const { wrapper } = await mountAt('/authority/AUTH-1')
+    expect(fetchFundamentals).not.toHaveBeenCalled()
+    expect(wrapper.findComponent({ name: 'TickerFinancials' }).props('kind')).toBe('authority')
+    const groups = wrapper.findComponent({ name: 'DataViewSelector' }).props('groups')
+    expect(groups.some((g) => g.key === 'financials')).toBe(false)
+  })
+
+  it('on a /company URL: probes fundamentals and passes kind="company"', async () => {
+    const { wrapper } = await mountAt('/company/GID-1')
+    expect(fetchFundamentals).toHaveBeenCalledTimes(1)
+    expect(wrapper.findComponent({ name: 'TickerFinancials' }).props('kind')).toBe('company')
+  })
+
   it('does not show TickerFinancials on the root route', async () => {
     const { wrapper } = await mountAt('/')
     expect(wrapper.find('[data-testid="ticker-financials"]').exists()).toBe(false)

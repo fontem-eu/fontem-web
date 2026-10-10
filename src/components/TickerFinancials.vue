@@ -17,6 +17,10 @@ import EntityNutsMap from './EntityNutsMap.vue'
 const props = defineProps({
   symbol: { type: String, required: true },
   view: { type: String, default: 'fundamentals' }, // 'fundamentals' | 'gmr-long' | 'valuation' | 'summary'
+  // 'authority' | 'company' when the URL already says which (null: find
+  // out). An authority has no fundamentals and is no company, so neither
+  // is asked for.
+  kind: { type: String, default: null },
 })
 
 const emit = defineEmits(['close', 'company-resolved'])
@@ -86,7 +90,9 @@ async function _resolveUuidEntity(sym, { profile = false } = {}) {
   // stub and never reached the authorities endpoint, so the header fell
   // back to rendering the UUID. Require a real `company_name` to keep
   // going down the company path.
-  const companyInfo = await _tryFetchJson(withLang(`/api/companies/${encodeURIComponent(sym)}`))
+  const companyInfo = props.kind === 'authority'
+    ? null
+    : await _tryFetchJson(withLang(`/api/companies/${encodeURIComponent(sym)}`))
   if (companyInfo?.company_name) {
     return profile
       ? { gmr_id: sym, company_name: companyInfo.company_name, ticker: sym, _entityType: 'company' }
@@ -112,20 +118,22 @@ async function _resolveUuidEntity(sym, { profile = false } = {}) {
 }
 
 async function _fetchProfileResult(sym) {
-  try {
-    return await fetchFundamentals(sym)
-  } catch {
-    const fallback = await _resolveUuidEntity(sym, { profile: true })
-    return fallback ?? { ticker: sym }
+  if (props.kind !== 'authority') {
+    try {
+      return await fetchFundamentals(sym)
+    } catch { /* not a listed company: resolve the id below */ }
   }
+  const fallback = await _resolveUuidEntity(sym, { profile: true })
+  return fallback ?? { ticker: sym }
 }
 
 async function _fetchPanelResult(sym) {
-  try {
-    return await fetchFundamentals(sym, 1)
-  } catch {
-    return await _resolveUuidEntity(sym, { profile: false })
+  if (props.kind !== 'authority') {
+    try {
+      return await fetchFundamentals(sym, 1)
+    } catch { /* not a listed company: resolve the id below */ }
   }
+  return await _resolveUuidEntity(sym, { profile: false })
 }
 
 async function _resolveResult(sym) {
@@ -625,6 +633,7 @@ function isFundNegative(year, key) {
           :data="data"
           :gmr-id="companyGmrId || symbol"
           :company-name="companyName"
+          :entity-kind="entityKind || kind"
         />
       </div>
     </template>
@@ -634,7 +643,7 @@ function isFundNegative(year, key) {
       <div data-testid="contracts-panel-wrap">
         <ContractsPanel
           :symbol="companyGmrId || symbol"
-          :entity-kind="entityKind"
+          :entity-kind="entityKind || kind"
         />
       </div>
     </template>
