@@ -119,8 +119,8 @@ watch(uiLang, load)
             <h3>{{ t(`petitions.rel.${rel.toLowerCase()}`) }}</h3>
             <ul>
               <li v-for="a in bucket" :key="a.celex">
-                <a :href="a.eurlex_url" target="_blank" rel="noopener">
-                  {{ a.title_en || a.celex }}
+                <a :href="a.eurlex_url" target="_blank" rel="noopener" :lang="a.title_lang || undefined">
+                  {{ a.title || a.title_en || a.celex }}
                 </a>
                 <span class="pd-act-meta">{{ a.doc_type }} · {{ a.date }} · {{ a.celex }}</span>
               </li>

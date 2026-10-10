@@ -23,7 +23,7 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-const GRAPH_TYPES = ['company', 'authority', 'person', 'lobbyist', 'contract', 'cohesion', 'sanction', 'legislation']
+const GRAPH_TYPES = ['company', 'authority', 'person', 'lobbyist', 'petition', 'contract', 'cohesion', 'sanction', 'legislation']
 const ALL_TYPES = [...GRAPH_TYPES, 'story']
 const LIMIT = 20
 
@@ -85,12 +85,8 @@ function cardContext(r) {
   return ''
 }
 
-function withScheme(u) {
-  return /^https?:\/\//i.test(u) ? u : `https://${u}`
-}
-
 // Where a result card links to. Internal detail pages return { to }; external
-// sources (a lobbyist's site, a legal act on EUR-Lex) return { href, external }.
+// sources (a legal act on EUR-Lex) return { href, external }.
 // Types with no destination (person, sanction) return null → non-clickable.
 function cardLink(r) {
   // Both land on the full entity page — profile, graph, financials,
@@ -111,11 +107,19 @@ function cardLink(r) {
   if (r.type === 'legislation' && r.meta?.eurlex_url) {
     return { href: r.meta.eurlex_url, external: true }
   }
-  // lobbyist → its EU-transparency-register-declared website
-  if (r.type === 'lobbyist' && r.meta?.url) {
-    return { href: withScheme(r.meta.url), external: true }
-  }
+  // A lobbyist and a petition open on their own page, which has their goals
+  // or objectives in the reader's language (the lobbyist's page links its
+  // website).
+  if (r.type === 'lobbyist') return { to: `/lobbyist/${encodeURIComponent(r.id)}` }
+  if (r.type === 'petition') return { to: `/petitions/${encodeURIComponent(r.id)}` }
   return null
+}
+
+// What a translated title says on hover: an authority's is its name.
+function originalHint(r) {
+  if (!r.title_original) return undefined
+  const key = r.type === 'authority' ? 'title_translation.name_hint' : 'title_translation.hint'
+  return t(key, { original: r.title_original })
 }
 
 // The tag + attributes to render the whole card as its link.
@@ -321,14 +325,16 @@ onMounted(() => {
             >
               <span class="result-type" :class="`type-${r.type}`">{{ t(`search.type.${r.type}`) }}</span>
               <div class="result-body">
-                <span
-                  class="result-title"
-                  :title="r.title_original ? t('title_translation.hint', { original: r.title_original }) : undefined"
-                >
+                <span class="result-title" :title="originalHint(r)">
                   {{ r.title }}
                   <span v-if="cardLink(r)?.external" class="result-ext" aria-hidden="true">↗</span>
                 </span>
                 <p v-if="r.subtitle" class="result-subtitle">{{ r.subtitle }}</p>
+                <p
+                  v-if="r.subtitle && r.subtitle_is_summary"
+                  class="result-note"
+                  data-testid="result-machine-summary"
+                >{{ t('search.machine_summary') }}</p>
                 <p v-if="cardContext(r)" class="result-context" data-testid="result-context">{{ cardContext(r) }}</p>
                 <p class="result-meta">
                   <span v-if="r.country" class="result-country">{{ r.country }}</span>
@@ -398,6 +404,7 @@ onMounted(() => {
 .result-title { font-weight: 600; color: var(--text); text-decoration: none; }
 .result-ext { font-size: 0.85em; opacity: 0.65; margin-left: 0.15rem; }
 .result-subtitle { margin: 0.2rem 0 0; font-size: 0.88rem; opacity: 0.85; }
+.result-note { margin: 0.1rem 0 0; font-size: 0.75rem; opacity: 0.6; }
 .result-context { margin: 0.25rem 0 0; font-size: 0.85rem; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .result-meta { margin: 0.3rem 0 0; font-size: 0.8rem; opacity: 0.6; display: flex; gap: 0.75rem; }
 .load-more { margin-top: 1rem; width: 100%; }
