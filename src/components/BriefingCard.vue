@@ -62,6 +62,16 @@ const toMore = computed(() => Number(facets.value.to_more) || 0)
 /** True once the query gave us parts; false for a sentence-only item. */
 const structured = computed(() => Boolean(from.value || to.value.length))
 
+/** What a lobby works for: the tweet-long summary of its goals, in the
+ *  reader's language or the goals' own (facets.machine_summary_lang). */
+const machineSummary = computed(() => facets.value.machine_summary || '')
+const machineSummaryLang = computed(() => facets.value.machine_summary_lang || undefined)
+
+/** A lobbying card names the registrant in its headline: a relation row
+ *  with nothing but that name again says nothing. */
+const repeatsHeadline = computed(() => facets.value.kind === 'lobby'
+  && !to.value.length && from.value === headline.value)
+
 const value = computed(() => {
   const v = facets.value.value_eur ?? props.item.rank_value
   if (v == null || !Number.isFinite(Number(v))) return ''
@@ -162,6 +172,15 @@ const link = computed(() => props.item._link || { kind: 'none' })
       ><span :data-testid="`feed-briefing-what-${item.item_id}`" :title="headlineHint">{{ headline }}</span></p>
     </template>
 
+    <p
+      v-if="machineSummary"
+      class="bcard-summary"
+      :data-testid="`feed-briefing-summary-${item.item_id}`"
+    >
+      <span :lang="machineSummaryLang">{{ machineSummary }}</span>
+      <span class="bcard-summary-note">{{ t('lobbyist.machine_summary') }}</span>
+    </p>
+
     <p v-if="value || integrity || modified" class="bcard-figures">
       <strong v-if="value" class="bcard-value" :data-testid="`feed-briefing-value-${item.item_id}`">{{ value }}</strong>
       <span
@@ -186,7 +205,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
          composed stands in, and it doubles as the link if nothing above
          could. -->
     <p
-      v-if="structured"
+      v-if="structured && !repeatsHeadline"
       class="bcard-relation"
       :data-testid="`feed-briefing-relation-${item.item_id}`"
     >
@@ -204,7 +223,7 @@ const link = computed(() => props.item._link || { kind: 'none' })
         <span v-if="toMore" class="bcard-more"> +{{ toMore }}</span>
       </span>
     </p>
-    <p v-else class="bcard-relation bcard-relation--prose">
+    <p v-else-if="!structured" class="bcard-relation bcard-relation--prose">
       <router-link
         v-if="!headline && link.kind === 'internal'"
         :to="link.to"
