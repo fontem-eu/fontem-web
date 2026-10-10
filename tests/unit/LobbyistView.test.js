@@ -5,7 +5,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { createI18n } from 'vue-i18n'
 import { makeTestI18n } from './helpers/i18n.js'
+import en from '../../src/locales/en.json'
+import fr from '../../src/locales/fr.json'
 
 vi.mock('../../src/api/lobbyists.js', () => ({ getLobbyist: vi.fn() }))
 
@@ -35,7 +38,13 @@ const JANE = {
 beforeEach(() => { vi.clearAllMocks(); api.getLobbyist.mockResolvedValue(JANE) })
 afterEach(() => vi.restoreAllMocks())
 
-async function mountView(id = '763743132433-49') {
+// A reader of the French page.
+const french = () => createI18n({
+  legacy: false, locale: 'fr', fallbackLocale: 'en', messages: { en, fr },
+  missingWarn: false, fallbackWarn: false,
+})
+
+async function mountView(id = '763743132433-49', i18n = makeTestI18n()) {
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
@@ -46,7 +55,7 @@ async function mountView(id = '763743132433-49') {
   await router.push(`/lobbyist/${id}`)
   await router.isReady()
   const wrapper = mount(LobbyistView, {
-    global: { plugins: [router, makeTestI18n()] },
+    global: { plugins: [router, i18n] },
   })
   await flushPromises()
   return wrapper
@@ -184,5 +193,40 @@ describe('LobbyistView', () => {
     expect(w.find('[data-testid="lobbyist-goals-text"]').text()).toBe(BRAUER.goals_original)
     expect(w.find('[data-testid="lobbyist-goals-note"]').exists()).toBe(false)
     expect(w.find('[data-testid="lobbyist-summary"]').exists()).toBe(false)
+  })
+
+  // The register's fixed vocabularies, and a country by its code.
+  const IN_FRENCH = {
+    ...BRAUER, category: 'Trade and business associations', country: 'GERMANY',
+    country_code: 'DE', interests: ['Environment', 'Climate action', 'A heading the register added later'],
+    goals_summary_lang: 'de',
+  }
+
+  it('names the category and interest areas in the reader\'s language', async () => {
+    api.getLobbyist.mockResolvedValue(IN_FRENCH)
+    const w = await mountView('9218245390-27', french())
+    expect(w.find('[data-testid="lobbyist-fact-category"]').text()).toBe(
+      fr.lobbyist.category_values.trade_and_business_associations)
+    const items = w.findAll('[data-testid="lobbyist-interests"] li').map((li) => li.text())
+    expect(items).toEqual([fr.lobbyist.interest_values.environment,
+      fr.lobbyist.interest_values.climate_action, 'A heading the register added later'])
+  })
+
+  it('names the country in the reader\'s language from its code', async () => {
+    api.getLobbyist.mockResolvedValue(IN_FRENCH)
+    const w = await mountView('9218245390-27', french())
+    expect(w.find('[data-testid="lobbyist-fact-country"]').text()).toBe('Allemagne')
+    api.getLobbyist.mockResolvedValue({ ...IN_FRENCH, country_code: null })
+    const without = await mountView('9218245390-27', french())
+    expect(without.find('[data-testid="lobbyist-fact-country"]').text()).toBe('GERMANY')
+  })
+
+  it('says when the summary is not in the reader\'s language, and in which it is', async () => {
+    api.getLobbyist.mockResolvedValue(IN_FRENCH)
+    const w = await mountView('9218245390-27', french())
+    expect(w.find('[data-testid="lobbyist-summary-lang"]').text()).toBe('Résumé en allemand')
+    api.getLobbyist.mockResolvedValue({ ...IN_FRENCH, goals_summary_lang: 'fr' })
+    const inFrench = await mountView('9218245390-27', french())
+    expect(inFrench.find('[data-testid="lobbyist-summary-lang"]').exists()).toBe(false)
   })
 })

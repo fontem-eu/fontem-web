@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { getLobbyist } from '../api/lobbyists.js'
 import { useLang } from '../composables/useLang.js'
 import { fmtMoney } from '../utils/format.js'
 
 const route = useRoute()
 const { lang: uiLang } = useLang()
+const { t, te, locale } = useI18n()
 const disclosureId = computed(() => route.params.disclosureId)
 const state = ref('loading')
 const lobbyist = ref(null)
@@ -48,14 +50,46 @@ const spend = computed(() => {
   return lo || hi
 })
 
+/**
+ * The register's fixed vocabularies (13 categories, 40 interest areas),
+ * named in the reader's language; a value the register added since, as
+ * written. The key is the English value, lower-cased, runs of anything
+ * else turned into one underscore.
+ */
+function inVocabulary(kind, value) {
+  if (!value) return value
+  const key = `lobbyist.${kind}.${value.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')}`
+  return te(key, 'en') ? t(key) : value
+}
+
+/** A country or a language named in the reader's language by its code. */
+function displayName(type, code) {
+  if (!code) return null
+  try {
+    return new Intl.DisplayNames([locale.value], { type }).of(code) || null
+  } catch {
+    return null
+  }
+}
+
+const interests = computed(() => (lobbyist.value?.interests || [])
+  .map((i) => inVocabulary('interest_values', i)))
+
+/** Where the summary is not in the reader's language, the one it is in. */
+const summaryLang = computed(() => {
+  const code = lobbyist.value?.goals_summary_lang
+  if (!code || code === locale.value) return null
+  return displayName('language', code)
+})
+
 /** Rows that are simply label + value, skipped when the value is absent. */
 const facts = computed(() => {
   const l = lobbyist.value
   if (!l) return []
   return [
-    { key: 'category', label: 'lobbyist.category', value: l.category },
+    { key: 'category', label: 'lobbyist.category', value: inVocabulary('category_values', l.category) },
     { key: 'entity_form', label: 'lobbyist.entity_form', value: l.entity_form },
-    { key: 'country', label: 'data_quality.country', value: l.country },
+    { key: 'country', label: 'data_quality.country', value: displayName('region', l.country_code) || l.country },
     { key: 'city', label: 'lobbyist.city', value: l.city },
     { key: 'spend', label: 'lobbyist.declared_spend', value: spend.value },
     { key: 'members', label: 'lobbyist.members_fte', value: l.members_fte },
@@ -115,8 +149,11 @@ const facts = computed(() => {
 
       <section v-if="lobbyist.goals_summary" class="lb-section" data-testid="lobbyist-summary">
         <h2>{{ $t('lobbyist.summary') }}</h2>
-        <p class="lb-lead">{{ lobbyist.goals_summary }}</p>
-        <p class="lb-note">{{ $t('lobbyist.machine_summary') }}</p>
+        <p class="lb-lead" :lang="lobbyist.goals_summary_lang || undefined">{{ lobbyist.goals_summary }}</p>
+        <p class="lb-note">
+          {{ $t('lobbyist.machine_summary') }}
+          <span v-if="summaryLang" data-testid="lobbyist-summary-lang">{{ $t('lobbyist.summary_lang', { lang: summaryLang }) }}</span>
+        </p>
       </section>
 
       <section v-if="lobbyist.goals" class="lb-section" data-testid="lobbyist-goals">
@@ -139,10 +176,10 @@ const facts = computed(() => {
         </p>
       </section>
 
-      <section v-if="lobbyist.interests?.length" class="lb-section">
+      <section v-if="interests.length" class="lb-section">
         <h2>{{ $t('lobbyist.interests') }}</h2>
         <ul class="lb-interests" data-testid="lobbyist-interests">
-          <li v-for="i in lobbyist.interests" :key="i">{{ i }}</li>
+          <li v-for="i in interests" :key="i">{{ i }}</li>
         </ul>
       </section>
 

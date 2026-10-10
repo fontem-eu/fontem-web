@@ -20,6 +20,8 @@ vi.mock('../../src/api/nuts.js', () => ({
 
 import SearchView from '../../src/views/SearchView.vue'
 
+const t = (key, args) => makeTestI18n().global.t(key, args)
+
 function makeRouter() {
   return createRouter({
     history: createMemoryHistory(),
@@ -31,6 +33,8 @@ function makeRouter() {
       { path: '/contract/:noticeId', component: { template: '<div/>' } },
       { path: '/c/:ticker/:view', component: { template: '<div/>' } },
       { path: '/stories/:id', component: { template: '<div/>' } },
+      { path: '/lobbyist/:disclosureId', component: { template: '<div/>' } },
+      { path: '/petitions/:id', component: { template: '<div/>' } },
     ],
   })
 }
@@ -117,25 +121,72 @@ describe('SearchView', () => {
     expect(links.some((h) => h.includes('/company/gmr-benef-1'))).toBe(true)
   })
 
-  it('links a lobbyist card out to its declared website (scheme prepended), non-clickable when absent', async () => {
+  it('opens a lobbyist card on the lobbyist\'s page, where its goals are in the reader\'s language', async () => {
+    // The page links the registrant's own website; the card linked straight
+    // there, so the translated goals and summary were reachable by URL only.
     searchGraph.mockResolvedValue({
       results: [
-        { type: 'lobbyist', id: 'lob-1', title: 'Electrica lobby', subtitle: '', context: '', country: 'ROU', date: null, score: 0, meta: { url: 'www.electrica.ro' } },
+        { type: 'lobbyist', id: '71234567890-12', title: 'Deutscher Brauer-Bund', subtitle: '', context: '', country: 'GERMANY', date: null, score: 0, meta: { url: 'www.brauer-bund.de' } },
         { type: 'person', id: 'p-1', title: 'Jane Director', subtitle: '', context: '', country: null, date: null, score: 0, meta: {} },
       ],
       counts: { lobbyist: 1, person: 1 },
       has_more: false,
     })
     searchStories.mockResolvedValue([])
-    const { w } = await mountAt({ q: 'x' })
-    const ext = w.find('[data-testid="result-external-link"]')
-    expect(ext.attributes('href')).toBe('https://www.electrica.ro')
-    expect(ext.attributes('target')).toBe('_blank')
-    expect(ext.attributes('rel')).toContain('noopener')
+    const { w, router } = await mountAt({ q: 'x' })
     // a person has no destination → plain div, not a link
     const person = w.find('[data-testid="result-person"] .result-card')
     expect(person.element.tagName).toBe('DIV')
     expect(person.classes()).not.toContain('result-card--link')
+    const card = w.find('[data-testid="result-lobbyist"] .result-card')
+    expect(card.attributes('href')).toBe('/lobbyist/71234567890-12')
+    await card.trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/lobbyist/71234567890-12')
+  })
+
+  it('finds petitions and opens each on its page', async () => {
+    searchGraph.mockResolvedValue({
+      results: [{ type: 'petition', id: 'ECI(2024)000007', title: 'Stop à la destruction des jeux vidéo', title_original: 'Stop Destroying Videogames', subtitle: "Demande à l'UE de garder jouables les jeux vendus.", subtitle_is_summary: true, context: '', country: 'FRA', date: '2024-06-19', score: 0, meta: {} }],
+      counts: { petition: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'jeux' })
+    expect(searchGraph.mock.calls[0][0].types).toContain('petition')
+    const card = w.find('[data-testid="result-petition"] .result-card')
+    expect(card.attributes('href')).toBe('/petitions/ECI(2024)000007')
+    expect(card.text()).toContain(t('search.type.petition'))
+    expect(card.find('.result-title').attributes('title')).toContain('Stop Destroying Videogames')
+  })
+
+  it('says when a card\'s line under the title is a summary written by machine', async () => {
+    searchGraph.mockResolvedValue({
+      results: [
+        { type: 'lobbyist', id: 'L1', title: 'Deutscher Brauer-Bund', subtitle: 'Represents German brewers at the EU.', subtitle_is_summary: true, context: '', country: null, date: null, score: 0, meta: {} },
+        { type: 'company', id: 'c1', title: 'Apple Inc.', subtitle: 'AAPL', context: '', country: null, date: null, score: 0, meta: {} },
+      ],
+      counts: { lobbyist: 1, company: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'x' })
+    const lobby = w.find('[data-testid="result-lobbyist"]')
+    expect(lobby.find('.result-subtitle').text()).toBe('Represents German brewers at the EU.')
+    expect(lobby.find('[data-testid="result-machine-summary"]').exists()).toBe(true)
+    expect(w.find('[data-testid="result-company"] [data-testid="result-machine-summary"]').exists()).toBe(false)
+  })
+
+  it('offers a translated authority\'s published name, as a name, not a title', async () => {
+    searchGraph.mockResolvedValue({
+      results: [{ type: 'authority', id: 'a1', title: 'Straßen- und Autobahndirektion', title_original: 'Ředitelství silnic a dálnic', subtitle: '', context: '', country: 'CZE', date: null, score: 0, meta: {} }],
+      counts: { authority: 1 },
+      has_more: false,
+    })
+    searchStories.mockResolvedValue([])
+    const { w } = await mountAt({ q: 'x' })
+    const hint = w.find('[data-testid="result-authority"] .result-title').attributes('title')
+    expect(hint).toBe(t('title_translation.name_hint', { original: 'Ředitelství silnic a dálnic' }))
   })
 
   it('entity-type facets live inside the advanced drawer (hidden by default)', async () => {

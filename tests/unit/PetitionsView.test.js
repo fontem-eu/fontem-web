@@ -186,4 +186,41 @@ describe('summaries and languages', () => {
       useLang().setLang('en')
     }
   })
+
+  it('titles the linked legislation as the API names it in the reader\'s language', async () => {
+    fetchPetitionDetail.mockResolvedValue({
+      petition: { ...VIDEOGAMES, language_shown: 'fr' },
+      legislation: [{
+        rel: 'REGISTERED_BY', celex: '32024D1824', title_lang: 'fr',
+        title: "Décision d'exécution (UE) 2024/1824 de la Commission",
+        title_en: 'Commission Implementing Decision (EU) 2024/1824',
+        date: '2024-06-17', doc_type: 'Decision',
+        eurlex_url: 'https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024D1824',
+      }],
+      unresolved_answer_refs: [],
+    })
+    const router = makeRouter()
+    router.push('/petitions/ECI(2024)000007')
+    await router.isReady()
+    const w = mount(PetitionDetailView, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    const act = w.find('[data-testid="petition-legislation"] li a')
+    expect(act.text()).toBe("Décision d'exécution (UE) 2024/1824 de la Commission")
+    expect(act.attributes('lang')).toBe('fr')
+    expect(act.attributes('href')).toContain('/FR/TXT/')
+  })
+
+  it('says once, in the list, that its summaries are written by machine', async () => {
+    stubBySection({ reached: [VIDEOGAMES, { ...VIDEOGAMES, petition_id: 'ECI(2023)000001' }] })
+    const router = makeRouter()
+    router.push('/petitions')
+    await router.isReady()
+    const w = mount(PetitionsView, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    expect(w.findAll('[data-testid="petitions-machine-summary"]')).toHaveLength(1)
+    stubBySection({ reached: [{ ...VIDEOGAMES, summary: null }] })
+    const none = mount(PetitionsView, { global: { plugins: [router, makeTestI18n()] } })
+    await flushPromises()
+    expect(none.find('[data-testid="petitions-machine-summary"]').exists()).toBe(false)
+  })
 })

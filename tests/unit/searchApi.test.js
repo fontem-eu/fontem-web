@@ -65,6 +65,28 @@ describe('searchGraph', () => {
     expect(out.has_more).toBe(false)
   })
 
+  it('asks the index for lobbyists and petitions by its own names for them', async () => {
+    // The index holds 18,710 `eu_lobbying` entries; asked for `lobbyist`, it
+    // returned none of them, so no search on the site found a lobbyist.
+    globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
+    await searchGraph({ q: 'brewers', types: ['lobbyist', 'petition'] })
+    expect(globalThis.fetch.mock.calls[0][0]).toContain('types=eu_lobbying%2Cpetition')
+  })
+
+  it('hands lobbying entries back to the page as lobbyists', async () => {
+    globalThis.fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [{ type: 'eu_lobbying', id: 'L1' }, { type: 'petition', id: 'ECI(2024)000007' }],
+        counts: { eu_lobbying: 1, petition: 1 },
+        has_more: false,
+      }),
+    })
+    const out = await searchGraph({ q: 'brewers' })
+    expect(out.results.map((r) => r.type)).toEqual(['lobbyist', 'petition'])
+    expect(out.counts).toEqual({ lobbyist: 1, petition: 1 })
+  })
+
   it('drops empty facets and empty type arrays from the query string', async () => {
     globalThis.fetch.mockResolvedValue({ ok: true, json: async () => ({}) })
     await searchGraph({ q: 'x', types: [], country: '', nuts: null })

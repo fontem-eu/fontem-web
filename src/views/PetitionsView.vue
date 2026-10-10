@@ -94,6 +94,9 @@ function loadMoreReached() {
   loadReached(false)
 }
 
+// The summaries are machine-written: said once for the page, not per card.
+const anySummary = computed(() => [...collecting.value, ...reached.value].some((r) => r.summary))
+
 // A uniform descriptor per section so the template renders both with one loop.
 const sections = computed(() => [
   {
@@ -131,6 +134,9 @@ watch(uiLang, () => {
     <header class="pt-head">
       <h1>{{ t('petitions.title') }}</h1>
       <p class="pt-sub">{{ t('petitions.subtitle') }}</p>
+      <p v-if="anySummary" class="pt-note" data-testid="petitions-machine-summary">
+        {{ t('petitions.machine_summary') }}
+      </p>
     </header>
 
     <p v-if="error" class="pt-error" data-testid="petitions-error">{{ error }}</p>
@@ -193,6 +199,7 @@ watch(uiLang, () => {
 .petitions-view { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .pt-head h1 { margin: 0 0 0.25rem; }
 .pt-sub { color: var(--text); opacity: 0.7; margin: 0 0 1.5rem; }
+.pt-note { color: var(--text); opacity: 0.6; font-size: 0.8rem; margin: -1rem 0 1.5rem; }
 .pt-section { margin-bottom: 2rem; }
 .pt-section-title { font-size: 1.15rem; margin: 0 0 0.75rem; }
 .pt-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }

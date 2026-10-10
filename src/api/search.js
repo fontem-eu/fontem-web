@@ -33,8 +33,11 @@ function qs(params) {
 // `cohesion`. Unmapped, the type filter the page always sends never matched
 // a grant, so no search on the site could find one (prod, 2026-10-03: "port"
 // with the page's types returned 0 grants; with none, 3).
-const TO_API_TYPE = { cohesion: 'eu_cohesion' }
-const FROM_API_TYPE = { eu_cohesion: 'cohesion' }
+//
+// The same for lobbyists: the index calls them `eu_lobbying`, and asked for
+// `lobbyist` it returned none of its 18,710 (2026-10-10).
+const TO_API_TYPE = { cohesion: 'eu_cohesion', lobbyist: 'eu_lobbying' }
+const FROM_API_TYPE = Object.fromEntries(Object.entries(TO_API_TYPE).map(([ui, api]) => [api, ui]))
 
 function fromApi(body) {
   const results = (body.results || []).map((r) => ({ ...r, type: FROM_API_TYPE[r.type] || r.type }))
