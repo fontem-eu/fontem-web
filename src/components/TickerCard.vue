@@ -62,7 +62,11 @@ const meta = computed(() =>
 
     <!-- Name + meta -->
     <div class="min-w-0 flex-1">
-      <div class="ticker-name truncate text-sm font-medium" style="color: var(--text)">
+      <div
+        class="ticker-name truncate text-sm font-medium"
+        style="color: var(--text)"
+        :title="ticker.name_original ? $t('title_translation.name_hint', { original: ticker.name_original }) : undefined"
+      >
         {{ ticker.name }}
       </div>
       <div v-if="isPerson && ticker.companies?.length" class="ticker-meta mt-0.5 text-xs" style="color: var(--muted)">

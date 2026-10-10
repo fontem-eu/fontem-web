@@ -12,6 +12,12 @@ import { useLang } from '../composables/useLang.js'
 const route = useRoute()
 const { t, te } = useI18n()
 
+// On hover, the name the buyer published, when it is shown in translation.
+const buyerHint = computed(() => {
+  const original = contract.value?.authority?.name_original
+  return original ? t('title_translation.name_hint', { original }) : undefined
+})
+
 // Back means back. Readers reach a contract from the feed, a briefing,
 // a search or a shared link, and this used to send every one of them to
 // /spending. When there is somewhere to return to we pop the history
@@ -238,8 +244,9 @@ v-if="integrity.tenders_received != null"
             v-if="contract.authority?.authority_id"
             :to="`/authority/${contract.authority.authority_id}`"
             data-testid="contract-authority-link"
+            :title="buyerHint"
           >{{ contract.authority.name }}</RouterLink>
-          <span v-else>{{ contract.authority?.name }}</span>
+          <span v-else :title="buyerHint">{{ contract.authority?.name }}</span>
           <template v-if="contract.authority?.country"> ({{ contract.authority.country }})</template>
         </dd>
         <dt>{{ $t('contract_detail.contractor') }}</dt>
@@ -303,8 +310,12 @@ v-for="(sib, i) in frameworkSiblings" :key="sib.ted_notice_id || i"
               <RouterLink
                 v-if="sib.ted_notice_id"
                 :to="`/contract/${sib.ted_notice_id}`"
+                :title="sib.title_original ? t('title_translation.hint', { original: sib.title_original }) : undefined"
               >{{ sib.title || $t('contract_detail.untitled_contract') }}</RouterLink>
-              <span v-else>{{ sib.title || $t('contract_detail.untitled_contract') }}</span>
+              <span
+                v-else
+                :title="sib.title_original ? t('title_translation.hint', { original: sib.title_original }) : undefined"
+              >{{ sib.title || $t('contract_detail.untitled_contract') }}</span>
               <span class="cd-fw-meta">
                 <span v-if="sib.supplier">{{ sib.supplier }}</span>
                 <span v-if="sib.country">{{ sib.country }}</span>

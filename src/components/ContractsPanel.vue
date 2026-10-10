@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { fmtEur } from '../utils/format.js'
 import PocketButton from './PocketButton.vue'
 import ErrataIcon from './ErrataIcon.vue'
@@ -235,9 +236,19 @@ function counterpartyFor(c) {
   }
   return {
     label: c.authority,
+    // The name the buyer published, when `label` is a translation of it.
+    original: c.authority_original || null,
     country: c.authority_country,
     profileId: c.authority_id,
   }
+}
+
+const { t } = useI18n()
+
+/** On hover, the published name of a counterparty shown in translation. */
+function counterpartyHint(c) {
+  const original = counterpartyFor(c).original
+  return original ? t('title_translation.name_hint', { original }) : undefined
 }
 
 const topAuthority = computed(() => {
@@ -364,6 +375,7 @@ const topCpv = computed(() => {
                     :to="`/c/${counterpartyFor(c).profileId}/profile`"
                     class="counterparty-link"
                     :data-testid="`contract-counterparty-link-${c.ted_notice_id ?? i}`"
+                    :title="counterpartyHint(c)"
                   >{{ counterpartyFor(c).label || '—' }}</RouterLink>
                 </template>
                 <span
@@ -372,7 +384,7 @@ const topCpv = computed(() => {
                   :title="$t('contract.supplier_not_disclosed_note')"
                   :data-testid="`contract-counterparty-withheld-${c.ted_notice_id ?? i}`"
                 >{{ $t('contract.supplier_not_disclosed') }}</span>
-                <template v-else>{{ counterpartyFor(c).label || '—' }}</template>
+                <span v-else :title="counterpartyHint(c)">{{ counterpartyFor(c).label || '—' }}</span>
                 <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
               </td>
               <td class="nowrap">{{ c.cpv || '—' }}</td>
@@ -427,6 +439,7 @@ const topCpv = computed(() => {
                 :to="`/c/${counterpartyFor(c).profileId}/profile`"
                 class="counterparty-link"
                 :data-testid="`contract-card-counterparty-link-${c.ted_notice_id ?? i}`"
+                :title="counterpartyHint(c)"
               >{{ counterpartyFor(c).label || '—' }}</RouterLink>
             </template>
             <span
@@ -436,7 +449,7 @@ const topCpv = computed(() => {
               :data-testid="`contract-card-counterparty-withheld-${c.ted_notice_id ?? i}`"
             >{{ $t('contract.supplier_not_disclosed') }}</span>
             <template v-else>
-              <span>{{ counterpartyFor(c).label || '—' }}</span>
+              <span :title="counterpartyHint(c)">{{ counterpartyFor(c).label || '—' }}</span>
             </template>
             <span v-if="counterpartyFor(c).country" class="ctag">{{ counterpartyFor(c).country }}</span>
             <span v-if="c.cpv" class="cc-cpv">{{ c.cpv }}</span>

@@ -10,7 +10,9 @@
  * endpoint reads Neo4j; post-Virtuoso it'll DESCRIBE <iri> against
  * SPARQL — same shape, no caller change.
  */
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 
 const open = ref(false)
 const loading = ref(false)
@@ -23,7 +25,7 @@ async function resolve(iri) {
   error.value = null
   detail.value = null
   try {
-    const res = await fetch(`/api/mentions/resolve?iri=${encodeURIComponent(iri)}`)
+    const res = await fetch(withLang(`/api/mentions/resolve?iri=${encodeURIComponent(iri)}`))
     if (!res.ok) {
       const body = await res.text().catch(() => '')
       throw new Error(`HTTP ${res.status}: ${body}`)
@@ -46,6 +48,12 @@ function onMentionClick(e) {
   lastIri = iri
   resolve(iri)
 }
+
+// The entity named in the reader's language: asked again when it changes.
+const { lang: uiLang } = useLang()
+watch(uiLang, () => {
+  if (open.value && lastIri) resolve(lastIri)
+})
 
 function close() {
   open.value = false
@@ -93,6 +101,10 @@ onBeforeUnmount(() => {
         <h2 class="side-panel-title" data-testid="entity-side-panel-label">
           {{ detail.label || '(no label)' }}
         </h2>
+        <p v-if="detail.label_original" class="side-panel-original" data-testid="entity-side-panel-original">
+          {{ $t(detail.class === 'Authority' ? 'title_translation.name_hint' : 'title_translation.hint',
+                { original: detail.label_original }) }}
+        </p>
         <dl v-if="detail.facts && detail.facts.length" class="side-panel-facts">
           <template v-for="f in detail.facts" :key="f.key">
             <dt>{{ f.key }}</dt>
@@ -210,4 +222,5 @@ onBeforeUnmount(() => {
   text-decoration: none;
 }
 .profile-link:hover { text-decoration: underline; }
+.side-panel-original { margin: -0.25rem 0 0.75rem; font-size: 0.8rem; opacity: 0.7; }
 </style>

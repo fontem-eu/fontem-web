@@ -14,8 +14,10 @@
  * If detection fails (DB missing, IP not in range), the panels
  * gracefully degrade to a country picker.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useLang } from '../composables/useLang.js'
 import TickerSearch from '../components/TickerSearch.vue'
 import Wordmark from '../components/Wordmark.vue'
 import { useAnalytics } from '../composables/useAnalytics.js'
@@ -119,6 +121,16 @@ onMounted(async () => {
   }
 })
 
+// Authority names come in the reader's language: a new one, a new list.
+const { t } = useI18n()
+const { lang: uiLang } = useLang()
+watch(uiLang, () => { if (country.value) loadFor(country.value) })
+
+/** On hover, the name an authority shown in translation published. */
+function originalName(a) {
+  return a.name_original ? t('title_translation.name_hint', { original: a.name_original }) : undefined
+}
+
 function formatEur(n) {
   if (n == null || !Number.isFinite(n)) return '—'
   if (n >= 1e9) return `€${(n / 1e9).toFixed(1)}B`
@@ -206,7 +218,7 @@ function formatEur(n) {
             @click="onAuthorityClick(a)"
             @keydown.enter="onAuthorityClick(a)"
           >
-            <span class="entity-name">{{ a.name }}</span>
+            <span class="entity-name" :title="originalName(a)">{{ a.name }}</span>
             <span class="entity-stats">
               {{ formatEur(a.total_value_eur) }} · {{ a.contract_count }} {{ $t('public_spending.contracts') }}
             </span>

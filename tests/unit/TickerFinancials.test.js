@@ -963,6 +963,23 @@ describe('TickerFinancials — authority UUID resolves via the authority endpoin
     expect(title.text()).not.toContain(AUTHORITY_UUID)
   })
 
+  it('offers a translated authority\'s published name on hover in the heading', async () => {
+    installAuthorityFetch()
+    const answered = globalThis.fetch.getMockImplementation()
+    globalThis.fetch.mockImplementation(async (url) => {
+      const res = await answered(url)
+      if (!url.includes('/api/authorities/')) return res
+      const body = await res.json()
+      return { ok: true, json: async () => ({ ...body, authority_name: 'Ministerium für auswärtige Angelegenheiten',
+        authority_name_original: 'Ministry of Foreign Affairs' }) }
+    })
+    const wrapper = mount(TickerFinancials, { props: { symbol: AUTHORITY_UUID, view: 'summary' } })
+    await flushPromises()
+    const title = wrapper.find('[data-testid="financials-title"]')
+    expect(title.text()).toBe('Ministerium für auswärtige Angelegenheiten')
+    expect(title.attributes('title')).toContain('Ministry of Foreign Affairs')
+  })
+
   it('emits company-resolved with kind: "authority" so parents can hide the Financials tab', async () => {
     installAuthorityFetch()
     const wrapper = mount(TickerFinancials, { props: { symbol: AUTHORITY_UUID, view: 'summary' } })

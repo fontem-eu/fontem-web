@@ -43,6 +43,8 @@ const dataSource = computed(() => isEu.value ? 'esef' : 'edgar')
 const data = ref(null)
 const companyGmrId = ref(null)
 const companyName = ref(null)
+// What an authority whose name is shown in translation published.
+const nameOriginal = ref(null)
 // 'company' | 'authority' | null while unresolved. Drives the
 // ContractsPanel counterparty header (Authority vs Contractor) and
 // is also surfaced to the parent via `company-resolved` so HomeView
@@ -105,6 +107,7 @@ async function _resolveUuidEntity(sym, { profile = false } = {}) {
   const base = {
     gmr_id: sym,
     company_name: authorityInfo.authority_name,
+    company_name_original: authorityInfo.authority_name_original || null,
     _entityType: 'authority',
   }
   if (!profile) return base
@@ -166,6 +169,7 @@ async function _loadPanelOnlyView(sym, id) {
   if (result) {
     companyGmrId.value = result.gmr_id ?? null
     companyName.value = result.company_name ?? null
+    nameOriginal.value = result.company_name_original ?? null
     entityKind.value = result._entityType ?? null
     _emitResolved(sym, result)
   }
@@ -193,6 +197,7 @@ async function loadData(sym) {
     data.value = result ?? null
     companyGmrId.value = result?.gmr_id ?? null
     companyName.value = result?.company_name ?? null
+    nameOriginal.value = result?.company_name_original ?? null
     entityKind.value = result?._entityType ?? null
     state.value = 'done'
     _emitResolved(props.symbol, result)
@@ -222,6 +227,7 @@ watch(
       _resolveUuidEntity(sym, { profile: true }).then((info) => {
         if (info?.company_name) {
           companyName.value = info.company_name
+          nameOriginal.value = info.company_name_original ?? null
           companyGmrId.value = info.gmr_id ?? null
           entityKind.value = info._entityType ?? null
           _emitResolved(sym, info)
@@ -418,7 +424,11 @@ function isFundNegative(year, key) {
     <!-- ── Header ───────────────────────────────────────── -->
     <div class="gmr-fin__header">
       <div class="flex items-center gap-3 flex-wrap">
-        <span class="gmr-fin__title" data-testid="financials-title">{{ headerLabel }}</span>
+        <span
+          class="gmr-fin__title"
+          data-testid="financials-title"
+          :title="nameOriginal ? $t('title_translation.name_hint', { original: nameOriginal }) : undefined"
+        >{{ headerLabel }}</span>
         <span v-if="companyName && symbol !== companyName && !isUuidSymbol" class="gmr-fin__ticker-tag">{{ symbol }}</span>
         <span
           class="badge"

@@ -15,12 +15,13 @@
  * feed URL; the bottom list is of briefings, and every one of them can be
  * added again.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch as vueWatch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { isAuthed } from '../api/session.js'
 import NutsRegionInput from '../components/NutsRegionInput.vue'
 import { useNutsRegions } from '../composables/useNutsRegions.js'
 import { briefingLink } from '../utils/briefingLink.js'
+import { useLang } from '../composables/useLang.js'
 import {
   listBriefings, getBriefing, addWatch, adjustWatch, listMyWatches, unwatch,
 } from '../api/community.js'
@@ -155,6 +156,23 @@ async function toggle(briefing) {
   expanded.value = briefing.slug
   await refresh(briefing)
 }
+
+// An item's headline is in the reader's language (the briefing API
+// translates it, keeping headline_original); its sentence is the stored one.
+function previewText(item) {
+  return item.facets?.headline || item.title
+}
+function previewHint(item) {
+  const original = item.facets?.headline && item.facets.headline_original
+  return original ? t('title_translation.hint', { original }) : undefined
+}
+
+// A new UI language: the open preview, again, in that language.
+const { lang: uiLang } = useLang()
+vueWatch(uiLang, () => {
+  const open = briefings.value.find((b) => b.slug === expanded.value)
+  if (open) refresh(open)
+})
 
 function regionsOf(card) {
   return card.region ? [card.region] : ['EU']
@@ -342,16 +360,18 @@ v-if="!cardOf(b.slug).items.length" class="bf-muted"
               <router-link
                 v-if="linkOf(item).kind === 'internal'"
                 :to="linkOf(item).to"
+                :title="previewHint(item)"
                 data-testid="item-link"
-              >{{ item.title }}</router-link>
+              >{{ previewText(item) }}</router-link>
               <a
                 v-else-if="linkOf(item).kind === 'external'"
                 :href="linkOf(item).to"
                 target="_blank"
                 rel="noopener noreferrer"
+                :title="previewHint(item)"
                 data-testid="item-link"
-              >{{ item.title }}</a>
-              <span v-else class="bf-entry-title">{{ item.title }}</span>
+              >{{ previewText(item) }}</a>
+              <span v-else class="bf-entry-title" :title="previewHint(item)">{{ previewText(item) }}</span>
               <p class="bf-entry-meta">
                 <time>{{ fmtDate(item.item_time) }}</time>
                 <span v-for="r in item.nuts" :key="r" class="bf-chip">{{ r }}</span>

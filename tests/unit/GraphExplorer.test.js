@@ -24,6 +24,13 @@ vi.mock('sigma', () => {
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
 
+// Every explorer a test mounts is unmounted after it: one left mounted
+// still reacts to a language change made by a later test, and renders
+// into a detached container. (By hand: enableAutoUnmount is once per
+// process, and translatedTitles.test.js has it.)
+const mounted = []
+afterEach(() => { while (mounted.length) mounted.pop().unmount() })
+
 // Use a valid UUID as default entity ID so resolveEntityId skips the search API call
 const DEFAULT_ENTITY_ID = 'aaa00000-0000-4000-8000-000000000001'
 
@@ -46,10 +53,12 @@ function makeGraphResponse(overrides = {}) {
 }
 
 function mountExplorer(props = {}) {
-  return mount(GraphExplorer, {
+  const w = mount(GraphExplorer, {
     props: { entityId: DEFAULT_ENTITY_ID, ...props },
     attachTo: document.body,
   })
+  mounted.push(w)
+  return w
 }
 
 describe('GraphExplorer', () => {
@@ -719,5 +728,27 @@ describe('GraphExplorer', () => {
 
     const lastUrl = mockFetch.mock.calls[mockFetch.mock.calls.length - 1][0]
     expect(lastUrl).not.toContain('since=')
+  })
+})
+
+// Labels in the reader's language: the graph API translates contract and
+// grant titles and authority names when it is told the language.
+describe('GraphExplorer in the reader\'s language', () => {
+  beforeEach(() => vi.clearAllMocks())
+  afterEach(async () => {
+    const { useLang } = await import('../../src/composables/useLang.js')
+    useLang().setLang('en')
+  })
+
+  it('asks for the graph in the reader\'s language, and again when it changes', async () => {
+    const { useLang } = await import('../../src/composables/useLang.js')
+    useLang().setLang('de')
+    mockFetch.mockResolvedValue({ ok: true, json: async () => makeGraphResponse() })
+    mountExplorer()
+    await flushPromises()
+    expect(mockFetch.mock.calls.at(-1)[0]).toMatch(/\/api\/graph\/.*[?&]lang=de/)
+    useLang().setLang('fr')
+    await flushPromises()
+    expect(mockFetch.mock.calls.at(-1)[0]).toMatch(/\/api\/graph\/.*[?&]lang=fr/)
   })
 })
