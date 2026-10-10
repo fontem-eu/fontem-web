@@ -141,3 +141,40 @@ describe('BriefingCard — modified contracts', () => {
     expect(chip(FACETS).exists()).toBe(false)
   })
 })
+
+// A corporate-influence card: the registrant, and — the reason the
+// summaries were made — what it lobbies for, in the reader's language.
+describe('BriefingCard — what a lobby works for', () => {
+  const LOBBY = {
+    item_id: 'lobby:50878746386-39:2026-10-09', item_time: '2026-10-09T00:00:00+00:00',
+    rank_value: 99999, title: 'Deutscher Brauer-Bund e.V. updated its EU lobbying declaration',
+    summary: 'Trade and business associations',
+    _from: 'Corporate influence', _group: 'corporate-influence',
+    _link: { kind: 'internal', to: '/lobbyist/50878746386-39' },
+    facets: { kind: 'lobby', headline: 'Deutscher Brauer-Bund e.V.', from: 'Deutscher Brauer-Bund e.V.',
+      to: [], value_eur: 99999 },
+  }
+  const SUMMARY = 'Vertritt die Interessen der deutschen Brauwirtschaft gegenüber der EU.'
+
+  it('says what the lobby works for, under its name, marked as machine-written', () => {
+    const w = card({ ...LOBBY, facets: { ...LOBBY.facets, machine_summary: SUMMARY, machine_summary_lang: 'de' } })
+    const summary = w.find(`[data-testid="feed-briefing-summary-${LOBBY.item_id}"]`)
+    expect(summary.text()).toContain(SUMMARY)
+    expect(summary.find('[lang="de"]').exists()).toBe(true)
+    expect(summary.text()).toContain('Summary written by machine')
+    expect(w.find(`[data-testid="feed-briefing-what-${LOBBY.item_id}"]`).text()).toBe('Deutscher Brauer-Bund e.V.')
+  })
+
+  it('says nothing more when no summary was found', () => {
+    const w = card(LOBBY)
+    expect(w.find(`[data-testid="feed-briefing-summary-${LOBBY.item_id}"]`).exists()).toBe(false)
+  })
+
+  it('does not repeat the lobby\'s name under its name', () => {
+    const w = card({ ...LOBBY, facets: { ...LOBBY.facets, machine_summary: SUMMARY } })
+    expect(w.find(`[data-testid="feed-briefing-relation-${LOBBY.item_id}"]`).exists()).toBe(false)
+    // A contract's buyer → supplier row stays.
+    const c = card({ ...CONTRACT, facets: FACETS })
+    expect(c.find(`[data-testid="feed-briefing-relation-${CONTRACT.item_id}"]`).exists()).toBe(true)
+  })
+})
