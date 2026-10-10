@@ -288,9 +288,16 @@ function clearPathState() {
 }
 
 // ── Sigma / graphology rendering (WebGL) ─────────────────────
+// Set on unmount: a render that resumes after it (a language change while
+// the graph was loading) builds nothing.
+let disposed = false
+
 async function renderGraph() {
   if (!graphData.value || !cyContainer.value) return
   await ensureImports()
+  // Nothing to draw into once unmounted, or once the container has left the
+  // document (a render still under way when its page went away).
+  if (disposed || !cyContainer.value?.isConnected) return
 
   const isDark = document.documentElement.classList.contains('dark')
 
@@ -358,6 +365,9 @@ async function renderGraph() {
 
   // Create Sigma renderer (WebGL)
   renderer = new Sigma(graph, cyContainer.value, {
+    // A cached page or a hidden tab re-renders on a language change: its
+    // container measures nothing until shown, which is no reason to throw.
+    allowInvalidContainer: true,
     labelColor: { color: isDark ? '#e0e0e0' : '#333333' },
     labelFont: 'Inter, system-ui, sans-serif',
     labelSize: 12,
@@ -890,6 +900,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  disposed = true
   document.removeEventListener('keydown', onKeydown)
   // Release body scroll lock if still in fullscreen
   if (fullscreen.value) document.body.style.overflow = ''

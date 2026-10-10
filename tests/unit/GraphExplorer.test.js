@@ -11,6 +11,9 @@ import GraphExplorer from '../../src/components/GraphExplorer.vue'
 // tooltip-offset).
 vi.mock('sigma', () => {
   class MockSigma {
+    // Every renderer built, with the settings it was given.
+    static built = []
+    constructor(graph, container, settings) { MockSigma.built.push(settings) }
     on() {}
     graphToViewport() { return { x: 0, y: 0 } }
     kill() {}
@@ -736,6 +739,9 @@ describe('GraphExplorer', () => {
 describe('GraphExplorer in the reader\'s language', () => {
   beforeEach(() => vi.clearAllMocks())
   afterEach(async () => {
+    // Unmount first: an explorer still mounted would reload on the reset,
+    // and finish rendering after this file, with the real Sigma.
+    while (mounted.length) mounted.pop().unmount()
     const { useLang } = await import('../../src/composables/useLang.js')
     useLang().setLang('en')
   })
@@ -750,5 +756,23 @@ describe('GraphExplorer in the reader\'s language', () => {
     useLang().setLang('fr')
     await flushPromises()
     expect(mockFetch.mock.calls.at(-1)[0]).toMatch(/\/api\/graph\/.*[?&]lang=fr/)
+  })
+
+  it('builds no renderer once it is gone, and tolerates a container it cannot measure', async () => {
+    // A language change re-renders the graph, also on a cached page or a
+    // hidden tab: Sigma threw on a container with no width, and a render
+    // that resumed after the explorer was unmounted built one anyway.
+    const { default: Sigma } = await import('sigma')
+    const { useLang } = await import('../../src/composables/useLang.js')
+    mockFetch.mockResolvedValue({ ok: true, json: async () => makeGraphResponse() })
+    const w = mountExplorer()
+    await flushPromises()
+    expect(Sigma.built.at(-1)?.allowInvalidContainer).toBe(true)
+    const before = Sigma.built.length
+    useLang().setLang('de')
+    w.unmount()
+    mounted.splice(mounted.indexOf(w), 1)
+    await flushPromises()
+    expect(Sigma.built.length).toBe(before)
   })
 })
