@@ -12,8 +12,11 @@ export function useQuerySchema() {
   async function loadSchema(lang) {
     if (lang in cache) return cache[lang]
     if (inflight[lang]) return inflight[lang]
-    inflight[lang] = fetch(`/api/query/schema/${lang}`)
-      .then((r) => (r.ok ? r.json() : null))
+    // Started from a resolved promise, so a fetch that throws, or answers
+    // with nothing, lands in the catch below: no schema, no autocomplete.
+    inflight[lang] = Promise.resolve()
+      .then(() => fetch(`/api/query/schema/${lang}`))
+      .then((r) => (r?.ok ? r.json() : null))
       .then((s) => { cache[lang] = s; return s })
       .catch(() => { cache[lang] = null; return null })
       .finally(() => { delete inflight[lang] })
