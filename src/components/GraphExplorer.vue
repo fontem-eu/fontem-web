@@ -2,6 +2,8 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import PocketButton from './PocketButton.vue'
 import MultiSelect from './MultiSelect.vue'
+import { withLang } from '../api/_lang.js'
+import { useLang } from '../composables/useLang.js'
 
 // Lazy imports — Sigma requires WebGL which isn't available in test environments
 let Graph, Sigma, forceAtlas2, noverlap
@@ -173,7 +175,7 @@ async function fetchGraph() {
       + `?depth=${depth.value}`
       + (types ? `&types=${types}` : '')
       + (sinceDate ? `&since=${sinceDate}` : '')
-    const res = await fetch(url)
+    const res = await fetch(withLang(url))
     if (!res.ok) throw new Error(`API ${res.status}`)
     // Normalise at the boundary. The API answers 200 with nulls rather
     // than 404 for an unknown or empty entity, so `nodes`/`edges` can be
@@ -214,7 +216,7 @@ async function searchEntities(q) {
   }
   pathSearching.value = true
   try {
-    const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&limit=8`)
+    const res = await fetch(withLang(`/api/search?q=${encodeURIComponent(q)}&limit=8`))
     if (!res.ok) throw new Error('Search failed')
     const data = await res.json()
     const results = []
@@ -258,7 +260,7 @@ async function findPaths() {
     const url = `/api/graph/paths/find`
       + `?from=${encodeURIComponent(props.entityId)}`
       + `&to=${encodeURIComponent(pathTarget.value.id)}`
-    const res = await fetch(url)
+    const res = await fetch(withLang(url))
     if (!res.ok) throw new Error(`Path API ${res.status}`)
     pathData.value = await res.json()
   } catch (e) {
@@ -286,9 +288,16 @@ function clearPathState() {
 }
 
 // ── Sigma / graphology rendering (WebGL) ─────────────────────
+// Set on unmount: a render that resumes after it (a language change while
+// the graph was loading) builds nothing.
+let disposed = false
+
 async function renderGraph() {
   if (!graphData.value || !cyContainer.value) return
   await ensureImports()
+  // Nothing to draw into once unmounted, or once the container has left the
+  // document (a render still under way when its page went away).
+  if (disposed || !cyContainer.value?.isConnected) return
 
   const isDark = document.documentElement.classList.contains('dark')
 
@@ -304,6 +313,7 @@ async function renderGraph() {
     const isCenter = node.id === graphData.value.center.id
     graph.addNode(node.id, {
       label: node.label,
+      labelOriginal: node.label_original || null,
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: isCenter ? 12 : 6,
@@ -355,6 +365,9 @@ async function renderGraph() {
 
   // Create Sigma renderer (WebGL)
   renderer = new Sigma(graph, cyContainer.value, {
+    // A cached page or a hidden tab re-renders on a language change: its
+    // container measures nothing until shown, which is no reason to throw.
+    allowInvalidContainer: true,
     labelColor: { color: isDark ? '#e0e0e0' : '#333333' },
     labelFont: 'Inter, system-ui, sans-serif',
     labelSize: 12,
@@ -413,6 +426,7 @@ async function renderGraph() {
           y: pos.y + (cyContainer.value?.offsetTop ?? 0),
           id: node,
           label: attrs.label,
+          labelOriginal: attrs.labelOriginal || null,
           type: attrs.nodeType,
           properties: attrs.properties || {},
           isExpanded,
@@ -457,7 +471,7 @@ async function toggleNodeExpansion(nodeId) {
 async function expandNode(nodeId) {
   expandLoading.value = nodeId
   try {
-    const res = await fetch(`/api/graph/${encodeURIComponent(nodeId)}?depth=1`)
+    const res = await fetch(withLang(`/api/graph/${encodeURIComponent(nodeId)}?depth=1`))
     if (!res.ok) return
     const data = await res.json()
 
@@ -471,6 +485,7 @@ async function expandNode(nodeId) {
       const style = NODE_STYLES[node.type] || NODE_STYLES.Unknown
       graph.addNode(node.id, {
         label: node.label,
+        labelOriginal: node.label_original || null,
         x: parentAttrs.x + (Math.random() - 0.5) * 30,
         y: parentAttrs.y + (Math.random() - 0.5) * 30,
         size: 5,
@@ -885,6 +900,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  disposed = true
   document.removeEventListener('keydown', onKeydown)
   // Release body scroll lock if still in fullscreen
   if (fullscreen.value) document.body.style.overflow = ''
@@ -919,6 +935,14 @@ watch(timeRange, async () => {
 watch(edgeTypeFilters, () => {
   applyEdgeTypeFilter()
 }, { deep: true })
+
+// A new UI language: the same graph, its labels in that language.
+const { lang: uiLang } = useLang()
+watch(uiLang, async () => {
+  await fetchGraph()
+  await nextTick()
+  renderGraph()
+})
 
 watch(() => props.entityId, async () => {
   clearPathState()
@@ -1281,6 +1305,10 @@ async function retryFetch() {
         ></span>
         <strong>{{ tooltip.label }}</strong>
         <span class="ge-tooltip__type">{{ tooltip.type }}</span>
+      </div>
+      <div v-if="tooltip.labelOriginal" class="ge-tooltip__prop" data-testid="ge-tooltip-original">
+        {{ $t(tooltip.type === 'Authority' ? 'title_translation.name_hint' : 'title_translation.hint',
+              { original: tooltip.labelOriginal }) }}
       </div>
       <div v-if="tooltip.properties.country" class="ge-tooltip__prop">
         {{ $t('graph_explorer.country') }} {{ tooltip.properties.country }}

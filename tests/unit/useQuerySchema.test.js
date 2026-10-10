@@ -20,4 +20,15 @@ describe('useQuerySchema', () => {
     const { loadSchema } = useQuerySchema()
     expect(await loadSchema('sql')).toBeNull()
   })
+
+  // Autocomplete is optional: a schema that cannot be fetched at all means
+  // no autocomplete, never an unhandled rejection from the editor.
+  it('is no schema, not an error, when the request cannot even be made', async () => {
+    global.fetch.mockImplementation(() => { throw new TypeError('Failed to fetch') })
+    await expect(useQuerySchema().loadSchema('cypher-throws')).resolves.toBeNull()
+  })
+
+  it('is no schema, not an error, when fetch answers with nothing', async () => {
+    await expect(useQuerySchema().loadSchema('cypher-nothing')).resolves.toBeNull()
+  })
 })

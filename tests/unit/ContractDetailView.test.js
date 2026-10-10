@@ -559,3 +559,31 @@ describe('ContractDetailView — part of a framework agreement', () => {
     }
   })
 })
+
+describe('ContractDetailView — names and titles shown in translation keep the published ones', () => {
+  it('offers a translated buyer\'s published name on hover', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => ({
+      ted_notice_id: '123-2024', title: 'Reparatur der Straße I/27', value_eur: 1e6, integrity: {},
+      authority: { authority_id: 'auth-rsd', name: 'Straßen- und Autobahndirektion',
+        name_original: 'Ředitelství silnic a dálnic', country: 'CZE' },
+    }) })
+    const wrapper = await mountAt('123-2024')
+    const buyer = wrapper.find('[data-testid="contract-authority-link"]')
+    expect(buyer.text()).toBe('Straßen- und Autobahndirektion')
+    expect(buyer.attributes('title')).toContain('Ředitelství silnic a dálnic')
+  })
+
+  it('offers a framework\'s other awards\' published titles on hover', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => ({
+      ted_notice_id: '123-2024', title: 'Rahmenvertrag', value_eur: 1e6, integrity: {},
+      authority: { authority_id: 'auth-rsd', name: 'ŘSD', country: 'CZE' },
+      framework: { framework_id: 'FA-7', sibling_count: 1, siblings: [{
+        ted_notice_id: 'n2', title: 'Instandhaltung der Brücken', title_original: 'Údržba mostů',
+        country: 'CZE', value_eur: 2e6, publication_date: '2025-02-01', supplier: 'STRABAG' }] },
+    }) })
+    const wrapper = await mountAt('123-2024')
+    const sibling = wrapper.find('a[href="/contract/n2"]')
+    expect(sibling.text()).toBe('Instandhaltung der Brücken')
+    expect(sibling.attributes('title')).toContain('Údržba mostů')
+  })
+})

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import { makeTestI18n } from './helpers/i18n.js'
@@ -227,5 +227,41 @@ describe('BriefingsView — the catalogue', () => {
     listBriefings.mockRejectedValue(new Error('HTTP 503: upstream down'))
     const w = await mountView()
     expect(w.find('[data-testid="error"]').text()).toContain('upstream down')
+  })
+})
+
+
+describe('BriefingsView — a preview in the reader\'s language', () => {
+  afterEach(async () => {
+    const { useLang } = await import('../../src/composables/useLang.js')
+    useLang().setLang('en')
+  })
+
+  it('shows an item\'s headline in the reader\'s language, the published one on hover', async () => {
+    getBriefing.mockResolvedValue({ ...INVEST, items: [{ ...item('a'),
+      title: 'Ředitelství silnic a dálnic awarded €9M to STRABAG: Oprava silnice I/27',
+      facets: { headline: 'Reparatur der Straße I/27', headline_original: 'Oprava silnice I/27' } }] })
+    const w = await mountView()
+    await open(w, 'public-investment')
+    const entry = w.find('[data-testid="item-link"]')
+    expect(entry.text()).toBe('Reparatur der Straße I/27')
+    expect(entry.attributes('title')).toContain('Oprava silnice I/27')
+  })
+
+  it('keeps the sentence for an item with no headline', async () => {
+    const w = await mountView()
+    await open(w, 'public-investment')
+    expect(w.findAll('[data-testid="item-link"]').map((a) => a.text())).toEqual(['Item a', 'Item b'])
+  })
+
+  it('asks for the open preview again when the reader changes language', async () => {
+    const { useLang } = await import('../../src/composables/useLang.js')
+    const w = await mountView()
+    await open(w, 'public-investment')
+    const asked = getBriefing.mock.calls.length
+    useLang().setLang('de')
+    await flushPromises()
+    expect(getBriefing.mock.calls.length).toBeGreaterThan(asked)
+    expect(w.findAll('[data-testid="items-public-investment"] li')).toHaveLength(2)
   })
 })

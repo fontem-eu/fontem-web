@@ -739,4 +739,21 @@ describe('ContractsPanel — rows that are part of a framework agreement', () =>
     const wrapper = await mountRows([makeContract({ ted_notice_id: null, is_framework: true })])
     expect(wrapper.find('[data-testid="contract-framework-tag-0"]').exists()).toBe(true)
   })
+
+  it('offers a translated buyer\'s published name on hover, as titles do', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contracts: [makeContract({
+        authority: 'Straßen- und Autobahndirektion',
+        authority_original: 'Ředitelství silnic a dálnic',
+      }), makeContract({ ted_notice_id: '456-2024' })] }),
+    })
+    const wrapper = mount(ContractsPanel, { props: { symbol: 'abc12345-1234-1234-1234-123456789abc' } })
+    await flushPromises()
+    const translated = wrapper.find('[data-testid="contract-counterparty-link-123-2024"]')
+    expect(translated.text()).toBe('Straßen- und Autobahndirektion')
+    expect(translated.attributes('title')).toContain('Ředitelství silnic a dálnic')
+    expect(wrapper.find('[data-testid="contract-counterparty-link-456-2024"]').attributes('title'))
+      .toBeUndefined()
+  })
 })

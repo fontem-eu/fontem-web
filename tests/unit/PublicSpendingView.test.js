@@ -139,4 +139,26 @@ describe('PublicSpendingView', () => {
     const { wrapper } = await mountAt()
     expect(wrapper.find('[data-testid="ps-error"]').text()).toContain('boom')
   })
+
+  it('names the top authorities in the reader\'s language, again when it changes', async () => {
+    const { useLang } = await import('../../src/composables/useLang.js')
+    api.fetchRecommendations.mockResolvedValue({
+      country: 'CZE', companies: [],
+      authorities: [{ id: 'auth-rsd', name: 'Straßen- und Autobahndirektion',
+        name_original: 'Ředitelství silnic a dálnic', total_value_eur: 9.5e9, contract_count: 412 }],
+    })
+    const { wrapper } = await mountAt()
+    const row = wrapper.find('[data-testid="ps-authority-auth-rsd"] .entity-name')
+    expect(row.text()).toBe('Straßen- und Autobahndirektion')
+    expect(row.attributes('title')).toContain('Ředitelství silnic a dálnic')
+    const asked = api.fetchRecommendations.mock.calls.length
+    try {
+      useLang().setLang('fr')
+      await flushPromises()
+      // (pages mounted by the tests above reload too: more than one call)
+      expect(api.fetchRecommendations.mock.calls.length).toBeGreaterThan(asked)
+    } finally {
+      useLang().setLang('en')
+    }
+  })
 })
