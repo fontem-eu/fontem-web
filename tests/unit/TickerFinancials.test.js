@@ -924,6 +924,36 @@ describe('TickerFinancials — authority UUID resolves via the authority endpoin
     })
   }
 
+  // An /authority/:id URL says what the entity is. The profile used to
+  // ask for its fundamentals and for it as a company before the one
+  // endpoint that answers; with the kind known only that one is asked.
+  it('profile view with kind="authority" asks only the authority endpoint', async () => {
+    installAuthorityFetch()
+    const fundamentals = vi.spyOn(gmrApi, 'fetchFundamentals')
+    const wrapper = mount(TickerFinancials, {
+      props: { symbol: AUTHORITY_UUID, view: 'profile', kind: 'authority' },
+      global: { stubs: { ProfilePanel: true } },
+    })
+    await flushPromises()
+    const urls = globalThis.fetch.mock.calls.map(([u]) => String(u))
+    expect(fundamentals).not.toHaveBeenCalled()
+    expect(urls.filter((u) => u.includes('/api/companies/'))).toEqual([])
+    expect(urls.filter((u) => u.includes(`/api/authorities/${AUTHORITY_UUID}`))).toHaveLength(1)
+    expect(wrapper.find('[data-testid="financials-title"]').text()).toBe('Ministry of Foreign Affairs')
+  })
+
+  it('without a kind, still finds an authority by probing (ticker URLs)', async () => {
+    installAuthorityFetch()
+    const wrapper = mount(TickerFinancials, {
+      props: { symbol: AUTHORITY_UUID, view: 'profile' },
+      global: { stubs: { ProfilePanel: true } },
+    })
+    await flushPromises()
+    const urls = globalThis.fetch.mock.calls.map(([u]) => String(u))
+    expect(urls.some((u) => u.includes('/api/companies/'))).toBe(true)
+    expect(wrapper.find('[data-testid="financials-title"]').text()).toBe('Ministry of Foreign Affairs')
+  })
+
   it('summary view: resolves the authority name (not the UUID) when /api/companies returns a name-less stub', async () => {
     installAuthorityFetch()
     const wrapper = mount(TickerFinancials, { props: { symbol: AUTHORITY_UUID, view: 'summary' } })

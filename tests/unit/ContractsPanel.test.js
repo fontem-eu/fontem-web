@@ -473,6 +473,34 @@ describe('ContractsPanel', () => {
     expect(headers.some((h) => h.startsWith('Contractor'))).toBe(false)
   })
 
+  // The kind, when known, decides the one endpoint asked. An authority
+  // page used to ask the company endpoint first and get nothing back.
+  it('asks only the authority endpoint when entityKind="authority"', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => makeAuthorityResponse() })
+    mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'authority' },
+    })
+    await flushPromises()
+    const urls = mockFetch.mock.calls.map(([u]) => String(u))
+    expect(urls).toHaveLength(1)
+    expect(urls[0]).toContain('/api/authorities/abc12345-1234-1234-1234-123456789abc/contracts')
+  })
+
+  it('asks only the company endpoint when entityKind="company", even with no contracts', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
+    })
+    const wrapper = mount(ContractsPanel, {
+      props: { symbol: 'abc12345-1234-1234-1234-123456789abc', entityKind: 'company' },
+    })
+    await flushPromises()
+    const urls = mockFetch.mock.calls.map(([u]) => String(u))
+    expect(urls).toHaveLength(1)
+    expect(urls[0]).toContain('/api/companies/abc12345-1234-1234-1234-123456789abc/contracts')
+    expect(wrapper.text()).not.toContain('Contractor')
+  })
+
   it('without an entityKind prop, falls back to row-shape detection (unchanged)', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -530,10 +558,7 @@ describe('ContractsPanel — supplier not disclosed in the notice', () => {
   }
 
   async function mountAuthority(rows) {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => makeContractsResponse({ contract_count: 0, contracts: [] }),
-    })
+    // entityKind 'authority': only the authority endpoint is asked.
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({

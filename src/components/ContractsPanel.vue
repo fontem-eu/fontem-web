@@ -85,6 +85,17 @@ function fromAuthority(gmrId, json) {
   }
 }
 
+async function _contractsOf(kind, gmrId) {
+  const res = await fetch(contractsUrl(kind, gmrId))
+  return res.ok ? res.json() : null
+}
+
+function _show(json, kind, gmrId) {
+  data.value = kind === 'authorities' ? fromAuthority(gmrId, json) : json
+  resolved.value = { kind, gmrId }
+  state.value = json.contract_count > 0 ? 'done' : 'empty'
+}
+
 async function loadContracts(symbol) {
   state.value = 'loading'
   try {
@@ -93,24 +104,23 @@ async function loadContracts(symbol) {
       state.value = 'empty'
       return
     }
-    // Try as company first, then as authority
-    let res = await fetch(contractsUrl('companies', gmrId))
-    if (res.ok) {
-      const json = await res.json()
-      if (json.contract_count > 0) {
-        data.value = json
-        resolved.value = { kind: 'companies', gmrId }
-        state.value = 'done'
+    // When the kind is known, only its endpoint is asked. Otherwise a
+    // company first, then an authority: an authority id answers the
+    // company endpoint with no contracts.
+    if (props.entityKind !== 'authority') {
+      const json = await _contractsOf('companies', gmrId)
+      if (json && (json.contract_count > 0 || props.entityKind === 'company')) {
+        _show(json, 'companies', gmrId)
+        return
+      }
+      if (props.entityKind === 'company') {
+        state.value = 'empty'
         return
       }
     }
-    // Try authority endpoint
-    res = await fetch(contractsUrl('authorities', gmrId))
-    if (res.ok) {
-      const json = await res.json()
-      data.value = fromAuthority(gmrId, json)
-      resolved.value = { kind: 'authorities', gmrId }
-      state.value = json.contract_count > 0 ? 'done' : 'empty'
+    const json = await _contractsOf('authorities', gmrId)
+    if (json) {
+      _show(json, 'authorities', gmrId)
       return
     }
     state.value = 'empty'
